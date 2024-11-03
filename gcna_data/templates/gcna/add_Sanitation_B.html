@@ -1,0 +1,416 @@
+{% extends 'gcna/base2.html' %}
+
+{% block content%}
+
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var myForm = document.getElementById('myForm');
+    
+        myForm.addEventListener('submit', function(event) {
+  
+            event.preventDefault();
+            var data = new FormData(event.target);
+            saveDataToIndexedDB(data);
+        });
+    
+        function saveDataToIndexedDB(data) {
+            var request = indexedDB.open('GCNA', 2);
+        
+            request.onsuccess = function(event) {
+                var db = event.target.result;
+                var transaction = db.transaction('Sanitation-B', 'readwrite');
+                var objectStore = transaction.objectStore('Sanitation-B');
+        
+            
+                var obj = {};
+                for (var pair of data.entries()) {
+                    obj[pair[0]] = pair[1];
+                }
+        
+                // Get the highest id in the object store
+                var highestIdRequest = objectStore.openCursor(null, 'prev');
+                highestIdRequest.onsuccess = function(event) {
+                    var cursor = event.target.result;
+                    if (cursor) {
+                        obj.id = cursor.key + 1;
+                    } else {
+                        obj.id = 1; // This is the first item
+                    }
+        
+                    var request = objectStore.put(obj);
+        
+                    request.onsuccess = function() {
+                        console.log('Data added to IndexedDB');
+                        window.location.href = '/gcna00_2/';
+  
+                    };
+        
+                    request.onerror = function() {
+                        console.error('Error adding data to IndexedDB');
+                    };
+                };
+            };
+        
+            request.onerror = function(event) {
+                console.error('Error opening IndexedDB', event);
+            };
+        }
+        
+    });
+    </script>
+  
+  
+
+
+	<center>
+<br>
+
+<style>
+    /* Add border outline to table entries */
+    table {
+        border-collapse: collapse;
+        border: 1px solid black;
+    }
+
+    th, td {
+        border: 1px solid black; /* Change border color to black */
+        padding: 8px;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    /* Rotate rowspan text to fit in the column */
+    td.rotated {
+        transform: rotate(-90deg);
+        white-space: nowrap;
+    }
+</style>
+
+
+
+<form id="myForm" style="
+    background-color: #e4e4e4;
+    margin: 1px auto;
+    font-family: Raleway;
+    padding: 10px;
+    width: 95%;
+    min-width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);
+    overflow: auto; /* Add overflow property for scrolling */
+    max-height: 600px; /* Set maximum height for the form */
+">
+
+    <div class="card">
+        <div class="card-body">
+            <h5></h5>
+            <p class="card-text">Test</p>
+            <h6>Document No. GCNA-R-02</h6>
+            <h6>Document Title: Moisture Analysis in Floated Nutmeg</h6>
+            <h6>Date Issued: 2023-07-03</h6>
+            <h6>Version: 1</h6>
+            <h5>Section B</h5>
+            {% csrf_token %}
+            <h4>Corrective Action for Floating Nutmeg Above 10% Moisture Content</h4>
+
+            <table id="vertical-1" class="table table-hover table-light">
+                <thead>
+                    <tr>
+                        <th colspan="3" class="main-header" style="text-align:center;">Station Name:</th>
+                        <th colspan="3" class="main-header" style="text-align:center;">{{form.Station}}</th>
+                        <th colspan="3" class="main-header" style="text-align:center;">Period</th>
+                        <th colspan="3" class="main-header" style="text-align:center;">{{form.Week_of}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <!-- Content goes here -->
+                    </tr>
+                </tbody>
+                <thead>
+                    <tr>
+                        <th colspan="1" class="main-header" style="text-align:center;">Area</th>
+                        <th colspan="1" class="main-header" style="text-align:center;">Item No:</th>
+                        <th colspan="1" class="main-header" style="text-align:center;">Facility Area:</th>
+                        <th colspan="1" class="main-header" style="text-align:center;">Frequency:</th>
+                        <th colspan="1" class="main-header" style="text-align:center;">Method:</th>
+                        <th colspan="1" class="main-header" style="text-align:center;">Person responsible:</th>
+                        <th colspan="1" class="main-header" style="text-align:center;">M</th>
+                        <th colspan="1" class="main-header" style="text-align:center;">T</th>
+                        <th colspan="1" class="main-header" style="text-align:center;">W</th>
+                        <th colspan="1" class="main-header" style="text-align:center;">TH</th>
+                        <th colspan="1" class="main-header" style="text-align:center;">F</th>
+                        <th colspan="1" class="main-header" style="text-align:center;">Signature:</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td rowspan="3" colspan="1" style="text-align: center; vertical-align: middle;">
+                            <div style="transform: rotate(-90deg); display: inline-block;">External Premisies</div>
+                        </td>
+                        
+                        <td colspan="1">1</td>
+                        <td colspan="1">Pavement/Loading Dock</td>
+                        <td colspan="1">Daily</td>
+                        <td colspan="1">Dry method</td>
+                        <td colspan="1">Sweep and remove debris</td>
+                        <td colspan="1">{{form.Pavement_Loading_Dock_monday}}</td>
+                        <td colspan="1">{{form.Pavement_Loading_Dock_tuesday}}</td>
+                        <td colspan="1">{{form.Pavement_Loading_Dock_wednesday}}</td>
+                        <td colspan="1">{{form.Pavement_Loading_Dock_thursday}}</td>
+                        <td colspan="1">{{form.Pavement_Loading_Dock_friday}}</td>
+                        <td colspan="1">{{form.Pavement_Loading_Dock_signature}}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="1">2</td>
+                        <td colspan="1">Receiving Area</td>
+                        <td colspan="1">Daily</td>
+                        <td colspan="1">Sweep and remove debris</td>
+                        <td colspan="1">Sanitation Officer</td>
+                        <td colspan="1">{{form.Receiving_Area_monday}}</td>
+                        <td colspan="1">{{form.Receiving_Area_tuesday}}</td>
+                        <td colspan="1">{{form.Receiving_Area_wednesday}}</td>
+                        <td colspan="1">{{form.Receiving_Area_thursday}}</td>
+                        <td colspan="1">{{form.Receiving_Area_friday}}</td>
+                        <td colspan="1">{{form.Receiving_Area_signature}}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="1">3</td>
+                        <td colspan="1">Agitating Tray</td>
+                        <td colspan="1">Daily</td>
+                        <td colspan="1">Wipe clean with dedicated cloth</td>
+                        <td colspan="1">Line Operator</td>
+                        <td colspan="1">{{form.Agitating_Tray_monday}}</td>
+                        <td colspan="1">{{form.Agitating_Tray_tuesday}}</td>
+                        <td colspan="1">{{form.Agitating_Tray_wednesday}}</td>
+                        <td colspan="1">{{form.Agitating_Tray_thursday}}</td>
+                        <td colspan="1">{{form.Agitating_Tray_friday}}</td>
+                        <td colspan="1">{{form.Agitating_Tray_signature}}</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="7" colspan="1" style="text-align: center; vertical-align: middle;">
+                            <div style="transform: rotate(-90deg); display: inline-block;">Equipment</div>
+                        </td>
+                        <td colspan="1">4</td>
+                        <td colspan="1">Cracker(including work surfaces)</td>
+                        <td colspan="1">Daily</td>
+                        <td colspan="1">Remove debris with short brush</td>
+                        <td colspan="1">Line Operator</td>
+                        <td colspan="1">{{form.Cracker_monday}}</td>
+                        <td colspan="1">{{form.Cracker_tuesday}}</td>
+                        <td colspan="1">{{form.Cracker_wednesday}}</td>
+                        <td colspan="1">{{form.Cracker_thursday}}</td>
+                        <td colspan="1">{{form.Cracker_friday}}</td>
+                        <td colspan="1">{{form.Cracker_signature}}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="1">5</td>
+                        <td colspan="1">Rakes</td>
+                        <td colspan="1">Daily</td>
+                        <td colspan="1">Remove dust and wipe with disposable cloth</td>
+                        <td colspan="1">Line Operator</td>
+                        <td colspan="1">{{form.Rakes_monday}}</td>
+                        <td colspan="1">{{form.Rakes_tuesday}}</td>
+                        <td colspan="1">{{form.Rakes_wednesday}}</td>
+                        <td colspan="1">{{form.Rakes_thursday}}</td>
+                        <td colspan="1">{{form.Rakes_friday}}</td>
+                        <td colspan="1">{{form.Rakes_signature}}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="1">6</td>
+                        <td colspan="1">Wire Baskets</td>
+                        <td colspan="1">Daily</td>
+                        <td colspan="1">Wash with detergent, rinse and dry completely</td>
+                        <td colspan="1">Line Operator</td>
+                        <td colspan="1">{{form.Wire_Baskets_monday}}</td>
+                        <td colspan="1">{{form.Wire_Baskets_tuesday}}</td>
+                        <td colspan="1">{{form.Wire_Baskets_wednesday}}</td>
+                        <td colspan="1">{{form.Wire_Baskets_thursday}}</td>
+                        <td colspan="1">{{form.Wire_Baskets_friday}}</td>
+                        <td colspan="1">{{form.Wire_Baskets_signature}}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="1">7</td>
+                        <td colspan="1">Buckets</td>
+                        <td colspan="1">Daily</td>
+                        <td colspan="1">Wash with detergent</td>
+                        <td colspan="1">Line Operator</td>
+                        <td colspan="1">{{form.Buckets_monday}}</td>
+                        <td colspan="1">{{form.Buckets_tuesday}}</td>
+                        <td colspan="1">{{form.Buckets_wednesday}}</td>
+                        <td colspan="1">{{form.Buckets_thursday}}</td>
+                        <td colspan="1">{{form.Buckets_friday}}</td>
+                        <td colspan="1">{{form.Buckets_signature}}</td>
+                    </tr>
+
+
+
+
+                    <tr>
+                        <td colspan="1">8</td>
+                        <td colspan="1">Scoops</td>
+                        <td colspan="1">Daily</td>
+                        <td colspan="1">Wash with detergent</td>
+                        <td colspan="1">Line Operator</td>
+                        <td colspan="1">{{form.Scoops_monday}}</td>
+                        <td colspan="1">{{form.Scoops_tuesday}}</td>
+                        <td colspan="1">{{form.Scoops_wednesday}}</td>
+                        <td colspan="1">{{form.Scoops_thursday}}</td>
+                        <td colspan="1">{{form.Scoops_friday}}</td>
+                        <td colspan="1">{{form.Scoops_signature}}</td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="1">9</td>
+                        <td colspan="1">Administrative Officer</td>
+                        <td colspan="1">Three times weekly</td>
+                        <td colspan="1">Sweep and remove debris.Wipe counters with Chlorine solution</td>
+                        <td colspan="1">Sanitation Officer</td>
+                        <td colspan="1">{{form.Administrative_Officer_monday}}</td>
+                        <td colspan="1">{{form.Administrative_Officer_tuesday}}</td>
+                        <td colspan="1">{{form.Administrative_Officer_wednesday}}</td>
+                        <td colspan="1">{{form.Administrative_Officer_thursday}}</td>
+                        <td colspan="1">{{form.Administrative_Officer_friday}}</td>
+                        <td colspan="1">{{form.Administrative_Officer_signature}}</td>
+                    </tr>
+
+
+
+                    <tr>
+                        <td colspan="1">10</td>
+                        <td colspan="1">Restrooms/Luncheon</td>
+                        <td colspan="1">Daily</td>
+                        <td colspan="1">Sweep and mop with Chlorine solution</td>
+                        <td colspan="1">Sanitation Officer</td>
+                        <td colspan="1">{{form.Restrooms_Luncheon_monday}}</td>
+                        <td colspan="1">{{form.Restrooms_Luncheon_tuesday}}</td>
+                        <td colspan="1">{{form.Restrooms_Luncheon_wednesday}}</td>
+                        <td colspan="1">{{form.Restrooms_Luncheon_thursday}}</td>
+                        <td colspan="1">{{form.Restrooms_Luncheon_friday}}</td>
+                        <td colspan="1">{{form.Restrooms_Luncheon_signature}}</td>
+                    </tr>
+
+                    <tr>
+
+
+                        <td rowspan="6" colspan="1" style="text-align: center; vertical-align: middle;">
+                            <div style="transform: rotate(-90deg); display: inline-block;">Internal Premises</div>
+                        </td>
+                        <td colspan="1">11</td>
+                        <td colspan="1">Change Room</td>
+                        <td colspan="1">Daily</td>
+                        <td colspan="1">Sweep and mop with sanitizing agent</td>
+                        <td colspan="1">Sanitation Officer</td>
+                        <td colspan="1">{{form.Change_Room_monday}}</td>
+                        <td colspan="1">{{form.Change_Room_tuesday}}</td>
+                        <td colspan="1">{{form.Change_Room_wednesday}}</td>
+                        <td colspan="1">{{form.Change_Room_thursday}}</td>
+                        <td colspan="1">{{form.Change_Room_friday}}</td>
+                        <td colspan="1">{{form.Change_Room_signature}}</td>
+                    </tr>
+
+
+
+
+
+
+                    <tr>
+                        <td colspan="1">12</td>
+                        <td colspan="1">Kitchen</td>
+                        <td colspan="1">Daily</td>
+                        <td colspan="1">Sweep and mop with Bleach.Sanitize surfaces with dedicated cloth</td>
+                        <td colspan="1">Sanitation Officer</td>
+                        <td colspan="1">{{form.Kitchen_monday}}</td>
+                        <td colspan="1">{{form.Kitchen_tuesday}}</td>
+                        <td colspan="1">{{form.Kitchen_wednesday}}</td>
+                        <td colspan="1">{{form.Kitchen_thursday}}</td>
+                        <td colspan="1">{{form.Kitchen_friday}}</td>
+                        <td colspan="1">{{form.Kitchen_signature}}</td>
+                    </tr>
+
+
+
+
+                    <tr>
+                        <td colspan="1">13</td>
+                        <td colspan="1">Process Floor</td>
+                        <td colspan="1">Daily</td>
+                        <td colspan="1">Sweep and remove debris</td>
+                        <td colspan="1">Line Operator</td>
+                        <td colspan="1">{{form.Process_Floor_monday}}</td>
+                        <td colspan="1">{{form.Process_Floor_tuesday}}</td>
+                        <td colspan="1">{{form.Process_Floor_wednesday}}</td>
+                        <td colspan="1">{{form.Process_Floor_thursday}}</td>
+                        <td colspan="1">{{form.Process_Floor_friday}}</td>
+                        <td colspan="1">{{form.Process_Floor_signature}}</td>
+                    </tr>
+
+
+
+
+
+
+
+                    <tr>
+                        <td colspan="1">14</td>
+                        <td colspan="1">Immersion Room </td>
+                        <td colspan="1">Daily</td>
+                        <td colspan="1">Wash down & sanitize counters with 200 ppm Chlorine solution</td>
+                        <td colspan="1">Line Operator</td>
+                        <td colspan="1">{{form.Immersion_Room_monday}}</td>
+                        <td colspan="1">{{form.Immersion_Room_tuesday}}</td>
+                        <td colspan="1">{{form.Immersion_Room_wednesday}}</td>
+                        <td colspan="1">{{form.Immersion_Room_thursday}}</td>
+                        <td colspan="1">{{form.Immersion_Room_friday}}</td>
+                        <td colspan="1">{{form.Immersion_Room_signature}}</td>
+                    </tr>
+
+
+                    <tr>
+                        <td colspan="1">15</td>
+                        <td colspan="1">Sinks</td>
+                        <td colspan="1">Daily</td>
+                        <td colspan="1">Apply detergent and rinse</td>
+                        <td colspan="1">Line Operator</td>
+                        <td colspan="1">{{form.Sinks_monday}}</td>
+                        <td colspan="1">{{form.Sinks_tuesday}}</td>
+                        <td colspan="1">{{form.Sinks_wednesday}}</td>
+                        <td colspan="1">{{form.Sinks_thursday}}</td>
+                        <td colspan="1">{{form.Sinks_friday}}</td>
+                        <td colspan="1">{{form.Sinks_signature}}</td>
+                    </tr>
+
+                  
+                </tbody>
+
+                <thead>
+    
+                    <tr>
+                        <th colspan="3" class="main-header" style="text-align:center;">Verified By:</th>
+                        <th colspan="3" class="main-header" style="text-align:center;">{{form.Verified_by}}</th>
+                        <th colspan="3" class="main-header" style="text-align:center;">Date</th>
+                        <th colspan="3" class="main-header" style="text-align:center;">{{form.Date}}</th>
+                    </tr>
+    
+                <thead/>
+
+
+
+                <tbody>
+
+                <th colspan="12"><input type="submit" name="" value="✔" class="btn btn-success btn-circle btn-xl"></th>
+                <tbody/>
+
+            </table>
+        </div>
+    </div>
+
+</form>
+
+	</center>
+{{ form.media }}
+
+{% endblock %}

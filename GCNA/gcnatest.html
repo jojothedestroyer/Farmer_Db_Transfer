@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+
+<body>
+
+  <form id="regForm" action="/action_page.php">
+    <img src="images.png" alt="Logo">
+    <h1> GCNA Farm Assessment Form </h1>
+
+
+    <div class="tab">
+      <p>
+      <h4>Personal Information </h4>
+
+      <label for="username">ID</label>
+      <input type="password" name="id" placeholder="Enter your ID" id="username">
+
+      <label for="username">Name</label>
+      <input type="text" name="nam" placeholder="Enter your name" id="username">
+
+      <label for="username">Age range</label>
+      <select name="age">
+        <option>Select Age</option>
+
+        <option> 18-35 </option>
+        <option> 36-50 </option>
+        <option> 51-65 </option>
+        <option> 66+ </option>
+
+
+      </select>
+      <br>
+      <label for="username">Location of Farm</label>
+      <br>
+      <input type="text" name="DAT" placeholder="Enter Village" id="username">
+      <input type="text" name="DAT" placeholder="Enter Parish" id="username">
+
+      <!-- <button onclick="getLocation()">Get GPS</button> -->
+      <input type="text" name="DAT" placeholder="Enter GPS location" id="username">
+
+
+      <label for="username">Contact Information</label>
+      <input type="text" name="cnum" placeholder="Enter your mobile phone number" id="username">
+      <input type="email" name="cemail" placeholder="Enter your email adress" id="username">
+
+
+      <label for="username">Land Elevation</label>
+      <select name="ADNUM">
+        <option>Select Elevation range</option>
+
+        <option>Low Belt </option>
+        <option>Middle Belt </option>
+        <option>High Belt </option>
+
+      </select>
+      <br>
+
+      <label for="username">Soil Types</label>
+      <select name="ADNUM">
+        <option>Select Soil Types</option>
+
+
+        <option> Sandy soil </option>
+        <option> Clay Soil</option>
+        <option> Silt Soil </option>
+        <option> Peat Soil </option>
+        <option> Chalk Soil </option>
+        <option> Loamy Soil </option>
+        <option> Clay Loam Soil </option>
+        <option> Sandy Loam Soil </option>
+
+      </select>
+
+      <br>
+
+      <label for="username">Rainfall Pattern</label>
+      <select name="ADNUM">
+        <option>Select rainfall pattern</option>
+
+        <option> Persistent </option>
+        <option> Occasional </option>
+        <option> Mild </option>
+
+
+      </select>
+
+      <br>
+
+      </p>
+    </div>
+
+
+    <div class="tab" id="testing">
+      <p>
+      <h4>Other Crops Cultivated</h4>
+
+      <!-- 
+      <label for="username">Crop Type</label>
+      <select name="ADNUM">
+        <option>What Crops are Cultivated</option> -->
+
+      <!-- <option> Coconut </option>
+        <option> Citrus Fruit </option>
+        <option> Corn </option>
+        <option> Soursup </option>
+        <option> Cocoa </option>
+        <option> Pineapple </option>
+        <option> Ground Provision </option>
+        <option> Banana/Plantain/Fig/Bluggo</option>
+        <option> Clove </option>
+        <option> Cinnamon</option>
+        <option> Turmeric </option>
+        <option> Vegetable Fruit </option>
+        <option> Leafy/Pod/Hard Vegetable </option>
+        <option> Seasoning </option> -->
+
+
+
+
+      <label class="dropdown-option">
+        <input type="checkbox" name="dropdown-group" value="Selection 1" />
+        Coconut
+      </label>
+
+      <label class="dropdown-option">
+        <input type="checkbox" name="dropdown-group" value="Selection 2" />
+        Citrus Fruit
+      </label>
+
+      <label class="dropdown-option">
+        <input type="checkbox" name="dropdown-group" value="Selection 3" />
+        Corn
+      </label>
+
+      <label class="dropdown-option">
+        <input type="checkbox" name="dropdown-group" value="Selection 4" />
+        Soursup
+      </label>
+
+      <label class="dropdown-option">
+        <input type="checkbox" name="dropdown-group" value="Selection 5" />
+        Cocoa
+      </label>
+
+
+      <label class="dropdown-option">
+        <input type="checkbox" name="dropdown-group" value="Selection 1" />
+        Pineapple
+      </label>
+
+      <label class="dropdown-option">
+        <input type="checkbox" name="dropdown-group" value="Selection 2" />
+        Ground Provision
+      </label>
+
+      <label class="dropdown-option">
+        <input type="checkbox" name="dropdown-group" value="Selection 3" />
+        Banana/Plantain/Fig/Bluggo
+      </label>
+
+      <label class="dropdown-option">
+        <input type="checkbox" name="dropdown-group" value="Selection 4" />
+        Clove
+      </label>
+
+      <label class="dropdown-option">
+        <input type="checkbox" name="dropdown-group" value="Selection 5" />
+        Cinnamon
+      </label>
+
+
+      <label class="dropdown-option">
+        <input type="checkbox" name="dropdown-group" value="Selection 1" />
+        Turmeric
+      </label>
+
+      <label class="dropdown-option">
+        <input type="checkbox" name="dropdown-group" value="Selection 2" />
+        Vegetable Fruit
+      </label>
+
+      <label class="dropdown-option">
+        <input type="checkbox" name="dropdown-group" value="Selection 3" />
+        Leafy/Pod/Hard Vegetable
+      </label>
+
+      <label class="dropdown-option">
+        <input type="checkbox" name="dropdown-group" value="Selection 4" />
+        Seasoning
+      </label>
+
+
+      </select>
+
+      <label for="username">Other</label>
+      <br>
+      <input type="text" name="DAT" placeholder="Enter here" id="username">
+
+      </select>
+
+      </p>
+
+    </div>`
+    <div class="tab">
+      <p>
+      <h4>Land Tenureship</h4>
+
+
+      <label for="username">Owner/Legal Title</label>
+      <label for="username">Do you have a legal title?</label>
+      <select name="ADNUM">
+        <option>select</option>
+        <option> Yes </option>
+        <option> No</option>
+      </select>
+      <input type="text" name="DAT" placeholder="Enter your legal title(s)" id="username">
+
+      <label for="username">Freehold</label>
+      <label for="username">Do you have a Freehold?</label>
+      <select name="ADNUM">
+        <option>select</option>
+        <option> Yes </option>
+        <option> No</option>
+      </select>
+      <input type="text" name="DAT" placeholder="Enter freehold" id="username">
+
+      <label for="username">Family</label>
+      <label for="username">Do you have immediate family?</label>
+      <select name="ADNUM">
+        <option>select</option>
+        <option> Yes </option>
+        <option> No</option>
+      </select>
+      <input type="text" name="DAT" placeholder="Enter family members" id="username">
+
+      <label for="username">Leasehold</label>
+      <br>
+      <br>
+      <label for="username">Do you have a lease?</label>
+
+      <table>
+        <tr>
+          <th>Yes</th>
+          <th>No</th>
+        </tr>
+
+        <tr>
+          <th><input type="radio" name="lang" /></th>
+          <th><input type="radio" name="Dcs" value="no" /></th>
+        </tr>
+      </table>
+      <input type="text" name="DAT" placeholder="Enter your lease information">
+
+      <br>
+      <label for="username">CareTaker</label>
+      <label for="username">Do you have a caretaker?</label>
+
+      <table>
+        <tr>
+          <th>Yes</th>
+          <th>No</th>
+        </tr>
+
+        <tr>
+          <th><input type="radio" name="Dcs" value="yes" /></th>
+          <th><input type="radio" name="Dcs" value="no" /></th>
+        </tr>
+      </table>
+      <input type="text" name="DAT" placeholder="Enter caregiver" id="username">
+
+      <label for="username">Agent</label>
+
+      <label for="username">Do you have an Agent?</label>
+
+      <table>
+        <tr>
+          <th>Yes</th>
+          <th>No</th>
+        </tr>
+
+        <tr>
+          <th><input type="radio" name="Dcs" value="yes" /></th>
+          <th><input type="radio" name="Dcs" value="no" /></th>
+        </tr>
+      </table>
+      <input type="text" name="DAT" placeholder="Enter agent" id="username">
+
+      <label for="username">Status</label>
+      <textarea name="Text1" cols="40" rows="5" placeholder="Enter your status"></textarea>
+      </p>
+    </div>
+
+    <div class="tab">
+      <p>
+      <h4>Number of Nutmeg Trees</h4>
+
+      <label for="username">Mature trees older than 25 years</label>
+      <input type="number" name="DAT" placeholder="Enter number of mature trees" id="username">
+
+      <label for="username">Bearing trees younger than 25 years</label>
+      <input type="number" name="DAT" placeholder="Enter number of bearing trees" id="username">
+
+      <label for="username">Non-Bearing trees older than 25 years</label>
+      <input type="number" name="DAT" placeholder="Enter number of non-bearing trees" id="username">
+
+      </p>
+
+    </div>
+
+    <div class="tab">
+      <p>
+      <h4>Number of Coconut Trees</h4>
+
+      <label for="username">Mature trees older than 25 years</label>
+      <input type="number" name="DAT" placeholder="Enter number of mature trees" id="username">
+
+      <label for="username">Bearing trees younger than 25 years</label>
+      <input type="number" name="DAT" placeholder="Enter number of bearing trees" id="username">
+
+      <label for="username">Non-Bearing trees older than 25 years</label>
+      <input type="number" name="DAT" placeholder="Enter number of non-bearing trees" id="username">
+
+      </p>
+
+    </div>
+
+
+
+    <div class="tab">
+      <p>
+      <h4>Type of Cultivation</h4>
+      <label for="username">Pure Stand</label>
+      <input type="text" name="DAT" placeholder="Enter here" id="username">
+
+      <label for="username">Intercrop</label>
+      <input type="text" name="DAT" placeholder="Enter here" id="username">
+
+      <label for="username">Comments</label>
+      <textarea name="Text1" cols="40" rows="5" placeholder="Enter your comments"></textarea>
+
+      </p>
+    </div>
+
+
+
+    <div class="tab">
+      <p>
+      <h4>Land Under Cultivation</h4>
+
+      <label for="username">Normal</label>
+      <input type="text" name="DAT" placeholder="Enter your normal land" id="username">
+
+      <label for="username">Seasonal</label>
+      <input type="text" name="DAT" placeholder="Enter your seasonal land" id="username">
+
+      <label for="username">Abandoned</label>
+      <input type="text" name="DAT" placeholder="Enter your abandoned land" id="username">
+
+      </p>
+    </div>
+
+
+
+    <div class="tab">
+      <p>
+      <h4>Potential Risks</h4>
+
+      <label for="username">Slides/Land Slippage</label>
+      <select name="ADNUM">
+        <option>Are there any Land Slippage risks </option>
+        <option> Yes </option>
+        <option> No</option>
+      </select>
+      <input type="text" name="DAT" placeholder="Where are the risks?" id="username">
+
+      <label for="username">Flooding/Potential for flooding</label>
+      <select name="ADNUM">
+        <option>Are there any flooding risks </option>
+        <option> Yes </option>
+        <option> No</option>
+      </select>
+      <input type="text" name="DAT" placeholder="Where are they?" id="username">
+
+      <label for="username">Heavy metals</label>
+      <select name="ADNUM">
+        <option>Are there any risks of Heavy metals</option>
+        <option> Yes </option>
+        <option> No</option>
+      </select>
+      <input type="text" name="DAT" placeholder="Where are they?" id="username">
+
+      <label for="username">Chemical spills</label>
+      <select name="ADNUM">
+        <option>Are there any chemical spills risks</option>
+        <option> Yes </option>
+        <option> No</option>
+      </select>
+      <input type="text" name="DAT" placeholder="Where has it occured" id="username">
+
+      <label for="username">Recent Dumping of trash</label>
+      <select name="ADNUM">
+        <option>Has any dumping occured recently</option>
+        <option> Yes </option>
+        <option> No</option>
+      </select>
+      <input type="text" name="DAT" placeholder="Where has it occured" id="username">
+
+      <label for="username">Recent use of the farm as a dairy/livestock/poultry feedlot</label>
+      <select name="ADNUM">
+        <option>Has any dumping occured recently</option>
+        <option> Yes </option>
+        <option> No</option>
+      </select>
+
+      <input type="radio" name="DAT" placeholder="Where has it occured" id="username">
+
+      </p>
+    </div>
+
+
+
+
+    <div class="tab">
+      <p>
+      <h4>Adjacent Farm land use policy</h4>
+
+
+      <label for="username">Use of Pesticides?</label>
+      <select name="ADNUM">
+        <option>Select</option>
+        <option> Yes </option>
+        <option> No</option>
+      </select>
+
+      <label for="username">Septic Tank/Sewage System Close by?</label>
+      <select name="ADNUM">
+        <option>Select</option>
+        <option> Yes </option>
+        <option> No</option>
+      </select>
+
+      <label for="username">other</label>
+      <input type="text" name="DAT" placeholder="Enter the miscellaneous information " id="username">
+
+      </p>
+    </div>
+
+
+
+
+    <div class="tab">
+      <p>
+
+      <h4>Road Access</h4>
+
+      <label for="username">Is road access adequate?</label>
+      <select name="ADNUM">
+        <option>select</option>
+        <option> Yes </option>
+        <option> No</option>
+      </select>
+
+      <input type="text" name="DAT" placeholder="why? " id="username">
+
+
+      <label for="username">Comments</label>
+      <textarea name="Text1" cols="40" rows="5" placeholder="Enter your comments"></textarea>
+
+
+      </p>
+    </div>
+
+
+
+    <div class="tab">
+      <p>
+      <h4>Food Safety and Quality</h4>
+
+      <label for="username">Fertilizer Used?</label>
+      <select name="ADNUM">
+        <option>select</option>
+        <option> Yes </option>
+        <option> No</option>
+      </select>
+      <input type="text" name="DAT" placeholder="Enter what fertilizer was used" id="username">
+
+      <label for="username">Last application</label>
+      <input type="text" name="DAT" placeholder="Enter the last application" id="username">
+
+      <label for="username">Frequency</label>
+      <!-- <input type="text" name="DAT" placeholder="Enter frequency" id="username"> -->
+      <select name="ADNUM">
+
+        <option>select</option>
+        <option> Daily </option>
+        <option> Biweekly </option>
+        <option> Weekly</option>
+        <option> Bimonthly</option>
+        <option> Monthly </option>
+      </select>
+
+      <label for="username">Enter Picture evidence</label>
+      <input type="file" name="DAT" placeholder="Enter frequency" id="username">
+
+      <label for="username">Raw Manure</label>
+      <select name="ADNUM">
+        <option>Was raw manure used?</option>
+        <option> Yes </option>
+        <option> No</option>
+      </select>
+
+      <label for="username">Composted Manure</label>
+      <select name="ADNUM">
+        <option>Was composed manure used?</option>
+        <option> Yes </option>
+        <option> No</option>
+      </select>
+
+      <label for="username">other</label>
+      <input type="text" name="DAT" placeholder="Enter the miscellaneous information " id="username">
+
+      </p>
+    </div>
+
+
+
+    <div class="tab">
+      <p>
+      <h4>Water Source</h4>
+
+      <label for="username">Munical</label>
+      <select name="ADNUM">
+        <option>Is this water source used?</option>
+        <option> Yes </option>
+        <option> No</option>
+      </select>
+
+      <label for="username">River</label>
+      <select name="ADNUM">
+        <option>Is this water source used?</option>
+        <option> Yes </option>
+        <option> No</option>
+      </select>
+      <label for="username">Spring</label>
+      <select name="ADNUM">
+        <option>Is this water source used?</option>
+        <option> Yes </option>
+        <option> No</option>
+      </select>
+      <label for="username">Well</label>
+      <select name="ADNUM">
+        <option>Is this water source used?</option>
+        <option> Yes </option>
+        <option> No</option>
+      </select>
+      <label for="username">Harvested Rain Water</label>
+      <select name="ADNUM">
+        <option>Is this water source used?</option>
+        <option> Yes </option>
+        <option> No</option>
+      </select>
+      <label for="username">Is the water treated?</label>
+      <select name="ADNUM">
+        <option>select</option>
+        <option> Yes </option>
+        <option> No</option>
+      </select>
+
+      <label for="username">other</label>
+      <input type="text" name="DAT" placeholder="Enter the miscellaneous information " id="username">
+
+      </p>
+    </div>
+
+
+    <div class="tab">
+      <p>
+      <h4>Symmary From Inspector</h4>
+
+
+      <label for="username">Estimated Annual Production</label>
+      <input type="text" name="DAT" placeholder="Was cthe water used treated?" id="username">
+
+      <label for="username">Estimated Peak Periods</label>
+      <input type="text" name="DAT" placeholder="Was cthe water used treated?" id="username">
+
+      <label for="username">Inspected by:</label>
+      <input type="date" name="DAT" id="username">
+
+      <label for="username">Date</label>
+      <input type="date" name="DAT" id="username">
+
+      </p>
+    </div>
+
+
+    <div style="overflow:auto;">
+      <div style="float:right;">
+        <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+        <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+      </div>
+      <!-- <button type="button" id="nextBtn" onclick="nextPrev(2)">Next</button> -->
+
+    </div>
+
+    <div style="text-align:center;margin-top:40px;">
+      <span class="step"></span>
+      <span class="step"></span>
+      <span class="step"></span>
+      <span class="step"></span>
+      <span class="step"></span>
+      <span class="step"></span>
+      <span class="step"></span>
+      <span class="step"></span>
+      <span class="step"></span>
+      <span class="step"></span>
+      <span class="step"></span>
+      <span class="step"></span>
+
+    </div>
+  </form>
+
+  <script>
+    var currentTab = 0; // Current tab is set to be the first tab (0)
+    showTab(currentTab); // Display the current tab
+
+    function showTab(n) {
+      // This function will display the specified tab of the form...
+      var x = document.getElementsByClassName("tab");
+      x[n].style.display = "block";
+      //... and fix the Previous/Next buttons:
+      if (n == 0) {
+        document.getElementById("prevBtn").style.display = "none";
+      } else {
+        document.getElementById("prevBtn").style.display = "inline";
+      }
+      if (n == (x.length - 1)) {
+        document.getElementById("nextBtn").innerHTML = "Submit";
+      } else {
+        document.getElementById("nextBtn").innerHTML = "Next";
+      }
+      //... and run a function that will display the correct step indicator:
+      fixStepIndicator(n)
+    }
+
+    function nextPrev(n) {
+      // This function will figure out which tab to display
+      var x = document.getElementsByClassName("tab");
+      // Exit the function if any field in the current tab is invalid:
+      if (n == 1 && !validateForm()) return false;
+      // Hide the current tab:
+      x[currentTab].style.display = "none";
+      // Increase or decrease the current tab by 1:
+      currentTab = currentTab + n;
+      // if you have reached the end of the form...
+      if (currentTab >= x.length) {
+        // ... the form gets submitted:
+        document.getElementById("regForm").submit();
+        return false;
+      }
+      // Otherwise, display the correct tab:
+      showTab(currentTab);
+    }
+
+    function validateForm() {
+      // This function deals with validation of the form fields
+      var x, y, i, valid = true;
+      x = document.getElementsByClassName("tab");
+      y = x[currentTab].getElementsByTagName("input");
+      // A loop that checks every input field in the current tab:
+      for (i = 0; i < y.length; i++) {
+        // If a field is empty...
+        if (y[i].value == "") {
+          // add an "invalid" class to the field:
+          y[i].className += " invalid";
+          // and set the current valid status to false
+          valid = true;
+        }
+      }
+      // If the valid status is true, mark the step as finished and valid:
+      if (valid) {
+        document.getElementsByClassName("step")[currentTab].className += " finish";
+      }
+      return valid; // return the valid status
+    }
+
+    function fixStepIndicator(n) {
+      // This function removes the "active" class of all steps...
+      var i, x = document.getElementsByClassName("step");
+      for (i = 0; i < x.length; i++) {
+        x[i].className = x[i].className.replace(" active", "");
+      }
+      //... and adds the "active" class on the current step:
+      x[n].className += " active";
+    }
+
+
+    var x = document.getElementById("demo");
+
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+      } else {
+        x.innerHTML = "Geolocation is not supported by this browser.";
+      }
+    }
+
+    function showPosition(position) {
+      x.innerHTML = "Latitude: " + position.coords.latitude +
+        "<br>Longitude: " + position.coords.longitude;
+    }
+
+
+
+
+  </script>
+
+</body>
+
+</html>

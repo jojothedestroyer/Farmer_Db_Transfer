@@ -1,0 +1,37 @@
+{% extends 'gcna/base.html' %}
+
+{% block content%}
+
+	<center>
+<br>
+	{% if submitted %}
+		Entry successfully added to database!!!
+	{% else %}
+		<form action="" method="POST" style=" background-color: #e4e4e4;
+
+    margin: 1px auto;
+    font-family: Raleway;
+    padding: 10px;
+    width: 55%;
+    min-width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">
+    <h1>Quality Control Form</h1>
+ 
+		{% csrf_token %}
+
+		{{ form5.as_p }}
+		<input type="submit" name="" value="submit" class="btn btn-outline-success">
+		
+
+		</form>
+
+	{% endif %}
+
+	</center>
+{{ form5.media }}
+
+{% endblock %}
+
+
+

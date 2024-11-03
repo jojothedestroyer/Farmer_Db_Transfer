@@ -1,0 +1,439 @@
+{% extends 'gcna/base2.html' %}
+
+{% block content%}
+
+
+
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: center;
+            padding: 8px;
+        }
+
+
+        th {
+/*            background-color: #f2f2f2;*/
+        }
+
+
+        .main-header {
+            text-align: center;
+            font-size: 24px;
+        }
+
+
+        .sub-header {
+            font-size: 18px;
+        }
+    </style>
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+
+
+
+<script>
+$(document).ready(function() {
+
+  $('#Tab_Alert').hide(); 
+  $('#Tab_Alert2').hide(); 
+
+  
+
+
+  $('#id_PRODUCT_DESCRIPTION').on('change', function() {
+    if ($(this).val() == 'Others') {
+        $('#Tab_Alert').show(); 
+
+    } else {
+        $('#Tab_Alert').hide();
+
+    }
+  
+});
+
+  $('#id_PACKAGING_MATERIAL').on('change', function() {
+    if ($(this).val() == 'Other') {
+        $('#Tab_Alert2').show(); 
+
+    } else {
+        $('#Tab_Alert2').hide();
+
+    }
+  
+});
+
+
+
+
+  $('#id_START_DRYING_DATE').on('change', function() {
+    var startDate = new Date($(this).val());
+    var approxEndDate = new Date(startDate.getTime() + (42 * 24 * 60 * 60 * 1000)); 
+
+    var day = ("0" + approxEndDate.getDate()).slice(-2); 
+
+    var month = ("0" + (approxEndDate.getMonth() + 1)).slice(-2);
+
+    var year = approxEndDate.getFullYear();
+
+    var formattedDate = year + "-" + month + "-" + day;
+
+    $('#id_APPROX_END_DRYING_DATE').val(formattedDate);
+      });
+
+  $('#id_NUM_OF_BAGS').on('change', function() {
+    var start =  $('#id_NUM_OF_BAGS').val();
+    var calc = start * 110; 
+    $('#id_TOTAL_LBS_NUTMEG_BOUGHT').val(calc);
+      });
+
+
+});
+
+
+
+
+
+
+
+
+
+</script>
+
+
+
+
+<!-- 
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var myForm = document.getElementById('myForm');
+    
+        myForm.addEventListener('submit', function(event) {
+  
+            event.preventDefault();
+            var data = new FormData(event.target);
+            saveDataToIndexedDB(data);
+        });
+    
+        function saveDataToIndexedDB(data) {
+            var request = indexedDB.open('GCNA', 2);
+        
+            request.onsuccess = function(event) {
+                var db = event.target.result;
+                var transaction = db.transaction('Package-Ciontrol', 'readwrite');
+                var objectStore = transaction.objectStore('Package-Ciontrol');
+        
+                var obj = {};
+                for (var pair of data.entries()) {
+                    obj[pair[0]] = pair[1];
+                }
+        
+                // Get the highest id in the object store
+                var highestIdRequest = objectStore.openCursor(null, 'prev');
+                highestIdRequest.onsuccess = function(event) {
+                    var cursor = event.target.result;
+                    if (cursor) {
+                        obj.id = cursor.key + 1;
+                    } else {
+                        obj.id = 1; // This is the first item
+                    }
+        
+                    var request = objectStore.put(obj);
+        
+                    request.onsuccess = function() {
+                        console.log('Data added to IndexedDB');
+                        window.location.href = '/gcna00_2/';
+  
+                    };
+        
+                    request.onerror = function() {
+                        console.error('Error adding data to IndexedDB');
+                    };
+                };
+            };
+        
+            request.onerror = function(event) {
+                console.error('Error opening IndexedDB', event);
+            };
+        }
+        
+    });
+    </script> -->
+  
+  
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var myForm = document.getElementById('myForm');
+        
+            myForm.addEventListener('submit', function(event) {
+      
+                event.preventDefault();
+                var data = new FormData(event.target);
+                saveDataToIndexedDB(data);
+            });
+        
+            function saveDataToIndexedDB(data) {
+        // Exclude csrfmiddlewaretoken from being saved to IndexedDB
+        data.delete('csrfmiddlewaretoken');
+      
+        var request = indexedDB.open('GCNA', 2);
+      
+        request.onsuccess = function(event) {
+            var db = event.target.result;
+            var transaction = db.transaction('Package-Ciontrol', 'readwrite');
+            var objectStore = transaction.objectStore('Package-Ciontrol');
+      
+            var obj = {};
+            for (var pair of data.entries()) {
+                obj[pair[0]] = pair[1];
+            }
+      
+            // Get the highest id in the object store
+            var highestIdRequest = objectStore.openCursor(null, 'prev');
+            highestIdRequest.onsuccess = function(event) {
+                var cursor = event.target.result;
+                if (cursor) {
+                    obj.id = cursor.key + 1;
+                } else {
+                    obj.id = 1; // This is the first item
+                }
+      
+                var request = objectStore.put(obj);
+      
+                request.onsuccess = function() {
+                    console.log('Data added to IndexedDB');
+                    transferIndexedDBData(); // Transfer data to Django after saving to IndexedDB
+                };
+      
+                request.onerror = function() {
+                    console.error('Error adding data to IndexedDB');
+                };
+            };
+        };
+      
+        request.onerror = function(event) {
+            console.error('Error opening IndexedDB', event);
+        };
+      }
+            function transferIndexedDBData() {
+                var request = indexedDB.open('GCNA', 2);
+            
+                request.onsuccess = function(event) {
+                    var db = event.target.result;
+                    var transaction = db.transaction('Package-Ciontrol', 'readonly');
+                    var objectStore = transaction.objectStore('Package-Ciontrol');
+                    var getRequest = objectStore.getAll();
+            
+                    getRequest.onsuccess = function(event) {
+                        var data = event.target.result;
+                        data.forEach(function(item) {
+                        // sendDataToDjango(item);
+                    });
+                    window.location.reload();
+
+                    };
+                };
+            
+                request.onerror = function(event) {
+                    console.error('Error opening IndexedDB', event);
+                };
+            }
+        
+            function sendDataToDjango(item) {
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '/check-and-add/', true);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        if (xhr.status === 200) {
+                            console.log('Entry added successfully.');
+                        } else {
+                            console.error('Error adding entry:', xhr.statusText);
+                        }
+                    }
+                };
+                xhr.send(JSON.stringify(item));
+            }
+        });
+      </script>
+      
+      <script>
+
+
+        var request = indexedDB.open('Signin', 1);
+       
+        request.onsuccess = function(event) {
+            var db = event.target.result;
+            var transaction = db.transaction('verify', 'readonly');
+            var store = transaction.objectStore('verify');
+            var getRequest = store.get(1); // Assuming you want to get the first entry
+       
+            getRequest.onsuccess = function(event) {
+                var data = event.target.result;
+                if (data) {
+                    // Set the values in the form
+                    document.querySelector('[name="Worker_ID_No"]').value = data.Worker_ID_No;
+                    document.querySelector('[name="Worker_ID_Name"]').value = data.Name;
+                }
+            };
+        };
+       </script>
+      
+	<center>
+<br>
+	{% if submitted %}
+		Entry successfully added to database!!!
+	{% else %}
+		<form action="" method="POST" id="myForm" style=" background-color: #e4e4e4;
+
+    margin: 1px auto;
+    font-family: Raleway;
+    padding: 10px;
+    width: 55%;
+    min-width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">
+
+<h6>Document No. GCNA-GMP</h6>
+<h6>Document Title:  </h6>
+<h6>Date Issued:  </h6>
+<h6>Version:  </h6>
+
+    <h1>Package Control Form</h1>
+ 
+		{% csrf_token %}
+
+        <table id="vertical-1" class="table table-hover table-light">
+        <!-- <caption>First Way</caption> -->
+       
+{% comment %} {{ form.Nutmeg_ID_No }} {% endcomment %}
+
+{{ form.Worker_ID_No }}
+{{ form.Worker_ID_Name }}
+       <tr>
+
+            <th>Product Descriptions</th>
+            <td>{{ form.PRODUCT_DESCRIPTION }}</td>
+        </tr>  
+
+<table class="table" id="Tab_Alert">
+       <tr> 
+            <th>Product Descriptions cont</th>
+            <td>{{ form.PRODUCT_DESCRIPTION_cont }}</td>
+        </tr>  
+
+</table>
+
+  <table>
+
+    
+        <tr>
+
+            <th colspan="8" class="main-header">PACKAGING DATE</th>
+         </tr>
+
+
+        <tr>
+      <th colspan="2" style="text-align:center;">Start Date</th> 
+      <th colspan="2" style="text-align:center; ">{{ form.START }}</td>
+      <th colspan="2" style="text-align:center;">End Date</th> 
+      <th colspan="2" style="text-align:center; ">{{ form.END }}</td>
+
+        </tr>
+    </table>
+
+        <table id="vertical-1" class="table table-hover table-light">
+
+
+
+        <tr>
+            <th>Quantity of bags</th>
+            <td>{{ form.QUANTITY_OF_BAGS }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Total Weight(lbs)</th>
+            <td>{{ form.TOTAL_WEIGHT_LBS }}</td>
+        </tr>
+
+
+
+        <tr>
+            <th>Package Material</th>
+            <td>{{ form.PACKAGING_MATERIAL }}</td>
+        </tr>
+
+<table class="table" id="Tab_Alert2">
+       <tr> 
+            <th>Package Material cont</th>
+            <td>{{ form.PACKAGING_MATERIAL_cont }}</td>
+        </tr>  
+
+</table>
+
+        <tr>
+            <th>Batch Number</th>
+            <td>{{ form.BATCH_NUMBER }}</td>
+        </tr>
+        <tr>
+            <th>Contract Number</th>
+            <td>{{ form.CONTRACT_NUMBER }}</td>
+        </tr>
+
+
+
+
+
+  <table>
+
+
+
+        <tr>
+      <th colspan="2" style="text-align:center;">Offical Lab Results</th> 
+      <th colspan="2" style="text-align:center; ">{{ form.Physical_Analysis }}</td>
+      <th colspan="2" style="text-align:center;">{{ form.Chemical_Analysis }}</th> 
+      <th colspan="2" style="text-align:center; ">{{ form.Microbiological_Analysis }}</td>
+
+        </tr>
+    </table>
+
+ 
+
+    </table>
+	  <tr>
+            <th><a href="{% url 'table' %}" class="btn btn-secondary">Return</a></th>
+        </tr>
+
+	            <th><a type="submit" href="{% url 'add_Floation_0' %}" role="button" class="btn btn-primary">Previous</a></th>
+
+		<input type="submit" name="" value="submit" class="btn btn-success">
+		
+
+
+      
+
+
+
+
+		</form>
+
+	{% endif %}
+
+	</center>
+{{ form.media }}
+
+{% endblock %}

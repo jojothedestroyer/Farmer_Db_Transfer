@@ -1,0 +1,26 @@
+{% extends 'gcna/base1.html' %} {% load static %}<!-- //randomspace -->
+{% block content %} {% load pwa %} {% progressive_web_app_meta %}
+
+<form
+  method="POST"
+  style="
+    background-color: #e4e4e4;
+    margin: 1px auto;
+    font-family: Raleway;
+    padding: 10px;
+    width: 55%;
+    min-width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);
+  "
+>
+  {% csrf_token %}
+
+  <h1>Welcome</h1>
+  <h2>To The GCNA Form Webpage</h2>
+
+  <p>Please Login</p>
+  <td><a href="{% url 'Signin' %}" class="btn btn-secondary">Login</a></td>
+</form>
+
+{% endblock %}

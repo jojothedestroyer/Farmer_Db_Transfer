@@ -1,0 +1,343 @@
+{% extends 'gcna/base2.html' %}
+
+{% block content%}
+	<style type="text/css">
+		.btn-circle.btn-xl {
+            width: 30px;
+            height: 30px;
+            padding: 3px 0px;
+            border-radius: 25px;
+            font-size: 15px;
+            text-align: center;
+		}
+
+
+		 #map {
+		            height: 4px;
+		            width: 10%;
+		            margin-bottom: 20px;
+		        }
+
+
+	</style>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        }
+
+        function showPosition(position) {
+            document.getElementById("id_latitude").value = position.coords.latitude.toFixed(6);
+            document.getElementById("id_longitude").value = position.coords.longitude.toFixed(6);
+
+            var map = L.map('map').setView([position.coords.latitude, position.coords.longitude], 10);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+            var marker = L.marker([position.coords.latitude, position.coords.longitude]).addTo(map);
+        }
+    </script>
+
+    <script>
+
+
+var request = indexedDB.open('Signin2', 1);
+       
+        request.onsuccess = function(event) {
+            var db = event.target.result;
+            var transaction = db.transaction('verify', 'readonly');
+            var store = transaction.objectStore('verify');
+            var getRequest = store.get(1); // Assuming you want to get the first entry
+       
+            getRequest.onsuccess = function(event) {
+                var data = event.target.result;
+                if (data) {
+                    // Set the values in the form
+                    document.querySelector('[name="Worker_ID_No"]').value = data.Worker_ID_No;
+                    document.querySelector('[name="Nutmeg_ID_No"]').value = data.Nutmeg_ID_No;
+                }
+            };
+        };
+       </script>
+
+
+
+
+       <script>
+
+
+        var request = indexedDB.open('LandId', 1);
+       
+        request.onsuccess = function(event) {
+            var db = event.target.result;
+            var transaction = db.transaction('land-ids', 'readonly');
+            var store = transaction.objectStore('land-ids');
+            var getRequest = store.get(1); // Assuming you want to get the first entry
+       
+            getRequest.onsuccess = function(event) {
+                var data = event.target.result;
+                if (data) {
+                    // Set the values in the form
+                    document.querySelector('[name="Land_ID_N0"]').value = data.Land_ID_N0;
+                }
+            };
+        };
+       </script>
+
+<!--        
+
+       <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var myForm = document.getElementById('myForm');
+        
+            myForm.addEventListener('submit', function(event) {
+                if (navigator.onLine) {
+                    return;
+                }
+        
+                event.preventDefault();
+                var data = new FormData(event.target);
+                saveDataToIndexedDB(data);
+            });
+        
+            function saveDataToIndexedDB(data) {
+                var request = indexedDB.open('GCNA', 2);
+            
+                request.onsuccess = function(event) {
+                    var db = event.target.result;
+                    var transaction = db.transaction('Food-Safety-and-Quality', 'readwrite');
+                    var objectStore = transaction.objectStore('Food-Safety-and-Quality');
+            
+                    var obj = {};
+                    for (var pair of data.entries()) {
+                        obj[pair[0]] = pair[1];
+                    }
+            
+                    // Get the highest id in the object store
+                    var highestIdRequest = objectStore.openCursor(null, 'prev');
+                    highestIdRequest.onsuccess = function(event) {
+                        var cursor = event.target.result;
+                        if (cursor) {
+                            obj.id = cursor.key + 1;
+                        } else {
+                            obj.id = 1; // This is the first item
+                        }
+            
+                        var request = objectStore.put(obj);
+            
+                        request.onsuccess = function() {
+                            console.log('Data added to IndexedDB');
+                            // window.location.href = '/gcna00_18/';
+                        };
+            
+                        request.onerror = function() {
+                            console.error('Error adding data to IndexedDB');
+                        };
+                    };
+                };
+            
+                request.onerror = function(event) {
+                    console.error('Error opening IndexedDB', event);
+                };
+            }
+            
+        });
+        </script> -->
+
+
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var myForm = document.getElementById('myForm');
+            
+                myForm.addEventListener('submit', function(event) {
+        
+                    event.preventDefault();
+                    var data = new FormData(event.target);
+                    saveDataToIndexedDB(data);
+                });
+            
+                function saveDataToIndexedDB(data) {
+            // Exclude csrfmiddlewaretoken from being saved to IndexedDB
+            data.delete('csrfmiddlewaretoken');
+            data.delete('initial-Land_ID_N0');
+
+            var request = indexedDB.open('GCNA', 2);
+        
+            request.onsuccess = function(event) {
+                var db = event.target.result;
+                var transaction = db.transaction('Food-Safety-and-Quality', 'readwrite');
+                var objectStore = transaction.objectStore('Food-Safety-and-Quality');
+        
+                var obj = {};
+                for (var pair of data.entries()) {
+                    obj[pair[0]] = pair[1];
+                }
+        
+                // Get the highest id in the object store
+                var highestIdRequest = objectStore.openCursor(null, 'prev');
+                highestIdRequest.onsuccess = function(event) {
+                    var cursor = event.target.result;
+                    if (cursor) {
+                        obj.id = cursor.key + 1;
+                    } else {
+                        obj.id = 1; // This is the first item
+                    }
+        
+                    var request = objectStore.put(obj);
+        
+                    request.onsuccess = function() {
+                        console.log('Data added to IndexedDB');
+                        transferIndexedDBData(); // Transfer data to Django after saving to IndexedDB
+                    };
+        
+                    request.onerror = function() {
+                        console.error('Error adding data to IndexedDB');
+                    };
+                };
+            };
+        
+            request.onerror = function(event) {
+                console.error('Error opening IndexedDB', event);
+            };
+        }
+                function transferIndexedDBData() {
+                    var request = indexedDB.open('GCNA', 2);
+                
+                    request.onsuccess = function(event) {
+                        var db = event.target.result;
+                        var transaction = db.transaction('Food-Safety-and-Quality', 'readonly');
+                        var objectStore = transaction.objectStore('Food-Safety-and-Quality');
+                        var getRequest = objectStore.getAll();
+                
+                        getRequest.onsuccess = function(event) {
+                            var data = event.target.result;
+                            data.forEach(function(item) {
+                                
+                                // sendDataToDjango(item);
+                            });
+                            // window.location.reload();
+        
+                        };
+                    };
+                
+                    request.onerror = function(event) {
+                        console.error('Error opening IndexedDB', event);
+                    };
+                }
+            
+                function sendDataToDjango(item) {
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST', '/check-and-add/', true);
+                    xhr.setRequestHeader('Content-Type', 'application/json');
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState === XMLHttpRequest.DONE) {
+                            if (xhr.status === 200) {
+                                console.log('Entry added successfully.');
+                            } else {
+                                console.error('Error adding entry:', xhr.statusText);
+                            }
+                        }
+                    };
+                    xhr.send(JSON.stringify(item));
+                }
+            });
+          </script>
+          
+        
+	<center>
+<br>
+	{% if submitted %}
+		Entry successfully added to database!!!
+	{% else %}
+
+
+
+
+
+
+
+		<form action="" method="POST" id="myForm" enctype="multipart/form-data" style=" background-color: #e4e4e4;
+
+    margin: 1px auto;
+    font-family: Raleway;
+    padding: 10px;
+    width: 55%;
+    min-width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">
+
+<div class="card">
+ 
+  <div class="card-body">
+
+  </h5>
+    <p class="card-text">
+        <table id="vertical-1" class="table table-hover table-light">
+
+
+        <h1>GCNA Form</h1>
+
+
+		{% csrf_token %}
+		<h3>Section 18</h3>
+		<h4>Food Safety and Quality</h4>
+		{{ form.as_p }}
+        <!-- <tr>
+            <th></th>
+            <td></td>
+        </tr> 
+    
+        <tr>
+             <th></th>
+             <td></td>
+         </tr>  
+         
+         <tr>
+            <th></th>
+            <td></td>
+        </tr>  
+         
+      <tr>
+          <th></th>
+          <td></td>
+      </tr>   -->
+    
+	
+		<input type="submit" name="" value="✔" class="btn btn-success btn-circle btn-xl">
+
+		<br>
+		<br>
+
+</table>
+
+        <tr>
+            <th><a href="{% url 'table' %}" class="btn btn-secondary">Exit</a></th>
+            <th><a type="submit" href="{% url 'gcna00_17' %}" role="button" class="btn btn-primary">Previous</a></th>
+            <th><a type="submit" href="{% url 'gcna00_19' %}" role="button" class="btn btn-primary">Next</a></th>
+        </tr>
+
+
+
+		</form>
+
+	{% endif %}
+
+	</center>
+
+<!-- 	<form>
+   		 <div id="map"></div>
+</form> -->
+{{ form.media }}
+
+
+{% endblock %}
+
+
+
+
+

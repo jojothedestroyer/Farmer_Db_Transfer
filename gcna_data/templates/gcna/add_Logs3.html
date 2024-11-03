@@ -1,0 +1,518 @@
+{% extends 'gcna/base2.html' %}
+
+{% block content%}
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var myForm = document.getElementById('myForm');
+    
+        myForm.addEventListener('submit', function(event) {
+  
+            event.preventDefault();
+            var data = new FormData(event.target);
+            saveDataToIndexedDB(data);
+        });
+    
+        function saveDataToIndexedDB(data) {
+    // Exclude csrfmiddlewaretoken from being saved to IndexedDB
+    data.delete('csrfmiddlewaretoken');
+  
+    var request = indexedDB.open('GCNA', 2);
+  
+    request.onsuccess = function(event) {
+        var db = event.target.result;
+        var transaction = db.transaction('Extractor_Log', 'readwrite');
+        var objectStore = transaction.objectStore('Extractor_Log');
+  
+        var obj = {};
+        for (var pair of data.entries()) {
+            obj[pair[0]] = pair[1];
+        }
+  
+        // Get the highest id in the object store
+        var highestIdRequest = objectStore.openCursor(null, 'prev');
+        highestIdRequest.onsuccess = function(event) {
+            var cursor = event.target.result;
+            if (cursor) {
+                obj.id = cursor.key + 1;
+            } else {
+                obj.id = 1; // This is the first item
+            }
+  
+            var request = objectStore.put(obj);
+  
+            request.onsuccess = function() {
+                console.log('Data added to IndexedDB');
+                transferIndexedDBData(); // Transfer data to Django after saving to IndexedDB
+            };
+  
+            request.onerror = function() {
+                console.error('Error adding data to IndexedDB');
+            };
+        };
+    };
+  
+    request.onerror = function(event) {
+        console.error('Error opening IndexedDB', event);
+    };
+  }
+        function transferIndexedDBData() {
+            var request = indexedDB.open('GCNA', 2);
+        
+            request.onsuccess = function(event) {
+                var db = event.target.result;
+                var transaction = db.transaction('Extractor_Log', 'readonly');
+                var objectStore = transaction.objectStore('Extractor_Log');
+                var getRequest = objectStore.getAll();
+        
+                getRequest.onsuccess = function(event) {
+                    var data = event.target.result;
+                    data.forEach(function(item) {
+                          // sendDataToDjango(item);
+                        });
+                      window.location.reload();
+  
+                };
+            };
+        
+            request.onerror = function(event) {
+                console.error('Error opening IndexedDB', event);
+            };
+        }
+    
+        function sendDataToDjango(item) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/check-and-add/', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        console.log('Entry added successfully.');
+                    } else {
+                        console.error('Error adding entry:', xhr.statusText);
+                    }
+                }
+            };
+            xhr.send(JSON.stringify(item));
+        }
+    });
+  </script>
+
+<!-- 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var myForm = document.getElementById('myForm');
+    
+        myForm.addEventListener('submit', function(event) {
+  
+            event.preventDefault();
+            var data = new FormData(event.target);
+            saveDataToIndexedDB(data);
+        });
+    
+        function saveDataToIndexedDB(data) {
+            var request = indexedDB.open('GCNA', 2);
+        
+            request.onsuccess = function(event) {
+                var db = event.target.result;
+                var transaction = db.transaction('Extractor_Log', 'readwrite');
+                var objectStore = transaction.objectStore('Extractor_Log');
+            
+                var obj = {};
+                for (var pair of data.entries()) {
+                    obj[pair[0]] = pair[1];
+                }
+        
+                // Get the highest id in the object store
+                var highestIdRequest = objectStore.openCursor(null, 'prev');
+                highestIdRequest.onsuccess = function(event) {
+                    var cursor = event.target.result;
+                    if (cursor) {
+                        obj.id = cursor.key + 1;
+                    } else {
+                        obj.id = 1; // This is the first item
+                    }
+        
+                    var request = objectStore.put(obj);
+        
+                    request.onsuccess = function() {
+                        console.log('Data added to IndexedDB');
+                        window.location.href = '/gcna00_2/';
+  
+                    };
+        
+                    request.onerror = function() {
+                        console.error('Error adding data to IndexedDB');
+                    };
+                };
+            };
+        
+            request.onerror = function(event) {
+                console.error('Error opening IndexedDB', event);
+            };
+        }
+        
+    });
+    </script> -->
+  
+  
+
+    <style>
+        /* Add border outline to table entries */
+        table {
+            border-collapse: collapse;
+            border: 1px solid black;
+        }
+    
+        th, td {
+            border: 1px solid black; /* Change border color to black */
+            padding: 8px;
+            text-align: center;
+            vertical-align: middle;
+        }
+    
+        /* Rotate rowspan text to fit in the column */
+        td.rotated {
+            transform: rotate(-90deg);
+            white-space: nowrap;
+        }
+    </style>
+    
+    
+    
+    
+    <form id="myForm" style="
+    background-color: #e4e4e4;
+    margin: 1px auto;
+    font-family: Raleway;
+    padding: 10px;
+    width: 95%;
+    min-width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);
+    overflow: auto; /* Add overflow property for scrolling */
+    max-height: 600px; /* Set maximum height for the form */
+">
+    
+        <div class="card">
+            <div class="card-body">
+                <center>
+                <h5>Extractor Log</h5>
+            </center>
+                <p class="card-text"></p>
+                <!-- <h6>Document No. GCNA-R-02</h6>
+                <h6>Document Title: Moisture Analysis in Floated Nutmeg</h6>
+                <h6>Date Issued: 2023-07-03</h6>
+                <h6>Version: 1</h6>
+                <h5>Section B</h5> -->
+                {% csrf_token %}
+                <!-- <h4>Corrective Action for Floating Nutmeg Above 10% Moisture Content</h4> -->
+    
+                <table id="vertical-1" class="table table-hover table-light">
+
+                    <thead>
+                        <tr>
+                            <th colspan="1" class="main-header" style="text-align:center;">Date</th>
+                            <th colspan="1" class="main-header" style="text-align:center;">Name</th>
+                            <th colspan="1" class="main-header" style="text-align:center;">Amount Assorted</th>
+                            <th colspan="1" class="main-header" style="text-align:center;">Contract Number</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+
+                            <td colspan="1">{{form3.Date}}</td>
+                            <td colspan="1">{{form3.Name}}</td>
+                            <td colspan="1">{{form3.amount_extracted}}</td>
+                            <td colspan="1">{{form3.contract_num}}</td>
+
+                        </tr>
+
+        
+                    <tbody>
+                    <th colspan="12"><input type="submit" name="" value="✔" class="btn btn-success btn-circle btn-xl"></th>
+                   <tbody/>
+        
+                </table>
+            </div>
+        </div>
+    
+    </form>
+    
+
+
+    <body>
+        <div id="landInfoData"></div>
+    
+    
+    <script>
+        let openRequest = indexedDB.open("GCNA");
+        let fieldBlacklist = [];
+        const fieldBlacklistConfig = {
+            'DATE_OF_SAMPLING': true, // Set to true to blacklist if null or empty
+            'DECISION': true,
+            'Quantity_of_Bags': true,
+            
+            // Add more fields as needed
+        };
+    
+        openRequest.onsuccess = function (event) {
+            let db = event.target.result;
+            let transaction = db.transaction("Extractor_Log", "readonly");
+            let landInfoStore = transaction.objectStore("Extractor_Log");
+            let getAllRequest = landInfoStore.getAll();
+    
+            getAllRequest.onsuccess = function (event) {
+                let landInfoRecords = event.target.result;
+                let landInfoDataDiv = document.getElementById('landInfoData');
+    
+                landInfoRecords.forEach(record => {
+                    let entryContainer = document.createElement("div");
+                    entryContainer.id = `entryContainer_${record.id}`;
+                    entryContainer.innerHTML = `
+
+    
+                    <form id="myForm" style="
+    background-color: #e4e4e4;
+    margin: 1px auto;
+    font-family: Raleway;
+    padding: 10px;
+    width: 95%;
+    min-width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);
+    overflow: auto; /* Add overflow property for scrolling */
+    max-height: 600px; /* Set maximum height for the form */
+">
+    
+        <div class="card">
+            <div class="card-body">
+                <center>
+                <h5>Extractor Log</h5>
+            </center>
+                <p class="card-text"></p>
+                <!-- <h6>Document No. GCNA-R-02</h6>
+                <h6>Document Title: Moisture Analysis in Floated Nutmeg</h6>
+                <h6>Date Issued: 2023-07-03</h6>
+                <h6>Version: 1</h6>
+                <h5>Section B</h5> -->
+                {% csrf_token %}
+                <!-- <h4>Corrective Action for Floating Nutmeg Above 10% Moisture Content</h4> -->
+    
+                <table id="vertical-1" class="table table-hover table-light">
+
+                    <thead>
+                        <tr>
+                            <th colspan="1" class="main-header" style="text-align:center;">Date</th>
+                            <th colspan="1" class="main-header" style="text-align:center;">Name</th>
+                            <th colspan="1" class="main-header" style="text-align:center;">Amount Assorted</th>
+                            <th colspan="1" class="main-header" style="text-align:center;">Contract Number</th>
+
+                            </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+
+                            <td colspan="1">${ record.Date}</td>
+                            <td colspan="1">${ record.Name}</td>
+                            <td colspan="1">${ record.amount_extracted}</td>
+                            <td colspan="1">${ record.contract_num}</td>
+
+                        </tr>
+
+    
+        
+                </table>
+            </div>
+        </div>
+    
+    </form>
+    
+                 `;
+                landInfoDataDiv.appendChild(entryContainer);
+    
+
+            });
+        };
+    };
+    
+        function generateEditForm(container, record) {
+            let fieldConfig = {
+                'DATE_OF_SAMPLING': 'date',
+                'DECISION': 'select',
+                'Quantity_of_Bags': 'number',
+                // Add more fields with their respective form types
+            };
+        
+            let formFieldsHTML = '';
+            for (let property in record) {
+                if (record.hasOwnProperty(property) && property !== 'id') {
+                    let inputType = 'text'; // Default to text input type
+                    if (fieldConfig[property]) {
+                        inputType = fieldConfig[property];
+                    }
+        
+                    // Check if the field value is null or an empty string and should be blacklisted
+                    if (fieldBlacklistConfig[property] && (record[property] === null || record[property] === '')) {
+                        fieldBlacklist.push(property);
+                    }
+        
+                    // Include the field in the form if it's not in the blacklist
+                    if (!fieldBlacklist.includes(property)) {
+                        // Convert property name to human-readable format
+                        let label = property.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+        
+                        formFieldsHTML += `
+                            <label for="${property}_${record.id}">${label}:</label>
+                            <input type="${inputType}" id="${property}_${record.id}" name="${property}" value="${record[property]}" class="form-control"> <br>
+                        `;
+                    }
+                }
+            }
+        
+            container.innerHTML = `
+                <form id="editForm">
+                    ${formFieldsHTML}
+                    <button type="button" id="saveButton" onclick="saveEditedForm(${record.id})">Save</button>
+                    <button type="button" id="closeButton" onclick="hideEditForm(${record.id})">Close</button>
+                </form>
+            `;
+        }
+    
+        function toggleEditForm(id) {
+            let editFormContainer = document.getElementById(`editForm_${id}`);
+            if (editFormContainer.style.display === 'none') {
+                showEditForm(id);
+            } else {
+                hideEditForm(id);
+            }
+        }
+    
+        function showEditForm(id) {
+            let editFormContainer = document.getElementById(`editForm_${id}`);
+            editFormContainer.style.display = "block";
+        }
+    
+        function hideEditForm(id) {
+            let editFormContainer = document.getElementById(`editForm_${id}`);
+            editFormContainer.style.display = "none";
+        }
+    
+        function saveEditedForm(id) {
+            let openRequest = indexedDB.open("GCNA");
+    
+            openRequest.onsuccess = function (event) {
+                let db = event.target.result;
+                let transaction = db.transaction("Extractor_Log", "readwrite");
+                let landInfoStore = transaction.objectStore("Extractor_Log");
+                let getRequest = landInfoStore.get(id);
+    
+                getRequest.onsuccess = function (event) {
+                    let record = event.target.result;
+    
+                    for (let property in record) {
+                        if (record.hasOwnProperty(property) && property !== 'id') {
+                            const inputElement = document.getElementById(`${property}_${id}`);
+                            if (inputElement) {
+                                record[property] = inputElement.value;
+                            }
+                        }
+                    }
+    
+                    let putRequest = landInfoStore.put(record);
+    
+                    putRequest.onsuccess = function () {
+                        console.log('Record updated successfully');
+                        hideEditForm(id, document.getElementById(`hiddenButton_${id}`));
+                    };
+    
+                    putRequest.onerror = function (event) {
+                        console.error('Error updating record:', event.target.error);
+                    };
+                };
+    
+                getRequest.onerror = function (event) {
+                    console.error('Error getting record:', event.target.error);
+                };
+            };
+    
+            openRequest.onerror = function (event) {
+                console.error('Error opening database:', event.target.error);
+            };
+        }
+    
+    
+    
+        function deleteEntry(id) {
+            let openRequest = indexedDB.open("GCNA");
+        
+            openRequest.onsuccess = function (event) {
+                let db = event.target.result;
+                let transaction = db.transaction("Extractor_Log", "readwrite");
+                let landInfoStore = transaction.objectStore("Extractor_Log");
+        
+                // Get the record to be deleted
+                let getRequest = landInfoStore.get(id);
+        
+                getRequest.onsuccess = function (event) {
+                    let record = event.target.result;
+        
+                    // Now, let's open the DELETED database and add the record there
+                    let openDeletedRequest = indexedDB.open("DELETED");
+        
+                    openDeletedRequest.onsuccess = function (event) {
+                        let deletedDB = event.target.result;
+                        let deletedTransaction = deletedDB.transaction("Extractor_Log", "readwrite");
+                        let deletedStore = deletedTransaction.objectStore("Extractor_Log");
+        
+                        // Add the record to the DELETED database
+                        let addRequest = deletedStore.add(record);
+        
+                        addRequest.onsuccess = function () {
+                            console.log(`Record with ID ${id} copied to DELETED database.`);
+                        };
+        
+                        addRequest.onerror = function () {
+                            console.log(`Failed to copy record with ID ${id} to DELETED database.`);
+                        };
+                    };
+        
+                    openDeletedRequest.onerror = function () {
+                        console.log("Failed to open DELETED database.");
+                    };
+                };
+        
+                // Now, proceed with deleting the record from the original database
+                let deleteRequest = landInfoStore.delete(id);
+        
+                deleteRequest.onsuccess = function () {
+                    console.log(`Record with ID ${id} deleted from GCNA database.`);
+                    // You might want to refresh your display here.
+                };
+        
+                deleteRequest.onerror = function () {
+                    console.log(`Failed to delete record with ID ${id} from GCNA database.`);
+                };
+            };
+        
+            openRequest.onerror = function () {
+                console.log("Failed to open GCNA database.");
+            };
+        }
+        
+    
+    
+    
+    
+    </script>
+    
+    
+    
+    
+    
+	</center>
+{{ form.media }}
+
+{% endblock %}

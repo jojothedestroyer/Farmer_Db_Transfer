@@ -1,0 +1,388 @@
+
+
+{% extends 'gcna/base2.html' %}
+
+
+{% block content%}
+{% comment %} 
+ 
+<div class="card">
+ 
+  <div class="card-body">
+
+  </h5>
+    <p class="card-text">
+        <table id="vertical-1" class="table table-hover table-light">
+        <!-- <caption>First Way</caption> -->
+       
+
+
+
+         <tr>
+
+            <th>Nutmeg ID Number</th>
+            <td>{{ farmer_info_id.Nutmeg_ID_No }}</td>
+        </tr>
+        <tr>
+            <th>Name</th>
+            <td>{{ farmer_info_id.name }}</td>
+        </tr>
+        <tr>
+            <th>Age</th>
+            <td>{{ farmer_info_id.age }}</td>
+        </tr>
+        <tr>
+            <th>Parish</th>
+            <td>{{ farmer_info_id.parish }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Village</th>
+            <td>{{ farmer_info_id.village }}</td>
+        </tr>
+
+
+
+        <tr>
+            <th>Latitude</th>
+            <td>{{ farmer_info_id.latitude }}</td>
+        </tr>
+
+
+
+        <tr>
+            <th>Longtitude</th>
+            <td>{{ farmer_info_id.longitude }}</td>
+        </tr>
+        <tr>
+            <th>Acreage</th>
+            <td>{{ farmer_info_id.acreage }}</td>
+        </tr>
+        <tr>
+            <th>Insurance Zone</th>
+            <td>{{ farmer_info_id.insurance_zone }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Home Phone</th>
+            <td>{{ farmer_info_id.home_phone }}
+</td>
+        </tr>
+
+
+
+        <tr>
+            <th>Photo of Land</th>
+            <td>{{ farmer_info_id.photo }}
+</td>
+        <tr>
+            <th>Mobile Phone</th>
+            <td>{{ farmer_info_id.mobile_phone }}</td>
+        </tr>
+
+        <tr>
+            <th><a href="{% url 'table' %}" class="btn btn-secondary">Return</a></th>
+        </tr>
+    </table>
+                    </p>
+
+
+
+       
+ </div>        </div>
+
+<br>
+<br>
+<br> {% endcomment %}
+
+
+
+
+
+
+
+
+
+<div id="landInfoData"></div>
+<div id="editFormContainer"></div>
+
+</table>
+</p>
+</div>
+</div>
+
+
+
+<br>
+<br>
+<br>
+
+
+<script>
+// Open the GCNA database
+let openRequest = indexedDB.open("GCNA");
+
+openRequest.onsuccess = function (event) {
+    let db = event.target.result;
+
+    // Open a transaction to read from the land-info store
+    let transaction = db.transaction("Farmer", "readonly");
+    let landInfoStore = transaction.objectStore("Farmer");
+
+    // Get all records from Farmer store
+    let getAllRequest = landInfoStore.getAll();
+
+    getAllRequest.onsuccess = function (event) {
+        let landInfoRecords = event.target.result;
+
+        // Map landInfoRecords to include delete and edit buttons
+        let landInfoDataDiv = document.getElementById('landInfoData');
+        landInfoRecords.forEach(record => {
+            let entryDiv = document.createElement("div");
+            entryDiv.innerHTML = `
+ 
+<div class="card">
+ 
+    <div class="card-body">
+  
+    </h5>
+      <p class="card-text">
+          <table id="vertical-1" class="table table-hover table-light">
+          <!-- <caption>First Way</caption> -->
+         
+  
+           <tr>
+  
+              <th>Nutmeg ID Number</th>
+              <td>${ record.Nutmeg_ID_No }</td>
+          </tr>
+          <tr>
+              <th>Name</th>
+              <td>${ record.name }</td>
+          </tr>
+          <tr>
+              <th>Age</th>
+              <td>${ record.age }</td>
+          </tr>
+          <tr>
+              <th>Home Phone</th>
+              <td>${ record.home_phone }</td>
+          </tr>
+  
+  
+          <tr>
+              <th>Mobile Phone</th>
+              <td>${ record.mobile_phone }</td>
+          </tr>
+  
+  
+  
+          <tr>
+              <th>Email</th>
+              <td>${ record.email }</td>
+          </tr>
+  
+  
+          <tr>
+            <th><button class="btn btn-danger" onclick="deleteEntry(${record.id})">Delete</button></th>
+            <th><button class="btn btn-primary" onclick="editEntry(${record.id})">Edit</button></th>
+              <th><a href="{% url 'table' %}" class="btn btn-secondary">Return</a></th>
+
+
+          </tr>
+      </table>
+                      </p>
+  
+  
+  
+         
+   </div>        </div>
+  
+  <br>
+  <br>
+  <br> 
+                        `;
+                        landInfoDataDiv.appendChild(entryDiv);
+                        
+                    });
+                };
+            };
+
+            
+            
+// Function to delete a record based on ID
+function deleteEntry(id) {
+    // Open the "GCNA" database
+    let db = indexedDB.open("GCNA");
+
+    db.onsuccess = function (event) {
+        let transaction = event.target.result.transaction("Farmer", "readwrite");
+        let landInfoStore = transaction.objectStore("Farmer");
+
+        // Fetch the record before deleting it
+        let getRequest = landInfoStore.get(id);
+
+        getRequest.onsuccess = function (event) {
+            let deletedRecord = event.target.result;
+
+            // Check if the record exists before proceeding with deletion
+            if (deletedRecord) {
+                // Now, delete the record from the "Farmer" object store
+                let deleteRequest = landInfoStore.delete(id);
+
+                deleteRequest.onsuccess = function () {
+                    console.log(`Record with ID ${id} deleted.`);
+
+                    // Open the "DELETED" database
+                    let db2 = indexedDB.open("DELETED");
+
+                    db2.onsuccess = function (event2) {
+                        console.log("DELETED database opened successfully.");
+
+                        let transaction2 = event2.target.result.transaction("Farmer", "readwrite");
+                        let deletedStore = transaction2.objectStore("Farmer");
+
+                        // Explicitly set the ID of the deleted record
+                        deletedRecord.id = id;
+
+                        // Add the deleted record to the "Farmer" object store in "DELETED" database
+                        let addDeletedRequest = deletedStore.add(deletedRecord);
+
+                        addDeletedRequest.onsuccess = function () {
+                            console.log(`Record with ID ${id} added to DELETED object store.`);
+                            // You might want to refresh your display here.
+                        };
+
+                        addDeletedRequest.onerror = function (event3) {
+                            if (event3.target.error.name === 'ConstraintError') {
+                                console.log(`Record with ID ${id} already exists in DELETED object store.`);
+                            } else {
+                                console.log(`Failed to add record with ID ${id} to DELETED object store.`);
+                            }
+                        };
+                    };
+
+                    db2.onerror = function (event2) {
+                        console.log("Failed to open 'DELETED' database.", event2.target.error);
+                    };
+                };
+
+                deleteRequest.onerror = function () {
+                    console.log(`Failed to delete record with ID ${id}.`);
+                };
+            } else {
+                console.log(`Record with ID ${id} not found.`);
+            }
+        };
+
+        getRequest.onerror = function () {
+            console.log(`Failed to get record with ID ${id} before deleting.`);
+        };
+    };
+
+    db.onerror = function (event) {
+        console.log("Failed to open 'GCNA' database!", event.target.error);
+    };
+}
+
+
+
+    // Function to edit a record based on ID
+    function editEntry(id) {
+        event.preventDefault(); // Prevent form submission and page reload
+
+        // Open the GCNA database
+        let openRequest = indexedDB.open("GCNA");
+
+        openRequest.onsuccess = function (event) {
+            let db = event.target.result;
+
+            // Open a new transaction to read from the Farmer store
+            let transaction = db.transaction("Farmer", "readwrite");
+            let landInfoStore = transaction.objectStore("Farmer");
+
+            // Get the record with the specified ID
+            let getRequest = landInfoStore.get(id);
+
+            getRequest.onsuccess = function (event) {
+                let record = event.target.result;
+
+                // Generate the form fields dynamically based on the record properties
+                let formFieldsHTML = '';
+                for (let property in record) {
+                    if (record.hasOwnProperty(property) && property !== 'id') {
+                        formFieldsHTML += `
+                            <label for="${property}">${property}:</label>
+                            <input type="text" id="${property}" name="${property}" value="${record[property]}"> <br>
+                        `;
+                    }
+                }
+
+                // Create an edit form and populate it with the generated fields
+                const editFormContainer = document.getElementById('editFormContainer');
+                editFormContainer.innerHTML = `
+                    <form id="editForm">
+                        ${formFieldsHTML}
+                        <button type="button" id="saveButton">Save</button>
+                        <button type="button" id="closeButton">Close</button>
+                    </form>
+                `;
+
+                // Add an event listener to the "Save" button to save changes
+                const saveButton = document.getElementById('saveButton');
+                saveButton.addEventListener('click', function () {
+                    // Open a new transaction to update the record
+                    let updateTransaction = db.transaction("Farmer", "readwrite");
+                    let landInfoStoreToUpdate = updateTransaction.objectStore("Farmer");
+
+                    // Update the record with the new data
+                    for (let property in record) {
+                        if (record.hasOwnProperty(property) && property !== 'id') {
+                            record[property] = document.getElementById(property).value;
+                        }
+                    }
+
+                    // Put the updated record back into the store
+                    let putRequest = landInfoStoreToUpdate.put(record);
+
+                    putRequest.onsuccess = function () {
+                        console.log('Record updated successfully');
+                    };
+
+                    putRequest.onerror = function (event) {
+                        console.error('Error updating record:', event.target.error);
+                    };
+
+                    // Complete the transaction
+                    updateTransaction.oncomplete = function () {
+                        console.log('Transaction completed');
+                        // You might want to refresh your display here.
+                    };
+                });
+
+                // Add an event listener to the "Close" button to hide the form
+                const closeButton = document.getElementById('closeButton');
+                closeButton.addEventListener('click', function () {
+                    editFormContainer.innerHTML = ''; // Clear the edit form
+                });
+            };
+
+            getRequest.onerror = function (event) {
+                console.error('Error getting record:', event.target.error);
+            };
+        };
+
+        openRequest.onerror = function (event) {
+            console.error('Error opening database:', event.target.error);
+        };
+    }
+</script>
+
+
+
+
+
+
+{% endblock %}

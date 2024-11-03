@@ -1,0 +1,321 @@
+
+
+{% extends 'gcna/base2.html' %}
+
+
+{% block content%}
+ {% comment %} {% for farmer_info_id in farmer_info_id %}
+
+
+    <form action="" method="POST" enctype="multipart/form-data" style=" background-color: #e4e4e4;
+
+    margin: 1px auto;
+    font-family: Raleway;
+    padding: 10px;
+    width: 85%;
+    min-width: 300px;
+--    box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">
+  
+        {% csrf_token %}
+
+
+<div class="card">
+ 
+  <div class="card-body">
+
+  </h5>
+    <p class="card-text">
+        <table id="vertical-1" class="table table-hover table-light">
+        <!-- <caption>First Way</caption> -->
+       
+
+
+
+
+        <h3>Section 2</h3>
+        <h4>Land Info</h4>
+    {{farmer_info_id.Worker_ID_No}} 
+    {{farmer_info_id.Nutmeg_ID_No}}
+
+
+
+            <tr>
+            <th>Farm Type</th>
+            <td>{{ farmer_info_id.farm_type }}</td>
+        </tr>
+
+
+
+
+            <tr>
+            <th>Parish</th>
+            <td>{{ farmer_info_id.parish }}</td>
+        </tr>
+
+
+
+            <tr>
+            <th>Village</th>
+            <td>{{ farmer_info_id.village }}</td>
+        </tr>
+
+
+
+            <tr>
+            <th>Latitude</th>
+            <td>{{ farmer_info_id.latitude }}</td>
+        </tr>
+
+
+
+            <tr>
+            <th>Longitude</th>
+            <td>{{ farmer_info_id.longitude }}</td>
+        </tr> 
+
+
+
+            <tr>
+            <th>Acreage</th>
+            <td>{{ farmer_info_id.acreage }}</td>
+        </tr>
+
+
+
+            <tr>
+            <th>Insurance Zone</th>
+            <td>{{ farmer_info_id.insurance_zone }}</td>
+        </tr> 
+
+
+
+
+
+            <tr>
+            <th>Land Elevation</th>
+            <td>{{ farmer_info_id.land_elevation }}</td>
+        </tr>
+
+
+
+
+
+            <tr>
+            <th>Soil Type</th>
+            <td>{{ farmer_info_id.soil_type }}</td>
+        </tr>
+
+
+
+
+
+            <tr>
+            <th>Rainfall Pattern</th>
+            <td>{{ farmer_info_id.rainfall_pattern }}</td>
+        </tr>
+
+
+
+
+{% if farmer_info_id.End_Use_Atlantic_Tall and farmer_info_id.End_Use_Dwarf and farmer_info_id.No_of_Bearing_Trees_Atlantic_Tall and farmer_info_id.No_of_Bearing_Trees_Dwarf and farmer_info_id.Estimated_Productiom_Atlantic_Tall and farmer_info_id.Estimated_Productiom_Dwarf  and farmer_info_id.No_of_Non_Bearing_Trees_Atlantic_Tall and farmer_info_id.No_of_Non_Bearing_Trees_Dwarf and farmer_info_id.Presence_of_Disease_Atlantic_Tall and farmer_info_id.Presence_of_Disease_Dwarf and farmer_info_id.Cultivation_Atlantic_Tall and farmer_info_id.Cultivation_Dwarf %}
+
+
+
+
+
+
+<table class="table" >
+
+    <center>
+            <th>What is the intended end use if the Atlantic Tall Tree</th>
+            <td>{{ farmer_info_id.End_Use_Atlantic_Tall }}</td>
+        </tr>
+
+
+
+            <tr>
+            <th>What is the intended end use of the Dwarf Tree</th>
+            <td>{{ farmer_info_id.End_Use_Dwarf }}</td>
+        </tr>
+
+
+                <tr>
+            <th>What is the number of Bearing trees for Atlantic Tall Trees</th>
+            <td>{{ farmer_info_id.No_of_Bearing_Trees_Atlantic_Tall }}</td>
+        </tr>
+
+
+
+
+                <tr>
+            <th>What is the number of Bearing trees for Dwarf Trees</th>
+            <td>{{ farmer_info_id.No_of_Bearing_Trees_Dwarf }}</td>
+        </tr>
+
+
+
+                    <tr>
+            <th>What is the estimated production of Atlantic Tall Trees</th>
+            <td>{{ farmer_info_id.Estimated_Productiom_Atlantic_Tall }}</td>
+        </tr>
+
+
+
+
+                <tr>
+            <th>What is the estimated production of Dwarf Trees</th>
+            <td>{{ farmer_info_id.Estimated_Productiom_Dwarf }}</td>
+        </tr>
+
+
+
+
+                    <tr>
+            <th>'What is the number of Non-Bearing trees for Atlantic Tall Trees</th>
+            <td>{{ farmer_info_id.No_of_Non_Bearing_Trees_Atlantic_Tall }}</td>
+        </tr>
+
+
+
+
+                <tr>
+            <th>What is the number of Non-Bearing Dwarf Trees</th>
+            <td>{{ farmer_info_id.No_of_Non_Bearing_Trees_Dwarf }}</td>
+        </tr>
+
+
+                    <tr>
+            <th>What is the state disease for Atlantic Tall Trees</th>
+            <td>{{ farmer_info_id.Presence_of_Disease_Atlantic_Tall }}</td>
+        </tr>
+
+
+
+
+                <tr>
+            <th>What is the state disease for Dwarf Trees</th>
+            <td>{{ farmer_info_id.Presence_of_Disease_Dwarf }}</td>
+        </tr>
+
+                    <tr>
+            <th>What is the state of the Atlantic Tall Tree cultivation</th>
+            <td>{{ farmer_info_id.Cultivation_Atlantic_Tall }}</td>
+        </tr>
+ 
+
+
+                <tr>
+            <th>What is the state of the Dwarf Tree cultivation</th>
+            <td>{{ farmer_info_idfarmer_info_id.Cultivation_Dwarf }}</td>
+        </tr>
+</table>
+
+{% else %}
+
+ <td> </td>
+
+ {% endif %}
+
+
+
+
+
+
+
+{% if farmer_info_id.Mature_trees_25_years_quantity and farmer_info_id.Mature_trees_25_years_estimated_production and farmer_info_id.Bearing_trees_16_24_years_quantity and farmer_info_id.Bearing_trees_16_24_years and farmer_info_id.Bearing_trees_6_15_years_quantity and farmer_info_id.Bearing_trees_6_15_years_estimated_production and farmer_info_id.Non_Bearing_trees_5_years_quantity and farmer_info_id.Non_Bearing_trees_5_years_estimated_production and farmer_info_id.Estimated_peak_period %}
+
+<table class="table">
+
+    <center>
+            <th>Number of Mature trees older than 25 years</th>
+            <td>{{ farmer_info_id.Mature_trees_25_years_quantity }}</td>
+        </tr>
+
+
+
+            <tr>
+            <th>Estimated production for Mature older than 25 years</th>
+            <td>{{ farmer_info_id.Mature_trees_25_years_estimated_production }}</td>
+        </tr>
+
+
+                <tr>
+         <th>Number of Bearing trees between 16 to 24</th>
+
+            <td>{{ farmer_info_id.Bearing_trees_16_24_years_quantity }}</td>
+        </tr>
+
+
+
+
+                <tr>
+            <th>Number of Bearing trees between 16 to 24</th>
+            <td>{{ farmer_info_id.Bearing_trees_16_24_years }}</td>
+        </tr>
+
+
+
+                    <tr>
+            <th>Estimated production Bearing trees between 6 to 15</th>
+            <td>{{ farmer_info_id.Bearing_trees_6_15_years_quantity }}</td>
+        </tr>
+
+
+
+
+                <tr>
+            <th>Number of Bearing trees between 6 to 15</th>
+            <td>{{ farmer_info_id.Bearing_trees_6_15_years_estimated_production }}</td>
+        </tr>
+
+
+
+
+                    <tr>
+            <th>Number of Non-Bearing trees younger than 5 years</th>
+            <td>{{ farmer_info_id.Non_Bearing_trees_5_years_quantity }}</td>
+        </tr>
+
+
+
+
+                <tr>
+            <th>Estimated production for Non-bearing trees younger than 5 years</th>
+            <td>{{ farmer_info_id.Non_Bearing_trees_5_years_estimated_production }}</td>
+        </tr>
+
+
+                    <tr>
+            <th>What is the estimated peak period?</th>
+            <td>{{ farmer_info_id.Estimated_peak_period }}</td>
+        </tr>
+
+{% else %}
+
+ <td> </td>
+
+ {% endif %}
+</table>
+
+
+        <tr>
+            <th><a href="{% url 'table' %}" class="btn btn-secondary">Return</a></th>
+        </tr>
+    </table>
+                    </p>
+
+
+
+       
+ </div>        </div>
+
+<br>
+<br>
+<br>
+{% endfor %} {% endcomment %}
+
+
+
+
+
+{% endblock %}

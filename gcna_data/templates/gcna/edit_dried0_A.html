@@ -1,0 +1,19 @@
+{% extends 'gcna/base.html' %}
+
+{% block content %}
+    <h1>Edit Dried A</h1>
+    <form method="POST" style=" background-color: #e4e4e4;
+
+    margin: 1px auto;
+    font-family: Raleway;
+    padding: 10px;
+    width: 55%;
+    min-width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a href="{% url 'table' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+{% endblock %}

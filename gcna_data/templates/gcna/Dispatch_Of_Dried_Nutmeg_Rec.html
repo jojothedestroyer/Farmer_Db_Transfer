@@ -1,0 +1,1425 @@
+{% extends 'gcna/base2.html' %}
+
+{% block content%}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+$(document).ready(function() {
+  $('.hidden-label1').hide();
+  $('.hidden-label2').hide();
+  $('.hidden-label3').hide();
+  $('.hidden-label4').hide();
+  $('.hidden-label5').hide();
+
+
+
+
+
+  $('#form_LoTableG1_0').hide(); 
+  $('#form_LoTableG2_0').hide(); 
+  $('#form_LoTableG3_0').hide(); 
+  $('#form_LoTableG4_0').hide(); 
+
+
+
+
+  $('#form_LoTableH1_0').hide(); 
+  $('#form_LoTableH2_0').hide(); 
+  $('#form_LoTableH3_0').hide(); 
+  $('#form_LoTableH4_0').hide(); 
+
+  $('#form_LoTableM1_0').hide(); 
+  $('#form_LoTableM2_0').hide(); 
+  $('#form_LoTableM3_0').hide(); 
+  $('#form_LoTableM4_0').hide(); 
+
+
+  $('#form_LoTableU1_0').hide(); 
+  $('#form_LoTableU2_0').hide(); 
+  $('#form_LoTableU3_0').hide(); 
+  $('#form_LoTableU4_0').hide(); 
+
+
+  $('#form_LoTableGP1_0').hide(); 
+  $('#form_LoTableGP2_0').hide(); 
+  $('#form_LoTableGP3_0').hide(); 
+  $('#form_LoTableGP4_0').hide(); 
+
+
+
+
+
+
+
+  $('#form_LoTableG1').hide(); 
+  $('#form_LoTableG2').hide(); 
+  $('#form_LoTableG3').hide(); 
+  $('#form_LoTableG4').hide(); 
+
+
+
+
+  $('#form_LoTableH1').hide(); 
+  $('#form_LoTableH2').hide(); 
+  $('#form_LoTableH3').hide(); 
+  $('#form_LoTableH4').hide(); 
+
+  $('#form_LoTableM1').hide(); 
+  $('#form_LoTableM2').hide(); 
+  $('#form_LoTableM3').hide(); 
+  $('#form_LoTableM4').hide(); 
+
+
+  $('#form_LoTableU1').hide(); 
+  $('#form_LoTableU2').hide(); 
+  $('#form_LoTableU3').hide(); 
+  $('#form_LoTableU4').hide(); 
+
+
+  $('#form_LoTableGP1').hide(); 
+  $('#form_LoTableGP2').hide(); 
+  $('#form_LoTableGP3').hide(); 
+  $('#form_LoTableGP4').hide(); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  $('#TableG1').hide(); 
+  $('#TableG2').hide(); 
+  $('#TableG3').hide(); 
+
+
+
+
+  $('#TableH1').hide(); 
+  $('#TableH2').hide(); 
+  $('#TableH3').hide(); 
+
+  $('#TableM1').hide(); 
+  $('#TableM2').hide(); 
+  $('#TableM3').hide(); 
+
+
+  $('#TableU1').hide(); 
+  $('#TableU2').hide(); 
+  $('#TableU3').hide(); 
+
+
+  $('#TableGP1').hide(); 
+  $('#TableGP2').hide(); 
+  $('#TableGP3').hide(); 
+
+
+    
+    
+
+
+  
+  $('#id_STATION').on('change', function() {
+    if ($(this).val() == 'G') {
+        $('#form_LoTableG1').show();
+        $('#form_LoTableG2').show(); 
+        $('#form_LoTableG3').show(); 
+        $('#form_LoTableG4').show(); 
+
+        $('#form_LoTableG1_0').show();
+        $('#form_LoTableG2_0').show(); 
+        $('#form_LoTableG3_0').show(); 
+        $('#form_LoTableG4_0').show(); 
+       
+        $('.hidden-label1').show();
+
+
+        $('#TableG1').show(); 
+        $('#TableG2').show(); 
+        $('#TableG3').show(); 
+        $('#id_STATION2').val("Grenville");
+
+
+
+    } else {
+        $('#form_LoTableG1').hide();
+        $('#form_LoTableG2').hide(); 
+        $('#form_LoTableG3').hide(); 
+        $('#form_LoTableG4').hide()
+
+        $('#form_LoTableG1_0').hide();
+        $('#form_LoTableG2_0').hide(); 
+        $('#form_LoTableG3_0').hide(); 
+        $('#form_LoTableG4_0').hide(); 
+        $('.hidden-label1').hide();
+
+
+
+        $('#TableG1').hide(); 
+        $('#TableG2').hide(); 
+        $('#TableG3').hide(); 
+
+
+
+    }
+
+
+
+  
+
+
+
+    if ($(this).val() == 'H') {
+        $('#form_LoTableH1').show();
+        $('#form_LoTableH2').show(); 
+        $('#form_LoTableH3').show(); 
+        $('#form_LoTableH4').show(); 
+
+
+        $('#form_LoTableH1_0').show();
+        $('#form_LoTableH2_0').show(); 
+        $('#form_LoTableH3_0').show(); 
+        $('#form_LoTableH4_0').show(); 
+
+        $('.hidden-label2').show();
+
+
+
+        $('#TableH1').show();
+        $('#TableH2').show(); 
+        $('#TableH3').show(); 
+        $('#id_STATION2').val("Hermitage");
+
+
+    } else {
+        $('#form_LoTableH1').hide();
+        $('#form_LoTableH2').hide(); 
+        $('#form_LoTableH3').hide(); 
+        $('#form_LoTableH4').hide();
+
+
+        $('#form_LoTableH1_0').hide();
+        $('#form_LoTableH2_0').hide(); 
+        $('#form_LoTableH3_0').hide(); 
+        $('#form_LoTableH4_0').hide();
+        $('.hidden-label2').hide();
+
+
+
+
+        $('#TableH1').hide();
+        $('#TableH2').hide(); 
+        $('#TableH3').hide(); 
+    }
+
+
+
+  
+    if ($(this).val() == 'M') {
+        $('#form_LoTableM1').show();
+        $('#form_LoTableM2').show(); 
+        $('#form_LoTableM3').show(); 
+        $('#form_LoTableM4').show(); 
+
+        $('#form_LoTableM1_0').show();
+        $('#form_LoTableM2_0').show(); 
+        $('#form_LoTableM3_0').show(); 
+        $('#form_LoTableM4_0').show(); 
+
+        $('.hidden-label3').show();
+
+        $('#id_STATION2').val("Marli");
+
+        $('#TableM1').show();
+        $('#TableM2').show(); 
+        $('#TableM3').show(); 
+
+    } else {
+        $('#form_LoTableM1').hide();
+        $('#form_LoTableM2').hide(); 
+        $('#form_LoTableM3').hide(); 
+        $('#form_LoTableM4').hide(); 
+
+
+        $('#form_LoTableM1_0').hide();
+        $('#form_LoTableM2_0').hide(); 
+        $('#form_LoTableM3_0').hide(); 
+        $('#form_LoTableM4_0').hide();
+
+        $('.hidden-label3').hide();
+
+   
+
+        $('#TableM1').hide();
+        $('#TableM2').hide(); 
+        $('#TableM3').hide(); 
+
+
+    }
+
+
+
+    if ($(this).val() == 'U') {
+        $('#form_LoTableU1').show();
+        $('#form_LoTableU2').show(); 
+        $('#form_LoTableU3').show(); 
+        $('#form_LoTableU4').show(); 
+
+
+        $('#form_LoTableU1_0').show();
+        $('#form_LoTableU2_0').show(); 
+        $('#form_LoTableU3_0').show(); 
+        $('#form_LoTableU4_0').show(); 
+
+
+        $('.hidden-label4').show();
+
+        $('#id_STATION2').val("Union");
+        $('#TableU1').show();
+        $('#TableU2').show(); 
+        $('#TableU3').show(); 
+
+    } else {
+        $('#form_LoTableU1').hide();
+        $('#form_LoTableU2').hide(); 
+        $('#form_LoTableU3').hide(); 
+        $('#form_LoTableU4').hide();
+
+
+        $('#form_LoTableU1_0').hide();
+        $('#form_LoTableU2_0').hide(); 
+        $('#form_LoTableU3_0').hide(); 
+        $('#form_LoTableU4_0').hide();
+
+        $('.hidden-label4').hide();
+
+        $('#TableU1').hide();
+        $('#TableU2').hide(); 
+        $('#TableU3').hide();
+
+    }
+
+
+
+  
+
+
+    if ($(this).val() == 'GP') {
+        $('#form_LoTableGP1').show();
+        $('#form_LoTableGP2').show(); 
+        $('#form_LoTableGP3').show(); 
+        $('#form_LoTableGP4').show(); 
+
+
+        $('#form_LoTableGP1_0').show();
+        $('#form_LoTableGP2_0').show(); 
+        $('#form_LoTableGP3_0').show(); 
+        $('#form_LoTableGP4_0').show(); 
+
+
+        $('#id_STATION2').val("Gouyave");
+        $('.hidden-label5').show();
+
+
+
+
+        $('#TableGP1').show();
+        $('#TableGP2').show(); 
+        $('#TableGP3').show(); 
+
+    } else {
+        $('#form_LoTableGP1').hide();
+        $('#form_LoTableGP2').hide(); 
+        $('#form_LoTableGP3').hide(); 
+        $('#form_LoTableGP4').hide();
+
+
+
+        $('#form_LoTableGP1_0').hide();
+        $('#form_LoTableGP2_0').hide(); 
+        $('#form_LoTableGP3_0').hide(); 
+        $('#form_LoTableGP4_0').hide();
+
+        $('.hidden-label5').hide();
+ 
+
+
+        $('#TableGP1').hide();
+        $('#TableGP2').hide(); 
+        $('#TableGP3').hide(); 
+
+ 
+    }
+
+
+
+
+  
+
+
+  
+
+});
+
+
+
+ $('#id_STATION,#id_DATE_OF_PICK_UP').on('change', function() {
+    var startDate = new String($('#id_STATION').val());
+    var second = new Date($('#id_DATE_OF_PICK_UP').val());
+
+
+
+    var day = ("0" + second.getDate()).slice(-2); 
+
+    var month = ("0" + (second.getMonth() + 1)).slice(-2);
+
+    var year = second.getFullYear();
+
+    var formattedDate = year + month + day;
+
+
+    var last =startDate +  + formattedDate;
+
+    $('#id_BATCH_NUMBER').val(last); 
+
+  });
+
+});
+
+
+
+
+
+
+
+
+
+</script>
+
+<!-- Dispatched dried Greens and Mace
+Also Vehicles connect for this honestly not a long period mayber an hour or two saturday mornuning -->
+
+ 
+  
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var myForm = document.getElementById('myForm');
+    
+        myForm.addEventListener('submit', function(event) {
+  
+            event.preventDefault();
+            var data = new FormData(event.target);
+            saveDataToIndexedDB(data);
+        });
+    
+        function saveDataToIndexedDB(data) {
+    // Exclude csrfmiddlewaretoken from being saved to IndexedDB
+    data.delete('csrfmiddlewaretoken');
+  
+    var request = indexedDB.open('GCNA', 2);
+  
+    request.onsuccess = function(event) {
+        var db = event.target.result;
+        var transaction = db.transaction('Dispatch_Of_Dried_Nutmeg_Rec', 'readwrite');
+        var objectStore = transaction.objectStore('Dispatch_Of_Dried_Nutmeg_Rec');
+  
+        var obj = {};
+        for (var pair of data.entries()) {
+            obj[pair[0]] = pair[1];
+        }
+  
+        // Get the highest id in the object store
+        var highestIdRequest = objectStore.openCursor(null, 'prev');
+        highestIdRequest.onsuccess = function(event) {
+            var cursor = event.target.result;
+            if (cursor) {
+                obj.id = cursor.key + 1;
+            } else {
+                obj.id = 1; // This is the first item
+            }
+  
+            var request = objectStore.put(obj);
+  
+            request.onsuccess = function() {
+                console.log('Data added to IndexedDB');
+                transferIndexedDBData(); // Transfer data to Django after saving to IndexedDB
+            };
+  
+            request.onerror = function() {
+                console.error('Error adding data to IndexedDB');
+            };
+        };
+    };
+  
+    request.onerror = function(event) {
+        console.error('Error opening IndexedDB', event);
+    };
+  }
+        function transferIndexedDBData() {
+            var request = indexedDB.open('GCNA', 2);
+        
+            request.onsuccess = function(event) {
+                var db = event.target.result;
+                var transaction = db.transaction('Dispatch_Of_Dried_Nutmeg_Rec', 'readonly');
+                var objectStore = transaction.objectStore('Dispatch_Of_Dried_Nutmeg_Rec');
+                var getRequest = objectStore.getAll();
+        
+                getRequest.onsuccess = function(event) {
+                    var data = event.target.result;
+                    data.forEach(function(item) {
+                        // sendDataToDjango(item);
+                      });
+                    window.location.reload();
+
+                };
+            };
+        
+            request.onerror = function(event) {
+                console.error('Error opening IndexedDB', event);
+            };
+        }
+    
+        function sendDataToDjango(item) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/check-and-add/', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        console.log('Entry added successfully.');
+                    } else {
+                        console.error('Error adding entry:', xhr.statusText);
+                    }
+                }
+            };
+            xhr.send(JSON.stringify(item));
+        }
+    });
+  </script>
+  
+  <script>
+
+
+    var request = indexedDB.open('Signin', 1);
+   
+    request.onsuccess = function(event) {
+        var db = event.target.result;
+        var transaction = db.transaction('verify', 'readonly');
+        var store = transaction.objectStore('verify');
+        var getRequest = store.get(1); // Assuming you want to get the first entry
+   
+        getRequest.onsuccess = function(event) {
+            var data = event.target.result;
+            if (data) {
+                // Set the values in the form
+                document.querySelector('[name="Worker_ID_No"]').value = data.Worker_ID_No;
+                document.querySelector('[name="Worker_ID_Name"]').value = data.Name;
+            }
+        };
+    };
+   </script>
+  
+<script>
+
+$('#id_NUM_OF_BAGS').on('change', function() {
+    var start =  $('#id_NUM_OF_BAGS').val();
+    var calc = start * 110; 
+    $('#id_TOTAL_LBS_NUTMEG_BOUGHT').val(calc);
+      });
+</script>
+  <style>
+    .menu {
+      display: flex;
+      list-style: none;
+      padding: 0;
+    }
+  
+    .menu li {
+      margin-right: 20px;
+    }
+  
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+  
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f9f9f9;
+      min-width: 160px;
+      z-index: 1;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+  
+    .dropdown-content.show {
+      display: block;
+      opacity: 1;
+    }
+  
+    .dropdown-content .container {
+      padding: 15px;
+    }
+  
+    .dropdown button {
+      cursor: pointer;
+    }
+
+    .entryCheck{
+      display: none;
+    }
+  </style>
+	<center>
+<br>
+	{% if submitted %}
+		Entry successfully added to database!!!
+	{% else %}
+
+<!--Make the rec pages, mace , vehicle and the other major nutmeg forms visbile(add a view page), Make sure the pages are functional
+-->
+
+
+
+<!-- Implement previous entry traceability Also place internal checks so that entries do not overwhelm user . 
+  Edit so the added froms actually create new feilds(think the shelves) so that multiple entries can be contained in the form-->
+
+		<form action="" method="POST" id="myForm"  enctype="multipart/form-data" style=" background-color: #e4e4e4;
+
+    margin: 1px auto;
+    font-family: Raleway;
+    padding: 10px;
+    width: 55%;
+    min-width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);
+    ">
+
+
+
+  <h6>Document No. GCNA-GMP</h6>
+<h6>Document Title:  </h6>
+<h6>Date Issued:  </h6>
+<h6>Version:  </h6>
+
+
+    <h1>Dispatched Dried Nutmeg Recieved</h1>
+ 
+		{% csrf_token %}
+
+        <table id="vertical-1" class="table table-hover table-light">
+        <!-- <caption>First Way</caption> -->
+       
+
+        <!-- auto set date -->
+
+
+        <tr>
+            <th>Date</th>
+            <td>{{ form.Date }}</td>
+        </tr> 
+  
+
+
+        <tr>
+          <th>Station From</th>
+          <td>{{ form.Station }}</td>
+      </tr> 
+
+    
+
+      <tr>
+        <th>Station Recieved</th>
+        <td>{{ form.Station_rec }}</td>
+    </tr> 
+
+       <tr>
+        <th>Vehicle Number</th>
+        <td>{{ form.Vehicle_number }}</td>
+
+    </tr>  
+
+    
+    
+       <tr>
+        <th>Batch Codes</th>
+        <td>{{ form.BatchCode }}</td>
+
+
+            </tr>
+
+
+        <tr>
+          <th>Delivery Advice Number</th>
+          <td>{{ form.Delivery_advice_num }}</td>
+      </tr>
+
+
+      
+      
+      <tr>
+        <th>Product</th>
+        <td>{{ form.Product }}</td>
+    </tr>
+
+
+
+    
+    <tr>
+      <th>Number of Bags</th>
+      <td>{{ form.Num_Bags }}</td>
+  </tr>
+
+
+
+  
+  <tr>
+    <th>Weight</th>
+    <td>{{ form.Weight }}</td>
+</tr>
+      
+
+
+
+
+<tr>
+    <center><th>Confirmation Fields</th></center>
+</tr>
+
+
+
+      
+<tr>
+    <th>Product</th>
+    <td>{{ form.conf_Product }}</td>
+</tr>
+
+
+
+
+<tr>
+  <th>Number of Bags</th>
+  <td>{{ form.conf_Num_Bags }}</td>
+</tr>
+
+
+
+
+<tr>
+<th>Weight</th>
+<td>{{ form.conf_Weight }}</td>
+</tr>
+  
+
+        <table id="vertical-1" class="table table-hover table-light">
+
+
+              <div style="display: none;">
+
+                <td id="newentryCheck" style="display: none;">${record.entryCheck}</td>
+                </div>
+                <div id="landInfoData2"></div>
+                
+                
+                
+                
+                </table>
+                
+                <table>
+                  <div style="display: none;">
+
+                <td id="newentryCheck1" style="display: none;">${record.entryCheck}</td>
+              </div>
+
+                <div id="landInfoData3"></div>
+                
+                
+                
+                </table>
+                
+                <input type="submit"  value="submit" class="btn btn-success">
+
+                
+                
+
+
+  <ul class="menu">
+    <li class="dropdown">
+      <button type="button" onclick="toggleDropdown()">Dispatched Dried Nutmeg List</button>
+      <div class="dropdown-content" id="myDropdown">
+        <div class="container">
+        </div>
+        <div id="landInfoData"></div>
+      </div>
+    </li>
+  </ul>
+</td>
+        </tr>
+   
+   
+
+   
+
+    </table>
+
+
+	
+
+
+
+		</form>
+  
+    <script>
+      function toggleDropdown() {
+        var dropdownContent = document.getElementById("myDropdown");
+        dropdownContent.classList.toggle("show");
+      }
+      </script>
+
+
+
+
+	{% endif %}
+
+
+
+    
+  <script>// Function to populate the select element with options
+    function populateSelect() {
+        var request = indexedDB.open('GCNA', 2);
+    
+        request.onerror = function(event) {
+            console.error("IndexedDB error:", event.target.error);
+        };
+    
+        request.onsuccess = function(event) {
+            var db = event.target.result;
+            var selectDiv = document.getElementById('selectContainer'); // ID of the div where select will be added
+    
+            // Create select element with form-control class
+            var select = document.createElement('select');
+            select.id = 'vehicleSelect';
+            select.classList.add('form-control'); // Add form-control class
+    
+            // Clear previous options
+            select.innerHTML = '';
+    
+            var vehicleNumbers = [];
+    
+            // Open a new transaction for object store
+            var transaction = db.transaction('Vehicle_Inspection', 'readonly');
+            var objectStore = transaction.objectStore('Vehicle_Inspection');
+    
+            transaction.oncomplete = function() {
+                // Append select to the div
+                selectDiv.appendChild(select);
+            };
+    
+            objectStore.openCursor().onsuccess = function(event) {
+                var cursor = event.target.result;
+                if (cursor) {
+                    var vehicleNumber = cursor.value.Vehicle_number;
+                    if (!vehicleNumbers.includes(vehicleNumber)) {
+                        vehicleNumbers.push(vehicleNumber);
+                        var option = document.createElement('option');
+                        option.textContent = vehicleNumber;
+                        option.value = vehicleNumber;
+                        select.appendChild(option);
+                    }
+                    cursor.continue();
+                }
+            };
+        };
+    }
+    
+    // Function to trigger the populateSelect function after a delay
+    // function triggerPopulateSelectWithDelay() {
+    //     setTimeout(populateSelect, 5000); // 5000 milliseconds = 5 seconds
+    // }
+    
+    // Call the trigger function when the page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      populateSelect();
+    });
+    
+    </script>
+	</center>
+  <script>
+    let openRequest = indexedDB.open("GCNA");
+    let fieldBlacklist = [];
+    const fieldBlacklistConfig = {
+      DATE_OF_SAMPLING: true, // Set to true to blacklist if null or empty
+      DECISION: true,
+      Quantity_of_Bags: true,
+      // Add more fields as needed
+    };
+  
+    openRequest.onsuccess = function(event) {
+    let db = event.target.result;
+    let transaction = db.transaction("Dispatch-Of-Dried-Nutmeg", "readonly");
+    let landInfoStore = transaction.objectStore("Dispatch-Of-Dried-Nutmeg");
+    let getAllRequest = landInfoStore.getAll();
+
+    getAllRequest.onsuccess = function(event) {
+      let landInfoRecords = event.target.result;
+      let landInfoDataDiv = document.getElementById("landInfoData");
+
+      landInfoRecords.forEach((record) => {
+    let entryContainer = document.createElement("div");
+    entryContainer.id = `entryContainer_${record.id}`;
+    entryContainer.classList.add("entryContainer"); // Add the class for initial hiding
+    let entryCheckTd=record.id
+
+    let dropdownContent = `
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton_${record.id}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Entry: ${record.id}      
+        </button>
+        <input type="checkbox" id="valueChange_${record.Control_number}">
+        <button type="button" class="add-row" onclick="fill_table('${entryCheckTd}')">[+]</button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton_${record.id}">
+            <form>
+                <table class="table table-hover table-light">
+
+                    <tr>
+                        <th>Station  to</th>
+                        <td>${record.STATION}</td>
+                    </tr>  
+                    <tr>
+                        <th>Vehicle Number</th>
+                        <td>${record.Vehicle_number}</td>
+                    </tr>  
+                    <tr>
+                        <th>Batch Codes</th>
+                        <td>${record.BATCH_CODES}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Delivery Advice Number</th>
+                        <td>${record.CORRESPONDING_DELIVERY_ADVICE}</td>
+
+
+
+                    <tr>
+                        <th>Product</th>
+                        <td>${record.Product}</td>
+                    </tr>
+
+
+
+                    
+                    <tr>
+                    <th>Number of Bags</th>
+                    <td>${record.Num_Bags}</td>
+                </tr>
+
+
+
+                
+                <tr>
+                    <th>Weight</th>
+                    <td>${record.Weight}</td>
+                </tr>
+                    
+
+
+
+
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>`;
+entryContainer.innerHTML = dropdownContent;
+
+                landInfoDataDiv.appendChild(entryContainer);
+                let setButton = entryContainer.querySelector(`#valueChange_${record.Control_number}`);
+
+                setButton.addEventListener('click', function() {
+    // Create a div container for the form
+    let formContainer = document.createElement('div');
+    formContainer.classList.add('form-container');
+
+    // Create the table element
+    let table = document.createElement('table');
+
+    // Create table header
+    let thead = document.createElement('thead');
+    let headerRow = document.createElement('tr');
+    let shelfHeader = document.createElement('th');
+    shelfHeader.textContent = 'Shelf';
+    let trayHeader = document.createElement('th');
+    trayHeader.textContent = 'Tray';
+    let sectionHeader = document.createElement('th');
+    sectionHeader.textContent = 'Section';
+    let stationHeader = document.createElement('th');
+    stationHeader.textContent = 'Station';
+    headerRow.appendChild(shelfHeader);
+    headerRow.appendChild(trayHeader);
+    headerRow.appendChild(sectionHeader);
+    headerRow.appendChild(stationHeader);
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+    // Create table body
+    let tbody = document.createElement('tbody');
+    let dataRow = document.createElement('tr');
+
+    let createCell = (fieldName, recordField) => {
+    let value = record[recordField];
+    if (value !== undefined && value.trim() !== '') {
+        let cell = document.createElement('td');
+        let input = document.createElement('input');
+        input.type = 'text';
+        input.name = fieldName;
+        input.value = value;
+        cell.appendChild(input);
+        return cell;
+    }
+    return null;
+};
+let createInputFields = (prefix) => {
+    let shelfCell = createCell(`${prefix}Shelf`, `Shelf${prefix}`);
+    let trayCell = createCell(`${prefix}Tray`, `Tray${prefix}`);
+    let sectionCell = createCell(`${prefix}Section`, `Section${prefix}`);
+    let stationCell = createCell(`STATION`, `STATION`);
+    let moistureCell = createCell(`${prefix}`, `${prefix}`); // New line for moisture field
+
+    if (shelfCell && trayCell && sectionCell && stationCell ) {
+        dataRow.appendChild(shelfCell);
+        dataRow.appendChild(trayCell);
+        dataRow.appendChild(sectionCell);
+        dataRow.appendChild(stationCell);
+        if(moistureCell){dataRow.appendChild();}else{console.log('Can not find it')}
+        // Append the moisture cell if it exists
+    }
+};
+
+// Call the function to create input fields for each set of drying fields
+createInputFields('STATION');
+createInputFields('G_0_GF');
+createInputFields('G_0_1F');
+createInputFields('G_0_2F');
+createInputFields('G_0_FL');
+createInputFields('H_0_GF');
+createInputFields('H_0_1F');
+createInputFields('H_0_2F');
+createInputFields('H_0_FL');
+createInputFields('M_0_GF');
+createInputFields('M_0_1F');
+createInputFields('M_0_2F');
+createInputFields('M_0_FL');
+createInputFields('U_0_GF');
+createInputFields('U_0_1F');
+createInputFields('U_0_2F');
+createInputFields('U_0_FL');
+createInputFields('GP_0_GF');
+createInputFields('GP_0_1F');
+createInputFields('GP_0_2F');
+createInputFields('GP_0_FL');
+
+// Call the function to create input fields for each moisture field
+createInputFields('MoistureG_GF');
+createInputFields('MoistureG_1F');
+createInputFields('MoistureG_2F');
+createInputFields('MoistureG_FL');
+createInputFields('MoistureH_GF');
+createInputFields('MoistureH_1F');
+createInputFields('MoistureH_2F');
+createInputFields('MoistureH_FL');
+createInputFields('MoistureM_GF');
+createInputFields('MoistureM_1F');
+createInputFields('MoistureM_2F');
+createInputFields('MoistureM_FL');
+createInputFields('MoistureU_GF');
+createInputFields('MoistureU_1F');
+createInputFields('MoistureU_2F');
+createInputFields('MoistureU_FL');
+createInputFields('MoistureGP_GF');
+createInputFields('MoistureGP_1F');
+createInputFields('MoistureGP_2F');
+createInputFields('MoistureGP_FL');
+
+
+    if (dataRow.children.length > 0) {
+        tbody.appendChild(dataRow);
+        table.appendChild(tbody);
+
+        // Append the table to the form container
+        formContainer.appendChild(table);
+
+        // Append the form container to the div with id "FormStore"
+        document.getElementById('FormStore').appendChild(formContainer);
+    }
+});
+
+
+
+
+
+
+
+
+            });
+        };
+    };
+</script>
+
+
+       <script>
+        var formCount = 0;
+        var generatedFormIdsM = {}; // Object to keep track of generated form IDs for each entryTd for M_Shelves
+    
+        function fill_table(entryCheckTd) {
+            let openRequest3 = indexedDB.open("GCNA");
+            console.log(entryCheckTd);
+            openRequest3.onsuccess = function(event) {
+                let db = event.target.result;
+                let transaction = db.transaction("Dispatch-Of-Dried-Nutmeg", "readwrite");
+                let landInfoStore = transaction.objectStore("Dispatch-Of-Dried-Nutmeg");
+                let getAllRequest = landInfoStore.getAll();
+    
+                getAllRequest.onsuccess = function(event) {
+                    let landInfoRecords = event.target.result;
+                    let tables = document.querySelectorAll("table");
+    
+                    tables.forEach((table) => {
+                        landInfoRecords.forEach((record) => {
+                            console.log('PRRRRRIIIINNNT')
+                                // Check if generatedFormIdsM has entry for this entryTd
+
+                                // Check if the form ID is already generated for this entryTd
+
+                                    let entryContainer = document.createElement("div");
+                                    entryContainer.className = "entry-container";
+                                    entryContainer.dataset.formId = record.entry;
+    
+                                    formCount++;
+                                    var form = document.createElement('form');
+                                    form.className = 'form-container';
+                                    batchnum = record.BATCH_CODES;
+                                    station = record.STATION;
+                                    vehicle = record.Vehicle_number;
+                                    dpu = record.DATE_OF_PICK_UP;
+                                    fmc = record.FINAL_MOISTURE_CONTENT;
+                                    del = record.CORRESPONDING_DELIVERY_ADVICE;
+                                    Product=record.Product
+                                    Num_Bags=record.Num_Bags
+                                    Weight=record.Weight
+                                    form.id = `form_${formCount}`;
+                                    form.innerHTML = `
+                                         <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton_${record.id}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Entry: ${record.id}      
+        </button>
+        <input type="checkbox" id="valueChange_${record.Control_number}">
+        <button type="button" class="add-row" onclick="fill_table('${entryCheckTd}')">[+]</button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton_${record.id}">
+            <form>
+                <table class="table table-hover table-light">
+
+                    <tr>
+                        <th>Station  to</th>
+                        <td>${record.STATION}</td>
+                    </tr>  
+                    <tr>
+                        <th>Vehicle Number</th>
+                        <td>${record.Vehicle_number}</td>
+                    </tr>  
+                    <tr>
+                        <th>Batch Codes</th>
+                        <td>${record.BATCH_CODES}</td>
+                    </tr>
+                    <tr>
+                        <th>Date of Pick up</th>
+                        <td>${record.DATE_OF_PICK_UP}</td>
+                    </tr> 
+                    <tr>
+                        <th>Final Moisture Content</th>
+                        <td>${record.FINAL_MOISTURE_CONTENT}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Delivery Advice Number</th>
+                        <td>${record.CORRESPONDING_DELIVERY_ADVICE}</td>
+
+
+
+
+                    <tr>
+                        <th>Product</th>
+                        <td>${record.Product}</td>
+                    </tr>
+
+
+
+                    
+                    <tr>
+                    <th>Number of Bags</th>
+                    <td>${record.Num_Bags}</td>
+                </tr>
+
+
+
+                
+                <tr>
+                    <th>Weight</th>
+                    <td>${record.Weight}</td>
+                </tr>
+                    
+
+
+
+
+
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>`;
+    
+                                    set_valuecode(batchnum,station,vehicle,dpu,fmc,del,Product,Num_Bags,Weight);
+
+                            
+                        });
+                    });
+                };
+            };
+        }
+    
+        function closeForm(formContainer) {
+    formContainer.closest('.entry-container').remove(); // Remove the parent entry-container
+}
+    </script>
+        
+        
+        
+     
+      </script>
+      
+        
+              <script>
+function  set_valuecode(batchnum,station,vehicle,dpu,fmc,del) {
+
+    document.querySelector('[name="BatchCode"]').value = batchnum ;
+    document.querySelector('[name="Station"]').value = station ;
+    document.querySelector('[name="Vehicle_number"]').value = vehicle ;
+    document.querySelector('[name="Delivery_advice_num"]').value = del ;
+    
+
+
+    document.querySelector('[name="Product"]').value = Product ;
+    document.querySelector('[name="Num_Bags"]').value = Num_Bags ;
+    document.querySelector('[name="Weight"]').value = Weight ;
+
+}
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+<script>
+function M_submitForm_dried(tableId, mainFormId, formNumber) {
+    var formId = `form_${formNumber}`;
+    var form = document.getElementById(formId);
+    
+    if (form) {
+        var formData = new FormData(form);
+        
+        var entryCheckValue = formData.get('entryCheck');
+
+        // Set entryValue to entryCheckValue
+        var entryValue = entryCheckValue;
+
+        var request = indexedDB.open('GCNA', 2);
+
+        request.onsuccess = function(event) {
+            var db = event.target.result;
+            var transaction = db.transaction('In-House-Drying', 'readwrite');
+            var objectStore = transaction.objectStore('In-House-Drying');
+
+            var obj = {};
+            for (var pair of formData.entries()) {
+                obj[pair[0]] = pair[1];
+            }
+
+            // Get the highest id in the object store
+            var highestIdRequest = objectStore.openCursor(null, 'prev');
+            highestIdRequest.onsuccess = function(event) {
+                var cursor = event.target.result;
+                if (cursor) {
+                    obj.id = cursor.key + 1;
+                } else {
+                    obj.id = 1; // This is the first item
+                }
+
+                // Exclude csrfmiddlewaretoken from being saved to IndexedDB
+                formData.delete('csrfmiddlewaretoken');
+
+                // Additional code here to customize data saving process if needed
+
+                var request = objectStore.put(obj);
+
+                request.onsuccess = function() {
+                    console.log('Data added to IndexedDB');
+                    transferIndexedDBData(); // Transfer data to Django after saving to IndexedDB
+                };
+
+                request.onerror = function() {
+                    console.error('Error adding data to IndexedDB');
+                };
+            };
+        };
+
+        request.onerror = function(event) {
+            console.error('Error opening IndexedDB', event);
+        };
+    } else {
+        console.error(`Form with ID "${formId}" not found`);
+    }
+}
+
+function W_submitForm_dried(tableId, mainFormId, formNumber) {
+    var formId = `form1_${formNumber}`;
+    var form = document.getElementById(formId);
+    
+    if (form) {
+        var formData = new FormData(form);
+        
+        var entryCheckValue = formData.get('entryCheck');
+
+        // Set entryValue to entryCheckValue
+        var entryValue = entryCheckValue;
+
+        var request = indexedDB.open('GCNA', 2);
+
+        request.onsuccess = function(event) {
+            var db = event.target.result;
+            var transaction = db.transaction('In-House-Drying', 'readwrite');
+            var objectStore = transaction.objectStore('In-House-Drying');
+
+            var obj = {};
+            for (var pair of formData.entries()) {
+                obj[pair[0]] = pair[1];
+            }
+
+            // Get the highest id in the object store
+            var highestIdRequest = objectStore.openCursor(null, 'prev');
+            highestIdRequest.onsuccess = function(event) {
+                var cursor = event.target.result;
+                if (cursor) {
+                    obj.id = cursor.key + 1;
+                } else {
+                    obj.id = 1; // This is the first item
+                }
+
+                // Exclude csrfmiddlewaretoken from being saved to IndexedDB
+                formData.delete('csrfmiddlewaretoken');
+
+                // Additional code here to customize data saving process if needed
+
+                var request = objectStore.put(obj);
+
+                request.onsuccess = function() {
+                    console.log('Data added to IndexedDB');
+                    transferIndexedDBData(); // Transfer data to Django after saving to IndexedDB
+                };
+
+                request.onerror = function() {
+                    console.error('Error adding data to IndexedDB');
+                };
+            };
+        };
+
+        request.onerror = function(event) {
+            console.error('Error opening IndexedDB', event);
+        };
+    } else {
+        console.error(`Form with ID "${formId}" not found`);
+    }
+}
+
+function transferIndexedDBData() {
+    var request = indexedDB.open('GCNA', 2);
+
+    request.onsuccess = function(event) {
+        var db = event.target.result;
+        var transaction = db.transaction('Shelves', 'readonly');
+        var objectStore = transaction.objectStore('Shelves');
+        var getRequest = objectStore.getAll();
+
+        getRequest.onsuccess = function(event) {
+            var data = event.target.result;
+            data.forEach(function(item) {
+                sendDataToDjango(item);
+            });
+        };
+    };
+
+    request.onerror = function(event) {
+        console.error('Error opening IndexedDB', event);
+    };
+}
+
+function sendDataToDjango(item) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/check-and-add/', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                console.log('Entry added successfully.');
+            } else {
+                console.error('Error adding entry:', xhr.statusText);
+            }
+        }
+    };
+    xhr.send(JSON.stringify(item));
+}
+
+</script>
+
+{{ form.media }}
+
+{% endblock %}

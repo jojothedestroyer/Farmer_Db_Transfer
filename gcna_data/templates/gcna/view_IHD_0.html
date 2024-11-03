@@ -1,0 +1,2374 @@
+{% extends 'gcna/base.html' %} {% block content%}
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    /* General Styles */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f7f7f7; /* Adjusted background color */
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .card {
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-body {
+      padding: 20px;
+    }
+
+    h4 {
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 24px;
+      color: #333;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+
+    th,
+    td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      font-weight: bold;
+      color: #555;
+    }
+
+    td {
+      color: #777;
+    }
+
+    button {
+      cursor: pointer;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      background-color: #007bff;
+      color: #fff;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    /* Form Styles */
+    record {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #555;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+      font-size: 16px;
+      color: #333;
+      outline: none;
+    }
+
+    #saveButton,
+    #closeButton {
+      margin-top: 10px;
+      background-color: #28a745;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    #closeButton {
+      background-color: #dc3545;
+      margin-left: 10px;
+    }
+
+    /* Responsive Styles */
+    @media screen and (max-width: 768px) {
+      .container {
+        max-width: 90%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container"></div>
+
+  <div id="landInfoData"></div>
+
+  <script>
+    let openRequest = indexedDB.open("GCNA");
+    let fieldBlacklist = [];
+    const fieldBlacklistConfig = {
+      DATE_OF_SAMPLING: true, // Set to true to blacklist if null or empty
+      DECISION: true,
+      Quantity_of_Bags: true,
+
+      // Add more fields as needed
+    };
+
+    openRequest.onsuccess = function (event) {
+      let db = event.target.result;
+      let transaction = db.transaction("In-House-Drying", "readonly");
+      let landInfoStore = transaction.objectStore("In-House-Drying");
+      let getAllRequest = landInfoStore.getAll();
+
+      getAllRequest.onsuccess = function (event) {
+        let landInfoRecords = event.target.result;
+        let landInfoDataDiv = document.getElementById("landInfoData");
+
+        landInfoRecords.forEach((record) => {
+          let entryContainer = document.createElement("div");
+          entryContainer.id = `entryContainer_${record.id}`;
+          entryContainer.innerHTML = `
+              <form>
+              <div class="card">
+                        <div class="card-body">
+                            <p class="card-text">
+                                <table id="vertical-1" class="table table-hover table-light">
+                                    <!-- <caption>First Way</caption> -->
+                                    <tr>${record.id}
+                                        <th>Station</th>
+                                        <td>${record.STATION}</td>
+                                    </tr>  
+                                    <tr>
+                                        <th>Date of Purchase</th>
+                                        <td>${record.DATE_OF_PURCHASE}</td>
+                                    </tr>                                    <tr>
+                                        <th>Place of Purchase</th>
+                                        <td>${record.PLACE_OF_PURCHASE}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Number of Farmers</th>
+                                        <td>${record.TOTAL_NUM_OF_FARMERS}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Number of Bags</th>
+                                        <td>${record.NUM_OF_BAGS}</td>
+                                    </tr>
+
+                                    <td id="entryCheck">${record.entryCheck}</td>
+
+                                    <tr>
+                                        <th>Total Nutmegs bought(lbs)</th>
+                                        <td>${record.TOTAL_LBS_NUTMEG_BOUGHT}</td>
+                                    </tr>
+                                    <table class="table">
+                                        <center>
+                                            <label>Dates</label>   
+                                        </center> 
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Start Drying Date</th>
+                                                <th scope="col">Approximate End Drying Date</th>
+                                                <th scope="col">End Drying Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>${record.START_DRYING_DATE}</td>
+                                                <td>${record.APPROX_END_DRYING_DATE}</td>
+                                                <td>${record.END_DRYING_DATE}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </table>`;
+
+          if (record.ShelfG_GF && record.TrayG_GF && record.SectionG_GF) {
+            entryContainer.innerHTML += `
+
+
+                        <table class="table" id="LoTableG1">
+                            <center>
+                                <label class="hidden-label1"> Test</label>   
+                            </center> 
+                            <thead>
+                                <tr>
+                                    <th scope="col">Shelf</th>
+                                    <th scope="col">Tray</th>
+                                          <th scope="col">Section</th>
+      <th scope="col">Weight</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                  <td id="entryCheck">${record.entryCheck}</td>
+
+
+                                    <td>${record.ShelfG_GF}</td>
+                                    <td>${record.TrayG_GF}</td>
+                                    <td>${record.SectionG_GF}</td>
+                                    <td>${record.WeightG_GF}</td>
+
+                                </tr>
+                            </tbody>
+
+
+                            <div id="landInfoData1"></div>
+
+
+ 
+
+
+
+
+                        </table>`;
+          }
+
+          if (record.ShelfG_1F && record.TrayG_1F && record.SectionG_1F) {
+            entryContainer.innerHTML += `
+
+
+                        <table class="table" id="LoTableG2">
+                            <center>
+                                <label class="hidden-label1">1st Floor</label>   
+                            </center> 
+                            <thead>
+                                <tr>
+                                    <th scope="col">Shelf</th>
+                                    <th scope="col">Tray</th>
+                                          <th scope="col">Section</th>
+      <th scope="col">Weight</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                  <td id="entryCheck">${record.entryCheck}</td>
+
+                                    <td>${record.ShelfG_1F}</td>
+                                    <td>${record.TrayG_1F}</td>
+                                    <td>${record.SectionG_1F}</td>
+                                    <td>${record.WeightG_1F}</td>
+
+                              
+                                    </tr>
+                            </tbody>
+                            <div id="landInfoData1"></div>
+
+                        </table>`;
+          }
+
+          if (record.ShelfG_2F && record.TrayG_2F && record.SectionG_2F) {
+            entryContainer.innerHTML += `
+
+                    <table class="table" id="LoTableG3">
+
+                        <center>
+                    <label class="hidden-label1" >2nd Floor</label>   
+                    </center> 
+                    <thead>
+                        <tr>
+
+                        <th scope="col">Shelf</th>
+                        <th scope="col">Tray</th>
+                              <th scope="col">Section</th>
+      <th scope="col">Weight</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                          <td id="entryCheck">${record.entryCheck}</td>
+
+                        <td>${record.ShelfG_2F}</td>
+                        <td>${record.TrayG_2F}</td>
+                        <td>${record.SectionG_2F}</td>
+                        <td>${record.WeightG_2F}</td>
+
+                        </tr>
+
+
+                    </tbody>
+                    <div id="landInfoData1"></div>
+
+                    </table>`;
+          }
+
+          if (record.ShelfG_FL && record.TrayG_FL && record.SectionG_FL) {
+            entryContainer.innerHTML += `
+
+<table class="table" id="LoTableG4">
+
+    <center>
+<label class="hidden-label1">Floor Loft</label>   
+ </center> 
+  <thead>
+       <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+            <th scope="col">Section</th>
+      <th scope="col">Weight</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="entryCheck">${record.entryCheck}</td>
+
+       <td>${record.ShelfG_FL}</td>
+      <td>${record.TrayG_FL}</td>
+      <td>${record.SectionG_FL}</td>
+      <td>${record.WeightG_FL}</td>
+
+    </tr>
+
+
+  </tbody>
+  <div id="landInfoData1"></div>
+
+</table>`;
+          }
+
+          if (record.ShelfH_GF && record.TrayH_GF && record.SectionH_GF) {
+            entryContainer.innerHTML += `
+
+ 
+
+<table class="table" id="LoTableH1">
+
+    <center>
+<label class="hidden-label2"> Ground Floor</label>   
+ </center> 
+  <thead>
+    <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+            <th scope="col">Section</th>
+      <th scope="col">Weight</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="entryCheck">${record.entryCheck}</td>
+
+       <td>${record.ShelfH_GF}</td>
+      <td>${record.TrayH_GF}</td>
+      <td>${record.SectionH_GF}</td>
+      <td>${record.WeightH_GF}</td>
+
+    </tr>
+
+  </tbody>
+  <div id="landInfoData1"></div>
+
+</table>`;
+          }
+
+          if (record.ShelfH_1F && record.TrayH_1F && record.SectionH_1F) {
+            entryContainer.innerHTML += `
+
+
+<table class="table" id="LoTableH2">
+
+    <center>
+<label class="hidden-label2">1st Floor</label>   
+ </center> 
+  <thead>
+     <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+            <th scope="col">Section</th>
+      <th scope="col">Weight</th>
+
+      
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="entryCheck">${record.entryCheck}</td>
+
+       <td>${record.ShelfH_1F}</td>
+      <td>${record.TrayH_1F}</td>
+      <td>${record.SectionH_1F}</td>
+      <td>${record.WeightH_1F}</td>
+
+    </tr>
+
+  </tbody>
+  <div id="landInfoData1"></div>
+
+</table>`;
+          }
+
+          if (record.ShelfH_2F && record.TrayH_2F && record.SectionH_2F) {
+            entryContainer.innerHTML += `
+
+   
+<table class="table" id="LoTableH3">
+
+    <center>
+<label class="hidden-label2" >2nd Floor</label>   
+ </center> 
+  <thead>
+      <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+            <th scope="col">Section</th>
+      <th scope="col">Weight</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <tr>
+      <td id="entryCheck">${record.entryCheck}</td>
+
+       <td>${record.ShelfH_2F}</td>
+      <td>${record.TrayH_2F}</td>
+      <td>${record.SectionH_2F}</td>
+      <td>${record.WeightH_2F}</td>
+
+    </tr>
+
+
+  </tbody>
+  <div id="landInfoData1"></div>
+
+</table>`;
+          }
+
+          if (record.ShelfH_FL && record.TrayH_FL && record.SectionH_FL) {
+            entryContainer.innerHTML += `
+
+   
+<table class="table" id="LoTableH4">
+
+    <center>
+<label class="hidden-label2">Floor Loft</label>   
+ </center> 
+  <thead>
+       <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+            <th scope="col">Section</th>
+      <th scope="col">Weight</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="entryCheck">${record.entryCheck}</td>
+
+       <td>${record.ShelfH_FL}</td>
+      <td>${record.TrayH_FL}</td>
+      <td>${record.SectionH_FL}</td>
+      <td>${record.WeightH_FL}</td>
+
+    </tr>
+
+
+  </tbody>
+  <div id="landInfoData1"></div>
+
+</table>`;
+          }
+
+          if (record.ShelfM_GF && record.TrayM_GF && record.SectionM_GF) {
+            entryContainer.innerHTML += `
+
+
+<table class="table" id="LoTableM1">
+
+    <center>
+<label class="hidden-label3"> Ground Floor</label>   
+ </center> 
+  <thead>
+    <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+            <th scope="col">Section</th>
+      <th scope="col">Weight</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="entryCheck">${record.entryCheck}</td>
+
+       <td>${record.ShelfM_GF}</td>
+      <td>${record.TrayM_GF}</td>
+      <td>${record.SectionM_GF}</td>
+      <td>${record.WeightM_GF}</td>
+
+    </tr>
+
+  </tbody>
+  <div id="landInfoData1"></div>
+
+</table>`;
+          }
+
+          if (record.ShelfM_1F && record.TrayM_1F && record.SectionM_1F) {
+            entryContainer.innerHTML += `
+
+
+<table class="table" id="LoTableM2">
+
+    <center>
+<label class="hidden-label3">1st Floor</label>   
+ </center> 
+  <thead>
+     <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+            <th scope="col">Section</th>
+      <th scope="col">Weight</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="entryCheck">${record.entryCheck}</td>
+
+       <td>${record.ShelfM_1F}</td>
+      <td>${record.TrayM_1F}</td>
+      <td>${record.SectionM_1F}</td>
+      <td>${record.WeightM_1F}</td>
+
+    </tr>
+
+  </tbody>
+  <div id="landInfoData1"></div>
+
+</table>`;
+          }
+
+          if (record.ShelfM_2F && record.TrayM_2F && record.SectionM_2F) {
+            entryContainer.innerHTML += `
+
+
+<table class="table" id="LoTableM3">
+
+    <center>
+<label class="hidden-label3">2nd Floor</label>   
+ </center> 
+  <thead>
+      <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+            <th scope="col">Section</th>
+      <th scope="col">Weight</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="entryCheck">${record.entryCheck}</td>
+
+       <td>${record.ShelfM_2F}</td>
+      <td>${record.TrayM_2F}</td>
+      <td>${record.SectionM_2F}</td>
+      <td>${record.WeightM_2F}</td>
+
+    </tr>
+
+
+  </tbody>
+  <div id="landInfoData1"></div>
+
+</table>`;
+          }
+
+          if (record.ShelfM_FL && record.TrayM_FL && record.SectionM_FL) {
+            entryContainer.innerHTML += `
+
+
+
+<table class="table" id="LoTableM4">
+
+    <center>
+<label class="hidden-label3">Floor Loft</label>   
+ </center> 
+  <thead>
+       <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+            <th scope="col">Section</th>
+      <th scope="col">Weight</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="entryCheck">${record.entryCheck}</td>
+
+       <td>${record.ShelfM_FL}</td>
+      <td>${record.TrayM_FL}</td>
+      <td>${record.SectionM_FL}</td>
+      <td>${record.WeightM_FL}</td>
+
+    </tr>
+
+
+  </tbody>
+  <div id="landInfoData1"></div>
+
+</table>`;
+          }
+
+          if (record.ShelfU_GF && record.TrayU_GF && record.SectionU_GF) {
+            entryContainer.innerHTML += `
+
+
+<table class="table" id="LoTableU1">
+
+    <center>
+<label class="hidden-label4"> Ground Floor</label>   
+ </center> 
+  <thead>
+    <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+            <th scope="col">Section</th>
+      <th scope="col">Weight</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="entryCheck">${record.entryCheck}</td>
+
+       <td>${record.ShelfU_GF}</td>
+      <td>${record.TrayU_GF}</td>
+      <td>${record.SectionU_GF}</td>
+      <td>${record.WeightU_GF}</td>
+
+    </tr>
+
+  </tbody>
+  <div id="landInfoData1"></div>
+
+</table>`;
+          }
+
+          if (record.ShelfU_1F && record.TrayU_1F && record.SectionU_1F) {
+            entryContainer.innerHTML += `
+
+
+<table class="table" id="LoTableU2">
+
+    <center>
+<label class="hidden-label4">1st Floor</label>   
+ </center> 
+  <thead>
+     <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+            <th scope="col">Section</th>
+      <th scope="col">Weight</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="entryCheck">${record.entryCheck}</td>
+
+       <td>${record.ShelfU_1F}</td>
+      <td>${record.TrayU_1F}</td>
+      <td>${record.SectionU_1F}</td>
+      <td>${record.WeightU_1F}</td>
+
+    </tr>
+
+  </tbody>
+  <div id="landInfoData1"></div>
+
+</table>`;
+          }
+
+          if (record.ShelfU_2F && record.TrayU_2F && record.SectionU_2F) {
+            entryContainer.innerHTML += `
+
+<table class="table" id="LoTableU3">
+
+    <center>
+<label class="hidden-label4">2nd Floor</label>   
+ </center> 
+  <thead>
+      <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+            <th scope="col">Section</th>
+      <th scope="col">Weight</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="entryCheck">${record.entryCheck}</td>
+
+       <td>${record.ShelfU_2F}</td>
+      <td>${record.TrayU_2F}</td>
+      <td>${record.SectionU_2F}</td>
+      <td>${record.WeightU_2F}</td>
+
+    </tr>
+
+
+  </tbody>
+  <div id="landInfoData1"></div>
+
+</table>`;
+          }
+
+          if (record.ShelfU_FL && record.TrayU_FL && record.SectionU_FL) {
+            entryContainer.innerHTML += `
+
+   
+<table class="table" id="LoTableU4">
+
+    <center>
+<label class="hidden-label4">Floor Loft</label>   
+ </center> 
+  <thead>
+       <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+            <th scope="col">Section</th>
+      <th scope="col">Weight</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="entryCheck">${record.entryCheck}</td>
+
+       <td>${record.ShelfU_FL}</td>
+      <td>${record.TrayU_FL}</td>
+      <td>${record.SectionU_FL}</td>
+      <td>${record.WeightU_FL}</td>
+
+    </tr>
+
+
+  </tbody>
+  <div id="landInfoData1"></div>
+
+</table>`;
+          }
+
+          if (record.ShelfGP_GF && record.TrayGP_GF && record.SectionGP_GF) {
+            entryContainer.innerHTML += `
+
+<table class="table" id="LoTableGP1">
+
+    <center>
+<label class="hidden-label5"> Ground Floor</label>   
+ </center> 
+  <thead>
+    <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+            <th scope="col">Section</th>
+      <th scope="col">Weight</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="entryCheck">${record.entryCheck}</td>
+
+       <td>${record.ShelfGP_GF}</td>
+      <td>${record.TrayGP_GF}</td>
+      <td>${record.SectionGP_GF}</td>
+      <td>${record.WeightGP_GF}</td>
+
+    </tr>
+
+  </tbody>
+  <div id="landInfoData1"></div>
+
+</table>`;
+          }
+
+          if (record.ShelfGP_1F && record.TrayGP_1F && record.SectionGP_1F) {
+            entryContainer.innerHTML += `
+
+
+<table class="table" id="LoTableGP2">
+
+    <center>
+<label class="hidden-label5">1st Floor</label>   
+ </center> 
+  <thead>
+     <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+            <th scope="col">Section</th>
+      <th scope="col">Weight</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="entryCheck">${record.entryCheck}</td>
+
+       <td>${record.ShelfGP_1F}</td>
+      <td>${record.TrayGP_1F}</td>
+      <td>${record.SectionGP_1F}</td>
+      <td>${record.WeightGP_1F}</td>
+
+    </tr>
+
+  </tbody>
+  <div id="landInfoData1"></div>
+
+</table>`;
+          }
+
+          if (record.ShelfGP_2F && record.TrayGP_2F && record.SectionGP_2F) {
+            entryContainer.innerHTML += `
+
+   
+<table class="table" id="LoTableGP3">
+
+    <center>
+<label class="hidden-label5">2nd Floor</label>   
+ </center> 
+  <thead>
+      <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+            <th scope="col">Section</th>
+      <th scope="col">Weight</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="entryCheck">${record.entryCheck}</td>
+
+       <td>${record.ShelfGP_2F}</td>
+      <td>${record.TrayGP_2F}</td>
+      <td>${record.SectionGP_2F}</td>
+      <td>${record.WeightGP_2F}</td>
+
+    </tr>
+
+
+  </tbody>
+  <div id="landInfoData1"></div>
+
+</table>`;
+          }
+
+          if (record.ShelfGP_FL && record.TrayGP_FL && record.SectionGP_FL) {
+            entryContainer.innerHTML += `
+
+   
+<table class="table" id="LoTableGP4">
+
+    <center>
+<label class="hidden-label5">Floor Loft</label>   
+ </center> 
+  <thead>
+       <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+            <th scope="col">Section</th>
+      <th scope="col">Weight</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="entryCheck">${record.entryCheck}</td>
+
+       <td>${record.ShelfGP_FL}</td>
+      <td>${record.TrayGP_FL}</td>
+      <td>${record.SectionGP_FL}</td>
+      <td>${record.WeightGP_FL}</td>
+
+    </tr>
+
+
+  </tbody>
+  <div id="landInfoData1"></div>
+
+</table>`;
+          }
+          entryContainer.innerHTML += `
+
+
+<br>  
+<br>  
+<br>  
+<br>  
+<br>  
+<br>  
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+ <tr>
+
+         <center>
+            <p>MOISTURE TESTING (Weeks 3, 6, 8)</p>
+</center>
+        </tr>
+
+
+        <tr>
+
+         <center>
+   
+            <p>LOCATION2</p>
+</center>`;
+
+          if (record.ShelfG_0_GF && record.TrayG_0_GF && record.SectionG_0_GF) {
+            entryContainer.innerHTML += `
+
+
+<table class="table" id="LoTableG10">
+
+    <center>
+<label class="hidden-label1"> Ground Floor</label>   
+ </center> 
+  <thead>
+    <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+            <th scope="col">Section</th>
+      <th scope="col">Moisture</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="entryCheck">${record.entryCheck}</td>
+
+       <td>${record.ShelfG_0_GF}</td>
+      <td>${record.TrayG_0_GF}</td>
+      <td>${record.SectionG_0_GF}</td>
+      <td>${record.MoistureG_GF}</td>
+
+    </tr>
+
+  </tbody>
+  <div id="landInfoData1"></div>
+
+</table>`;
+          }
+
+          if (record.ShelfG_0_1F && record.TrayG_0_1F && record.SectionG_0_1F) {
+            entryContainer.innerHTML += `
+
+<table class="table" id="LoTableG20">
+
+    <center>
+<label class="hidden-label1">1st Floor</label>   
+ </center> 
+  <thead>
+     <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+            <th scope="col">Section</th>
+      <th scope="col">Moisture</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="entryCheck">${record.entryCheck}</td>
+
+       <td>${record.ShelfG_0_1F}</td>
+      <td>${record.TrayG_0_1F}</td>
+      <td>${record.SectionG_0_1F}</td>
+      <td>${record.MoistureG_1F}</td>
+
+    </tr>
+
+  </tbody>
+  <div id="landInfoData1"></div>
+
+</table>`;
+          }
+
+          if (record.ShelfG_0_2F && record.TrayG_0_2F && record.SectionG_0_2F) {
+            entryContainer.innerHTML += `
+
+    <table class="table" id="LoTableG30">
+
+    <center>
+<label class="hidden-label1" >2nd Floor</label>   
+ </center> 
+  <thead>
+      <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+            <th scope="col">Section</th>
+      <th scope="col">Moisture</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="entryCheck">${record.entryCheck}</td>
+
+       <td>${record.ShelfG_0_2F}</td>
+      <td>${record.TrayG_0_2F}</td>
+      <td>${record.SectionG_0_2F}</td>
+      <td>${record.MoistureG_2F}</td>
+
+    </tr>
+
+
+  </tbody>
+  <div id="landInfoData1"></div>
+
+</table>`;
+          }
+
+          if (record.ShelfG_0_FL && record.TrayG_0_FL && record.SectionG_0_FL) {
+            entryContainer.innerHTML += `
+
+    <table class="table" id="LoTableG40">
+
+    <center>
+<label class="hidden-label1">Floor Loft</label>   
+ </center> 
+  <thead>
+       <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+            <th scope="col">Section</th>
+      <th scope="col">Moisture</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="entryCheck">${record.entryCheck}</td>
+
+       <td>${record.ShelfG_0_FL}</td>
+      <td>${record.TrayG_0_FL}</td>
+      <td>${record.SectionG_0_FL}</td>
+      <td>${record.MoistureG_FL}</td>
+
+    </tr>
+
+
+  </tbody>
+  <div id="landInfoData1"></div>
+
+</table>`;
+          }
+
+          if (record.ShelfH_0_GF && record.TrayH_0_GF && record.SectionH_0_GF) {
+            entryContainer.innerHTML += `
+ 
+
+
+<table class="table" id="LoTableH10">
+
+    <center>
+<label class="hidden-label2"> Ground Floor</label>   
+ </center> 
+  <thead>
+    <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+            <th scope="col">Section</th>
+      <th scope="col">Moisture</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="entryCheck">${record.entryCheck}</td>
+
+       <td>${record.ShelfH_0_GF}</td>
+      <td>${record.TrayH_0_GF}</td>
+      <td>${record.SectionH_0_GF}</td>
+      <td>${record.MoistureH_GF}</td>
+
+    </tr>
+
+  </tbody>
+  <div id="landInfoData1"></div>
+
+</table>`;
+          }
+
+          if (record.ShelfH_0_1F && record.TrayH_0_1F && record.SectionH_0_1F) {
+            entryContainer.innerHTML += `
+
+<table class="table" id="LoTableH20">
+
+    <center>
+<label class="hidden-label2">1st Floor</label>   
+ </center> 
+  <thead>
+     <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+            <th scope="col">Section</th>
+      <th scope="col">Moisture</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="entryCheck">${record.entryCheck}</td>
+
+       <td>${record.ShelfH_0_1F}</td>
+      <td>${record.TrayH_0_1F}</td>
+      <td>${record.SectionH_0_1F}</td>
+      <td>${record.MoistureH_1F}</td>
+
+    </tr>
+
+  </tbody>
+  <div id="landInfoData1"></div>
+
+</table>`;
+          }
+
+          if (record.ShelfH_0_2F && record.TrayH_0_2F && record.SectionH_0_2F) {
+            entryContainer.innerHTML += `
+
+    <table class="table" id="LoTableH30">
+
+    <center>
+<label class="hidden-label2" >2nd Floor</label>   
+ </center> 
+  <thead>
+      <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+            <th scope="col">Section</th>
+      <th scope="col">Moisture</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="entryCheck">${record.entryCheck}</td>
+
+       <td>${record.ShelfH_0_2F}</td>
+      <td>${record.TrayH_0_2F}</td>
+      <td>${record.SectionH_0_2F}</td>
+      <td>${record.MoistureH_2F}</td>
+
+    </tr>
+
+
+  </tbody>
+  <div id="landInfoData1"></div>
+
+</table>`;
+          }
+
+          if (record.ShelfH_0_FL && record.TrayH_0_FL && record.SectionH_0_FL) {
+            entryContainer.innerHTML += `
+
+    <table class="table" id="LoTableH40">
+
+    <center>
+<label class="hidden-label2">Floor Loft</label>   
+ </center> 
+  <thead>
+       <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+            <th scope="col">Section</th>
+      <th scope="col">Moisture</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="entryCheck">${record.entryCheck}</td>
+
+       <td>${record.ShelfH_0_FL}</td>
+      <td>${record.TrayH_0_FL}</td>
+      <td>${record.SectionH_0_FL}</td>
+      <td>${record.MoistureH_FL}</td>
+
+    </tr>
+
+
+  </tbody>
+  <div id="landInfoData1"></div>
+
+</table>`;
+          }
+
+          if (record.ShelfM_0_GF && record.TrayM_0_GF && record.SectionM_0_GF) {
+            entryContainer.innerHTML += `
+
+<table class="table" id="LoTableM10">
+
+    <center>
+<label class="hidden-label3"> Ground Floor</label>   
+ </center> 
+  <thead>
+    <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+            <th scope="col">Section</th>
+      <th scope="col">Moisture</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="entryCheck">${record.entryCheck}</td>
+
+       <td>${record.ShelfM_0_GF}</td>
+      <td>${record.TrayM_0_GF}</td>
+      <td>${record.SectionM_0_GF}</td>
+      <td>${record.MoistureM_GF}</td>
+
+    </tr>
+
+  </tbody>
+  <div id="landInfoData1"></div>
+
+</table>`;
+          }
+
+          if (record.ShelfM_0_1F && record.TrayM_0_1F && record.SectionM_0_1F) {
+            entryContainer.innerHTML += `
+
+<table class="table" id="LoTableM20">
+
+    <center>
+<label class="hidden-label3">1st Floor</label>   
+ </center> 
+  <thead>
+     <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+            <th scope="col">Section</th>
+      <th scope="col">Moisture</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="entryCheck">${record.entryCheck}</td>
+
+       <td>${record.ShelfM_0_1F}</td>
+      <td>${record.TrayM_0_1F}</td>
+      <td>${record.SectionM_0_1F}</td>
+      <td>${record.MoistureM_1F}</td>
+
+    </tr>
+
+  </tbody>
+  <div id="landInfoData1"></div>
+
+</table>`;
+          }
+
+          if (record.ShelfM_0_2F && record.TrayM_0_2F && record.SectionM_0_2F) {
+            entryContainer.innerHTML += `
+
+
+
+<table class="table" id="LoTableM30">
+
+    <center>
+<label class="hidden-label3">2nd Floor</label>   
+ </center> 
+  <thead>
+      <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+            <th scope="col">Section</th>
+      <th scope="col">Moisture</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="entryCheck">${record.entryCheck}</td>
+
+       <td>${record.ShelfM_0_2F}</td>
+      <td>${record.TrayM_0_2F}</td>
+      <td>${record.SectionM_0_2F}</td>
+      <td>${record.MoistureM_2F}</td>
+
+    </tr>
+
+
+  </tbody>
+  <div id="landInfoData1"></div>
+
+</table>`;
+          }
+
+          if (record.ShelfM_0_FL && record.TrayM_0_FL && record.SectionM_0_FL) {
+            entryContainer.innerHTML += `
+
+<table class="table" id="LoTableM40">
+
+    <center>
+<label class="hidden-label3">Floor Loft</label>   
+ </center> 
+  <thead>
+       <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+            <th scope="col">Section</th>
+      <th scope="col">Moisture</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="entryCheck">${record.entryCheck}</td>
+
+       <td>${record.ShelfM_0_FL}</td>
+      <td>${record.TrayM_0_FL}</td>
+      <td>${record.SectionM_0_FL}</td>
+      <td>${record.MoistureM_FL}</td>
+
+    </tr>
+
+
+  </tbody>
+  <div id="landInfoData1"></div>
+
+</table>`;
+          }
+
+          if (record.ShelfU_0_GF && record.TrayU_0_GF && record.SectionU_0_GF) {
+            entryContainer.innerHTML += `
+
+
+<table class="table" id="LoTableU10">
+
+    <center>
+<label class="hidden-label4"> Ground Floor</label>   
+ </center> 
+  <thead>
+    <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+            <th scope="col">Section</th>
+      <th scope="col">Moisture</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="entryCheck">${record.entryCheck}</td>
+
+       <td>${record.ShelfU_0_GF}</td>
+      <td>${record.TrayU_0_GF}</td>
+      <td>${record.SectionU_0_GF}</td>
+      <td>${record.MoistureU_GF}</td>
+
+    </tr>
+
+  </tbody>
+  <div id="landInfoData1"></div>
+
+</table>`;
+          }
+
+          if (record.ShelfU_0_1F && record.TrayU_0_1F && record.SectionU_0_1F) {
+            entryContainer.innerHTML += `
+
+<table class="table" id="LoTableU20">
+
+    <center>
+<label class="hidden-label4">1st Floor</label>   
+ </center> 
+  <thead>
+     <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+            <th scope="col">Section</th>
+      <th scope="col">Moisture</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="entryCheck">${record.entryCheck}</td>
+
+       <td>${record.ShelfU_0_1F}</td>
+      <td>${record.TrayU_0_1F} }</td>
+      <td>${record.SectionU_0_1F}</td>
+      <td>${record.MoistureU_1F}</td>
+
+    </tr>
+
+  </tbody>
+  <div id="landInfoData1"></div>
+
+</table>`;
+          }
+
+          if (record.ShelfU_0_2F && record.TrayU_0_2F && record.SectionU_0_2F) {
+            entryContainer.innerHTML += `
+   
+<table class="table" id="LoTableU30">
+
+    <center>
+<label class="hidden-label4">2nd Floor</label>   
+ </center> 
+  <thead>
+      <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+            <th scope="col">Section</th>
+      <th scope="col">Moisture</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="entryCheck">${record.entryCheck}</td>
+
+       <td>${record.ShelfU_0_2F}</td>
+      <td>${record.TrayU_0_2F}</td>
+      <td>${record.SectionU_0_2F}</td>
+      <td>${record.MoistureU_2F}</td>
+
+    </tr>
+
+
+  </tbody>
+  <div id="landInfoData1"></div>
+
+</table>`;
+          }
+
+          if (record.ShelfU_0_FL && record.TrayU_0_FL && record.SectionU_0_FL) {
+            entryContainer.innerHTML += `
+
+   
+<table class="table" id="LoTableU40">
+
+    <center>
+<label class="hidden-label4">Floor Loft</label>   
+ </center> 
+  <thead>
+       <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+            <th scope="col">Section</th>
+      <th scope="col">Moisture</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="entryCheck">${record.entryCheck}</td>
+
+       <td>${record.ShelfU_0_FL}</td>
+      <td>${record.TrayU_0_FL}</td>
+      <td>${record.SectionU_0_FL}</td>
+      <td>${record.MoistureU_FL}</td>
+
+    </tr>
+
+
+  </tbody>
+  <div id="landInfoData1"></div>
+
+</table>`;
+          }
+
+          if (
+            record.ShelfGP_0_GF &&
+            record.TrayGP_0_GF &&
+            record.SectionGP_0_GF
+          ) {
+            entryContainer.innerHTML += `
+
+<table class="table" id="LoTableGP10">
+
+    <center>
+<label class="hidden-label5"> Ground Floor</label>   
+ </center> 
+  <thead>
+    <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+            <th scope="col">Section</th>
+      <th scope="col">Moisture</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="entryCheck">${record.entryCheck}</td>
+
+       <td>${record.ShelfGP_0_GF}</td>
+      <td>${record.TrayGP_0_GF}</td>
+      <td>${record.SectionGP_0_GF}</td>
+      <td>${record.MoistureGP_GF}</td>
+
+    </tr>
+
+  </tbody>
+  <div id="landInfoData1"></div>
+
+</table>`;
+          }
+
+          if (
+            record.ShelfGP_0_1F &&
+            record.TrayGP_0_1F &&
+            record.SectionGP_0_1F
+          ) {
+            entryContainer.innerHTML += `
+
+
+<table class="table" id="LoTableGP20">
+
+    <center>
+<label class="hidden-label5">1st Floor</label>   
+ </center> 
+  <thead>
+     <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+            <th scope="col">Section</th>
+      <th scope="col">Moisture</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="entryCheck">${record.entryCheck}</td>
+
+       <td>${record.ShelfGP_0_1F}</td>
+      <td>${record.TrayGP_0_1F}</td>
+      <td>${record.SectionGP_0_1F}</td>
+      <td>${record.MoistureGP_1F}</td>
+
+    </tr>
+
+  </tbody>
+  <div id="landInfoData1"></div>
+
+</table>`;
+          }
+
+          if (
+            record.ShelfGP_0_2F &&
+            record.TrayGP_0_2F &&
+            record.SectionGP_0_2F
+          ) {
+            entryContainer.innerHTML += `
+   
+<table class="table" id="LoTableGP30">
+
+    <center>
+<label class="hidden-label5">2nd Floor</label>   
+ </center> 
+  <thead>
+      <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+            <th scope="col">Section</th>
+      <th scope="col">Moisture</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="entryCheck">${record.entryCheck}</td>
+
+       <td>${record.ShelfGP_0_2F}</td>
+      <td>${record.TrayGP_0_2F}</td>
+      <td>${record.SectionGP_0_2F}</td>
+      <td>${record.MoistureGP_2F}</td>
+
+    </tr>
+
+
+  </tbody>
+  <div id="landInfoData1"></div>
+
+</table>`;
+          }
+
+          if (
+            record.ShelfGP_0_FL &&
+            record.TrayGP_0_FL &&
+            record.SectionGP_0_FL
+          ) {
+            entryContainer.innerHTML += `
+
+   
+<table class="table" id="LoTableGP40">
+
+    <center>
+<label class="hidden-label5">Floor Loft</label>   
+ </center> 
+  <thead>
+       <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+            <th scope="col">Section</th>
+      <th scope="col">Moisture</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="entryCheck">${record.entryCheck}</td>
+
+       <td>${record.ShelfGP_0_FL}</td>
+      <td>${record.TrayGP_0_FL}</td>
+      <td>${record.SectionGP_0_FL}</td>
+      <td>${record.MoistureGP_FL}</td>
+
+    </tr>
+
+
+  </tbody>
+  <div id="landInfoData1"></div>
+
+</table>`;
+          }
+
+          entryContainer.innerHTML += `
+
+<br>  
+<br>  
+<br>  
+<br>  
+<br>  
+<br>  
+
+
+
+
+
+
+
+<tr>
+
+         <center>
+
+</center>
+        </tr>
+
+
+
+<table class="table" >
+
+    <center>
+<label class="hidden-label5">MONITORING AND INSPECTION</label>   
+ </center> 
+  <thead>
+    <tr>
+      <th scope="col">Station</th>
+      <th scope="col">Location</th>
+      <th scope="col">Defect</th>
+      <th scope="col">Predominant Defect</th>
+     </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>${record.STATION2}</td>
+      <td>${record.LOCATION3}</td>
+      <td>${record.DEFECT}</td>
+      <td>${record.PREDOMINANT_DEFECT}</td>
+ 
+    </tr>
+
+  </tbody>
+  <div id="landInfoData1"></div>
+
+</table>
+
+<table>
+<td id="newentryCheck">${record.entryCheck}</td>
+
+<div id="landInfoData2"></div>
+
+
+
+
+
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="table">
+
+    <center>
+ </center> 
+  <thead>
+
+  </thead>
+  <tbody>
+    <tr>
+
+
+       <td>ALERT</td>
+      <td>${record.ALERT}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+
+         <table id="vertical-1" class="table table-hover table-light">
+
+
+
+        <tr>
+            <th>Sampling from Gouyvae</th>
+            <td>${record.Sampling_from_gouyvae}</td>
+        </tr>
+
+
+<br>
+
+
+        <tr>
+            <th>Control Number</th>
+            <td>${record.Control_number}</td>
+        </tr>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+                // Add other if statements similarly for other conditions
+
+
+            </div>
+               </div>
+               <br> <br> <br>
+               </form>
+           `;
+          landInfoDataDiv.appendChild(entryContainer);
+        });
+      };
+    };
+  </script>
+  <script>
+    let openRequest2 = indexedDB.open("GCNA");
+
+    openRequest2.onsuccess = function (event) {
+      let db = event.target.result;
+      let transaction = db.transaction("Shelves", "readonly");
+      let landInfoStore = transaction.objectStore("Shelves");
+      let getAllRequest = landInfoStore.getAll();
+
+      getAllRequest.onsuccess = function (event) {
+        let landInfoRecords = event.target.result;
+        let tables = document.querySelectorAll(".table"); // Select all tables
+
+        // Inside the loop where you iterate over landInfoRecords
+        landInfoRecords.forEach((record) => {
+          tables.forEach((table) => {
+            let floor = record.floor; // Get the floor entry from the record
+            let tableId = table.id; // Get the ID of the table
+
+            if (floor === tableId) {
+              // Check if the floor entry matches the table ID
+              let entryCheckTd = table.querySelector("td#entryCheck");
+              if (entryCheckTd.textContent.trim() === record.entry) {
+                // Check if the td with id "entryCheck" exists in the current table
+                let landInfoDataDiv = table.querySelector(".landInfoData1");
+                if (!landInfoDataDiv) {
+                  // Check if the div exists, if not, create it
+                  landInfoDataDiv = document.createElement("div");
+                  landInfoDataDiv.className = "landInfoData1";
+                  table.appendChild(landInfoDataDiv);
+                }
+
+                let entryContainer = document.createElement("div");
+                entryContainer.className = "entry-container";
+                entryContainer.dataset.formId = table.id; // Unique identifier for the entryContainer
+                // Unique identifier for the entryContainer
+                entryContainer.innerHTML = `
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"></h5>
+                        <p class="card-text">
+                            <center>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Shelf</th>
+                                            <th scope="col">Tray</th>
+                                                  <th scope="col">Section</th>
+      <th scope="col">Moisture</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>${record.floor}</td>
+                                            <td>${record.entry}</td>
+                                            <td>${record.station}</td>
+                                            <td>${record.Shelf}</td>
+                                            <td>${record.Tray}</td>
+                                            <td>${record.Section}</td>
+                                            <td>${record.Weight}</td>
+
+                                            
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </center>
+                        </p>
+                    </div>
+                </div>
+                <br> <br> <br>`;
+                landInfoDataDiv.appendChild(entryContainer);
+              } else {
+                console.log(
+                  "No TD with ID 'entryCheck' found or its content does not match in table with ID:"
+                );
+              }
+            }
+          });
+        });
+      };
+    };
+  </script>
+  <!-- 
+<th scope="col">Shelf:</th>
+<th scope="col">Tray:</th>
+<th scope="col">Section:</th>
+<th scope="col">Moisture</th>
+<th scope="col">Week</th>
+<th scope="col"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><input type="text" id="M_Shelf" class="form-control" name="M_Shelf" value="${shelfValue}" required></td>
+<td><input type="text" id="M_Tray" class="form-control" name="M_Tray" value="${trayValue}" required></td>
+<td><input type="text" id="M_Section" class="form-control" name="M_Section" value="${sectionValue}" required></td>
+<td><input type="text" id="Moisture" class="form-control" name="Moisture" required></td>
+<td><input type="text" id="Week" class="form-control" name="Week" required></td>
+ -->
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      let openRequest3 = indexedDB.open("GCNA");
+
+      openRequest3.onsuccess = function (event) {
+        let db = event.target.result;
+        let transaction = db.transaction("M_Shelves", "readonly");
+        let landInfoStore = transaction.objectStore("M_Shelves");
+        let getAllRequest = landInfoStore.getAll();
+
+        getAllRequest.onsuccess = function (event) {
+          let landInfoRecords = event.target.result;
+          let tables = document.querySelectorAll("table"); // Select all tables
+
+          tables.forEach((table) => {
+            landInfoRecords.forEach((record) => {
+              let entryCheckTd = table.querySelector("td#newentryCheck");
+              if (
+                entryCheckTd &&
+                entryCheckTd.textContent.trim() === record.entry
+              ) {
+                let landInfoDataDiv = table.querySelector(".landInfoData2");
+                if (!landInfoDataDiv) {
+                  landInfoDataDiv = document.createElement("div");
+                  landInfoDataDiv.className = "landInfoData2";
+                  table.appendChild(landInfoDataDiv);
+                }
+
+                let entryContainer = document.createElement("div");
+                entryContainer.className = "entry-container";
+                entryContainer.dataset.formId = table.id;
+                entryContainer.innerHTML = `
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title"></h5>
+                    <p class="card-text">
+                      <center>
+                        <table>
+                          <thead>
+                            <label>${record.labelText}</label>
+
+                            <tr>
+                              <th scope="col">Station</th>
+                              <th scope="col">Shelf</th>
+                              <th scope="col">Tray</th>
+                              <th scope="col">Section</th>
+                              <th scope="col">Moisture</th>
+                              <th scope="col">Week</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+
+                              <td>${record.station}</td>
+                              <td>${record.M_Shelf}</td>
+                              <td>${record.M_Tray}</td>
+                              <td>${record.M_Section}</td>
+                              <td>${record.Moisture}</td>
+                              <td>${record.Week}</td>
+                              
+                            </tr>
+                                                     <td>${record.floor}</td>
+                              <td>${record.entry}</td>
+                          </tbody>
+                        </table>
+                      </center>
+                    </p>
+                  </div>
+                </div>
+                <br> <br> <br>`;
+                landInfoDataDiv.appendChild(entryContainer);
+              }
+            });
+          });
+        };
+      };
+    });
+  </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      let openRequest4 = indexedDB.open("GCNA");
+
+      openRequest4.onsuccess = function (event) {
+        let db = event.target.result;
+        let transaction = db.transaction("W_Shelves", "readonly");
+        let landInfoStore = transaction.objectStore("W_Shelves");
+        let getAllRequest = landInfoStore.getAll();
+
+        getAllRequest.onsuccess = function (event) {
+          let landInfoRecords = event.target.result;
+          let tables = document.querySelectorAll("table"); // Select all tables
+
+          tables.forEach((table) => {
+            landInfoRecords.forEach((record) => {
+              let entryCheckTd = table.querySelector("td#newentryCheck");
+              if (
+                entryCheckTd &&
+                entryCheckTd.textContent.trim() === record.entry
+              ) {
+                let landInfoDataDiv = table.querySelector(".landInfoData2");
+                if (!landInfoDataDiv) {
+                  landInfoDataDiv = document.createElement("div");
+                  landInfoDataDiv.className = "landInfoData2";
+                  table.appendChild(landInfoDataDiv);
+                }
+
+                let entryContainer = document.createElement("div");
+                entryContainer.className = "entry-container";
+                entryContainer.dataset.formId = table.id;
+                entryContainer.innerHTML = `
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title"></h5>
+                    <p class="card-text">
+                      <center>
+                        <table>
+                          <thead>
+                            <label>${record.labelText}</label>
+
+                            <tr>
+                              <th scope="col">Station</th>
+                              <th scope="col">Shelf</th>
+                              <th scope="col">Tray</th>
+                              <th scope="col">Section</th>
+                              <th scope="col">Moisture</th>
+                              <th scope="col">Week</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+
+                            <tr>
+
+                              <td>${record.station}</td>
+                              <td>${record.W_Shelf}</td>
+                              <td>${record.W_Tray}</td>
+                              <td>${record.W_Section}</td>
+                              <td>${record.Moisture}</td>
+                              <td>${record.Week}</td>
+
+
+                            </tr>
+                          </tbody>
+
+
+
+                                                    <td>${record.floor}</td>
+                              <td>${record.entry}</td>    
+                        </table>
+                      </center>
+                    </p>
+                  </div>
+                </div>
+                <br> <br> <br>`;
+                landInfoDataDiv.appendChild(entryContainer);
+              }
+            });
+          });
+        };
+      };
+    });
+  </script>
+
+  <!-- <script>
+    let openRequest2 = indexedDB.open("GCNA");
+
+    openRequest2.onsuccess = function (event) {
+      let db = event.target.result;
+      let transaction = db.transaction("Shelves", "readonly");
+      let landInfoStore = transaction.objectStore("Shelves");
+      let getAllRequest = landInfoStore.getAll();
+
+      getAllRequest.onsuccess = function (event) {
+        let landInfoRecords = event.target.result;
+        let tables = document.querySelectorAll(".table"); // Select all tables
+
+        // Inside the loop where you iterate over landInfoRecords
+        landInfoRecords.forEach((record) => {
+          tables.forEach((table) => {
+            let floor = record.floor; // Get the floor entry from the record
+            let tableId = table.id; // Get the ID of the table
+
+            if (floor === tableId) {
+              // Check if the floor entry matches the table ID
+
+              // Accessing the specific table with the id "vertical-1"
+              let specificTable = table.querySelector("table#vertical-1");
+              if (specificTable) {
+                // Check if the specific table is found
+
+                // Accessing the specific td with the id "entryCheck" within the specific table
+                let specificTd = specificTable.querySelector("td#entryCheck");
+                if (specificTd) {
+                  // Check if specificTd is found
+
+                  console.log(
+                    "Content of specific TD:",
+                    specificTd.textContent.trim()
+                  );
+
+                  // Check if entryCheck is not equal to entry, then skip generating the shelf div
+                  if (specificTd.textContent.trim() !== record.entry) {
+                    return; // Skip generating the shelf div
+                  }
+                } else {
+                  console.log(
+                    "No TD with specified ID found in table with ID 'vertical-1'"
+                  );
+                }
+              } else {
+                console.log("Table with ID 'vertical-1' not found");
+              }
+
+              // Generate the shelf div only if entryCheck matches entry
+              let landInfoDataDiv = table.closest(".landInfoData1");
+              if (landInfoDataDiv) {
+                let shelfDiv = document.createElement("div");
+                shelfDiv.className = "shelf-info";
+                shelfDiv.textContent = "Shelf Information: " + record.entry;
+                landInfoDataDiv.appendChild(shelfDiv);
+              }
+            }
+          });
+        });
+      };
+    };
+  </script> -->
+
+  <!-- 
+  <script>
+    let openRequest2 = indexedDB.open("GCNA");
+
+    openRequest2.onsuccess = function (event) {
+      let db = event.target.result;
+      let transaction = db.transaction("Shelves", "readonly");
+      let landInfoStore = transaction.objectStore("Shelves");
+      let getAllRequest = landInfoStore.getAll();
+
+      getAllRequest.onsuccess = function (event) {
+        let landInfoRecords = event.target.result;
+        let tables = document.querySelectorAll(".table"); // Select all tables
+
+        // Inside the loop where you iterate over landInfoRecords
+        landInfoRecords.forEach((record) => {
+          tables.forEach((table) => {
+            let floor = record.floor; // Get the floor entry from the record
+            let tableId = table.id; // Get the ID of the table
+
+            if (floor === tableId) {
+              // Check if the floor entry matches the table ID
+
+              // Accessing the specific table with the id "vertical-1"
+              let specificTable = table.querySelector("table#vertical-1");
+              if (specificTable) {
+                // Check if the specific table is found
+
+                // Accessing the specific td with the id "entryCheck" within the specific table
+                let specificTd = specificTable.querySelector("td#entryCheck");
+                if (specificTd) {
+                  // Check if specificTd is found
+
+                  console.log(
+                    "Content of specific TD:",
+                    specificTd.textContent.trim()
+                  );
+
+                  // Check if entryCheck is not equal to entry, then hide the div
+                  if (specificTd.textContent.trim() !== record.entry) {
+                    let landInfoDataDiv =
+                      specificTable.closest(".landInfoData1");
+                    if (landInfoDataDiv) {
+                      landInfoDataDiv.style.display = "none";
+                    }
+                  }
+                } else {
+                  console.log(
+                    "No TD with specified ID found in table with ID 'vertical-1'"
+                  );
+                }
+              } else {
+                console.log("Table with ID 'vertical-1' not found");
+              }
+            }
+          });
+        });
+      };
+    };
+  </script> -->
+
+  <!-- <script>
+    // Define a function to handle the script
+    function processEntryCheck() {
+      let openRequest2 = indexedDB.open("GCNA");
+
+      openRequest2.onsuccess = function (event) {
+        let db = event.target.result;
+        let transaction = db.transaction("Shelves", "readonly");
+        let landInfoStore = transaction.objectStore("Shelves");
+        let getAllRequest = landInfoStore.getAll();
+
+        getAllRequest.onsuccess = function (event) {
+          let landInfoRecords = event.target.result;
+          let shelvesDiv = document.getElementById("landInfoData"); // Get the div containing the In-House forms
+
+          // Inside the loop where you iterate over landInfoRecords
+          landInfoRecords.forEach((record) => {
+            let specificTds = shelvesDiv.querySelectorAll("td#entryCheck");
+            if (specificTds.length > 0) {
+              // Check if any specificTd is found
+              specificTds.forEach((specificTd, index) => {
+                // Check if entryCheck is not equal to entry, then hide the div
+                if (specificTd.textContent.trim() !== record.entry) {
+                  specificTd.closest(".entry-container").style.display = "none";
+                }
+              });
+            } else {
+              console.log("No TDs with specified ID found in shelves div");
+            }
+          });
+        };
+      };
+    }
+
+    // Call the function to execute the script
+    processEntryCheck();
+  </script>
+  <script>
+    // Define a function to handle the script
+    function processEntryCheck() {
+      let openRequest2 = indexedDB.open("GCNA");
+
+      openRequest2.onsuccess = function (event) {
+        let db = event.target.result;
+        let transaction = db.transaction("Shelves", "readonly");
+        let landInfoStore = transaction.objectStore("Shelves");
+        let getAllRequest = landInfoStore.getAll();
+
+        getAllRequest.onsuccess = function (event) {
+          let landInfoRecords = event.target.result;
+          let shelvesDiv = document.getElementById("landInfoData"); // Get the div containing the In-House forms
+
+          // Inside the loop where you iterate over landInfoRecords
+          landInfoRecords.forEach((record) => {
+            let specificTds = shelvesDiv.querySelectorAll("td#entryCheck");
+            if (specificTds.length > 0) {
+              // Check if any specificTd is found
+              specificTds.forEach((specificTd, index) => {
+                // Check if entryCheck is equal to entry
+                if (specificTd.textContent.trim() === record.entry) {
+                  console.log("Entry matched:", specificTd.textContent);
+                } else {
+                  console.log("Entry not matched:", specificTd.textContent);
+                }
+              });
+            } else {
+              console.log("No TDs with specified ID found in shelves div");
+            }
+          });
+        };
+      };
+    }
+
+    // Call the function to execute the script
+    processEntryCheck();
+  </script> -->
+  <!-- <script>
+    // Define a function to handle the script
+    function processEntryCheck() {
+      let openRequest2 = indexedDB.open("GCNA");
+
+      openRequest2.onsuccess = function (event) {
+        let db = event.target.result;
+        let transaction = db.transaction("Shelves", "readonly");
+        let landInfoStore = transaction.objectStore("Shelves");
+        let getAllRequest = landInfoStore.getAll();
+
+        getAllRequest.onsuccess = function (event) {
+          let landInfoRecords = event.target.result;
+          let shelvesDiv = document.getElementById("landInfoData"); // Get the div containing the In-House forms
+
+          // Inside the loop where you iterate over landInfoRecords
+          landInfoRecords.forEach((record) => {
+            let specificTds = shelvesDiv.querySelectorAll("td#entryCheck");
+            if (specificTds.length > 0) {
+              // Check if any specificTd is found
+              let matchFound = false;
+              specificTds.forEach((specificTd, index) => {
+                // Check if entryCheck is equal to entry
+                if (specificTd.textContent.trim() === record.entry) {
+                  console.log("Entry matched:", specificTd.textContent);
+                  matchFound = true;
+                } else {
+                  console.log("Entry not matched:", specificTd.textContent);
+                }
+              });
+              if (!matchFound) {
+                shelvesDiv.style.display = "none"; // Hide the div if no match is found
+              }
+            } else {
+              console.log("No TDs with specified ID found in shelves div");
+            }
+          });
+        };
+      };
+    }
+
+    // Call the function to execute the script
+    processEntryCheck();
+  </script> -->
+
+  {% endblock %}
+</body>

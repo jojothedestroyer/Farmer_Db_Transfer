@@ -1,0 +1,193 @@
+{% load static %} {% load pwa %} {% progressive_web_app_meta %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="manifest" href="('/static/manifest.json)" />
+    <script src="/static/js/true_sync.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dexie/3.1.1/dexie.min.js"></script>
+    <script src="https://unpkg.com/idb@5.2.0/build/iife/index-min.js"></script>
+
+    {% comment %}
+    <script>
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker
+          .register("/static/js/serviceworker.js")
+          .then(function (registration) {
+            console.log(
+              "Service Worker registered with scope:",
+              registration.scope
+            );
+          })
+          .catch(function (error) {
+            console.error("Service Worker registration failed:", error);
+          });
+      }
+    </script>
+    {% endcomment %} {% comment %}
+    <script>
+      // Check if the service worker is available in the browser
+      if ("serviceWorker" in navigator) {
+        // Register the service worker
+        navigator.serviceWorker
+          .register("/static/js/serviceworker.js")
+          .then(function (registration) {
+            console.log(
+              "Service Worker registered with scope:",
+              registration.scope
+            );
+          })
+          .catch(function (error) {
+            console.error("Service Worker registration failed:", error);
+          });
+
+        // Add a click event listener to the refresh cache button
+        document
+          .getElementById("refresh-cache-button")
+          .addEventListener("click", function () {
+            // Send a message to the service worker to trigger cache refresh
+            navigator.serviceWorker.controller.postMessage({
+              action: "refreshCache",
+            });
+          });
+      }
+    </script>
+    {% endcomment %}
+
+    <script>
+      setInterval(better_transferIndexedDBData, 10 * 1000); // Trigger every 10 seconds
+
+      function better_transferIndexedDBData() {
+        var request = indexedDB.open("GCNA", 2);
+
+        request.onsuccess = function (event) {
+          var db = event.target.result;
+          var modelNames = [
+            "Worker",
+            "Farmer",
+            "DriedA",
+            "DriedB",
+            "FloatA",
+            "FloatB",
+            "Quaility",
+            "visit",
+            "In-House-Drying",
+            "Dispatch-Of-Dried-Nutmeg",
+            "Dispatch-Of-Green",
+            "Cracking-Summary",
+            "Floation-Summary",
+            "Package-Ciontrol",
+            "Editors",
+            "Labour-support",
+            "Training-support",
+            "land-info",
+            "Land-Tenur",
+            "Nutmeg-Trees",
+            "Nutmeg-Variety",
+            "Other-Crops",
+            "Coconut-Trees",
+            "Citrus-Mango-Trees",
+            "Other-Spices-Trees",
+            "Other-Seasoning-Trees",
+            "Other-Crops-Cultivated",
+            "Condition",
+            "Nutmeg-Land",
+            "Nutmeg-Frequency",
+            "Potential-Risks",
+            "Road-Access",
+            "Food-Safety-and-Quality",
+            "Farm-Water-Source",
+            "Farm-House",
+            "inspector-symmary",
+            "Policy",
+            "Sanitation-A",
+            "Sanitation-B",
+            "Sanitation-C",
+            "Cracking_Schedule",
+            "Assorting_Log",
+            "Extractor_Log",
+            "Fumigation_Log",
+            "Shelves",
+            "W_Shelves",
+            "M_Shelves",
+            "W_Shelves_Dried",
+            "M_Shelves_Dried",
+            "Vehicle_Inspection",
+            "Final_Weight_Inspection",
+            "Final_Weight_Inspection_fields",
+            "Dispatch_Of_Dried_Nutmeg_Rec",
+            "Dispatch_Of_Green_Nutmeg_Rec",
+            "Mace_Dispatched",
+            "Mace_Purchase",
+            "Mace_Dispatched_Rec",
+            "Cracking_Extraction_Summary",
+          ];
+
+          modelNames.forEach(function (modelName) {
+            var transaction = db.transaction(modelName, "readonly");
+            var objectStore = transaction.objectStore(modelName);
+            var getRequest = objectStore.getAll();
+
+            getRequest.onsuccess = function (event) {
+              var data = event.target.result;
+              data.forEach(function (item) {
+                better_sendDataToDjango(item, modelName);
+              });
+            };
+          });
+        };
+
+        request.onerror = function (event) {
+          console.error("Error opening IndexedDB:", event);
+        };
+      }
+
+      function better_sendDataToDjango(item, modelName) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/check-and-add/", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+              console.log("Entry added successfully for model:", modelName);
+            } else {
+              console.error(
+                "Error adding entry for model:",
+                modelName,
+                xhr.statusText
+              );
+            }
+          }
+        };
+        xhr.send(JSON.stringify({ model: modelName, data: item }));
+      }
+    </script>
+
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <!--Chart js-->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"
+      integrity="sha256-Uv9BNBucvCPipKQ2NS9wYpJmi8DTOEfTA/nH2aoJALw="
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css"
+      integrity="sha256-aa0xaJgmK/X74WM224KMQeNQC2xYKwlAt08oZqjeF0E="
+      crossorigin="anonymous"
+    />
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+    <title>Text-Editor/IDE Charts</title>
+  </head>
+  <body>
+    {%block scripts%} {%endblock scripts%} {%block content%} {%endblock
+    content%}
+  </body>
+</html>

@@ -1,0 +1,56 @@
+{% extends 'gcna/base.html' %}
+
+{% block content%}
+	<style type="text/css">
+		.btn-circle.btn-xl {
+            width: 30px;
+            height: 30px;
+            padding: 3px 0px;
+            border-radius: 25px;
+            font-size: 15px;
+            text-align: center;
+		}
+	</style>
+	<center>
+<br>
+	{% if submitted %}
+		Entry successfully added to database!!!
+	{% else %}
+		<form action="" method="POST" style=" background-color: #e4e4e4;
+
+    margin: 1px auto;
+    font-family: Raleway;
+    padding: 10px;
+    width: 55%;
+    min-width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">
+    <h1>GCNA Form</h1>
+
+		{% csrf_token %}
+
+		<h3>Section F</h3>
+		{{ form6.as_p }}
+		<input type="submit" name="" value="✔" class="btn btn-success btn-circle btn-xl">
+		
+		<br>
+		<br>
+		<a class="btn btn-outline-dark" href="{% url 'database0_5' %}" role="button"><</a>
+
+
+
+
+		</form>
+
+	{% endif %}
+
+
+
+	</center>
+
+{{ form6.media }}
+
+{% endblock %}
+
+
+

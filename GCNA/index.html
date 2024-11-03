@@ -1,0 +1,383 @@
+<?php   
+ include 'connection.php';  
+ $query = "select * from adoption_request";  
+ $run = mysqli_query($conn,$query);  
+ 
+
+ 
+$query1 = "select * from orphan";  
+ $run1 = mysqli_query($conn,$query1); 
+
+ $query2 = "select * from adoptor";  
+ $run2 = mysqli_query($conn,$query2); 
+
+ $query3 = "select * from administrator";  
+ $run3 = mysqli_query($conn,$query3); 
+ 
+ 
+ ?>  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Request Form</title>
+ 
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="test2.css">   
+    <link rel="stylesheet" href="test.css">    
+<script>
+		function Hide(test) {
+			if (document.getElementById("portests").value == "Hide " + test) {
+				document.getElementById("portests").value = "Show More" + test;
+				var table= document.getElementById("testing");
+				for (var i = 0, row; row = table.rows[i]; i++) {
+				if(row.className == "data"){row.style.display="none";}
+			}
+			}
+			else{
+				document.getElementById("portests").value = "Hide " + test;
+				var table= document.getElementById("testing");
+				for (var i = 0, row; row = table.rows[i]; i++) {
+				if(row.className == "data"){row.style.display='';}
+				}
+			}
+		}
+            </script>
+
+
+
+
+</head>
+<body>
+
+    <header>
+        <div class="wrapper">
+  
+                <ul class="menu">
+                    <li><a href="adindex.php">HOME</a></li>
+                    <li><a href="Adminfrm.php">Admin</a></li>
+                    <li><a href="Adopterfrm.php">Adopter</a></li>
+                    <li><a href="Childrenfrm.php">Children</a></li>
+                    <li><a href="Donerfrm.php">Doner</a></li>
+                    <li><a href="Requestfrm.php">Request</a></li>
+                    <li><a href="index.html">LOGOUT</a></li>
+                </ul>
+             </div>
+            </header>
+
+<br>
+
+<!-- <input type="date" name="DAT" placeholder="Enter Date" id="username"> -->
+
+       <form action="testad.php" method="post">
+        <h3>GCNA Farm Assessment Form</h3>
+
+        <h4>Personal Information</h4>
+        <label for="username">Name</label>
+        <input type="text" name="DAT" placeholder="Enter your name" id="username">
+ 
+        <label for="username">Age</label>
+        <select  name="ADNUM">
+            <option>Select Age</option>
+     
+         <option> 18-25 </option>
+         <option> 25-40 </option>
+         <option> 40-60 </option>
+         <option> 60+ </option>
+
+            
+       </select>
+
+       <label for="username">Location of Farm</label>
+       <input type="text" name="DAT" placeholder="Enter Physical location" id="username">
+       <input type="text" name="DAT" placeholder="Enter GPS location" id="username">
+
+
+       <label for="username">Contact Information</label>
+       <input type="text" name="DAT" placeholder="Enter your contact information" id="username">
+
+
+       <label for="username">Land Elevation</label>
+       <select  name="ADNUM">
+           <option>Select Elevation range</option>
+    
+        <option> 00-00 </option>
+        <option> 00-00 </option>
+        <option> 00-00 </option>
+        <option> 00-00 </option>
+
+           
+      </select>
+
+      <label for="username">Soil Types</label>
+      <select  name="ADNUM">
+          <option>Select Soil Types</option>
+   
+    
+          <option> Sandy soil </option>
+          <option> Clay Soil</option>
+          <option> Silt Soil </option>
+          <option> Peat Soil </option>
+          <option> Chalk Soil </option>
+          <option> Loam Soil </option>
+             
+
+          
+     </select>
+
+     
+     <label for="username">Rainfall Pattern</label>
+     <select  name="ADNUM">
+         <option>Select rainfall pattern</option>
+  
+      <option> 00-00 </option>
+      <option> 00-00 </option>
+      <option> 00-00 </option>
+      <option> 00-00 </option>
+
+         
+    </select>
+
+    
+     <label for="username">Other Crops Cultivated</label>
+     <input type="text" name="DAT" placeholder="Enter the other crops you have cultivated" id="username">
+
+
+
+
+
+
+
+  <h4>Tenureship</h4>
+
+
+   <label for="username">Owner/Legal Title</label>
+   <input type="text" name="DAT" placeholder="Enter your legal title(s)" id="username">
+
+   <label for="username">Freehold</label>
+   <input type="text" name="DAT" placeholder="Enter freehold" id="username">
+
+   <label for="username">Family</label>
+   <input type="text" name="DAT" placeholder="Enter family members" id="username">
+
+   <label for="username">Leasehold</label>
+
+   <table class="tab" >
+    <tr>
+    <th>Yes</th>
+    <th>No</th>
+  </tr>
+  
+  <tr>
+    <th><input type="radio" name="Dcs" value="yes"/></th>
+    <th><input type="radio" name="Dcs" value="no"/></th>
+  </tr>
+  </table>
+
+
+   <input type="text" name="DAT" style='display: none'  placeholder="Enter status of lease" id="username">
+
+<!-- 
+
+        <label for="username">Decision</label>
+
+            <table class="tab" >
+                <tr>
+                <th>Approved</th>
+                <th>Rejected</th>
+              </tr>
+              
+              <tr>
+                <th><input type="radio" name="Dcs" value="approve" /></th>
+                <th><input type="radio" name="Dcs" value="rejected"/></th>
+              </tr>
+              </table> -->
+
+              
+              
+              <label for="username">CareTaker</label>
+              <input type="text" name="DAT" placeholder="Enter family members" id="username">
+
+              <label for="username">Agent</label>
+              <input type="text" name="DAT" placeholder="Enter family members" id="username">
+
+              <label for="username">Legal Title</label>
+              <input type="text" name="DAT" placeholder="Do you have a legal Title" id="username">
+
+              <label for="username">Status</label>
+              <textarea name="Text1" cols="40" rows="5" placeholder="Enter your status"></textarea>
+           
+                                 
+              
+
+
+
+<h4>Number of Trees</h4>
+
+<label for="username">Mature trees older than 25 years</label>
+<input type="text" name="DAT" placeholder="Enter number of mature trees" id="username">
+
+<label for="username">Bearing trees younger than 25 years</label>
+<input type="text" name="DAT" placeholder="Enter number of bearing trees" id="username">
+
+<label for="username">Non-Bearing trees older than 25 years</label>
+<input type="text" name="DAT" placeholder="Enter number of non-bearing trees" id="username">
+
+
+
+
+
+<h4>Type of Cultivation(Percentage)</h4>
+<label for="username">Pure Stand</label>
+<input type="text" name="DAT" placeholder="Enter Percentage" id="username">
+
+<label for="username">Intercrop</label>
+<input type="text" name="DAT" placeholder="Enter Percentage" id="username">
+
+<label for="username">Comments</label>
+<input type="text" name="DAT" placeholder="Enter your comments" id="username">
+
+
+
+
+
+<h4>Land Under Cultivation</h4>
+
+<label for="username">Normal</label>
+<input type="text" name="DAT" placeholder="Enter your normal land" id="username">
+
+<label for="username">Seasonal</label>
+<input type="text" name="DAT" placeholder="Enter your seasonal land" id="username">
+
+<label for="username">Abandoned</label>
+<input type="text" name="DAT" placeholder="Enter your abandoned land" id="username">
+
+
+<h4>Potential Risks</h4>
+
+<label for="username">Slides/Land Slippage</label>
+<input type="text" name="DAT" placeholder="Enter your land slippage information" id="username">
+
+<label for="username">Flooding/Potential for flooding</label>
+<input type="text" name="DAT" placeholder="Enter your flooding information" id="username">
+
+<label for="username">Heavy metals</label>
+<input type="text" name="DAT" placeholder="Enter your information on Heavy metals" id="username">
+
+<label for="username">Chemical spills</label>
+<input type="text" name="DAT" placeholder="Enter your information on chemical spills" id="username">
+
+<label for="username">Recent Dumping of trash</label>
+<input type="text" name="DAT" placeholder="Enter your information on recent dumping of trash" id="username">
+
+<label for="username">Recent use of the farm as a dairy/livestock/poultry feedlot</label>
+<input type="text" name="DAT" placeholder="Enter your information on the recent use of the farm as a feedlot " id="username">
+
+
+<h4>Adjacent Farm land use policy</h4>
+
+
+<label for="username">Use of Pesticides</label>
+<input type="text" name="DAT" placeholder="Enter your information on the use of pesticides" id="username">
+
+<label for="username">Septic Tank/Sewage System Close by?</label>
+<input type="text" name="DAT" placeholder="Enter your information on Sewage System  near the farm" id="username">
+
+<label for="username">other</label>
+<input type="text" name="DAT" placeholder="Enter the miscellaneous information " id="username">
+
+
+<h4>Road Access</h4>
+
+<label for="username">Is road access adequate?</label>
+<input type="text" name="DAT" placeholder="Enter information on road access adequate " id="username">
+
+
+<label for="username">Comments</label>
+<input type="text" name="DAT" placeholder="Enter your comments" id="username">
+
+
+<h4>Food Safety and Quality</h4>
+
+<label for="username">Fertilizer Used</label>
+<input type="text" name="DAT" placeholder="Enter what fertilizer was used" id="username">
+
+<label for="username">Last application</label>
+<input type="text" name="DAT" placeholder="Enter the last application" id="username">
+
+<label for="username">Frequency</label>
+<input type="text" name="DAT" placeholder="Enter frequency" id="username">
+
+<label for="username">Enter Picture evidence</label>
+<!-- <input type="text" name="DAT" placeholder="Enter information on road access adequate " id="username"> -->
+
+<label for="username">Raw Manure</label>
+<input type="text" name="DAT" placeholder="Was raw manure used?" id="username">
+
+<label for="username">Composted Manure</label>
+<input type="text" name="DAT" placeholder="Was composed manure used?" id="username">
+
+<label for="username">other</label>
+<input type="text" name="DAT" placeholder="Enter the miscellaneous information " id="username">
+
+
+
+<h4>Water Source</h4>
+
+<label for="username">Munical</label>
+<input type="text" name="DAT" placeholder="Is this water source used?" id="username">
+
+<label for="username">River</label>
+<input type="text" name="DAT" placeholder="Is this water source used?" id="username">
+
+<label for="username">Spring</label>
+<input type="text" name="DAT" placeholder="Is this water source used?" id="username">
+
+<label for="username">Well</label>
+<input type="text" name="DAT" placeholder="Is this water source used?" id="username">
+
+<label for="username">Harvested Rain Wateer</label>
+<input type="text" name="DAT" placeholder="Is this water source used?" id="username">
+
+<label for="username">Is water treated</label>
+<input type="text" name="DAT" placeholder="Was cthe water used treated?" id="username">
+
+
+<label for="username">other</label>
+<input type="text" name="DAT" placeholder="Enter the miscellaneous information " id="username">
+
+<h4>Symmary From Inspector</h4>
+
+
+<label for="username">Estimated  Annual Production</label>
+<input type="text" name="DAT" placeholder="Was cthe water used treated?" id="username">
+
+<label for="username">Estimated Peak Periods</label>
+<input type="text" name="DAT" placeholder="Was cthe water used treated?" id="username">
+
+<label for="username">Inspected by:</label>
+<input type="date" name="DAT"  id="username">
+
+<label for="username">Date</label>
+<input type="date" name="DAT"  id="username">
+
+
+
+
+
+
+
+
+
+
+        <button type="submit" >Submit</button>
+   
+	
+    </form>
+    
+    
+    
+    
+</body>
+</html>

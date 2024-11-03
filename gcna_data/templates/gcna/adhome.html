@@ -1,0 +1,365 @@
+{% extends 'gcna/base.html' %}
+
+{% block content%}
+    <form method="POST" style=" background-color: #e4e4e4;
+
+    margin: 1px auto;
+    font-family: Raleway;
+    padding: 10px;
+    width: 65%;
+    min-width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">	
+
+
+<h1>Welcome</h1>
+<h2>To the GCNA  Form Webpage</h2>
+
+
+<p>Please select one of the below objects</p>
+
+
+
+       <div class="card">
+         
+            <div class="card-body">
+                <p class="card-text">
+                    <table id="vertical-1" class="table table-hover table-light" >
+       
+
+<h2>Farm Forms</h2>
+
+
+
+
+
+
+         <tr>
+            <th>Farmer Info</th>
+            <td><a href="{% url '0gcna00_1' %}" class="btn btn-primary">Add</a></td>
+
+            <td><a href="{% url 'view_Farm_table0_1' %}" class="btn btn-secondary">View</a></td>
+        </tr>
+
+        <tr>
+            <th>Land Info</th>
+            <td><a href="{% url '0gcna00_2' %}" class="btn btn-primary">Add</a></td>
+            <td><a href="{% url 'view_Farm_table0_2' %}" class="btn btn-secondary">View</a></td>         </tr>
+
+        <tr>
+
+
+
+       <tr>
+            <th>Training Support Log</th>
+            <td><a href="{% url 'gcna000_22' %}" class="btn btn-primary">Add</a></td>
+            <td><a href="{% url 'view_Training0' %}" class="btn btn-secondary">View</a></td>        </tr>
+
+
+
+        <tr>
+            <th>Labour Support Log</th>
+            <td><a href="{% url 'gcna000_23' %}" class="btn btn-primary">Add</a></td>
+            <td><a href="{% url 'view_labour0' %}" class="btn btn-secondary">View</a></td>        </tr>
+
+
+
+
+            <th>Land Tenurship</th>
+            <td><a href="{% url '0gcna00_3' %}" class="btn btn-primary">Add</a></td>
+
+            <td><a href="{% url 'view_Farm_table0_3' %}" class="btn btn-secondary">View</a></td>        </tr>
+
+        <tr>
+            <th>Nutmeg Trees</th>
+            <td><a href="{% url '0gcna00_4' %}" class="btn btn-primary">Add</a></td>
+
+            <td><a href="{% url 'view_Farm_table0_4' %}" class="btn btn-secondary">View</a></td>        </tr>
+
+
+        <tr>
+            <th>Nutmeg Variety</th>
+            <td><a href="{% url '0gcna00_5' %}" class="btn btn-primary">Add</a></td>
+
+            <td><a href="{% url 'view_Farm_table0_5' %}" class="btn btn-secondary">View</a></td>          </tr>
+
+
+
+        <tr>
+            <th>Other Crops</th>
+            <td><a href="{% url '0gcna00_6' %}" class="btn btn-primary">Add</a></td>
+
+            <td><a href="{% url 'view_Farm_table0_6' %}" class="btn btn-secondary">View</a></td>          </tr>
+
+
+
+        <tr>
+            <th>Coconut Trees</th>
+            <td><a href="{% url '0gcna00_7' %}" class="btn btn-primary">Add</a></td>
+
+            <td><a href="{% url 'view_Farm_table0_7' %}" class="btn btn-secondary">View</a></td>          </tr>
+
+        <tr>
+            <th>Citrus Mango Trees</th>
+            <td><a href="{% url '0gcna00_8' %}" class="btn btn-primary">Add</a></td>
+
+            <td><a href="{% url 'view_Farm_table0_8' %}" class="btn btn-secondary">View</a></td>          </tr>
+
+        <tr>
+            <th>Other Spices Trees</th>
+            <td><a href="{% url '0gcna00_9' %}" class="btn btn-primary">Add</a></td>
+
+            <td><a href="{% url 'view_Farm_table0_9' %}" class="btn btn-secondary">View</a></td>          </tr>
+
+
+        <tr>
+            <th>Other Seasoning Trees</th>
+            <td><a href="{% url '0gcna00_10' %}" class="btn btn-primary">Add</a></td>
+
+            <td><a href="{% url 'view_Farm_table0_10' %}" class="btn btn-secondary">View</a></td>          </tr>
+
+
+
+        <tr>
+            <th>Other Crops Cultivated</th>
+            <td><a href="{% url '0gcna00_11' %}" class="btn btn-primary">Add</a></td>
+
+            <td><a href="{% url 'view_Farm_table0_11' %}" class="btn btn-secondary">View</a></td>          </tr>
+
+
+        <tr>
+            <th>Condition</th>
+            <td><a href="{% url '0gcna00_12' %}" class="btn btn-primary">Add</a></td>
+
+            <td><a href="{% url 'view_Farm_table0_12' %}" class="btn btn-secondary">View</a></td>
+        </tr>
+
+        <tr>
+            <th>Nutmeg Land Form</th>
+            <td><a href="{% url '0gcna00_13' %}" class="btn btn-primary">Add</a></td>
+
+            <td><a href="{% url 'view_Farm_table0_13' %}" class="btn btn-secondary">View</a></td>
+        </tr>
+
+        <tr>
+            <th>Nutmeg Frequency Form</th>
+            <td><a href="{% url '0gcna00_14' %}" class="btn btn-primary">Add</a></td>
+
+            <td><a href="{% url 'view_Farm_table0_14' %}" class="btn btn-secondary">View</a></td>
+        </tr>
+
+
+        <tr>
+            <th>Potential Risks</th>
+            <td><a href="{% url '0gcna00_15' %}" class="btn btn-primary">Add</a></td>
+
+            <td><a href="{% url 'view_Farm_table0_15' %}" class="btn btn-secondary">View</a></td>
+        </tr>
+
+
+
+
+        <tr>
+            <th>Policy</th>
+            <td><a href="{% url '0gcna00_16' %}" class="btn btn-primary">Add</a></td>
+
+            <td><a href="{% url 'view_Farm_table0_16' %}" class="btn btn-secondary">View</a></td>
+        </tr>
+
+
+        <tr>
+            <th>Road Access</th>
+            <td><a href="{% url '0gcna00_17' %}" class="btn btn-primary">Add</a></td>
+
+            <td><a href="{% url 'view_Farm_table0_17' %}" class="btn btn-secondary">View</a></td>
+        </tr>
+
+        <tr>
+            <th>Food Safety and Quality</th>
+            <td><a href="{% url '0gcna00_18' %}" class="btn btn-primary">Add</a></td>
+
+            <td><a href="{% url 'view_Farm_table0_18' %}" class="btn btn-secondary">View</a></td>
+        </tr>
+
+        <tr>
+            <th>Farm Water Source</th>
+            <td><a href="{% url '0gcna00_19' %}" class="btn btn-primary">Add</a></td>
+
+            <td><a href="{% url 'view_Farm_table0_19' %}" class="btn btn-secondary">View</a></td>
+        </tr>
+ 
+         <tr>
+            <th>Farm House</th>
+            <td><a href="{% url '0gcna00_20' %}" class="btn btn-primary">Add</a></td>
+
+            <td><a href="{% url 'view_Farm_table0_20' %}" class="btn btn-secondary">View</a></td>
+        </tr>
+
+         <tr>
+            <th>inspector Summary</th>
+            <td><a href="{% url '0gcna00_21' %}" class="btn btn-primary">Add</a></td>
+
+            <td><a href="{% url 'view_Farm_table0_21' %}" class="btn btn-secondary">View</a></td>
+        </tr>
+
+
+
+
+
+ 
+                    </table>
+                
+
+
+
+
+
+
+
+
+     
+            </div>
+        </div>
+
+<br>
+<br>
+
+
+
+       <div class="card">
+         
+            <div class="card-body">
+                <p class="card-text">
+                    <table id="vertical-1" class="table table-hover table-light" >
+
+
+
+
+
+	
+			<h2>Nutmeg Forms</h2>
+
+
+
+        <tr>
+            <th>Dried Nutmeg Section A</th>
+            <td><a href="{% url 'Dried0_A_add_data' %}" class="btn btn-primary">Add</a></td>
+
+            <td><a href="{% url 'view_driedA' %}" class="btn btn-secondary">View</a></td>
+        </tr>
+
+        <tr>
+            <th>Dried Nutmeg Section B</th>
+            <td><a href="{% url 'Dried0_B_add_data' %}" class="btn btn-primary">Add</a></td>
+
+            <td><a href="{% url 'view_driedB' %}" class="btn btn-secondary">View</a></td>
+        </tr>
+ 
+         <tr>
+            <th>Floated Nutmeg Section A</th>
+            <td><a href="{% url 'Floated0_A_add_data' %}" class="btn btn-primary">Add</a></td>
+
+            <td><a href="{% url 'view_floatedA' %}" class="btn btn-secondary">View</a></td>
+        </tr>
+
+         <tr>
+            <th>Floated Nutmeg Section B</th>
+            <td><a href="{% url 'Floated0_B_add_data' %}" class="btn btn-primary">Add</a></td>
+
+            <td><a href="{% url 'view_floatedB' %}" class="btn btn-secondary">View</a></td>
+        </tr>
+
+         <tr>
+            <th>Quality Form</th>
+            <td><a href="{% url 'Quality0_add_data' %}" class="btn btn-primary">Add</a></td>
+
+            <td><a href="{% url 'view_quality' %}" class="btn btn-secondary">View</a></td>
+        </tr>
+
+</table>
+
+            </div>
+        </div>
+
+         <br>
+        <br>
+        <br>
+
+
+
+
+       <div class="card">
+         
+            <div class="card-body">
+                <p class="card-text">
+                    <table id="vertical-1" class="table table-hover table-light" >
+
+
+
+
+
+    
+            <h2>Inventory and Traceability Forms</h2>
+
+
+
+
+        <tr>
+            <th>In House Form</th>
+            <td><a href="{% url 'add_In_House' %}" class="btn btn-primary">Add</a></td>
+
+            <td><a href="{% url 'view_IH' %}" class="btn btn-secondary">View</a></td>
+        </tr>
+
+        <tr>
+            <th>Dispatch Dried Nutmeg Form</th>
+            <td><a href="{% url 'add_Dispatch_Dried' %}" class="btn btn-primary">Add</a></td>
+
+            <td><a href="{% url 'view_DISD' %}" class="btn btn-secondary">View</a></td>
+        </tr>
+ 
+         <tr>
+            <th>Dispatch Green Nutmeg Form</th>
+            <td><a href="{% url 'add_Dispatch_Green' %}" class="btn btn-primary">Add</a></td>
+
+            <td><a href="{% url 'view_DISG' %}" class="btn btn-secondary">View</a></td>
+        </tr>
+
+         <tr>
+            <th>Cracking Nutmeg Form</th>
+            <td><a href="{% url 'add_Cracking' %}" class="btn btn-primary">Add</a></td>
+
+            <td><a href="{% url 'view_CRK' %}" class="btn btn-secondary">View</a></td>
+        </tr>
+
+         <tr>
+            <th>Floation Form</th>
+            <td><a href="{% url 'add_Floation' %}" class="btn btn-primary">Add</a></td>
+
+            <td><a href="{% url 'view_FLT' %}" class="btn btn-secondary">View</a></td>
+        </tr>
+
+
+
+
+         <tr>
+            <th>Package Form</th>
+            <td><a href="{% url 'add_Package' %}" class="btn btn-primary">Add</a></td>
+
+            <td><a href="{% url 'view_PKG' %}" class="btn btn-secondary">View</a></td>
+        </tr>
+
+
+
+</table>
+
+            </div>
+        </div>
+
+
+
+</form>
+
+{% endblock %}
+
+

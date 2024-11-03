@@ -1,0 +1,2109 @@
+
+
+{% extends 'gcna/base2.html' %}
+
+
+{% block content%}
+
+{% comment %} 
+<div class="card">
+ 
+  <div class="card-body">
+
+  </h5>
+    <p class="card-text">
+
+        <table id="vertical-1" class="table table-hover table-light">
+
+
+         <tr>
+            <th>Date of Sampling</th>
+            <td>{{ farmer_info_id.DATE_OF_SAMPLING }}</td>
+        </tr>
+        <tr>
+            <th>Station</th>
+            <td>{{ farmer_info_id.STATION }}</td>
+        </tr>
+        <tr>
+            <th>Batch Codes</th>
+            <td>{{ farmer_info_id.BATCH_CODE }}</td>
+        </tr>
+        <tr>
+            <th>Quantity of Bags</th>
+            <td>{{ farmer_info_id.Quantity_of_Bags }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Quantity of Sample</th>
+            <td>{{ farmer_info_id.Quantity_of_Sample }}</td>
+        </tr>
+
+
+
+        <tr>
+            <th>Total Weight(lbs)</th>
+            <td>{{ farmer_info_id.Total_Weight }}</td>
+        </tr>
+
+
+
+        <tr>
+            <th>Initial Sample Weight(lbs)</th>
+            <td>{{ farmer_info_id.Initial_Sample_Weight }}</td>
+        </tr>
+        <tr>
+            <th>Insect Damaged(lbs)</th>
+            <td>{{ farmer_info_id.Insect_Damaged }}</td>
+        </tr>
+        <tr>
+            <th>Broken(lbs)</th>
+            <td>{{ farmer_info_id.Broken }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Mould(lbs)</th>
+            <td>{{ farmer_info_id.Mould }}</td>
+        </tr>
+
+
+
+        <tr>
+            <th>Final Sample Weight(lbs)</th>
+            <td>{{ farmer_info_id.Final_Sample_Weight }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Reading 1</th>
+            <td>{{ farmer_info_id.READING_1 }}</td>
+        </tr>
+        <tr>
+            <th>Reading 2</th>
+            <td>{{ farmer_info_id.READING_2 }}</td>
+        </tr>
+        <tr>
+            <th>Reading 3</th>
+            <td>{{ dried.READING_3 }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Average</th>
+            <td>{{ farmer_info_id.AVERAGE }}</td>
+        </tr>
+
+
+
+        <tr>
+            <th>Decisiom</th>
+            <td>{{ farmer_info_id.DECISION }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Comments</th>
+            <td>{{ farmer_info_id.Comments }}</td>
+        </tr>
+        <tr>
+            <th>Test preformed by</th>
+            <td>{{ farmer_info_id.TEST_PERFORMED_BY }}</td>
+        </tr>
+        <tr>
+            <th>Date</th>
+            <td>{{ farmer_info_id.DATE }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Signed by</th>
+            <td>{{ farmer_info_id.SIGNED_BY }}</td>
+        </tr>
+
+
+
+        <tr>
+            <th>Date of Report</th>
+            <td>{{ farmer_info_id.DATE_OF_REPORT }}</td>
+        </tr>  
+
+        <tr>
+            <th>Signed by Quality Assurance Officer</th>
+            <td>{{ farmer_info_id.SIGNED_BY_QUALITY_ASSURANCE_OFFICER }}</td>
+        </tr>  
+
+                <tr>
+            <th>Date</th>
+            <td>{{ farmer_info_id.DATE }}</td>
+        </tr>  
+
+  
+              <tr>
+            <th><a href="{% url 'table' %}" class="btn btn-secondary">Return</a></th>
+        </tr>
+    </table>
+                    </p>
+
+
+
+       
+ </div>        </div>
+
+<br>
+<br>
+<br> {% endcomment %}
+{% comment %} 
+<div id="landInfoData"></div>
+<div id="editFormContainer"></div>
+
+<script>
+    let openRequest = indexedDB.open("GCNA");
+
+    openRequest.onsuccess = function (event) {
+        let db = event.target.result;
+        let transaction = db.transaction("DriedA", "readonly");
+        let landInfoStore = transaction.objectStore("DriedA");
+        let getAllRequest = landInfoStore.getAll();
+
+        getAllRequest.onsuccess = function (event) {
+            let landInfoRecords = event.target.result;
+            let landInfoDataDiv = document.getElementById('landInfoData');
+
+            landInfoRecords.forEach(record => {
+                let entryContainer = document.createElement("div");
+                entryContainer.id = `entryContainer_${record.id}`;
+                entryContainer.innerHTML = `
+                    <!-- Your existing HTML structure -->
+                `;
+                landInfoDataDiv.appendChild(entryContainer);
+
+                let editFormContainer = document.createElement("div");
+                editFormContainer.id = `editFormContainer_${record.id}`;
+                landInfoDataDiv.appendChild(editFormContainer);
+
+                // Call the function to generate the edit form
+                generateEditForm(record, editFormContainer);
+            });
+        };
+    };
+
+    // Function to generate the edit form based on Django form structure
+    function generateEditForm(record, container) {
+        let formFieldsHTML = '';
+        const form = new FormData(); // Create FormData object to handle file inputs
+
+        for (let field in record) {
+            if (record.hasOwnProperty(field) && field !== 'id') {
+                let formField = document.createElement("div");
+                formField.innerHTML = generateFormFieldHTML(field, record[field]);
+                container.appendChild(formField);
+                form.append(field, record[field]); // Append field to FormData
+            }
+        }
+
+        // Append submit button
+        let submitButton = document.createElement("button");
+        submitButton.innerHTML = "Save";
+        submitButton.addEventListener("click", function () {
+            // Call the function to save the edited form
+            saveEditedForm(record.id, form);
+        });
+        container.appendChild(submitButton);
+
+        // Append close button
+        let closeButton = document.createElement("button");
+        closeButton.innerHTML = "Close";
+        closeButton.addEventListener("click", function () {
+            container.innerHTML = ''; // Clear the form container
+        });
+        container.appendChild(closeButton);
+    }
+
+    // Function to generate HTML for each form field
+    function generateFormFieldHTML(fieldName, fieldValue) {
+        let fieldType = typeof fieldValue;
+        let formFieldHTML = '';
+
+        if (fieldType === 'number') {
+            formFieldHTML = `
+                <label for="${fieldName}">${fieldName}:</label>
+                <input type="number" id="${fieldName}" name="${fieldName}" value="${fieldValue}" class="form-control"> <br>
+            `;
+        } else if (fieldType === 'string') {
+            formFieldHTML = `
+                <label for="${fieldName}">${fieldName}:</label>
+                <input type="text" id="${fieldName}" name="${fieldName}" value="${fieldValue}" class="form-control"> <br>
+            `;
+        } else if (fieldType === 'object' && fieldValue instanceof Date) {
+            // Check if it's a date input
+            formFieldHTML = `
+                <label for="${fieldName}">${fieldName}:</label>
+                <input type="date" id="${fieldName}" name="${fieldName}" value="${fieldValue.toISOString().split('T')[0]}" class="form-control"> <br>
+            `;
+        } else {
+            // Handle other field types as needed
+            // ...
+        }
+
+        return formFieldHTML;
+    }
+
+    // Function to save the edited form
+    function saveEditedForm(id, form) {
+        // Previous save logic for IndexedDB
+        let db = indexedDB.open("GCNA");
+
+        db.onsuccess = function (event) {
+            let transaction = event.target.result.transaction("DriedA", "readwrite");
+            let landInfoStore = transaction.objectStore("DriedA");
+            let getRequest = landInfoStore.get(id);
+
+            getRequest.onsuccess = function (event) {
+                let updatedRecord = event.target.result;
+
+                // Update the record with the edited form data
+                for (let [key, value] of form.entries()) {
+                    updatedRecord[key] = value;
+                }
+
+                let putRequest = landInfoStore.put(updatedRecord);
+
+                putRequest.onsuccess = function () {
+                    console.log('Record updated successfully');
+                };
+
+                putRequest.onerror = function (event) {
+                    console.error('Error updating record:', event.target.error);
+                };
+
+                transaction.oncomplete = function () {
+                    console.log('Transaction completed');
+                };
+            };
+
+            getRequest.onerror = function (event) {
+                console.error('Error getting record:', event.target.error);
+            };
+        };
+
+        db.onerror = function (event) {
+            console.error('Error opening database:', event.target.error);
+        };
+    }
+</script> {% endcomment %}
+
+
+
+
+
+
+
+
+{% comment %} 
+
+<div id="landInfoData"></div>
+
+<script>
+    let openRequest = indexedDB.open("GCNA");
+
+    openRequest.onsuccess = function (event) {
+        let db = event.target.result;
+        let transaction = db.transaction("DriedA", "readonly");
+        let landInfoStore = transaction.objectStore("DriedA");
+        let getAllRequest = landInfoStore.getAll();
+
+        getAllRequest.onsuccess = function (event) {
+            let landInfoRecords = event.target.result;
+            let landInfoDataDiv = document.getElementById('landInfoData');
+
+            landInfoRecords.forEach(record => {
+                let entryContainer = document.createElement("div");
+                entryContainer.id = `entryContainer_${record.id}`;
+                entryContainer.innerHTML = `
+
+                <div class="card">
+             
+                    <div class="card-body">
+                  
+                    </h5>
+                      <p class="card-text">
+                          <table id="vertical-1" class="table table-hover table-light">
+                  
+                  
+                   
+                  
+                                        <h4>Moisture Analysis in Dried Nutmeg</h4>
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" style="text-align:center;">Batch Code</th>
+                                                    <th scope="col" style="text-align:center;">${record.Batch_Code}</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+            
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" style="text-align:center;">Quantity of Bags</th>
+                                                    <th scope="col" style="text-align:center;">Quantity of Sample</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td scope="col" style="text-align:center;">${record.Quantity_of_Bags}</td>
+                                                    <td scope="col" style="text-align:center;">${record.Quantity_of_Sample}</td>
+                                                </tr>
+                                            </tbody>
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" style="text-align:center;">Total Weight</th>
+                                                    <th scope="col" style="text-align:center;">Initial Sample Weight</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td scope="col" style="text-align:center;">${record.Total_Weight}</td>
+                                                    <td scope="col" style="text-align:center;">${record.Initial_Sample_Weight}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+            
+            <center>
+            
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" style="text-align:center;">Insect Damaged</th>
+                                                    <th scope="col" style="text-align:center;">Broken</th>
+                                                    <th scope="col" style="text-align:center;">Mould</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td scope="col" style="text-align:center;">${record.Insect_Damaged}</td>
+                                                    <td scope="col" style="text-align:center;">${record.Broken}</td>
+                                                    <td scope="col" style="text-align:center;">${record.Mould}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </center>
+            
+            
+            
+            
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" style="text-align:center;">Final Sample Weight</th>
+                                                    <th scope="col" style="text-align:center;">${record.Final_Sample_Weight}</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+            
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" style="text-align:center;">Reading 1</th>
+                                                    <th scope="col" style="text-align:center;">Reading 2</th>
+                                                    <th scope="col" style="text-align:center;">Reading 3</th>
+                                                    <th scope="col" style="text-align:center;">Average</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td scope="col" style="text-align:center;">${record.READING_1}</td>
+                                                    <td scope="col" style="text-align:center;">${record.READING_2}</td>
+                                                    <td scope="col" style="text-align:center;">${record.READING_3}</td>
+                                                    <td scope="col" style="text-align:center;">${record.AVERAGE}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+            
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" style="text-align:center;">Decision</th>
+                                                    <th scope="col" style="text-align:center;">${record.DECISION}</th>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="col" style="text-align:center;">Comments</th>
+                                                    <th scope="col" style="text-align:center;">${record.Comments}</th>
+                                                </tr>
+             bh                                </thead>
+                                        </table>
+             
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" style="text-align:center;">Test Performed by</th>
+                                                    <th scope="col" style="text-align:center;">${record.TEST_PERFORMED_BY}</th>
+                                                    <th scope="col" style="text-align:center;">Date of Test</th>
+                                                    <th scope="col" style="text-align:center;">${record.DATE}</th>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="col" style="text-align:center;">Approved by</th>
+                                                    <th scope="col" style="text-align:center;">${record.APPROVED_BY}</th>
+                                                    <th scope="col" style="text-align:center;">Date of Report</th>
+                                                    <th scope="col" style="text-align:center;">${record.DATE_OF_REPORT}</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+            
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" style="text-align:center;">CHECKED BY QA OFFICER</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <th scope="col" style="text-align:center;">Signed by Quality Assurance Officer</th>
+                                                    <th scope="col" style="text-align:center;">${record.SIGNED_BY_QUALITY_ASSURANCE_OFFICER}</th>
+                                                    <th scope="col" style="text-align:center;">Date</th>
+                                                    <th scope="col" style="text-align:center;">${record.DATE}</th>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </form>
+            
+
+                                    <button class="btn btn-danger" onclick="deleteEntry(${record.id})">Delete</button>
+                                    <button class="btn btn-primary" onclick="toggleEditForm(${record.id})">Edit</button>
+                            
+                                        </div></div></div> <br> <br> <br>
+                `;
+                landInfoDataDiv.appendChild(entryContainer);
+
+                let editFormContainer = document.createElement("div");
+                editFormContainer.id = `editFormContainer_${record.id}`;
+                entryContainer.appendChild(editFormContainer);  // Append to entryContainer
+            });
+        };
+    };
+
+    function toggleEditForm(id) {
+        let editFormContainer = document.getElementById(`editFormContainer_${id}`);
+        if (editFormContainer.style.display === 'none' || editFormContainer.style.display === '') {
+            showEditForm(id);
+        } else {
+            hideEditForm(id);
+        }
+    }
+
+    function showEditForm(id) {
+        let openRequest = indexedDB.open("GCNA");
+    
+        openRequest.onsuccess = function (event) {
+            let db = event.target.result;
+            let transaction = db.transaction("DriedA", "readwrite");
+            let landInfoStore = transaction.objectStore("DriedA");
+            let getRequest = landInfoStore.get(id);
+    
+            getRequest.onsuccess = function (event) {
+                let record = event.target.result;
+    
+                let editFormContainer = document.getElementById(`editFormContainer_${id}`);
+                editFormContainer.innerHTML = '<form id="editForm">';
+    
+                for (let field in record) {
+                    if (record.hasOwnProperty(field) && field !== 'id') {
+                        let inputElement;
+                        if (field === 'DECISION') {
+                            inputElement = document.createElement('select');
+                            inputElement.id = field;
+                            inputElement.name = field;
+                            inputElement.classList.add('form-control');
+    
+                            const options = ['Pass', 'Fail'];
+                            options.forEach(option => {
+                                let optionElement = document.createElement('option');
+                                optionElement.value = option;
+                                optionElement.textContent = option;
+                                if (record[field] === option) {
+                                    optionElement.selected = true;
+                                }
+                                inputElement.appendChild(optionElement);
+                            });
+                        } else if (field === 'DATE_OF_SAMPLING' || field === 'DATE' || field === 'DATE_OF_REPORT') {
+                            inputElement = document.createElement('input');
+                            inputElement.type = 'date';
+                            inputElement.id = field;
+                            inputElement.name = field;
+                            inputElement.value = record[field];
+                            inputElement.classList.add('form-control');
+                        } else {
+                            inputElement = document.createElement('input');
+                            inputElement.type = 'text';
+                            inputElement.id = field;
+                            inputElement.name = field;
+                            inputElement.value = record[field];
+                            inputElement.classList.add('form-control');
+                        }
+    
+                        editFormContainer.innerHTML += `
+                            <label for="${field}">${field}:</label>
+                        `;
+                        editFormContainer.appendChild(inputElement);
+                        editFormContainer.innerHTML += '<br>';
+                    }
+                }
+    
+                editFormContainer.innerHTML += `
+                    <button type="button" id="saveButton" onclick="saveEditedForm(${id})">Save</button>
+                    <button type="button" id="closeButton" onclick="hideEditForm(${id})">Close</button>
+                `;
+            };
+    
+            getRequest.onerror = function (event) {
+                console.error('Error getting record:', event.target.error);
+            };
+        };
+    
+        openRequest.onerror = function (event) {
+            console.error('Error opening database:', event.target.error);
+        };
+    }
+    
+    function hideEditForm(id) {
+        let editFormContainer = document.getElementById(`editFormContainer_${id}`);
+        editFormContainer.innerHTML = '';
+    }
+    
+
+    function saveEditedForm(id) {
+        let openRequest = indexedDB.open("GCNA");
+    
+        openRequest.onsuccess = function (event) {
+            let db = event.target.result;
+            let transaction = db.transaction("DriedA", "readwrite");
+            let landInfoStore = transaction.objectStore("DriedA");
+            let getRequest = landInfoStore.get(id);
+    
+            getRequest.onsuccess = function (event) {
+                let record = event.target.result;
+    
+                // Update record properties with edited form values
+                for (let property in record) {
+                    if (record.hasOwnProperty(property) && property !== 'id') {
+                        const inputElement = document.getElementById(property);
+                        if (inputElement) {
+                            // Check if the field is DECISION to handle it as a select element
+                            if (property === 'DECISION') {
+                                record[property] = inputElement.options[inputElement.selectedIndex].value;
+                            } else {
+                                record[property] = inputElement.value;
+                            }
+                        }
+                    }
+                }
+    
+                let putRequest = landInfoStore.put(record);
+    
+                putRequest.onsuccess = function () {
+                    console.log('Record updated successfully');
+                };
+    
+                putRequest.onerror = function (event) {
+                    console.error('Error updating record:', event.target.error);
+                };
+            };
+    
+            getRequest.onerror = function (event) {
+                console.error('Error getting record:', event.target.error);
+            };
+        };
+    
+        openRequest.onerror = function (event) {
+            console.error('Error opening database:', event.target.error);
+        };
+    }
+    
+
+    function deleteEntry(id) {
+        let db = indexedDB.open("GCNA");
+
+        db.onsuccess = function (event) {
+            let transaction = event.target.result.transaction("DriedA", "readwrite");
+            let landInfoStore = transaction.objectStore("DriedA");
+            let getRequest = landInfoStore.get(id);
+
+            getRequest.onsuccess = function (event) {
+                let deletedRecord = event.target.result;
+
+                if (deletedRecord) {
+                    let deleteRequest = landInfoStore.delete(id);
+
+                    deleteRequest.onsuccess = function () {
+                        console.log(`Record with ID ${id} deleted.`);
+
+                        let db2 = indexedDB.open("DELETED");
+
+                        db2.onsuccess = function (event2) {
+                            console.log("DELETED database opened successfully.");
+
+                            let transaction2 = event2.target.result.transaction("DriedA", "readwrite");
+                            let deletedStore = transaction2.objectStore("DriedA");
+                            deletedRecord.id = id;
+
+                            let addDeletedRequest = deletedStore.add(deletedRecord);
+
+                            addDeletedRequest.onsuccess = function () {
+                                console.log(`Record with ID ${id} added to DELETED object store.`);
+                            };
+
+                            addDeletedRequest.onerror = function (event3) {
+                                if (event3.target.error.name === 'ConstraintError') {
+                                    console.log(`Record with ID ${id} already exists in DELETED object store.`);
+                                } else {
+                                    console.log(`Failed to add record with ID ${id} to DELETED object store.`);
+                                }
+                            };
+                        };
+
+                        db2.onerror = function (event2) {
+                            console.log("Failed to open 'DELETED' database.", event2.target.error);
+                        };
+
+                        // Reload the page after delete
+                        location.reload();
+                    };
+
+                    deleteRequest.onerror = function () {
+                        console.log(`Failed to delete record with ID ${id}.`);
+                    };
+                } else {
+                    console.log(`Record with ID ${id} not found.`);
+                }
+            };
+
+            getRequest.onerror = function () {
+                console.log(`Failed to get record with ID ${id} before deleting.`);
+            };
+        };
+
+        db.onerror = function (event) {
+            console.log("Failed to open 'GCNA' database!", event.target.error);
+        };
+    }
+</script>
+
+
+
+ {% endcomment %}
+
+
+{% comment %} 
+ <script>
+     let openRequest = indexedDB.open("GCNA");
+ 
+     openRequest.onsuccess = function (event) {
+         let db = event.target.result;
+         let transaction = db.transaction("DriedA", "readonly");
+         let landInfoStore = transaction.objectStore("DriedA");
+         let getAllRequest = landInfoStore.getAll();
+ 
+         getAllRequest.onsuccess = function (event) {
+             let landInfoRecords = event.target.result;
+             let landInfoDataDiv = document.getElementById('landInfoData');
+ 
+             landInfoRecords.forEach(record => {
+                 let entryContainer = document.createElement("div");
+                 entryContainer.id = `entryContainer_${record.id}`;
+                 entryContainer.innerHTML = `
+                     <!-- Your existing HTML code here -->
+                     <div class="card">
+             
+                        <div class="card-body">
+                      
+                        </h5>
+                          <p class="card-text">
+                              <table id="vertical-1" class="table table-hover table-light">
+                      
+                      
+                       
+                      
+                                            <h4>Moisture Analysis in Dried Nutmeg</h4>
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col" style="text-align:center;">Batch Code</th>
+                                                        <th scope="col" style="text-align:center;">${record.Batch_Code}</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col" style="text-align:center;">Quantity of Bags</th>
+                                                        <th scope="col" style="text-align:center;">Quantity of Sample</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td scope="col" style="text-align:center;">${record.Quantity_of_Bags}</td>
+                                                        <td scope="col" style="text-align:center;">${record.Quantity_of_Sample}</td>
+                                                    </tr>
+                                                </tbody>
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col" style="text-align:center;">Total Weight</th>
+                                                        <th scope="col" style="text-align:center;">Initial Sample Weight</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td scope="col" style="text-align:center;">${record.Total_Weight}</td>
+                                                        <td scope="col" style="text-align:center;">${record.Initial_Sample_Weight}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                
+                <center>
+                
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col" style="text-align:center;">Insect Damaged</th>
+                                                        <th scope="col" style="text-align:center;">Broken</th>
+                                                        <th scope="col" style="text-align:center;">Mould</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td scope="col" style="text-align:center;">${record.Insect_Damaged}</td>
+                                                        <td scope="col" style="text-align:center;">${record.Broken}</td>
+                                                        <td scope="col" style="text-align:center;">${record.Mould}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </center>
+                
+                
+                
+                
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col" style="text-align:center;">Final Sample Weight</th>
+                                                        <th scope="col" style="text-align:center;">${record.Final_Sample_Weight}</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col" style="text-align:center;">Reading 1</th>
+                                                        <th scope="col" style="text-align:center;">Reading 2</th>
+                                                        <th scope="col" style="text-align:center;">Reading 3</th>
+                                                        <th scope="col" style="text-align:center;">Average</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td scope="col" style="text-align:center;">${record.READING_1}</td>
+                                                        <td scope="col" style="text-align:center;">${record.READING_2}</td>
+                                                        <td scope="col" style="text-align:center;">${record.READING_3}</td>
+                                                        <td scope="col" style="text-align:center;">${record.AVERAGE}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col" style="text-align:center;">Decision</th>
+                                                        <th scope="col" style="text-align:center;">${record.DECISION}</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="col" style="text-align:center;">Comments</th>
+                                                        <th scope="col" style="text-align:center;">${record.Comments}</th>
+                                                    </tr>
+                                                 </thead>
+                                            </table>
+                 
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col" style="text-align:center;">Test Performed by</th>
+                                                        <th scope="col" style="text-align:center;">${record.TEST_PERFORMED_BY}</th>
+                                                        <th scope="col" style="text-align:center;">Date of Test</th>
+                                                        <th scope="col" style="text-align:center;">${record.DATE}</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="col" style="text-align:center;">Approved by</th>
+                                                        <th scope="col" style="text-align:center;">${record.APPROVED_BY}</th>
+                                                        <th scope="col" style="text-align:center;">Date of Report</th>
+                                                        <th scope="col" style="text-align:center;">${record.DATE_OF_REPORT}</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col" style="text-align:center;">CHECKED BY QA OFFICER</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <th scope="col" style="text-align:center;">Signed by Quality Assurance Officer</th>
+                                                        <th scope="col" style="text-align:center;">${record.SIGNED_BY_QUALITY_ASSURANCE_OFFICER}</th>
+                                                        <th scope="col" style="text-align:center;">Date</th>
+                                                        <th scope="col" style="text-align:center;">${record.DATE}</th>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </form>
+                
+    
+                                        <button class="btn btn-danger" onclick="deleteEntry(${record.id})">Delete</button>
+                                        <button class="btn btn-primary" onclick="toggleEditForm(${record.id})">Edit</button>
+                                        <button class="btn btn-danger" id="hiddenButton" style="display:none;" onclick="hideEditForm(${record.id})">Close</button>
+
+                                            </div></div></div> <br> <br> <br>
+
+ 
+                     <!-- Your existing HTML code here -->
+ 
+                     <br> <br> <br>
+                 `;
+                 landInfoDataDiv.appendChild(entryContainer);
+ 
+                 let editFormContainer = document.createElement("div");
+                 editFormContainer.id = `editFormContainer_${record.id}`;
+                 entryContainer.appendChild(editFormContainer);  // Append to entryContainer
+             });
+         };
+     };
+ 
+     function toggleEditForm(id) {
+        let editFormContainer = document.getElementById(`editFormContainer_${id}`);
+        if (editFormContainer.style.display === '') {
+            showEditForm(id);
+        } else {
+            hideEditForm(id);
+        }
+    }
+     function showEditForm(id) {
+         let openRequest = indexedDB.open("GCNA");
+         let hiddenButton = document.getElementById("hiddenButton");
+
+         // Set the display property to "block" to make it visible
+         hiddenButton.style.display = "block";
+         openRequest.onsuccess = function (event) {
+             let db = event.target.result;
+             let transaction = db.transaction("DriedA", "readwrite");
+             let landInfoStore = transaction.objectStore("DriedA");
+             let getRequest = landInfoStore.get(id);
+ 
+             getRequest.onsuccess = function (event) {
+                 let record = event.target.result;
+                 let formFieldsHTML = '';
+ 
+                 for (let property in record) {
+                     if (record.hasOwnProperty(property) && property !== 'id') {
+                         formFieldsHTML += `
+                             <label for="${property}">${property}:</label>
+                             <input type="text" id="${property}" name="${property}" value="${record[property]}"> <br>
+                         `;
+                     }
+                 }
+ 
+                 let editFormContainer = document.getElementById(`editFormContainer_${id}`);
+                 editFormContainer.innerHTML = `
+                     <form id="editForm">
+                         ${formFieldsHTML}
+                         <button type="button" id="saveButton" onclick="saveEditedForm(${id})">Save</button>
+                         <button type="button" id="closeButton" onclick="hideEditForm(${id})">Close</button>
+                     </form>
+                 `;
+             };
+ 
+             getRequest.onerror = function (event) {
+                 console.error('Error getting record:', event.target.error);
+             };
+         };
+ 
+         openRequest.onerror = function (event) {
+             console.error('Error opening database:', event.target.error);
+         };
+     }
+ 
+
+    
+    // Add the following function
+    function hideEditForm(id) {
+        let hiddenButton = document.getElementById("hiddenButton");
+        hiddenButton.style.display = "none";
+        let editFormContainer = document.getElementById(`editFormContainer_${id}`);
+        let editFormContainer2 = document.getElementById(`close_button${id}`);
+        editFormContainer.innerHTML = '';  // Clear the content of the edit form container
+        editFormContainer.style.display = '';  // Hide the edit form container
+        editFormContainer2.style.display = '';  // Hide the edit form container
+   
+    }
+    
+ 
+     function saveEditedForm(id) {
+         let openRequest = indexedDB.open("GCNA");
+ 
+         openRequest.onsuccess = function (event) {
+             let db = event.target.result;
+             let transaction = db.transaction("DriedA", "readwrite");
+             let landInfoStore = transaction.objectStore("DriedA");
+             let getRequest = landInfoStore.get(id);
+ 
+             getRequest.onsuccess = function (event) {
+                 let record = event.target.result;
+ 
+                 // Update record properties with edited form values
+                 for (let property in record) {
+                     if (record.hasOwnProperty(property) && property !== 'id') {
+                         const inputElement = document.getElementById(property);
+                         if (inputElement) {
+                             record[property] = inputElement.value;
+                         }
+                     }
+                 }
+ 
+                 let putRequest = landInfoStore.put(record);
+ 
+                 putRequest.onsuccess = function () {
+                     console.log('Record updated successfully');
+                 };
+ 
+                 putRequest.onerror = function (event) {
+                     console.error('Error updating record:', event.target.error);
+                 };
+             };
+ 
+             getRequest.onerror = function (event) {
+                 console.error('Error getting record:', event.target.error);
+             };
+         };
+ 
+         openRequest.onerror = function (event) {
+             console.error('Error opening database:', event.target.error);
+         };
+     }
+ 
+     function deleteEntry(id) {
+         let db = indexedDB.open("GCNA");
+ 
+         db.onsuccess = function (event) {
+             let transaction = event.target.result.transaction("DriedA", "readwrite");
+             let landInfoStore = transaction.objectStore("DriedA");
+             let getRequest = landInfoStore.get(id);
+ 
+             getRequest.onsuccess = function (event) {
+                 let deletedRecord = event.target.result;
+ 
+                 if (deletedRecord) {
+                     let deleteRequest = landInfoStore.delete(id);
+ 
+                     deleteRequest.onsuccess = function () {
+                         console.log(`Record with ID ${id} deleted.`);
+ 
+                         let db2 = indexedDB.open("DELETED");
+ 
+                         db2.onsuccess = function (event2) {
+                             console.log("DELETED database opened successfully.");
+ 
+                             let transaction2 = event2.target.result.transaction("DriedA", "readwrite");
+                             let deletedStore = transaction2.objectStore("DriedA");
+                             deletedRecord.id = id;
+ 
+                             let addDeletedRequest = deletedStore.add(deletedRecord);
+ 
+                             addDeletedRequest.onsuccess = function () {
+                                 console.log(`Record with ID ${id} added to DELETED object store.`);
+                             };
+ 
+                             addDeletedRequest.onerror = function (event3) {
+                                 if (event3.target.error.name === 'ConstraintError') {
+                                     console.log(`Record with ID ${id} already exists in DELETED object store.`);
+                                 } else {
+                                     console.log(`Failed to add record with ID ${id} to DELETED object store.`);
+                                 }
+                             };
+                         };
+ 
+                         db2.onerror = function (event2) {
+                             console.log("Failed to open 'DELETED' database.", event2.target.error);
+                         };
+ 
+                         // Reload the page after delete
+                         location.reload();
+                     };
+ 
+                     deleteRequest.onerror = function () {
+                         console.log(`Failed to delete record with ID ${id}.`);
+                     };
+                 } else {
+                     console.log(`Record with ID ${id} not found.`);
+                 }
+             };
+ 
+             getRequest.onerror = function () {
+                 console.log(`Failed to get record with ID ${id} before deleting.`);
+             };
+         };
+ 
+         db.onerror = function (event) {
+             console.log("Failed to open 'GCNA' database!", event.target.error);
+         };
+     }
+ </script> {% endcomment %}
+ 
+
+
+ {% comment %} <script>
+    let openRequest = indexedDB.open("GCNA");
+
+    openRequest.onsuccess = function (event) {
+        let db = event.target.result;
+        let transaction = db.transaction("DriedA", "readonly");
+        let landInfoStore = transaction.objectStore("DriedA");
+        let getAllRequest = landInfoStore.getAll();
+
+        getAllRequest.onsuccess = function (event) {
+            let landInfoRecords = event.target.result;
+            let landInfoDataDiv = document.getElementById('landInfoData');
+
+            landInfoRecords.forEach(record => {
+                let entryContainer = document.createElement("div");
+                entryContainer.id = `entryContainer_${record.id}`;
+                entryContainer.innerHTML = `
+                     <!-- Your existing HTML code here -->
+                     <div class="card">
+                         <div class="card-body">
+                             <!-- Your existing HTML code here -->
+                             <form id="editForm_${record.id}">
+                             </form>
+                             <button class="btn btn-danger" onclick="deleteEntry(${record.id})">Delete</button>
+                             <button class="btn btn-primary" onclick="toggleEditForm(${record.id})">Edit</button>
+                             <button class="btn btn-danger" id="hiddenButton_${record.id}" style="display:none;" onclick="hideEditForm(${record.id})">Close</button>
+                         </div>
+                     </div>
+                     <br> <br> <br>
+                 `;
+                landInfoDataDiv.appendChild(entryContainer);
+
+                let editFormContainer = document.getElementById(`editForm_${record.id}`);
+                generateEditForm(editFormContainer, record);
+            });
+        };
+    };
+
+    function generateEditForm(container, record) {
+        let formFieldsHTML = '';
+        for (let property in record) {
+            if (record.hasOwnProperty(property) && property !== 'id') {
+                formFieldsHTML += `
+                    <label for="${property}">${property}:</label>
+                    <input type="text" id="${property}_${record.id}" name="${property}" value="${record[property]}" class="form-control"> <br>
+                `;
+            }
+        }
+
+        container.innerHTML = `
+            <form id="editForm">
+                ${formFieldsHTML}
+                <button type="button" id="saveButton" onclick="saveEditedForm(${record.id})">Save</button>
+                <button type="button" id="closeButton" onclick="hideEditForm(${record.id})">Close</button>
+            </form>
+        `;
+    }
+
+    function toggleEditForm(id) {
+        let editFormContainer = document.getElementById(`editForm_${id}`);
+        let hiddenButton = document.getElementById(`hiddenButton_${id}`);
+        if (editFormContainer.style.display === '') {
+            showEditForm(id, hiddenButton);
+        } else {
+            hideEditForm(id, hiddenButton);
+        }
+    }
+
+    function showEditForm(id, hiddenButton) {
+        let editFormContainer = document.getElementById(`editForm_${id}`);
+        hiddenButton.style.display = "block";
+        editFormContainer.style.display = "block";
+    }
+
+    function hideEditForm(id, hiddenButton) {
+        hiddenButton.style.display = "none";
+        let editFormContainer = document.getElementById(`editForm_${id}`);
+        editFormContainer.style.display = "none";
+    }
+
+    function saveEditedForm(id) {
+        let openRequest = indexedDB.open("GCNA");
+
+        openRequest.onsuccess = function (event) {
+            let db = event.target.result;
+            let transaction = db.transaction("DriedA", "readwrite");
+            let landInfoStore = transaction.objectStore("DriedA");
+            let getRequest = landInfoStore.get(id);
+
+            getRequest.onsuccess = function (event) {
+                let record = event.target.result;
+
+                for (let property in record) {
+                    if (record.hasOwnProperty(property) && property !== 'id') {
+                        const inputElement = document.getElementById(`${property}_${id}`);
+                        if (inputElement) {
+                            record[property] = inputElement.value;
+                        }
+                    }
+                }
+
+                let putRequest = landInfoStore.put(record);
+
+                putRequest.onsuccess = function () {
+                    console.log('Record updated successfully');
+                    hideEditForm(id, document.getElementById(`hiddenButton_${id}`));
+                };
+
+                putRequest.onerror = function (event) {
+                    console.error('Error updating record:', event.target.error);
+                };
+            };
+
+            getRequest.onerror = function (event) {
+                console.error('Error getting record:', event.target.error);
+            };
+        };
+
+        openRequest.onerror = function (event) {
+            console.error('Error opening database:', event.target.error);
+        };
+    }
+</script> {%   endcomment %}
+
+
+{% comment %} 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7; /* Adjusted background color */
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .card {
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        h4 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            font-weight: bold;
+            color: #555;
+        }
+
+        td {
+            color: #777;
+        }
+
+        button {
+            cursor: pointer;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Form Styles */
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input[type="text"], input[type="number"], select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+            color: #333;
+            outline: none;
+        }
+
+        #saveButton, #closeButton {
+            margin-top: 10px;
+            background-color: #28a745;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #closeButton {
+            background-color: #dc3545;
+            margin-left: 10px;
+        }
+
+        /* Responsive Styles */
+        @media screen and (max-width: 768px) {
+            .container {
+                max-width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div id="landInfoData"></div>
+</div>
+                
+<script>
+    let openRequest = indexedDB.open("GCNA");
+    let fieldBlacklist = [];
+    const fieldBlacklistConfig = {
+        'DATE_OF_SAMPLING': true, 
+        'DECISION': true,
+
+        'Quantity_of_Bags': true,
+        'Date_Created':true,
+        // Add more fields as needed
+    };
+
+    openRequest.onsuccess = function (event) {
+        let db = event.target.result;
+        let transaction = db.transaction("DriedA", "readonly");
+        let landInfoStore = transaction.objectStore("DriedA");
+        let getAllRequest = landInfoStore.getAll();
+
+        getAllRequest.onsuccess = function (event) {
+            let landInfoRecords = event.target.result;
+            let landInfoDataDiv = document.getElementById('landInfoData');
+
+           landInfoRecords.forEach(record => {fsdfdfdfdfjtttfdfgdftrf
+                let entryContainer = document.createElement("div");
+                entryContainer.id = `entryContainer_${record.id}`;
+                entryContainer.innerHTML = `
+                     <!-- Your existing HTML code here -->
+                     <div class="card">
+             
+                        <div class="card-body">
+                      
+                        </h5>
+                          <p class="card-text">
+                              <table id="vertical-1" class="table table-hover table-light">
+                      
+                      
+                       
+                      
+                                            <h4>Moisture Analysis in Dried Nutmeg</h4>
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col" style="text-align:center;">Batch Code</th>
+                                                        <th scope="col" style="text-align:center;">${record.Batch_Code}</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col" style="text-align:center;">Quantity of Bags</th>
+                                                        <th scope="col" style="text-align:center;">Quantity of Sample</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td scope="col" style="text-align:center;">${record.Quantity_of_Bags}</td>
+                                                        <td scope="col" style="text-align:center;">${record.Quantity_of_Sample}</td>
+                                                    </tr>
+                                                </tbody>
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col" style="text-align:center;">Total Weight</th>
+                                                        <th scope="col" style="text-align:center;">Initial Sample Weight</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td scope="col" style="text-align:center;">${record.Total_Weight}</td>
+                                                        <td scope="col" style="text-align:center;">${record.Initial_Sample_Weight}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                
+                <center>
+                
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col" style="text-align:center;">Insect Damaged</th>
+                                                        <th scope="col" style="text-align:center;">Broken</th>
+                                                        <th scope="col" style="text-align:center;">Mould</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td scope="col" style="text-align:center;">${record.Insect_Damaged}</td>
+                                                        <td scope="col" style="text-align:center;">${record.Broken}</td>
+                                                        <td scope="col" style="text-align:center;">${record.Mould}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </center>
+                
+                
+                
+                
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col" style="text-align:center;">Final Sample Weight</th>
+                                                        <th scope="col" style="text-align:center;">${record.Final_Sample_Weight}</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col" style="text-align:center;">Reading 1</th>
+                                                        <th scope="col" style="text-align:center;">Reading 2</th>
+                                                        <th scope="col" style="text-align:center;">Reading 3</th>
+                                                        <th scope="col" style="text-align:center;">Average</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td scope="col" style="text-align:center;">${record.READING_1}</td>
+                                                        <td scope="col" style="text-align:center;">${record.READING_2}</td>
+                                                        <td scope="col" style="text-align:center;">${record.READING_3}</td>
+                                                        <td scope="col" style="text-align:center;">${record.AVERAGE}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col" style="text-align:center;">Decision</th>
+                                                        <th scope="col" style="text-align:center;">${record.DECISION}</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="col" style="text-align:center;">Comments</th>
+                                                        <th scope="col" style="text-align:center;">${record.Comments}</th>
+                                                    </tr>
+                                                 </thead>
+                                            </table>
+                 
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col" style="text-align:center;">Test Performed by</th>
+                                                        <th scope="col" style="text-align:center;">${record.TEST_PERFORMED_BY}</th>
+                                                        <th scope="col" style="text-align:center;">Date of Test</th>
+                                                        <th scope="col" style="text-align:center;">${record.DATE}</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="col" style="text-align:center;">Approved by</th>
+                                                        <th scope="col" style="text-align:center;">${record.APPROVED_BY}</th>
+                                                        <th scope="col" style="text-align:center;">Date of Report</th>
+                                                        <th scope="col" style="text-align:center;">${record.DATE_OF_REPORT}</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col" style="text-align:center;">CHECKED BY QA OFFICER</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <th scope="col" style="text-align:center;">Signed by Quality Assurance Officer</th>
+                                                        <th scope="col" style="text-align:center;">${record.SIGNED_BY_QUALITY_ASSURANCE_OFFICER}</th>
+                                                        <th scope="col" style="text-align:center;">Date</th>
+                                                        <th scope="col" style="text-align:center;">${record.DATE}</th>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                             <!-- Your existing HTML code here -->
+                             <button class="btn btn-danger" onclick="deleteEntry(${record.id})">Delete</button>
+                             <button class="btn btn-primary" onclick="toggleEditForm(${record.id})">Edit</button>
+                             <div id="editForm_${record.id}" style="display:none;">
+                                 <!-- Edit form will be generated here -->
+                             </div>
+                         </div>
+                     </div>
+                     <br> <br> <br>
+                 `;
+                landInfoDataDiv.appendChild(entryContainer);
+
+                let editFormContainer = document.getElementById(`editForm_${record.id}`);
+                generateEditForm(editFormContainer, record);
+            });
+        };
+    };
+
+    function generateEditForm(container, record) {
+        let fieldConfig = {
+            'DATE_OF_SAMPLING': 'date',
+            'DECISION': 'select',
+            'Quantity_of_Bags': 'number',
+            // Add more fields with their respective form types
+        };
+    
+        let formFieldsHTML = '';
+        for (let property in record) {
+            if (record.hasOwnProperty(property) && property !== 'id') {
+                let inputType = 'text'; // Default to text input type
+                if (fieldConfig[property]) {
+                    inputType = fieldConfig[property];
+                }
+    
+                // Check if the field value is null or an empty string and should be blacklisted
+                if (fieldBlacklistConfig[property] && (record[property] === null || record[property] === '')) {
+                    fieldBlacklist.push(property);
+                }
+    
+                // Include the field in the form if it's not in the blacklist
+                if (!fieldBlacklist.includes(property)) {
+                    // Convert property name to human-readable format
+                    let label = property.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+    
+                    formFieldsHTML += `
+                        <label for="${property}_${record.id}">${label}:</label>
+                        <input type="${inputType}" id="${property}_${record.id}" name="${property}" value="${record[property]}" class="form-control"> <br>
+                    `;
+                }
+            }
+        }
+    
+        container.innerHTML = `
+            <form id="editForm">
+                ${formFieldsHTML}
+                <button type="button" id="saveButton" onclick="saveEditedForm(${record.id})">Save</button>
+                <button type="button" id="closeButton" onclick="hideEditForm(${record.id})">Close</button>
+            </form>
+        `;
+    }
+
+    function toggleEditForm(id) {
+        let editFormContainer = document.getElementById(`editForm_${id}`);
+        if (editFormContainer.style.display === 'none') {
+            showEditForm(id);
+        } else {
+            hideEditForm(id);
+        }
+    }
+
+    function showEditForm(id) {
+        let editFormContainer = document.getElementById(`editForm_${id}`);
+        editFormContainer.style.display = "block";
+    }
+
+    function hideEditForm(id) {
+        let editFormContainer = document.getElementById(`editForm_${id}`);
+        editFormContainer.style.display = "none";
+    }
+
+    function saveEditedForm(id) {
+        let openRequest = indexedDB.open("GCNA");
+
+        openRequest.onsuccess = function (event) {
+            let db = event.target.result;
+            let transaction = db.transaction("DriedA", "readwrite");
+            let landInfoStore = transaction.objectStore("DriedA");
+            let getRequest = landInfoStore.get(id);
+
+            getRequest.onsuccess = function (event) {
+                let record = event.target.result;
+
+                for (let property in record) {
+                    if (record.hasOwnProperty(property) && property !== 'id') {
+                        const inputElement = document.getElementById(`${property}_${id}`);
+                        if (inputElement) {
+                            record[property] = inputElement.value;
+                        }
+                    }
+                }
+
+                let putRequest = landInfoStore.put(record);
+
+                putRequest.onsuccess = function () {
+                    console.log('Record updated successfully');
+                    hideEditForm(id, document.getElementById(`hiddenButton_${id}`));
+                };
+
+                putRequest.onerror = function (event) {
+                    console.error('Error updating record:', event.target.error);
+                };
+            };
+
+            getRequest.onerror = function (event) {
+                console.error('Error getting record:', event.target.error);
+            };
+        };
+
+        openRequest.onerror = function (event) {
+            console.error('Error opening database:', event.target.error);
+        };
+    }
+</script> {% endcomment %}
+
+
+
+
+
+
+
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7; /* Adjusted background color */
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .card {
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        h4 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            font-weight: bold;
+            color: #555;
+        }
+
+        td {
+            color: #777;
+        }
+
+        button {
+            cursor: pointer;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Form Styles */
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input[type="text"], input[type="number"], select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+            color: #333;
+            outline: none;
+        }
+
+        #saveButton, #closeButton {
+            margin-top: 10px;
+            background-color: #28a745;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #closeButton {
+            background-color: #dc3545;
+            margin-left: 10px;
+        }
+
+        /* Responsive Styles */
+        @media screen and (max-width: 768px) {
+            .container {
+                max-width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div id="landInfoData"></div>
+</div>
+
+
+<script>
+    let openRequest = indexedDB.open("GCNA");
+    let fieldBlacklist = [];
+    const fieldBlacklistConfig = {
+        'DATE_OF_SAMPLING': true, // Set to true to blacklist if null or empty
+        'DECISION': true,
+        'Quantity_of_Bags': true,
+        
+        // Add more fields as needed
+    };
+
+    openRequest.onsuccess = function (event) {
+        let db = event.target.result;
+        let transaction = db.transaction("DriedA", "readonly");
+        let landInfoStore = transaction.objectStore("DriedA");
+        let getAllRequest = landInfoStore.getAll();
+
+        getAllRequest.onsuccess = function (event) {
+            let landInfoRecords = event.target.result;
+            let landInfoDataDiv = document.getElementById('landInfoData');
+
+            landInfoRecords.forEach(record => {
+                let entryContainer = document.createElement("div");
+                entryContainer.id = `entryContainer_${record.id}`;
+                entryContainer.innerHTML = `
+                <div class="card">
+             
+                    <div class="card-body">
+                  
+                    </h5>
+                      <p class="card-text">
+                          <table id="vertical-1" class="table table-hover table-light">
+                  
+                  
+                   
+                  
+                                        <h4>Moisture Analysis in Dried Nutmeg</h4>
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" style="text-align:center;">Batch Code</th>
+                                                    <th scope="col" style="text-align:center;">${record.Batch_Code}</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+            
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" style="text-align:center;">Quantity of Bags</th>
+                                                    <th scope="col" style="text-align:center;">Quantity of Sample</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td scope="col" style="text-align:center;">${record.Quantity_of_Bags}</td>
+                                                    <td scope="col" style="text-align:center;">${record.Quantity_of_Sample}</td>
+                                                </tr>
+                                            </tbody>
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" style="text-align:center;">Total Weight</th>
+                                                    <th scope="col" style="text-align:center;">Initial Sample Weight</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td scope="col" style="text-align:center;">${record.Total_Weight}</td>
+                                                    <td scope="col" style="text-align:center;">${record.Initial_Sample_Weight}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+            
+            <center>
+            
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" style="text-align:center;">Insect Damaged</th>
+                                                    <th scope="col" style="text-align:center;">Broken</th>
+                                                    <th scope="col" style="text-align:center;">Mould</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td scope="col" style="text-align:center;">${record.Insect_Damaged}</td>
+                                                    <td scope="col" style="text-align:center;">${record.Broken}</td>
+                                                    <td scope="col" style="text-align:center;">${record.Mould}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </center>
+            
+            
+            
+            
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" style="text-align:center;">Final Sample Weight</th>
+                                                    <th scope="col" style="text-align:center;">${record.Final_Sample_Weight}</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+            
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" style="text-align:center;">Reading 1</th>
+                                                    <th scope="col" style="text-align:center;">Reading 2</th>
+                                                    <th scope="col" style="text-align:center;">Reading 3</th>
+                                                    <th scope="col" style="text-align:center;">Average</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td scope="col" style="text-align:center;">${record.READING_1}</td>
+                                                    <td scope="col" style="text-align:center;">${record.READING_2}</td>
+                                                    <td scope="col" style="text-align:center;">${record.READING_3}</td>
+                                                    <td scope="col" style="text-align:center;">${record.AVERAGE}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+            
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" style="text-align:center;">Decision</th>
+                                                    <th scope="col" style="text-align:center;">${record.DECISION}</th>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="col" style="text-align:center;">Comments</th>
+                                                    <th scope="col" style="text-align:center;">${record.Comments}</th>
+                                                </tr>
+                                             </thead>
+                                        </table>
+             
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" style="text-align:center;">Test Performed by</th>
+                                                    <th scope="col" style="text-align:center;">${record.TEST_PERFORMED_BY}</th>
+                                                    <th scope="col" style="text-align:center;">Date of Test</th>
+                                                    <th scope="col" style="text-align:center;">${record.DATE}</th>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="col" style="text-align:center;">Approved by</th>
+                                                    <th scope="col" style="text-align:center;">${record.APPROVED_BY}</th>
+                                                    <th scope="col" style="text-align:center;">Date of Report</th>
+                                                    <th scope="col" style="text-align:center;">${record.DATE_OF_REPORT}</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+            
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" style="text-align:center;">CHECKED BY QA OFFICER</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <th scope="col" style="text-align:center;">Signed by Quality Assurance Officer</th>
+                                                    <th scope="col" style="text-align:center;">${record.SIGNED_BY_QUALITY_ASSURANCE_OFFICER}</th>
+                                                    <th scope="col" style="text-align:center;">Date</th>
+                                                    <th scope="col" style="text-align:center;">${record.DATE}</th>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                         <!-- Your existing HTML code here -->
+                         <button class="btn btn-danger" onclick="deleteEntry(${record.id})">Delete</button>
+                    <button class="btn btn-primary" onclick="toggleEditForm(${record.id})">Edit</button>
+                         <div id="editForm_${record.id}" style="display:none;">
+                             <!-- Edit form will be generated here -->
+                         </div>
+                     </div>
+                 </div>
+                 <br> <br> <br>
+             `;
+            landInfoDataDiv.appendChild(entryContainer);
+
+            let editFormContainer = document.getElementById(`editForm_${record.id}`);
+            generateEditForm(editFormContainer, record);
+        });
+    };
+};
+
+    function generateEditForm(container, record) {
+        let fieldConfig = {
+            'DATE_OF_SAMPLING': 'date',
+            'DECISION': 'select',
+            'Quantity_of_Bags': 'number',
+            // Add more fields with their respective form types
+        };
+    
+        let formFieldsHTML = '';
+        for (let property in record) {
+            if (record.hasOwnProperty(property) && property !== 'id') {
+                let inputType = 'text'; // Default to text input type
+                if (fieldConfig[property]) {
+                    inputType = fieldConfig[property];
+                }
+    
+                // Check if the field value is null or an empty string and should be blacklisted
+                if (fieldBlacklistConfig[property] && (record[property] === null || record[property] === '')) {
+                    fieldBlacklist.push(property);
+                }
+    
+                // Include the field in the form if it's not in the blacklist
+                if (!fieldBlacklist.includes(property)) {
+                    // Convert property name to human-readable format
+                    let label = property.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+    
+                    formFieldsHTML += `
+                        <label for="${property}_${record.id}">${label}:</label>
+                        <input type="${inputType}" id="${property}_${record.id}" name="${property}" value="${record[property]}" class="form-control"> <br>
+                    `;
+                }
+            }
+        }
+    
+        container.innerHTML = `
+            <form id="editForm">
+                ${formFieldsHTML}
+                <button type="button" id="saveButton" onclick="saveEditedForm(${record.id})">Save</button>
+                <button type="button" id="closeButton" onclick="hideEditForm(${record.id})">Close</button>
+            </form>
+        `;
+    }
+
+    function toggleEditForm(id) {
+        let editFormContainer = document.getElementById(`editForm_${id}`);
+        if (editFormContainer.style.display === 'none') {
+            showEditForm(id);
+        } else {
+            hideEditForm(id);
+        }
+    }
+
+    function showEditForm(id) {
+        let editFormContainer = document.getElementById(`editForm_${id}`);
+        editFormContainer.style.display = "block";
+    }
+
+    function hideEditForm(id) {
+        let editFormContainer = document.getElementById(`editForm_${id}`);
+        editFormContainer.style.display = "none";
+    }
+
+    function saveEditedForm(id) {
+        let openRequest = indexedDB.open("GCNA");
+
+        openRequest.onsuccess = function (event) {
+            let db = event.target.result;
+            let transaction = db.transaction("DriedA", "readwrite");
+            let landInfoStore = transaction.objectStore("DriedA");
+            let getRequest = landInfoStore.get(id);
+
+            getRequest.onsuccess = function (event) {
+                let record = event.target.result;
+
+                for (let property in record) {
+                    if (record.hasOwnProperty(property) && property !== 'id') {
+                        const inputElement = document.getElementById(`${property}_${id}`);
+                        if (inputElement) {
+                            record[property] = inputElement.value;
+                        }
+                    }
+                }
+
+                let putRequest = landInfoStore.put(record);
+
+                putRequest.onsuccess = function () {
+                    console.log('Record updated successfully');
+                    hideEditForm(id, document.getElementById(`hiddenButton_${id}`));
+                };
+
+                putRequest.onerror = function (event) {
+                    console.error('Error updating record:', event.target.error);
+                };
+            };
+
+            getRequest.onerror = function (event) {
+                console.error('Error getting record:', event.target.error);
+            };
+        };
+
+        openRequest.onerror = function (event) {
+            console.error('Error opening database:', event.target.error);
+        };
+    }
+
+
+
+    function deleteEntry(id) {
+        let openRequest = indexedDB.open("GCNA");
+    
+        openRequest.onsuccess = function (event) {
+            let db = event.target.result;
+            let transaction = db.transaction("DriedA", "readwrite");
+            let landInfoStore = transaction.objectStore("DriedA");
+    
+            // Get the record to be deleted
+            let getRequest = landInfoStore.get(id);
+    
+            getRequest.onsuccess = function (event) {
+                let record = event.target.result;
+    
+                // Now, let's open the DELETED database and add the record there
+                let openDeletedRequest = indexedDB.open("DELETED");
+    
+                openDeletedRequest.onsuccess = function (event) {
+                    let deletedDB = event.target.result;
+                    let deletedTransaction = deletedDB.transaction("DriedA", "readwrite");
+                    let deletedStore = deletedTransaction.objectStore("DriedA");
+    
+                    // Add the record to the DELETED database
+                    let addRequest = deletedStore.add(record);
+    
+                    addRequest.onsuccess = function () {
+                        console.log(`Record with ID ${id} copied to DELETED database.`);
+                    };
+    
+                    addRequest.onerror = function () {
+                        console.log(`Failed to copy record with ID ${id} to DELETED database.`);
+                    };
+                };
+    
+                openDeletedRequest.onerror = function () {
+                    console.log("Failed to open DELETED database.");
+                };
+            };
+    
+            // Now, proceed with deleting the record from the original database
+            let deleteRequest = landInfoStore.delete(id);
+    
+            deleteRequest.onsuccess = function () {
+                console.log(`Record with ID ${id} deleted from GCNA database.`);
+                // You might want to refresh your display here.
+            };
+    
+            deleteRequest.onerror = function () {
+                console.log(`Failed to delete record with ID ${id} from GCNA database.`);
+            };
+        };
+    
+        openRequest.onerror = function () {
+            console.log("Failed to open GCNA database.");
+        };
+    }
+    
+
+
+
+
+</script>
+{% endblock %}
+

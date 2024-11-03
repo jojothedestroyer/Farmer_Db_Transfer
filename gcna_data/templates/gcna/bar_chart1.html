@@ -1,0 +1,46 @@
+{% extends 'gcna/base.html' %}
+
+{% block content%}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div style="background-color:white;">
+<canvas id="barChart1" style="width:400; height:400;"></canvas>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var editorNames = {{ nutmeg_ids|safe }};
+    var numUsers = {{ sample_weights|safe }};
+    var barColors = [
+      "#b91d47",
+      "#00aba9",
+      "#2b5797",
+      "#e8c3b9",
+      "#1e7145"
+    ];
+    var ctx = document.getElementById('barChart1').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: editorNames,
+            datasets: [{
+                label: 'Number of Users',
+                data: numUsers,
+                backgroundColor: barColors,
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+});
+</script>
+
+
+{% endblock %}

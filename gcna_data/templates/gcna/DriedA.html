@@ -1,0 +1,774 @@
+{% extends 'gcna/base2.html' %}
+
+{% block content%}
+
+<style>
+  /* Style for the custom tooltip */
+  .custom-tooltip {
+    display: inline-block;
+    cursor: help; /* Change cursor to indicate hoverable element */
+  }
+
+  /* Show the custom tooltip text when hovering */
+  .custom-tooltip:hover::after {
+    content: attr(title);
+    visibility: visible;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+    opacity: 1;
+  }
+
+  /* Hide the default tooltip text */
+  .custom-tooltip[title] {
+    position: relative;
+  }
+</style>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+{% comment %} 
+<script>
+//http://127.0.0.1:8000/admin/gcna_data/dried_moisture_analysis_a/23/change/
+
+  document.addEventListener('DOMContentLoaded', function() {
+      var myForm = document.getElementById('myForm');
+  
+      myForm.addEventListener('submit', function(event) {
+          event.preventDefault();
+          var data = new FormData(event.target);
+          saveDataToIndexedDB(data);
+      });
+  
+      function saveDataToIndexedDB(data) {
+          var request = indexedDB.open('GCNA', 2);
+      
+          request.onsuccess = function(event) {
+              var db = event.target.result;
+              var transaction = db.transaction('DriedA', 'readwrite');
+              var objectStore = transaction.objectStore('DriedA');
+      
+              var obj = {};
+              for (var pair of data.entries()) {
+                  obj[pair[0]] = pair[1];
+              }
+      
+              // Get the highest id in the object store
+              var highestIdRequest = objectStore.openCursor(null, 'prev');
+              highestIdRequest.onsuccess = function(event) {
+                  var cursor = event.target.result;
+                  if (cursor) {
+                      obj.id = cursor.key + 1;
+                  } else {
+                      obj.id = 1; // This is the first item
+                  }
+      
+                  var request = objectStore.put(obj);
+      
+                  request.onsuccess = function() {
+                      console.log('Data added to IndexedDB');
+                      window.location.href = '/gcna8';
+                  };
+      
+                  request.onerror = function() {
+                      console.error('Error adding data to IndexedDB');
+                  };
+              };
+          };
+      
+          request.onerror = function(event) {
+              console.error('Error opening IndexedDB', event);
+          };
+      }
+      
+  });
+  </script>
+
+
+<script>
+
+
+    var request = indexedDB.open('Signin', 1);
+   
+    request.onsuccess = function(event) {
+        var db = event.target.result;
+        var transaction = db.transaction('verify', 'readonly');
+        var store = transaction.objectStore('verify');
+        var getRequest = store.get(1); // Assuming you want to get the first entry
+   
+        getRequest.onsuccess = function(event) {
+            var data = event.target.result;
+            if (data) {
+                // Set the values in the form
+                document.querySelector('[name="Worker_ID_No"]').value = data.Worker_ID_No;
+                document.querySelector('[name="Worker_ID_Name"]').value = data.Worker_ID_Name;
+            }
+        };
+    };
+   </script>
+  
+
+
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Select the Send Email button
+        var sendEmailButton = document.getElementById('sendEmailButton');
+    
+        // Add click event listener to the Send Email button
+        sendEmailButton.addEventListener('click', function() {
+            // Get the form data
+            var data = new FormData(document.getElementById('myForm'));
+    
+            // Extract decision from the form data
+            var decision = data.get('DECISION');
+    
+            // If decision is "fail", send the email
+            if (decision.toLowerCase() === 'fail') {
+                sendEmail(data);
+            } else {
+                alert('Email can only be sent if decision is "fail".');
+            }
+        });
+    
+        // Function to send email
+        function sendEmail(data) {
+            // Construct email content using form data
+            var emailContent = 'Decision: ' + data.get('DECISION') + '\n';
+            emailContent += 'Comments: ' + data.get('Comments') + '\n';
+            emailContent += window.location.origin + '/admin/gcna_data/dried_moisture_analysis_a/' + formId + '/change/';
+
+            // Add more form fields as needed
+    
+            // Create a new XMLHttpRequest object
+            var xhr = new XMLHttpRequest();
+    
+            // Configure the request
+            xhr.open('POST', '/send-email/', true);  // Replace with your Django endpoint URL
+            xhr.setRequestHeader('Content-Type', 'application/json');
+    
+            // Handle response
+            xhr.onload = function() {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    console.log('Email sent successfully');
+                    alert('Email sent successfully');
+                } else {
+                    console.error('Error sending email:', xhr.statusText);
+                    alert('Error sending email. Please try again later.');
+                }
+            };
+    
+            // Handle network errors
+            xhr.onerror = function() {
+                console.error('Network error occurred while sending email.');
+                alert('Network error occurred while sending email. Please try again later.');
+            };
+    
+            // Send the request with the email content as JSON
+            xhr.send(JSON.stringify({ content: emailContent }));
+        }
+    });
+    </script> {% endcomment %}
+    
+    
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    var myForm = document.getElementById('myForm');
+
+    myForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        var data = new FormData(event.target);
+        saveDataToIndexedDB(data);
+    });
+
+    function saveDataToIndexedDB(data) {
+      var request = indexedDB.open('GCNA', 2);
+  
+      request.onerror = function(event) {
+          console.error('Error opening IndexedDB:', event.target.errorCode);
+      };
+  
+      request.onsuccess = function(event) {
+          var db = event.target.result;
+          var transaction = db.transaction('DriedA', 'readwrite');
+          var objectStore = transaction.objectStore('DriedA');
+  
+          // Create an object that matches the Django model
+          var obj = {
+              Date_Created: data.get('Date_Created'),
+              DATE_OF_SAMPLING: data.get('DATE_OF_SAMPLING'),
+              STATION: data.get('STATION'),
+              BATCH_CODE: parseInt(data.get('BATCH_CODE')),
+              Quantity_of_Bags: parseInt(data.get('Quantity_of_Bags')),
+              Quantity_of_Sample: parseInt(data.get('Quantity_of_Sample')),
+              Total_Weight: parseFloat(data.get('Total_Weight')),
+              Initial_Sample_Weight: parseFloat(data.get('Initial_Sample_Weight')),
+              Insect_Damaged: parseFloat(data.get('Insect_Damaged')),
+              Broken: parseFloat(data.get('Broken')),
+              Mould: parseFloat(data.get('Mould')),
+              Final_Sample_Weight: parseFloat(data.get('Final_Sample_Weight')),
+              READING_1: data.get('READING_1'),
+              READING_2: data.get('READING_2'),
+              READING_3: data.get('READING_3'),
+              AVERAGE: data.get('AVERAGE'),
+              DECISION: data.get('DECISION'),
+              Comments: data.get('Comments'),
+              TEST_PERFORMED_BY: data.get('TEST_PERFORMED_BY'),
+              DATE: data.get('DATE'),
+              APPROVED_BY: data.get('APPROVED_BY'),
+              DATE_OF_REPORT: data.get('DATE_OF_REPORT'),
+              SIGNED_BY_QUALITY_ASSURANCE_OFFICER: data.get('SIGNED_BY_QUALITY_ASSURANCE_OFFICER'),
+              DATE: data.get('DATE')
+          };
+            for (var pair of data.entries()) {
+                if (pair[0] !== 'csrfmiddlewaretoken') { // Exclude csrfmiddlewaretoken
+                    obj[pair[0]] = pair[1];
+                }
+            }
+
+            // Get the highest id in the object store
+            var highestIdRequest = objectStore.openCursor(null, 'prev');
+            highestIdRequest.onsuccess = function(event) {
+                var cursor = event.target.result;
+                if (cursor) {
+                    obj.id = cursor.key + 1;
+                } else {
+                    obj.id = 1; // This is the first item
+                }
+
+                var request = objectStore.put(obj);
+
+                request.onsuccess = function() {
+                    console.log('Data added to IndexedDB');
+                    if (data.get('DECISION') === 'Fail') {
+                            sendEmail(data, obj.id); // Send email only if decision is "Fail"
+                        }
+                    };
+                request.onerror = function(event) {
+                    console.error('Error adding data to IndexedDB:', event.target.errorCode);
+                };
+            };
+
+            highestIdRequest.onerror = function(event) {
+                console.error('Error opening cursor:', event.target.errorCode);
+            };
+        };
+    }
+
+    function sendEmail(data, formId) {
+    // Construct email content using form data
+    var emailContent = 'Decision: ' + data.get('DECISION') + '\n';
+    emailContent += 'Comments: ' + data.get('Comments') + '\n';
+    emailContent += 'Form ID: ' + formId;
+    emailContent += window.location.origin + '/admin/gcna_data/dried_moisture_analysis_a/' + formId + '/change/';
+
+    if (navigator.onLine) {
+        // If online, send the email immediately
+        sendEmailRequest(emailContent);
+    } else {
+        // If offline, store the email in IndexedDB
+        saveEmailToIndexedDB(emailContent);
+    }
+}
+
+function sendEmailRequest(emailContent) {
+    var xhr = new XMLHttpRequest();
+
+    // Configure the request
+    xhr.open('POST', '/send-email/', true);  // Replace with your Django endpoint URL
+    xhr.setRequestHeader('Content-Type', 'application/json');
+
+    // Handle response
+    xhr.onload = function() {
+        if (xhr.status >= 200 && xhr.status < 300) {
+            console.log('Email sent successfully');
+            alert('Email sent successfully');
+            // If email sent successfully, remove it from IndexedDB
+            removeEmailFromIndexedDB();
+        } else {
+            console.error('Error sending email:', xhr.statusText);
+            alert('Error sending email. Please try again later.');
+        }
+    };
+
+    // Handle network errors
+    xhr.onerror = function() {
+        console.error('Network error occurred while sending email.');
+        alert('Network error occurred while sending email. Please try again later.');
+    };
+
+    // Send the request with the email content as JSON
+    xhr.send(JSON.stringify({ content: emailContent }));
+}
+
+function saveEmailToIndexedDB(emailContent) {
+    // Open IndexedDB and store the email
+    var request = indexedDB.open('EmailsDB', 1);
+
+    request.onerror = function(event) {
+        console.error('Error opening IndexedDB:', event.target.errorCode);
+    };
+
+    request.onsuccess = function(event) {
+        var db = event.target.result;
+        var transaction = db.transaction(['emails'], 'readwrite');
+        var objectStore = transaction.objectStore('emails');
+
+        // Create an object for the email
+        var email = {
+            content: emailContent
+        };
+
+        // Add the email to the object store
+        var addRequest = objectStore.add(email);
+
+        addRequest.onsuccess = function() {
+            console.log('Email saved to IndexedDB');
+        };
+
+        addRequest.onerror = function(event) {
+            console.error('Error saving email to IndexedDB:', event.target.errorCode);
+        };
+    };
+}
+
+function removeEmailFromIndexedDB() {
+    // Open IndexedDB and remove the sent email
+    var request = indexedDB.open('EmailsDB', 1);
+
+    request.onerror = function(event) {
+        console.error('Error opening IndexedDB:', event.target.errorCode);
+    };
+
+    request.onsuccess = function(event) {
+        var db = event.target.result;
+        var transaction = db.transaction(['emails'], 'readwrite');
+        var objectStore = transaction.objectStore('emails');
+
+        // Delete all emails from the object store
+        var clearRequest = objectStore.clear();
+
+        clearRequest.onsuccess = function() {
+            console.log('Email removed from IndexedDB');
+        };
+
+        clearRequest.onerror = function(event) {
+            console.error('Error removing email from IndexedDB:', event.target.errorCode);
+        };
+    };
+}
+
+// Event listener for online status change
+window.addEventListener('online', function() {
+    // When the browser comes online, check if there are pending emails in IndexedDB and send them
+    sendPendingEmailsFromIndexedDB();
+});
+
+function sendPendingEmailsFromIndexedDB() {
+    var request = indexedDB.open('EmailsDB', 1);
+
+    request.onerror = function(event) {
+        console.error('Error opening IndexedDB:', event.target.errorCode);
+    };
+
+    request.onsuccess = function(event) {
+        var db = event.target.result;
+        var transaction = db.transaction(['emails'], 'readwrite');
+        var objectStore = transaction.objectStore('emails');
+
+        var getEmailsRequest = objectStore.getAll();
+
+        getEmailsRequest.onsuccess = function(event) {
+            var emails = event.target.result;
+            emails.forEach(function(email) {
+                sendEmailRequest(email.content);
+            });
+        };
+
+        getEmailsRequest.onerror = function(event) {
+            console.error('Error getting emails from IndexedDB:', event.target.errorCode);
+        };
+    };
+}
+});
+</script>
+
+
+
+
+<script>
+
+
+    var request = indexedDB.open('Signin', 1);
+   
+    request.onsuccess = function(event) {
+        var db = event.target.result;
+        var transaction = db.transaction('verify', 'readonly');
+        var store = transaction.objectStore('verify');
+        var getRequest = store.get(1); // Assuming you want to get the first entry
+   
+        getRequest.onsuccess = function(event) {
+            var data = event.target.result;
+            if (data) {
+                // Set the values in the form
+                document.querySelector('[name="Worker_ID_No"]').value = data.Worker_ID_No;
+                document.querySelector('[name="Worker_ID_Name"]').value = data.Name;
+            }
+        };
+    };
+   </script>
+  
+
+
+
+
+
+	{% if submitted %}
+		Entry successfully added to database!!!
+	{% else %}
+
+
+
+
+		<form action="" method="POST"  id="myForm" enctype="multipart/form-data" style=" background-color: #e4e4e4;
+
+    margin: 1px auto;
+    font-family: Raleway;
+    padding: 10px;
+    width: 75%;
+    min-width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">
+
+
+    <div class="card">
+ 
+  <div class="card-body">
+
+  </h5>
+    <p class="card-text">
+        <table id="vertical-1" class="table table-hover table-light">
+
+
+
+
+
+
+<h6>Document No. GCNA-R-01</h6>
+<h6>Document Title: Moisture Analysis in Dried Nutmeg</h6>
+<h6>Date Issued: 2023-07-03</h6>
+
+<h6>Version: 1</h6>
+    <h5>Section A</h5>
+
+		{% csrf_token %}
+ 
+<h4>Moisture Analysis in Dried Nutmeg</h4>
+
+
+       <tr>
+
+
+
+        {{ form1.Worker_ID_No }}
+        {{ form1.Worker_ID_Name }}
+<table class="table">
+  <thead>
+    <tr>
+
+      <th scope="col" style="text-align:center;">Date of Sampling</th> 
+      <th scope="col" style="text-align:center;">Station</th>
+     </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+            <td>{{ form1.DATE_OF_SAMPLING }}</td>
+            <td>  <!--{{ form1.STATION }} --> Gouyave</td>
+
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+
+
+
+        <table id="vertical-1" class="table table-hover table-light">
+                <tr>
+            <th>Batch Code</th>
+            <td>{{ form1.BATCH_CODE }}</td>
+        </tr>
+</table>
+
+
+
+
+
+
+
+
+<table class="table">
+  <thead>
+    <tr>
+
+      <th scope="col" style="text-align:center;">Quantity of Bags</th> 
+      <th scope="col" style="text-align:center;">Quantity of Bags to be Sampled</th>
+     </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+            <td>{{ form1.Quantity_of_Bags }}</td>
+            <td>{{ form1.Quantity_of_Sample }}</td>
+
+
+    </tr>
+
+  </tbody>
+
+
+ <thead>
+    <tr>
+
+      <th scope="col" style="text-align:center;">Total Weight</th> 
+      <th scope="col" style="text-align:center;">Initial Sample Weight</th>
+     </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+            <td>{{ form1.Total_Weight }}</td>
+            <td class="custom-tooltip" title="Take approximately one pound of nutmeg from each bag and two pounds are used for test">{{ form1.Initial_Sample_Weight }}</td>
+
+
+    </tr>
+
+  </tbody>
+
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="table">
+
+    <center>
+<label>Weight (oz/lbs)</label>   
+ </center> 
+  <thead>
+    <tr>
+
+      <th scope="col" style="text-align:center;">Insect Damaged</th> 
+      <th scope="col" style="text-align:center;">Broken</th>
+      <th scope="col" style="text-align:center;">Mould</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+      <td>{{ form1.Insect_Damaged }}</td>
+      <td>{{ form1.Broken }}</td>
+      <td>{{ form1.Mould }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+        <table id="vertical-1" class="table table-hover table-light">
+
+
+
+        <tr>
+            <th>Final Sample Weight</th>
+            <td>{{ form1.Final_Sample_Weight }}</td>
+        </tr>
+
+</table>
+
+
+
+
+ 
+
+
+
+<table class="table">
+
+    <center>
+<label>Weight (oz/lbs)</label>   
+ </center>
+  <thead>
+    <tr>
+      <th scope="col" style="text-align:center;">Criteria</th> 
+      <th scope="col" style="text-align:center;"><10%</th> 
+     </tr>
+  </thead>
+    <tbody>
+    <tr>
+
+
+  	    </tr>
+
+  </tbody>
+    <tr>
+
+
+      <th scope="col" style="text-align:center;">Reading 1</th> 
+      <th scope="col" style="text-align:center;">Reading 2</th>
+      <th scope="col" style="text-align:center;">Reading 3</th>
+      <th scope="col" style="text-align:center;">Average</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+      <td>{{ form1.READING_1 }}</td>
+      <td>{{ form1.READING_2 }}</td>
+      <td>{{ form1.READING_3 }}</td>
+      <td>{{ form1.AVERAGE }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+
+
+
+        <table id="vertical-1" class="table table-hover table-light">
+
+        <tr>
+            <th>Decision</th>
+            <td>{{ form1.DECISION }}</td>
+        </tr>
+    <tr>
+            <th>Comments</th>
+            <td>{{ form1.Comments }}</td>
+        </tr>
+
+
+</table>
+
+
+
+    
+
+<!--         <tr>
+            <th>Final Sample Weight</th>
+            <td>{{ form1.Final_Sample_Weight }}</td>
+        </tr>
+ -->
+
+
+
+<table class="table">
+
+    <center>
+ </center> 
+  <thead>
+    <tr>
+
+      <th scope="col" style="text-align:center;">Test Performed by</th> 
+      <th scope="col" style="text-align:center;">{{ form1.TEST_PERFORMED_BY }}</th>
+      <th scope="col" style="text-align:center;">Date of Test</th>
+      <th scope="col" style="text-align:center;">{{ form1.DATE }}</th>
+    </tr>
+  </thead>
+
+
+    <thead>
+    <tr>
+
+      <th scope="col" style="text-align:center;">Approved by</th> 
+      <th scope="col" style="text-align:center;">{{ form1.APPROVED_BY }}</th>
+      <th scope="col" style="text-align:center;">Date of Report</th>
+      <th scope="col" style="text-align:center;">{{ form1.DATE_OF_REPORT }}</th>
+    </tr>
+  </thead>
+ 
+</table>
+
+    <tr>
+
+      <th scope="col" style="text-align:center;">   CHECKED BY QA OFFICER
+</th> 
+
+    </tr>
+
+<table class="table">
+
+    <center>
+ </center> 
+  <thead>
+
+
+
+
+
+    <tr>
+
+      <th scope="col" style="text-align:center;">Signed by Quality Assurance Officer</th> 
+      <th scope="col" style="text-align:center;">{{ form1.SIGNED_BY_QUALITY_ASSURANCE_OFFICER }}</th>
+      <th scope="col" style="text-align:center;">Date</th>
+      <th scope="col" style="text-align:center;">{{ form1.DATE }}</th>
+    </tr>
+  </thead>
+</table>
+
+
+
+
+
+		<input type="submit" name="" value="✔" class="btn btn-success btn-circle btn-xl">
+
+		<br>
+		<br>
+ </table>
+
+              <tr>
+            <th><a href="{% url 'table' %}" class="btn btn-secondary">Exit</a></th>
+            <th><a type="submit" href="{% url 'database10' %}" role="button" class="btn btn-primary">Next</a></th>
+ 
+
+        </tr>
+
+
+		</form>
+
+	{% endif %}
+
+
+
+	</center>
+{{ form1.media }}
+{% endblock %}
+
+
+

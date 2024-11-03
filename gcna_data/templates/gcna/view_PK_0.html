@@ -1,0 +1,960 @@
+
+
+{% extends 'gcna/base.html' %}
+
+
+{% block content%}
+
+{% comment %} 
+<div class="card">
+ 
+  <div class="card-body">
+
+  </h5>
+    <p class="card-text">
+        <table id="vertical-1" class="table table-hover table-light">
+        <!-- <caption>First Way</caption> -->
+       
+
+
+       <tr>
+
+            <th>Product Descriptions</th>
+            <td>{{ record.PRODUCT_DESCRIPTION }}</td>
+        </tr>  
+        <tr>
+            <th>Start Date</th>
+            <td>{{ farmer_info_id.START }}</td>
+        </tr>
+        <tr>
+            <th>End Date</th>
+            <td>{{ farmer_info_id.END }}</td>
+        </tr>
+        <tr>
+            <th>Quantity of bags</th>
+            <td>{{ farmer_info_id.QUANTITY_OF_BAGS }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Total Weight(lbs)</th>
+            <td>{{ farmer_info_id.TOTAL_WEIGHT_LBS }}</td>
+        </tr>
+
+
+
+        <tr>
+            <th>Package Material</th>
+            <td>{{ farmer_info_id.PACKAGING_MATERIAL }}</td>
+        </tr>
+
+
+
+        <tr>
+            <th>Batch Number</th>
+            <td>{{ farmer_info_id.BATCH_NUMBER }}</td>
+        </tr>
+        <tr>
+            <th>Contract Number</th>
+            <td>{{ farmer_info_id.CONTRACT_NUMBER }}</td>
+        </tr>
+        <tr>
+            <th>Offical Lab Results</th>
+            <td>{{ farmer_info_id.OFFICIAL_LAB_RESULTS }}</td>
+        </tr>
+
+    </table>
+            <a href="{% url 'table' %}" class="btn btn-secondary">Return</a>
+           
+
+
+
+                    </p>
+
+
+
+       
+ </div>        </div>
+
+<br>
+<br>
+<br> {% endcomment %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% comment %} 
+
+
+<div id="landInfoData"></div>
+<div id="editFormContainer"></div>
+
+</table>
+</p>
+</div>
+</div>
+
+
+
+<br>
+<br>
+<br>
+
+
+<script>
+// Open the GCNA database
+let openRequest = indexedDB.open("GCNA");
+
+openRequest.onsuccess = function (event) {
+    let db = event.target.result;
+
+    // Open a transaction to read from the land-info store
+    let transaction = db.transaction("Package-Ciontrol", "readonly");
+    let landInfoStore = transaction.objectStore("Package-Ciontrol");
+
+    // Get all records from Package-Ciontrol store
+    let getAllRequest = landInfoStore.getAll();
+
+    getAllRequest.onsuccess = function (event) {
+        let landInfoRecords = event.target.result;
+
+        // Map landInfoRecords to include delete and edit buttons
+        let landInfoDataDiv = document.getElementById('landInfoData');
+        landInfoRecords.forEach(record => {
+            let entryDiv = document.createElement("div");
+            entryDiv.innerHTML = `
+
+            <div class="card">
+ 
+                <div class="card-body">
+              
+                </h5>
+                  <p class="card-text">
+                      <table id="vertical-1" class="table table-hover table-light">
+                      <!-- <caption>First Way</caption> -->
+                     
+              
+              
+                     <tr>
+              
+                          <th>Product Descriptions</th>
+                          <td>${ record.PRODUCT_DESCRIPTION }</td>
+                      </tr>  
+                      <tr>
+                          <th>Start Date</th>
+                          <td>${ record.START }</td>
+                      </tr>
+                      <tr>
+                          <th>End Date</th>
+                          <td>${ record.END }</td>
+                      </tr>
+                      <tr>
+                          <th>Quantity of bags</th>
+                          <td>${ record.QUANTITY_OF_BAGS }</td>
+                      </tr>
+              
+              
+                      <tr>
+                          <th>Total Weight(lbs)</th>
+                          <td>${ record.TOTAL_WEIGHT_LBS }</td>
+                      </tr>
+              
+              
+              
+                      <tr>
+                          <th>Package Material</th>
+                          <td>${ record.PACKAGING_MATERIAL }</td>
+                      </tr>
+              
+              
+              
+                      <tr>
+                          <th>Batch Number</th>
+                          <td>${ record.BATCH_NUMBER }</td>
+                      </tr>
+                      <tr>
+                          <th>Contract Number</th>
+                          <td>${ record.CONTRACT_NUMBER }</td>
+                      </tr>
+                      <tr>
+                          <th>Offical Lab Results</th>
+                          <td>${ record.OFFICIAL_LAB_RESULTS }</td>
+                      </tr>
+              
+                  </table>
+                                <button class="btn btn-danger" onclick="deleteEntry(${record.id})">Delete</button>
+              <button class="btn btn-primary" onclick="editEntry(${record.id})">Edit</button>
+
+                          <a href="{% url 'table' %}" class="btn btn-secondary">Return</a>
+                         
+              
+              
+              
+                                  </p>
+              
+              
+              
+                     
+               </div>        </div>
+              
+              <br>
+              <br>
+              <br>
+              
+                        `;
+                        landInfoDataDiv.appendChild(entryDiv);
+                        
+                    });
+                };
+            };
+
+         
+            
+
+ {% endcomment %}
+
+
+{% comment %} 
+
+            <form action="" id="editForm" method="POST" style=" background-color: #e4e4e4;
+
+            margin: 1px auto;
+            font-family: Raleway;
+            padding: 10px;
+            width: 55%;
+            min-width: 300px;
+            border-radius: 10px;
+            box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">
+        
+        <h6>Document No. GCNA-GMP</h6>
+        <h6>Document Title:  </h6>
+        <h6>Date Issued:  </h6>
+        <h6>Version:  </h6>
+        
+            <h1>Package Control Form</h1>
+         
+                {% csrf_token %}
+        
+                <table id="vertical-1" class="table table-hover table-light">
+                <!-- <caption>First Way</caption> -->
+               
+        {{ form.Nutmeg_ID_No }}
+        ${record.id}
+        
+               <tr>
+        
+                    <th>Product Descriptions</th>
+                    <td>{{ form.PRODUCT_DESCRIPTION }}</td>
+                </tr>  
+        
+        <table class="table" id="Tab_Alert">
+               <tr> 
+                    <th>Product Descriptions cont</th>
+                    <td>{{ form.PRODUCT_DESCRIPTION_cont }}</td>
+                </tr>  
+        
+        </table>
+        
+          <table>
+        
+            
+                <tr>
+        
+                    <th colspan="8" class="main-header">PACKAGING DATE</th>
+                 </tr>
+        
+        
+                <tr>
+              <th colspan="2" style="text-align:center;">Start Date</th> 
+              <th colspan="2" style="text-align:center; ">{{ form.START }}</td>
+              <th colspan="2" style="text-align:center;">End Date</th> 
+              <th colspan="2" style="text-align:center; ">{{ form.END }}</td>
+        
+                </tr>
+            </table>
+        
+                <table id="vertical-1" class="table table-hover table-light">
+        
+        
+        
+                <tr>
+                    <th>Quantity of bags</th>
+                    <td>{{ form.QUANTITY_OF_BAGS }}</td>
+                </tr>
+        
+        
+                <tr>
+                    <th>Total Weight(lbs)</th>
+                    <td>{{ form.TOTAL_WEIGHT_LBS }}</td>
+                </tr>
+        
+        
+        
+                <tr>
+                    <th>Package Material</th>
+                    <td>{{ form.PACKAGING_MATERIAL }}</td>
+                </tr>
+        
+        <table class="table" id="Tab_Alert2">
+               <tr> 
+                    <th>Package Material cont</th>
+                    <td>{{ form.PACKAGING_MATERIAL_cont }}</td>
+                </tr>  
+        
+        </table>
+        
+                <tr>
+                    <th>Batch Number</th>
+                    <td>{{ form.BATCH_NUMBER }}</td>
+                </tr>
+                <tr>
+                    <th>Contract Number</th>
+                    <td>{{ form.CONTRACT_NUMBER }}</td>
+                </tr>
+        
+        
+        
+        
+        
+          <table>
+        
+        
+        
+                <tr>
+              <th colspan="2" style="text-align:center;">Offical Lab Results</th> 
+              <th colspan="2" style="text-align:center; ">{{ form.Physical_Analysis }}</td>
+              <th colspan="2" style="text-align:center;">{{ form.Chemical_Analysis }}</th> 
+              <th colspan="2" style="text-align:center; ">{{ form.Microbiological_Analysis }}</td>
+        
+                </tr>
+            </table>
+        
+         
+        
+            </table>
+
+        
+        
+              
+        
+        
+        
+        
+                </form>
+        
+
+        </form> {% endcomment %}
+
+
+
+
+
+
+
+{% comment %} 
+
+
+
+            
+// Function to delete a record based on ID
+function deleteEntry(id) {
+    // Open the "GCNA" database
+    let db = indexedDB.open("GCNA");
+
+    db.onsuccess = function (event) {
+        let transaction = event.target.result.transaction("Package-Ciontrol", "readwrite");
+        let landInfoStore = transaction.objectStore("Package-Ciontrol");
+
+        // Fetch the record before deleting it
+        let getRequest = landInfoStore.get(id);
+
+        getRequest.onsuccess = function (event) {
+            let deletedRecord = event.target.result;
+
+            // Check if the record exists before proceeding with deletion
+            if (deletedRecord) {
+                // Now, delete the record from the "Package-Ciontrol" object store
+                let deleteRequest = landInfoStore.delete(id);
+
+                deleteRequest.onsuccess = function () {
+                    console.log(`Record with ID ${id} deleted.`);
+
+                    // Open the "DELETED" database
+                    let db2 = indexedDB.open("DELETED");
+
+                    db2.onsuccess = function (event2) {
+                        console.log("DELETED database opened successfully.");
+
+                        let transaction2 = event2.target.result.transaction("Package-Ciontrol", "readwrite");
+                        let deletedStore = transaction2.objectStore("Package-Ciontrol");
+
+                        // Explicitly set the ID of the deleted record
+                        deletedRecord.id = id;
+
+                        // Add the deleted record to the "Package-Ciontrol" object store in "DELETED" database
+                        let addDeletedRequest = deletedStore.add(deletedRecord);
+
+                        addDeletedRequest.onsuccess = function () {
+                            console.log(`Record with ID ${id} added to DELETED object store.`);
+                            // You might want to refresh your display here.
+                        };
+
+                        addDeletedRequest.onerror = function (event3) {
+                            if (event3.target.error.name === 'ConstraintError') {
+                                console.log(`Record with ID ${id} already exists in DELETED object store.`);
+                            } else {
+                                console.log(`Failed to add record with ID ${id} to DELETED object store.`);
+                            }
+                        };
+                    };
+
+                    db2.onerror = function (event2) {
+                        console.log("Failed to open 'DELETED' database.", event2.target.error);
+                    };
+                };
+
+                deleteRequest.onerror = function () {
+                    console.log(`Failed to delete record with ID ${id}.`);
+                };
+            } else {
+                console.log(`Record with ID ${id} not found.`);
+            }
+        };
+
+        getRequest.onerror = function () {
+            console.log(`Failed to get record with ID ${id} before deleting.`);
+        };
+    };
+
+    db.onerror = function (event) {
+        console.log("Failed to open 'GCNA' database!", event.target.error);
+    };
+}
+
+
+
+    // Function to edit a record based on ID
+    function editEntry(id) {
+        event.preventDefault(); // Prevent form submission and page reload
+
+        // Open the GCNA database
+        let openRequest = indexedDB.open("GCNA");
+
+        openRequest.onsuccess = function (event) {
+            let db = event.target.result;
+
+            // Open a new transaction to read from the Package-Ciontrol store
+            let transaction = db.transaction("Package-Ciontrol", "readwrite");
+            let landInfoStore = transaction.objectStore("Package-Ciontrol");
+
+            // Get the record with the specified ID
+            let getRequest = landInfoStore.get(id);
+
+            getRequest.onsuccess = function (event) {
+                let record = event.target.result;
+
+                // Generate the form fields dynamically based on the record properties
+                let formFieldsHTML = '';
+                for (let property in record) {
+                    if (record.hasOwnProperty(property) && property !== 'id') {
+                        formFieldsHTML += `
+                            <label for="${property}">${property}:</label>
+                            <input type="text" id="${property}" name="${property}" value="${record[property]}"> <br>
+                        `;
+                    }
+                }
+
+                // Create an edit form and populate it with the generated fields
+                const editFormContainer = document.getElementById('editFormContainer');
+                editFormContainer.innerHTML = `
+                    <form id="editForm">
+                        ${formFieldsHTML}
+                        <button type="button" id="saveButton">Save</button>
+                        <button type="button" id="closeButton">Close</button>
+                    </form>
+                `;
+
+                // Add an event listener to the "Save" button to save changes
+                const saveButton = document.getElementById('saveButton');
+                saveButton.addEventListener('click', function () {
+                    // Open a new transaction to update the record
+                    let updateTransaction = db.transaction("Package-Ciontrol", "readwrite");
+                    let landInfoStoreToUpdate = updateTransaction.objectStore("Package-Ciontrol");
+
+                    // Update the record with the new data
+                    for (let property in record) {
+                        if (record.hasOwnProperty(property) && property !== 'id') {
+                            record[property] = document.getElementById(property).value;
+                        }
+                    }
+
+                    // Put the updated record back into the store
+                    let putRequest = landInfoStoreToUpdate.put(record);
+
+                    putRequest.onsuccess = function () {
+                        console.log('Record updated successfully');
+                    };
+
+                    putRequest.onerror = function (event) {
+                        console.error('Error updating record:', event.target.error);
+                    };
+
+                    // Complete the transaction
+                    updateTransaction.oncomplete = function () {
+                        console.log('Transaction completed');
+                        // You might want to refresh your display here.
+                    };
+                });
+
+                // Add an event listener to the "Close" button to hide the form
+                const closeButton = document.getElementById('closeButton');
+                closeButton.addEventListener('click', function () {
+                    editFormContainer.innerHTML = ''; // Clear the edit form
+                });
+            };
+
+            getRequest.onerror = function (event) {
+                console.error('Error getting record:', event.target.error);
+            };
+        };
+
+        openRequest.onerror = function (event) {
+            console.error('Error opening database:', event.target.error);
+        };
+    }
+</script>
+ {% endcomment %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7; /* Adjusted background color */
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .card {
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        h4 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            font-weight: bold;
+            color: #555;
+        }
+
+        td {
+            color: #777;
+        }
+
+        button {
+            cursor: pointer;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Form Styles */
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input[type="text"], input[type="number"], select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+            color: #333;
+            outline: none;
+        }
+
+        #saveButton, #closeButton {
+            margin-top: 10px;
+            background-color: #28a745;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #closeButton {
+            background-color: #dc3545;
+            margin-left: 10px;
+        }
+
+        /* Responsive Styles */
+        @media screen and (max-width: 768px) {
+            .container {
+                max-width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div id="landInfoData"></div>
+</div>
+
+
+<script>
+    let openRequest = indexedDB.open("GCNA");
+    let fieldBlacklist = [];
+    const fieldBlacklistConfig = {
+        'DATE_OF_SAMPLING': true, // Set to true to blacklist if null or empty
+        'DECISION': true,
+        'Quantity_of_Bags': true,
+        
+        // Add more fields as needed
+    };
+
+    openRequest.onsuccess = function (event) {
+        let db = event.target.result;
+        let transaction = db.transaction("Package-Ciontrol", "readonly");
+        let landInfoStore = transaction.objectStore("Package-Ciontrol");
+        let getAllRequest = landInfoStore.getAll();
+
+        getAllRequest.onsuccess = function (event) {
+            let landInfoRecords = event.target.result;
+            let landInfoDataDiv = document.getElementById('landInfoData');
+
+            landInfoRecords.forEach(record => {
+                let entryContainer = document.createElement("div");
+                entryContainer.id = `entryContainer_${record.id}`;
+                entryContainer.innerHTML = `
+
+                <div class="card">
+ 
+                    <div class="card-body">
+                  
+                    </h5>
+                      <p class="card-text">
+                          <table id="vertical-1" class="table table-hover table-light">
+                          <!-- <caption>First Way</caption> -->
+                         
+                  
+                  
+                         <tr>
+                  
+                              <th>Product Descriptions</th>
+                              <td>${ record.PRODUCT_DESCRIPTION }</td>
+                          </tr>  
+                          <tr>
+                              <th>Start Date</th>
+                              <td>${ record.START }</td>
+                          </tr>
+                          <tr>
+                              <th>End Date</th>
+                              <td>${ record.END }</td>
+                          </tr>
+                          <tr>
+                              <th>Quantity of bags</th>
+                              <td>${ record.QUANTITY_OF_BAGS }</td>
+                          </tr>
+                  
+                  
+                          <tr>
+                              <th>Total Weight(lbs)</th>
+                              <td>${ record.TOTAL_WEIGHT_LBS }</td>
+                          </tr>
+                  
+                  
+                  
+                          <tr>
+                              <th>Package Material</th>
+                              <td>${ record.PACKAGING_MATERIAL }</td>
+                          </tr>
+                  
+                  
+                  
+                          <tr>
+                              <th>Batch Number</th>
+                              <td>${ record.BATCH_NUMBER }</td>
+                          </tr>
+                          <tr>
+                              <th>Contract Number</th>
+                              <td>${ record.CONTRACT_NUMBER }</td>
+                          </tr>
+                          <tr>
+                              <th>Offical Lab Results</th>
+                              <td>${ record.OFFICIAL_LAB_RESULTS }</td>
+                          </tr>
+                  
+                      </table>
+                         <!-- Your existing HTML code here -->
+                         <button class="btn btn-danger" onclick="deleteEntry(${record.id})">Delete</button>
+                        <!-- <button class="btn btn-primary" onclick="toggleEditForm(${record.id})">Edit</button> -->
+                         <div id="editForm_${record.id}" style="display:none;">
+                             <!-- Edit form will be generated here -->
+                         </div>
+                     </div>
+                 </div>
+                 <br> <br> <br>
+             `;
+            landInfoDataDiv.appendChild(entryContainer);
+
+            let editFormContainer = document.getElementById(`editForm_${record.id}`);
+            generateEditForm(editFormContainer, record);
+        });
+    };
+};
+
+    function generateEditForm(container, record) {
+        let fieldConfig = {
+            'DATE_OF_SAMPLING': 'date',
+            'DECISION': 'select',
+            'Quantity_of_Bags': 'number',
+            // Add more fields with their respective form types
+        };
+    
+        let formFieldsHTML = '';
+        for (let property in record) {
+            if (record.hasOwnProperty(property) && property !== 'id') {
+                let inputType = 'text'; // Default to text input type
+                if (fieldConfig[property]) {
+                    inputType = fieldConfig[property];
+                }
+    
+                // Check if the field value is null or an empty string and should be blacklisted
+                if (fieldBlacklistConfig[property] && (record[property] === null || record[property] === '')) {
+                    fieldBlacklist.push(property);
+                }
+    
+                // Include the field in the form if it's not in the blacklist
+                if (!fieldBlacklist.includes(property)) {
+                    // Convert property name to human-readable format
+                    let label = property.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+    
+                    formFieldsHTML += `
+                        <label for="${property}_${record.id}">${label}:</label>
+                        <input type="${inputType}" id="${property}_${record.id}" name="${property}" value="${record[property]}" class="form-control"> <br>
+                    `;
+                }
+            }
+        }
+    
+        container.innerHTML = `
+            <form id="editForm">
+                ${formFieldsHTML}
+                <button type="button" id="saveButton" onclick="saveEditedForm(${record.id})">Save</button>
+                <button type="button" id="closeButton" onclick="hideEditForm(${record.id})">Close</button>
+            </form>
+        `;
+    }
+
+    function toggleEditForm(id) {
+        let editFormContainer = document.getElementById(`editForm_${id}`);
+        if (editFormContainer.style.display === 'none') {
+            showEditForm(id);
+        } else {
+            hideEditForm(id);
+        }
+    }
+
+    function showEditForm(id) {
+        let editFormContainer = document.getElementById(`editForm_${id}`);
+        editFormContainer.style.display = "block";
+    }
+
+    function hideEditForm(id) {
+        let editFormContainer = document.getElementById(`editForm_${id}`);
+        editFormContainer.style.display = "none";
+    }
+
+    function saveEditedForm(id) {
+        let openRequest = indexedDB.open("GCNA");
+
+        openRequest.onsuccess = function (event) {
+            let db = event.target.result;
+            let transaction = db.transaction("Package-Ciontrol", "readwrite");
+            let landInfoStore = transaction.objectStore("Package-Ciontrol");
+            let getRequest = landInfoStore.get(id);
+
+            getRequest.onsuccess = function (event) {
+                let record = event.target.result;
+
+                for (let property in record) {
+                    if (record.hasOwnProperty(property) && property !== 'id') {
+                        const inputElement = document.getElementById(`${property}_${id}`);
+                        if (inputElement) {
+                            record[property] = inputElement.value;
+                        }
+                    }
+                }
+
+                let putRequest = landInfoStore.put(record);
+
+                putRequest.onsuccess = function () {
+                    console.log('Record updated successfully');
+                    hideEditForm(id, document.getElementById(`hiddenButton_${id}`));
+                };
+
+                putRequest.onerror = function (event) {
+                    console.error('Error updating record:', event.target.error);
+                };
+            };
+
+            getRequest.onerror = function (event) {
+                console.error('Error getting record:', event.target.error);
+            };
+        };
+
+        openRequest.onerror = function (event) {
+            console.error('Error opening database:', event.target.error);
+        };
+    }
+
+
+
+    function deleteEntry(id) {
+        let openRequest = indexedDB.open("GCNA");
+    
+        openRequest.onsuccess = function (event) {
+            let db = event.target.result;
+            let transaction = db.transaction("Package-Ciontrol", "readwrite");
+            let landInfoStore = transaction.objectStore("Package-Ciontrol");
+    
+            // Get the record to be deleted
+            let getRequest = landInfoStore.get(id);
+    
+            getRequest.onsuccess = function (event) {
+                let record = event.target.result;
+    
+                // Now, let's open the DELETED database and add the record there
+                let openDeletedRequest = indexedDB.open("DELETED");
+    
+                openDeletedRequest.onsuccess = function (event) {
+                    let deletedDB = event.target.result;
+                    let deletedTransaction = deletedDB.transaction("Package-Ciontrol", "readwrite");
+                    let deletedStore = deletedTransaction.objectStore("Package-Ciontrol");
+    
+                    // Add the record to the DELETED database
+                    let addRequest = deletedStore.add(record);
+    
+                    addRequest.onsuccess = function () {
+                        console.log(`Record with ID ${id} copied to DELETED database.`);
+                    };
+    
+                    addRequest.onerror = function () {
+                        console.log(`Failed to copy record with ID ${id} to DELETED database.`);
+                    };
+                };
+    
+                openDeletedRequest.onerror = function () {
+                    console.log("Failed to open DELETED database.");
+                };
+            };
+    
+            // Now, proceed with deleting the record from the original database
+            let deleteRequest = landInfoStore.delete(id);
+    
+            deleteRequest.onsuccess = function () {
+                console.log(`Record with ID ${id} deleted from GCNA database.`);
+                // You might want to refresh your display here.
+            };
+    
+            deleteRequest.onerror = function () {
+                console.log(`Failed to delete record with ID ${id} from GCNA database.`);
+            };
+        };
+    
+        openRequest.onerror = function () {
+            console.log("Failed to open GCNA database.");
+        };
+    }
+    
+
+
+
+
+</script>
+{% endblock %}

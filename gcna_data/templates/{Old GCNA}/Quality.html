@@ -1,0 +1,567 @@
+{% extends 'gcna/base2.html' %}
+
+{% block content%}
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+<script>
+$(document).ready(function() {
+
+
+
+
+  $('#LoTableG1_0').hide(); 
+ 
+
+  $('#id_Nutmeg_Assorted').on('change', function() {
+    if ($(this).val() == 'Other') {
+        $('#LoTableG1_0').show(); 
+
+    } else {
+        $('#LoTableG1_0').hide();
+
+    }
+  
+});
+
+
+
+$('#id_Nutmeg_Assorted2').on('change', function() {
+    if ($(this).val() == 'Sounds') {
+        $('#id_ASSORTOR1_A').val('500'); 
+        $('#id_ASSORTOR2_A').val('500'); 
+        $('#id_ASSORTOR3_A').val('500'); 
+        $('#id_ASSORTOR4_A').val('500'); 
+        $('#id_ASSORTOR5_A').val('500'); 
+        $('#id_ASSORTOR6_A').val('500'); 
+
+    } else {
+        $('#LoTableG1_0').hide();
+
+    }
+  
+});
+
+
+
+
+  $('#id_START_DRYING_DATE').on('change', function() {
+    var startDate = new Date($(this).val());
+    var approxEndDate = new Date(startDate.getTime() + (15 * 24 * 60 * 60 * 1000)); 
+
+    var day = ("0" + approxEndDate.getDate()).slice(-2); 
+
+    var month = ("0" + (approxEndDate.getMonth() + 1)).slice(-2);
+
+    var year = approxEndDate.getFullYear();
+
+    var formattedDate = year + "-" + month + "-" + day;
+
+    $('#id_APPROX_END_DRYING_DATE').val(formattedDate);
+      });
+
+  $('#id_NUM_OF_BAGS').on('change', function() {
+    var start =  $('#id_NUM_OF_BAGS').val();
+    var calc = start * 110; 
+    $('#id_TOTAL_LBS_NUTMEG_BOUGHT').val(calc);
+      });
+
+
+});
+
+
+
+
+
+
+</script>
+
+
+
+
+
+
+   <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: center;
+            padding: 8px;
+        }
+
+
+        th {
+/*            background-color: #f2f2f2;*/
+        }
+
+
+        .main-header {
+            text-align: center;
+            font-size: 24px;
+        }
+
+
+        .sub-header {
+            font-size: 18px;
+        }
+    </style>
+
+
+	<center>
+<br>
+
+
+<!-- 
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var myForm = document.getElementById('myForm');
+    
+        myForm.addEventListener('submit', function(event) {
+
+            event.preventDefault();
+            var data = new FormData(event.target);
+            saveDataToIndexedDB(data);
+        });
+    
+        function saveDataToIndexedDB(data) {
+            var request = indexedDB.open('GCNA', 2);
+        
+            request.onsuccess = function(event) {
+                var db = event.target.result;
+                var transaction = db.transaction('Quaility', 'readwrite');
+                var objectStore = transaction.objectStore('Quaility');
+        
+                var obj = {};
+                for (var pair of data.entries()) {
+                    obj[pair[0]] = pair[1];
+                }
+        
+                // Get the highest id in the object store
+                var highestIdRequest = objectStore.openCursor(null, 'prev');
+                highestIdRequest.onsuccess = function(event) {
+                    var cursor = event.target.result;
+                    if (cursor) {
+                        obj.id = cursor.key + 1;
+                    } else {
+                        obj.id = 1; // This is the first item
+                    }
+        
+                    var request = objectStore.put(obj);
+        
+                    request.onsuccess = function() {
+                        console.log('Data added to IndexedDB');
+                        window.location.href = '/gcna00_24/';
+                    };
+        
+                    request.onerror = function() {
+                        console.error('Error adding data to IndexedDB');
+                    };
+                };
+            };
+        
+            request.onerror = function(event) {
+                console.error('Error opening IndexedDB', event);
+            };
+        }
+        
+    });
+    </script>
+  
+   -->
+
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var myForm = document.getElementById('myForm');
+    
+        myForm.addEventListener('submit', function(event) {
+
+            event.preventDefault();
+            var data = new FormData(event.target);
+            saveDataToIndexedDB(data);
+        });
+    
+        function saveDataToIndexedDB(data) {
+    // Exclude csrfmiddlewaretoken from being saved to IndexedDB
+    data.delete('csrfmiddlewaretoken');
+
+    var request = indexedDB.open('GCNA', 2);
+
+    request.onsuccess = function(event) {
+        var db = event.target.result;
+        var transaction = db.transaction('Quaility', 'readwrite');
+        var objectStore = transaction.objectStore('Quaility');
+
+        var obj = {};
+        for (var pair of data.entries()) {
+            obj[pair[0]] = pair[1];
+        }
+
+        // Get the highest id in the object store
+        var highestIdRequest = objectStore.openCursor(null, 'prev');
+        highestIdRequest.onsuccess = function(event) {
+            var cursor = event.target.result;
+            if (cursor) {
+                obj.id = cursor.key + 1;
+            } else {
+                obj.id = 1; // This is the first item
+            }
+
+            var request = objectStore.put(obj);
+
+            request.onsuccess = function() {
+                console.log('Data added to IndexedDB');
+                transferIndexedDBData(); // Transfer data to Django after saving to IndexedDB
+            };
+
+            request.onerror = function() {
+                console.error('Error adding data to IndexedDB');
+            };
+        };
+    };
+
+    request.onerror = function(event) {
+        console.error('Error opening IndexedDB', event);
+    };
+}
+        function transferIndexedDBData() {
+            var request = indexedDB.open('GCNA', 2);
+        
+            request.onsuccess = function(event) {
+                var db = event.target.result;
+                var transaction = db.transaction('Quaility', 'readonly');
+                var objectStore = transaction.objectStore('Quaility');
+                var getRequest = objectStore.getAll();
+        
+                getRequest.onsuccess = function(event) {
+                    var data = event.target.result;
+                    data.forEach(function(item) {
+                        // sendDataToDjango(item);
+                    });
+                    window.location.reload();
+
+                };
+            };
+        
+            request.onerror = function(event) {
+                console.error('Error opening IndexedDB', event);
+            };
+        }
+    
+        function sendDataToDjango(item) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/check-and-add/', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        console.log('Entry added successfully.');
+                    } else {
+                        console.error('Error adding entry:', xhr.statusText);
+                    }
+                }
+            };
+            xhr.send(JSON.stringify(item));
+        }
+    });
+  </script>
+  
+
+  <script>
+
+
+    var request = indexedDB.open('Signin', 1);
+   
+    request.onsuccess = function(event) {
+        var db = event.target.result;
+        var transaction = db.transaction('verify', 'readonly');
+        var store = transaction.objectStore('verify');
+        var getRequest = store.get(1); // Assuming you want to get the first entry
+   
+        getRequest.onsuccess = function(event) {
+            var data = event.target.result;
+            if (data) {
+                // Set the values in the form
+                document.querySelector('[name="Worker_ID_No"]').value = data.Worker_ID_No;
+                document.querySelector('[name="Worker_ID_Name"]').value = data.Name;
+            }
+        };
+    };
+   </script>
+  
+
+
+	{% if submitted %}
+		Entry successfully added to database!!!
+	{% else %}
+		<form action="" method="POST"  id="myForm" enctype="multipart/form-data" style=" background-color: #e4e4e4;
+
+    margin: 1px auto;
+    font-family: Raleway;
+    padding: 10px;
+    width: 75%;
+    min-width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">
+
+    <div class="card">
+ 
+  <div class="card-body">
+
+  </h5>
+    <p class="card-text">
+        <table id="vertical-1" class="table table-hover table-light">
+
+<h6>Document No. GCNA-R-03</h6>
+<h6>Document Title: Quality Control Record for Assorting Process</h6>
+<h6>Date Issued: 2023-07-03</h6>
+<h6>Version: 1</h6>
+
+
+
+ 
+		{% csrf_token %}
+
+
+
+
+
+
+
+
+
+  <table>
+
+         <tr>
+            <th colspan="8" class="main-header"> </th>
+         </tr>
+         {{ form5.Worker_ID_No }}
+         {{ form5.Worker_ID_Name }}
+        <tr>
+            <td  colspan="2" style="text-align:center; width: 100px">DATE </td>
+            <td  colspan="2"  style="text-align:center; width: 100px">{{ form5.DATE_1 }}</td>
+            <td  colspan="2"  style="text-align:center; width: 100px">STATION</td>
+            <td  colspan="2"  style="text-align:center; width: 100px">{{ form5.STATION }}</td>
+        </tr>
+
+        <tr>
+            <td  colspan="4" style="text-align:center; width: 100px">BATCH/WAREHOUSE RECEIPT NUMBER </td>
+            <td  colspan="4"  style="text-align:center; width: 100px">{{ form5.BATCH_NUMBER }}</td>
+        </tr>
+
+
+
+
+        <tr>
+            <td  colspan="1" style="text-align:center; width: 100px">REWORK</td>
+            <td></td>	
+            <td  colspan="4"  style="text-align:center; width: 100px">{{ form5.REWORK }}</td>
+        </tr>
+
+
+        <tr>
+            <td  colspan="4" style="text-align:center; width: 100px">SAMPLE WEIGHT </td>
+            <td  colspan="4"  style="text-align:center; width: 100px">{{ form5.SAMPLE_WEIGHT }}</td>
+        </tr>
+
+         <tr>
+            <th colspan="8" class="main-header">TOLERANCE LIMITS FOR DEFECTS</th>
+         </tr>
+
+        <tr>
+            <td  colspan="4" style="text-align:center; width: 100px">Free of extraneous matter - Inshell (Whole) and Shelled</td>
+            <td  colspan="4"  style="text-align:center; width: 100px">0.5%</td>
+        </tr>
+
+        <tr>
+            <td  colspan="4" style="text-align:center; width: 100px">Broken/damaged – Inshell Whole</td>
+            <td  colspan="4"  style="text-align:center; width: 100px">2%</td>
+        </tr>
+
+
+        <tr>
+            <td  colspan="4" style="text-align:center; width: 100px">Broken/damaged Shelled</td>
+            <td  colspan="4"  style="text-align:center; width: 100px">3%</td>
+        </tr>
+  </table>
+
+
+
+  <table>
+
+
+         <tr>
+            <th colspan="8" class="main-header">WEIGHT (oz/lbs)</th>
+         </tr>
+
+        <tr>
+            <td  colspan="4" style="text-align:center; width: 100px">Nutmegs Assorted</td>
+
+            <td  colspan="4"  style="text-align:center; width: 100px">{{ form5.Nutmeg_Assorted }}</td>
+        </tr>
+
+        <tr id="LoTableG1_0">
+            <td  colspan="4" style="text-align:center; width: 100px">Nutmegs Assorted Cont </td>
+            <td  colspan="4"  style="text-align:center; width: 100px">{{ form5.Nutmeg_Assorted_cont }}</td>
+        </tr>
+
+        <tr>
+            <td  colspan="1" style="text-align:center; width: 100px">NAME</td>
+            <td  colspan="1"  style="text-align:center; width: 100px">TYPE: {{ form5.Nutmeg_Assorted2 }}</td>
+            <td  colspan="1" style="text-align:center; width: 100px">PINHOLES</td>
+            <td  colspan="1"  style="text-align:center; width: 100px">CRACKED</td>
+            <td  colspan="1" style="text-align:center; width: 100px">BROKEN PIECES</td>
+            <td  colspan="1"  style="text-align:center; width: 100px">FOREIGN MATTER</td>
+        </tr>
+
+ 
+
+
+        <tr>
+            <td  colspan="1" style="text-align:center; width: 100px">{{ form5.ASSORTOR1 }}</td>
+            <td  colspan="1" style="text-align:center; width: 100px">{{ form5.ASSORTOR1_A }}</td>
+            <td  colspan="1"  style="text-align:center; width: 100px">{{ form5.ASSORTOR1_B }}</td>
+            <td  colspan="1" style="text-align:center; width: 100px">{{ form5.ASSORTOR1_C }}</td>
+            <td  colspan="1"  style="text-align:center; width: 100px">{{ form5.ASSORTOR1_D }}</td>
+            <td  colspan="1" style="text-align:center; width: 100px">{{ form5.ASSORTOR1_E }}</td>
+        </tr>
+
+
+        <tr>
+            <td  colspan="1" style="text-align:center; width: 100px">{{ form5.ASSORTOR2 }}</td>
+            <td  colspan="1" style="text-align:center; width: 100px">{{ form5.ASSORTOR2_A }}</td>
+            <td  colspan="1"  style="text-align:center; width: 100px">{{ form5.ASSORTOR2_B }}</td>
+            <td  colspan="1" style="text-align:center; width: 100px">{{ form5.ASSORTOR2_C }}</td>
+            <td  colspan="1"  style="text-align:center; width: 100px">{{ form5.ASSORTOR2_D }}</td>
+            <td  colspan="1" style="text-align:center; width: 100px">{{ form5.ASSORTOR2_E }}</td>
+        </tr>
+
+        <tr>
+            <td  colspan="1" style="text-align:center; width: 100px">{{ form5.ASSORTOR3 }}</td>
+            <td  colspan="1" style="text-align:center; width: 100px">{{ form5.ASSORTOR3_A }}</td>
+            <td  colspan="1"  style="text-align:center; width: 100px">{{ form5.ASSORTOR3_B }}</td>
+            <td  colspan="1" style="text-align:center; width: 100px">{{ form5.ASSORTOR3_C }}</td>
+            <td  colspan="1"  style="text-align:center; width: 100px">{{ form5.ASSORTOR3_D }}</td>
+            <td  colspan="1" style="text-align:center; width: 100px">{{ form5.ASSORTOR3_E }}</td>
+        </tr>
+
+        <tr>
+            <td  colspan="1" style="text-align:center; width: 100px">{{ form5.ASSORTOR4 }}</td>
+            <td  colspan="1" style="text-align:center; width: 100px">{{ form5.ASSORTOR4_A }}</td>
+            <td  colspan="1"  style="text-align:center; width: 100px">{{ form5.ASSORTOR4_B }}</td>
+            <td  colspan="1" style="text-align:center; width: 100px">{{ form5.ASSORTOR4_C }}</td>
+            <td  colspan="1"  style="text-align:center; width: 100px">{{ form5.ASSORTOR4_D }}</td>
+            <td  colspan="1" style="text-align:center; width: 100px">{{ form5.ASSORTOR4_E }}</td>
+
+        </tr>
+
+
+        <tr>
+            <td  colspan="1" style="text-align:center; width: 100px">{{ form5.ASSORTOR5 }}</td>
+
+
+            <td  colspan="1" style="text-align:center; width: 100px">{{ form5.ASSORTOR5_A }}</td>
+            <td  colspan="1"  style="text-align:center; width: 100px">{{ form5.ASSORTOR5_B }}</td>
+            <td  colspan="1" style="text-align:center; width: 100px">{{ form5.ASSORTOR5_C }}</td>
+            <td  colspan="1"  style="text-align:center; width: 100px">{{ form5.ASSORTOR5_D }}</td>
+            <td  colspan="1" style="text-align:center; width: 100px">{{ form5.ASSORTOR5_E }}</td>
+
+        </tr>
+
+
+        <tr>
+            <td  colspan="1" style="text-align:center; width: 100px">SUPERVISOR:</td>
+
+            <td  colspan="1" style="text-align:center; width: 100px">{{ form5.SUPERVISOR_A }}</td>
+            <td  colspan="1"  style="text-align:center; width: 100px">{{ form5.SUPERVISOR_B }}</td>
+            <td  colspan="1" style="text-align:center; width: 100px">{{ form5.SUPERVISOR_C }}</td>
+            <td  colspan="1"  style="text-align:center; width: 100px">{{ form5.SUPERVISOR_D }}</td>
+            <td  colspan="1" style="text-align:center; width: 100px">{{ form5.SUPERVISOR_E }}</td>
+
+
+        </tr>
+<tr>
+                <td  colspan="1" style="text-align:center; width: 100px">{{ form5.ASSORTOR6 }}</td>
+
+
+</tr>
+
+
+
+         <tr>
+            <td  colspan="1" style="text-align:center; width: 100px">COMMENTS:</td>
+
+            <td  colspan="7" style="text-align:center; width: 100px">{{ form5.COMMENTS }}</td>
+
+                     </tr>
+
+
+
+
+
+        <tr>
+            <td  scope="col" style="text-align:center; width: 100px">Approved By </td>
+            <td  colspan="2" style="text-align:center; width: 100px">{{form5.Approved_BY}}</td>
+
+
+      
+            <td  scope="col" style="text-align:center; width: 100px">Date Of Report</td>
+            <td  colspan="2" style="text-align:center; width: 100px">{{form5.DATE_OF_REPORT}}</td>
+
+
+        </tr>
+
+
+
+
+        <tr>
+            <td  scope="col" style="text-align:center; width: 100px">SIGNED BY Quality Assurance Officer</td>
+            <td  colspan="2" style="text-align:center; width: 100px">{{form5.SIGNED_BY_QUALITY_ASSURANCE_OFFICER}}</td>
+
+
+    
+            <td  scope="col" style="text-align:center; width: 100px">Date</td>
+            <td  colspan="2" style="text-align:center; width: 100px">{{form5.DATE_2}}</td>
+
+
+        </tr>
+
+
+
+  </table>
+
+
+
+		<input type="submit" name="" value="✔" class="btn btn-success btn-circle btn-xl">
+
+		<br>
+		<br>
+</table>
+
+              <tr>
+            <th><a href="{% url 'table' %}" class="btn btn-secondary">Exit</a></th>
+            <th><a type="submit" href="{% url 'database10' %}" role="button" class="btn btn-primary">Previous</a></th>
+ 
+
+        </tr>		
+
+		</form>
+
+	{% endif %}
+
+	</center>
+{{ form5.media }}
+
+{% endblock %}
+
+
+

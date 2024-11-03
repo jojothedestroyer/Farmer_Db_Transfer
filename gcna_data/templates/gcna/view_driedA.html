@@ -1,0 +1,166 @@
+{% extends 'gcna/base.html' %}
+
+
+{% block content%}
+
+
+
+<!--     <h3>Dried Nutmeg Form</h3>
+    <h4>Section A</h4> -->
+
+{% for dried in dried_A_list %}
+<div class="card">
+ 
+  <div class="card-body">
+    <h5 class="card-title"><strong>Titles: {{ dried }}</strong>
+  </h5>
+    <p class="card-text">
+        <table id="vertical-1" class="table table-hover table-light">
+        <!-- <caption>First Way</caption> -->
+       
+
+
+
+         <tr>
+            <th>Date of Sampling</th>
+            <td>{{ dried.DATE_OF_SAMPLING }}</td>
+        </tr>
+        <tr>
+            <th>Station</th>
+            <td>{{ dried.STATION }}</td>
+        </tr>
+        <tr>
+            <th>Batch Codes</th>
+            <td>{{ dried.BATCH_CODE }}</td>
+        </tr>
+        <tr>
+            <th>Quantity of Bags</th>
+            <td>{{ dried.Quantity_of_Bags }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Quantity of Sample</th>
+            <td>{{ dried.Quantity_of_Sample }}</td>
+        </tr>
+
+
+
+        <tr>
+            <th>Total Weight(lbs)</th>
+            <td>{{ dried.Total_Weight }}</td>
+        </tr>
+
+
+
+        <tr>
+            <th>Initial Sample Weight(lbs)</th>
+            <td>{{ dried.Initial_Sample_Weight }}</td>
+        </tr>
+        <tr>
+            <th>Insect Damaged(lbs)</th>
+            <td>{{ dried.Insect_Damaged }}</td>
+        </tr>
+        <tr>
+            <th>Broken(lbs)</th>
+            <td>{{ dried.Broken }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Mould(lbs)</th>
+            <td>{{ dried.Mould }}</td>
+        </tr>
+
+
+
+        <tr>
+            <th>Final Sample Weight(lbs)</th>
+            <td>{{ dried.Final_Sample_Weight }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Reading 1</th>
+            <td>{{ dried.READING_1 }}</td>
+        </tr>
+        <tr>
+            <th>Reading 2</th>
+            <td>{{ dried.READING_2 }}</td>
+        </tr>
+        <tr>
+            <th>Reading 3</th>
+            <td>{{ dried.READING_3 }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Average</th>
+            <td>{{ dried.AVERAGE }}</td>
+        </tr>
+
+
+
+        <tr>
+            <th>Decisiom</th>
+            <td>{{ dried.DECISION }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Comments</th>
+            <td>{{ dried.Comments }}</td>
+        </tr>
+        <tr>
+            <th>Test preformed by</th>
+            <td>{{ dried.TEST_PERFORMED_BY }}</td>
+        </tr>
+        <tr>
+            <th>Date</th>
+            <td>{{ dried.DATE }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Signed by</th>
+            <td>{{ dried.SIGNED_BY }}</td>
+        </tr>
+
+
+
+        <tr>
+            <th>Date of Report</th>
+            <td>{{ dried.DATE_OF_REPORT }}</td>
+        </tr>  
+
+        <tr>
+            <th>Signed by Quality Assurance Officer</th>
+            <td>{{ dried.SIGNED_BY_QUALITY_ASSURANCE_OFFICER }}</td>
+        </tr>  
+
+                <tr>
+            <th>Date</th>
+            <td>{{ dried.DATE }}</td>
+        </tr>  
+
+    </table>
+                    </p>
+
+            <a href="{% url 'adhome' %}" class="btn btn-secondary">Return</a>
+
+
+                         <a href="{% url 'edit_dried_A' dried.pk %}" class="btn btn-primary">Edit</a>
+
+     <form action="{% url 'delete_dried_A' dried.pk %}" method="POST" style="display: inline-block;">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
+    <a href="{% url 'import_data1' %}" class="btn btn-success">Import Excel</a>
+ </div>        </div>
+
+<br>
+<br>
+<br>
+
+{% endfor %}
+{% endblock %}

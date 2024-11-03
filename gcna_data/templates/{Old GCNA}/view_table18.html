@@ -1,0 +1,81 @@
+
+{% extends 'gcna/base2.html' %}
+
+
+{% block content%}
+
+
+<div class="card">
+ 
+  <div class="card-body">
+
+  </h5>
+    <p class="card-text">
+        <table id="vertical-1" class="table table-hover table-light">
+       
+
+  
+
+        <tr>
+            <th>What Fertilizer is used</th>
+            <td>{{ farmer_info_id.Fertilizer }}</td>
+        </tr>
+
+        <tr>
+            <th>Please elaborate futher on the fertilizer</th>
+            <td>{{ farmer_info_id.Fertilizer_cont }}</td>
+        </tr>
+
+        <tr>
+            <th>When was the last application of fertilizer+</th>
+            <td>{{ farmer_info_id.Last_application }}</td>
+        </tr>
+
+
+        <tr>
+          <th>Fertilizer image</th>
+{% if farmer_info_id.Picture %}
+          <td><img src="{{ farmer_info_id.Picture.url }}" alt="Fertilizer Image" width="75"></td>
+{% endif %}
+       </tr>
+
+        <tr>
+            <th>Was raw manure used</th>
+            <td>{{ farmer_info_id.Raw_Manure }}</td>
+        </tr>
+
+
+        <tr>
+            <th>If so, futher eleaborate</th>
+            <td>{{ farmer_info_id.Raw_Manure_cont }}</td>
+        </tr>  
+
+
+        <tr>
+            <th>Was compost used</th>
+            <td>{{ farmer_info_id.Composed_manure }}</td>
+        </tr>  
+
+
+        <tr>
+            <th>Was any other type of fertilizer used</th>
+            <td>{{ farmer_info_id.Other }}</td>
+        </tr>  
+
+              <tr>
+            <th><a href="{% url 'table' %}" class="btn btn-secondary">Return</a></th>
+        </tr>
+    </table>
+                    </p>
+
+
+
+       
+ </div>        </div>
+
+<br>
+<br>
+<br>
+
+{% endblock %}
+

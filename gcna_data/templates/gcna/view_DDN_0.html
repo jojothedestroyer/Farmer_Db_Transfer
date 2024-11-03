@@ -1,0 +1,4389 @@
+
+
+{% extends 'gcna/base.html' %}
+
+
+
+{% block content%}
+
+{% comment %} 
+<div class="card">
+ 
+  <div class="card-body">
+
+  </h5>
+    <p class="card-text">
+        <table id="vertical-1" class="table table-hover table-light">
+
+
+
+
+
+
+
+
+
+
+
+       <tr>
+{{ farmer_info_id.Nutmeg_ID_No }}
+
+            <th>Station</th>
+            <td>{{ farmer_info_id.STATION }}</td>
+        </tr>  
+        <tr>
+            <th>Date of Pick up</th>
+            <td>{{ farmer_info_id.DATE_OF_PICK_UP }}</td>
+        </tr>
+        <tr>
+            <th>Final Moisture Content</th>
+            <td>{{ farmer_info_id.FINAL_MOISTURE_CONTENT }}</td>
+        </tr>
+
+
+       <tr>
+            <th>Batch Number</th>
+            <td>{{ farmer_info_id.BATCH_NUMBER }}</td>
+        </tr>
+
+
+        <table id="vertical-1" class="table table-hover table-light">
+
+        <tr>
+
+         <center>
+            <p><b>FINAL MOISTURE CONTENT (%)</b></p>
+        </center>
+        </tr>
+
+
+        <tr>
+
+         <center>
+            <p>LOCATION </p>
+        </center>
+        </tr>
+
+
+{% if farmer_info_id.ShelfG_GF and farmer_info_id.TrayG_GF and farmer_info_id.SectionG_GF and farmer_info_id.MoistureG_GF %}
+<table class="table" id="LoTableG1">
+
+    <center>
+<label class="hidden-label1"> Ground Floor</label>   
+ </center> 
+  <thead>
+    <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ farmer_info_id.ShelfG_GF }}</td>
+      <td>{{ farmer_info_id.TrayG_GF }}</td>
+      <td>{{ farmer_info_id.SectionG_GF }}</td>
+      <td>{{ farmer_info_id.MoistureG_GF }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+ {% else %}
+
+ <td> </td>
+
+ {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+{% if farmer_info_id.ShelfG_1F and farmer_info_id.TrayG_1F and farmer_info_id.SectionG_1F and farmer_info_id.MoistureG_1F %}
+
+
+
+<table class="table" id="LoTableG2">
+
+    <center>
+<label class="hidden-label1">1st Floor</label>   
+ </center> 
+  <thead>
+     <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ farmer_info_id.ShelfG_1F }}</td>
+      <td>{{ farmer_info_id.TrayG_1F }}</td>
+      <td>{{ farmer_info_id.SectionG_1F }}</td>
+      <td>{{ farmer_info_id.MoistureG_1F }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+ 
+
+{% else %}
+
+ <td> </td>
+
+ {% endif %}
+
+
+   
+
+
+
+
+
+{% if farmer_info_id.ShelfG_2F and farmer_info_id.TrayG_2F and farmer_info_id.SectionG_2F and farmer_info_id.MoistureG_2F %}
+<table class="table" id="LoTableG3">
+
+    <center>
+<label class="hidden-label1" >2nd Floor</label>   
+ </center> 
+  <thead>
+      <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ farmer_info_id.ShelfG_2F }}</td>
+      <td>{{ farmer_info_id.TrayG_2F }}</td>
+      <td>{{ farmer_info_id.SectionG_2F }}</td>
+      <td>{{ farmer_info_id.MoistureG_2F }}</td>
+
+    </tr>
+
+
+  </tbody>
+</table>
+
+ 
+ 
+{% else %}
+
+ <td> </td>
+
+ {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+{% if farmer_info_id.ShelfG_FL and farmer_info_id.TrayG_FL and farmer_info_id.SectionG_FL and farmer_info_id.MoistureG_FL %}
+
+<table class="table" id="LoTableG4">
+
+    <center>
+<label class="hidden-label1">Floor Loft</label>   
+ </center> 
+  <thead>
+       <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ farmer_info_id.ShelfG_FL }}</td>
+      <td>{{ farmer_info_id.TrayG_FL }}</td>
+      <td>{{ farmer_info_id.SectionG_FL }}</td>
+      <td>{{ farmer_info_id.MoistureG_FL }}</td>
+
+    </tr>
+
+
+  </tbody>
+</table>
+
+ {% else %}
+
+ <td> </td>
+
+ {% endif %}
+
+
+
+
+             
+
+
+
+
+
+
+
+
+
+
+
+ 
+{% if farmer_info_id.ShelfH_GF and farmer_info_id.TrayH_GF and farmer_info_id.SectionH_GF and farmer_info_id.MoistureH_GF %}
+<table class="table" id="LoTableH1">
+
+    <center>
+<label class="hidden-label2"> Ground Floor</label>   
+ </center> 
+  <thead>
+    <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ farmer_info_id.ShelfH_GF }}</td>
+      <td>{{ farmer_info_id.TrayH_GF }}</td>
+      <td>{{ farmer_info_id.SectionH_GF }}</td>
+      <td>{{ farmer_info_id.MoistureH_GF }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+{% else %}
+
+ <td> </td>
+
+ {% endif %}
+
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% if farmer_info_id.ShelfH_1F and farmer_info_id.TrayH_1F and farmer_info_id.SectionH_1F and farmer_info_id.MoistureH_1F %}
+
+<table class="table" id="LoTableH2">
+
+    <center>
+<label class="hidden-label2">1st Floor</label>   
+ </center> 
+  <thead>
+     <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ farmer_info_id.ShelfH_1F }}</td>
+      <td>{{ farmer_info_id.TrayH_1F }}</td>
+      <td>{{ farmer_info_id.SectionH_1F }}</td>
+      <td>{{ farmer_info_id.MoistureH_1F }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+ 
+{% else %}
+
+ <td> </td>
+
+ {% endif %}
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% if farmer_info_id.ShelfH_2F and farmer_info_id.TrayH_2F and farmer_info_id.SectionH_2F and farmer_info_id.MoistureH_2F %}
+
+<table class="table" id="LoTableH3">
+
+    <center>
+<label class="hidden-label2" >2nd Floor</label>   
+ </center> 
+  <thead>
+      <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ farmer_info_id.ShelfH_2F }}</td>
+      <td>{{ farmer_info_id.TrayH_2F }}</td>
+      <td>{{ farmer_info_id.SectionH_2F }}</td>
+      <td>{{ farmer_info_id.MoistureH_2F }}</td>
+
+    </tr>
+
+
+  </tbody>
+</table>
+
+
+
+{% else %}
+
+ <td> </td>
+
+ {% endif %}
+
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+ {% if farmer_info_id.ShelfH_FL and farmer_info_id.TrayH_FL and farmer_info_id.SectionH_FL and farmer_info_id.MoistureH_FL %}
+  
+<table class="table" id="LoTableH4">
+
+    <center>
+<label class="hidden-label2">Floor Loft</label>   
+ </center> 
+  <thead>
+       <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ farmer_info_id.ShelfH_FL }}</td>
+      <td>{{ farmer_info_id.TrayH_FL }}</td>
+      <td>{{ farmer_info_id.SectionH_FL }}</td>
+      <td>{{ farmer_info_id.MoistureH_FL }}</td>
+
+    </tr>
+
+
+  </tbody>
+</table>
+
+
+
+{% else %}
+
+ <td> </td>
+
+ {% endif %}
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ {% if farmer_info_id.ShelfM_GF and farmer_info_id.TrayM_GF and farmer_info_id.SectionM_GF and farmer_info_id.MoistureM_GF %}
+
+<table class="table" id="LoTableM1">
+
+    <center>
+<label class="hidden-label3"> Ground Floor</label>   
+ </center> 
+  <thead>
+    <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ farmer_info_id.ShelfM_GF }}</td>
+      <td>{{ farmer_info_id.TrayM_GF }}</td>
+      <td>{{ farmer_info_id.SectionM_GF }}</td>
+      <td>{{ farmer_info_id.MoistureM_GF }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+{% else %}
+
+ <td> </td>
+
+ {% endif %}
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ {% if farmer_info_id.ShelfM_1F and farmer_info_id.TrayM_1F and farmer_info_id.SectionM_1F and farmer_info_id.MoistureM_1F %}
+
+
+<table class="table" id="LoTableM2">
+
+    <center>
+<label class="hidden-label3">1st Floor</label>   
+ </center> 
+  <thead>
+     <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{farmer_info_id.ShelfM_1F }}</td>
+      <td>{{ farmer_info_id.TrayM_1F }}</td>
+      <td>{{ farmer_info_id.SectionM_1F }}</td>
+      <td>{{ farmer_info_id.MoistureM_1F }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+ {% else %}
+
+ <td> </td>
+
+ {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ {% if farmer_info_id.ShelfM_2F and farmer_info_id.TrayM_2F and farmer_info_id.SectionM_2F and farmer_info_id.MoistureM_2F %}
+
+<table class="table" id="LoTableM3">
+
+    <center>
+<label class="hidden-label3">2nd Floor</label>   
+ </center> 
+  <thead>
+      <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ farmer_info_id.ShelfM_2F }}</td>
+      <td>{{ farmer_info_id.TrayM_2F }}</td>
+      <td>{{ farmer_info_id.SectionM_2F }}</td>
+      <td>{{ farmer_info_id.MoistureM_2F }}</td>
+
+    </tr>
+
+
+  </tbody>
+</table>
+
+
+{% else %}
+
+ <td> </td>
+
+ {% endif %}
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ {% if farmer_info_id.ShelfM_FL and farmer_info_id.TrayM_FL and farmer_info_id.SectionM_FL and farmer_info_id.MoistureM_FL %}
+
+<table class="table" id="LoTableM4">
+
+    <center>
+<label class="hidden-label3">Floor Loft</label>   
+ </center> 
+  <thead>
+       <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ farmer_info_id.ShelfM_FL }}</td>
+      <td>{{ farmer_info_id.TrayM_FL }}</td>
+      <td>{{ farmer_info_id.SectionM_FL }}</td>
+      <td>{{ farmer_info_id.MoistureM_FL }}</td>
+
+    </tr>
+
+
+  </tbody>
+</table>
+
+
+
+{% else %}
+
+ <td> </td>
+
+ {% endif %}
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ {% if farmer_info_id.ShelfU_GF and farmer_info_id.TrayU_GF and farmer_info_id.SectionU_GF and farmer_info_id.MoistureU_GF %}
+
+<table class="table" id="LoTableU1">
+
+    <center>
+<label class="hidden-label4"> Ground Floor</label>   
+ </center> 
+  <thead>
+    <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ farmer_info_id.ShelfU_GF }}</td>
+      <td>{{ farmer_info_id.TrayU_GF }}</td>
+      <td>{{ farmer_info_id.SectionU_GF }}</td>
+      <td>{{ farmer_info_id.MoistureU_GF }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+ 
+{% else %}
+
+ <td> </td>
+
+ {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ {% if farmer_info_id.ShelfU_1F and farmer_info_id.TrayU_1F and farmer_info_id.SectionU_1F and farmer_info_id.MoistureU_1F %}
+
+
+<table class="table" id="LoTableU2">
+
+    <center>
+<label class="hidden-label4">1st Floor</label>   
+ </center> 
+  <thead>
+     <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ farmer_info_id.ShelfU_1F }}</td>
+      <td>{{ farmer_info_id.TrayU_1F }}</td>
+      <td>{{ farmer_info_id.SectionU_1F }}</td>
+      <td>{{ farmer_info_id.MoistureU_1F }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+ 
+{% else %}
+
+ <td> </td>
+
+ {% endif %}
+
+
+
+
+
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ {% if farmer_info_id.ShelfU_2F and farmer_info_id.TrayU_2F and farmer_info_id.SectionU_2F and farmer_info_id.MoistureU_2F %}
+
+<table class="table" id="LoTableU3">
+
+    <center>
+<label class="hidden-label4">2nd Floor</label>   
+ </center> 
+  <thead>
+      <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ farmer_info_id.ShelfU_2F }}</td>
+      <td>{{ farmer_info_id.TrayU_2F }}</td>
+      <td>{{ farmer_info_id.SectionU_2F }}</td>
+      <td>{{ farmer_info_id.MoistureU_2F }}</td>
+
+    </tr>
+
+
+  </tbody>
+</table>
+
+
+
+{% else %}
+
+ <td> </td>
+
+ {% endif %}
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ {% if farmer_info_id.ShelfU_FL and farmer_info_id.TrayU_FL and farmer_info_id.SectionU_FL and farmer_info_id.MoistureU_FL %}
+  
+<table class="table" id="LoTableU4">
+
+    <center>
+<label class="hidden-label4">Floor Loft</label>   
+ </center> 
+  <thead>
+       <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ farmer_info_id.ShelfU_FL }}</td>
+      <td>{{ farmer_info_id.TrayU_FL }}</td>
+      <td>{{ farmer_info_id.SectionU_FL }}</td>
+      <td>{{ farmer_info_id.MoistureU_FL }}</td>
+
+    </tr>
+
+
+  </tbody>
+</table>
+
+
+{% else %}
+
+ <td> </td>
+
+ {% endif %}
+
+
+ 
+
+
+
+
+
+
+
+
+
+ 
+
+ {% if farmer_info_id.ShelfGP_GF and farmer_info_id.TrayGP_GF and farmer_info_id.SectionGP_GF and farmer_info_id.MoistureGP_GF %}
+
+
+<table class="table" id="LoTableGP1">
+
+    <center>
+<label class="hidden-label5"> Ground Floor</label>   
+ </center> 
+  <thead>
+    <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{farmer_info_id.ShelfGP_GF }}</td>
+      <td>{{ farmer_info_id.TrayGP_GF }}</td>
+      <td>{{ farmer_info_id.SectionGP_GF }}</td>
+      <td>{{ farmer_info_id.MoistureGP_GF }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+{% else %}
+
+ <td> </td>
+
+ {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ {% if farmer_info_id.ShelfGP_1F and farmer_info_id.TrayGP_1F and farmer_info_id.SectionGP_1F and farmer_info_id.MoistureGP_1F %}
+
+<table class="table" id="LoTableGP2">
+
+    <center>
+<label class="hidden-label5">1st Floor</label>   
+ </center> 
+  <thead>
+     <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ farmer_info_id.ShelfGP_1F }}</td>
+      <td>{{ farmer_info_id.TrayGP_1F }}</td>
+      <td>{{ farmer_info_id.SectionGP_1F }}</td>
+      <td>{{ farmer_info_id.MoistureGP_1F }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+{% else %}
+
+ <td> </td>
+
+ {% endif %}
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ {% if farmer_info_id.ShelfGP_2F and farmer_info_id.TrayGP_2F and farmer_info_id.SectionGP_2F and farmer_info_id.MoistureGP_2F %}
+
+   
+<table class="table" id="LoTableGP3">
+
+    <center>
+<label class="hidden-label5">2nd Floor</label>   
+ </center> 
+  <thead>
+      <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ farmer_info_id.ShelfGP_2F }}</td>
+      <td>{{ farmer_info_id.TrayGP_2F }}</td>
+      <td>{{ farmer_info_id.SectionGP_2F }}</td>
+      <td>{{ farmer_info_id.MoistureGP_2F }}</td>
+
+    </tr>
+
+
+  </tbody>
+</table>
+
+
+{% else %}
+
+ <td> </td>
+
+ {% endif %}
+
+ 
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ {% if farmer_info_id.ShelfGP_FL and farmer_info_id.TrayGP_FL and farmer_info_id.SectionGP_FL and farmer_info_id.MoistureGP_FL %}
+   
+<table class="table" id="LoTableGP4">
+
+    <center>
+<label class="hidden-label5">Floor Loft</label>   
+ </center> 
+  <thead>
+       <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ farmer_info_id.ShelfGP_FL }}</td>
+      <td>{{ farmer_info_id.TrayGP_FL }}</td>
+      <td>{{ farmer_info_id.SectionGP_FL }}</td>
+      <td>{{ farmer_info_id.MoistureGP_FL }}</td>
+
+    </tr>
+
+
+  </tbody>
+</table>
+
+
+{% else %}
+
+ <td> </td>
+
+ {% endif %}
+
+
+
+
+
+        <table id="vertical-1" class="table table-hover table-light">
+
+
+
+
+
+        <tr>
+            <th>Corresponding Delivery Advice</th>
+            <td>{{ farmer_info_id.CORRESPONDING_DELIVERY_ADVICE }}</td>
+        </tr>
+   
+
+          <tr>
+            <th>Control Number</th>
+            <td>{{ farmer_info_id.Control_number }}</td>
+        </tr>
+   
+   
+
+   
+
+    </table>
+
+
+
+    <a href="{% url 'table' %}" class="btn btn-secondary">Return</a>
+
+
+                    </p>
+
+
+
+       
+ </div>        </div>
+
+<br>
+<br>
+<br> {% endcomment %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% comment %} 
+
+
+<div id="landInfoData"></div>
+<div id="editFormContainer"></div>
+
+</table>
+</p>
+</div>
+</div>
+
+
+
+<br>
+<br>
+<br>
+
+
+<script>
+// Open the GCNA database
+let openRequest = indexedDB.open("GCNA");
+
+openRequest.onsuccess = function (event) {
+    let db = event.target.result;
+
+    // Open a transaction to read from the land-info store
+    let transaction = db.transaction("Dispatch-Of-Dried-Nutmeg", "readonly");
+    let landInfoStore = transaction.objectStore("Dispatch-Of-Dried-Nutmeg");
+
+    // Get all records from Dispatch-Of-Dried-Nutmeg store
+    let getAllRequest = landInfoStore.getAll();
+
+    getAllRequest.onsuccess = function (event) {
+        let landInfoRecords = event.target.result;
+
+        // Map landInfoRecords to include delete and edit buttons
+        let landInfoDataDiv = document.getElementById('landInfoData');
+        landInfoRecords.forEach(record => {
+            let entryDiv = document.createElement("div");
+            entryDiv.innerHTML = `
+
+
+            <div class="card">
+ 
+              <div class="card-body">
+            
+              </h5>
+                <p class="card-text">
+                    <table id="vertical-1" class="table table-hover table-light">
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+                   <tr>
+            ${ record.Nutmeg_ID_No }
+            
+                        <th>Station</th>
+                        <td>${ record.STATION }</td>
+                    </tr>  
+                    <tr>
+                        <th>Date of Pick up</th>
+                        <td>${ record.DATE_OF_PICK_UP }</td>
+                    </tr>
+                    <tr>
+                        <th>Final Moisture Content</th>
+                        <td>${ record.FINAL_MOISTURE_CONTENT }</td>
+                    </tr>
+            
+            
+                   <tr>
+                        <th>Batch Number</th>
+                        <td>${ record.BATCH_NUMBER }</td>
+                    </tr>
+            
+            
+                    <table id="vertical-1" class="table table-hover table-light">
+            
+                    <tr>
+            
+
+
+                      <td id="newentryCheck" >adda7b1b-7c4a-446b-ae3a-1992d150a2b2</td>
+</div>
+<div id="Pending_landInfoData2"></div>
+
+
+
+
+</table>
+
+<table>
+
+<td id="newentryCheck1" >adda7b1b-7c4a-446b-ae3a-1992d150a2b2</td>
+
+<div id="Pending_landInfoData3"></div>
+
+
+
+
+
+
+
+
+
+
+
+                     <center>
+                        <p><b>FINAL MOISTURE CONTENT (%)</b></p>
+                    </center>
+                    </tr>
+            
+            
+                    <tr>
+            
+                     <center>
+                        <p>LOCATION </p>
+                    </center>
+                    </tr>
+            
+            
+            ${ record.ShelfG_GF && record.TrayG_GF && record.SectionG_GF && record.MoistureG_GF ? `
+            <table class="table" id="LoTableG1">
+            
+                <center>
+            <label class="hidden-label1"> Ground Floor</label>   
+             </center> 
+              <thead>
+                <tr>
+            
+                   <th scope="col">Shelf</th>
+                  <th scope="col">Tray</th>
+                  <th scope="col">Section</th>
+                  <th scope="col">Moisture Contents</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+            
+                   <td>${ record.ShelfG_GF }</td>
+                  <td>${ record.TrayG_GF }</td>
+                  <td>${ record.SectionG_GF }</td>
+                  <td>${ record.MoistureG_GF }</td>
+            
+                </tr>
+            
+              </tbody>
+            </table>
+            
+            
+    </table>` : ''}
+
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+             
+            
+            ${ record.ShelfG_1F && record.TrayG_1F && record.SectionG_1F && record.MoistureG_1F ? `
+            
+            
+            
+            <table class="table" id="LoTableG2">
+            
+                <center>
+            <label class="hidden-label1">1st Floor</label>   
+             </center> 
+              <thead>
+                 <tr>
+            
+                   <th scope="col">Shelf</th>
+                  <th scope="col">Tray</th>
+                  <th scope="col">Section</th>
+                  <th scope="col">Moisture Contents</th>
+            
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+            
+                   <td>${ record.ShelfG_1F }</td>
+                  <td>${ record.TrayG_1F }</td>
+                  <td>${ record.SectionG_1F }</td>
+                  <td>${ record.MoistureG_1F }</td>
+            
+                </tr>
+            
+              </tbody>
+            </table>
+            
+             
+            
+    </table>` : ''}
+
+            
+            
+               
+            
+            
+            
+            
+            
+            ${ record.ShelfG_2F && record.TrayG_2F && record.SectionG_2F && record.MoistureG_2F ? `
+            <table class="table" id="LoTableG3">
+            
+                <center>
+            <label class="hidden-label1" >2nd Floor</label>   
+             </center> 
+              <thead>
+                  <tr>
+            
+                   <th scope="col">Shelf</th>
+                  <th scope="col">Tray</th>
+                  <th scope="col">Section</th>
+                  <th scope="col">Moisture Contents</th>
+            
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+            
+                   <td>${ record.ShelfG_2F }</td>
+                  <td>${ record.TrayG_2F }</td>
+                  <td>${ record.SectionG_2F }</td>
+                  <td>${ record.MoistureG_2F }</td>
+            
+                </tr>
+            
+            
+              </tbody>
+            </table>
+            
+             
+             
+    </table>` : ''}
+
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            ${ record.ShelfG_FL && record.TrayG_FL && record.SectionG_FL && record.MoistureG_FL ? `
+            
+            <table class="table" id="LoTableG4">
+            
+                <center>
+            <label class="hidden-label1">Floor Loft</label>   
+             </center> 
+              <thead>
+                   <tr>
+            
+                   <th scope="col">Shelf</th>
+                  <th scope="col">Tray</th>
+                  <th scope="col">Section</th>
+                  <th scope="col">Moisture Contents</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+            
+                   <td>${ record.ShelfG_FL }</td>
+                  <td>${ record.TrayG_FL }</td>
+                  <td>${ record.SectionG_FL }</td>
+                  <td>${ record.MoistureG_FL }</td>
+            
+                </tr>
+            
+            
+              </tbody>
+            </table>
+            
+    </table>` : ''}
+
+            
+            
+            
+                         
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+             
+            ${ record.ShelfH_GF && record.TrayH_GF && record.SectionH_GF && record.MoistureH_GF ? `
+            <table class="table" id="LoTableH1">
+            
+                <center>
+            <label class="hidden-label2"> Ground Floor</label>   
+             </center> 
+              <thead>
+                <tr>
+            
+                   <th scope="col">Shelf</th>
+                  <th scope="col">Tray</th>
+                  <th scope="col">Section</th>
+                  <th scope="col">Moisture Contents</th>
+            
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+            
+                   <td>${ record.ShelfH_GF }</td>
+                  <td>${ record.TrayH_GF }</td>
+                  <td>${ record.SectionH_GF }</td>
+                  <td>${ record.MoistureH_GF }</td>
+            
+                </tr>
+            
+              </tbody>
+            </table>
+            
+            
+            
+    </table>` : ''}
+
+            
+             
+             
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            ${ record.ShelfH_1F && record.TrayH_1F && record.SectionH_1F && record.MoistureH_1F ? `
+            
+            <table class="table" id="LoTableH2">
+            
+                <center>
+            <label class="hidden-label2">1st Floor</label>   
+             </center> 
+              <thead>
+                 <tr>
+            
+                   <th scope="col">Shelf</th>
+                  <th scope="col">Tray</th>
+                  <th scope="col">Section</th>
+                  <th scope="col">Moisture Contents</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+            
+                   <td>${ record.ShelfH_1F }</td>
+                  <td>${ record.TrayH_1F }</td>
+                  <td>${ record.SectionH_1F }</td>
+                  <td>${ record.MoistureH_1F }</td>
+            
+                </tr>
+            
+              </tbody>
+            </table>
+            
+            
+            
+            
+             
+    </table>` : ''}
+
+            
+             
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            ${ record.ShelfH_2F && record.TrayH_2F && record.SectionH_2F && record.MoistureH_2F ? `
+            
+            <table class="table" id="LoTableH3">
+            
+                <center>
+            <label class="hidden-label2" >2nd Floor</label>   
+             </center> 
+              <thead>
+                  <tr>
+            
+                   <th scope="col">Shelf</th>
+                  <th scope="col">Tray</th>
+                  <th scope="col">Section</th>
+                  <th scope="col">Moisture Contents</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+            
+                   <td>${ record.ShelfH_2F }</td>
+                  <td>${ record.TrayH_2F }</td>
+                  <td>${ record.SectionH_2F }</td>
+                  <td>${ record.MoistureH_2F }</td>
+            
+                </tr>
+            
+            
+              </tbody>
+            </table>
+            
+            
+            
+    </table>` : ''}
+
+            
+             
+             
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+             ${ record.ShelfH_FL && record.TrayH_FL && record.SectionH_FL && record.MoistureH_FL ? `
+              
+            <table class="table" id="LoTableH4">
+            
+                <center>
+            <label class="hidden-label2">Floor Loft</label>   
+             </center> 
+              <thead>
+                   <tr>
+            
+                   <th scope="col">Shelf</th>
+                  <th scope="col">Tray</th>
+                  <th scope="col">Section</th>
+                  <th scope="col">Moisture Contents</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+            
+                   <td>${ record.ShelfH_FL }</td>
+                  <td>${ record.TrayH_FL }</td>
+                  <td>${ record.SectionH_FL }</td>
+                  <td>${ record.MoistureH_FL }</td>
+            
+                </tr>
+            
+            
+              </tbody>
+            </table>
+            
+            
+            
+    </table>` : ''}
+
+            
+             
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+             ${ record.ShelfM_GF && record.TrayM_GF && record.SectionM_GF && record.MoistureM_GF ? `
+            
+            <table class="table" id="LoTableM1">
+            
+                <center>
+            <label class="hidden-label3"> Ground Floor</label>   
+             </center> 
+              <thead>
+                <tr>
+            
+                   <th scope="col">Shelf</th>
+                  <th scope="col">Tray</th>
+                  <th scope="col">Section</th>
+                  <th scope="col">Moisture Contents</th>
+            
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+            
+                   <td>${ record.ShelfM_GF }</td>
+                  <td>${ record.TrayM_GF }</td>
+                  <td>${ record.SectionM_GF }</td>
+                  <td>${ record.MoistureM_GF }</td>
+            
+                </tr>
+            
+              </tbody>
+            </table>
+            
+            
+            
+    </table>` : ''}
+
+            
+             
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+             ${ record.ShelfM_1F && record.TrayM_1F && record.SectionM_1F && record.MoistureM_1F ? `
+            
+            
+            <table class="table" id="LoTableM2">
+            
+                <center>
+            <label class="hidden-label3">1st Floor</label>   
+             </center> 
+              <thead>
+                 <tr>
+            
+                   <th scope="col">Shelf</th>
+                  <th scope="col">Tray</th>
+                  <th scope="col">Section</th>
+                  <th scope="col">Moisture Contents</th>
+            
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+            
+                   <td>${record.ShelfM_1F }</td>
+                  <td>${ record.TrayM_1F }</td>
+                  <td>${ record.SectionM_1F }</td>
+                  <td>${ record.MoistureM_1F }</td>
+            
+                </tr>
+            
+              </tbody>
+            </table>
+            
+            
+            
+            
+    </table>` : ''}
+
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+             ${ record.ShelfM_2F && record.TrayM_2F && record.SectionM_2F && record.MoistureM_2F ? `
+            
+            <table class="table" id="LoTableM3">
+            
+                <center>
+            <label class="hidden-label3">2nd Floor</label>   
+             </center> 
+              <thead>
+                  <tr>
+            
+                   <th scope="col">Shelf</th>
+                  <th scope="col">Tray</th>
+                  <th scope="col">Section</th>
+                  <th scope="col">Moisture Contents</th>
+            
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+            
+                   <td>${ record.ShelfM_2F }</td>
+                  <td>${ record.TrayM_2F }</td>
+                  <td>${ record.SectionM_2F }</td>
+                  <td>${ record.MoistureM_2F }</td>
+            
+                </tr>
+            
+            
+              </tbody>
+            </table>
+            
+            
+    </table>` : ''}
+
+            
+            
+             
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+             ${ record.ShelfM_FL && record.TrayM_FL && record.SectionM_FL && record.MoistureM_FL ? `
+            
+            <table class="table" id="LoTableM4">
+            
+                <center>
+            <label class="hidden-label3">Floor Loft</label>   
+             </center> 
+              <thead>
+                   <tr>
+            
+                   <th scope="col">Shelf</th>
+                  <th scope="col">Tray</th>
+                  <th scope="col">Section</th>
+                  <th scope="col">Moisture Contents</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+            
+                   <td>${ record.ShelfM_FL }</td>
+                  <td>${ record.TrayM_FL }</td>
+                  <td>${ record.SectionM_FL }</td>
+                  <td>${ record.MoistureM_FL }</td>
+            
+                </tr>
+            
+            
+              </tbody>
+            </table>
+            
+            
+            
+    </table>` : ''}
+
+            
+             
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+             ${ record.ShelfU_GF && record.TrayU_GF && record.SectionU_GF && record.MoistureU_GF ? `
+            
+            <table class="table" id="LoTableU1">
+            
+                <center>
+            <label class="hidden-label4"> Ground Floor</label>   
+             </center> 
+              <thead>
+                <tr>
+            
+                   <th scope="col">Shelf</th>
+                  <th scope="col">Tray</th>
+                  <th scope="col">Section</th>
+                  <th scope="col">Moisture Contents</th>
+            
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+            
+                   <td>${ record.ShelfU_GF }</td>
+                  <td>${ record.TrayU_GF }</td>
+                  <td>${ record.SectionU_GF }</td>
+                  <td>${ record.MoistureU_GF }</td>
+            
+                </tr>
+            
+              </tbody>
+            </table>
+            
+            
+            
+            
+             
+    </table>` : ''}
+
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+             ${ record.ShelfU_1F && record.TrayU_1F && record.SectionU_1F && record.MoistureU_1F ? `
+            
+            
+            <table class="table" id="LoTableU2">
+            
+                <center>
+            <label class="hidden-label4">1st Floor</label>   
+             </center> 
+              <thead>
+                 <tr>
+            
+                   <th scope="col">Shelf</th>
+                  <th scope="col">Tray</th>
+                  <th scope="col">Section</th>
+                  <th scope="col">Moisture Contents</th>
+            
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+            
+                   <td>${ record.ShelfU_1F }</td>
+                  <td>${ record.TrayU_1F }</td>
+                  <td>${ record.SectionU_1F }</td>
+                  <td>${ record.MoistureU_1F }</td>
+            
+                </tr>
+            
+              </tbody>
+            </table>
+            
+            
+            
+            
+             
+    </table>` : ''}
+
+            
+            
+            
+            
+            
+            
+               
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+             ${ record.ShelfU_2F && record.TrayU_2F && record.SectionU_2F && record.MoistureU_2F ? `
+            
+            <table class="table" id="LoTableU3">
+            
+                <center>
+            <label class="hidden-label4">2nd Floor</label>   
+             </center> 
+              <thead>
+                  <tr>
+            
+                   <th scope="col">Shelf</th>
+                  <th scope="col">Tray</th>
+                  <th scope="col">Section</th>
+                  <th scope="col">Moisture Contents</th>
+            
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+            
+                   <td>${ record.ShelfU_2F }</td>
+                  <td>${ record.TrayU_2F }</td>
+                  <td>${ record.SectionU_2F }</td>
+                  <td>${ record.MoistureU_2F }</td>
+            
+                </tr>
+            
+            
+              </tbody>
+            </table>
+            
+            
+            
+    </table>` : ''}
+
+            
+             
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+             ${ record.ShelfU_FL && record.TrayU_FL && record.SectionU_FL && record.MoistureU_FL ? `
+              
+            <table class="table" id="LoTableU4">
+            
+                <center>
+            <label class="hidden-label4">Floor Loft</label>   
+             </center> 
+              <thead>
+                   <tr>
+            
+                   <th scope="col">Shelf</th>
+                  <th scope="col">Tray</th>
+                  <th scope="col">Section</th>
+                  <th scope="col">Moisture Contents</th>
+            
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+            
+                   <td>${ record.ShelfU_FL }</td>
+                  <td>${ record.TrayU_FL }</td>
+                  <td>${ record.SectionU_FL }</td>
+                  <td>${ record.MoistureU_FL }</td>
+            
+                </tr>
+            
+            
+              </tbody>
+            </table>
+            
+            
+    </table>` : ''}
+
+            
+            
+             
+            
+            
+            
+            
+            
+            
+            
+            
+            
+             
+            
+             ${ record.ShelfGP_GF && record.TrayGP_GF && record.SectionGP_GF && record.MoistureGP_GF ? `
+            
+            
+            <table class="table" id="LoTableGP1">
+            
+                <center>
+            <label class="hidden-label5"> Ground Floor</label>   
+             </center> 
+              <thead>
+                <tr>
+            
+                   <th scope="col">Shelf</th>
+                  <th scope="col">Tray</th>
+                  <th scope="col">Section</th>
+                  <th scope="col">Moisture Contents</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+            
+                   <td>${record.ShelfGP_GF }</td>
+                  <td>${ record.TrayGP_GF }</td>
+                  <td>${ record.SectionGP_GF }</td>
+                  <td>${ record.MoistureGP_GF }</td>
+            
+                </tr>
+            
+              </tbody>
+            </table>
+            
+            
+    </table>` : ''}
+
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+             ${ record.ShelfGP_1F && record.TrayGP_1F && record.SectionGP_1F && record.MoistureGP_1F ? `
+            
+            <table class="table" id="LoTableGP2">
+            
+                <center>
+            <label class="hidden-label5">1st Floor</label>   
+             </center> 
+              <thead>
+                 <tr>
+            
+                   <th scope="col">Shelf</th>
+                  <th scope="col">Tray</th>
+                  <th scope="col">Section</th>
+                  <th scope="col">Moisture Contents</th>
+            
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+            
+                   <td>${ record.ShelfGP_1F }</td>
+                  <td>${ record.TrayGP_1F }</td>
+                  <td>${ record.SectionGP_1F }</td>
+                  <td>${ record.MoistureGP_1F }</td>
+            
+                </tr>
+            
+              </tbody>
+            </table>
+            
+            
+            
+    </table>` : ''}
+
+            
+             
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+             ${ record.ShelfGP_2F && record.TrayGP_2F && record.SectionGP_2F && record.MoistureGP_2F ? `
+            
+               
+            <table class="table" id="LoTableGP3">
+            
+                <center>
+            <label class="hidden-label5">2nd Floor</label>   
+             </center> 
+              <thead>
+                  <tr>
+            
+                   <th scope="col">Shelf</th>
+                  <th scope="col">Tray</th>
+                  <th scope="col">Section</th>
+                  <th scope="col">Moisture Contents</th>
+            
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+            
+                   <td>${ record.ShelfGP_2F }</td>
+                  <td>${ record.TrayGP_2F }</td>
+                  <td>${ record.SectionGP_2F }</td>
+                  <td>${ record.MoistureGP_2F }</td>
+            
+                </tr>
+            
+            
+              </tbody>
+            </table>
+            
+            
+    </table>` : ''}
+
+            
+             
+              
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+             ${ record.ShelfGP_FL && record.TrayGP_FL && record.SectionGP_FL && record.MoistureGP_FL ? `
+               
+            <table class="table" id="LoTableGP4">
+            
+                <center>
+            <label class="hidden-label5">Floor Loft</label>   
+             </center> 
+              <thead>
+                   <tr>
+            
+                   <th scope="col">Shelf</th>
+                  <th scope="col">Tray</th>
+                  <th scope="col">Section</th>
+                  <th scope="col">Moisture Contents</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+            
+                   <td>${ record.ShelfGP_FL }</td>
+                  <td>${ record.TrayGP_FL }</td>
+                  <td>${ record.SectionGP_FL }</td>
+                  <td>${ record.MoistureGP_FL }</td>
+            
+                </tr>
+            
+            
+              </tbody>
+            </table>
+            
+            
+    </table>` : ''}
+
+            
+            
+            
+            
+            
+                    <table id="vertical-1" class="table table-hover table-light">
+            
+            
+            
+            
+            
+                    <tr>
+                        <th>Corresponding Delivery Advice</th>
+                        <td>${ record.CORRESPONDING_DELIVERY_ADVICE }</td>
+                    </tr>
+               
+            
+                      <tr>
+                        <th>Control Number</th>
+                        <td>${ record.Control_number }</td>
+                    </tr>
+               
+               
+            
+               
+            
+                </table>
+            
+            
+                <button class="btn btn-danger" onclick="deleteEntry(${record.id})">Delete</button>
+                <button class="btn btn-primary" onclick="editEntry(${record.id})">Edit</button>
+  
+                <a href="{% url 'table' %}" class="btn btn-secondary">Return</a>
+            
+            
+                                </p>
+            
+            
+            
+                   
+             </div>        </div>
+            
+            <br>
+            <br>
+            <br>
+            
+                        `;
+                        landInfoDataDiv.appendChild(entryDiv);
+                        
+                    });
+                };
+            };
+
+            
+            
+// Function to delete a record based on ID
+function deleteEntry(id) {
+    // Open the "GCNA" database
+    let db = indexedDB.open("GCNA");
+
+    db.onsuccess = function (event) {
+        let transaction = event.target.result.transaction("Dispatch-Of-Dried-Nutmeg", "readwrite");
+        let landInfoStore = transaction.objectStore("Dispatch-Of-Dried-Nutmeg");
+
+        // Fetch the record before deleting it
+        let getRequest = landInfoStore.get(id);
+
+        getRequest.onsuccess = function (event) {
+            let deletedRecord = event.target.result;
+
+            // Check if the record exists before proceeding with deletion
+            if (deletedRecord) {
+                // Now, delete the record from the "Dispatch-Of-Dried-Nutmeg" object store
+                let deleteRequest = landInfoStore.delete(id);
+
+                deleteRequest.onsuccess = function () {
+                    console.log(`Record with ID ${id} deleted.`);
+
+                    // Open the "DELETED" database
+                    let db2 = indexedDB.open("DELETED");
+
+                    db2.onsuccess = function (event2) {
+                        console.log("DELETED database opened successfully.");
+
+                        let transaction2 = event2.target.result.transaction("Dispatch-Of-Dried-Nutmeg", "readwrite");
+                        let deletedStore = transaction2.objectStore("Dispatch-Of-Dried-Nutmeg");
+
+                        // Explicitly set the ID of the deleted record
+                        deletedRecord.id = id;
+
+                        // Add the deleted record to the "Dispatch-Of-Dried-Nutmeg" object store in "DELETED" database
+                        let addDeletedRequest = deletedStore.add(deletedRecord);
+
+                        addDeletedRequest.onsuccess = function () {
+                            console.log(`Record with ID ${id} added to DELETED object store.`);
+                            // You might want to refresh your display here.
+                        };
+
+                        addDeletedRequest.onerror = function (event3) {
+                            if (event3.target.error.name === 'ConstraintError') {
+                                console.log(`Record with ID ${id} already exists in DELETED object store.`);
+                            } else {
+                                console.log(`Failed to add record with ID ${id} to DELETED object store.`);
+                            }
+                        };
+                    };
+
+                    db2.onerror = function (event2) {
+                        console.log("Failed to open 'DELETED' database.", event2.target.error);
+                    };
+                };
+
+                deleteRequest.onerror = function () {
+                    console.log(`Failed to delete record with ID ${id}.`);
+                };
+            } else {
+                console.log(`Record with ID ${id} not found.`);
+            }
+        };
+
+        getRequest.onerror = function () {
+            console.log(`Failed to get record with ID ${id} before deleting.`);
+        };
+    };
+
+    db.onerror = function (event) {
+        console.log("Failed to open 'GCNA' database!", event.target.error);
+    };
+}
+
+
+
+    // Function to edit a record based on ID
+    function editEntry(id) {
+        event.preventDefault(); // Prevent form submission and page reload
+
+        // Open the GCNA database
+        let openRequest = indexedDB.open("GCNA");
+
+        openRequest.onsuccess = function (event) {
+            let db = event.target.result;
+
+            // Open a new transaction to read from the Dispatch-Of-Dried-Nutmeg store
+            let transaction = db.transaction("Dispatch-Of-Dried-Nutmeg", "readwrite");
+            let landInfoStore = transaction.objectStore("Dispatch-Of-Dried-Nutmeg");
+
+            // Get the record with the specified ID
+            let getRequest = landInfoStore.get(id);
+
+            getRequest.onsuccess = function (event) {
+                let record = event.target.result;
+
+                // Generate the form fields dynamically based on the record properties
+                let formFieldsHTML = '';
+                for (let property in record) {
+                    if (record.hasOwnProperty(property) && property !== 'id') {
+                        formFieldsHTML += `
+                            <label for="${property}">${property}:</label>
+                            <input type="text" id="${property}" name="${property}" value="${record[property]}"> <br>
+                        `;
+                    }
+                }
+
+                // Create an edit form and populate it with the generated fields
+                const editFormContainer = document.getElementById('editFormContainer');
+                editFormContainer.innerHTML = `
+                    <form id="editForm">
+                        ${formFieldsHTML}
+                        <button type="button" id="saveButton">Save</button>
+                        <button type="button" id="closeButton">Close</button>
+                    </form>
+                `;
+
+                // Add an event listener to the "Save" button to save changes
+                const saveButton = document.getElementById('saveButton');
+                saveButton.addEventListener('click', function () {
+                    // Open a new transaction to update the record
+                    let updateTransaction = db.transaction("Dispatch-Of-Dried-Nutmeg", "readwrite");
+                    let landInfoStoreToUpdate = updateTransaction.objectStore("Dispatch-Of-Dried-Nutmeg");
+
+                    // Update the record with the new data
+                    for (let property in record) {
+                        if (record.hasOwnProperty(property) && property !== 'id') {
+                            record[property] = document.getElementById(property).value;
+                        }
+                    }
+
+                    // Put the updated record back into the store
+                    let putRequest = landInfoStoreToUpdate.put(record);
+
+                    putRequest.onsuccess = function () {
+                        console.log('Record updated successfully');
+                    };
+
+                    putRequest.onerror = function (event) {
+                        console.error('Error updating record:', event.target.error);
+                    };
+
+                    // Complete the transaction
+                    updateTransaction.oncomplete = function () {
+                        console.log('Transaction completed');
+                        // You might want to refresh your display here.
+                    };
+                });
+
+                // Add an event listener to the "Close" button to hide the form
+                const closeButton = document.getElementById('closeButton');
+                closeButton.addEventListener('click', function () {
+                    editFormContainer.innerHTML = ''; // Clear the edit form
+                });
+            };
+
+            getRequest.onerror = function (event) {
+                console.error('Error getting record:', event.target.error);
+            };
+        };
+
+        openRequest.onerror = function (event) {
+            console.error('Error opening database:', event.target.error);
+        };
+    }
+</script>
+ {% endcomment %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+      /* General Styles */
+      body {
+          font-family: Arial, sans-serif;
+          background-color: #f7f7f7; /* Adjusted background color */
+          margin: 0;
+          padding: 0;
+      }
+
+      .container {
+          max-width: 800px;
+          margin: 20px auto;
+          padding: 20px;
+          background-color: #fff;
+          border-radius: 10px;
+          box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .card {
+          margin-bottom: 20px;
+          border: 1px solid #ccc;
+          border-radius: 10px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .card-body {
+          padding: 20px;
+      }
+
+      h4 {
+          margin-top: 0;
+          margin-bottom: 20px;
+          font-size: 24px;
+          color: #333;
+      }
+
+      table {
+          width: 100%;
+          border-collapse: collapse;
+          margin-bottom: 20px;
+      }
+
+      th, td {
+          padding: 10px;
+          text-align: left;
+          border-bottom: 1px solid #ddd;
+      }
+
+      th {
+          font-weight: bold;
+          color: #555;
+      }
+
+      td {
+          color: #777;
+      }
+
+      button {
+          cursor: pointer;
+          padding: 10px 20px;
+          border: none;
+          border-radius: 5px;
+          background-color: #007bff;
+          color: #fff;
+          font-size: 16px;
+          transition: background-color 0.3s ease;
+      }
+
+      button:hover {
+          background-color: #0056b3;
+      }
+
+      /* Form Styles */
+      form {
+          margin-bottom: 20px;
+      }
+
+      label {
+          display: block;
+          margin-bottom: 5px;
+          font-weight: bold;
+          color: #555;
+      }
+
+      input[type="text"], input[type="number"], select {
+          width: 100%;
+          padding: 10px;
+          margin-bottom: 10px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          box-sizing: border-box;
+          font-size: 16px;
+          color: #333;
+          outline: none;
+      }
+
+      #saveButton, #closeButton {
+          margin-top: 10px;
+          background-color: #28a745;
+          border: none;
+          border-radius: 5px;
+          padding: 10px 20px;
+          color: #fff;
+          font-size: 16px;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+      }
+
+      #closeButton {
+          background-color: #dc3545;
+          margin-left: 10px;
+      }
+
+      /* Responsive Styles */
+      @media screen and (max-width: 768px) {
+          .container {
+              max-width: 90%;
+          }
+      }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div id="landInfoData"></div>
+</div>
+
+
+<script>
+  let openRequest = indexedDB.open("GCNA");
+  let fieldBlacklist = [];
+  const fieldBlacklistConfig = {
+      'DATE_OF_SAMPLING': true, // Set to true to blacklist if null or empty
+      'DECISION': true,
+      'Quantity_of_Bags': true,
+      
+      // Add more fields as needed
+  };
+
+  openRequest.onsuccess = function (event) {
+      let db = event.target.result;
+      let transaction = db.transaction("Dispatch-Of-Dried-Nutmeg", "readonly");
+      let landInfoStore = transaction.objectStore("Dispatch-Of-Dried-Nutmeg");
+      let getAllRequest = landInfoStore.getAll();
+
+      getAllRequest.onsuccess = function (event) {
+          let landInfoRecords = event.target.result;
+          let landInfoDataDiv = document.getElementById('landInfoData');
+
+          landInfoRecords.forEach(record => {
+              let entryContainer = document.createElement("div");
+              entryContainer.id = `entryContainer_${record.id}`;
+              entryContainer.innerHTML = `
+
+
+              <div class="card">
+ 
+                <div class="card-body">
+              
+                </h5>
+                  <p class="card-text">
+                      <table id="vertical-1" class="table table-hover table-light">
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+                     <tr>
+              ${ record.Nutmeg_ID_No }
+              
+                          <th>Station</th>
+                          <td>${ record.STATION }</td>
+                      </tr>  
+                      <tr>
+                          <th>Date of Pick up</th>
+                          <td>${ record.DATE_OF_PICK_UP }</td>
+                      </tr>
+                      <tr>
+                          <th>Final Moisture Content</th>
+                          <td>${ record.FINAL_MOISTURE_CONTENT }</td>
+                      </tr>
+              
+              
+                     <tr>
+                          <th>Batch Number</th>
+                          <td>${ record.BATCH_NUMBER }</td>
+                      </tr>
+              
+              
+                      <table id="vertical-1" class="table table-hover table-light">
+              
+
+
+
+
+                        <td id="newentryCheck" >${record.BATCH_CODES}</td>
+</div>
+<div id="Pending_landInfoData2"></div>
+
+
+
+
+</table>
+
+<table>
+
+<td id="newentryCheck1" >${record.BATCH_CODES}</td>
+
+<div id="Pending_landInfoData3"></div>
+
+
+
+
+
+
+
+
+                      <tr>
+              
+                       <center>
+                          <p><b>FINAL MOISTURE CONTENT (%)</b></p>
+                      </center>
+                      </tr>
+              
+              
+                      <tr>
+              
+                       <center>
+                          <p>LOCATION </p>
+                      </center>
+                      </tr>
+              
+              
+              ${ record.ShelfG_GF && record.TrayG_GF && record.SectionG_GF && record.MoistureG_GF ? `
+              <table class="table" id="LoTableG1">
+              
+                  <center>
+              <label class="hidden-label1"> Ground Floor</label>   
+               </center> 
+                <thead>
+                  <tr>
+              
+                     <th scope="col">Shelf</th>
+                    <th scope="col">Tray</th>
+                    <th scope="col">Section</th>
+                    <th scope="col">Moisture Contents</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+              
+                     <td>${ record.ShelfG_GF }</td>
+                    <td>${ record.TrayG_GF }</td>
+                    <td>${ record.SectionG_GF }</td>
+                    <td>${ record.MoistureG_GF }</td>
+              
+                  </tr>
+              
+                </tbody>
+              </table>
+              
+              
+      </table>` : ''}
+  
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+               
+              
+              ${ record.ShelfG_1F && record.TrayG_1F && record.SectionG_1F && record.MoistureG_1F ? `
+              
+              
+              
+              <table class="table" id="LoTableG2">
+              
+                  <center>
+              <label class="hidden-label1">1st Floor</label>   
+               </center> 
+                <thead>
+                   <tr>
+              
+                     <th scope="col">Shelf</th>
+                    <th scope="col">Tray</th>
+                    <th scope="col">Section</th>
+                    <th scope="col">Moisture Contents</th>
+              
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+              
+                     <td>${ record.ShelfG_1F }</td>
+                    <td>${ record.TrayG_1F }</td>
+                    <td>${ record.SectionG_1F }</td>
+                    <td>${ record.MoistureG_1F }</td>
+              
+                  </tr>
+              
+                </tbody>
+              </table>
+              
+               
+              
+      </table>` : ''}
+  
+              
+              
+                 
+              
+              
+              
+              
+              
+              ${ record.ShelfG_2F && record.TrayG_2F && record.SectionG_2F && record.MoistureG_2F ? `
+              <table class="table" id="LoTableG3">
+              
+                  <center>
+              <label class="hidden-label1" >2nd Floor</label>   
+               </center> 
+                <thead>
+                    <tr>
+              
+                     <th scope="col">Shelf</th>
+                    <th scope="col">Tray</th>
+                    <th scope="col">Section</th>
+                    <th scope="col">Moisture Contents</th>
+              
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+              
+                     <td>${ record.ShelfG_2F }</td>
+                    <td>${ record.TrayG_2F }</td>
+                    <td>${ record.SectionG_2F }</td>
+                    <td>${ record.MoistureG_2F }</td>
+              
+                  </tr>
+              
+              
+                </tbody>
+              </table>
+              
+               
+               
+      </table>` : ''}
+  
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              ${ record.ShelfG_FL && record.TrayG_FL && record.SectionG_FL && record.MoistureG_FL ? `
+              
+              <table class="table" id="LoTableG4">
+              
+                  <center>
+              <label class="hidden-label1">Floor Loft</label>   
+               </center> 
+                <thead>
+                     <tr>
+              
+                     <th scope="col">Shelf</th>
+                    <th scope="col">Tray</th>
+                    <th scope="col">Section</th>
+                    <th scope="col">Moisture Contents</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+              
+                     <td>${ record.ShelfG_FL }</td>
+                    <td>${ record.TrayG_FL }</td>
+                    <td>${ record.SectionG_FL }</td>
+                    <td>${ record.MoistureG_FL }</td>
+              
+                  </tr>
+              
+              
+                </tbody>
+              </table>
+              
+      </table>` : ''}
+  
+              
+              
+              
+                           
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+               
+              ${ record.ShelfH_GF && record.TrayH_GF && record.SectionH_GF && record.MoistureH_GF ? `
+              <table class="table" id="LoTableH1">
+              
+                  <center>
+              <label class="hidden-label2"> Ground Floor</label>   
+               </center> 
+                <thead>
+                  <tr>
+              
+                     <th scope="col">Shelf</th>
+                    <th scope="col">Tray</th>
+                    <th scope="col">Section</th>
+                    <th scope="col">Moisture Contents</th>
+              
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+              
+                     <td>${ record.ShelfH_GF }</td>
+                    <td>${ record.TrayH_GF }</td>
+                    <td>${ record.SectionH_GF }</td>
+                    <td>${ record.MoistureH_GF }</td>
+              
+                  </tr>
+              
+                </tbody>
+              </table>
+              
+              
+              
+      </table>` : ''}
+  
+              
+               
+               
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              ${ record.ShelfH_1F && record.TrayH_1F && record.SectionH_1F && record.MoistureH_1F ? `
+              
+              <table class="table" id="LoTableH2">
+              
+                  <center>
+              <label class="hidden-label2">1st Floor</label>   
+               </center> 
+                <thead>
+                   <tr>
+              
+                     <th scope="col">Shelf</th>
+                    <th scope="col">Tray</th>
+                    <th scope="col">Section</th>
+                    <th scope="col">Moisture Contents</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+              
+                     <td>${ record.ShelfH_1F }</td>
+                    <td>${ record.TrayH_1F }</td>
+                    <td>${ record.SectionH_1F }</td>
+                    <td>${ record.MoistureH_1F }</td>
+              
+                  </tr>
+              
+                </tbody>
+              </table>
+              
+              
+              
+              
+               
+      </table>` : ''}
+  
+              
+               
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              ${ record.ShelfH_2F && record.TrayH_2F && record.SectionH_2F && record.MoistureH_2F ? `
+              
+              <table class="table" id="LoTableH3">
+              
+                  <center>
+              <label class="hidden-label2" >2nd Floor</label>   
+               </center> 
+                <thead>
+                    <tr>
+              
+                     <th scope="col">Shelf</th>
+                    <th scope="col">Tray</th>
+                    <th scope="col">Section</th>
+                    <th scope="col">Moisture Contents</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+              
+                     <td>${ record.ShelfH_2F }</td>
+                    <td>${ record.TrayH_2F }</td>
+                    <td>${ record.SectionH_2F }</td>
+                    <td>${ record.MoistureH_2F }</td>
+              
+                  </tr>
+              
+              
+                </tbody>
+              </table>
+              
+              
+              
+      </table>` : ''}
+  
+              
+               
+               
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+               ${ record.ShelfH_FL && record.TrayH_FL && record.SectionH_FL && record.MoistureH_FL ? `
+                
+              <table class="table" id="LoTableH4">
+              
+                  <center>
+              <label class="hidden-label2">Floor Loft</label>   
+               </center> 
+                <thead>
+                     <tr>
+              
+                     <th scope="col">Shelf</th>
+                    <th scope="col">Tray</th>
+                    <th scope="col">Section</th>
+                    <th scope="col">Moisture Contents</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+              
+                     <td>${ record.ShelfH_FL }</td>
+                    <td>${ record.TrayH_FL }</td>
+                    <td>${ record.SectionH_FL }</td>
+                    <td>${ record.MoistureH_FL }</td>
+              
+                  </tr>
+              
+              
+                </tbody>
+              </table>
+              
+              
+              
+      </table>` : ''}
+  
+              
+               
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+               ${ record.ShelfM_GF && record.TrayM_GF && record.SectionM_GF && record.MoistureM_GF ? `
+              
+              <table class="table" id="LoTableM1">
+              
+                  <center>
+              <label class="hidden-label3"> Ground Floor</label>   
+               </center> 
+                <thead>
+                  <tr>
+              
+                     <th scope="col">Shelf</th>
+                    <th scope="col">Tray</th>
+                    <th scope="col">Section</th>
+                    <th scope="col">Moisture Contents</th>
+              
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+              
+                     <td>${ record.ShelfM_GF }</td>
+                    <td>${ record.TrayM_GF }</td>
+                    <td>${ record.SectionM_GF }</td>
+                    <td>${ record.MoistureM_GF }</td>
+              
+                  </tr>
+              
+                </tbody>
+              </table>
+              
+              
+              
+      </table>` : ''}
+  
+              
+               
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+               ${ record.ShelfM_1F && record.TrayM_1F && record.SectionM_1F && record.MoistureM_1F ? `
+              
+              
+              <table class="table" id="LoTableM2">
+              
+                  <center>
+              <label class="hidden-label3">1st Floor</label>   
+               </center> 
+                <thead>
+                   <tr>
+              
+                     <th scope="col">Shelf</th>
+                    <th scope="col">Tray</th>
+                    <th scope="col">Section</th>
+                    <th scope="col">Moisture Contents</th>
+              
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+              
+                     <td>${record.ShelfM_1F }</td>
+                    <td>${ record.TrayM_1F }</td>
+                    <td>${ record.SectionM_1F }</td>
+                    <td>${ record.MoistureM_1F }</td>
+              
+                  </tr>
+              
+                </tbody>
+              </table>
+              
+              
+              
+              
+      </table>` : ''}
+  
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+               ${ record.ShelfM_2F && record.TrayM_2F && record.SectionM_2F && record.MoistureM_2F ? `
+              
+              <table class="table" id="LoTableM3">
+              
+                  <center>
+              <label class="hidden-label3">2nd Floor</label>   
+               </center> 
+                <thead>
+                    <tr>
+              
+                     <th scope="col">Shelf</th>
+                    <th scope="col">Tray</th>
+                    <th scope="col">Section</th>
+                    <th scope="col">Moisture Contents</th>
+              
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+              
+                     <td>${ record.ShelfM_2F }</td>
+                    <td>${ record.TrayM_2F }</td>
+                    <td>${ record.SectionM_2F }</td>
+                    <td>${ record.MoistureM_2F }</td>
+              
+                  </tr>
+              
+              
+                </tbody>
+              </table>
+              
+              
+      </table>` : ''}
+  
+              
+              
+               
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+               ${ record.ShelfM_FL && record.TrayM_FL && record.SectionM_FL && record.MoistureM_FL ? `
+              
+              <table class="table" id="LoTableM4">
+              
+                  <center>
+              <label class="hidden-label3">Floor Loft</label>   
+               </center> 
+                <thead>
+                     <tr>
+              
+                     <th scope="col">Shelf</th>
+                    <th scope="col">Tray</th>
+                    <th scope="col">Section</th>
+                    <th scope="col">Moisture Contents</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+              
+                     <td>${ record.ShelfM_FL }</td>
+                    <td>${ record.TrayM_FL }</td>
+                    <td>${ record.SectionM_FL }</td>
+                    <td>${ record.MoistureM_FL }</td>
+              
+                  </tr>
+              
+              
+                </tbody>
+              </table>
+              
+              
+              
+      </table>` : ''}
+  
+              
+               
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+               ${ record.ShelfU_GF && record.TrayU_GF && record.SectionU_GF && record.MoistureU_GF ? `
+              
+              <table class="table" id="LoTableU1">
+              
+                  <center>
+              <label class="hidden-label4"> Ground Floor</label>   
+               </center> 
+                <thead>
+                  <tr>
+              
+                     <th scope="col">Shelf</th>
+                    <th scope="col">Tray</th>
+                    <th scope="col">Section</th>
+                    <th scope="col">Moisture Contents</th>
+              
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+              
+                     <td>${ record.ShelfU_GF }</td>
+                    <td>${ record.TrayU_GF }</td>
+                    <td>${ record.SectionU_GF }</td>
+                    <td>${ record.MoistureU_GF }</td>
+              
+                  </tr>
+              
+                </tbody>
+              </table>
+              
+              
+              
+              
+               
+      </table>` : ''}
+  
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+               ${ record.ShelfU_1F && record.TrayU_1F && record.SectionU_1F && record.MoistureU_1F ? `
+              
+              
+              <table class="table" id="LoTableU2">
+              
+                  <center>
+              <label class="hidden-label4">1st Floor</label>   
+               </center> 
+                <thead>
+                   <tr>
+              
+                     <th scope="col">Shelf</th>
+                    <th scope="col">Tray</th>
+                    <th scope="col">Section</th>
+                    <th scope="col">Moisture Contents</th>
+              
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+              
+                     <td>${ record.ShelfU_1F }</td>
+                    <td>${ record.TrayU_1F }</td>
+                    <td>${ record.SectionU_1F }</td>
+                    <td>${ record.MoistureU_1F }</td>
+              
+                  </tr>
+              
+                </tbody>
+              </table>
+              
+              
+              
+              
+               
+      </table>` : ''}
+  
+              
+              
+              
+              
+              
+              
+                 
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+               ${ record.ShelfU_2F && record.TrayU_2F && record.SectionU_2F && record.MoistureU_2F ? `
+              
+              <table class="table" id="LoTableU3">
+              
+                  <center>
+              <label class="hidden-label4">2nd Floor</label>   
+               </center> 
+                <thead>
+                    <tr>
+              
+                     <th scope="col">Shelf</th>
+                    <th scope="col">Tray</th>
+                    <th scope="col">Section</th>
+                    <th scope="col">Moisture Contents</th>
+              
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+              
+                     <td>${ record.ShelfU_2F }</td>
+                    <td>${ record.TrayU_2F }</td>
+                    <td>${ record.SectionU_2F }</td>
+                    <td>${ record.MoistureU_2F }</td>
+              
+                  </tr>
+              
+              
+                </tbody>
+              </table>
+              
+              
+              
+      </table>` : ''}
+  
+              
+               
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+               ${ record.ShelfU_FL && record.TrayU_FL && record.SectionU_FL && record.MoistureU_FL ? `
+                
+              <table class="table" id="LoTableU4">
+              
+                  <center>
+              <label class="hidden-label4">Floor Loft</label>   
+               </center> 
+                <thead>
+                     <tr>
+              
+                     <th scope="col">Shelf</th>
+                    <th scope="col">Tray</th>
+                    <th scope="col">Section</th>
+                    <th scope="col">Moisture Contents</th>
+              
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+              
+                     <td>${ record.ShelfU_FL }</td>
+                    <td>${ record.TrayU_FL }</td>
+                    <td>${ record.SectionU_FL }</td>
+                    <td>${ record.MoistureU_FL }</td>
+              
+                  </tr>
+              
+              
+                </tbody>
+              </table>
+              
+              
+      </table>` : ''}
+  
+              
+              
+               
+              
+              
+              
+              
+              
+              
+              
+              
+              
+               
+              
+               ${ record.ShelfGP_GF && record.TrayGP_GF && record.SectionGP_GF && record.MoistureGP_GF ? `
+              
+              
+              <table class="table" id="LoTableGP1">
+              
+                  <center>
+              <label class="hidden-label5"> Ground Floor</label>   
+               </center> 
+                <thead>
+                  <tr>
+              
+                     <th scope="col">Shelf</th>
+                    <th scope="col">Tray</th>
+                    <th scope="col">Section</th>
+                    <th scope="col">Moisture Contents</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+              
+                     <td>${record.ShelfGP_GF }</td>
+                    <td>${ record.TrayGP_GF }</td>
+                    <td>${ record.SectionGP_GF }</td>
+                    <td>${ record.MoistureGP_GF }</td>
+              
+                  </tr>
+              
+                </tbody>
+              </table>
+              
+              
+      </table>` : ''}
+  
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+               ${ record.ShelfGP_1F && record.TrayGP_1F && record.SectionGP_1F && record.MoistureGP_1F ? `
+              
+              <table class="table" id="LoTableGP2">
+              
+                  <center>
+              <label class="hidden-label5">1st Floor</label>   
+               </center> 
+                <thead>
+                   <tr>
+              
+                     <th scope="col">Shelf</th>
+                    <th scope="col">Tray</th>
+                    <th scope="col">Section</th>
+                    <th scope="col">Moisture Contents</th>
+              
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+              
+                     <td>${ record.ShelfGP_1F }</td>
+                    <td>${ record.TrayGP_1F }</td>
+                    <td>${ record.SectionGP_1F }</td>
+                    <td>${ record.MoistureGP_1F }</td>
+              
+                  </tr>
+              
+                </tbody>
+              </table>
+              
+              
+              
+      </table>` : ''}
+  
+              
+               
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+               ${ record.ShelfGP_2F && record.TrayGP_2F && record.SectionGP_2F && record.MoistureGP_2F ? `
+              
+                 
+              <table class="table" id="LoTableGP3">
+              
+                  <center>
+              <label class="hidden-label5">2nd Floor</label>   
+               </center> 
+                <thead>
+                    <tr>
+              
+                     <th scope="col">Shelf</th>
+                    <th scope="col">Tray</th>
+                    <th scope="col">Section</th>
+                    <th scope="col">Moisture Contents</th>
+              
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+              
+                     <td>${ record.ShelfGP_2F }</td>
+                    <td>${ record.TrayGP_2F }</td>
+                    <td>${ record.SectionGP_2F }</td>
+                    <td>${ record.MoistureGP_2F }</td>
+              
+                  </tr>
+              
+              
+                </tbody>
+              </table>
+              
+              
+      </table>` : ''}
+  
+              
+               
+                
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+               ${ record.ShelfGP_FL && record.TrayGP_FL && record.SectionGP_FL && record.MoistureGP_FL ? `
+                 
+              <table class="table" id="LoTableGP4">
+              
+                  <center>
+              <label class="hidden-label5">Floor Loft</label>   
+               </center> 
+                <thead>
+                     <tr>
+              
+                     <th scope="col">Shelf</th>
+                    <th scope="col">Tray</th>
+                    <th scope="col">Section</th>
+                    <th scope="col">Moisture Contents</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+              
+                     <td>${ record.ShelfGP_FL }</td>
+                    <td>${ record.TrayGP_FL }</td>
+                    <td>${ record.SectionGP_FL }</td>
+                    <td>${ record.MoistureGP_FL }</td>
+              
+                  </tr>
+              
+              
+                </tbody>
+              </table>
+              
+              
+      </table>` : ''}
+  
+              
+              
+              
+              
+              
+                      <table id="vertical-1" class="table table-hover table-light">
+              
+              
+              
+              
+              
+                      <tr>
+                          <th>Corresponding Delivery Advice</th>
+                          <td>${ record.CORRESPONDING_DELIVERY_ADVICE }</td>
+                      </tr>
+                 
+              
+                        <tr>
+                          <th>Control Number</th>
+                          <td>${ record.Control_number }</td>
+                      </tr>
+                 
+                 
+              
+                 
+              
+                  </table>
+              
+                       <!-- Your existing HTML code here -->
+                       <button class="btn btn-danger" onclick="deleteEntry(${record.id})">Delete</button>
+                       <!-- <button class="btn btn-primary" onclick="toggleEditForm(${record.id})">Edit</button> -->
+                       <div id="editForm_${record.id}" style="display:none;">
+                           <!-- Edit form will be generated here -->
+                       </div>
+                   </div>
+               </div>
+               <br> <br> <br>
+           `;
+          landInfoDataDiv.appendChild(entryContainer);
+
+          let editFormContainer = document.getElementById(`editForm_${record.id}`);
+          generateEditForm(editFormContainer, record);
+      });
+  };
+};
+
+  function generateEditForm(container, record) {
+      let fieldConfig = {
+          'DATE_OF_SAMPLING': 'date',
+          'DECISION': 'select',
+          'Quantity_of_Bags': 'number',
+          // Add more fields with their respective form types
+      };
+  
+      let formFieldsHTML = '';
+      for (let property in record) {
+          if (record.hasOwnProperty(property) && property !== 'id') {
+              let inputType = 'text'; // Default to text input type
+              if (fieldConfig[property]) {
+                  inputType = fieldConfig[property];
+              }
+  
+              // Check if the field value is null or an empty string and should be blacklisted
+              if (fieldBlacklistConfig[property] && (record[property] === null || record[property] === '')) {
+                  fieldBlacklist.push(property);
+              }
+  
+              // Include the field in the form if it's not in the blacklist
+              if (!fieldBlacklist.includes(property)) {
+                  // Convert property name to human-readable format
+                  let label = property.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+  
+                  formFieldsHTML += `
+                      <label for="${property}_${record.id}">${label}:</label>
+                      <input type="${inputType}" id="${property}_${record.id}" name="${property}" value="${record[property]}" class="form-control"> <br>
+                  `;
+              }
+          }
+      }
+  
+      container.innerHTML = `
+          <form id="editForm">
+              ${formFieldsHTML}
+              <button type="button" id="saveButton" onclick="saveEditedForm(${record.id})">Save</button>
+              <button type="button" id="closeButton" onclick="hideEditForm(${record.id})">Close</button>
+          </form>
+      `;
+  }
+
+  function toggleEditForm(id) {
+      let editFormContainer = document.getElementById(`editForm_${id}`);
+      if (editFormContainer.style.display === 'none') {
+          showEditForm(id);
+      } else {
+          hideEditForm(id);
+      }
+  }
+
+  function showEditForm(id) {
+      let editFormContainer = document.getElementById(`editForm_${id}`);
+      editFormContainer.style.display = "block";
+  }
+
+  function hideEditForm(id) {
+      let editFormContainer = document.getElementById(`editForm_${id}`);
+      editFormContainer.style.display = "none";
+  }
+
+  function saveEditedForm(id) {
+      let openRequest = indexedDB.open("GCNA");
+
+      openRequest.onsuccess = function (event) {
+          let db = event.target.result;
+          let transaction = db.transaction("Dispatch-Of-Dried-Nutmeg", "readwrite");
+          let landInfoStore = transaction.objectStore("Dispatch-Of-Dried-Nutmeg");
+          let getRequest = landInfoStore.get(id);
+
+          getRequest.onsuccess = function (event) {
+              let record = event.target.result;
+
+              for (let property in record) {
+                  if (record.hasOwnProperty(property) && property !== 'id') {
+                      const inputElement = document.getElementById(`${property}_${id}`);
+                      if (inputElement) {
+                          record[property] = inputElement.value;
+                      }
+                  }
+              }
+
+              let putRequest = landInfoStore.put(record);
+
+              putRequest.onsuccess = function () {
+                  console.log('Record updated successfully');
+                  hideEditForm(id, document.getElementById(`hiddenButton_${id}`));
+              };
+
+              putRequest.onerror = function (event) {
+                  console.error('Error updating record:', event.target.error);
+              };
+          };
+
+          getRequest.onerror = function (event) {
+              console.error('Error getting record:', event.target.error);
+          };
+      };
+
+      openRequest.onerror = function (event) {
+          console.error('Error opening database:', event.target.error);
+      };
+  }
+
+
+
+  function deleteEntry(id) {
+      let openRequest = indexedDB.open("GCNA");
+  
+      openRequest.onsuccess = function (event) {
+          let db = event.target.result;
+          let transaction = db.transaction("Dispatch-Of-Dried-Nutmeg", "readwrite");
+          let landInfoStore = transaction.objectStore("Dispatch-Of-Dried-Nutmeg");
+  
+          // Get the record to be deleted
+          let getRequest = landInfoStore.get(id);
+  
+          getRequest.onsuccess = function (event) {
+              let record = event.target.result;
+  
+              // Now, let's open the DELETED database and add the record there
+              let openDeletedRequest = indexedDB.open("DELETED");
+  
+              openDeletedRequest.onsuccess = function (event) {
+                  let deletedDB = event.target.result;
+                  let deletedTransaction = deletedDB.transaction("Dispatch-Of-Dried-Nutmeg", "readwrite");
+                  let deletedStore = deletedTransaction.objectStore("Dispatch-Of-Dried-Nutmeg");
+  
+                  // Add the record to the DELETED database
+                  let addRequest = deletedStore.add(record);
+  
+                  addRequest.onsuccess = function () {
+                      console.log(`Record with ID ${id} copied to DELETED database.`);
+                  };
+  
+                  addRequest.onerror = function () {
+                      console.log(`Failed to copy record with ID ${id} to DELETED database.`);
+                  };
+              };
+  
+              openDeletedRequest.onerror = function () {
+                  console.log("Failed to open DELETED database.");
+              };
+          };
+  
+          // Now, proceed with deleting the record from the original database
+          let deleteRequest = landInfoStore.delete(id);
+  
+          deleteRequest.onsuccess = function () {
+              console.log(`Record with ID ${id} deleted from GCNA database.`);
+              // You might want to refresh your display here.
+          };
+  
+          deleteRequest.onerror = function () {
+              console.log(`Failed to delete record with ID ${id} from GCNA database.`);
+          };
+      };
+  
+      openRequest.onerror = function () {
+          console.log("Failed to open GCNA database.");
+      };
+  }
+  
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    let Pending_openRequest3 = indexedDB.open("GCNA");
+
+    Pending_openRequest3.onsuccess = function (event) {
+      let db = event.target.result;
+      let transaction = db.transaction("M_Shelves_Dried", "readwrite");
+      let landInfoStore = transaction.objectStore("M_Shelves_Dried");
+      let getAllRequest = landInfoStore.getAll();
+
+      getAllRequest.onsuccess = function (event) {
+        let landInfoRecords = event.target.result;
+        let tables = document.querySelectorAll("table");
+
+        tables.forEach((table) => {
+          landInfoRecords.forEach((record) => {
+            let entryCheckTd = table.querySelector("td#newentryCheck");
+
+            if (
+              entryCheckTd &&
+              entryCheckTd.textContent.trim().split(",").includes(record.Batchcode)
+            ) {
+              console.log(
+                "Roar the SPAAAAARk X2" + entryCheckTd.textContent.trim()
+              );
+              let Pending_landInfoDataDiv = table.querySelector(
+                ".Pending_landInfoData2"
+              );
+              if (!Pending_landInfoDataDiv) {
+                Pending_landInfoDataDiv = document.createElement("div");
+                Pending_landInfoDataDiv.className = "Pending_landInfoData2";
+                table.appendChild(Pending_landInfoDataDiv);
+              }
+
+              let Pending_entryContainer = document.createElement("div");
+              Pending_entryContainer.className = "entry-container";
+              Pending_entryContainer.dataset.formId = record.entry;
+
+              let shelfValue = record.M_Shelf;
+              let trayValue = record.M_Tray;
+              let sectionValue = record.M_Section;
+              let labelText = record.labelText;
+              let tableId = record.floor;
+              let entry = record.entry;
+              let station = record.station;
+
+              Pending_entryContainer.innerHTML = `
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title"></h5>
+                  <p class="card-text">
+                    <center>
+                      <table>
+                        <thead>
+                          <label>${record.labelText}(Moisture)</label>
+                          <tr>
+                            <th scope="col">Station</th>
+                            <th scope="col">Shelf</th>
+                            <th scope="col">Tray</th>
+                            <th scope="col">Section</th>
+                            <th scope="col">Moisture</th>
+                            <th scope="col">Week</th>
+                            <th scope="col">Date Created</th>
+                            <th scope="col">Batch Code</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>${record.station}</td>
+                            <td>${record.M_Shelf}</td>
+                            <td>${record.M_Tray}</td>
+                            <td>${record.M_Section}</td>
+                            <td>${record.Date}</td>
+                            <td>${record.Batchcode}</td>
+
+                            <td><input type="text" class="form-control" name="Moisture" id="Moisture" value="${record.Moisture}"></td>
+                            <td><input type="text" class="form-control" name="Week" id="Week" value="${record.Week}"></td>
+                            <td><button type="button" class="add-row" onclick="weeklyForm('${tableId}', 'myForm', this.parentNode.parentNode, '${shelfValue}', '${trayValue}', '${sectionValue}', '${labelText}','${entry}','${station}')">[+]</button></td>
+
+                          </tr>
+                        </tbody>
+                        <div style="display: none;">
+                          <td>${record.floor}</td>
+                          <td>${record.id}</td>
+                          <td>${record.entry}</td>
+                        </div>
+                      </table>
+                    </center>
+                  </p>
+                </div>
+              </div>
+              <br> <br> <br>`;
+
+              // Append entry container to the Pending_landInfoDataDiv
+              Pending_landInfoDataDiv.appendChild(Pending_entryContainer);
+
+              // Create submit button
+              var submitButton = document.createElement("button");
+              submitButton.type = "button";
+              submitButton.textContent = "Submit";
+
+              // Pass the entry ID (record.entry) to the function
+              submitButton.addEventListener("click", function () {
+                // Get the updated values from the input fields
+                let moistureInput = Pending_entryContainer.querySelector(
+                  'input[name="Moisture"]'
+                );
+
+                let weekInput =
+                  Pending_entryContainer.querySelector('input[name="Week"]');
+
+                let updatedMoisture = moistureInput.value;
+                let updatedWeek = weekInput.value;
+                submitAndUpdateIndexedDB(
+                  record.entry,
+                  record.Moisture,
+                  record.Week,
+                  record.id,
+                  updatedMoisture,
+                  updatedWeek
+                );
+              });
+
+              // Append submit button to the entry container
+              Pending_entryContainer.appendChild(submitButton);
+            }
+          });
+        });
+      };
+    };
+  });
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    let Pending_openRequest4 = indexedDB.open("GCNA");
+
+    Pending_openRequest4.onsuccess = function (event) {
+      let db = event.target.result;
+      let transaction = db.transaction("W_Shelves_Dried", "readwrite");
+      let landInfoStore = transaction.objectStore("W_Shelves_Dried");
+      let getAllRequest = landInfoStore.getAll();
+
+      getAllRequest.onsuccess = function (event) {
+        let landInfoRecords = event.target.result;
+        let tables = document.querySelectorAll("table");
+
+        tables.forEach((table) => {
+          landInfoRecords.forEach((record) => {
+            let entryCheckTd = table.querySelector("td#newentryCheck1");
+
+            if (
+              entryCheckTd &&
+              entryCheckTd.textContent.trim().split(",").includes(record.Batchcode)
+            ) {
+              console.log(
+                "READY OOOOOOORRRRR" + entryCheckTd.textContent.trim()
+              );
+              let Pending_landInfoDataDiv1 = table.querySelector(
+                ".Pending_landInfoData3"
+              );
+              if (!Pending_landInfoDataDiv1) {
+                Pending_landInfoDataDiv1 = document.createElement("div");
+                Pending_landInfoDataDiv1.className = "Pending_landInfoData3";
+                table.appendChild(Pending_landInfoDataDiv1);
+              }
+
+              let Pending_entryContainer1 = document.createElement("div");
+              Pending_entryContainer1.className = "entry-container";
+              Pending_entryContainer1.dataset.formId = record.entry;
+
+              let shelfValue = record.W_Shelf;
+              let trayValue = record.W_Tray;
+              let sectionValue = record.W_Section;
+              let labelText = record.labelText;
+              let tableId = record.floor;
+              let entry = record.entry;
+              let station = record.station;
+
+              Pending_entryContainer1.innerHTML = `
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title"></h5>
+                  <p class="card-text">
+                    <center>
+                      <table>
+                        <thead>
+                          <label>${record.labelText}(Weekly)</label>
+                          <tr>
+                            <th scope="col">Station</th>
+                            <th scope="col">Shelf</th>
+                            <th scope="col">Tray</th>
+                            <th scope="col">Section</th>
+                            <th scope="col">Moisture</th>
+                            <th scope="col">Week</th>
+                            <th scope="col">Date Created</th>
+                            <th scope="col">Batch Code</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>${record.station}</td>
+                            <td>${record.W_Shelf}</td>
+                            <td>${record.W_Tray}</td>
+                            <td>${record.W_Section}</td>
+                            <td>${record.Date}</td>
+                            <td>${record.Batchcode}</td>
+                            <td><input type="text" class="form-control" name="Moisture" id="Moisture" value="${record.Moisture}"></td>
+                            <td><input type="text" class="form-control" name="Week" id="Week" value="${record.Week}"></td>
+                            <td><button type="button" class="add-row" onclick="weeklyForm('${tableId}', 'myForm', this.parentNode.parentNode, '${shelfValue}', '${trayValue}', '${sectionValue}', '${labelText}','${entry}','${station}')">[+]</button></td>
+                          </tr>
+                        </tbody>
+                        <div style="display: none;">
+                          <td>${record.floor}</td>
+                          <td>${record.id}</td>
+                          <td>${record.entry}</td>
+                        </div>
+                      </table>
+                    </center>
+                  </p>
+                </div>
+              </div>
+              <br> <br> <br>`;
+              Pending_landInfoDataDiv1.appendChild(Pending_entryContainer1);
+
+              // Create submit button
+              var submitButton = document.createElement("button");
+              submitButton.type = "button";
+              submitButton.textContent = "Submit";
+              // Pass the entry ID (record.entry) to the function
+              submitButton.addEventListener("click", function () {
+                let moistureInput = Pending_entryContainer1.querySelector(
+                  'input[name="Moisture"]'
+                );
+
+                let weekInput =
+                  Pending_entryContainer1.querySelector('input[name="Week"]');
+
+                let updatedMoisture = moistureInput.value;
+                let updatedWeek = weekInput.value;
+                submitAndUpdateIndexedDB(
+                  record.entry,
+                  record.Moisture,
+                  record.Week,
+                  record.id,
+                  updatedMoisture,
+                  updatedWeek
+                );
+              });
+
+              Pending_entryContainer1.appendChild(submitButton);
+            }
+          });
+        });
+      };
+    };
+  });
+</script>
+
+
+
+
+
+
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

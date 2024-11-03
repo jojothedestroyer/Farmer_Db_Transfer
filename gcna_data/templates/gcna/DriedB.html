@@ -1,0 +1,448 @@
+{% extends 'gcna/base2.html' %}
+
+{% block content%}
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+<script>
+  $(document).ready(function() {
+  
+    function limitDecimalPlaces(value) {
+      return parseFloat(value).toFixed(2);
+    }
+  
+    $('#id_READING_1, #id_READING_2, #id_READING_3').on('change', function() {
+      var val1 = limitDecimalPlaces($('#id_READING_1').val());
+      var val2 = limitDecimalPlaces($('#id_READING_2').val());
+      var val3 = limitDecimalPlaces($('#id_READING_3').val());
+      var final = parseFloat(val1) + parseFloat(val2) + parseFloat(val3);
+      var avg = final / 3;
+      $('#id_AVERAGE').val(avg.toFixed(2));
+    });
+  
+  });
+  </script>
+
+	<center>
+<br>
+
+
+
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      var myForm = document.getElementById('myForm');
+  
+      myForm.addEventListener('submit', function(event) {
+          if (navigator.onLine) {
+              return;
+          }
+  
+          event.preventDefault();
+          var data = new FormData(event.target);
+          saveDataToIndexedDB(data);
+      });
+  
+      function saveDataToIndexedDB(data) {
+          var request = indexedDB.open('GCNA', 2);
+      
+          request.onsuccess = function(event) {
+              var db = event.target.result;
+              var transaction = db.transaction('DriedB', 'readwrite');
+              var objectStore = transaction.objectStore('DriedB');
+      
+              var obj = {};
+              for (var pair of data.entries()) {
+                  obj[pair[0]] = pair[1];
+              }
+      
+              // Get the highest id in the object store
+              var highestIdRequest = objectStore.openCursor(null, 'prev');
+              highestIdRequest.onsuccess = function(event) {
+                  var cursor = event.target.result;
+                  if (cursor) {
+                      obj.id = cursor.key + 1;
+                  } else {
+                      obj.id = 1; // This is the first item
+                  }
+      
+                  var request = objectStore.put(obj);
+      
+                  request.onsuccess = function() {
+                      console.log('Data added to IndexedDB');
+                      window.location.href = '/gcna00_24/';
+                  };
+      
+                  request.onerror = function() {
+                      console.error('Error adding data to IndexedDB');
+                  };
+              };
+          };
+      
+          request.onerror = function(event) {
+              console.error('Error opening IndexedDB', event);
+          };
+      }
+      
+  });
+  </script>
+
+
+
+
+	{% if submitted %}
+		Entry successfully added to database!!!
+	{% else %}
+		<form action="" method="POST"   id="myForm" enctype="multipart/form-data" style=" background-color: #e4e4e4;
+
+    margin: 1px auto;
+    font-family: Raleway;
+    padding: 10px;
+    width: 75%;
+    min-width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">
+
+
+    <div class="card">
+ 
+  <div class="card-body">
+
+  </h5>
+    <p class="card-text">
+        <table id="vertical-1" class="table table-hover table-light">
+
+
+ 
+ 
+
+
+<h6>Document No. GCNA-R-01</h6>
+<h6>Document Title: Moisture Analysis in Dried Nutmeg</h6>
+<h6>Date Issued: 2023-07-03</h6>
+
+<h6>Version: 1</h6>
+
+    <h5>Section B</h5>
+
+		{% csrf_token %}
+ 
+ <h4>Corrective Action for Nutmeg Above 10% Moisture Content</h4>
+
+
+       <tr>
+{{ form1.Worker_ID_No }}
+{{ form1.Nutmeg_ID_No }}
+
+
+
+<table class="table">
+  <thead>
+    <tr>
+
+      <th scope="col" style="text-align:center;">Date of Sampling</th> 
+     <th scope="col" style="text-align:center;">Station </th>
+     </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+            <td>{{ form2.DATE_OF_SAMPLING }}</td>
+            <td>  <!--{{ form2.STATION }} --> Gouyave</td>
+
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+
+
+
+        <table id="vertical-1" class="table table-hover table-light">
+                <tr>
+            <th>Batch Code</th>
+            <td>{{ form2.BATCH_CODE }}</td>
+        </tr>
+</table>
+
+
+
+
+
+        <table id="vertical-1" class="table table-hover table-light">
+
+
+
+        <tr>
+            <th>Total Quantity of Bags in Non Compliance</th>
+            <td>{{ form2.Total_Quantity_of_Bags_in_Non_Compliance }}</td>
+        </tr>
+
+</table>
+
+
+
+        <table id="vertical-1" class="table table-hover table-light">
+
+
+
+        <tr>
+            <th>Total Weight (lbs) of Nutmeg in Non Compliance</th>
+            <td>{{ form2.Total_Weight_of_Nutmeg_in_Non_Compliance }}</td>
+        </tr>
+
+</table>
+
+
+
+
+
+        <table id="vertical-1" class="table table-hover table-light">
+
+
+
+
+
+
+          <table class="table">
+            <thead>
+              <tr>
+          
+                <th scope="col" style="text-align:center;">Additional Drying Period</th> 
+            </thead>
+              <tr>
+  </table>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col" style="text-align:center;">Months:</th> 
+              <td scope="col" style="text-align:center;">{{ form2.Additional_Drying_Period1 }} </td>
+              <th scope="col" style="text-align:center;">Weeks:</th> 
+              <td scope="col" style="text-align:center;">{{ form2.Additional_Drying_Period2 }} </td>
+              <th scope="col" style="text-align:center;">Days:</th> 
+              <td scope="col" style="text-align:center;">{{ form2.Additional_Drying_Period3 }} </td>
+            </tr>
+          </thead>
+            <tr>
+</table>
+
+
+
+        <table id="vertical-1" class="table table-hover table-light">
+
+
+
+        <tr>
+            <th>Initial Sample Weight (lbs)</th>
+            <td>{{ form2.Initial_Sample_Weight }}</td>
+        </tr>
+
+</table>
+
+
+
+
+
+
+
+
+
+
+<table class="table">
+
+    <center>
+<label>Weight (oz/lbs)</label>   
+ </center> 
+  <thead>
+    <tr>
+
+      <th scope="col" style="text-align:center;">Insect Damaged</th> 
+      <th scope="col" style="text-align:center;">Broken</th>
+      <th scope="col" style="text-align:center;">Mould</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+      <td>{{ form2.Insect_Damaged }}</td>
+      <td>{{ form2.Broken }}</td>
+      <td>{{ form2.Mould }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+        <table id="vertical-1" class="table table-hover table-light">
+
+
+
+        <tr>
+             c<th>Final Sample Weight</th>
+             <td>{{ form2.Final_Sample_Weight }}</td>
+        </tr>
+
+</table>
+
+
+
+
+ 
+
+
+
+<table class="table">
+
+    <center>
+<label>MOISTURE CONTENT RESULTS (%)</label>   
+ </center>
+  <thead>
+    <tr>
+      <th scope="col" style="text-align:center;">Criteria</th> 
+      <th scope="col" style="text-align:center;"><10%</th> 
+     </tr>
+  </thead>
+    <tbody>
+    <tr>
+
+
+  	    </tr>
+
+  </tbody>
+    <tr>
+
+
+      <th scope="col" style="text-align:center;">Reading 1</th> 
+      <th scope="col" style="text-align:center;">Reading 2</th>
+      <th scope="col" style="text-align:center;">Reading 3</th>
+      <th scope="col" style="text-align:center;">Average</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+      <td>{{ form2.READING_1 }}</td>
+      <td>{{ form2.READING_2 }}</td>
+      <td>{{ form2.READING_3 }}</td>
+      <td>{{ form2.AVERAGE }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+
+
+
+        <table id="vertical-1" class="table table-hover table-light">
+
+        <tr>
+            <th>Decision</th>
+            <td>{{ form2.DECISION }}</td>
+        </tr>
+    <tr>
+            <th>Comments</th>
+            <td>{{ form2.Comments }}</td>
+        </tr>
+
+
+</table>
+
+
+
+    
+
+<!--         <tr>
+            <th>Final Sample Weight</th>
+            <td>{{ form1.Final_Sample_Weight }}</td>
+        </tr>
+ -->
+
+
+
+<table class="table">
+
+    <center>
+ </center> 
+  <thead>
+    <tr>
+
+      <th scope="col" style="text-align:center;">Test Performed by</th> 
+      <th scope="col" style="text-align:center;">{{ form2.TEST_PERFORMED_BY }}</th>
+      <th scope="col" style="text-align:center;">Date of Test</th>
+      <th scope="col" style="text-align:center;">{{ form2.DATE }}</th>
+    </tr>
+  </thead>
+
+
+    <thead>
+    <tr>
+
+      <th scope="col" style="text-align:center;">Approved by</th> 
+      <th scope="col" style="text-align:center;">{{ form2.APPROVED_BY }}</th>
+      <th scope="col" style="text-align:center;">Date of Report</th>
+      <th scope="col" style="text-align:center;">{{ form2.DATE_OF_REPORT }}</th>
+    </tr>
+  </thead>
+ 
+</table>
+
+
+
+<table class="table">
+
+    <center>
+ </center> 
+  <thead>
+    <tr>
+
+      <th scope="col" style="text-align:center;">Signed by Quality Assurance Officer</th> 
+      <th scope="col" style="text-align:center;">{{ form2.SIGNED_BY_QUALITY_ASSURANCE_OFFICER }}</th>
+      <th scope="col" style="text-align:center;">Date</th>
+      <th scope="col" style="text-align:center;">{{ form2.DATE }}</th>
+    </tr>
+  </thead>
+</table>
+
+
+		<input type="submit" name="" value="✔" class="btn btn-success btn-circle btn-xl">
+
+		<br>
+		<br>
+
+		
+</table>
+
+              <tr>
+            <th><a href="{% url 'table' %}" class="btn btn-secondary">Exit</a></th>
+            <th><a type="submit" href="{% url 'database8' %}" role="button" class="btn btn-primary">Previous</a></th>
+            <th><a type="submit" href="{% url 'database10' %}" role="button" class="btn btn-primary">Next</a></th>
+ 
+
+        </tr>
+		</form>		
+
+		</form>
+
+	{% endif %}
+
+	</center>
+{{ form2.media }}
+
+{% endblock %}
+
+
+

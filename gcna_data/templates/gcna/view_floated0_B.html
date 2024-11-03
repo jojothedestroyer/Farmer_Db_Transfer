@@ -1,0 +1,1842 @@
+
+{% extends 'gcna/base2.html' %}
+
+
+{% block content%}
+
+{% comment %} 
+<div class="card">
+ 
+  <div class="card-body">
+
+  </h5>
+    <p class="card-text">
+
+        <table id="vertical-1" class="table table-hover table-light">
+
+
+
+         <tr>
+            <th>Date of Sampling</th>
+            <td>{{ farmer_info_id.DATE_OF_SAMPLING }}</td>
+        </tr>
+        <tr>
+            <th>Station</th>
+            <td>{{ farmer_info_id.STATION }}</td>
+        </tr>
+        <tr>
+            <th>Batch Codes</th>
+            <td>{{ farmer_info_id.BATCH_CODE }}</td>
+        </tr>
+        <tr>
+            <th>Quantity of Bags</th>
+            <td>{{ farmer_info_id.Quantity_of_Bags }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Quantity of Sample</th>
+            <td>{{ farmer_info_id.Quantity_of_Sample }}</td>
+        </tr>
+
+
+
+        <tr>
+            <th>Total Weight(lbs)</th>
+            <td>{{ farmer_info_id.Total_Weight }}</td>
+        </tr>
+
+
+
+        <tr>
+            <th>Initial Sample Weight(lbs)</th>
+            <td>{{ farmer_info_id.Initial_Sample_Weight }}</td>
+        </tr>
+        <tr>
+            <th>Insect Damaged(lbs)</th>
+            <td>{{ farmer_info_id.Insect_Damaged }}</td>
+        </tr>
+        <tr>
+            <th>Broken(lbs)</th>
+            <td>{{ farmer_info_id.Broken }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Mould(lbs)</th>
+            <td>{{ farmer_info_id.Mould }}</td>
+        </tr>
+
+
+
+        <tr>
+            <th>Final Sample Weight(lbs)</th>
+            <td>{{ farmer_info_id.Final_Sample_Weight }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Reading 1</th>
+            <td>{{ farmer_info_id.READING_1 }}</td>
+        </tr>
+        <tr>
+            <th>Reading 2</th>
+            <td>{{ farmer_info_id.READING_2 }}</td>
+        </tr>
+        <tr>
+            <th>Reading 3</th>
+            <td>{{ dried.READING_3 }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Average</th>
+            <td>{{ farmer_info_id.AVERAGE }}</td>
+        </tr>
+
+
+
+        <tr>
+            <th>Decisiom</th>
+            <td>{{ farmer_info_id.DECISION }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Comments</th>
+            <td>{{ farmer_info_id.Comments }}</td>
+        </tr>
+        <tr>
+            <th>Test preformed by</th>
+            <td>{{ farmer_info_id.TEST_PERFORMED_BY }}</td>
+        </tr>
+        <tr>
+            <th>Date</th>
+            <td>{{ farmer_info_id.DATE }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Signed by</th>
+            <td>{{ farmer_info_id.SIGNED_BY }}</td>
+        </tr>
+
+
+
+        <tr>
+            <th>Date of Report</th>
+            <td>{{ farmer_info_id.DATE_OF_REPORT }}</td>
+        </tr>  
+
+        <tr>
+            <th>Signed by Quality Assurance Officer</th>
+            <td>{{ farmer_info_id.SIGNED_BY_QUALITY_ASSURANCE_OFFICER }}</td>
+        </tr>  
+
+                <tr>
+            <th>Date</th>
+            <td>{{ farmer_info_id.DATE }}</td>
+        </tr>  
+
+  
+              <tr>
+            <th><a href="{% url 'table' %}" class="btn btn-secondary">Return</a></th>
+        </tr>
+    </table>
+                    </p>
+
+
+
+       
+ </div>        </div>
+
+<br>
+<br>
+<br> {% endcomment %}
+
+{% comment %} 
+
+
+
+
+<div id="landInfoData"></div>
+<div id="editFormContainer"></div>
+
+</table>
+</p>
+</div>
+</div>
+
+
+
+<br>
+<br>
+<br>
+
+
+<script>
+// Open the GCNA database
+let openRequest = indexedDB.open("GCNA");
+
+openRequest.onsuccess = function (event) {
+    let db = event.target.result;
+
+    // Open a transaction to read from the land-info store
+    let transaction = db.transaction("FloatB", "readonly");
+    let landInfoStore = transaction.objectStore("FloatB");
+
+    // Get all records from FloatB store
+    let getAllRequest = landInfoStore.getAll();
+
+    getAllRequest.onsuccess = function (event) {
+        let landInfoRecords = event.target.result;
+
+        // Map landInfoRecords to include delete and edit buttons
+        let landInfoDataDiv = document.getElementById('landInfoData');
+        landInfoRecords.forEach(record => {
+            let entryDiv = document.createElement("div");
+            entryDiv.innerHTML = `
+            <form  style=" background-color: #e4e4e4;
+
+            margin: 1px auto;
+            font-family: Raleway;
+            padding: 10px;
+            width: 95%;
+            min-width: 300px;
+            border-radius: 10px;
+            box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">
+        
+        
+            <div class="card">
+         
+          <div class="card-body">
+        
+          </h5>
+            <p class="card-text">
+                <table id="vertical-1" class="table table-hover table-light">
+        <p>Test</p>
+        
+        <h6>Document No. GCNA-R-02</h6>
+        <h6>Document Title: Moisture Analysis in Floated Nutmeg</h6>
+        <h6>Date Issued: 2023-07-03</h6>
+        <h6>Version: 1</h6>
+            <h5>Section B</h5>
+                {% csrf_token %}
+            <h4>Corrective Action for Floating Nutmeg Above 10% Moisture Content</h4>
+        
+        
+        
+        
+        
+               <tr>
+
+        
+        
+        
+        <table class="table">
+          <thead>
+            <tr>
+        
+              <th scope="col" style="text-align:center;">DATE OF SAMPLING (Heavies)</th> 
+              <th scope="col" style="text-align:center;">DATE OF SAMPLING (Lights)</th>
+              <th scope="col" style="text-align:center;">Station</th>
+             </tr>
+          </thead>
+          <tbody>
+            <tr>
+        
+                    <td>${ record.DATE_OF_SAMPLING_H }</td>
+                    <td>${ record.DATE_OF_SAMPLING_L }</td>
+                    <td>${ record.STATION }</td>
+        
+        
+            </tr>
+        
+          </tbody>
+        </table>
+        
+        
+        <br>
+        
+        
+            <table table style="width:10px;">
+        
+                <tr>
+                    <th colspan="4" class="main-header">HEAVIES</th>
+                    <th colspan="4" class="main-header">LIGHTS</th>
+                </tr>
+                <tr>
+              <td scope="col" style="text-align:center;">Total Quantity of Bags in Non Compliance(Heavies)</td> 
+              <td colspan="3" style="text-align:center; width: 100px">${ record.Total_Quantity_of_Bags_in_Non_Compliance_H }</td>
+              <td scope="col" style="text-align:center;">Total Quantity of Bags in Non Compliance(Lights)</td>
+              <td colspan="3" style="text-align:center; width: 100px">${ record.Total_Quantity_of_Bags_in_Non_Compliance_L }</td>
+                </tr>
+                <tr>
+                    <td>Total Weight (lbs) of Nutmeg in Non Compliance(Heavies)</td>
+                    <td colspan="3" style="text-align:center; width: 100px">${record.Total_Weight_of_Nutmeg_in_Non_Compliance_H}</td>
+        
+        
+        
+         
+                    <td>Total Weight (lbs) of Nutmeg in Non Compliance(Lights)</td>
+                    <td colspan="3" style="text-align:center; width: 100px">${record.Total_Weight_of_Nutmeg_in_Non_Compliance_L}</td>
+        
+                </tr>
+        
+        
+        
+        
+                <tr >
+              <td scope="col" style="text-align:center;">Additional Drying Period</td> 
+              <td colspan="3" style="text-align:center; width: 100px">${ record.Additional_Drying_Period_days_H }</td>
+              <td scope="col" style="text-align:center;">Additional Drying Period</td>
+              <td colspan="3" style="text-align:center; width: 100px">${ record.Additional_Drying_Period_days_L }</td>
+                </tr>
+         
+        
+        
+                 <tr > 
+                    <td colspan="1">Total Weight(Heavies)</td>
+                    <td colspan="1" style="text-align:center; width: 100px">${record.Total_Weight_H}</td>
+                    <td colspan="1">Initial Sample Weight(Heavies)</td>
+                    <td colspan="1" style="text-align:center; width: 100px">${record.Initial_Sample_Weight_H}</td>
+        
+                    <td colspan="1">Total Weight(Light)</td>
+                    <td colspan="1" style="text-align:center; width: 100px">${record.Total_Weight_L}</td>
+                    <td colspan="1">Initial Sample Weight(Light)</td>
+                    <td colspan="1"style="text-align:center; width: 100px">${record.Initial_Sample_Weight_L}</td>
+                </tr>
+            </table>
+        
+        
+            <table>
+        
+        
+        
+        
+        
+            </table>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+          <table>
+                <tr>
+        
+                    <th colspan="8" class="main-header">Weight (oz/lbs)</th>
+                 </tr>
+                <tr>
+              <th colspan="4" style="text-align:center;">Heavies</th> 
+              <th colspan="4" style="text-align:center; ">Lights</td>
+        
+        
+                </tr>
+                <tr>
+                    <td scope="col" style="text-align:center; width: 100px">Insect Damaged </td>
+                    <td scope="col" style="text-align:center; width: 100px">Broken</td>
+                    <td scope="col" style="text-align:center; width: 100px">Mould</td>
+        
+                    <!-- <td scope="col" style="text-align:center; width: 100px">${record.Initial_Sample_Weight_L}</td> -->
+        
+                    <td></td>
+                    <td></td>
+        
+                    <td scope="col" style="text-align:center; width: 100px">Insect Damaged </td>
+                    <td scope="col" style="text-align:center; width: 100px">Broken</td>
+                    <td scope="col" style="text-align:center; width: 100px">Mould</td>
+        
+        
+                </tr>
+        
+        
+        
+                <tr>
+                    <td scope="col" style="text-align:center; width: 100px">${record.Insect_Damaged_H} </td>
+                    <td scope="col" style="text-align:center; width: 100px">${record.Broken_H}</td>
+                    <td scope="col" style="text-align:center; width: 100px">${record.Mould_H}</td>
+        
+                    <!-- <td scope="col" style="text-align:center; width: 100px">${record.Initial_Sample_Weight_L}</td> -->
+        
+                    <td></td>
+                    <td></td>
+                    
+                    <td scope="col" style="text-align:center; width: 100px">${record.Insect_Damaged_L} </td>
+                    <td scope="col" style="text-align:center; width: 100px">${record.Broken_L}</td>
+                    <td scope="col" style="text-align:center; width: 100px">${record.Mould_L}</td>
+        
+        
+                </tr>
+        
+              <tr>
+                    <td scope="col" style="text-align:center; width: 100px">Final Sample Weight (Heavies) </td>
+                    <td colspan="2" style="text-align:center; width: 100px">${record.Final_Sample_Weight_H}</td>
+        
+        
+                    <!-- <td scope="col" style="text-align:center; width: 100px">${record.Initial_Sample_Weight_L}</td> -->
+        
+                    <td></td>
+                    <td></td>
+                    
+                    <td scope="col" style="text-align:center; width: 100px">Final Sample Weight (Lights) </td>
+                    <td colspan="2" style="text-align:center; width: 100px">${record.Final_Sample_Weight_L}</td>
+        
+        
+        
+                </tr>
+        
+        
+        
+        </table>
+        
+        
+        
+          <table>
+        
+              
+                <tr>
+        
+                    <td colspan="8" class="main-header">MOISTURE CONTENT RESULTS (%)</td>
+                 </tr>
+        
+        
+                <tr>
+              <td colspan="4" style="text-align:center;">CRITERIA</td> 
+              <td colspan="4" style="text-align:center; "><10%</td>
+        
+        
+                </tr>
+        
+        
+                <tr>
+              <td colspan="4" style="text-align:center;">Heavies</td> 
+              <td colspan="4" style="text-align:center; ">Lights</td>
+        
+                </tr>
+        
+        
+        
+                <tr>
+                    <td scope="col" style="text-align:center; width: 100px">READING 1 </td>
+                    <td scope="col" style="text-align:center; width: 100px">READING 2</td>
+                    <td scope="col" style="text-align:center; width: 100px">READING 3</td>
+                    <td scope="col" style="text-align:center; width: 100px">Average</td>
+        
+        
+        
+                    
+                    <td scope="col" style="text-align:center; width: 100px">READING 1 </td>
+                    <td scope="col" style="text-align:center; width: 100px">READING 2</td>
+                    <td scope="col" style="text-align:center; width: 100px">READING 3</td>
+                    <td scope="col">Average</td>
+        
+        
+                </tr>
+        
+        
+        
+                <tr>
+                    <td scope="col" style="text-align:center; width: 100px">${record.READING_1_H} </td>
+                    <td scope="col" style="text-align:center; width: 100px">${record.READING_2_H}</td>
+                    <td scope="col" style="text-align:center; width: 100px">${record.READING_3_H}</td>
+                    <td scope="col" style="text-align:center; width: 100px">${record.AVERAGE_H}</td>
+        
+        
+        
+                    
+                    <td scope="col" style="text-align:center; width: 100px">${record.READING_1_L} </td>
+                    <td scope="col" style="text-align:center; width: 100px">${record.READING_2_L} </td>
+                    <td scope="col" style="text-align:center; width: 100px">${record.READING_3_L}</td>
+                    <td scope="col" style="text-align:center; width: 100px">${record.AVERAGE_L}</td>
+        
+        
+                </tr>
+        
+        
+        
+                <tr>
+              <td colspan="1" style="text-align:center;">DECISION (Pass/Fail)</td> 
+              <td colspan="3" style="text-align:center;">${record.DECISION_H}</td> 
+        
+        
+              <td colspan="1" style="text-align:center; ">DECISION (Pass/Fail)</td>
+              <td colspan="3" style="text-align:center;">${record.DECISION_L}</td> 
+        
+                </tr>
+        
+        
+        
+                <tr>
+                    <td scope="col" style="text-align:center; width: 100px">Test Performed by</td>
+                    <td scope="col" style="text-align:center; width: 100px">${record.TEST_PERFORMED_BY_H}</td>
+                    <td scope="col" style="text-align:center; width: 100px">Date</td>
+                    <td scope="col" style="text-align:center; width: 100px">${record.DATE_H}</td>
+        
+        
+        
+                    <td scope="col" style="text-align:center; width: 100px">Test Performed by </td>
+                    <td scope="col" style="text-align:center; width: 100px">${record.TEST_PERFORMED_BY_L}</td>
+                    <td scope="col" style="text-align:center; width: 100px">Date</td>
+                    <td scope="col" style="text-align:center; width: 100px">${record.DATE_L}</td>
+        
+        
+                </tr>
+        
+        
+        
+                <tr>
+                    <td scope="col" style="text-align:center; width: 100px">Approved By </td>
+                    <td colspan="2" style="text-align:center; width: 100px">${record.SIGNED_BY}</td>
+        
+        
+                    
+                    <td></td>
+                    <td></td>
+                    
+                    <td scope="col" style="text-align:center; width: 100px">Date Of Report</td>
+                    <td colspan="2" style="text-align:center; width: 100px">${record.DATE_OF_REPORT}</td>
+        
+        
+                </tr>
+        
+        
+        
+        
+                <tr>
+                    <td scope="col" style="text-align:center; width: 100px">SIGNED BY Quality Assurance Officer</td>
+                    <td colspan="2" style="text-align:center; width: 100px">${record.SIGNED_BY_Quality_Assurance_Officer}</td>
+        
+        
+                    <td></td>
+                    <td></td>
+                    
+                    <td scope="col" style="text-align:center; width: 100px">Date</td>
+                    <td colspan="2" style="text-align:center; width: 100px">${record.DATE}</td>
+        
+        
+                </tr>
+        
+        
+            </table>
+        
+        
+            <button class="btn btn-danger" onclick="deleteEntry(${record.id})">Delete</button>
+            <button class="btn btn-primary" onclick="editEntry(${record.id})">Edit</button>        
+                <br>
+                <br>
+
+                `;
+                        landInfoDataDiv.appendChild(entryDiv);
+                        
+                    });
+                };
+            };
+    // Function to delete a record based on ID
+    function deleteEntry(id) {
+        let db = indexedDB.open("GCNA");
+
+        db.onsuccess = function (event) {
+            let transaction = event.target.result.transaction("FloatB", "readwrite");
+            let landInfoStore = transaction.objectStore("FloatB");
+
+            let deleteRequest = landInfoStore.delete(id);
+
+            deleteRequest.onsuccess = function () {
+                console.log(`Record with ID ${id} deleted.`);
+                // You might want to refresh your display here.
+            };
+
+            deleteRequest.onerror = function () {
+                console.log(`Failed to delete record with ID ${id}.`);
+            };
+        };
+
+        db.onerror = function () {
+            console.log("Failed to open database.");
+        };
+    }
+
+    // Function to edit a record based on ID
+    function editEntry(id) {
+        event.preventDefault(); // Prevent form submission and page reload
+
+        // Open the GCNA database
+        let openRequest = indexedDB.open("GCNA");
+
+        openRequest.onsuccess = function (event) {
+            let db = event.target.result;
+
+            // Open a new transaction to read from the FloatB store
+            let transaction = db.transaction("FloatB", "readwrite");
+            let landInfoStore = transaction.objectStore("FloatB");
+
+            // Get the record with the specified ID
+            let getRequest = landInfoStore.get(id);
+
+            getRequest.onsuccess = function (event) {
+                let record = event.target.result;
+
+                // Generate the form fields dynamically based on the record properties
+                let formFieldsHTML = '';
+                for (let property in record) {
+                    if (record.hasOwnProperty(property) && property !== 'id') {
+                        formFieldsHTML += `
+                            <label for="${property}">${property}:</label>
+                            <input type="text" id="${property}" name="${property}" value="${record[property]}"> <br>
+                        `;
+                    }
+                }
+
+                // Create an edit form and populate it with the generated fields
+                const editFormContainer = document.getElementById('editFormContainer');
+                editFormContainer.innerHTML = `
+                    <form id="editForm">
+                        ${formFieldsHTML}
+                        <button type="button" id="saveButton">Save</button>
+                        <button type="button" id="closeButton">Close</button>
+                    </form>
+                `;
+
+                // Add an event listener to the "Save" button to save changes
+                const saveButton = document.getElementById('saveButton');
+                saveButton.addEventListener('click', function () {
+                    // Open a new transaction to update the record
+                    let updateTransaction = db.transaction("FloatB", "readwrite");
+                    let landInfoStoreToUpdate = updateTransaction.objectStore("FloatB");
+
+                    // Update the record with the new data
+                    for (let property in record) {
+                        if (record.hasOwnProperty(property) && property !== 'id') {
+                            record[property] = document.getElementById(property).value;
+                        }
+                    }
+
+                    // Put the updated record back into the store
+                    let putRequest = landInfoStoreToUpdate.put(record);
+
+                    putRequest.onsuccess = function () {
+                        console.log('Record updated successfully');
+                    };
+
+                    putRequest.onerror = function (event) {
+                        console.error('Error updating record:', event.target.error);
+                    };
+
+                    // Complete the transaction
+                    updateTransaction.oncomplete = function () {
+                        console.log('Transaction completed');
+                        // You might want to refresh your display here.
+                    };
+                });
+
+                // Add an event listener to the "Close" button to hide the form
+                const closeButton = document.getElementById('closeButton');
+                closeButton.addEventListener('click', function () {
+                    editFormContainer.innerHTML = ''; // Clear the edit form
+                });
+            };
+
+            getRequest.onerror = function (event) {
+                console.error('Error getting record:', event.target.error);
+            };
+        };
+
+        openRequest.onerror = function (event) {
+            console.error('Error opening database:', event.target.error);
+        };
+    }
+</script> {% endcomment %}
+
+
+
+
+
+
+{% comment %} 
+
+
+
+
+
+<div id="landInfoData"></div>
+
+
+
+<script>
+    let openRequest = indexedDB.open("GCNA");
+    let fieldBlacklist = [];
+    const fieldBlacklistConfig = {
+        'DATE_OF_SAMPLING': true, // Set to true to blacklist if null or empty
+        'DECISION': true,
+        'Quantity_of_Bags': true,
+        
+        // Add more fields as needed
+    };
+
+    openRequest.onsuccess = function (event) {
+        let db = event.target.result;
+        let transaction = db.transaction("FloatB", "readonly");
+        let landInfoStore = transaction.objectStore("FloatB");
+        let getAllRequest = landInfoStore.getAll();
+
+        getAllRequest.onsuccess = function (event) {
+            let landInfoRecords = event.target.result;
+            let landInfoDataDiv = document.getElementById('landInfoData');
+
+            landInfoRecords.forEach(record => {
+                let entryContainer = document.createElement("div");
+                entryContainer.id = `entryContainer_${record.id}`;
+                entryContainer.innerHTML = `
+
+
+                <form  style=" background-color: #e4e4e4;
+
+                margin: 1px auto;
+                font-family: Raleway;
+                padding: 10px;
+                width: 95%;
+                min-width: 300px;
+                border-radius: 10px;
+                box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">
+            
+            
+                <div class="card">
+             
+              <div class="card-body">
+            
+              </h5>
+                <p class="card-text">
+                    <table id="vertical-1" class="table table-hover table-light">
+            <p>Test</p>
+            
+            <h6>Document No. GCNA-R-02</h6>
+            <h6>Document Title: Moisture Analysis in Floated Nutmeg</h6>
+            <h6>Date Issued: 2023-07-03</h6>
+            <h6>Version: 1</h6>
+                <h5>Section B</h5>
+                    {% csrf_token %}
+                <h4>Corrective Action for Floating Nutmeg Above 10% Moisture Content</h4>
+            
+            
+            
+            
+            
+                   <tr>
+    
+            
+            
+            
+            <table class="table">
+              <thead>
+                <tr>
+            
+                  <th scope="col" style="text-align:center;">DATE OF SAMPLING (Heavies)</th> 
+                  <th scope="col" style="text-align:center;">DATE OF SAMPLING (Lights)</th>
+                  <th scope="col" style="text-align:center;">Station</th>
+                 </tr>
+              </thead>
+              <tbody>
+                <tr>
+            
+                        <td>${ record.DATE_OF_SAMPLING_H }</td>
+                        <td>${ record.DATE_OF_SAMPLING_L }</td>
+                        <td>${ record.STATION }</td>
+            
+            
+                </tr>
+            
+              </tbody>
+            </table>
+            
+            
+            <br>
+            
+            
+                <table table style="width:10px;">
+            
+                    <tr>
+                        <th colspan="4" class="main-header">HEAVIES</th>
+                        <th colspan="4" class="main-header">LIGHTS</th>
+                    </tr>
+                    <tr>
+                  <td scope="col" style="text-align:center;">Total Quantity of Bags in Non Compliance(Heavies)</td> 
+                  <td colspan="3" style="text-align:center; width: 100px">${ record.Total_Quantity_of_Bags_in_Non_Compliance_H }</td>
+                  <td scope="col" style="text-align:center;">Total Quantity of Bags in Non Compliance(Lights)</td>
+                  <td colspan="3" style="text-align:center; width: 100px">${ record.Total_Quantity_of_Bags_in_Non_Compliance_L }</td>
+                    </tr>
+                    <tr>
+                        <td>Total Weight (lbs) of Nutmeg in Non Compliance(Heavies)</td>
+                        <td colspan="3" style="text-align:center; width: 100px">${record.Total_Weight_of_Nutmeg_in_Non_Compliance_H}</td>
+            
+            
+            
+             
+                        <td>Total Weight (lbs) of Nutmeg in Non Compliance(Lights)</td>
+                        <td colspan="3" style="text-align:center; width: 100px">${record.Total_Weight_of_Nutmeg_in_Non_Compliance_L}</td>
+            
+                    </tr>
+            
+            
+            
+            
+                    <tr >
+                  <td scope="col" style="text-align:center;">Additional Drying Period</td> 
+                  <td colspan="3" style="text-align:center; width: 100px">${ record.Additional_Drying_Period_days_H }</td>
+                  <td scope="col" style="text-align:center;">Additional Drying Period</td>
+                  <td colspan="3" style="text-align:center; width: 100px">${ record.Additional_Drying_Period_days_L }</td>
+                    </tr>
+             
+            
+            
+                     <tr > 
+                        <td colspan="1">Total Weight(Heavies)</td>
+                        <td colspan="1" style="text-align:center; width: 100px">${record.Total_Weight_H}</td>
+                        <td colspan="1">Initial Sample Weight(Heavies)</td>
+                        <td colspan="1" style="text-align:center; width: 100px">${record.Initial_Sample_Weight_H}</td>
+            
+                        <td colspan="1">Total Weight(Light)</td>
+                        <td colspan="1" style="text-align:center; width: 100px">${record.Total_Weight_L}</td>
+                        <td colspan="1">Initial Sample Weight(Light)</td>
+                        <td colspan="1"style="text-align:center; width: 100px">${record.Initial_Sample_Weight_L}</td>
+                    </tr>
+                </table>
+            
+            
+                <table>
+            
+            
+            
+            
+            
+                </table>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+              <table>
+                    <tr>
+            
+                        <th colspan="8" class="main-header">Weight (oz/lbs)</th>
+                     </tr>
+                    <tr>
+                  <th colspan="4" style="text-align:center;">Heavies</th> 
+                  <th colspan="4" style="text-align:center; ">Lights</td>
+            
+            
+                    </tr>
+                    <tr>
+                        <td scope="col" style="text-align:center; width: 100px">Insect Damaged </td>
+                        <td scope="col" style="text-align:center; width: 100px">Broken</td>
+                        <td scope="col" style="text-align:center; width: 100px">Mould</td>
+            
+                        <!-- <td scope="col" style="text-align:center; width: 100px">${record.Initial_Sample_Weight_L}</td> -->
+            
+                        <td></td>
+                        <td></td>
+            
+                        <td scope="col" style="text-align:center; width: 100px">Insect Damaged </td>
+                        <td scope="col" style="text-align:center; width: 100px">Broken</td>
+                        <td scope="col" style="text-align:center; width: 100px">Mould</td>
+            
+            
+                    </tr>
+            
+            
+            
+                    <tr>
+                        <td scope="col" style="text-align:center; width: 100px">${record.Insect_Damaged_H} </td>
+                        <td scope="col" style="text-align:center; width: 100px">${record.Broken_H}</td>
+                        <td scope="col" style="text-align:center; width: 100px">${record.Mould_H}</td>
+            
+                        <!-- <td scope="col" style="text-align:center; width: 100px">${record.Initial_Sample_Weight_L}</td> -->
+            
+                        <td></td>
+                        <td></td>
+                        
+                        <td scope="col" style="text-align:center; width: 100px">${record.Insect_Damaged_L} </td>
+                        <td scope="col" style="text-align:center; width: 100px">${record.Broken_L}</td>
+                        <td scope="col" style="text-align:center; width: 100px">${record.Mould_L}</td>
+            
+            
+                    </tr>
+            
+                  <tr>
+                        <td scope="col" style="text-align:center; width: 100px">Final Sample Weight (Heavies) </td>
+                        <td colspan="2" style="text-align:center; width: 100px">${record.Final_Sample_Weight_H}</td>
+            
+            
+                        <!-- <td scope="col" style="text-align:center; width: 100px">${record.Initial_Sample_Weight_L}</td> -->
+            
+                        <td></td>
+                        <td></td>
+                        
+                        <td scope="col" style="text-align:center; width: 100px">Final Sample Weight (Lights) </td>
+                        <td colspan="2" style="text-align:center; width: 100px">${record.Final_Sample_Weight_L}</td>
+            
+            
+            
+                    </tr>
+            
+            
+            
+            </table>
+            
+            
+            
+              <table>
+            
+                  
+                    <tr>
+            
+                        <td colspan="8" class="main-header">MOISTURE CONTENT RESULTS (%)</td>
+                     </tr>
+            
+            
+                    <tr>
+                  <td colspan="4" style="text-align:center;">CRITERIA</td> 
+                  <td colspan="4" style="text-align:center; "><10%</td>
+            
+            
+                    </tr>
+            
+            
+                    <tr>
+                  <td colspan="4" style="text-align:center;">Heavies</td> 
+                  <td colspan="4" style="text-align:center; ">Lights</td>
+            
+                    </tr>
+            
+            
+            
+                    <tr>
+                        <td scope="col" style="text-align:center; width: 100px">READING 1 </td>
+                        <td scope="col" style="text-align:center; width: 100px">READING 2</td>
+                        <td scope="col" style="text-align:center; width: 100px">READING 3</td>
+                        <td scope="col" style="text-align:center; width: 100px">Average</td>
+            
+            
+            
+                        
+                        <td scope="col" style="text-align:center; width: 100px">READING 1 </td>
+                        <td scope="col" style="text-align:center; width: 100px">READING 2</td>
+                        <td scope="col" style="text-align:center; width: 100px">READING 3</td>
+                        <td scope="col">Average</td>
+            
+            
+                    </tr>
+            
+            
+            
+                    <tr>
+                        <td scope="col" style="text-align:center; width: 100px">${record.READING_1_H} </td>
+                        <td scope="col" style="text-align:center; width: 100px">${record.READING_2_H}</td>
+                        <td scope="col" style="text-align:center; width: 100px">${record.READING_3_H}</td>
+                        <td scope="col" style="text-align:center; width: 100px">${record.AVERAGE_H}</td>
+            
+            
+            
+                        
+                        <td scope="col" style="text-align:center; width: 100px">${record.READING_1_L} </td>
+                        <td scope="col" style="text-align:center; width: 100px">${record.READING_2_L} </td>
+                        <td scope="col" style="text-align:center; width: 100px">${record.READING_3_L}</td>
+                        <td scope="col" style="text-align:center; width: 100px">${record.AVERAGE_L}</td>
+            
+            
+                    </tr>
+            
+            
+            
+                    <tr>
+                  <td colspan="1" style="text-align:center;">DECISION (Pass/Fail)</td> 
+                  <td colspan="3" style="text-align:center;">${record.DECISION_H}</td> 
+            
+            
+                  <td colspan="1" style="text-align:center; ">DECISION (Pass/Fail)</td>
+                  <td colspan="3" style="text-align:center;">${record.DECISION_L}</td> 
+            
+                    </tr>
+            
+            
+            
+                    <tr>
+                        <td scope="col" style="text-align:center; width: 100px">Test Performed by</td>
+                        <td scope="col" style="text-align:center; width: 100px">${record.TEST_PERFORMED_BY_H}</td>
+                        <td scope="col" style="text-align:center; width: 100px">Date</td>
+                        <td scope="col" style="text-align:center; width: 100px">${record.DATE_H}</td>
+            
+            
+            
+                        <td scope="col" style="text-align:center; width: 100px">Test Performed by </td>
+                        <td scope="col" style="text-align:center; width: 100px">${record.TEST_PERFORMED_BY_L}</td>
+                        <td scope="col" style="text-align:center; width: 100px">Date</td>
+                        <td scope="col" style="text-align:center; width: 100px">${record.DATE_L}</td>
+            
+            
+                    </tr>
+            
+            
+            
+                    <tr>
+                        <td scope="col" style="text-align:center; width: 100px">Approved By </td>
+                        <td colspan="2" style="text-align:center; width: 100px">${record.SIGNED_BY}</td>
+            
+            
+                        
+                        <td></td>
+                        <td></td>
+                        
+                        <td scope="col" style="text-align:center; width: 100px">Date Of Report</td>
+                        <td colspan="2" style="text-align:center; width: 100px">${record.DATE_OF_REPORT}</td>
+            
+            
+                    </tr>
+            -
+            
+            
+            
+                    <tr>
+                        <td scope="col" style="text-align:center; width: 100px">SIGNED BY Quality Assurance Officer</td>
+                        <td colspan="2" style="text-align:center; width: 100px">${record.SIGNED_BY_Quality_Assurance_Officer}</td>
+            
+            
+                        <td></td>
+                        <td></td>
+                        
+                        <td scope="col" style="text-align:center; width: 100px">Date</td>
+                        <td colspan="2" style="text-align:center; width: 100px">${record.DATE}</td>
+            
+            
+                    </tr>
+            
+            
+                </table>
+                                         <button class="btn btn-danger" onclick="deleteEntry(${record.id})">Delete</button>
+                             <button class="btn btn-primary" onclick="toggleEditForm(${record.id})">Edit</button>
+                             <div id="editForm_${record.id}" style="display:none;">
+                                 <!-- Edit form will be generated here -->
+                             </div>
+                         </div>
+                     </div>
+                     <br> <br> <br>
+                 `;
+                landInfoDataDiv.appendChild(entryContainer);
+
+                let editFormContainer = document.getElementById(`editForm_${record.id}`);
+                generateEditForm(editFormContainer, record);
+            });
+        };
+    };
+
+    function generateEditForm(container, record) {
+        let fieldConfig = {
+            'DATE_OF_SAMPLING': 'date',
+            'DECISION': 'select',
+            'Quantity_of_Bags': 'number',
+            // Add more fields with their respective form types
+        };
+    
+        let formFieldsHTML = '';
+        for (let property in record) {
+            if (record.hasOwnProperty(property) && property !== 'id') {
+                let inputType = 'text'; // Default to text input type
+                if (fieldConfig[property]) {
+                    inputType = fieldConfig[property];
+                }
+    
+                // Check if the field value is null or an empty string and should be blacklisted
+                if (fieldBlacklistConfig[property] && (record[property] === null || record[property] === '')) {
+                    fieldBlacklist.push(property);
+                }
+    
+                // Include the field in the form if it's not in the blacklist
+                if (!fieldBlacklist.includes(property)) {
+                    // Convert property name to human-readable format
+                    let label = property.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+    
+                    formFieldsHTML += `
+                        <label for="${property}_${record.id}">${label}:</label>
+                        <input type="${inputType}" id="${property}_${record.id}" name="${property}" value="${record[property]}" class="form-control"> <br>
+                    `;
+                }
+            }
+        }
+    
+        container.innerHTML = `
+            <form id="editForm">
+                ${formFieldsHTML}
+                <button type="button" id="saveButton" onclick="saveEditedForm(${record.id})">Save</button>
+                <button type="button" id="closeButton" onclick="hideEditForm(${record.id})">Close</button>
+            </form>
+        `;
+    }
+
+    function toggleEditForm(id) {
+        let editFormContainer = document.getElementById(`editForm_${id}`);
+        if (editFormContainer.style.display === 'none') {
+            showEditForm(id);
+        } else {
+            hideEditForm(id);
+        }
+    }
+
+    function showEditForm(id) {
+        let editFormContainer = document.getElementById(`editForm_${id}`);
+        editFormContainer.style.display = "block";
+    }
+
+    function hideEditForm(id) {
+        let editFormContainer = document.getElementById(`editForm_${id}`);
+        editFormContainer.style.display = "none";
+    }
+
+    function saveEditedForm(id) {
+        let openRequest = indexedDB.open("GCNA");
+
+        openRequest.onsuccess = function (event) {
+            let db = event.target.result;
+            let transaction = db.transaction("FloatB", "readwrite");
+            let landInfoStore = transaction.objectStore("FloatB");
+            let getRequest = landInfoStore.get(id);
+
+            getRequest.onsuccess = function (event) {
+                let record = event.target.result;
+
+                for (let property in record) {
+                    if (record.hasOwnProperty(property) && property !== 'id') {
+                        const inputElement = document.getElementById(`${property}_${id}`);
+                        if (inputElement) {
+                            record[property] = inputElement.value;
+                        }
+                    }
+                }
+
+                let putRequest = landInfoStore.put(record);
+
+                putRequest.onsuccess = function () {
+                    console.log('Record updated successfully');
+                    hideEditForm(id, document.getElementById(`hiddenButton_${id}`));
+                };
+
+                putRequest.onerror = function (event) {
+                    console.error('Error updating record:', event.target.error);
+                };
+            };
+
+            getRequest.onerror = function (event) {
+                console.error('Error getting record:', event.target.error);
+            };
+        };
+
+        openRequest.onerror = function (event) {
+            console.error('Error opening database:', event.target.error);
+        };
+    }
+</script> {% endcomment %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7; /* Adjusted background color */
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .card {
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        h4 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            font-weight: bold;
+            color: #555;
+        }
+
+        td {
+            color: #777;
+        }
+
+        button {
+            cursor: pointer;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Form Styles */
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input[type="text"], input[type="number"], select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+            color: #333;
+            outline: none;
+        }
+
+        #saveButton, #closeButton {
+            margin-top: 10px;
+            background-color: #28a745;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #closeButton {
+            background-color: #dc3545;
+            margin-left: 10px;
+        }
+
+        /* Responsive Styles */
+        @media screen and (max-width: 768px) {
+            .container {
+                max-width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div id="landInfoData"></div>
+</div>
+
+
+<script>
+    let openRequest = indexedDB.open("GCNA");
+    let fieldBlacklist = [];
+    const fieldBlacklistConfig = {
+        'DATE_OF_SAMPLING': true, // Set to true to blacklist if null or empty
+        'DECISION': true,
+        'Quantity_of_Bags': true,
+        
+        // Add more fields as needed
+    };
+
+    openRequest.onsuccess = function (event) {
+        let db = event.target.result;
+        let transaction = db.transaction("FloatB", "readonly");
+        let landInfoStore = transaction.objectStore("FloatB");
+        let getAllRequest = landInfoStore.getAll();
+
+        getAllRequest.onsuccess = function (event) {
+            let landInfoRecords = event.target.result;
+            let landInfoDataDiv = document.getElementById('landInfoData');
+
+            landInfoRecords.forEach(record => {
+                let entryContainer = document.createElement("div");
+                entryContainer.id = `entryContainer_${record.id}`;
+                entryContainer.innerHTML = `
+                <form  style=" background-color: #e4e4e4;
+
+                margin: 1px auto;
+                font-family: Raleway;
+                padding: 10px;
+                width: 95%;
+                min-width: 300px;
+                border-radius: 10px;
+                box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">
+            
+            
+                <div class="card">
+             
+              <div class="card-body">
+            
+              </h5>
+                <p class="card-text">
+                    <table id="vertical-1" class="table table-hover table-light">
+            <p>Test</p>
+            
+            <h6>Document No. GCNA-R-02</h6>
+            <h6>Document Title: Moisture Analysis in Floated Nutmeg</h6>
+            <h6>Date Issued: 2023-07-03</h6>
+            <h6>Version: 1</h6>
+                <h5>Section B</h5>
+                    {% csrf_token %}
+                <h4>Corrective Action for Floating Nutmeg Above 10% Moisture Content</h4>
+            
+            
+            
+            
+            
+                   <tr>
+    
+            
+            
+            
+            <table class="table">
+              <thead>
+                <tr>
+            
+                  <th scope="col" style="text-align:center;">DATE OF SAMPLING (Heavies)</th> 
+                  <th scope="col" style="text-align:center;">DATE OF SAMPLING (Lights)</th>
+                  <th scope="col" style="text-align:center;">Station</th>
+                 </tr>
+              </thead>
+              <tbody>
+                <tr>
+            
+                        <td>${ record.DATE_OF_SAMPLING_H }</td>
+                        <td>${ record.DATE_OF_SAMPLING_L }</td>
+                        <td>${ record.STATION }</td>
+            
+            
+                </tr>
+            
+              </tbody>
+            </table>
+            
+            
+            <br>
+            
+            
+                <table table style="width:10px;">
+            
+                    <tr>
+                        <th colspan="4" class="main-header">HEAVIES</th>
+                        <th colspan="4" class="main-header">LIGHTS</th>
+                    </tr>
+                    <tr>
+                  <td scope="col" style="text-align:center;">Total Quantity of Bags in Non Compliance(Heavies)</td> 
+                  <td colspan="3" style="text-align:center; width: 100px">${ record.Total_Quantity_of_Bags_in_Non_Compliance_H }</td>
+                  <td scope="col" style="text-align:center;">Total Quantity of Bags in Non Compliance(Lights)</td>
+                  <td colspan="3" style="text-align:center; width: 100px">${ record.Total_Quantity_of_Bags_in_Non_Compliance_L }</td>
+                    </tr>
+                    <tr>
+                        <td>Total Weight (lbs) of Nutmeg in Non Compliance(Heavies)</td>
+                        <td colspan="3" style="text-align:center; width: 100px">${record.Total_Weight_of_Nutmeg_in_Non_Compliance_H}</td>
+            
+            
+            
+             
+                        <td>Total Weight (lbs) of Nutmeg in Non Compliance(Lights)</td>
+                        <td colspan="3" style="text-align:center; width: 100px">${record.Total_Weight_of_Nutmeg_in_Non_Compliance_L}</td>
+            
+                    </tr>
+            
+            
+            
+            
+                    <tr >
+                  <td scope="col" style="text-align:center;">Additional Drying Period</td> 
+                  <td colspan="3" style="text-align:center; width: 100px">${ record.Additional_Drying_Period_days_H }</td>
+                  <td scope="col" style="text-align:center;">Additional Drying Period</td>
+                  <td colspan="3" style="text-align:center; width: 100px">${ record.Additional_Drying_Period_days_L }</td>
+                    </tr>
+             
+            
+            
+                     <tr > 
+                        <td colspan="1">Total Weight(Heavies)</td>
+                        <td colspan="1" style="text-align:center; width: 100px">${record.Total_Weight_H}</td>
+                        <td colspan="1">Initial Sample Weight(Heavies)</td>
+                        <td colspan="1" style="text-align:center; width: 100px">${record.Initial_Sample_Weight_H}</td>
+            
+                        <td colspan="1">Total Weight(Light)</td>
+                        <td colspan="1" style="text-align:center; width: 100px">${record.Total_Weight_L}</td>
+                        <td colspan="1">Initial Sample Weight(Light)</td>
+                        <td colspan="1"style="text-align:center; width: 100px">${record.Initial_Sample_Weight_L}</td>
+                    </tr>
+                </table>
+            
+            
+                <table>
+            
+            
+            
+            
+            
+                </table>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+              <table>
+                    <tr>
+            
+                        <th colspan="8" class="main-header">Weight (oz/lbs)</th>
+                     </tr>
+                    <tr>
+                  <th colspan="4" style="text-align:center;">Heavies</th> 
+                  <th colspan="4" style="text-align:center; ">Lights</td>
+            
+            
+                    </tr>
+                    <tr>
+                        <td scope="col" style="text-align:center; width: 100px">Insect Damaged </td>
+                        <td scope="col" style="text-align:center; width: 100px">Broken</td>
+                        <td scope="col" style="text-align:center; width: 100px">Mould</td>
+            
+                        <!-- <td scope="col" style="text-align:center; width: 100px">${record.Initial_Sample_Weight_L}</td> -->
+            
+                        <td></td>
+                        <td></td>
+            
+                        <td scope="col" style="text-align:center; width: 100px">Insect Damaged </td>
+                        <td scope="col" style="text-align:center; width: 100px">Broken</td>
+                        <td scope="col" style="text-align:center; width: 100px">Mould</td>
+            
+            
+                    </tr>
+            
+            
+            
+                    <tr>
+                        <td scope="col" style="text-align:center; width: 100px">${record.Insect_Damaged_H} </td>
+                        <td scope="col" style="text-align:center; width: 100px">${record.Broken_H}</td>
+                        <td scope="col" style="text-align:center; width: 100px">${record.Mould_H}</td>
+            
+                        <!-- <td scope="col" style="text-align:center; width: 100px">${record.Initial_Sample_Weight_L}</td> -->
+            
+                        <td></td>
+                        <td></td>
+                        
+                        <td scope="col" style="text-align:center; width: 100px">${record.Insect_Damaged_L} </td>
+                        <td scope="col" style="text-align:center; width: 100px">${record.Broken_L}</td>
+                        <td scope="col" style="text-align:center; width: 100px">${record.Mould_L}</td>
+            
+            
+                    </tr>
+            
+                  <tr>
+                        <td scope="col" style="text-align:center; width: 100px">Final Sample Weight (Heavies) </td>
+                        <td colspan="2" style="text-align:center; width: 100px">${record.Final_Sample_Weight_H}</td>
+            
+            
+                        <!-- <td scope="col" style="text-align:center; width: 100px">${record.Initial_Sample_Weight_L}</td> -->
+            
+                        <td></td>
+                        <td></td>
+                        
+                        <td scope="col" style="text-align:center; width: 100px">Final Sample Weight (Lights) </td>
+                        <td colspan="2" style="text-align:center; width: 100px">${record.Final_Sample_Weight_L}</td>
+            
+            
+            
+                    </tr>
+            
+            
+            
+            </table>
+            
+            
+            
+              <table>
+            
+                  
+                    <tr>
+            
+                        <td colspan="8" class="main-header">MOISTURE CONTENT RESULTS (%)</td>
+                     </tr>
+            
+            
+                    <tr>
+                  <td colspan="4" style="text-align:center;">CRITERIA</td> 
+                  <td colspan="4" style="text-align:center; "><10%</td>
+            
+            
+                    </tr>
+            
+            
+                    <tr>
+                  <td colspan="4" style="text-align:center;">Heavies</td> 
+                  <td colspan="4" style="text-align:center; ">Lights</td>
+            
+                    </tr>
+            
+            
+            
+                    <tr>
+                        <td scope="col" style="text-align:center; width: 100px">READING 1 </td>
+                        <td scope="col" style="text-align:center; width: 100px">READING 2</td>
+                        <td scope="col" style="text-align:center; width: 100px">READING 3</td>
+                        <td scope="col" style="text-align:center; width: 100px">Average</td>
+            
+            
+            
+                        
+                        <td scope="col" style="text-align:center; width: 100px">READING 1 </td>
+                        <td scope="col" style="text-align:center; width: 100px">READING 2</td>
+                        <td scope="col" style="text-align:center; width: 100px">READING 3</td>
+                        <td scope="col">Average</td>
+            
+            
+                    </tr>
+            
+            
+            
+                    <tr>
+                        <td scope="col" style="text-align:center; width: 100px">${record.READING_1_H} </td>
+                        <td scope="col" style="text-align:center; width: 100px">${record.READING_2_H}</td>
+                        <td scope="col" style="text-align:center; width: 100px">${record.READING_3_H}</td>
+                        <td scope="col" style="text-align:center; width: 100px">${record.AVERAGE_H}</td>
+            
+            
+            
+                        
+                        <td scope="col" style="text-align:center; width: 100px">${record.READING_1_L} </td>
+                        <td scope="col" style="text-align:center; width: 100px">${record.READING_2_L} </td>
+                        <td scope="col" style="text-align:center; width: 100px">${record.READING_3_L}</td>
+                        <td scope="col" style="text-align:center; width: 100px">${record.AVERAGE_L}</td>
+            
+            
+                    </tr>
+            
+            
+            
+                    <tr>
+                  <td colspan="1" style="text-align:center;">DECISION (Pass/Fail)</td> 
+                  <td colspan="3" style="text-align:center;">${record.DECISION_H}</td> 
+            
+            
+                  <td colspan="1" style="text-align:center; ">DECISION (Pass/Fail)</td>
+                  <td colspan="3" style="text-align:center;">${record.DECISION_L}</td> 
+            
+                    </tr>
+            
+            
+            
+                    <tr>
+                        <td scope="col" style="text-align:center; width: 100px">Test Performed by</td>
+                        <td scope="col" style="text-align:center; width: 100px">${record.TEST_PERFORMED_BY_H}</td>
+                        <td scope="col" style="text-align:center; width: 100px">Date</td>
+                        <td scope="col" style="text-align:center; width: 100px">${record.DATE_H}</td>
+            
+            
+            
+                        <td scope="col" style="text-align:center; width: 100px">Test Performed by </td>
+                        <td scope="col" style="text-align:center; width: 100px">${record.TEST_PERFORMED_BY_L}</td>
+                        <td scope="col" style="text-align:center; width: 100px">Date</td>
+                        <td scope="col" style="text-align:center; width: 100px">${record.DATE_L}</td>
+            
+            
+                    </tr>
+            
+            
+            
+                    <tr>
+                        <td scope="col" style="text-align:center; width: 100px">Approved By </td>
+                        <td colspan="2" style="text-align:center; width: 100px">${record.SIGNED_BY}</td>
+            
+            
+                        
+                        <td></td>
+                        <td></td>
+                        
+                        <td scope="col" style="text-align:center; width: 100px">Date Of Report</td>
+                        <td colspan="2" style="text-align:center; width: 100px">${record.DATE_OF_REPORT}</td>
+            
+            
+                    </tr>
+            
+            
+            
+            
+                    <tr>
+                        <td scope="col" style="text-align:center; width: 100px">SIGNED BY Quality Assurance Officer</td>
+                        <td colspan="2" style="text-align:center; width: 100px">${record.SIGNED_BY_Quality_Assurance_Officer}</td>
+            
+            
+                        <td></td>
+                        <td></td>
+                        
+                        <td scope="col" style="text-align:center; width: 100px">Date</td>
+                        <td colspan="2" style="text-align:center; width: 100px">${record.DATE}</td>
+            
+            
+                    </tr>
+            
+            
+                </table>
+            
+                         <!-- Your existing HTML code here -->
+                         <button class="btn btn-danger" onclick="deleteEntry(${record.id})">Delete</button>
+                        <!-- <button class="btn btn-primary" onclick="toggleEditForm(${record.id})">Edit</button> -->
+                         <div id="editForm_${record.id}" style="display:none;">
+                             <!-- Edit form will be generated here -->
+                         </div>
+                     </div>
+                 </div>
+                 <br> <br> <br>
+             `;
+            landInfoDataDiv.appendChild(entryContainer);
+
+            let editFormContainer = document.getElementById(`editForm_${record.id}`);
+            generateEditForm(editFormContainer, record);
+        });
+    };
+};
+
+    function generateEditForm(container, record) {
+        let fieldConfig = {
+            'DATE_OF_SAMPLING': 'date',
+            'DECISION': 'select',
+            'Quantity_of_Bags': 'number',
+            // Add more fields with their respective form types
+        };
+    
+        let formFieldsHTML = '';
+        for (let property in record) {
+            if (record.hasOwnProperty(property) && property !== 'id') {
+                let inputType = 'text'; // Default to text input type
+                if (fieldConfig[property]) {
+                    inputType = fieldConfig[property];
+                }
+    
+                // Check if the field value is null or an empty string and should be blacklisted
+                if (fieldBlacklistConfig[property] && (record[property] === null || record[property] === '')) {
+                    fieldBlacklist.push(property);
+                }
+    
+                // Include the field in the form if it's not in the blacklist
+                if (!fieldBlacklist.includes(property)) {
+                    // Convert property name to human-readable format
+                    let label = property.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+    
+                    formFieldsHTML += `
+                        <label for="${property}_${record.id}">${label}:</label>
+                        <input type="${inputType}" id="${property}_${record.id}" name="${property}" value="${record[property]}" class="form-control"> <br>
+                    `;
+                }
+            }
+        }
+    
+        container.innerHTML = `
+            <form id="editForm">
+                ${formFieldsHTML}
+                <button type="button" id="saveButton" onclick="saveEditedForm(${record.id})">Save</button>
+                <button type="button" id="closeButton" onclick="hideEditForm(${record.id})">Close</button>
+            </form>
+        `;
+    }
+
+    function toggleEditForm(id) {
+        let editFormContainer = document.getElementById(`editForm_${id}`);
+        if (editFormContainer.style.display === 'none') {
+            showEditForm(id);
+        } else {
+            hideEditForm(id);
+        }
+    }
+
+    function showEditForm(id) {
+        let editFormContainer = document.getElementById(`editForm_${id}`);
+        editFormContainer.style.display = "block";
+    }
+
+    function hideEditForm(id) {
+        let editFormContainer = document.getElementById(`editForm_${id}`);
+        editFormContainer.style.display = "none";
+    }
+
+    function saveEditedForm(id) {
+        let openRequest = indexedDB.open("GCNA");
+
+        openRequest.onsuccess = function (event) {
+            let db = event.target.result;
+            let transaction = db.transaction("FloatB", "readwrite");
+            let landInfoStore = transaction.objectStore("FloatB");
+            let getRequest = landInfoStore.get(id);
+
+            getRequest.onsuccess = function (event) {
+                let record = event.target.result;
+
+                for (let property in record) {
+                    if (record.hasOwnProperty(property) && property !== 'id') {
+                        const inputElement = document.getElementById(`${property}_${id}`);
+                        if (inputElement) {
+                            record[property] = inputElement.value;
+                        }
+                    }
+                }
+
+                let putRequest = landInfoStore.put(record);
+
+                putRequest.onsuccess = function () {
+                    console.log('Record updated successfully');
+                    hideEditForm(id, document.getElementById(`hiddenButton_${id}`));
+                };
+
+                putRequest.onerror = function (event) {
+                    console.error('Error updating record:', event.target.error);
+                };
+            };
+
+            getRequest.onerror = function (event) {
+                console.error('Error getting record:', event.target.error);
+            };
+        };
+
+        openRequest.onerror = function (event) {
+            console.error('Error opening database:', event.target.error);
+        };
+    }
+
+
+
+    function deleteEntry(id) {
+        let openRequest = indexedDB.open("GCNA");
+    
+        openRequest.onsuccess = function (event) {
+            let db = event.target.result;
+            let transaction = db.transaction("FloatB", "readwrite");
+            let landInfoStore = transaction.objectStore("FloatB");
+    
+            // Get the record to be deleted
+            let getRequest = landInfoStore.get(id);
+    
+            getRequest.onsuccess = function (event) {
+                let record = event.target.result;
+    
+                // Now, let's open the DELETED database and add the record there
+                let openDeletedRequest = indexedDB.open("DELETED");
+    
+                openDeletedRequest.onsuccess = function (event) {
+                    let deletedDB = event.target.result;
+                    let deletedTransaction = deletedDB.transaction("FloatB", "readwrite");
+                    let deletedStore = deletedTransaction.objectStore("FloatB");
+    
+                    // Add the record to the DELETED database
+                    let addRequest = deletedStore.add(record);
+    
+                    addRequest.onsuccess = function () {
+                        console.log(`Record with ID ${id} copied to DELETED database.`);
+                    };
+    
+                    addRequest.onerror = function () {
+                        console.log(`Failed to copy record with ID ${id} to DELETED database.`);
+                    };
+                };
+    
+                openDeletedRequest.onerror = function () {
+                    console.log("Failed to open DELETED database.");
+                };
+            };
+    
+            // Now, proceed with deleting the record from the original database
+            let deleteRequest = landInfoStore.delete(id);
+    
+            deleteRequest.onsuccess = function () {
+                console.log(`Record with ID ${id} deleted from GCNA database.`);
+                // You might want to refresh your display here.
+            };
+    
+            deleteRequest.onerror = function () {
+                console.log(`Failed to delete record with ID ${id} from GCNA database.`);
+            };
+        };
+    
+        openRequest.onerror = function () {
+            console.log("Failed to open GCNA database.");
+        };
+    }
+    
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+{% endblock %}
+
