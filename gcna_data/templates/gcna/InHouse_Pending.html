@@ -5,7 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     /* General Styles */
-    .hidden { display: none; }
+/*     .hidden { display: none; }*/
+#entryCheck { 
+    display: none;
+}
 
     body {
       font-family: Arial, sans-serif;
@@ -3037,11 +3040,7 @@
     // Call the function to execute the script
     processEntryCheck();
   </script> -->
-<script>
-  document.querySelectorAll('#entryCheck').forEach(cell => {
-      cell.classList.add('hidden');
-  });
-</script>
+
   
   {% endblock %}
 </body>
