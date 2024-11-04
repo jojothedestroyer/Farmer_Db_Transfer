@@ -412,6 +412,39 @@ self.addEventListener('install', (event) => {
     event.waitUntil(
         caches.open(CACHE_NAME).then((cache) => {
             return cache.addAll([
+                // '/',
+                // '/gcna00_1/',
+                // '/gcna00_2/',
+                // '/gcna00_3/',
+                // '/gcna00_4/',
+                // '/gcna00_5/',
+                // '/gcna00_6/',
+                // '/gcna00_7/',
+                // '/gcna00_8/',
+                // '/gcna00_9/',
+                // '/gcna00_10/',
+                // '/gcna00_11/',
+                // '/gcna00_12/',
+                // '/gcna00_13/',
+                // '/gcna00_14/',
+                // '/gcna00_15/',
+                // '/gcna00_16/',
+                // '/gcna00_17/',
+                // '/gcna00_18/',
+                // '/gcna00_19/',
+                // '/gcna00_20/',
+                // '/gcna00_21/',
+                // '/gcna00_22/',
+                // '/gcna00_23/',
+                // '/gcna00_24/',
+                // '/Signin/',  
+                // '/table1/',
+                // '/table001/',
+                // '/table/',    
+                // '/view_Visit/',
+                // '/view_tablet/',
+                // '/view_tablet2/'
+
                 '/',
                 '/gcna00_1/',
                 '/gcna00_2/',
@@ -437,13 +470,52 @@ self.addEventListener('install', (event) => {
                 '/gcna00_22/',
                 '/gcna00_23/',
                 '/gcna00_24/',
-                '/Signin/',  
+                '/Signin/',
                 '/table1/',
                 '/table001/',
-                '/table/',    
+                '/table/',
                 '/view_Visit/',
                 '/view_tablet/',
-                '/view_tablet2/'
+                '/view_tablet2/',
+                '/addIH0/',
+                '/add_Mace_Purchase/',
+                '/add_Mace_Dispatched/',
+                '/add_Mace_Dispatched_Rec/',
+                '/add_Final_Weigtht_Inspection/',
+                '/add_Vehicle_Inspection/',
+                '/addDISD0/',
+                '/add_Dispatch_Of_Dried_Nutmeg_Rec/',
+                '/addDISG0/',
+                '/add_Dispatch_Of_Green_Nutmeg_Rec/',
+                '/addCRK0/',
+                '/addFLT0/',
+                '/addPKG0/',
+                '/viewIH0/',
+                '/view_Mace_Purchase/',
+                '/view_Mace_Dispatched/',
+                '/view_Mace_Dispatched_Rec/',
+                '/view_Final_Weigtht_Inspection/',
+                '/view_Vehicle_Inspection/',
+                '/viewDISD0/',
+                '/view_Dispatch_Of_Dried_Nutmeg_Rec/',
+                'In_House_Pending/',
+                '/viewDISG0/',
+                'viewDISD0/',
+                'view0DA/',
+                'view0DB/',
+                'viewCRK0/' ,            
+                'viewFLT0/',
+                '/view0FA/' ,            
+                '/view0FB/',
+                '/view0QC/',
+                'viewPKG0/'
+
+
+
+
+
+              
+              
             ]).then(() => {
                 // Once all resources are cached, post a message to all clients
                 self.clients.matchAll().then(clients => {
