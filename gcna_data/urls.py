@@ -479,7 +479,7 @@ urlpatterns = [
 
 
 
-    path('table/', views.table, name='table'),
+    path('table/', views.Initial, name='table'),
     path('table001/', views.Initial, name='table001'),
     path('generate_report/', views.generate_report, name='generate_report'),
     
