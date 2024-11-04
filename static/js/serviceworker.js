@@ -500,16 +500,16 @@ self.addEventListener('install', (event) => {
                 // '/viewDISD0/',
                 // '/view_Dispatch_Of_Dried_Nutmeg_Rec/',
                 // 'In_House_Pending/',
-                // '/viewDISG0/',
-                // 'viewDISD0/',
-                // 'view0DA/',
-                // 'view0DB/',
-                // 'viewCRK0/' ,            
-                // 'viewFLT0/',
-                // '/view0FA/' ,            
-                // '/view0FB/',
-                // '/view0QC/',
-                // 'viewPKG0/'
+                '/viewDISG0/',
+                'viewDISD0/',
+                'view0DA/',
+                'view0DB/',
+                'viewCRK0/' ,            
+                'viewFLT0/',
+                '/view0FA/' ,            
+                '/view0FB/',
+                '/view0QC/',
+                'viewPKG0/'
 
 
 
