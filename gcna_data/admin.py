@@ -83,28 +83,24 @@ from .models import Mace_Dispatched
 from .models import Mace_Purchase
 from .models import Mace_Dispatched_Rec
 from .models import Cracking_Extraction_Summary
- 
+from .models import Day_Of_Loading
+from .models import TruckEntry
+from .models import Container_Inspection_Log
+
+
+
+admin.site.register(Container_Inspection_Log)
+admin.site.register(Day_Of_Loading)
+admin.site.register(TruckEntry)
+
 
 
 admin.site.register(Cracking_Extraction_Summary)
-
-
-
 admin.site.register(Mace_Dispatched_Rec)
-
 admin.site.register(Mace_Dispatched)
 admin.site.register(Mace_Purchase)
-
-
 admin.site.register(Dispatch_Of_Dried_Nutmeg_Rec)
 admin.site.register(Dispatch_Of_Green_Nutmeg_Rec)
-
-
-
-
-
-
-
 
 admin.site.register(Vehicle_Inspection)
 admin.site.register(Final_Weight_Inspection)

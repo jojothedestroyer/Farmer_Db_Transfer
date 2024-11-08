@@ -357,6 +357,267 @@ from .forms import Mace_Dispatched_Rec_Form
 from .serializers import Mace_Dispatched_Rec_Serializer 
 
 
+from .models import Day_Of_Loading
+from .models import TruckEntry
+from .models import Container_Inspection_Log
+
+from .forms import Day_Of_Loading_Form
+from .forms import TruckEntry_Form
+from .forms import Container_Inspection_Log_Form
+
+from .serializers import Day_Of_Loading_Serializer 
+from .serializers import TruckEntry_Serializer 
+from .serializers import Container_Inspection_Log_Serializer 
+
+
+
+
+def Pending_Container_Inspection_Log(request):
+	submitted = False
+
+	form = Container_Inspection_Log_Form()
+
+	return render(request,'gcna/Pending_Container_Inspection_Log.html',{'form':form,  'submitted':submitted})
+
+
+def add_Container_Inspection_Log(request):
+	submitted = False
+
+	form = Container_Inspection_Log_Form()
+
+	return render(request,'gcna/add_Container_Inspection_Log.html',{'form':form,  'submitted':submitted})
+
+
+
+
+def view_Day_Of_Loading(request):
+	submitted = False
+
+	form = Day_Of_Loading_Form()
+
+	return render(request,'gcna/view_Day_Of_Loading.html',{'form':form,  'submitted':submitted})
+
+
+def view_Container_Inspection_Log(request):
+	submitted = False
+
+	form = Container_Inspection_Log_Form()
+
+	return render(request,'gcna/view_Container_Inspection_Log.html',{'form':form,  'submitted':submitted})
+
+
+
+
+class  Container_Inspection_Log_View(generics.RetrieveUpdateDestroyAPIView):
+    queryset =  Container_Inspection_Log.objects.all()
+    serializer_class =  Container_Inspection_Log_Serializer
+
+    def partial_update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        data = model_to_dict(instance)
+        for key, value in request.data.items():
+            if key in data:
+                data[key] = value
+        serializer = self.get_serializer(instance, data=data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+    
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+
+        # Retrieve IndexedDB IDs from the request header
+        indexeddb_ids = json.loads(request.META.get('HTTP_X_INDEXEDDB_IDS', '[]'))
+
+        logger.info(f"Instance ID: {instance.id}")
+        logger.info(f"IndexedDB IDs: {indexeddb_ids}")
+
+        if not instance.id in indexeddb_ids:
+            self.perform_destroy(instance)
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        else:
+            logger.warning("Allowed delete request.")
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+
+class  Container_Inspection_Log_CreateView(generics.ListCreateAPIView):
+    queryset =  Container_Inspection_Log.objects.all()
+    serializer_class =  Container_Inspection_Log_Serializer
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        data = model_to_dict(instance)
+        for key, value in request.data.items():
+            if key in data:
+                data[key] = value
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        return Response(serializer.data)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class  Day_Of_Loading_View(generics.RetrieveUpdateDestroyAPIView):
+    queryset =  Day_Of_Loading.objects.all()
+    serializer_class =  Day_Of_Loading_Serializer
+
+    def partial_update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        data = model_to_dict(instance)
+        for key, value in request.data.items():
+            if key in data:
+                data[key] = value
+        serializer = self.get_serializer(instance, data=data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+    
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+
+        # Retrieve IndexedDB IDs from the request header
+        indexeddb_ids = json.loads(request.META.get('HTTP_X_INDEXEDDB_IDS', '[]'))
+
+        logger.info(f"Instance ID: {instance.id}")
+        logger.info(f"IndexedDB IDs: {indexeddb_ids}")
+
+        if not instance.id in indexeddb_ids:
+            self.perform_destroy(instance)
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        else:
+            logger.warning("Allowed delete request.")
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+
+class  Day_Of_Loading_CreateView(generics.ListCreateAPIView):
+    queryset =  Day_Of_Loading.objects.all()
+    serializer_class =  Day_Of_Loading_Serializer
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        data = model_to_dict(instance)
+        for key, value in request.data.items():
+            if key in data:
+                data[key] = value
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        return Response(serializer.data)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class  TruckEntry_View(generics.RetrieveUpdateDestroyAPIView):
+    queryset =  TruckEntry.objects.all()
+    serializer_class =  TruckEntry_Serializer
+
+    def partial_update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        data = model_to_dict(instance)
+        for key, value in request.data.items():
+            if key in data:
+                data[key] = value
+        serializer = self.get_serializer(instance, data=data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+    
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+
+        # Retrieve IndexedDB IDs from the request header
+        indexeddb_ids = json.loads(request.META.get('HTTP_X_INDEXEDDB_IDS', '[]'))
+
+        logger.info(f"Instance ID: {instance.id}")
+        logger.info(f"IndexedDB IDs: {indexeddb_ids}")
+
+        if not instance.id in indexeddb_ids:
+            self.perform_destroy(instance)
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        else:
+            logger.warning("Allowed delete request.")
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+
+class  TruckEntry_CreateView(generics.ListCreateAPIView):
+    queryset =  TruckEntry.objects.all()
+    serializer_class =  TruckEntry_Serializer
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        data = model_to_dict(instance)
+        for key, value in request.data.items():
+            if key in data:
+                data[key] = value
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        return Response(serializer.data)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1218,8 +1479,14 @@ def check_and_add(request):
                 model = Mace_Purchase
 
 
+            elif model_name == 'Day_Of_Loading':
+                model = Day_Of_Loading
 
+            elif model_name == 'TruckEntry':
+                model = TruckEntry
 
+            elif model_name == 'Container_Inspection_Log':
+                model = Container_Inspection_Log
 
 
 

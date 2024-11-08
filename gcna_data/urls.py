@@ -7,6 +7,36 @@ from .views import send_email
 
 urlpatterns = [
     path('',views.home, name="home"),
+
+
+
+    # URL for adding Day Of Loading entry
+    path('Pending_Container_Inspection_Log/', views.Pending_Container_Inspection_Log, name='Pending_Container_Inspection_Log'),
+
+    # URL for adding Truck Entry
+    path('add_Container_Inspection_Log/', views.add_Container_Inspection_Log, name='add_Container_Inspection_Log'),
+
+    # URL for viewing Day Of Loading entries
+    path('view_day_of_loading/', views.view_Day_Of_Loading, name='view_day_of_loading'),
+
+    # URL for viewing Truck Entries
+    path('view_Container_Inspection_Log/', views.view_Container_Inspection_Log, name='view_Container_Inspection_Log'),
+
+
+
+
+
+
+    path('api/Day_Of_Loading/', views.Day_Of_Loading_CreateView.as_view(), name="Day_Of_Loading-Create"),
+    path('api/Day_Of_Loading/<int:pk>/', views.Day_Of_Loading_View.as_view(), name="Day_Of_Loading-Detail"),
+
+    # New Truck Entry URLs
+    path('api/TruckEntry/', views.TruckEntry_CreateView.as_view(), name="TruckEntry-Create"),
+    path('api/TruckEntry/<int:pk>/', views.TruckEntry_View.as_view(), name="TruckEntry-Detail"),
+
+    path('api/Container_Inspection_Log/', views.Container_Inspection_Log_CreateView.as_view(), name="Container_Inspection_Log-Create"),
+    path('api/Container_Inspection_Log/<int:pk>/', views.Container_Inspection_Log_View.as_view(), name="Container_Inspection_Log-Detail"),
+
     path('send-email/', send_email, name='send_email'),
 
     path('send-test-email/', send_test_email, name='send_test_email'),

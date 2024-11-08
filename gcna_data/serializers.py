@@ -90,13 +90,38 @@ from .models import Dispatch_Of_Green_Nutmeg_Rec
 
 from .models import Mace_Dispatched_Rec
 from .models import Cracking_Extraction_Summary
+from .models import Day_Of_Loading
+from .models import TruckEntry
+from .models import Container_Inspection_Log
 
 
 
+class Container_Inspection_Log_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Container_Inspection_Log
+        fields = '__all__'
+        
+
+
+class Day_Of_Loading_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Day_Of_Loading
+        fields = '__all__'
+        
 
 class Cracking_Extraction_Summary_Serializer(serializers.ModelSerializer):
     class Meta:
         model = Cracking_Extraction_Summary
+        fields = '__all__'
+        
+
+
+
+
+
+class TruckEntry_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = TruckEntry
         fields = '__all__'
         
 

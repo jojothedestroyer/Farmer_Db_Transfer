@@ -95,6 +95,246 @@ from .models import Mace_Dispatched_Rec
 
 from .models import Cracking_Extraction_Summary
 
+from .models import Day_Of_Loading
+from .models import TruckEntry
+from .models import Container_Inspection_Log
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class Container_Inspection_Log_Form(ModelForm):
+    class Meta:
+        model = Container_Inspection_Log
+        fields = '__all__'
+        widgets = {
+              
+
+
+            # # Inspection Details
+            # 'Date_Of_Inspection': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            # 'Time': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
+            # 'Date_Of_Intended_Use': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            
+            # # Container Pre-Inspection (Dropdown Selects)
+            # 'Free_From_Dent': forms.Select(attrs={'class': 'form-control'}),
+            # 'Free_From_Holes': forms.Select(attrs={'class': 'form-control'}),
+            # 'Free_From_Rust': forms.Select(attrs={'class': 'form-control'}),
+            # 'Seals_Without_Vents': forms.Select(attrs={'class': 'form-control'}),
+            # 'Locking_Mech_Func': forms.Select(attrs={'class': 'form-control'}),
+
+            # # Floor Inside
+            # 'FL_Clean': forms.Select(attrs={'class': 'form-control'}),
+            # 'FL_Dry': forms.Select(attrs={'class': 'form-control'}),
+            # 'FL_Surface': forms.Select(attrs={'class': 'form-control'}),
+            # 'FL_Odors': forms.Select(attrs={'class': 'form-control'}),
+
+            # # Roof Inside
+            # 'RF_Free_From_Dent': forms.Select(attrs={'class': 'form-control'}),
+            # 'RF_Free_From_Holes': forms.Select(attrs={'class': 'form-control'}),
+            # 'RF_Free_From_Rust': forms.Select(attrs={'class': 'form-control'}),
+            # 'RF_Dry': forms.Select(attrs={'class': 'form-control'}),
+
+            # # Right Inside
+            # 'RI_Free_From_Dent': forms.Select(attrs={'class': 'form-control'}),
+            # 'RI_Free_From_Holes': forms.Select(attrs={'class': 'form-control'}),
+            # 'RI_Free_From_Rust': forms.Select(attrs={'class': 'form-control'}),
+            # 'RI_Dry': forms.Select(attrs={'class': 'form-control'}),
+
+            # # Left Inside
+            # 'LI_Free_From_Dent': forms.Select(attrs={'class': 'form-control'}),
+            # 'LI_Free_From_Holes': forms.Select(attrs={'class': 'form-control'}),
+            # 'LI_Free_From_Rust': forms.Select(attrs={'class': 'form-control'}),
+            # 'LI_Dry': forms.Select(attrs={'class': 'form-control'}),
+
+            # # Approval and Recommendation
+            # 'Recommend': forms.Select(attrs={'class': 'form-control'}),
+            # 'Approved': forms.Select(attrs={'class': 'form-control'}),
+
+            # # Loading Details
+            # 'Date_Of_Loading': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            # 'Time_Loading_Start': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
+            # 'Time_Loading_End': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
+
+            # # Container Details
+            # 'Container_Size': forms.Select(attrs={'class': 'form-control'}),
+            # 'Container_Condition': forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input'}),
+            # 'Absorabant_Used': forms.Select(attrs={'class': 'form-control'}),
+            # 'Placement': forms.Select(attrs={'class': 'form-control'}),
+            # 'Fumigant': forms.Select(attrs={'class': 'form-control'}),
+
+            # # Inspected and Reviewed Dates
+            # 'inspected_Date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+
+            # 'reviewed_Date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+
+
+
+
+
+
+# class Container_Inspection_Log(models.Model):
+
+
+
+
+
+
+    'entryCheck' : forms.TextInput(attrs={'class': 'form-control'}),
+    'Date_Of_Inspection': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+    'Time': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
+    'Date_Of_Intended_Use': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+    'Agent': forms.TextInput(attrs={'class': 'form-control'}),
+    'Size_Of_Container': forms.TextInput(attrs={'class': 'form-control'}),
+    'Location_Of_Container': forms.TextInput(attrs={'class': 'form-control'}),
+    'Container_Number': forms.TextInput(attrs={'class': 'form-control'}),
+    'Intended_Customer': forms.TextInput(attrs={'class': 'form-control'}),
+    'Products_To_Be_Shipped': forms.TextInput(attrs={'class': 'form-control'}),
+    'Goods_Prev_Stored': forms.Textarea(attrs={'class': 'form-control'}),
+    'Free_From_Dent': forms.Select(attrs={'class': 'form-control'}),
+    'Free_From_Holes': forms.Select(attrs={'class': 'form-control'}),
+    'Free_From_Rust': forms.Select(attrs={'class': 'form-control'}),
+    'Seals_Without_Vents': forms.Select(attrs={'class': 'form-control'}),
+    'Locking_Mech_Func': forms.Select(attrs={'class': 'form-control'}),
+    'FL_Clean': forms.Select(attrs={'class': 'form-control'}),
+    'FL_Dry': forms.Select(attrs={'class': 'form-control'}),
+    'FL_Surface': forms.Select(attrs={'class': 'form-control'}),
+    'FL_Odors': forms.Select(attrs={'class': 'form-control'}),
+    'RF_Free_From_Dent': forms.Select(attrs={'class': 'form-control'}),
+    'RF_Free_From_Holes': forms.Select(attrs={'class': 'form-control'}),
+    'RF_Free_From_Rust': forms.Select(attrs={'class': 'form-control'}),
+    'RF_Dry': forms.Select(attrs={'class': 'form-control'}),
+    'RI_Free_From_Dent': forms.Select(attrs={'class': 'form-control'}),
+    'RI_Free_From_Holes': forms.Select(attrs={'class': 'form-control'}),
+    'RI_Free_From_Rust': forms.Select(attrs={'class': 'form-control'}),
+    'RI_Dry': forms.Select(attrs={'class': 'form-control'}),
+    'LI_Free_From_Dent': forms.Select(attrs={'class': 'form-control'}),
+    'LI_Free_From_Holes': forms.Select(attrs={'class': 'form-control'}),
+    'LI_Free_From_Rust': forms.Select(attrs={'class': 'form-control'}),
+    'LI_Dry': forms.Select(attrs={'class': 'form-control'}),
+    'Other_Comments': forms.Textarea(attrs={'class': 'form-control'}),
+    'Inspected_By': forms.TextInput(attrs={'class': 'form-control'}),
+    'Recommend': forms.Textarea(attrs={'class': 'form-control'}),
+    'Approved': forms.Select(attrs={'class': 'form-control'}),
+    'Date_Of_Loading': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+    'Time_Loading_Start': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
+    'Time_Loading_End' : forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
+    'Port_of_Loading': forms.TextInput(attrs={'class': 'form-control'}),
+    'Container_Number': forms.TextInput(attrs={'class': 'form-control'}),
+    'Container_Size': forms.Select(attrs={'class': 'form-control'}),
+    'Container_Condition': forms.TextInput(attrs={'class': 'form-control'}),#Make CheckBoxs with the following options Dry,Cleasn,Free from Ordor, Free from Holes, Closes Tightly.Multiple shouldnbe clicked
+    'Container_Condition_st': forms.TextInput(attrs={'class': 'form-control'}),#Make CheckBoxs with the following options Dry,Cleasn,Free from Ordor, Free from Holes, Closes Tightly.Multiple shouldnbe clicked
+    'Customer': forms.TextInput(attrs={'class': 'form-control'}),
+    'Seal_Number': forms.TextInput(attrs={'class': 'form-control'}),
+    'Bill_Of_Lading': forms.TextInput(attrs={'class': 'form-control'}),
+    'Absorabant_Used': forms.Select(attrs={'class': 'form-control'}),
+    'Placement': forms.Select(attrs={'class': 'form-control'}),
+    'Fumigant': forms.Select(attrs={'class': 'form-control'}),
+    'Fumigated_By': forms.TextInput(attrs={'class': 'form-control'}),
+    'Comments': forms.Textarea(attrs={'class': 'form-control'}),
+    'Inspected_And_Prepared_By': forms.TextInput(attrs={'class': 'form-control'}),
+    'inspected_Date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+    'Reviewed_By': forms.TextInput(attrs={'class': 'form-control'}),
+    'reviewed_Date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'})
+
+        }
+
+
+
+class Day_Of_Loading_Form(ModelForm):
+    class Meta:
+        model = Day_Of_Loading
+        fields = '__all__'
+        widgets = {
+            'Date_Of_Inspection': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'Time': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
+            'Date_Of_Intended_Use': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'Free_From_Dent': forms.Select(attrs={'class': 'form-control'}),
+            'Free_From_Holes': forms.Select(attrs={'class': 'form-control'}),
+            'Free_From_Rust': forms.Select(attrs={'class': 'form-control'}),
+            'Seals_Without_Vents': forms.Select(attrs={'class': 'form-control'}),
+            'Locking_Mech_Func': forms.Select(attrs={'class': 'form-control'}),
+            'FL_Clean': forms.Select(attrs={'class': 'form-control'}),
+            'FL_Dry': forms.Select(attrs={'class': 'form-control'}),
+            'FL_Surface': forms.Select(attrs={'class': 'form-control'}),
+            'FL_Odors': forms.Select(attrs={'class': 'form-control'}),
+            'RF_Free_From_Dent': forms.Select(attrs={'class': 'form-control'}),
+            'RF_Free_From_Holes': forms.Select(attrs={'class': 'form-control'}),
+            'RF_Free_From_Rust': forms.Select(attrs={'class': 'form-control'}),
+            'RF_Dry': forms.Select(attrs={'class': 'form-control'}),
+            'RI_Free_From_Dent': forms.Select(attrs={'class': 'form-control'}),
+            'RI_Free_From_Holes': forms.Select(attrs={'class': 'form-control'}),
+            'RI_Free_From_Rust': forms.Select(attrs={'class': 'form-control'}),
+            'RI_Dry': forms.Select(attrs={'class': 'form-control'}),
+            'LI_Free_From_Dent': forms.Select(attrs={'class': 'form-control'}),
+            'LI_Free_From_Holes': forms.Select(attrs={'class': 'form-control'}),
+            'LI_Free_From_Rust': forms.Select(attrs={'class': 'form-control'}),
+            'LI_Dry': forms.Select(attrs={'class': 'form-control'}),
+            'Recommend': forms.Select(attrs={'class': 'form-control'}),
+            'Approved': forms.Select(attrs={'class': 'form-control'}),
+            'Date_Of_Loading': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'Time_Loading_Start': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
+            'Time_Loading_End': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
+            'Approved': forms.Select(attrs={'class': 'form-control'}),
+            'Container_Size': forms.Select(attrs={'class': 'form-control'}),
+            'Container_Condition': forms.CheckboxSelectMultiple(attrs={'class': 'form-control'}),
+            'Absorabant_Used': forms.Select(attrs={'class': 'form-control'}),
+            'Placement': forms.Select(attrs={'class': 'form-control'}),
+            'Fumigant': forms.Select(attrs={'class': 'form-control'}),
+            'inspected_Date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'reviewed_Date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+        }
+
+class TruckEntry_Form(ModelForm):
+    class Meta:
+        model = TruckEntry
+        fields = '__all__'
+        widgets = {
+            'Type_Of_Bag': forms.Select(),
+            'Tarpaulin_Used': forms.Select(),
+            'Condition_On_Arrival': forms.Select(),
+        }
+
+
+
+# class Day_Of_Loading_Form(ModelForm):
+#     class Meta:
+#         model = Day_Of_Loading
+#         fields = '__all__'
+#         widgets ={
+
+
+#         }
+		
+
+
+
+
+
+
+
+
+# class TruckEntry_Form(ModelForm):
+#     class Meta:
+#         model = TruckEntry
+#         fields = '__all__'
+#         widgets ={
+
+
+#         }
+		
+
+
 
 
 

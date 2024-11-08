@@ -6,6 +6,10 @@ def land_id():
     return str(uuid.uuid4())
 def shelf_id():
     return str(uuid.uuid4())
+
+def container_id():
+    return str(uuid.uuid4())
+
 # def land_id():
 #     return str(random.randint(10000, 999999999999))
 
@@ -3001,31 +3005,31 @@ class In_House_Drying(models.Model):
         ('No', 'No'),
 
     ]
-    DATE_CREATED = models.DateField('Date of Sampling',null=True,)
+    DATE_CREATED = models.DateField('Date of Sampling',null=True,blank=True)
 
 
 
 
-    LOCATION3 = models.CharField('Location',max_length=50, choices=Location_Status, )    
+    LOCATION3 = models.CharField('Location',max_length=50, choices=Location_Status,blank=True )    
 
 
-    DEFECT = models.CharField('Defect',max_length=50, choices=Status, default='A')   
+    DEFECT = models.CharField('Defect',max_length=50, choices=Status, default='A',blank=True)   
 
-    PREDOMINANT_DEFECT = models.CharField('Predominant Defect',max_length=50, choices=Status, )   
+    PREDOMINANT_DEFECT = models.CharField('Predominant Defect',max_length=50, choices=Status,blank=True,null=True)   
 
 
-    ALERT = models.CharField('Alert',max_length=50,null=True,blank=True, choices=SELECTION,)   
+    ALERT = models.CharField('Alert',max_length=50,null=True,blank=True, choices=SELECTION)   
 
 
     ALERT_cont = models.CharField('Alert',max_length=50,null=True,blank=True)   
 
-    STATION2= models.CharField('Station',max_length=50,null=True)
+    STATION2= models.CharField('Station',max_length=50,null=True,blank=True)
 
-    Sampling_from_gouyvae= models.CharField('Sampling from Gouyvae',max_length=50, null=True)
+    Sampling_from_gouyvae= models.CharField('Sampling from Gouyvae',max_length=50, null=True,blank=True)
 
     # Guideline_for_pickupmoisture_<6.5%_inhouse
 
-    Control_number= models.CharField('Control Number',max_length=50, null=True)
+    Control_number= models.CharField('Control Number',max_length=50, null=True,blank=True)
 
 
 
@@ -4575,3 +4579,407 @@ class Vehicle_Inspection(models.Model):
 
     inspected_by_date=models.DateField(null=True,blank=True)
     verified_by_date=models.DateField(null=True,blank=True)
+
+
+
+
+class Container_Inspection_Log(models.Model):
+
+
+
+    CHECK = [
+        ('', 'Select'),
+        ('Y', 'Y'),
+        ('N', 'N'),
+    ]
+
+
+
+
+
+
+
+    entryCheck = models.CharField(default = container_id, max_length=50)
+
+
+# Container Pre-Inspection For Approval to Use [
+
+    Date_Of_Inspection= models.CharField(max_length=50, null=True, blank=True)
+    Time= models.CharField(max_length=50, null=True, blank=True)
+    Date_Of_Intended_Use= models.CharField(max_length=50, null=True, blank=True)
+    Agent= models.CharField(max_length=50, null=True, blank=True)
+    Size_Of_Container= models.CharField(max_length=50, null=True, blank=True)
+    Location_Of_Container= models.CharField(max_length=50, null=True, blank=True)
+    Container_Number= models.CharField(max_length=50, null=True, blank=True)
+    Intended_Customer= models.CharField(max_length=50, null=True, blank=True)
+    Products_To_Be_Shipped= models.CharField(max_length=50, null=True, blank=True)
+
+    Goods_Prev_Stored= models.CharField(max_length=150, null=True, blank=True)
+#Note Fresh Agriculture Products such as Onions, garlic, white and red potato, onions, peanut, wheat, corn coffee are not desireable
+
+#Door Inside Outside(The following should be in the row):
+    Free_From_Dent= models.CharField(max_length=10, choices=CHECK,null=True,blank=True)
+    Free_From_Holes= models.CharField(max_length=10, choices=CHECK,null=True,blank=True)
+    Free_From_Rust= models.CharField(max_length=10, choices=CHECK,null=True,blank=True)
+    Seals_Without_Vents= models.CharField(max_length=10, choices=CHECK,null=True,blank=True)
+    Locking_Mech_Func= models.CharField(max_length=10, choices=CHECK,null=True,blank=True)
+#End of Row
+
+
+#Floor Inside
+    FL_Clean= models.CharField(max_length=10, choices=CHECK,null=True,blank=True)
+    FL_Dry= models.CharField(max_length=10, choices=CHECK,null=True,blank=True)
+    FL_Surface= models.CharField(max_length=10, choices=CHECK,null=True,blank=True)
+    FL_Odors= models.CharField(max_length=10, choices=CHECK,null=True,blank=True)
+
+#End of Row
+
+
+
+#Roof Inside
+    RF_Free_From_Dent= models.CharField(max_length=10, choices=CHECK,null=True,blank=True)
+    RF_Free_From_Holes= models.CharField(max_length=10, choices=CHECK,null=True,blank=True)
+    RF_Free_From_Rust= models.CharField(max_length=10, choices=CHECK,null=True,blank=True)
+    RF_Dry= models.CharField(max_length=10, choices=CHECK,null=True,blank=True)
+
+#End of Row
+
+
+
+
+
+
+
+#Right Inside
+    RI_Free_From_Dent= models.CharField(max_length=10, choices=CHECK,null=True,blank=True)
+    RI_Free_From_Holes= models.CharField(max_length=10, choices=CHECK,null=True,blank=True)
+    RI_Free_From_Rust= models.CharField(max_length=10, choices=CHECK,null=True,blank=True)
+    RI_Dry= models.CharField(max_length=10, choices=CHECK,null=True,blank=True)
+
+
+#End of Row
+
+
+#Left Inside
+    LI_Free_From_Dent= models.CharField(max_length=10, choices=CHECK,null=True,blank=True)
+    LI_Free_From_Holes= models.CharField(max_length=10, choices=CHECK,null=True,blank=True)
+    LI_Free_From_Rust= models.CharField(max_length=10, choices=CHECK,null=True,blank=True)
+    LI_Dry= models.CharField(max_length=10, choices=CHECK,null=True,blank=True)
+
+
+#End of Row
+    Other_Comments= models.CharField(max_length=50, null=True, blank=True)
+    Inspected_By= models.CharField(max_length=50, null=True, blank=True)
+
+    Recommend= models.CharField(max_length=10, choices=CHECK,null=True,blank=True)
+    Approved= models.CharField(max_length=10, choices=CHECK,null=True,blank=True)
+
+
+#] Container Pre-Inspection For Approval to Use END
+
+    CONDITION = [
+        ('', 'Select'),
+        ('Sunny', 'Sunny'),
+        ('Rainy', 'Rainy'),        
+        ('Overcast', 'Overcast'),
+        ('Light Intermittent Showers', 'Light Intermittent Showers'),
+    ]
+
+
+
+
+
+
+    CONTAINER_SIZE_OPTIONS = [
+        ('', 'Select'),
+        ('20 feet', '20 feet'),
+        ('40 feet', '40 feet'),        
+        ('10 feet', '10 feet'),
+    ]
+
+
+
+
+    BAG_TYPE = [
+        ('', 'Select'),
+        ('Jute', 'Jute'),
+        ('PP', 'PP'),        
+    ]
+
+    ARRIVAL_CONDITION = [
+        ('', 'Select'),
+        ('Good', 'Good'),
+        ('wet', 'wet'),        
+        ('dry', 'dry'),
+    ]
+
+    ABSORBANT_OPTIONS = [
+        ('', 'Select'),
+        ('Dry Bags', 'Dry Bags'),
+        ('Kraft paper', 'Kraft paper'),        
+        ('Other', 'Other'),
+    ]
+    PLACEMENT_OPTIONS = [
+        ('', 'Select'),
+        ('Left', 'Left'),
+        ('Right', 'Right'),        
+        ('Top', 'Top'),
+        ('Back', 'Back'),
+        ('Front', 'Front'),
+    ]
+
+    FUMIGANT_OPTIONS = [
+        ('', 'Select'),
+        ('Plates', 'Plates'),
+        ('Strips', 'Strips'),        
+        ('Tablet', 'Tablet'),
+    ]
+#Day of Loading
+
+#Rows 1-2 [
+    Date_Of_Loading= models.CharField(max_length=50, null=True, blank=True)
+    Time_Loading_Start = models.CharField(max_length=50, null=True, blank=True)
+    Time_Loading_End = models.CharField(max_length=50, null=True, blank=True)
+    Port_of_Loading= models.CharField(max_length=50, null=True, blank=True)
+
+#] End of Row 1-2
+
+
+    # Approved= models.CharField(max_length=50, choices=CONDITION,null=True,blank=True)
+
+    Container_Number= models.CharField(max_length=50, null=True, blank=True)
+    Container_Size= models.CharField(max_length=50, choices=CONTAINER_SIZE_OPTIONS, null=True, blank=True)
+
+
+
+
+    Container_Condition= models.CharField(max_length=100, null=True, blank=True)#Make CheckBoxs with the following options Dry,Cleasn,Free from Ordor, Free from Holes, Closes Tightly.Multiple shouldnbe clicked
+
+    Container_Condition_st= models.CharField(max_length=100, null=True, blank=True)#Make CheckBoxs with the following options Dry,Cleasn,Free from Ordor, Free from Holes, Closes Tightly.Multiple shouldnbe clicked
+
+    Customer= models.CharField(max_length=50, null=True, blank=True)
+    Seal_Number= models.CharField(max_length=50, null=True, blank=True)
+    Bill_Of_Lading= models.CharField(max_length=50, null=True, blank=True)
+
+
+
+
+
+
+
+
+#Details On Land Carriers-Trucks NOw it's Own model
+
+    # Truck_Number= models.CharField(max_length=50, null=True, blank=True)
+    # Driver= models.CharField(max_length=50, null=True, blank=True)
+    # Loaded_At= models.CharField(max_length=50, null=True, blank=True)
+    # Product= models.CharField(max_length=50, null=True, blank=True)
+    # Num_Of_Bags= models.IntegerField(default= 0)
+    # Type_Of_Bag= models.CharField(max_length=50, choices=BAG_TYPE, null=True, blank=True)
+    # Tarpaulin_Used= models.CharField(max_length=50, choices=CHECK, null=True, blank=True)
+    # Condition_On_Arrival= models.CharField(max_length=50, choices=ARRIVAL_CONDITION, null=True, blank=True)
+
+    Absorabant_Used= models.CharField(max_length=50, choices=ABSORBANT_OPTIONS, null=True, blank=True)
+    Placement= models.CharField(max_length=50, choices=PLACEMENT_OPTIONS, null=True, blank=True)
+    Fumigant= models.CharField(max_length=50, choices=FUMIGANT_OPTIONS, null=True, blank=True)
+    Fumigated_By= models.CharField(max_length=50, null=True, blank=True)
+
+
+
+    Comments= models.CharField(max_length=50, null=True, blank=True)
+    Inspected_And_Prepared_By= models.CharField(max_length=50, null=True, blank=True)
+    inspected_Date = models.CharField(max_length=50, null=True, blank=True)
+    Reviewed_By= models.CharField(max_length=50, null=True, blank=True)
+    reviewed_Date = models.CharField(max_length=50, null=True, blank=True)
+
+
+
+
+class Day_Of_Loading(models.Model):
+    pass
+
+#     CHECK = [
+#         ('', 'Select'),
+#         ('Y', 'Y'),
+#         ('N', 'N'),
+#     ]
+
+
+#     CONDITION = [
+#         ('', 'Select'),
+#         ('Sunny', 'Sunny'),
+#         ('Rainy', 'Rainy'),        
+#         ('Overcast', 'Overcast'),
+#         ('Light Intermittent Showers', 'Light Intermittent Showers'),
+#     ]
+
+
+
+
+
+
+#     CONTAINER_SIZE_OPTIONS = [
+#         ('', 'Select'),
+#         ('20 feet', '20 feet'),
+#         ('40 feet', '40 feet'),        
+#         ('10 feet', '10 feet'),
+#     ]
+
+
+
+#     BAG_TYPE = [
+#         ('', 'Select'),
+#         ('Jute', 'Jute'),
+#         ('PP', 'PP'),        
+#     ]
+
+#     ARRIVAL_CONDITION = [
+#         ('', 'Select'),
+#         ('Good', 'Good'),
+#         ('wet', 'wet'),        
+#         ('dry', 'dry'),
+#     ]
+
+
+#     ABSORBANT_OPTIONS = [
+#         ('', 'Select'),
+#         ('Dry Bags', 'Dry Bags'),
+#         ('Kraft paper', 'Kraft paper'),        
+#         ('Other', 'Other'),
+#     ]
+#     PLACEMENT_OPTIONS = [
+#         ('', 'Select'),
+#         ('Left', 'Left'),
+#         ('Right', 'Right'),        
+#         ('Top', 'Top'),
+#         ('Back', 'Back'),
+#         ('Front', 'Front'),
+#     ]
+
+#     FUMIGANT_OPTIONS = [
+#         ('', 'Select'),
+#         ('Plates', 'Plates'),
+#         ('Strips', 'Strips'),        
+#         ('Tablet', 'Tablet'),
+#     ]
+# #Day of Loading
+
+# #Rows 1-2 [
+#     Date_Of_Loading=models.DateField(null=True,blank=True)
+#     Time_Loading_Start = models.TimeField(null=True, blank=True)
+#     Time_Loading_End = models.TimeField(null=True, blank=True)
+#     Port_of_Loading= models.CharField(max_length=50, null=True, blank=True)
+
+# #] End of Row 1-2
+
+
+#     Approved= models.CharField(max_length=50, choices=CONDITION)
+
+#     Container_Number= models.CharField(max_length=50, null=True, blank=True)
+#     Container_Size= models.CharField(max_length=50, choices=CONTAINER_SIZE_OPTIONS, null=True, blank=True)
+
+
+
+
+#     Container_Condition= models.CharField(max_length=50, null=True, blank=True)#Make CheckBoxs with the following options Dry,Cleasn,Free from Ordor, Free from Holes, Closes Tightly.Multiple shouldnbe clicked
+
+
+
+#     Customer= models.CharField(max_length=50, null=True, blank=True)
+#     Seal_Number= models.CharField(max_length=50, null=True, blank=True)
+#     Bill_Of_Lading= models.CharField(max_length=50, null=True, blank=True)
+
+
+
+
+
+
+
+
+# #Details On Land Carriers-Trucks NOw it's Own model
+
+#     # Truck_Number= models.CharField(max_length=50, null=True, blank=True)
+#     # Driver= models.CharField(max_length=50, null=True, blank=True)
+#     # Loaded_At= models.CharField(max_length=50, null=True, blank=True)
+#     # Product= models.CharField(max_length=50, null=True, blank=True)
+#     # Num_Of_Bags= models.IntegerField(default= 0)
+#     # Type_Of_Bag= models.CharField(max_length=50, choices=BAG_TYPE, null=True, blank=True)
+#     # Tarpaulin_Used= models.CharField(max_length=50, choices=CHECK, null=True, blank=True)
+#     # Condition_On_Arrival= models.CharField(max_length=50, choices=ARRIVAL_CONDITION, null=True, blank=True)
+
+#     Absorabant_Used= models.CharField(max_length=50, choices=ABSORBANT_OPTIONS, null=True, blank=True)
+#     Placement= models.CharField(max_length=50, choices=PLACEMENT_OPTIONS, null=True, blank=True)
+#     Fumigant= models.CharField(max_length=50, choices=FUMIGANT_OPTIONS, null=True, blank=True)
+#     Fumigated_By= models.CharField(max_length=50, null=True, blank=True)
+
+
+
+#     Comments= models.CharField(max_length=50, null=True, blank=True)
+
+
+
+
+
+#     Inspected_And_Prepared_By= models.CharField(max_length=50, null=True, blank=True)
+#     inspected_Date =models.DateField(null=True,blank=True)
+#     Reviewed_By= models.CharField(max_length=50, null=True, blank=True)
+#     reviewed_Date =models.DateField(null=True,blank=True)
+
+
+
+class TruckEntry(models.Model):
+
+
+
+    CHECK = [
+        ('', 'Select'),
+        ('Y', 'Y'),
+        ('N', 'N'),
+    ]
+
+
+    CONDITION = [
+        ('', 'Select'),
+        ('Sunny', 'Sunny'),
+        ('Rainy', 'Rainy'),        
+        ('Overcast', 'Overcast'),
+        ('Light Intermittent Showers', 'Light Intermittent Showers'),
+    ]
+
+
+
+
+
+
+    CONTAINER_SIZE_OPTIONS = [
+        ('', 'Select'),
+        ('20 feet', '20 feet'),
+        ('40 feet', '40 feet'),        
+        ('10 feet', '10 feet'),
+    ]
+
+
+
+    BAG_TYPE = [
+        ('', 'Select'),
+        ('Jute', 'Jute'),
+        ('PP', 'PP'),        
+    ]
+
+    ARRIVAL_CONDITION = [
+        ('', 'Select'),
+        ('Good', 'Good'),
+        ('wet', 'wet'),        
+        ('dry', 'dry'),
+    ]
+
+    entry= models.CharField(max_length=50,null=True,blank=True) 
+
+    Truck_Number = models.CharField(max_length=50, null=True, blank=True)
+    Driver = models.CharField(max_length=50, null=True, blank=True)
+    Loaded_At = models.CharField(max_length=50, null=True, blank=True)
+    Product = models.CharField(max_length=50, null=True, blank=True)
+    Num_Of_Bags = models.CharField(max_length=50, null=True, blank=True)
+    Type_Of_Bag = models.CharField(max_length=50, choices=BAG_TYPE, null=True, blank=True)
+    Tarpaulin_Used = models.CharField(max_length=50, choices=CHECK, null=True, blank=True)
+    Condition_On_Arrival = models.CharField(max_length=50, choices=ARRIVAL_CONDITION, null=True, blank=True)

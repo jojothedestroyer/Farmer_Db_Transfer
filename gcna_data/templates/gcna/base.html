@@ -7,7 +7,7 @@
 <!doctype html>
 <html lang="en">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dexie/3.1.1/dexie.min.js"></script>
-<script src="/static/js/true_sync.js"></script>
+<!-- <script src="/static/js/true_sync.js"></script> -->
 
 <!--  <script src="/static/js/indexeddb.js"></script> 
  -->
@@ -65,7 +65,9 @@ function better_transferIndexedDBData() {
             'Extractor_Log', 'Fumigation_Log', 'Shelves', 'W_Shelves', 'M_Shelves', 'W_Shelves_Dried',
             'M_Shelves_Dried', 'Vehicle_Inspection', 'Final_Weight_Inspection', 'Final_Weight_Inspection_fields',
             'Dispatch_Of_Dried_Nutmeg_Rec', 'Dispatch_Of_Green_Nutmeg_Rec', 'Mace_Dispatched',
-            'Mace_Purchase', 'Mace_Dispatched_Rec', 'Cracking_Extraction_Summary'
+            'Mace_Purchase', 'Mace_Dispatched_Rec', 'Cracking_Extraction_Summary',"Day_Of_Loading",
+            "TruckEntry","Container_Inspection_Log",
+
         ];
 
         modelNames.forEach(function(modelName) {

@@ -4887,6 +4887,47 @@ $('#id_WeightG_GF').on('change', function() {
 //     // Log a message to indicate that event listeners are attached
 //     console.log(`Event listeners attached to form_${formCount}`);
 // }
+// function addForm(tableId, mainFormId, clickedRow) {
+//     formCount++;
+//     var form = document.createElement('form');
+//     form.id = `form_${formCount}`;
+//     form.innerHTML = `
+//         <table class="table">
+//             <thead>
+//                 <tr>
+//                     <th scope="col">Shelf:</th>
+//                     <th scope="col">Tray:</th>
+//                     <th scope="col">Section:</th>
+//                     <th scope="col">Amount(number of bags)</th>
+//                     <th scope="col"></th>
+//                     <th scope="col"></th>
+//                 </tr>
+//             </thead>
+//             <tbody>
+//                 <tr>
+//                     <td><input type="text" id="Shelf" class="form-control" name="Shelf" required></td>
+//                     <td><input type="text" id="Tray" class="form-control" name="Tray" required></td>
+//                     <td><input type="text" id="Section" class="form-control" name="Section" required></td>
+//                     <td><input type="text" id="amount" class="form-control" name="amount" required onblur="checkAmountAndTrigger(this.parentNode.parentNode, document.getElementById('Shelf').value, document.getElementById('Tray').value, document.getElementById('Section').value)"></td>
+//                     <td><button type="button" class="submit_contents" onclick="submitForm('${tableId}', '${mainFormId}', ${formCount})">✔</button></td>
+//                     <td><button type="button" onclick="removeForm('form_${formCount}')">Close</button></td>
+//                     <td><button type="button" class="add-row" onclick="moistureForm('Test', 'myForm', this.parentNode.parentNode, 'ShelfG_1F', 'TrayG_1F', 'SectionG_1F', '1st Floor')">[+]</button></td>
+//                 </tr>
+//             </tbody>
+//         </table>
+//         <div style="display: none;">
+//             <input type="number" id="entry" name="entry" required>
+//             <input type="text" id="floor" name="floor" required>
+//             <input type="hidden" id="station" name="station" required>
+//         </div>
+//     `;
+//     var tbody = clickedRow.parentNode;
+//     var newRow = tbody.insertRow(clickedRow.rowIndex + 1);
+//     var newCell = newRow.insertCell(0);
+//     newCell.appendChild(form);
+// }
+
+
 function addForm(tableId, mainFormId, clickedRow) {
     formCount++;
     var form = document.createElement('form');
@@ -4897,17 +4938,39 @@ function addForm(tableId, mainFormId, clickedRow) {
                 <tr>
                     <th scope="col">Shelf:</th>
                     <th scope="col">Tray:</th>
-                    <th scope="col">Section:</th>
-                    <th scope="col">Amount(number of bags)</th>
+                    <th scope="col" colspan=2>Section:</th>
+                    <th scope="col">Amount (number of bags)</th>
                     <th scope="col"></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><input type="text" id="Shelf" class="form-control" name="Shelf" required></td>
-                    <td><input type="text" id="Tray" class="form-control" name="Tray" required></td>
-                    <td><input type="text" id="Section" class="form-control" name="Section" required></td>
+                    <td>
+                        <select id="Shelf" class="form-control" name="Shelf" required>
+                            <option value="">--Select Shelf--</option>
+                            ${generateOptions(SHELF0)}
+                        </select>
+                    </td>
+                    <td>
+                        <select id="Tray" class="form-control" name="Tray" required>
+                            <option value="">--Select Tray--</option>
+                            ${generateOptions(TRAY0)}
+                        </select>
+                    </td>
+                    <td>
+                        <select id="section1" class="form-control" name="section1" required onchange="updateSectionValue()">
+                            <option value="">--Select Section--</option>
+                            ${generateOptions(SECTION0)}
+                        </select>
+                    </td>
+                    <td>
+                        <select id="section2" class="form-control" name="section2" required onchange="updateSectionValue()">
+                            <option value="">--Select Section--</option>
+                            ${generateOptions(SECTION0)}
+                        </select>
+                        <input type="hidden" id="Section" name="Section">
+                    </td>
                     <td><input type="text" id="amount" class="form-control" name="amount" required onblur="checkAmountAndTrigger(this.parentNode.parentNode, document.getElementById('Shelf').value, document.getElementById('Tray').value, document.getElementById('Section').value)"></td>
                     <td><button type="button" class="submit_contents" onclick="submitForm('${tableId}', '${mainFormId}', ${formCount})">✔</button></td>
                     <td><button type="button" onclick="removeForm('form_${formCount}')">Close</button></td>
@@ -4926,6 +4989,45 @@ function addForm(tableId, mainFormId, clickedRow) {
     var newCell = newRow.insertCell(0);
     newCell.appendChild(form);
 }
+
+// Function to generate dropdown options from a predefined list
+function generateOptions(options) {
+    return options.map(option => `<option value="${option[0]}">${option[1]}</option>`).join('');
+}
+
+// Update Section value by combining section1 and section2
+function updateSectionValue() {
+    const section1 = document.getElementById('section1').value;
+    const section2 = document.getElementById('section2').value;
+    document.getElementById('Section').value = section1 && section2 ? `${section1}-${section2}` : '';
+}
+
+// Example option lists
+const SHELF0 = [
+    ['', '--Select Shelf--'],
+    ['A', 'A'], ['B', 'B'], ['C', 'C'], ['D', 'D'],
+    ['E', 'E'], ['F', 'F'], ['G', 'G'], ['H', 'H'],
+    ['I', 'I'], ['J', 'J'], ['K', 'K'], ['L', 'L']
+];
+
+const TRAY0 = [
+    ['', '--Select Tray--'],
+    ['1', '1'], ['2', '2'], ['3', '3'], ['4', '4'], ['5', '5'],
+    ['6', '6'], ['7', '7'], ['8', '8'], ['9', '9'], ['10', '10']
+];
+
+const SECTION0 = [
+    ['', '--Select Section--'],
+    ['1', '1'], ['2', '2'], ['3', '3'], ['4', '4'], ['5', '5'],
+    ['6', '6'], ['7', '7'], ['8', '8'], ['9', '9'], ['10', '10']
+];
+
+
+
+
+
+
+
 
 function checkAmountAndTrigger(row, shelfValue, trayValue, sectionValue) {
     console.log("Checking amount and triggering function...");
@@ -4949,30 +5051,78 @@ function checkAmountAndTrigger(row, shelfValue, trayValue, sectionValue) {
 
 
 
+// function weeklyForm(tableId, mainFormId, clickedRow, shelfValue, trayValue, sectionValue, labelText) {
+//   formCount++;
+//     // var shelfValue = document.getElementById('id_'+shelfName).value;
+//     // var trayValue = document.getElementById('id_'+trayName).value;
+//     // var sectionValue = document.getElementById('id_'+sectionName).value;
+
+
+
+//  // document.addEventListener('DOMContentLoaded', function() {
+//   //     var myForm = document.getElementById('myForm');
+  
+//   //     myForm.addEventListener('submit', function(event) {
+
+//   //         event.preventDefault();
+//   //         var data = new FormData(event.target);
+//   //         saveDataToIndexedDB(data);
+//   //     });
+  
+
+
+//     var form = document.createElement('form');
+//     form.id = `form_${formCount}`;
+//     form.innerHTML = `
+//     <label>${labelText}</label>
+//         <table class="table">
+//             <thead>
+//                 <tr>
+//                     <th scope="col">Shelf:</th>
+//                     <th scope="col">Tray:</th>
+//                     <th scope="col">Section:</th>
+//                     <th scope="col">Moisture</th>
+//                     <th scope="col">Week</th>
+//                     <th scope="col">Date Created</th>
+
+//                     <th scope="col"></th>
+//                 </tr>
+//             </thead>
+//             <tbody>
+//                 <tr>
+//                     <td><input type="text" id="W_Shelf" class="form-control" name="W_Shelf" value="${shelfValue}" required></td>
+//                     <td><input type="text" id="W_Tray" class="form-control" name="W_Tray" value="${trayValue}" required></td>
+//                     <td><input type="text" id="W_Section" class="form-control" name="W_Section" value="${sectionValue}" required></td>
+//                     <td><input type="text" id="Moisture" class="form-control" name="Moisture" required></td>
+//                     <td><input type="text" id="Week" class="form-control" name="Week" required></td>
+//                     <td><input type="date" id="Date" class="form-control" name="Date" required></td>
+
+//                     <td><button type="button" class="submit_contents" onclick="W_submitForm('${tableId}', '${mainFormId}', ${formCount})">✔</button></td>
+//                     <td><button type="button" onclick="removeForm('form_${formCount}')">Close</button></td>
+//                 </tr>
+//             </tbody>
+//         </table>
+//         <div style="display: none;">
+//           <input type="text" id="entry" name="entry" required>
+//             <input type="text" id="floor" name="floor" required>
+//             <input type="text" id="station" name="station" required>
+//             <input type="text" id="labelText" name="labelText" value="${labelText}">
+//             <input type="text" id="Batchcode" name="Batchcode" >
+            
+//         </div>
+//     `;
+//     var tbody = clickedRow.parentNode;
+//     var newRow = tbody.insertRow(clickedRow.rowIndex + 1);
+//     var newCell = newRow.insertCell(0);
+//     newCell.appendChild(form);
+// }
+// Leave a check from lights from gouvaye
 function weeklyForm(tableId, mainFormId, clickedRow, shelfValue, trayValue, sectionValue, labelText) {
-  formCount++;
-    // var shelfValue = document.getElementById('id_'+shelfName).value;
-    // var trayValue = document.getElementById('id_'+trayName).value;
-    // var sectionValue = document.getElementById('id_'+sectionName).value;
-
-
-
- // document.addEventListener('DOMContentLoaded', function() {
-  //     var myForm = document.getElementById('myForm');
-  
-  //     myForm.addEventListener('submit', function(event) {
-
-  //         event.preventDefault();
-  //         var data = new FormData(event.target);
-  //         saveDataToIndexedDB(data);
-  //     });
-  
-
-
+    formCount++;
     var form = document.createElement('form');
     form.id = `form_${formCount}`;
     form.innerHTML = `
-    <label>${labelText}</label>
+        <label>${labelText}</label>
         <table class="table">
             <thead>
                 <tr>
@@ -4982,39 +5132,82 @@ function weeklyForm(tableId, mainFormId, clickedRow, shelfValue, trayValue, sect
                     <th scope="col">Moisture</th>
                     <th scope="col">Week</th>
                     <th scope="col">Date Created</th>
-
+                    <th scope="col"></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><input type="text" id="W_Shelf" class="form-control" name="W_Shelf" value="${shelfValue}" required></td>
-                    <td><input type="text" id="W_Tray" class="form-control" name="W_Tray" value="${trayValue}" required></td>
-                    <td><input type="text" id="W_Section" class="form-control" name="W_Section" value="${sectionValue}" required></td>
+                    <td>
+                        <select id="W_Shelf" class="form-control" name="W_Shelf" required>
+                            <option value="">--Select Shelf--</option>
+                            ${generateOption1(SHELF1)}
+                        </select>
+                    </td>
+                    <td>
+                        <select id="section1" class="form-control" name="section1" required onchange="updateSectionValue1()">
+                            <option value="">--Select Section--</option>
+                            ${generateOptions(SECTION1)}
+                        </select>
+                    </td>
+                    <td>
+                        <select id="section2" class="form-control" name="section2" required onchange="updateSectionValue1()">
+                            <option value="">--Select Section--</option>
+                            ${generateOptions(SECTION1)}
+                        </select>
+                        <input type="hidden" id="Section" name="Section">
+                    </td>
                     <td><input type="text" id="Moisture" class="form-control" name="Moisture" required></td>
                     <td><input type="text" id="Week" class="form-control" name="Week" required></td>
                     <td><input type="date" id="Date" class="form-control" name="Date" required></td>
-
                     <td><button type="button" class="submit_contents" onclick="W_submitForm('${tableId}', '${mainFormId}', ${formCount})">✔</button></td>
                     <td><button type="button" onclick="removeForm('form_${formCount}')">Close</button></td>
                 </tr>
             </tbody>
         </table>
         <div style="display: none;">
-          <input type="text" id="entry" name="entry" required>
+            <input type="text" id="entry" name="entry" required>
             <input type="text" id="floor" name="floor" required>
             <input type="text" id="station" name="station" required>
             <input type="text" id="labelText" name="labelText" value="${labelText}">
-            <input type="text" id="Batchcode" name="Batchcode" >
-            
+            <input type="text" id="Batchcode" name="Batchcode">
         </div>
     `;
+
     var tbody = clickedRow.parentNode;
     var newRow = tbody.insertRow(clickedRow.rowIndex + 1);
     var newCell = newRow.insertCell(0);
     newCell.appendChild(form);
 }
-// Leave a check from lights from gouvaye
+
+// Function to generate dropdown options from a predefined list
+function generateOptions1(options) {
+    return options.map(option => `<option value="${option[0]}">${option[1]}</option>`).join('');
+}
+function updateSectionValue1() {
+    const section1 = document.getElementById('section1').value;
+    const section2 = document.getElementById('section2').value;
+    document.getElementById('Section').value = section1 && section2 ? `${section1}-${section2}` : '';
+}
+// Example option lists for Shelf, Tray, and Section
+const SHELF1 = [
+    ['', '--Select Shelf--'],
+    ['A', 'A'], ['B', 'B'], ['C', 'C'], ['D', 'D'],
+    ['E', 'E'], ['F', 'F'], ['G', 'G'], ['H', 'H'],
+    ['I', 'I'], ['J', 'J'], ['K', 'K'], ['L', 'L']
+];
+
+const TRAY1 = [
+    ['', '--Select Tray--'],
+    ['1', '1'], ['2', '2'], ['3', '3'], ['4', '4'], ['5', '5'],
+    ['6', '6'], ['7', '7'], ['8', '8'], ['9', '9'], ['10', '10']
+];
+
+const SECTION1 = [
+    ['', '--Select Section--'],
+    ['1', '1'], ['2', '2'], ['3', '3'], ['4', '4'], ['5', '5'],
+    ['6', '6'], ['7', '7'], ['8', '8'], ['9', '9'], ['10', '10']
+];
 
 function shelf_moistureForm(tableId, mainFormId, clickedRow, shelfValue, trayValue, sectionValue, labelText) {
   formCount++;
