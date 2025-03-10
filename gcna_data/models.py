@@ -2122,7 +2122,9 @@ class Mace_Dispatched_Rec(models.Model):
         ('M', 'Marli'),
         ('U', 'Union'),
         ('GP', 'Gouyave'),
-
+   ('V', 'Victoria'),
+        ('T', 'Thebaide'),
+        ('HO', 'Head Office'),
    
 
 
@@ -2173,7 +2175,9 @@ class Mace_Purchase(models.Model):
         ('M', 'Marli'),
         ('U', 'Union'),
         ('GP', 'Gouyave'),
-
+   ('V', 'Victoria'),
+        ('T', 'Thebaide'),
+        ('HO', 'Head Office'),
    
 
 
@@ -2231,7 +2235,9 @@ class Mace_Dispatched(models.Model):
         ('M', 'Marli'),
         ('U', 'Union'),
         ('GP', 'Gouyave'),
-
+   ('V', 'Victoria'),
+        ('T', 'Thebaide'),
+        ('HO', 'Head Office'),
    
 
 
@@ -2291,7 +2297,9 @@ class In_House_Drying(models.Model):
         ('M', 'Marli'),
         ('U', 'Union'),
         ('GP', 'Gouyave'),
-
+   ('V', 'Victoria'),
+        ('T', 'Thebaide'),
+        ('HO', 'Head Office'),
    
 
 
@@ -3427,8 +3435,9 @@ class Dispatch_Of_Green_Nutmeg(models.Model):
         ('M', 'Marli'),
         ('U', 'Union'),
         ('GP', 'Gouyave'),
-        ('V', 'Victoria'),
-
+   ('V', 'Victoria'),
+        ('T', 'Thebaide'),
+        ('HO', 'Head Office'),
    
 
 
