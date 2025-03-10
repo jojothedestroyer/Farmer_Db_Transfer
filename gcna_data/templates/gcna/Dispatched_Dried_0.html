@@ -449,7 +449,10 @@ Also Vehicles connect for this honestly not a long period mayber an hour or two 
       myForm.addEventListener('submit', function(event) {
           event.preventDefault();
           var data = new FormData(event.target);
+<<<<<<< HEAD
           
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
           saveDataToIndexedDB(data);
       });
 
@@ -730,6 +733,7 @@ Also Vehicles connect for this honestly not a long period mayber an hour or two 
 
   
   <script>
+<<<<<<< HEAD
   //   document.addEventListener('DOMContentLoaded', function() {
   //       var myForm = document.getElementById('myForm');
     
@@ -829,6 +833,8 @@ Also Vehicles connect for this honestly not a long period mayber an hour or two 
   
   </script>
   <!-- <script>
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
     document.addEventListener('DOMContentLoaded', function() {
         var myForm = document.getElementById('myForm');
     
@@ -836,15 +842,19 @@ Also Vehicles connect for this honestly not a long period mayber an hour or two 
   
             event.preventDefault();
             var data = new FormData(event.target);
+<<<<<<< HEAD
 
             // Get the content of selectContainer and add it as Vehicle_number
             var vehicleNumber = document.getElementById('selectContainer').innerText || document.getElementById('selectContainer').textContent;
             data.append('Vehicle_number', vehicleNumber); // Add Vehicle_number to FormData
 
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
             saveDataToIndexedDB(data);
         });
     
         function saveDataToIndexedDB(data) {
+<<<<<<< HEAD
             // Exclude csrfmiddlewaretoken from being saved to IndexedDB
             data.delete('csrfmiddlewaretoken');
   
@@ -888,6 +898,50 @@ Also Vehicles connect for this honestly not a long period mayber an hour or two 
             };
         }
 
+=======
+    // Exclude csrfmiddlewaretoken from being saved to IndexedDB
+    data.delete('csrfmiddlewaretoken');
+  
+    var request = indexedDB.open('GCNA', 2);
+  
+    request.onsuccess = function(event) {
+        var db = event.target.result;
+        var transaction = db.transaction('Dispatch-Of-Dried-Nutmeg', 'readwrite');
+        var objectStore = transaction.objectStore('Dispatch-Of-Dried-Nutmeg');
+  
+        var obj = {};
+        for (var pair of data.entries()) {
+            obj[pair[0]] = pair[1];
+        }
+  
+        // Get the highest id in the object store
+        var highestIdRequest = objectStore.openCursor(null, 'prev');
+        highestIdRequest.onsuccess = function(event) {
+            var cursor = event.target.result;
+            if (cursor) {
+                obj.id = cursor.key + 1;
+            } else {
+                obj.id = 1; // This is the first item
+            }
+  
+            var request = objectStore.put(obj);
+  
+            request.onsuccess = function() {
+                console.log('Data added to IndexedDB');
+                transferIndexedDBData(); // Transfer data to Django after saving to IndexedDB
+            };
+  
+            request.onerror = function() {
+                console.error('Error adding data to IndexedDB');
+            };
+        };
+    };
+  
+    request.onerror = function(event) {
+        console.error('Error opening IndexedDB', event);
+    };
+  }
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
         function transferIndexedDBData() {
             var request = indexedDB.open('GCNA', 2);
         
@@ -904,6 +958,10 @@ Also Vehicles connect for this honestly not a long period mayber an hour or two 
                       });
                       clickAllButtons();
                     // window.location.reload();
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
                 };
             };
         
@@ -928,6 +986,7 @@ Also Vehicles connect for this honestly not a long period mayber an hour or two 
             xhr.send(JSON.stringify(item));
         }
     });
+<<<<<<< HEAD
 </script> -->
 <!-- <script>
   document.addEventListener('DOMContentLoaded', function() {
@@ -1036,6 +1095,10 @@ Also Vehicles connect for this honestly not a long period mayber an hour or two 
   });
 </script> -->
 <!-- 
+=======
+  </script>
+  
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
   <script>
 
 
@@ -1056,7 +1119,11 @@ Also Vehicles connect for this honestly not a long period mayber an hour or two 
             }
         };
     };
+<<<<<<< HEAD
    </script> -->
+=======
+   </script>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
   
 <script>
 
@@ -1066,6 +1133,7 @@ $('#id_NUM_OF_BAGS').on('change', function() {
     $('#id_TOTAL_LBS_NUTMEG_BOUGHT').val(calc);
       });
 </script>
+<<<<<<< HEAD
 
 
 
@@ -1088,6 +1156,8 @@ $('#id_NUM_OF_BAGS').on('change', function() {
        // This can be any value from the STATION_CHOICES
 </script>
 
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
   <style>
     .menu {
       display: flex;
@@ -1131,6 +1201,7 @@ $('#id_NUM_OF_BAGS').on('change', function() {
       display: none;
     }
   </style>
+<<<<<<< HEAD
 
 
 
@@ -1169,6 +1240,8 @@ opacity: o;
   }
 </style>
 
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 	<center>
 <br>
 	{% if submitted %}
@@ -1240,8 +1313,32 @@ opacity: o;
         <th>Batch Codes</th>
         <td>{{ form.BATCH_CODES }}</td>
 
+<<<<<<< HEAD
             </tr>
 
+=======
+        <!-- Example button to trigger the function -->
+        <!-- <button onclick="set_Batchcode('batch1')">Set Batch 1</button>
+        <button onclick="set_Batchcode('batch2')">Set Batch 2</button>
+        <button onclick="set_Batchcode('batch3')">Set Batch 3</button> -->
+            </tr>
+
+        <!-- <tr>
+            <th>Date of Pick up</th>
+            <td>{{ form.DATE_OF_PICK_UP }}</td>
+        </tr> -->
+        <!-- <tr>
+            <th>Final Moisture Content</th>
+            <td>{{ form.FINAL_MOISTURE_CONTENT }}</td>
+        </tr>
+
+
+       <tr>
+            <th>Batch Number</th>
+            <td id="BATCH_NUMBER">{{ form.BATCH_NUMBER }}</td>
+        </tr> -->
+
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
         <tr>
           <th>Delivery Advice Number</th>
           <td>{{ form.CORRESPONDING_DELIVERY_ADVICE }}</td>
@@ -1273,11 +1370,648 @@ opacity: o;
 
 
         <table id="vertical-1" class="table table-hover table-light">
+<<<<<<< HEAD
 
+=======
+<!-- 
+        <tr>
+
+         <center>
+            <p><b>FINAL MOISTURE CONTENT (%)</b></p>
+        </center>
+        </tr>
+
+
+        <tr>
+
+         <center>
+            <p>LOCATION </p>
+        </center>
+        </tr>
+<table class="table" id="form_LoTableG1">
+
+    <center>
+<label class="hidden-label1"> Ground Floor</label>   
+ </center> 
+  <thead>
+    <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Content</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfG_GF }}</td>
+      <td>{{ form.TrayG_GF }}</td>
+      <td>{{ form.SectionG_GF }}</td>
+
+      <td>{{ form1.Section1 }} {{ form1.Section2 }}</td>
+
+
+      <td>{{ form.MoistureG_GF }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+ 
+
+
+ 
+
+
+
+
+<table class="table" id="form_LoTableG2">
+
+    <center>
+<label class="hidden-label1">1st Floor</label>   
+ </center> 
+  <thead>
+     <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Content</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfG_1F }}</td>
+      <td>{{ form.TrayG_1F }}</td>
+      <td>{{ form.SectionG_1F }}</td>
+      <td>{{ form1.Section1 }} {{ form1.Section2 }}</td>
+
+
+
+
+      <td>{{ form.MoistureG_1F }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+  
+
+             
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+<table class="table" id="form_LoTableH1">
+
+    <center>
+<label class="hidden-label2"> Ground Floor</label>   
+ </center> 
+  <thead>
+    <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Content</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfH_GF }}</td>
+      <td>{{ form.TrayH_GF }}</td>
+      <td>{{ form.SectionH_GF }}</td>
+
+      
+      <td>{{ form.MoistureH_GF }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+ 
+ 
+
+
+<table class="table" id="form_LoTableH2">
+
+    <center>
+<label class="hidden-label2">1st Floor</label>   
+ </center> 
+  <thead>
+     <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Content</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfH_1F }}</td>
+      <td>{{ form.TrayH_1F }}</td>
+      <td>{{ form.SectionH_1F }}</td>
+      <td>{{ form.MoistureH_1F }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+ 
+
+ 
+
+   
+<table class="table" id="form_LoTableH3">
+
+    <center>
+<label class="hidden-label2" >2nd Floor</label>   
+ </center> 
+  <thead>
+      <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Content</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfH_2F }}</td>
+      <td>{{ form.TrayH_2F }}</td>
+      <td>{{ form.SectionH_2F }}</td>
+      <td>{{ form.MoistureH_2F }}</td>
+
+    </tr>
+
+
+  </tbody>
+</table>
+
+
+
+
+ 
+ 
+
+
+   
+<table class="table" id="form_LoTableH4">
+
+    <center>
+<label class="hidden-label2">Loft</label>   
+ </center> 
+  <thead>
+       <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Content</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfH_FL }}</td>
+      <td>{{ form.TrayH_FL }}</td>
+      <td>{{ form.SectionH_FL }}</td>
+      <td>{{ form.MoistureH_FL }}</td>
+
+    </tr>
+
+
+  </tbody>
+</table>
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="table" id="form_LoTableM1">
+
+    <center>
+<label class="hidden-label3"> Ground Floor</label>   
+ </center> 
+  <thead>
+    <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Content</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfM_GF }}</td>
+      <td>{{ form.TrayM_GF }}</td>
+      <td>{{ form.SectionM_GF }}</td>
+      <td>{{ form.MoistureM_GF }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+ 
+
+
+
+
+
+
+<table class="table" id="form_LoTableM2">
+
+    <center>
+<label class="hidden-label3">1st Floor</label>   
+ </center> 
+  <thead>
+     <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Content</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfM_1F }}</td>
+      <td>{{ form.TrayM_1F }}</td>
+      <td>{{ form.SectionM_1F }}</td>
+      <td>{{ form.MoistureM_1F }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+ 
+
+
+
+
+
+
+<table class="table" id="form_LoTableM3">
+
+    <center>
+<label class="hidden-label3">2nd Floor</label>   
+ </center> 
+  <thead>
+      <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Content</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfM_2F }}</td>
+      <td>{{ form.TrayM_2F }}</td>
+      <td>{{ form.SectionM_2F }}</td>
+      <td>{{ form.MoistureM_2F }}</td>
+
+    </tr>
+
+
+  </tbody>
+</table>
+
+
+
+
+ 
+
+
+
+
+
+
+
+<table class="table" id="form_LoTableM4">
+
+    <center>
+<label class="hidden-label3">Loft</label>   
+ </center> 
+  <thead>
+       <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Content</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfM_FL }}</td>
+      <td>{{ form.TrayM_FL }}</td>
+      <td>{{ form.SectionM_FL }}</td>
+      <td>{{ form.MoistureM_FL }}</td>
+
+    </tr>
+
+
+  </tbody>
+</table>
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="table" id="form_LoTableU1">
+
+    <center>
+<label class="hidden-label4"> Ground Floor</label>   
+ </center> 
+  <thead>
+    <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Content</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfU_GF }}</td>
+      <td>{{ form.TrayU_GF }}</td>
+      <td>{{ form.SectionU_GF }}</td>
+      <td>{{ form.MoistureU_GF }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+ 
+
+
+
+
+
+
+
+<table class="table" id="form_LoTableU2">
+
+    <center>
+<label class="hidden-label4">1st Floor</label>   
+ </center> 
+  <thead>
+     <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Content</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfU_1F }}</td>
+      <td>{{ form.TrayU_1F }}</td>
+      <td>{{ form.SectionU_1F }}</td>
+      <td>{{ form.MoistureU_1F }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+ 
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+ 
+ 
+
+
+
+
+
+
+
+
+<table class="table" id="form_LoTableGP2">
+
+    <center>
+<label class="hidden-label5">1st Floor</label>   
+ </center> 
+  <thead>
+     <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Content</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfGP_1F }}</td>
+      <td>{{ form.TrayGP_1F }}</td>
+      <td>{{ form.SectionGP_1F }}</td>
+      <td>{{ form.MoistureGP_1F }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+ 
+
+
+
+
+   
+<table class="table" id="form_LoTableGP3">
+
+    <center>
+<label class="hidden-label5">2nd Floor</label>   
+ </center> 
+  <thead>
+      <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Content</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfGP_2F }}</td>
+      <td>{{ form.TrayGP_2F }}</td>
+      <td>{{ form.SectionGP_2F }}</td>
+      <td>{{ form.MoistureGP_2F }}</td>
+
+    </tr>
+
+
+  </tbody>
+</table>
+
+
+
+
+ 
+  
+
+   
+<table class="table" id="form_LoTableGP4">
+
+    <center>
+<label class="hidden-label5">Loft</label>   
+ </center> 
+  <thead>
+       <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Content</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfGP_FL }}</td>
+      <td>{{ form.TrayGP_FL }}</td>
+      <td>{{ form.SectionGP_FL }}</td>
+      <td>{{ form.MoistureGP_FL }}</td>
+
+    </tr>
+
+
+  </tbody>
+</table> -->
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
 <div id="FormStore"></div>
        
 
+<<<<<<< HEAD
+=======
+        <!-- <tr>
+            <th>Corresponding Delivery Advice</th>
+            <td>{{ form.CORRESPONDING_DELIVERY_ADVICE }}</td>
+        </tr>
+   
+
+          <tr>
+            <th>Control Number</th>
+            <td id="Control_number">{{ form.Control_number }}</td> -->
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
             <td>    
 
@@ -1309,7 +2043,11 @@ opacity: o;
                 
                 <ul class="menu">
                   <li class="dropdown">
+<<<<<<< HEAD
                     <button type="button" class="addrow" onclick="toggleDropdown()">In House Drying List</button>
+=======
+                    <button type="button" onclick="toggleDropdown()">In House Drying List</button>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
                     <div class="dropdown-content" id="myDropdown">
                       <div class="container">
                       </div>
@@ -1318,7 +2056,24 @@ opacity: o;
                   </li>
                 </ul>
               </td>          
+<<<<<<< HEAD
 
+=======
+<!--                 
+
+
+  <ul class="menu">
+    <li class="dropdown">
+      <button type="button" onclick="toggleDropdown()">Control Number</button>
+      <div class="dropdown-content" id="myDropdown">
+        <div class="container">
+        </div>
+        <div id="landInfoData"></div>
+      </div>
+    </li>
+  </ul>
+</td> -->
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
         </tr>
    
    
@@ -1356,6 +2111,7 @@ opacity: o;
 
 
 	{% endif %}
+<<<<<<< HEAD
   <!-- <tr>
     <th>Vehicle Number</th>
     <td>
@@ -1397,6 +2153,39 @@ opacity: o;
             var transaction = db.transaction('Vehicle_Inspection', 'readonly');
             var objectStore = transaction.objectStore('Vehicle_Inspection');
 
+=======
+  <script>// Function to populate the select element with options
+    function populateSelect() {
+        var request = indexedDB.open('GCNA', 2);
+    
+        request.onerror = function(event) {
+            console.error("IndexedDB error:", event.target.error);
+        };
+    
+        request.onsuccess = function(event) {
+            var db = event.target.result;
+            var selectDiv = document.getElementById('selectContainer'); // ID of the div where select will be added
+    
+            // Create select element with form-control class
+            var select = document.createElement('select');
+            select.id = 'vehicleSelect';
+            select.classList.add('form-control'); // Add form-control class
+    
+            // Clear previous options
+            select.innerHTML = '';
+    
+            var vehicleNumbers = [];
+    
+            // Open a new transaction for object store
+            var transaction = db.transaction('Vehicle_Inspection', 'readonly');
+            var objectStore = transaction.objectStore('Vehicle_Inspection');
+    
+            transaction.oncomplete = function() {
+                // Append select to the div
+                selectDiv.appendChild(select);
+            };
+    
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
             objectStore.openCursor().onsuccess = function(event) {
                 var cursor = event.target.result;
                 if (cursor) {
@@ -1413,6 +2202,7 @@ opacity: o;
             };
         };
     }
+<<<<<<< HEAD
 
     // Call the populateSelect function when the page loads
     document.addEventListener('DOMContentLoaded', function() {
@@ -1770,6 +2560,88 @@ opacity: o;
  -->
 
 <!-- 
+=======
+    
+
+
+
+    
+
+
+
+
+
+
+    function populateSelect_second() {
+        var request = indexedDB.open('GCNA', 2);
+    
+        request.onerror = function(event) {
+            console.error("IndexedDB error:", event.target.error);
+        };
+    
+        request.onsuccess = function(event) {
+            var db = event.target.result;
+            var selectDiv = document.getElementById('selectContainer'); // ID of the div where select will be added
+            var select = selectDiv.querySelector('#vehicleSelect');
+
+// If the select element exists, remove it
+if (select) {
+    selectDiv.removeChild(select);
+    var select = document.createElement('select');
+
+}
+            // Create select element with form-control class
+            select.id = 'vehicleSelect';
+            select.classList.add('form-control'); // Add form-control class
+    
+            // Clear previous options
+            select.innerHTML = '';
+    
+            var vehicleNumbers = [];
+    
+            // Open a new transaction for object store
+            var transaction = db.transaction('Vehicle_Inspection', 'readonly');
+            var objectStore = transaction.objectStore('Vehicle_Inspection');
+    
+            transaction.oncomplete = function() {
+                // Append select to the div
+                selectDiv.appendChild(select);
+            };
+    
+            objectStore.openCursor().onsuccess = function(event) {
+                var cursor = event.target.result;
+                if (cursor) {
+                    var vehicleNumber = cursor.value.Vehicle_number;
+                    if (!vehicleNumbers.includes(vehicleNumber)) {
+                        vehicleNumbers.push(vehicleNumber);
+                        var option = document.createElement('option');
+                        option.textContent = vehicleNumber;
+                        option.value = vehicleNumber;
+                        select.appendChild(option);
+                    }
+                    cursor.continue();
+                }
+            };
+        };
+    }
+    // Function to trigger the populateSelect function after a delay
+    // function triggerPopulateSelectWithDelay() {
+    //     setTimeout(populateSelect, 5000); // 5000 milliseconds = 5 seconds
+    // }
+    
+    // Call the trigger function when the page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      populateSelect();
+    });
+    
+    </script>
+	</center>
+
+
+
+
+
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
   <script>
     let openRequest = indexedDB.open("GCNA");
@@ -1795,7 +2667,10 @@ getAllRequest.onsuccess = function(event) {
         entryContainer.id = `entryContainer_${record.id}`;
         entryContainer.classList.add("entryContainer"); // Add the class for initial hiding
         let entryCheckTd=record.id
+<<<<<<< HEAD
         // setSelectedStation('GP'); 
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
         let batchCodeCheckboxes = '';
         let codes = record.Control_number.split(",");
@@ -1804,6 +2679,7 @@ getAllRequest.onsuccess = function(event) {
                                     <label for="code${i}">${codes[i]}</label><br>`;
         }
 
+<<<<<<< HEAD
         let StationCheckboxes = '';
 let codes2 = record.STATION;
 StationCheckboxes += `<input type="checkbox" id="code" name="code" value="${codes2}" onchange="setSelectedStation('${codes2}')"> <label for="code">${codes2}</label><br>`;
@@ -1811,6 +2687,15 @@ StationCheckboxes += `<input type="checkbox" id="code" name="code" value="${code
 
 
    
+=======
+
+        // let deliveryCodeCheckboxes = '';
+        // let codes2 = record.Delivery_advice_num.split(",");
+        // for(let i = 0; i < codes2.length; i++) {
+        //     deliveryCodeCheckboxes += `<input type="checkbox" id="codes2${i}" name="codes2${i}" value="${codes2[i]}" onchange="updateControlNum2(this)">
+        //                             <label for="codes2${i}">${codes2[i]}</label><br>`;
+        // }
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
         let dropdownContent = `
         <div class="dropdown">
         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton_${record.id}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -1825,7 +2710,11 @@ StationCheckboxes += `<input type="checkbox" id="code" name="code" value="${code
 
 
                         <th>Station</th>
+<<<<<<< HEAD
                         <td>${StationCheckboxes}</td>
+=======
+                        <td>${record.STATION}</td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
                     </tr>  
                     <tr>
                         <th>Date of Purchase</th>
@@ -2008,7 +2897,11 @@ createInputFields('MoistureGP_FL');
             });
         };
     };
+<<<<<<< HEAD
 </script> -->
+=======
+</script>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
 <script>
     
@@ -2032,6 +2925,7 @@ if(controlNumField.value ==""){
 }
 
 
+<<<<<<< HEAD
 // function updateStation(station) {
 // let StationField = document.querySelector('[name="STATION"]');
 // let currentValues = StationField.value ? StationField.value.split(',') : [];
@@ -2053,6 +2947,8 @@ if(controlNumField.value ==""){
 
 
 
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
 
 

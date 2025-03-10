@@ -417,6 +417,7 @@ $(document).ready(function() {
 
 </script>
 
+<<<<<<< HEAD
 <style>
   .add-row, .submit_contents {
       padding: 5px 10px;
@@ -448,6 +449,9 @@ $(document).ready(function() {
   .addrow:hover, .submit_contents:hover {
       background-color: #0056b3;
   }</style>
+=======
+
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
 <!-- 
 
@@ -665,6 +669,12 @@ $(document).ready(function() {
     {{ form.Worker_ID_Name }}
 
         <table id="vertical-1" class="table table-hover table-light">
+<<<<<<< HEAD
+=======
+        <!-- <caption>First Way</caption> -->
+       {{ form.Nutmeg_ID_No }}
+
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
        <tr>
 
@@ -1090,12 +1100,20 @@ $(document).ready(function() {
         <table id="vertical-1" class="table table-hover table-light">
 
 
+<<<<<<< HEAD
 <!-- 
+=======
+
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
         <tr>
             <th>Batch Number</th>
             <td>{{ form.BATCH_NUMBER }}</td>
+<<<<<<< HEAD
         </tr>     -->
+=======
+        </tr>    
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
 
         <tr>
@@ -1170,7 +1188,11 @@ $(document).ready(function() {
     
     <ul class="menu">
       <li class="dropdown">
+<<<<<<< HEAD
         <button type="button" class="addrow" onclick="toggleDropdown()">Cracked Nutmeg List</button>
+=======
+        <button type="button" onclick="toggleDropdown()">Dispatched Dried Nutmeg List</button>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
         <div class="dropdown-content" id="myDropdown">
           <div class="container">
           </div>
@@ -1195,7 +1217,11 @@ $(document).ready(function() {
 
 
 		</form>
+<<<<<<< HEAD
     <!-- <script>
+=======
+    <script>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
       let openRequest = indexedDB.open("GCNA");
       let fieldBlacklist = [];
       const fieldBlacklistConfig = {
@@ -1239,7 +1265,11 @@ $(document).ready(function() {
           <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton_${record.id}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Entry: ${record.id}      
           </button>
+<<<<<<< HEAD
           <input type="hidden" id="valueChange_${record.Control_Num}">
+=======
+          <input type="hidden" id="valueChange_${record.BatchCodes}">
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
           <button type="hidden" style="display:none;" class="add-row" onclick="fill_table()"></button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton_${record.id}">
 
@@ -1268,6 +1298,14 @@ $(document).ready(function() {
         </tr>
 
 
+<<<<<<< HEAD
+=======
+                      <tr>
+                          <th>Batch Codes</th>
+                          <td>${batchCodeCheckboxes}</td>
+                      </tr>
+
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
 
         <tr>
@@ -1460,6 +1498,7 @@ $(document).ready(function() {
           };
       };
   </script>
+<<<<<<< HEAD
    -->
 
 
@@ -1620,6 +1659,28 @@ function updateControlNum(cnum) {
   document.querySelector('[name="Control_NUMBER"]').value = '' ;
   document.querySelector('[name="Control_NUMBER"]').value = cnum ;
 
+=======
+  
+  <script>
+      
+function updateControlNum(checkbox) {
+  let controlNumField = document.querySelector('[name="BATCH_NUMBER"]');
+  let currentValues = controlNumField.value ? controlNumField.value.split(',') : [];
+  if (checkbox.checked) {
+      // Add the checkbox's value to the field
+      currentValues.push(checkbox.value);
+  } else {
+      // Remove the checkbox's value from the field
+      currentValues = currentValues.filter(value => value !== checkbox.value);
+  }
+  if(controlNumField.value ==""){
+      controlNumField.value = currentValues;
+
+  }else{
+      controlNumField.value = currentValues.join(',');
+
+  }
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 }
 
 

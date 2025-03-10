@@ -2036,6 +2036,7 @@ class W_Shelves_Dried(models.Model):
 
 
 class Dispatch_Of_Dried_Nutmeg_Rec(models.Model):
+<<<<<<< HEAD
 
 
 
@@ -2064,14 +2065,21 @@ class Dispatch_Of_Dried_Nutmeg_Rec(models.Model):
 
 
     Station=models.CharField('Station',max_length=50,  choices=STATION_CHOICES, null=True)
+=======
+    Station= models.CharField(max_length=50,null=True,blank=True) 
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
     BatchCode= models.CharField(max_length=50,null=True,blank=True) 
     Vehicle_number= models.CharField(max_length=50,null=True,blank=True) 
     Delivery_advice_num= models.CharField(max_length=50,null=True,blank=True) 
     WAREHOUSE_RECEIPT_NUMBER= models.CharField(max_length=50,null=True,blank=True) 
 
     Date= models.DateField(max_length=50,null=True,blank=True)
+<<<<<<< HEAD
     Station_rec    = models.CharField('Station',max_length=50,  choices=STATION_CHOICES, null=True)
 
+=======
+    Station_rec= models.CharField(max_length=50,null=True,blank=True)
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
     Product= models.CharField(max_length=50,null=True,blank=True)
     Num_Bags= models.CharField(max_length=50,null=True,blank=True)
     Weight= models.CharField(max_length=50,null=True,blank=True)
@@ -2081,6 +2089,7 @@ class Dispatch_Of_Dried_Nutmeg_Rec(models.Model):
 
 
 class Dispatch_Of_Green_Nutmeg_Rec(models.Model):
+<<<<<<< HEAD
 
 
 
@@ -2098,12 +2107,18 @@ class Dispatch_Of_Green_Nutmeg_Rec(models.Model):
     ]
 
     Station=models.CharField('Station',max_length=50,  choices=STATION_CHOICES, null=True)
+=======
+    Station= models.CharField(max_length=50,null=True,blank=True) 
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
     BatchCode= models.CharField(max_length=50,null=True,blank=True) 
     WAREHOUSE_RECEIPT_NUMBER= models.CharField(max_length=50,null=True,blank=True) 
     Delivery_advice_num= models.CharField(max_length=50,null=True,blank=True) 
     Date= models.DateField(max_length=50,null=True,blank=True)
     Station_rec= models.CharField(max_length=50,null=True,blank=True)
+<<<<<<< HEAD
     Vehicle_number= models.CharField(max_length=50,null=True,blank=True) 
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     Product= models.CharField(max_length=50,null=True,blank=True)
     Num_Bags= models.CharField(max_length=50,null=True,blank=True)
@@ -3445,7 +3460,10 @@ class Dispatch_Of_Green_Nutmeg(models.Model):
     BATCH_CODES=models.CharField('Batch Codes',max_length=150, null=True)
 
 
+<<<<<<< HEAD
     Vehicle_number= models.CharField(max_length=50,null=True,blank=True) 
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     STATION= models.CharField('Station',max_length=50,  choices=STATION_CHOICES, null=True)
     DATE_OF_PURCHASE= models.DateField('Date of purchase',null=True)
@@ -4508,7 +4526,11 @@ class Vehicle_Inspection(models.Model):
 
 
     CONFIRMATION_OPTIONS = [
+<<<<<<< HEAD
         ('--Select Decision--', '--Select Decision--'),
+=======
+        ('--Select Decisiion--', '--Select Decisiion--'),
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
         ('Yes', 'Yes'),
         ('No', 'No'),
 
@@ -4520,7 +4542,11 @@ class Vehicle_Inspection(models.Model):
 
 
     CLEAN_OPTIONS = [
+<<<<<<< HEAD
         ('--Select Decision--', '--Select Decision--'),
+=======
+        ('--Select Decisiion--', '--Select Decisiion--'),
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
         ('Clean', 'Clean'),
         ('In need of washing', 'In need of washing'),
 
@@ -4535,7 +4561,11 @@ class Vehicle_Inspection(models.Model):
 
 
     CARGO_OPTIONS = [
+<<<<<<< HEAD
         ('--Select Decision--', '--Select Decision--'),
+=======
+        ('--Select Decisiion--', '--Select Decisiion--'),
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
         ('Mace', 'Mace'),
         ('Nutmeg', 'Nutmeg'),
         ('Other', 'Other'),
@@ -4549,7 +4579,11 @@ class Vehicle_Inspection(models.Model):
 
 
     CARGO_CONDITION_OPTIONS = [
+<<<<<<< HEAD
         ('--Select Decision--', '--Select Decision--'),
+=======
+        ('--Select Decisiion--', '--Select Decisiion--'),
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
         ('Dry', 'Dry'),
         ('Wet', 'Wet'),
 
@@ -4564,7 +4598,11 @@ class Vehicle_Inspection(models.Model):
 
 
     WEATHER_OPTIONS = [
+<<<<<<< HEAD
         ('--Select Decision--', '--Select Decision--'),
+=======
+        ('--Select Decisiion--', '--Select Decisiion--'),
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
         ('Sunny', 'Sunny'),
         ('Cloudy', 'Cloudy'),
         ('Raining', 'Raining'),
@@ -4580,11 +4618,19 @@ class Vehicle_Inspection(models.Model):
 
 
 
+<<<<<<< HEAD
     Provider= models.CharField('Packaging Material',max_length=50, choices=PROVIDER_OPTIONS, default='--Select Provider--')     
     Vehicle_number= models.CharField(max_length=50, null=True, blank=True)
     Driver_name= models.CharField(max_length=50, null=True, blank=True)
     liscense_check= models.CharField(max_length=50, choices=CONFIRMATION_OPTIONS, default='--Select Decision--')     
     insurance_check= models.CharField(max_length=50, choices=CONFIRMATION_OPTIONS, default='--Select Decision--')     
+=======
+    Provider= models.CharField('Pakaging Material',max_length=50, choices=PROVIDER_OPTIONS, default='--Select Provider--')     
+    Vehicle_number= models.CharField(max_length=50, null=True, blank=True)
+    Driver_name= models.CharField(max_length=50, null=True, blank=True)
+    liscense_check= models.CharField(max_length=50, choices=CONFIRMATION_OPTIONS, default='--Select Decisiion--')     
+    insurance_check= models.CharField(max_length=50, choices=CONFIRMATION_OPTIONS, default='--Select Decisiion--')     
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
 #General Conditions on vehicles
     Clean_check= models.CharField(max_length=50, choices=CLEAN_OPTIONS, default='--Select Provider--') 
@@ -4592,7 +4638,11 @@ class Vehicle_Inspection(models.Model):
 
 
 
+<<<<<<< HEAD
     Oil_Spill= models.CharField('Oil Spill',max_length=50, choices=CONFIRMATION_OPTIONS, default='--Select Provider--')     
+=======
+    Oil_Spill= models.CharField(max_length=50, choices=CONFIRMATION_OPTIONS, default='--Select Provider--')     
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
 
     Tyres_fit= models.CharField(max_length=50, choices=CONFIRMATION_OPTIONS, default='--Select Provider--')     

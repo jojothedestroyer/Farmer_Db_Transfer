@@ -5,6 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     /* General Styles */
+<<<<<<< HEAD
+=======
+/*     .hidden { display: none; }*/
+#entryCheck { 
+    display: none;
+}
+
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
     body {
       font-family: Arial, sans-serif;
       background-color: #f7f7f7; /* Adjusted background color */
@@ -127,6 +135,7 @@
       }
     }
   </style>
+<<<<<<< HEAD
 
 
 
@@ -238,6 +247,8 @@
 
 
 
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 </head>
 <body>
   <div class="container"></div>
@@ -246,11 +257,24 @@
 
   <script>
     let openRequest = indexedDB.open("GCNA");
+<<<<<<< HEAD
+=======
+    let db;
+
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
     let fieldBlacklist = [];
     const fieldBlacklistConfig = {
       DATE_OF_SAMPLING: true, // Set to true to blacklist if null or empty
       DECISION: true,
+<<<<<<< HEAD
       Quantity_of_Bags: true,    };
+=======
+      Quantity_of_Bags: true,
+
+      // Add more fields as needed
+    };
+
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
     openRequest.onsuccess = function (event) {
       let db = event.target.result;
       let transaction = db.transaction("In-House-Drying", "readonly");
@@ -291,7 +315,11 @@
                                         <td>${record.NUM_OF_BAGS}</td>
                                     </tr>
 
+<<<<<<< HEAD
                                     <td id="entryCheck" style="opacity: 0;">${record.entryCheck}</td>
+=======
+                                    <td id="entryCheck">${record.entryCheck}</td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
                                     <tr>
                                         <th>Total Nutmegs bought(lbs)</th>
@@ -304,6 +332,7 @@
 
                                     <tr>
                                         <th>Complete</th>
+<<<<<<< HEAD
 <td>
     <button onclick="saveEditedCompletion(${record.id}, 'Yes')">Entry Complete?</button>
 </td>            
@@ -311,6 +340,13 @@
                                     </tr>
 
 <table class="table">
+=======
+<td contenteditable="true" onblur="saveEditedCompletion(${record.id}, this.innerText)">${record.COMPLETE}</td>
+
+                                    </tr>
+
+                                    <table class="table">
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
                                         <center>
                                             <label>Dates</label>   
                                         </center> 
@@ -325,8 +361,13 @@
                                             <tr>
                                                 <td>${record.START_DRYING_DATE}</td>
                                                 <td>${record.APPROX_END_DRYING_DATE}</td>
+<<<<<<< HEAD
  <td><input type="date" value="${record.END_DRYING_DATE}" 
          onchange="saveEditedDate(${record.id}, this.value)">    </td>                                        </tr>
+=======
+<td contenteditable="true" onblur="saveEditedDate(${record.id}, this.innerText)">${record.END_DRYING_DATE}</td>
+                                            </tr>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
                                         </tbody>
                                     </table>
                                 </table>`;
@@ -349,13 +390,20 @@
                             </thead>
                             <tbody>
                                 <tr>
+<<<<<<< HEAD
+=======
+                                  <td id="entryCheck">${record.entryCheck}</td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
 
                                     <td>${record.ShelfG_GF}</td>
                                     <td>${record.TrayG_GF}</td>
                                     <td>${record.SectionG_GF}</td>
                                     <td>${record.WeightG_GF}</td>
+<<<<<<< HEAD
                                   <td id="entryCheck">${record.entryCheck}</td>
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
                                 </tr>
                             </tbody>
@@ -390,12 +438,19 @@
                             </thead>
                             <tbody>
                                 <tr>
+<<<<<<< HEAD
+=======
+                                  <td id="entryCheck">${record.entryCheck}</td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
                                     <td>${record.ShelfG_1F}</td>
                                     <td>${record.TrayG_1F}</td>
                                     <td>${record.SectionG_1F}</td>
                                     <td>${record.WeightG_1F}</td>
+<<<<<<< HEAD
                                   <td id="entryCheck">${record.entryCheck}</td>
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
                               
                                     </tr>
@@ -424,12 +479,19 @@
                     </thead>
                     <tbody>
                         <tr>
+<<<<<<< HEAD
+=======
+                          <td id="entryCheck">${record.entryCheck}</td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
                         <td>${record.ShelfG_2F}</td>
                         <td>${record.TrayG_2F}</td>
                         <td>${record.SectionG_2F}</td>
                         <td>${record.WeightG_2F}</td>
+<<<<<<< HEAD
                           <td id="entryCheck">${record.entryCheck}</td>
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
                         </tr>
 
@@ -459,12 +521,19 @@
   </thead>
   <tbody>
     <tr>
+<<<<<<< HEAD
+=======
+      <td id="entryCheck">${record.entryCheck}</td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
        <td>${record.ShelfG_FL}</td>
       <td>${record.TrayG_FL}</td>
       <td>${record.SectionG_FL}</td>
       <td>${record.WeightG_FL}</td>
+<<<<<<< HEAD
       <td id="entryCheck">${record.entryCheck}</td>
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
 
@@ -496,12 +565,19 @@
   </thead>
   <tbody>
     <tr>
+<<<<<<< HEAD
+=======
+      <td id="entryCheck">${record.entryCheck}</td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
        <td>${record.ShelfH_GF}</td>
       <td>${record.TrayH_GF}</td>
       <td>${record.SectionH_GF}</td>
       <td>${record.WeightH_GF}</td>
+<<<<<<< HEAD
       <td id="entryCheck">${record.entryCheck}</td>
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
 
@@ -533,12 +609,19 @@
   </thead>
   <tbody>
     <tr>
+<<<<<<< HEAD
+=======
+      <td id="entryCheck">${record.entryCheck}</td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
        <td>${record.ShelfH_1F}</td>
       <td>${record.TrayH_1F}</td>
       <td>${record.SectionH_1F}</td>
       <td>${record.WeightH_1F}</td>
+<<<<<<< HEAD
       <td id="entryCheck">${record.entryCheck}</td>
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
 
@@ -569,12 +652,19 @@
   <tbody>
 
     <tr>
+<<<<<<< HEAD
+=======
+      <td id="entryCheck">${record.entryCheck}</td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
        <td>${record.ShelfH_2F}</td>
       <td>${record.TrayH_2F}</td>
       <td>${record.SectionH_2F}</td>
       <td>${record.WeightH_2F}</td>
+<<<<<<< HEAD
       <td id="entryCheck">${record.entryCheck}</td>
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
 
@@ -605,14 +695,22 @@
   </thead>
   <tbody>
     <tr>
+<<<<<<< HEAD
+=======
+      <td id="entryCheck">${record.entryCheck}</td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
        <td>${record.ShelfH_FL}</td>
       <td>${record.TrayH_FL}</td>
       <td>${record.SectionH_FL}</td>
       <td>${record.WeightH_FL}</td>
 
+<<<<<<< HEAD
          <td id="entryCheck">${record.entryCheck}</td>
  </tr>
+=======
+    </tr>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
 
   </tbody>
@@ -641,14 +739,21 @@
   </thead>
   <tbody>
     <tr>
+<<<<<<< HEAD
+=======
+      <td id="entryCheck">${record.entryCheck}</td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
        <td>${record.ShelfM_GF}</td>
       <td>${record.TrayM_GF}</td>
       <td>${record.SectionM_GF}</td>
       <td>${record.WeightM_GF}</td>
+<<<<<<< HEAD
       <td id="entryCheck">${record.entryCheck}</td>
 
 
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
 
@@ -678,12 +783,19 @@
   </thead>
   <tbody>
     <tr>
+<<<<<<< HEAD
+=======
+      <td id="entryCheck">${record.entryCheck}</td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
        <td>${record.ShelfM_1F}</td>
       <td>${record.TrayM_1F}</td>
       <td>${record.SectionM_1F}</td>
       <td>${record.WeightM_1F}</td>
+<<<<<<< HEAD
       <td id="entryCheck">${record.entryCheck}</td>
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
 
@@ -713,12 +825,19 @@
   </thead>
   <tbody>
     <tr>
+<<<<<<< HEAD
+=======
+      <td id="entryCheck">${record.entryCheck}</td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
        <td>${record.ShelfM_2F}</td>
       <td>${record.TrayM_2F}</td>
       <td>${record.SectionM_2F}</td>
       <td>${record.WeightM_2F}</td>
+<<<<<<< HEAD
       <td id="entryCheck">${record.entryCheck}</td>
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
 
@@ -750,12 +869,19 @@
   </thead>
   <tbody>
     <tr>
+<<<<<<< HEAD
+=======
+      <td id="entryCheck">${record.entryCheck}</td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
        <td>${record.ShelfM_FL}</td>
       <td>${record.TrayM_FL}</td>
       <td>${record.SectionM_FL}</td>
       <td>${record.WeightM_FL}</td>
+<<<<<<< HEAD
       <td id="entryCheck">${record.entryCheck}</td>
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
 
@@ -786,12 +912,19 @@
   </thead>
   <tbody>
     <tr>
+<<<<<<< HEAD
+=======
+      <td id="entryCheck">${record.entryCheck}</td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
        <td>${record.ShelfU_GF}</td>
       <td>${record.TrayU_GF}</td>
       <td>${record.SectionU_GF}</td>
       <td>${record.WeightU_GF}</td>
+<<<<<<< HEAD
       <td id="entryCheck">${record.entryCheck}</td>
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
 
@@ -821,12 +954,19 @@
   </thead>
   <tbody>
     <tr>
+<<<<<<< HEAD
+=======
+      <td id="entryCheck">${record.entryCheck}</td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
        <td>${record.ShelfU_1F}</td>
       <td>${record.TrayU_1F}</td>
       <td>${record.SectionU_1F}</td>
       <td>${record.WeightU_1F}</td>
+<<<<<<< HEAD
       <td id="entryCheck">${record.entryCheck}</td>
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
 
@@ -855,12 +995,19 @@
   </thead>
   <tbody>
     <tr>
+<<<<<<< HEAD
+=======
+      <td id="entryCheck">${record.entryCheck}</td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
        <td>${record.ShelfU_2F}</td>
       <td>${record.TrayU_2F}</td>
       <td>${record.SectionU_2F}</td>
       <td>${record.WeightU_2F}</td>
+<<<<<<< HEAD
       <td id="entryCheck">${record.entryCheck}</td>
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
 
@@ -891,12 +1038,19 @@
   </thead>
   <tbody>
     <tr>
+<<<<<<< HEAD
+=======
+      <td id="entryCheck">${record.entryCheck}</td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
        <td>${record.ShelfU_FL}</td>
       <td>${record.TrayU_FL}</td>
       <td>${record.SectionU_FL}</td>
       <td>${record.WeightU_FL}</td>
+<<<<<<< HEAD
       <td id="entryCheck">${record.entryCheck}</td>
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
 
@@ -926,12 +1080,19 @@
   </thead>
   <tbody>
     <tr>
+<<<<<<< HEAD
+=======
+      <td id="entryCheck">${record.entryCheck}</td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
        <td>${record.ShelfGP_GF}</td>
       <td>${record.TrayGP_GF}</td>
       <td>${record.SectionGP_GF}</td>
       <td>${record.WeightGP_GF}</td>
+<<<<<<< HEAD
       <td id="entryCheck">${record.entryCheck}</td>
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
 
@@ -961,12 +1122,19 @@
   </thead>
   <tbody>
     <tr>
+<<<<<<< HEAD
+=======
+      <td id="entryCheck">${record.entryCheck}</td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
        <td>${record.ShelfGP_1F}</td>
       <td>${record.TrayGP_1F}</td>
       <td>${record.SectionGP_1F}</td>
       <td>${record.WeightGP_1F}</td>
+<<<<<<< HEAD
       <td id="entryCheck">${record.entryCheck}</td>
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
 
@@ -996,12 +1164,19 @@
   </thead>
   <tbody>
     <tr>
+<<<<<<< HEAD
+=======
+      <td id="entryCheck">${record.entryCheck}</td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
        <td>${record.ShelfGP_2F}</td>
       <td>${record.TrayGP_2F}</td>
       <td>${record.SectionGP_2F}</td>
       <td>${record.WeightGP_2F}</td>
+<<<<<<< HEAD
       <td id="entryCheck">${record.entryCheck}</td>
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
 
@@ -1032,12 +1207,19 @@
   </thead>
   <tbody>
     <tr>
+<<<<<<< HEAD
+=======
+      <td id="entryCheck">${record.entryCheck}</td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
        <td>${record.ShelfGP_FL}</td>
       <td>${record.TrayGP_FL}</td>
       <td>${record.SectionGP_FL}</td>
       <td>${record.WeightGP_FL}</td>
+<<<<<<< HEAD
       <td id="entryCheck">${record.entryCheck}</td>
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
 
@@ -1109,12 +1291,19 @@
   </thead>
   <tbody>
     <tr>
+<<<<<<< HEAD
+=======
+      <td id="entryCheck">${record.entryCheck}</td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
        <td>${record.ShelfG_0_GF}</td>
       <td>${record.TrayG_0_GF}</td>
       <td>${record.SectionG_0_GF}</td>
       <td>${record.MoistureG_GF}</td>
+<<<<<<< HEAD
       <td id="entryCheck">${record.entryCheck}</td>
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
 
@@ -1143,12 +1332,19 @@
   </thead>
   <tbody>
     <tr>
+<<<<<<< HEAD
+=======
+      <td id="entryCheck">${record.entryCheck}</td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
        <td>${record.ShelfG_0_1F}</td>
       <td>${record.TrayG_0_1F}</td>
       <td>${record.SectionG_0_1F}</td>
       <td>${record.MoistureG_1F}</td>
+<<<<<<< HEAD
       <td id="entryCheck">${record.entryCheck}</td>
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
 
@@ -1177,12 +1373,19 @@
   </thead>
   <tbody>
     <tr>
+<<<<<<< HEAD
+=======
+      <td id="entryCheck">${record.entryCheck}</td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
        <td>${record.ShelfG_0_2F}</td>
       <td>${record.TrayG_0_2F}</td>
       <td>${record.SectionG_0_2F}</td>
       <td>${record.MoistureG_2F}</td>
+<<<<<<< HEAD
       <td id="entryCheck">${record.entryCheck}</td>
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
 
@@ -1212,12 +1415,19 @@
   </thead>
   <tbody>
     <tr>
+<<<<<<< HEAD
+=======
+      <td id="entryCheck">${record.entryCheck}</td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
        <td>${record.ShelfG_0_FL}</td>
       <td>${record.TrayG_0_FL}</td>
       <td>${record.SectionG_0_FL}</td>
       <td>${record.MoistureG_FL}</td>
+<<<<<<< HEAD
       <td id="entryCheck">${record.entryCheck}</td>
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
 
@@ -1249,12 +1459,19 @@
   </thead>
   <tbody>
     <tr>
+<<<<<<< HEAD
+=======
+      <td id="entryCheck">${record.entryCheck}</td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
        <td>${record.ShelfH_0_GF}</td>
       <td>${record.TrayH_0_GF}</td>
       <td>${record.SectionH_0_GF}</td>
       <td>${record.MoistureH_GF}</td>
+<<<<<<< HEAD
       <td id="entryCheck">${record.entryCheck}</td>
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
 
@@ -1283,12 +1500,19 @@
   </thead>
   <tbody>
     <tr>
+<<<<<<< HEAD
+=======
+      <td id="entryCheck">${record.entryCheck}</td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
        <td>${record.ShelfH_0_1F}</td>
       <td>${record.TrayH_0_1F}</td>
       <td>${record.SectionH_0_1F}</td>
       <td>${record.MoistureH_1F}</td>
+<<<<<<< HEAD
       <td id="entryCheck">${record.entryCheck}</td>
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
 
@@ -1317,12 +1541,19 @@
   </thead>
   <tbody>
     <tr>
+<<<<<<< HEAD
+=======
+      <td id="entryCheck">${record.entryCheck}</td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
        <td>${record.ShelfH_0_2F}</td>
       <td>${record.TrayH_0_2F}</td>
       <td>${record.SectionH_0_2F}</td>
       <td>${record.MoistureH_2F}</td>
+<<<<<<< HEAD
       <td id="entryCheck">${record.entryCheck}</td>
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
 
@@ -1352,12 +1583,19 @@
   </thead>
   <tbody>
     <tr>
+<<<<<<< HEAD
+=======
+      <td id="entryCheck">${record.entryCheck}</td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
        <td>${record.ShelfH_0_FL}</td>
       <td>${record.TrayH_0_FL}</td>
       <td>${record.SectionH_0_FL}</td>
       <td>${record.MoistureH_FL}</td>
+<<<<<<< HEAD
       <td id="entryCheck">${record.entryCheck}</td>
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
 
@@ -1387,12 +1625,19 @@
   </thead>
   <tbody>
     <tr>
+<<<<<<< HEAD
+=======
+      <td id="entryCheck">${record.entryCheck}</td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
        <td>${record.ShelfM_0_GF}</td>
       <td>${record.TrayM_0_GF}</td>
       <td>${record.SectionM_0_GF}</td>
       <td>${record.MoistureM_GF}</td>
+<<<<<<< HEAD
       <td id="entryCheck">${record.entryCheck}</td>
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
 
@@ -1421,12 +1666,19 @@
   </thead>
   <tbody>
     <tr>
+<<<<<<< HEAD
+=======
+      <td id="entryCheck">${record.entryCheck}</td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
        <td>${record.ShelfM_0_1F}</td>
       <td>${record.TrayM_0_1F}</td>
       <td>${record.SectionM_0_1F}</td>
       <td>${record.MoistureM_1F}</td>
+<<<<<<< HEAD
       <td id="entryCheck">${record.entryCheck}</td>
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
 
@@ -1457,12 +1709,19 @@
   </thead>
   <tbody>
     <tr>
+<<<<<<< HEAD
+=======
+      <td id="entryCheck">${record.entryCheck}</td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
        <td>${record.ShelfM_0_2F}</td>
       <td>${record.TrayM_0_2F}</td>
       <td>${record.SectionM_0_2F}</td>
       <td>${record.MoistureM_2F}</td>
+<<<<<<< HEAD
       <td id="entryCheck">${record.entryCheck}</td>
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
 
@@ -1492,12 +1751,19 @@
   </thead>
   <tbody>
     <tr>
+<<<<<<< HEAD
+=======
+      <td id="entryCheck">${record.entryCheck}</td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
        <td>${record.ShelfM_0_FL}</td>
       <td>${record.TrayM_0_FL}</td>
       <td>${record.SectionM_0_FL}</td>
       <td>${record.MoistureM_FL}</td>
+<<<<<<< HEAD
       <td id="entryCheck">${record.entryCheck}</td>
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
 
@@ -1528,12 +1794,19 @@
   </thead>
   <tbody>
     <tr>
+<<<<<<< HEAD
+=======
+      <td id="entryCheck">${record.entryCheck}</td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
        <td>${record.ShelfU_0_GF}</td>
       <td>${record.TrayU_0_GF}</td>
       <td>${record.SectionU_0_GF}</td>
       <td>${record.MoistureU_GF}</td>
+<<<<<<< HEAD
       <td id="entryCheck">${record.entryCheck}</td>
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
 
@@ -1562,12 +1835,19 @@
   </thead>
   <tbody>
     <tr>
+<<<<<<< HEAD
+=======
+      <td id="entryCheck">${record.entryCheck}</td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
        <td>${record.ShelfU_0_1F}</td>
       <td>${record.TrayU_0_1F} }</td>
       <td>${record.SectionU_0_1F}</td>
       <td>${record.MoistureU_1F}</td>
+<<<<<<< HEAD
       <td id="entryCheck">${record.entryCheck}</td>
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
 
@@ -1596,12 +1876,19 @@
   </thead>
   <tbody>
     <tr>
+<<<<<<< HEAD
+=======
+      <td id="entryCheck">${record.entryCheck}</td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
        <td>${record.ShelfU_0_2F}</td>
       <td>${record.TrayU_0_2F}</td>
       <td>${record.SectionU_0_2F}</td>
       <td>${record.MoistureU_2F}</td>
+<<<<<<< HEAD
       <td id="entryCheck">${record.entryCheck}</td>
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
 
@@ -1632,12 +1919,19 @@
   </thead>
   <tbody>
     <tr>
+<<<<<<< HEAD
+=======
+      <td id="entryCheck">${record.entryCheck}</td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
        <td>${record.ShelfU_0_FL}</td>
       <td>${record.TrayU_0_FL}</td>
       <td>${record.SectionU_0_FL}</td>
       <td>${record.MoistureU_FL}</td>
+<<<<<<< HEAD
       <td id="entryCheck">${record.entryCheck}</td>
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
 
@@ -1671,12 +1965,19 @@
   </thead>
   <tbody>
     <tr>
+<<<<<<< HEAD
+=======
+      <td id="entryCheck">${record.entryCheck}</td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
        <td>${record.ShelfGP_0_GF}</td>
       <td>${record.TrayGP_0_GF}</td>
       <td>${record.SectionGP_0_GF}</td>
       <td>${record.MoistureGP_GF}</td>
+<<<<<<< HEAD
       <td id="entryCheck">${record.entryCheck}</td>
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
 
@@ -1710,12 +2011,19 @@
   </thead>
   <tbody>
     <tr>
+<<<<<<< HEAD
+=======
+      <td id="entryCheck">${record.entryCheck}</td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
        <td>${record.ShelfGP_0_1F}</td>
       <td>${record.TrayGP_0_1F}</td>
       <td>${record.SectionGP_0_1F}</td>
       <td>${record.MoistureGP_1F}</td>
+<<<<<<< HEAD
       <td id="entryCheck">${record.entryCheck}</td>
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
 
@@ -1748,12 +2056,19 @@
   </thead>
   <tbody>
     <tr>
+<<<<<<< HEAD
+=======
+      <td id="entryCheck">${record.entryCheck}</td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
        <td>${record.ShelfGP_0_2F}</td>
       <td>${record.TrayGP_0_2F}</td>
       <td>${record.SectionGP_0_2F}</td>
       <td>${record.MoistureGP_2F}</td>
+<<<<<<< HEAD
       <td id="entryCheck">${record.entryCheck}</td>
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
 
@@ -1788,12 +2103,19 @@
   </thead>
   <tbody>
     <tr>
+<<<<<<< HEAD
+=======
+      <td id="entryCheck">${record.entryCheck}</td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
        <td>${record.ShelfGP_0_FL}</td>
       <td>${record.TrayGP_0_FL}</td>
       <td>${record.SectionGP_0_FL}</td>
       <td>${record.MoistureGP_FL}</td>
+<<<<<<< HEAD
       <td id="entryCheck">${record.entryCheck}</td>
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
 
@@ -1856,11 +2178,19 @@
 </table>
 
 <table>
+<<<<<<< HEAD
 <td style="opacity: 0;" id="newentryCheck">${record.entryCheck}</td>
+=======
+<td id="newentryCheck">${record.entryCheck}</td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
 <div id="landInfoData2"></div>
 
 
+<<<<<<< HEAD
+=======
+                            <div id="landInfoData1"></div>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
 
 
@@ -1970,16 +2300,27 @@
 
 
                 
+<<<<<<< HEAD
+=======
+                // Add other if statements similarly for other conditions
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
 
             </div>
                </div>
+<<<<<<< HEAD
                </form>
 
                               <br> <br> <br>
 
            `;
            if (
+=======
+               <br> <br> <br>
+               </form>
+           `;
+          if (
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
             record.COMPLETE == null ||
             record.COMPLETE == "" ||
             record.COMPLETE == "null" ||
@@ -2033,7 +2374,11 @@
           };
         };
       };
+<<<<<<< HEAD
     };
+=======
+    }
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
   </script>
   <script>
     let openRequest2 = indexedDB.open("GCNA");
@@ -2088,14 +2433,24 @@
                                     </thead>
                                     <tbody>
                                         <tr>
+<<<<<<< HEAD
                                      
+=======
+                                            <td>${record.floor}</td>
+                                            <td>${record.entry}</td>
+                                            <td>${record.station}</td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
                                             <td>${record.Shelf}</td>
                                             <td>${record.Tray}</td>
                                             <td>${record.Section}</td>
                                             <td>${record.Weight}</td>
+<<<<<<< HEAD
        <td style="opacity: 0;">${record.floor}</td>
                                             <td style="opacity: 0;">${record.entry}</td>
                                             <td style="opacity: 0;">${record.station}</td>
+=======
+
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
                                             
                                         </tr>
                                     </tbody>
@@ -2135,6 +2490,611 @@
 <td><input type="text" id="Week" class="form-control" name="Week" required></td>
  -->
 
+<<<<<<< HEAD
+=======
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      let openRequest4 = indexedDB.open("GCNA");
+      openRequest4.onsuccess = function (event) {
+        let db = event.target.result;
+        let transaction = db.transaction("W_Shelves", "readonly");
+        let landInfoStore = transaction.objectStore("W_Shelves");
+        let getAllRequest = landInfoStore.getAll();
+        getAllRequest.onsuccess = function (event) {
+          let landInfoRecords = event.target.result;
+          let tables = document.querySelectorAll("table"); // Select all tables
+          tables.forEach((table) => {
+            landInfoRecords.forEach((record) => {
+              let entryCheckTd = table.querySelector("td#newentryCheck");
+              if (
+                entryCheckTd &&
+                entryCheckTd.textContent.trim() === record.entry
+              ) {
+                let landInfoDataDiv = table.querySelector(".landInfoData2");
+                if (!landInfoDataDiv) {
+                  landInfoDataDiv = document.createElement("div");
+                  landInfoDataDiv.className = "landInfoData2";
+                  table.appendChild(landInfoDataDiv);
+                }
+                let entryContainer = document.createElement("div");
+                entryContainer.className = "entry-container";
+                entryContainer.dataset.formId = table.id;
+                entryContainer.innerHTML = generateCardHTML(record);
+                landInfoDataDiv.appendChild(entryContainer);
+              }
+            });
+          });
+        };
+      };
+    });
+
+    function saveEditedField(storeName, id, field, newValue) {
+      let openRequestup = indexedDB.open("GCNA");
+      openRequestup.onsuccess = function (event) {
+        let db1 = event.target.result;
+        let transaction = db1.transaction(storeName, "readwrite");
+        let landInfoStore = transaction.objectStore(storeName);
+        let getRequest = landInfoStore.get(id);
+        getRequest.onsuccess = function (event) {
+          let record = event.target.result;
+          record[field] = newValue;
+          let updateRequest = landInfoStore.put(record);
+          updateRequest.onsuccess = function () {
+            console.log(`${field} updated successfully!`);
+          };
+        };
+      };
+    }
+
+    function addRow(
+      storeName,
+      station,
+      labelText,
+      shelf,
+      tray,
+      section,
+      moisture,
+      floor,
+      entry,
+      buttonElement
+    ) {
+      let newRow = {
+        id: Date.now(),
+        station: station,
+        [storeName === "M_Shelves" ? "M_Shelf" : "W_Shelf"]: shelf,
+        [storeName === "M_Shelves" ? "M_Tray" : "W_Tray"]: tray,
+        [storeName === "M_Shelves" ? "M_Section" : "W_Section"]: section,
+        Moisture: moisture,
+        Week: "",
+        floor: floor,
+        entry: entry,
+      };
+
+      let openRequestup = indexedDB.open("GCNA");
+      openRequestup.onsuccess = function (event) {
+        let db1 = event.target.result;
+        let transaction = db1.transaction(storeName, "readwrite");
+        let landInfoStore = transaction.objectStore(storeName);
+
+        let addRequest = landInfoStore.add(newRow);
+        addRequest.onsuccess = function () {
+          console.log("New row added successfully!");
+
+          // Dynamically add the new card-like entry
+          let entryContainer = document.createElement("div");
+          entryContainer.className = "entry-container";
+          entryContainer.dataset.formId = buttonElement.closest("table").id;
+          entryContainer.innerHTML = generateCardHTML(newRow);
+
+          // Append the new card structure to the .landInfoData2 div
+          let landInfoDataDiv = buttonElement
+            .closest("table")
+            .querySelector(".landInfoData2");
+          if (landInfoDataDiv) {
+            landInfoDataDiv.appendChild(entryContainer);
+          }
+        };
+      };
+    }
+
+    function generateCardHTML(record) {
+      return `
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title"></h5>
+        <p class="card-text">
+          <center>
+            <table>
+              <thead>
+                <label>${record.labelText}</label>
+                <tr>
+                  <th scope="col">Station</th>
+                  <th scope="col">Shelf</th>
+                  <th scope="col">Tray</th>
+                  <th scope="col">Section</th>
+                  <th scope="col">Moisture</th>
+                  <th scope="col">Week</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td contenteditable="true" onblur="saveEditedField('W_Shelves', ${
+                    record.id
+                  }, 'station', this.innerText)">${record.station}</td>
+                  <td contenteditable="true" onblur="saveEditedField('W_Shelves', ${
+                    record.id
+                  }, '${
+        record.W_Shelf ? "W_Shelf" : "M_Shelf"
+      }', this.innerText)">${record.W_Shelf || record.M_Shelf}</td>
+                  <td contenteditable="true" onblur="saveEditedField('W_Shelves', ${
+                    record.id
+                  }, '${
+        record.W_Tray ? "W_Tray" : "M_Tray"
+      }', this.innerText)">${record.W_Tray || record.M_Tray}</td>
+                  <td contenteditable="true" onblur="saveEditedField('W_Shelves', ${
+                    record.id
+                  }, '${
+        record.W_Section ? "W_Section" : "M_Section"
+      }', this.innerText)">${record.W_Section || record.M_Section}</td>
+                  <td contenteditable="true" onblur="saveEditedField('W_Shelves', ${
+                    record.id
+                  }, 'Moisture', this.innerText)">${record.Moisture}</td>
+                  <td contenteditable="true" onblur="saveEditedField('W_Shelves', ${
+                    record.id
+                  }, 'Week', this.innerText)">${record.Week}</td>
+                  <td>${record.floor}</td>
+                  <td>${record.entry}</td>
+                </tr>
+              </tbody>
+            </table>
+            <button onclick="addRow('W_Shelves', '${record.station}', '${
+        record.labelText
+      }', '${record.W_Shelf || record.M_Shelf}', '${
+        record.W_Tray || record.M_Tray
+      }', '${record.W_Section || record.M_Section}', '${record.Moisture}', '${
+        record.floor
+      }', '${record.entry}', this)">Add Row</button>
+          </center>
+        </p>
+      </div>
+    </div>
+    <br> <br> <br>`;
+    }
+  </script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      let openRequest4 = indexedDB.open("GCNA");
+      openRequest4.onsuccess = function (event) {
+        let db = event.target.result;
+        let transaction = db.transaction("M_Shelf", "readonly");
+        let landInfoStore = transaction.objectStore("M_Shelf");
+        let getAllRequest = landInfoStore.getAll();
+        getAllRequest.onsuccess = function (event) {
+          let landInfoRecords = event.target.result;
+          let tables = document.querySelectorAll("table"); // Select all tables
+          tables.forEach((table) => {
+            landInfoRecords.forEach((record) => {
+              let entryCheckTd = table.querySelector("td#newentryCheck");
+              if (
+                entryCheckTd &&
+                entryCheckTd.textContent.trim() === record.entry
+              ) {
+                let landInfoDataDiv = table.querySelector(".landInfoData2");
+                if (!landInfoDataDiv) {
+                  landInfoDataDiv = document.createElement("div");
+                  landInfoDataDiv.className = "landInfoData2";
+                  table.appendChild(landInfoDataDiv);
+                }
+                let entryContainer = document.createElement("div");
+                entryContainer.className = "entry-container";
+                entryContainer.dataset.formId = table.id;
+                entryContainer.innerHTML = generateCardHTML(record);
+                landInfoDataDiv.appendChild(entryContainer);
+              }
+            });
+          });
+        };
+      };
+    });
+
+    function saveEditedField(storeName, id, field, newValue) {
+      let openRequestup = indexedDB.open("GCNA");
+      openRequestup.onsuccess = function (event) {
+        let db1 = event.target.result;
+        let transaction = db1.transaction(storeName, "readwrite");
+        let landInfoStore = transaction.objectStore(storeName);
+        let getRequest = landInfoStore.get(id);
+        getRequest.onsuccess = function (event) {
+          let record = event.target.result;
+          record[field] = newValue;
+          let updateRequest = landInfoStore.put(record);
+          updateRequest.onsuccess = function () {
+            console.log(`${field} updated successfully!`);
+          };
+        };
+      };
+    }
+
+    function addRow(
+      storeName,
+      station,
+      labelText,
+      shelf,
+      tray,
+      section,
+      moisture,
+      floor,
+      entry,
+      buttonElement
+    ) {
+      let newRow = {
+        id: Date.now(),
+        station: station,
+        [storeName === "M_Shelves" ? "M_Shelf" : "W_Shelf"]: shelf,
+        [storeName === "M_Shelves" ? "M_Tray" : "W_Tray"]: tray,
+        [storeName === "M_Shelves" ? "M_Section" : "W_Section"]: section,
+        Moisture: moisture,
+        Week: "",
+        floor: floor,
+        entry: entry,
+      };
+
+      let openRequestup = indexedDB.open("GCNA");
+      openRequestup.onsuccess = function (event) {
+        let db1 = event.target.result;
+        let transaction = db1.transaction(storeName, "readwrite");
+        let landInfoStore = transaction.objectStore(storeName);
+
+        let addRequest = landInfoStore.add(newRow);
+        addRequest.onsuccess = function () {
+          console.log("New row added successfully!");
+
+          // Dynamically add the new card-like entry
+          let entryContainer = document.createElement("div");
+          entryContainer.className = "entry-container";
+          entryContainer.dataset.formId = buttonElement.closest("table").id;
+          entryContainer.innerHTML = generateCardHTML(newRow);
+
+          // Append the new card structure to the .landInfoData2 div
+          let landInfoDataDiv = buttonElement
+            .closest("table")
+            .querySelector(".landInfoData2");
+          if (landInfoDataDiv) {
+            landInfoDataDiv.appendChild(entryContainer);
+          }
+        };
+      };
+    }
+
+    function generateCardHTML(record) {
+      return `
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title"></h5>
+      <p class="card-text">
+        <center>
+          <table>
+            <thead>
+              <label>${record.labelText}</label>
+              <tr>
+                <th scope="col">Station</th>
+                <th scope="col">Shelf</th>
+                <th scope="col">Tray</th>
+                <th scope="col">Section</th>
+                <th scope="col">Moisture</th>
+                <th scope="col">Week</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td contenteditable="true" onblur="saveEditedField('M_Shelf', ${
+                  record.id
+                }, 'station', this.innerText)">${record.station}</td>
+                <td contenteditable="true" onblur="saveEditedField('M_Shelf', ${
+                  record.id
+                }, '${
+        record.W_Shelf ? "W_Shelf" : "M_Shelf"
+      }', this.innerText)">${record.W_Shelf || record.M_Shelf}</td>
+                <td contenteditable="true" onblur="saveEditedField('M_Shelf', ${
+                  record.id
+                }, '${record.W_Tray ? "W_Tray" : "M_Tray"}', this.innerText)">${
+        record.W_Tray || record.M_Tray
+      }</td>
+                <td contenteditable="true" onblur="saveEditedField('M_Shelf', ${
+                  record.id
+                }, '${
+        record.W_Section ? "W_Section" : "M_Section"
+      }', this.innerText)">${record.W_Section || record.M_Section}</td>
+                <td contenteditable="true" onblur="saveEditedField('M_Shelf', ${
+                  record.id
+                }, 'Moisture', this.innerText)">${record.Moisture}</td>
+                <td contenteditable="true" onblur="saveEditedField('M_Shelf', ${
+                  record.id
+                }, 'Week', this.innerText)">${record.Week}</td>
+                <td>${record.floor}</td>
+                <td>${record.entry}</td>
+              </tr>
+            </tbody>
+          </table>
+          <button onclick="addRow('M_Shelf', '${record.station}', '${
+        record.labelText
+      }', '${record.W_Shelf || record.M_Shelf}', '${
+        record.W_Tray || record.M_Tray
+      }', '${record.W_Section || record.M_Section}', '${record.Moisture}', '${
+        record.floor
+      }', '${record.entry}', this)">Add Row</button>
+        </center>
+      </p>
+    </div>
+  </div>
+  <br> <br> <br>`;
+    }
+  </script>
+
+  <!-- <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      let openRequest3 = indexedDB.open("GCNA");
+      openRequest3.onsuccess = function (event) {
+        let db = event.target.result;
+        let transaction = db.transaction("M_Shelves", "readonly");
+        let landInfoStore = transaction.objectStore("M_Shelves");
+        let getAllRequest = landInfoStore.getAll();
+        getAllRequest.onsuccess = function (event) {
+          let landInfoRecords = event.target.result;
+          let tables = document.querySelectorAll("table"); // Select all tables
+          tables.forEach((table) => {
+            landInfoRecords.forEach((record) => {
+              let entryCheckTd = table.querySelector("td#newentryCheck");
+              if (
+                entryCheckTd &&
+                entryCheckTd.textContent.trim() === record.entry
+              ) {
+                let landInfoDataDiv = table.querySelector(".landInfoData2");
+                if (!landInfoDataDiv) {
+                  landInfoDataDiv = document.createElement("div");
+                  landInfoDataDiv.className = "landInfoData2";
+                  table.appendChild(landInfoDataDiv);
+                }
+                let entryContainer = document.createElement("div");
+                entryContainer.className = "entry-container";
+                entryContainer.dataset.formId = table.id;
+                entryContainer.innerHTML = `
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title"></h5>
+                    <p class="card-text">
+                      <center>
+                        <table>
+                          <thead>
+                            <label>${record.labelText}</label>
+                            <tr>
+                              <th scope="col">Station</th>
+                              <th scope="col">Shelf</th>
+                              <th scope="col">Tray</th>
+                              <th scope="col">Section</th>
+                              <th scope="col">Moisture</th>
+                              <th scope="col">Week</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>${record.station}</td>
+                              <td>${record.M_Shelf}</td>
+                              <td>${record.M_Tray}</td>
+                              <td>${record.M_Section}</td>
+                              <td>${record.Moisture}</td>
+                              <td contenteditable="true" onblur="saveEditedWeek('M_Shelves', ${record.id}, this.innerText)">${record.Week}</td>
+                              <td>${record.floor}</td>
+                              <td>${record.entry}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <button onclick="addRow('M_Shelves', '${record.station}', '${record.labelText}', '${record.M_Shelf}', '${record.M_Tray}', '${record.M_Section}', '${record.Moisture}', '${record.floor}', '${record.entry}')">Add Row</button>
+                      </center>
+                    </p>
+                  </div>
+                </div>
+                <br> <br> <br>`;
+                landInfoDataDiv.appendChild(entryContainer);
+              }
+            });
+          });
+        };
+      };
+    });
+
+    function saveEditedWeek(storeName, id, newWeek) {
+      let openRequestup = indexedDB.open("GCNA");
+      openRequestup.onsuccess = function (event) {
+        let db1 = event.target.result;
+        let transaction = db1.transaction(storeName, "readwrite");
+        let landInfoStore = transaction.objectStore(storeName);
+        let getRequest = landInfoStore.get(id);
+        getRequest.onsuccess = function (event) {
+          let record = event.target.result;
+          record.Week = newWeek;
+          let updateRequest = landInfoStore.put(record);
+          updateRequest.onsuccess = function () {
+            console.log("Week updated successfully!");
+          };
+        };
+      };
+    }
+
+    function addRow(
+      storeName,
+      station,
+      labelText,
+      shelf,
+      tray,
+      section,
+      moisture,
+      floor,
+      entry
+    ) {
+      let newRow = {
+        id: Date.now(), // Generate a unique ID for the new entry
+        station: station,
+        [storeName === "M_Shelves" ? "M_Shelf" : "W_Shelf"]: shelf,
+        [storeName === "M_Shelves" ? "M_Tray" : "W_Tray"]: tray,
+        [storeName === "M_Shelves" ? "M_Section" : "W_Section"]: section,
+        Moisture: moisture,
+        Week: "",
+        floor: floor,
+        entry: entry,
+      };
+
+      let openRequestup = indexedDB.open("GCNA");
+      openRequestup.onsuccess = function (event) {
+        let db1 = event.target.result;
+        let transaction = db1.transaction(storeName, "readwrite");
+        let landInfoStore = transaction.objectStore(storeName);
+
+        let addRequest = landInfoStore.add(newRow);
+
+        addRequest.onsuccess = function () {
+          console.log("New row added successfully!");
+          // Optionally, you can reload the data here to reflect the new row
+          location.reload();
+        };
+      };
+    }
+  </script> -->
+  <!-- 
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      let openRequest4 = indexedDB.open("GCNA");
+      openRequest4.onsuccess = function (event) {
+        let db = event.target.result;
+        let transaction = db.transaction("W_Shelves", "readonly");
+        let landInfoStore = transaction.objectStore("W_Shelves");
+        let getAllRequest = landInfoStore.getAll();
+        getAllRequest.onsuccess = function (event) {
+          let landInfoRecords = event.target.result;
+          let tables = document.querySelectorAll("table"); // Select all tables
+          tables.forEach((table) => {
+            landInfoRecords.forEach((record) => {
+              let entryCheckTd = table.querySelector("td#newentryCheck");
+              if (
+                entryCheckTd &&
+                entryCheckTd.textContent.trim() === record.entry
+              ) {
+                let landInfoDataDiv = table.querySelector(".landInfoData2");
+                if (!landInfoDataDiv) {
+                  landInfoDataDiv = document.createElement("div");
+                  landInfoDataDiv.className = "landInfoData2";
+                  table.appendChild(landInfoDataDiv);
+                }
+                let entryContainer = document.createElement("div");
+                entryContainer.className = "entry-container";
+                entryContainer.dataset.formId = table.id;
+                entryContainer.innerHTML = `
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title"></h5>
+                    <p class="card-text">
+                      <center>
+                        <table>
+                          <thead>
+                            <label>${record.labelText}</label>
+                            <tr>
+                              <th scope="col">Station</th>
+                              <th scope="col">Shelf</th>
+                              <th scope="col">Tray</th>
+                              <th scope="col">Section</th>
+                              <th scope="col">Moisture</th>
+                              <th scope="col">Week</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>${record.station}</td>
+                              <td>${record.W_Shelf}</td>
+                              <td>${record.W_Tray}</td>
+                              <td>${record.W_Section}</td>
+                              <td>${record.Moisture}</td>
+                              <td contenteditable="true" onblur="saveEditedWeek('W_Shelves', ${record.id}, this.innerText)">${record.Week}</td>
+                              <td>${record.floor}</td>
+                              <td>${record.entry}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <button onclick="addRow('W_Shelves', '${record.station}', '${record.labelText}', '${record.W_Shelf}', '${record.W_Tray}', '${record.W_Section}', '${record.Moisture}', '${record.floor}', '${record.entry}')">Add Row</button>
+                      </center>
+                    </p>
+                  </div>
+                </div>
+                <br> <br> <br>`;
+
+                landInfoDataDiv.appendChild(entryContainer);
+              }
+            });
+          });
+        };
+      };
+    });
+
+    function saveEditedWeek(storeName, id, newWeek) {
+      let openRequestup = indexedDB.open("GCNA");
+      openRequestup.onsuccess = function (event) {
+        let db1 = event.target.result;
+        let transaction = db1.transaction(storeName, "readwrite");
+        let landInfoStore = transaction.objectStore(storeName);
+        let getRequest = landInfoStore.get(id);
+        getRequest.onsuccess = function (event) {
+          let record = event.target.result;
+          record.Week = newWeek;
+          let updateRequest = landInfoStore.put(record);
+          updateRequest.onsuccess = function () {
+            console.log("Week updated successfully!");
+          };
+        };
+      };
+    }
+
+    function addRow(
+      storeName,
+      station,
+      labelText,
+      shelf,
+      tray,
+      section,
+      moisture,
+      floor,
+      entry
+    ) {
+      let newRow = {
+        id: Date.now(), // Generate a unique ID for the new entry
+        station: station,
+        [storeName === "M_Shelves" ? "M_Shelf" : "W_Shelf"]: shelf,
+        [storeName === "M_Shelves" ? "M_Tray" : "W_Tray"]: tray,
+        [storeName === "M_Shelves" ? "M_Section" : "W_Section"]: section,
+        Moisture: moisture,
+        Moisture: moisture,
+        Week: "",
+        floor: floor,
+        entry: entry,
+      };
+
+      let openRequestup = indexedDB.open("GCNA");
+      openRequestup.onsuccess = function (event) {
+        let db1 = event.target.result;
+        let transaction = db1.transaction(storeName, "readwrite");
+        let landInfoStore = transaction.objectStore(storeName);
+
+        let addRequest = landInfoStore.add(newRow);
+
+        addRequest.onsuccess = function () {
+          console.log("New row added successfully!");
+          // Optionally, you can reload the data here to reflect the new row
+          location.reload();
+        };
+      };
+    }
+  </script> -->
+
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
   <!-- <script>
     document.addEventListener("DOMContentLoaded", function () {
       let openRequest3 = indexedDB.open("GCNA");
@@ -2177,6 +3137,10 @@
                             <label>${record.labelText}</label>
 
                             <tr>
+<<<<<<< HEAD
+=======
+                              <th scope="col">Station</th>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
                               <th scope="col">Shelf</th>
                               <th scope="col">Tray</th>
                               <th scope="col">Section</th>
@@ -2187,6 +3151,10 @@
                           <tbody>
                             <tr>
 
+<<<<<<< HEAD
+=======
+                              <td>${record.station}</td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
                               <td>${record.M_Shelf}</td>
                               <td>${record.M_Tray}</td>
                               <td>${record.M_Section}</td>
@@ -2194,8 +3162,13 @@
                               <td>${record.Week}</td>
                               
                             </tr>
+<<<<<<< HEAD
                                                      <div style="opacity: 0;>${record.floor}</div>
                               <div style="opacity: 0;">${record.entry}</div>
+=======
+                                                     <td>${record.floor}</td>
+                              <td>${record.entry}</td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
                           </tbody>
                         </table>
                       </center>
@@ -2210,6 +3183,7 @@
         };
       };
     });
+<<<<<<< HEAD
   </script> -->
 
 <!-- 
@@ -2666,6 +3640,8 @@ function M_submitForm(tableId, mainFormId, formNumber) {
           console.error("Error opening IndexedDB", event);
       };
   }
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
   </script>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -2706,9 +3682,16 @@ function M_submitForm(tableId, mainFormId, formNumber) {
                       <center>
                         <table>
                           <thead>
+<<<<<<< HEAD
                             <label>${record.labelText}</label>
 
                             <tr>
+=======
+                            <label>${record.labelText}</label> 
+
+                            <tr>
+                              <th scope="col">Station</th>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
                               <th scope="col">Shelf</th>
                               <th scope="col">Tray</th>
                               <th scope="col">Section</th>
@@ -2733,7 +3716,12 @@ function M_submitForm(tableId, mainFormId, formNumber) {
 
 
 
+<<<<<<< HEAD
                               <td style="opacity: 0;">${record.entry}</td>    
+=======
+                                                    <td>${record.floor}</td>
+                              <td>${record.entry}</td>    
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
                         </table>
                       </center>
                     </p>
@@ -2747,7 +3735,11 @@ function M_submitForm(tableId, mainFormId, formNumber) {
         };
       };
     });
+<<<<<<< HEAD
   </script>
+=======
+  </script> -->
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
   <!-- <script>
     let openRequest2 = indexedDB.open("GCNA");
@@ -2996,5 +3988,9 @@ function M_submitForm(tableId, mainFormId, formNumber) {
     processEntryCheck();
   </script> -->
 
+<<<<<<< HEAD
+=======
+  
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
   {% endblock %}
 </body>

@@ -619,6 +619,7 @@ $('#id_STATION, #id_DATE_OF_PURCHASE').on('change', function() {
     var startDate = $('#id_STATION').val();
 
     // Get the date from 'Date of Purchase'
+<<<<<<< HEAD
     // var purchaseDate = new Date($('#id_DATE_OF_PURCHASE').val());
 
     // Get the current time
@@ -633,6 +634,21 @@ $('#id_STATION, #id_DATE_OF_PURCHASE').on('change', function() {
     // var formattedDate = year + month + day;
 
     var last = startDate + purchaseDate+ "N";
+=======
+    var purchaseDate = new Date($('#id_DATE_OF_PURCHASE').val());
+
+    // Get the current time
+
+    var day = ("0" + purchaseDate.getDate()).slice(-2); 
+    var month = ("0" + (purchaseDate.getMonth() + 1)).slice(-2);
+    var year = purchaseDate.getFullYear();
+
+
+
+    var formattedDate = year + month + day;
+
+    var last = startDate + formattedDate+ "N";
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     $('#id_Control_number').val(last); 
 });
@@ -1102,7 +1118,10 @@ function sendEmailRequest(emailContent) {
             alert('Email sent successfully');
             // If email sent successfully, remove it from IndexedDB
             removeEmailFromIndexedDB();
+<<<<<<< HEAD
             window.location.reload()
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
         } else {
             console.error('Error sending email:', xhr.statusText);
             alert('Error sending email. Please try again later.');
@@ -1467,6 +1486,7 @@ function sendPendingEmailsFromIndexedDB() {
  
 
 
+<<<<<<< HEAD
 <style>
   .table {
       width: 100%;
@@ -1557,6 +1577,8 @@ function sendPendingEmailsFromIndexedDB() {
 
 
 
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
 
 	<center>
@@ -1579,7 +1601,11 @@ function sendPendingEmailsFromIndexedDB() {
 <h6>Version:  </h6>
 
 
+<<<<<<< HEAD
      <h1>Nutmeg Purchase</h1>
+=======
+     <h1>In House Drying</h1>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
  
 		{% csrf_token %}
 
@@ -1744,8 +1770,13 @@ add email alert for delivery advice(still connect to date of purchase)
         <td id="calculatedWeight"></td>
         <td><button type="button" class="add-row" onclick="addForm('LoTableG1', 'myForm', this.parentNode.parentNode)">+</button></td>
 
+<<<<<<< HEAD
       <!-- <td><button type="button" class="add-row" onclick="moistureForm('LoTableG1', 'myForm', this.parentNode.parentNode, 'ShelfG_GF', 'TrayG_GF', 'SectionG_GF')">Add Moisture Row</button></td> -->
 <td><button type="button" class="add-row" onclick="moistureForm('LoTableG10', 'myForm', this.parentNode.parentNode, 'ShelfG_GF', 'TrayG_GF', 'SectionG_GF', 'Ground Floor')">Add Moisture Row</button></td>
+=======
+      <!-- <td><button type="button" class="add-row" onclick="moistureForm('LoTableG1', 'myForm', this.parentNode.parentNode, 'ShelfG_GF', 'TrayG_GF', 'SectionG_GF')">[+]</button></td> -->
+<td><button type="button" class="add-row" onclick="moistureForm('LoTableG10', 'myForm', this.parentNode.parentNode, 'ShelfG_GF', 'TrayG_GF', 'SectionG_GF', 'Ground Floor')">[+]</button></td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
     </tr>
   
 
@@ -1811,7 +1842,11 @@ add email alert for delivery advice(still connect to date of purchase)
  <td id="calculatedWeight"></td>
 
       <td><button type="button" class="add-row" onclick="addForm('LoTableG2', 'myForm', this.parentNode.parentNode)">+</button></td>
+<<<<<<< HEAD
       <td><button type="button" class="add-row" onclick="moistureForm('LoTableG20', 'myForm', this.parentNode.parentNode, 'ShelfG_1F', 'TrayG_1F', 'SectionG_1F', '1st Floor')">Add Moisture Row</button></td>
+=======
+      <td><button type="button" class="add-row" onclick="moistureForm('LoTableG20', 'myForm', this.parentNode.parentNode, 'ShelfG_1F', 'TrayG_1F', 'SectionG_1F', '1st Floor')">[+]</button></td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
   
@@ -1866,7 +1901,11 @@ add email alert for delivery advice(still connect to date of purchase)
       <td id="calculatedWeight"></td>
 
       <td><button type="button" class="add-row" onclick="addForm('LoTableG3', 'myForm', this.parentNode.parentNode)">+</button></td>
+<<<<<<< HEAD
       <td><button type="button" class="add-row" onclick="moistureForm('LoTableG30', 'myForm', this.parentNode.parentNode, 'ShelfG_2F', 'TrayG_2F', 'SectionG_2F', '2nd Floor')">Add Moisture Row</button></td>
+=======
+      <td><button type="button" class="add-row" onclick="moistureForm('LoTableG30', 'myForm', this.parentNode.parentNode, 'ShelfG_2F', 'TrayG_2F', 'SectionG_2F', '2nd Floor')">[+]</button></td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
   
@@ -1927,7 +1966,11 @@ add email alert for delivery advice(still connect to date of purchase)
       <td id="calculatedWeight"></td>
 
       <td><button type="button" class="add-row" onclick="addForm('LoTableG4', 'myForm', this.parentNode.parentNode)">+</button></td>
+<<<<<<< HEAD
       <td><button type="button" class="add-row" onclick="moistureForm('LoTableG40', 'myForm', this.parentNode.parentNode, 'ShelfG_FL', 'TrayG_FL', 'SectionG_FL', 'Floor Loft')">Add Moisture Row</button></td>
+=======
+      <td><button type="button" class="add-row" onclick="moistureForm('LoTableG40', 'myForm', this.parentNode.parentNode, 'ShelfG_FL', 'TrayG_FL', 'SectionG_FL', 'Floor Loft')">[+]</button></td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
   
@@ -1998,7 +2041,11 @@ add email alert for delivery advice(still connect to date of purchase)
       <td id="calculatedWeight"></td>
 
       <td><button type="button" class="add-row" onclick="addForm('LoTableH1', 'myForm', this.parentNode.parentNode)">+</button></td>
+<<<<<<< HEAD
       <td><button type="button" class="add-row" onclick="moistureForm('LoTableH10', 'myForm', this.parentNode.parentNode, 'ShelfG_2F', 'TrayG_2F', 'SectionG_2F', 'Ground Floor')">Add Moisture Row</button></td>
+=======
+      <td><button type="button" class="add-row" onclick="moistureForm('LoTableH10', 'myForm', this.parentNode.parentNode, 'ShelfG_2F', 'TrayG_2F', 'SectionG_2F', 'Ground Floor')">[+]</button></td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
   
@@ -2058,7 +2105,11 @@ add email alert for delivery advice(still connect to date of purchase)
       <td id="calculatedWeight"></td>
 
       <td><button type="button" class="add-row" onclick="addForm('LoTableH2', 'myForm', this.parentNode.parentNode)">+</button></td>
+<<<<<<< HEAD
       <td><button type="button" class="add-row" onclick="moistureForm('LoTableH20', 'myForm', this.parentNode.parentNode, 'ShelfH_1F', 'TrayH_1F', 'SectionH_1F', '1st Floor')">Add Moisture Row</button></td>
+=======
+      <td><button type="button" class="add-row" onclick="moistureForm('LoTableH20', 'myForm', this.parentNode.parentNode, 'ShelfH_1F', 'TrayH_1F', 'SectionH_1F', '1st Floor')">[+]</button></td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
   
@@ -2121,7 +2172,11 @@ add email alert for delivery advice(still connect to date of purchase)
       <td id="calculatedWeight"></td>
 
       <td><button type="button" class="add-row" onclick="addForm('LoTableH3', 'myForm', this.parentNode.parentNode)">+</button></td>
+<<<<<<< HEAD
       <td><button type="button" class="add-row" onclick="moistureForm('LoTableH30', 'myForm', this.parentNode.parentNode, 'ShelfH_2F', 'TrayH_2F', 'SectionH_2F', '2nd Floor')">Add Moisture Row</button></td>
+=======
+      <td><button type="button" class="add-row" onclick="moistureForm('LoTableH30', 'myForm', this.parentNode.parentNode, 'ShelfH_2F', 'TrayH_2F', 'SectionH_2F', '2nd Floor')">[+]</button></td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
   
@@ -2181,7 +2236,11 @@ add email alert for delivery advice(still connect to date of purchase)
       <td id="calculatedWeight"></td>
 
       <td><button type="button" class="add-row" onclick="addForm('LoTableH4', 'myForm', this.parentNode.parentNode)">+</button></td>
+<<<<<<< HEAD
       <td><button type="button" class="add-row" onclick="moistureForm('LoTableH40', 'myForm', this.parentNode.parentNode, 'ShelfH_FL', 'TrayH_FL', 'SectionH_FL', 'Floor Loft')">Add Moisture Row</button></td>
+=======
+      <td><button type="button" class="add-row" onclick="moistureForm('LoTableH40', 'myForm', this.parentNode.parentNode, 'ShelfH_FL', 'TrayH_FL', 'SectionH_FL', 'Floor Loft')">[+]</button></td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
   
@@ -2252,7 +2311,11 @@ add email alert for delivery advice(still connect to date of purchase)
       <td id="calculatedWeight"></td>
 
       <td><button type="button" class="add-row" onclick="addForm('LoTableM1', 'myForm', this.parentNode.parentNode)">+</button></td>
+<<<<<<< HEAD
       <td><button type="button" class="add-row" onclick="moistureForm('LoTableM10', 'myForm', this.parentNode.parentNode, 'ShelfM_GF', 'TrayM_GF', 'SectionM_GF', 'Ground Floor')">Add Moisture Row</button></td>
+=======
+      <td><button type="button" class="add-row" onclick="moistureForm('LoTableM10', 'myForm', this.parentNode.parentNode, 'ShelfM_GF', 'TrayM_GF', 'SectionM_GF', 'Ground Floor')">[+]</button></td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
   
@@ -2314,7 +2377,11 @@ add email alert for delivery advice(still connect to date of purchase)
       <td id="calculatedWeight"></td>
 
       <td><button type="button" class="add-row" onclick="addForm('LoTableM2', 'myForm', this.parentNode.parentNode)">+</button></td>
+<<<<<<< HEAD
       <td><button type="button" class="add-row" onclick="moistureForm('LoTableM20', 'myForm', this.parentNode.parentNode, 'ShelfM_1F', 'TrayM_1F', 'SectionM_1F', '1st Floor')">Add Moisture Row</button></td>
+=======
+      <td><button type="button" class="add-row" onclick="moistureForm('LoTableM20', 'myForm', this.parentNode.parentNode, 'ShelfM_1F', 'TrayM_1F', 'SectionM_1F', '1st Floor')">[+]</button></td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
   
@@ -2375,7 +2442,11 @@ add email alert for delivery advice(still connect to date of purchase)
       <td id="calculatedWeight"></td>
 
       <td><button type="button" class="add-row" onclick="addForm('LoTableM3', 'myForm', this.parentNode.parentNode)">+</button></td>
+<<<<<<< HEAD
       <td><button type="button" class="add-row" onclick="moistureForm('LoTableM30', 'myForm', this.parentNode.parentNode, 'ShelfM_2F', 'TrayM_2F', 'SectionM_2F', '2nd Floor')">Add Moisture Row</button></td>
+=======
+      <td><button type="button" class="add-row" onclick="moistureForm('LoTableM30', 'myForm', this.parentNode.parentNode, 'ShelfM_2F', 'TrayM_2F', 'SectionM_2F', '2nd Floor')">[+]</button></td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
   
@@ -2441,7 +2512,11 @@ add email alert for delivery advice(still connect to date of purchase)
       <td id="calculatedWeight"></td>
 
       <td><button type="button" class="add-row" onclick="addForm('LoTableM4', 'myForm', this.parentNode.parentNode)">+</button></td>
+<<<<<<< HEAD
       <td><button type="button" class="add-row" onclick="moistureForm('LoTableM40', 'myForm', this.parentNode.parentNode, 'ShelfM_FL', 'TrayM_FL', 'SectionM_FL', 'Floor Loft')">Add Moisture Row</button></td>
+=======
+      <td><button type="button" class="add-row" onclick="moistureForm('LoTableM40', 'myForm', this.parentNode.parentNode, 'ShelfM_FL', 'TrayM_FL', 'SectionM_FL', 'Floor Loft')">[+]</button></td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
   
@@ -2525,7 +2600,11 @@ add email alert for delivery advice(still connect to date of purchase)
       <td id="calculatedWeight"></td>
 
       <td><button type="button" class="add-row" onclick="addForm('LoTableU1', 'myForm', this.parentNode.parentNode)">+</button></td>
+<<<<<<< HEAD
       <td><button type="button" class="add-row" onclick="moistureForm('LoTableU10', 'myForm', this.parentNode.parentNode, 'ShelfU_GF', 'TrayU_GF', 'SectionU_GF', 'Ground Floor')">Add Moisture Row</button></td>
+=======
+      <td><button type="button" class="add-row" onclick="moistureForm('LoTableU10', 'myForm', this.parentNode.parentNode, 'ShelfU_GF', 'TrayU_GF', 'SectionU_GF', 'Ground Floor')">[+]</button></td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
   
@@ -2592,7 +2671,11 @@ add email alert for delivery advice(still connect to date of purchase)
       <td id="calculatedWeight"></td>
 
       <td><button type="button" class="add-row" onclick="addForm('LoTableU2', 'myForm', this.parentNode.parentNode)">+</button></td>
+<<<<<<< HEAD
       <td><button type="button" class="add-row" onclick="moistureForm('LoTableU20', 'myForm', this.parentNode.parentNode, 'ShelfU_1F', 'TrayU_1F', 'SectionU_1F', '1st Floor')">Add Moisture Row</button></td>
+=======
+      <td><button type="button" class="add-row" onclick="moistureForm('LoTableU20', 'myForm', this.parentNode.parentNode, 'ShelfU_1F', 'TrayU_1F', 'SectionU_1F', '1st Floor')">[+]</button></td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
   
@@ -2655,7 +2738,11 @@ add email alert for delivery advice(still connect to date of purchase)
       <td id="calculatedWeight"></td>
 
       <td><button type="button" class="add-row" onclick="addForm('LoTableU3', 'myForm', this.parentNode.parentNode)">+</button></td>
+<<<<<<< HEAD
       <td><button type="button" class="add-row" onclick="moistureForm('LoTableU30', 'myForm', this.parentNode.parentNode, 'ShelfU_2F', 'TrayU_2F', 'SectionU_2F', '2nd Floor')">Add Moisture Row</button></td>
+=======
+      <td><button type="button" class="add-row" onclick="moistureForm('LoTableU30', 'myForm', this.parentNode.parentNode, 'ShelfU_2F', 'TrayU_2F', 'SectionU_2F', '2nd Floor')">[+]</button></td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
   
@@ -2722,7 +2809,11 @@ add email alert for delivery advice(still connect to date of purchase)
       <td id="calculatedWeight"></td>
 
       <td><button type="button" class="add-row" onclick="addForm('LoTableU4', 'myForm', this.parentNode.parentNode)">+</button></td>
+<<<<<<< HEAD
       <td><button type="button" class="add-row" onclick="moistureForm('LoTableU40', 'myForm', this.parentNode.parentNode, 'ShelfU_FL', 'TrayU_FL', 'SectionU_FL', 'Floor Loft')">Add Moisture Row</button></td>
+=======
+      <td><button type="button" class="add-row" onclick="moistureForm('LoTableU40', 'myForm', this.parentNode.parentNode, 'ShelfU_FL', 'TrayU_FL', 'SectionU_FL', 'Floor Loft')">[+]</button></td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
   
@@ -2795,7 +2886,11 @@ add email alert for delivery advice(still connect to date of purchase)
       <td id="calculatedWeight"></td>
 
       <td><button type="button" class="add-row" onclick="addForm('LoTableGP1', 'myForm', this.parentNode.parentNode)">+</button></td>
+<<<<<<< HEAD
       <td><button type="button" class="add-row" onclick="moistureForm('LoTableGP10', 'myForm', this.parentNode.parentNode, 'ShelfGP_GF', 'TrayGP_GF', 'SectionGP_GF', 'Ground Floor')">Add Moisture Row</button></td>
+=======
+      <td><button type="button" class="add-row" onclick="moistureForm('LoTableGP10', 'myForm', this.parentNode.parentNode, 'ShelfGP_GF', 'TrayGP_GF', 'SectionGP_GF', 'Ground Floor')">[+]</button></td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
   
@@ -2858,7 +2953,11 @@ add email alert for delivery advice(still connect to date of purchase)
       <td id="calculatedWeight"></td>
 
       <td><button type="button" class="add-row" onclick="addForm('LoTableGP2', 'myForm', this.parentNode.parentNode)">+</button></td>
+<<<<<<< HEAD
       <td><button type="button" class="add-row" onclick="moistureForm('LoTableGP20', 'myForm', this.parentNode.parentNode, 'ShelfGP_1F', 'TrayGP_1F', 'SectionGP_1F', '1st Floor')">Add Moisture Row</button></td>
+=======
+      <td><button type="button" class="add-row" onclick="moistureForm('LoTableGP20', 'myForm', this.parentNode.parentNode, 'ShelfGP_1F', 'TrayGP_1F', 'SectionGP_1F', '1st Floor')">[+]</button></td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
   
@@ -2920,7 +3019,11 @@ add email alert for delivery advice(still connect to date of purchase)
       <td id="calculatedWeight"></td>
 
       <td><button type="button" class="add-row" onclick="addForm('LoTableGP3', 'myForm', this.parentNode.parentNode)">+</button></td>
+<<<<<<< HEAD
       <td><button type="button" class="add-row" onclick="moistureForm('LoTableGP30', 'myForm', this.parentNode.parentNode, 'ShelfGP_2F', 'TrayGP_2F', 'SectionGP_2F', '2nd Floor')">Add Moisture Row</button></td>
+=======
+      <td><button type="button" class="add-row" onclick="moistureForm('LoTableGP30', 'myForm', this.parentNode.parentNode, 'ShelfGP_2F', 'TrayGP_2F', 'SectionGP_2F', '2nd Floor')">[+]</button></td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
   
@@ -2981,7 +3084,11 @@ add email alert for delivery advice(still connect to date of purchase)
       <td id="calculatedWeight"></td>
 
       <td><button type="button" class="add-row" onclick="addForm('LoTableGP4', 'myForm', this.parentNode.parentNode)">+</button></td>
+<<<<<<< HEAD
       <td><button type="button" class="add-row" onclick="moistureForm('LoTableGP40', 'myForm', this.parentNode.parentNode, 'ShelfGP_FL', 'TrayGP_FL', 'SectionGP_FL', 'Floor Loft')">Add Moisture Row</button></td>
+=======
+      <td><button type="button" class="add-row" onclick="moistureForm('LoTableGP40', 'myForm', this.parentNode.parentNode, 'ShelfGP_FL', 'TrayGP_FL', 'SectionGP_FL', 'Floor Loft')">[+]</button></td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     </tr>
   
@@ -4958,7 +5065,11 @@ $('#id_WeightG_GF').on('change', function() {
 //                     <td><input type="text" id="amount" class="form-control" name="amount" required></td>
 //                     <td><button type="button" onclick="submitForm('${tableId}', '${mainFormId}', ${formCount})">✔</button></td>
 //                     <td><button type="button" onclick="removeForm('form_${formCount}')">Close</button></td>
+<<<<<<< HEAD
 //                     <td><button type="button" class="add-row" onclick="moistureForm('Test', 'myForm', this.parentNode.parentNode, 'ShelfG_1F', 'TrayG_1F', 'SectionG_1F', '1st Floor')">Add Moisture Row</button></td>
+=======
+//                     <td><button type="button" class="add-row" onclick="moistureForm('Test', 'myForm', this.parentNode.parentNode, 'ShelfG_1F', 'TrayG_1F', 'SectionG_1F', '1st Floor')">[+]</button></td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 //                 </tr>
 //             </tbody>
 //         </table>
@@ -5003,7 +5114,11 @@ $('#id_WeightG_GF').on('change', function() {
 //                     <td><input type="text" id="amount" class="form-control" name="amount" required onblur="checkAmountAndTrigger(this.parentNode.parentNode, document.getElementById('Shelf').value, document.getElementById('Tray').value, document.getElementById('Section').value)"></td>
 //                     <td><button type="button" class="submit_contents" onclick="submitForm('${tableId}', '${mainFormId}', ${formCount})">✔</button></td>
 //                     <td><button type="button" onclick="removeForm('form_${formCount}')">Close</button></td>
+<<<<<<< HEAD
 //                     <td><button type="button" class="add-row" onclick="moistureForm('Test', 'myForm', this.parentNode.parentNode, 'ShelfG_1F', 'TrayG_1F', 'SectionG_1F', '1st Floor')">Add Moisture Row</button></td>
+=======
+//                     <td><button type="button" class="add-row" onclick="moistureForm('Test', 'myForm', this.parentNode.parentNode, 'ShelfG_1F', 'TrayG_1F', 'SectionG_1F', '1st Floor')">[+]</button></td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 //                 </tr>
 //             </tbody>
 //         </table>
@@ -5065,8 +5180,13 @@ function addForm(tableId, mainFormId, clickedRow) {
                     </td>
                     <td><input type="text" id="amount" class="form-control" name="amount" required onblur="checkAmountAndTrigger(this.parentNode.parentNode, document.getElementById('Shelf').value, document.getElementById('Tray').value, document.getElementById('Section').value)"></td>
                     <td><button type="button" class="submit_contents" onclick="submitForm('${tableId}', '${mainFormId}', ${formCount})">✔</button></td>
+<<<<<<< HEAD
                     <td><button type="button" class="addrow" onclick="removeForm('form_${formCount}')">Close</button></td>
                     <td><button type="button" class="add-row" onclick="moistureForm('Test', 'myForm', this.parentNode.parentNode, 'ShelfG_1F', 'TrayG_1F', 'SectionG_1F', '1st Floor')">Add Moisture Row</button></td>
+=======
+                    <td><button type="button" onclick="removeForm('form_${formCount}')">Close</button></td>
+                    <td><button type="button" class="add-row" onclick="moistureForm('Test', 'myForm', this.parentNode.parentNode, 'ShelfG_1F', 'TrayG_1F', 'SectionG_1F', '1st Floor')">[+]</button></td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
                 </tr>
             </tbody>
         </table>
@@ -5253,7 +5373,11 @@ function weeklyForm(tableId, mainFormId, clickedRow, shelfValue, trayValue, sect
                     <td><input type="text" id="Week" class="form-control" name="Week" required></td>
                     <td><input type="date" id="Date" class="form-control" name="Date" required></td>
                     <td><button type="button" class="submit_contents" onclick="W_submitForm('${tableId}', '${mainFormId}', ${formCount})">✔</button></td>
+<<<<<<< HEAD
                     <td><button type="button" class="addrow" onclick="removeForm('form_${formCount}')">Close</button></td>
+=======
+                    <td><button type="button" onclick="removeForm('form_${formCount}')">Close</button></td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
                 </tr>
             </tbody>
         </table>
@@ -5327,9 +5451,15 @@ function shelf_moistureForm(tableId, mainFormId, clickedRow, shelfValue, trayVal
                     <td><input type="text" id="Moisture" class="form-control" name="Moisture" required></td>
                     <td><input type="text" id="Week" class="form-control" name="Week" required></td>
 
+<<<<<<< HEAD
                     <td><button type="button"  class="addrow" onclick="M_submitForm('${tableId}', '${mainFormId}', ${formCount})">✔</button></td>
                     <td><button type="button" class="addrow" onclick="removeForm('form_${formCount}')">Close</button></td>
                     <td><button type="button" class="add-row" onclick="moistureForm('${tableId}', 'myForm', this.parentNode.parentNode, '${shelfValue}', '${trayValue}', '${sectionValue}', '${labelText}')">Add Moisture Row2</button></td>
+=======
+                    <td><button type="button" onclick="M_submitForm('${tableId}', '${mainFormId}', ${formCount})">✔</button></td>
+                    <td><button type="button" onclick="removeForm('form_${formCount}')">Close</button></td>
+                    <td><button type="button" class="add-row" onclick="weeklyForm('${tableId}', 'myForm', this.parentNode.parentNode, '${shelfValue}', '${trayValue}', '${sectionValue}', '${labelText}')">[+]</button></td>
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
 </tr>
 
@@ -5357,6 +5487,7 @@ function shelf_moistureForm(tableId, mainFormId, clickedRow, shelfValue, trayVal
 
 
 
+<<<<<<< HEAD
 function moistureForm(tableId, mainFormId, clickedRow, shelfName, trayName, sectionName, labelText) {
     const controlNumber = document.getElementById('id_Control_number').value;
     const entry = document.getElementById('id_entryCheck').value;
@@ -5370,6 +5501,20 @@ function moistureForm(tableId, mainFormId, clickedRow, shelfName, trayName, sect
     var currentDate = new Date().toISOString().split('T')[0];
 
     var form = document.createElement('form');
+=======
+
+
+function moistureForm(tableId, mainFormId, clickedRow, shelfName, trayName, sectionName, labelText) {
+  const controlNumber = document.getElementById('id_Control_number').value;
+  const entry = document.getElementById('id_entryCheck').value;
+
+    formCount++;
+    var shelfValue = document.getElementById('id_'+shelfName).value;
+    var trayValue = document.getElementById('id_'+trayName).value;
+    var sectionValue = document.getElementById('id_'+sectionName).value;
+    var form = document.createElement('form');
+    
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
     form.id = `form_${formCount}`;
     form.innerHTML = `
     <label>${labelText}</label>
@@ -5387,6 +5532,7 @@ function moistureForm(tableId, mainFormId, clickedRow, shelfName, trayName, sect
             </thead>
             <tbody>
                 <tr>
+<<<<<<< HEAD
                     <td><input type="text" class="form-control" name="M_Shelf" value="${shelfValue}" required></td>
                     <td><input type="text" class="form-control" name="M_Tray" value="${trayValue}" required></td>
                     <td><input type="text" class="form-control" name="M_Section" value="${sectionValue}" required></td>
@@ -5411,10 +5557,46 @@ function moistureForm(tableId, mainFormId, clickedRow, shelfName, trayName, sect
         </table>
     `;
 
+=======
+                    <td><input type="text" id="M_Shelf" class="form-control" name="M_Shelf" value="${shelfValue}" required></td>
+                    <td><input type="text" id="M_Tray" class="form-control" name="M_Tray" value="${trayValue}" required></td>
+                    <td><input type="text" id="M_Section" class="form-control" name="M_Section" value="${sectionValue}" required></td>
+                    <td><input type="text" id="Moisture" class="form-control" name="Moisture" required></td>
+                    <td><input type="text" id="Week" class="form-control" name="Week" required></td>
+                    <td><input type="date" id="Date" class="form-control" name="Date" required></td>
+
+                    <td><input type="text" id="Batchcode" class="form-control" name="Batchcode" value="${controlNumber}" required></td>
+        <div style="display: none;">
+          <input type="text" id="entry" name="entry" value="${entry}"required>
+            <input type="text" id="floor" name="floor" value="${labelText}" required>
+            <input type="text" id="station" name="station" required>
+            <input type="text" id="labelText" name="labelText" value="${labelText}">
+            <input type="text" id="Batchcode" name="Batchcode" >
+            
+        </div>
+                    <td><button type="button" class="submit_contents" onclick="M_submitForm('${tableId}', '${mainFormId}', ${formCount})">✔</button></td>
+                    <td><button type="button" onclick="removeForm('form_${formCount}')">Close</button></td>
+                    <td><button type="button" class="add-row" onclick="weeklyForm('${tableId}', 'myForm', this.parentNode.parentNode, '${shelfValue}', '${trayValue}', '${sectionValue}', '${labelText}')">[+]</button></td>
+
+</tr>
+
+<tr>
+
+  <td> <div id="formsContainer">    </div></td>
+
+
+</tr>
+
+        </tbody>
+        </table>
+
+    `;
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
     var moistureViewDiv = document.getElementById("MoistureView");
     moistureViewDiv.appendChild(form);
 }
 
+<<<<<<< HEAD
 
 // function moistureForm(tableId, mainFormId, clickedRow, shelfName, trayName, sectionName, labelText) {
 //   const controlNumber = document.getElementById('id_Control_number').value;
@@ -5480,6 +5662,8 @@ function moistureForm(tableId, mainFormId, clickedRow, shelfName, trayName, sect
 //     moistureViewDiv.appendChild(form);
 // }
 
+=======
+>>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 function removeForm(formId) {
     var form = document.getElementById(formId);
     if (form) {
