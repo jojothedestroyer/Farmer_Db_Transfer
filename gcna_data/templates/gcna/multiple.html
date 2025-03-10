@@ -1,0 +1,60 @@
+<!-- multi_step_form.html -->
+<form method="post">
+    {% csrf_token %}
+    <div id="step1" class="step1">
+        <!-- Step 1 fields -->
+        {{ form.farmer_ID.label_tag }}
+        {{ form.farmer_ID }}
+        <br>
+        <button type="button" onclick="nextStep(2)">Next</button>
+    </div>
+  
+
+    <div id="step2" class="step2" style="display: none;">
+        <!-- Step 2 fields -->
+        {{ form.name.label_tag }}
+        {{ form.name }}
+        <br>
+        <button type="button" onclick="prevStep(1)">Previous</button>
+        <button type="button" onclick="nextStep(3)">Next</button>
+    </div>
+    
+    <div id="step3" class="step3" style="display: none;">
+        <!-- Step 3 fields -->
+        {{ form.village.label_tag }}
+        {{ form.village }}
+        <br>
+        <button type="button" onclick="prevStep(2)">Previous</button>
+        <button type="button" onclick="nextStep(4)">Next</button>
+    </div>
+    
+    <div id="step4" class="step4" style="display: none;">
+        <!-- Step 4 fields -->
+        {{ form.parish.label_tag }}
+        {{ form.parish }}
+        <br>
+        <button type="button" onclick="prevStep(3)">Previous</button>
+        <button type="button" onclick="nextStep(5)">Next</button>
+    </div>
+    
+    <div id="step5" class="step5" style="display: none;">
+        <!-- Step 5 fields -->
+        {{ form.GPS_location.label_tag }}
+        {{ form.GPS_location }}
+        <br>
+        <button type="button" onclick="prevStep(4)">Previous</button>
+        <button type="submit">Submit</button>
+    </div>
+</form>
+
+<script>
+    function nextStep(step) {
+        document.getElementById('step' + step).style.display = 'none';
+        document.getElementById('step' + (step + 1)).style.display = 'block';
+    }
+
+    function prevStep(step) {
+        document.getElementById('step' + step).style.display = 'none';
+        document.getElementById('step' + (step - 1)).style.display = 'block';
+    }
+</script>

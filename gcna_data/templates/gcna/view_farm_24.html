@@ -1,0 +1,594 @@
+
+
+{% extends 'gcna/base2.html' %}
+
+
+{% block content%}
+
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+$(document).ready(function() {
+  $('.hidden-label1').hide();
+  $('.hidden-label2').hide();
+  $('.hidden-label3').hide();
+  $('.hidden-label4').hide();
+  $('.hidden-label5').hide();
+
+
+
+
+
+  $('#LoTableG1_0').hide(); 
+  $('#LoTableG2_0').hide(); 
+  $('#LoTableG3_0').hide(); 
+  $('#LoTableG4_0').hide(); 
+
+
+
+
+  $('#LoTableH1_0').hide(); 
+  $('#LoTableH2_0').hide(); 
+  $('#LoTableH3_0').hide(); 
+  $('#LoTableH4_0').hide(); 
+
+  $('#LoTableM1_0').hide(); 
+  $('#LoTableM2_0').hide(); 
+  $('#LoTableM3_0').hide(); 
+  $('#LoTableM4_0').hide(); 
+
+
+  $('#LoTableU1_0').hide(); 
+  $('#LoTableU2_0').hide(); 
+  $('#LoTableU3_0').hide(); 
+  $('#LoTableU4_0').hide(); 
+
+
+  $('#LoTableGP1_0').hide(); 
+  $('#LoTableGP2_0').hide(); 
+  $('#LoTableGP3_0').hide(); 
+  $('#LoTableGP4_0').hide(); 
+
+
+
+
+
+
+
+  $('#LoTableG1').hide(); 
+  $('#LoTableG2').hide(); 
+  $('#LoTableG3').hide(); 
+  $('#LoTableG4').hide(); 
+
+
+
+
+  $('#LoTableH1').hide(); 
+  $('#LoTableH2').hide(); 
+  $('#LoTableH3').hide(); 
+  $('#LoTableH4').hide(); 
+
+  $('#LoTableM1').hide(); 
+  $('#LoTableM2').hide(); 
+  $('#LoTableM3').hide(); 
+  $('#LoTableM4').hide(); 
+
+
+  $('#LoTableU1').hide(); 
+  $('#LoTableU2').hide(); 
+  $('#LoTableU3').hide(); 
+  $('#LoTableU4').hide(); 
+
+
+  $('#LoTableGP1').hide(); 
+  $('#LoTableGP2').hide(); 
+  $('#LoTableGP3').hide(); 
+  $('#LoTableGP4').hide(); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  $('#TableG1').hide(); 
+  $('#TableG2').hide(); 
+  $('#TableG3').hide(); 
+
+
+
+
+  $('#TableH1').hide(); 
+  $('#TableH2').hide(); 
+  $('#TableH3').hide(); 
+
+  $('#TableM1').hide(); 
+  $('#TableM2').hide(); 
+  $('#TableM3').hide(); 
+
+
+  $('#TableU1').hide(); 
+  $('#TableU2').hide(); 
+  $('#TableU3').hide(); 
+
+
+  $('#TableGP1').hide(); 
+  $('#TableGP2').hide(); 
+  $('#TableGP3').hide(); 
+
+
+    
+    
+    
+
+
+  
+  $('#id_Facilitator_of_the_Assistance').on('change', function() {
+    if ($(this).val() == 'Other') {
+        $('#LoTableG1').show();
+
+
+ 
+
+
+
+    } else {
+        $('#LoTableG1').hide();
+ 
+    }
+});
+
+
+  
+  $('#id_Objective_of_the_Training').on('change', function() {
+    if ($(this).val() == 'Other') {
+        $('#LoTableG2').show();
+
+
+ 
+
+
+
+    } else {
+        $('#LoTableG2').hide();
+ 
+    }
+
+});
+
+  
+  $('#id_Facilitator_of_the_Training').on('change', function() {
+    if ($(this).val() == 'Other') {
+        $('#LoTableG3').show();
+
+
+ 
+
+
+
+    } else {
+        $('#LoTableG3').hide();
+ 
+    }
+
+
+  
+  
+
+});
+
+
+
+  $('#id_START_DRYING_DATE').on('change', function() {
+    var startDate = new Date($(this).val());
+    var approxEndDate = new Date(startDate.getTime() + (42 * 24 * 60 * 60 * 1000)); 
+
+    var day = ("0" + approxEndDate.getDate()).slice(-2); 
+
+    var month = ("0" + (approxEndDate.getMonth() + 1)).slice(-2);
+
+    var year = approxEndDate.getFullYear();
+
+    var formattedDate = year + "-" + month + "-" + day;
+
+    $('#id_APPROX_END_DRYING_DATE').val(formattedDate);
+      });
+
+  $('#id_NUM_OF_BAGS').on('change', function() {
+    var start =  $('#id_NUM_OF_BAGS').val();
+    var calc = start * 110; 
+    $('#id_TOTAL_LBS_NUTMEG_BOUGHT').val(calc);
+      });
+
+
+});
+
+
+
+
+
+
+
+
+
+</script>
+
+
+        
+<div class="card">
+         
+    <div class="card-body">
+        <p class="card-text">
+            <table id="vertical-1" class="table table-hover table-light" >
+
+
+<div id="landInfoData"></div>
+<div id="editFormContainer"></div>
+<div id="syncButtonContainer"></div>
+
+</table>
+</p>
+</div>
+</div>
+
+
+
+<br>
+<br>
+<br>
+
+    <script>
+
+        // Open the GCNA database
+        let openRequest = indexedDB.open("GCNA");
+    
+        openRequest.onsuccess = function (event) {
+            let db = event.target.result;
+    
+            // Open a transaction to read from the land-info store
+            let transaction = db.transaction("visit", "readonly");
+            let landInfoStore = transaction.objectStore("visit");
+    
+            // Get all records from visit store
+            let getAllRequest = landInfoStore.getAll();
+    
+            getAllRequest.onsuccess = function (event) {
+                let landInfoRecords = event.target.result;
+    
+                // Open the Check database
+                let openRequestCheck = indexedDB.open("LandId");
+    
+                openRequestCheck.onsuccess = function (event) {
+                    let dbCheck = event.target.result;
+    
+                    // Open a transaction to read from the verify store
+                    let transactionCheck = dbCheck.transaction("land-ids", "readonly");
+                    let verifyStore = transactionCheck.objectStore("land-ids");
+    
+                    // Get all records from verify store
+                    let getAllRequestCheck = verifyStore.getAll();
+    
+                    getAllRequestCheck.onsuccess = function (event) {
+                        let verifyRecords = event.target.result;
+                        
+
+                        // Filter landInfoRecords based on Nutmeg_ID_No in verifyRecords
+                        let filteredLandInfoRecords = landInfoRecords.filter(landInfoRecord =>
+                            verifyRecords.some(verifyRecord => verifyRecord.Land_ID_N0 === landInfoRecord.Land_ID_N0)
+                        );
+    
+                        // Map filteredLandInfoRecords to include delete and edit buttons
+                        let landInfoDataDiv = document.getElementById('landInfoData');
+                        filteredLandInfoRecords.forEach(record => {
+                            let entryDiv = document.createElement("div");
+                            entryDiv.innerHTML = `
+                                <h3>Visit Entries</h3>
+                                <ul>
+                                    ${Object.entries(record).map(([key, value]) => `
+
+                                        <tr>
+                                            <th><strong>${key}:</strong> </th>
+                                            <td>${value}</td>
+                                        </tr>
+                                        <br>
+
+                                    `).join('')}
+
+
+
+                                </ul>
+                                <button class="btn btn-danger" onclick="deleteEntry(${record.id})">Delete</button>
+                                <button class="btn btn-primary" onclick="editEntry(${record.id})">Edit</button>
+                            `;
+    
+                            landInfoDataDiv.appendChild(entryDiv);
+                        });
+                    };
+                };
+            };
+        };
+
+        
+        
+
+
+
+
+
+// Function to delete a record based on ID
+function deleteEntry(id) {
+    // Open the "GCNA" database
+    let db = indexedDB.open("GCNA");
+
+    db.onsuccess = function (event) {
+        let transaction = event.target.result.transaction("visit", "readwrite");
+        let landInfoStore = transaction.objectStore("visit");
+
+        // Fetch the record before deleting it
+        let getRequest = landInfoStore.get(id);
+
+        getRequest.onsuccess = function (event) {
+            let deletedRecord = event.target.result;
+
+            // Check if the record exists before proceeding with deletion
+            if (deletedRecord) {
+                // Now, delete the record from the "visit" object store
+                let deleteRequest = landInfoStore.delete(id);
+
+                deleteRequest.onsuccess = function () {
+                    console.log(`Record with ID ${id} deleted.`);
+
+                    // Open the "DELETED" database
+                    let db2 = indexedDB.open("DELETED");
+
+                    db2.onsuccess = function (event2) {
+                        console.log("DELETED database opened successfully.");
+
+                        let transaction2 = event2.target.result.transaction("visit", "readwrite");
+                        let deletedStore = transaction2.objectStore("visit");
+
+                        // Explicitly set the ID of the deleted record
+                        deletedRecord.id = id;
+
+                        // Add the deleted record to the "visit" object store in "DELETED" database
+                        let addDeletedRequest = deletedStore.add(deletedRecord);
+
+                        addDeletedRequest.onsuccess = function () {
+                            console.log(`Record with ID ${id} added to DELETED object store.`);
+                            // You might want to refresh your display here.
+                        };
+
+                        addDeletedRequest.onerror = function (event3) {
+                            if (event3.target.error.name === 'ConstraintError') {
+                                console.log(`Record with ID ${id} already exists in DELETED object store.`);
+                            } else {
+                                console.log(`Failed to add record with ID ${id} to DELETED object store.`);
+                            }
+                        };
+                    };
+
+                    db2.onerror = function (event2) {
+                        console.log("Failed to open 'DELETED' database.", event2.target.error);
+                    };
+                };
+
+                deleteRequest.onerror = function () {
+                    console.log(`Failed to delete record with ID ${id}.`);
+                };
+            } else {
+                console.log(`Record with ID ${id} not found.`);
+            }
+        };
+
+        getRequest.onerror = function () {
+            console.log(`Failed to get record with ID ${id} before deleting.`);
+        };
+    };
+
+    db.onerror = function (event) {
+        console.log("Failed to open 'GCNA' database!", event.target.error);
+    };
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+        // Function to edit a record based on ID
+        function editEntry(id) {
+            event.preventDefault(); // Prevent form submission and page reload
+    
+            // Open the GCNA database
+            let openRequest = indexedDB.open("GCNA");
+    
+            openRequest.onsuccess = function (event) {
+                let db = event.target.result;
+    
+                // Open a new transaction to read from the visit store
+                let transaction = db.transaction("visit", "readwrite");
+                let landInfoStore = transaction.objectStore("visit");
+    
+                // Get the record with the specified ID
+                let getRequest = landInfoStore.get(id);
+    
+                getRequest.onsuccess = function (event) {
+                    let record = event.target.result;
+    
+                    // Generate the form fields dynamically based on the record properties
+                    let formFieldsHTML = '';
+                    for (let property in record) {
+                        if (record.hasOwnProperty(property) && property !== 'id') {
+                            formFieldsHTML += `
+                                <label for="${property}">${property}:</label>
+                                <input type="text" id="${property}" name="${property}" value="${record[property]}"> <br>
+                            `;
+                        }
+                    }
+    
+                    // Create an edit form and populate it with the generated fields
+                    const editFormContainer = document.getElementById('editFormContainer');
+                    editFormContainer.innerHTML = `
+                        <form id="editForm">
+                            ${formFieldsHTML}
+                            <button type="button" id="saveButton">Save</button>
+                            <button type="button" id="closeButton">Close</button>
+                        </form>
+                    `;
+    
+                    // Add an event listener to the "Save" button to save changes
+                    const saveButton = document.getElementById('saveButton');
+                    saveButton.addEventListener('click', function () {
+                        // Open a new transaction to update the record
+                        let updateTransaction = db.transaction("visit", "readwrite");
+                        let landInfoStoreToUpdate = updateTransaction.objectStore("visit");
+    
+                        // Update the record with the new data
+                        for (let property in record) {
+                            if (record.hasOwnProperty(property) && property !== 'id') {
+                                record[property] = document.getElementById(property).value;
+                            }
+                        }
+    
+                        // Put the updated record back into the store
+                        let putRequest = landInfoStoreToUpdate.put(record);
+    
+                        putRequest.onsuccess = function () {
+                            console.log('Record updated successfully');
+                        };
+    
+                        putRequest.onerror = function (event) {
+                            console.error('Error updating record:', event.target.error);
+                        };
+    
+                        // Complete the transaction
+                        updateTransaction.oncomplete = function () {
+                            console.log('Transaction completed');
+                            // You might want to refresh your display here.
+                        };
+                    });
+    
+                    // Add an event listener to the "Close" button to hide the form
+                    const closeButton = document.getElementById('closeButton');
+                    closeButton.addEventListener('click', function () {
+                        editFormContainer.innerHTML = ''; // Clear the edit form
+                    });
+                };
+    
+                getRequest.onerror = function (event) {
+                    console.error('Error getting record:', event.target.error);
+                };
+            };
+    
+            openRequest.onerror = function (event) {
+                console.error('Error opening database:', event.target.error);
+            };
+        }
+
+function syncWithDjango() {
+    let landInfoStore;
+
+    // Open the GCNA database
+    let openRequest = indexedDB.open("GCNA");
+    
+    openRequest.onsuccess = function (event) {
+        let db = event.target.result;
+    
+        // Open a transaction to read from the land-info store
+        let transaction = db.transaction("visit", "readonly");
+        
+        // Assign the object store to the globally defined variable
+        landInfoStore = transaction.objectStore("visit")
+    
+        // Get all records from visit store
+        let getAllRequest = landInfoStore.getAll();
+    
+        getAllRequest.onsuccess = function (event) {
+            let landInfoRecords = event.target.result;
+    
+            // For each record in IndexedDB
+            landInfoRecords.forEach(record => {
+                // Fetch the corresponding record from Django
+                fetch('/api/visit/' + record.id +'/')
+                .then(response => response.json())
+                .then(data => {
+                    // If the record exists in Django
+                    if (data) {
+                        // If the record in Django is different from IndexedDB
+                        if (JSON.stringify(data) !== JSON.stringify(record)) {
+                            // Update the record in Django
+                            fetch('/api/visit/' + record.id +'/', {
+                                method: 'PUT',
+                                body: JSON.stringify(record),
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                }
+                            });
+                        }
+                    } else {
+                        // If the record does not exist in Django, create it
+                        fetch('/api/visit/', {
+                            method: 'POST',
+                            body: JSON.stringify(record),
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        });
+                    }
+                });
+            });
+        };
+
+    }
+    
+};
+      
+        
+// Add this code after your existing script block
+document.addEventListener('DOMContentLoaded', function () {
+    // Locate the container where you want to add the sync button
+    const buttonContainer = document.getElementById('syncButtonContainer');
+
+    // Create the sync button
+    const syncButton = document.createElement('button');
+    syncButton.innerText = 'Sync with Django';
+    syncButton.className = 'btn btn-primary';
+    syncButton.addEventListener('click', syncWithDjango);
+
+    // Append the button to the container
+    buttonContainer.appendChild(syncButton);
+});
+
+
+
+
+
+
+    </script>
+
+
+{% endblock %}

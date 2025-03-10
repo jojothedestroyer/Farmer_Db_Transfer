@@ -1,0 +1,77 @@
+
+{% extends 'gcna/base2.html' %}
+
+
+{% block content%}
+
+
+<div class="card">
+ 
+  <div class="card-body">
+
+  </h5>
+    <p class="card-text">
+        <table id="vertical-1" class="table table-hover table-light">
+       
+         <tr>
+
+            <th>The use of Munical(NAWASA) water </th>
+            <td>{{ farmer_info_id.Municipal_Nawasa }}</td>
+        </tr>
+
+        <tr>
+            <th>The use of River water</th>
+            <td>{{ farmer_info_id.River }}</td>
+        </tr>
+
+        <tr>
+            <th>The use of Spring water</th>
+            <td>{{ farmer_info_id.Spring }}</td>
+        </tr>
+
+
+        <tr>
+            <th>The use of Well water</th>
+            <td>{{ farmer_info_id.Well }}</td>
+        </tr>
+
+
+        <tr>
+            <th>The use of Harvested Rain water</th>
+            <td>{{ farmer_info_id.Harvested_Rain_Water }}</td>
+        </tr>
+
+
+        <tr>
+            <th>The presence of treated water</th>
+            <td>{{ farmer_info_id.is_water_treated }}</td>
+        </tr>  
+
+
+        <tr>
+            <th>Futher information of treated water</th>
+            <td>{{ farmer_info_id.is_water_treated_cont }}</td>
+        </tr>  
+
+
+      
+
+
+
+              <tr>
+            <th><a href="{% url 'table' %}" class="btn btn-secondary">Return</a></th>
+        </tr>
+    </table>
+                    </p>
+
+
+
+       
+ </div>        </div>
+
+<br>
+<br>
+<br>
+
+{% endblock %}
+

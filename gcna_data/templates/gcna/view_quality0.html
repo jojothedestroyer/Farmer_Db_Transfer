@@ -1,0 +1,157 @@
+
+{% extends 'gcna/base2.html' %}
+
+
+{% block content%}
+
+
+<div class="card">
+ 
+  <div class="card-body">
+
+  </h5>
+    <p class="card-text">
+
+        <table id="vertical-1" class="table table-hover table-light">
+
+
+         <tr>
+            <th>Date of Sampling</th>
+            <td>{{ farmer_info_id.DATE_OF_SAMPLING }}</td>
+        </tr>
+        <tr>
+            <th>Station</th>
+            <td>{{ farmer_info_id.STATION }}</td>
+        </tr>
+        <tr>
+            <th>Batch Codes</th>
+            <td>{{ farmer_info_id.BATCH_CODE }}</td>
+        </tr>
+        <tr>
+            <th>Quantity of Bags</th>
+            <td>{{ farmer_info_id.Quantity_of_Bags }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Quantity of Sample</th>
+            <td>{{ farmer_info_id.Quantity_of_Sample }}</td>
+        </tr>
+
+
+
+        <tr>
+            <th>Total Weight(lbs)</th>
+            <td>{{ farmer_info_id.Total_Weight }}</td>
+        </tr>
+
+
+
+        <tr>
+            <th>Initial Sample Weight(lbs)</th>
+            <td>{{ farmer_info_id.Initial_Sample_Weight }}</td>
+        </tr>
+        <tr>
+            <th>Insect Damaged(lbs)</th>
+            <td>{{ farmer_info_id.Insect_Damaged }}</td>
+        </tr>
+        <tr>
+            <th>Broken(lbs)</th>
+            <td>{{ farmer_info_id.Broken }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Mould(lbs)</th>
+            <td>{{ farmer_info_id.Mould }}</td>
+        </tr>
+
+
+
+        <tr>
+            <th>Final Sample Weight(lbs)</th>
+            <td>{{ farmer_info_id.Final_Sample_Weight }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Reading 1</th>
+            <td>{{ farmer_info_id.READING_1 }}</td>
+        </tr>
+        <tr>
+            <th>Reading 2</th>
+            <td>{{ farmer_info_id.READING_2 }}</td>
+        </tr>
+        <tr>
+            <th>Reading 3</th>
+            <td>{{ dried.READING_3 }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Average</th>
+            <td>{{ farmer_info_id.AVERAGE }}</td>
+        </tr>
+
+
+
+        <tr>
+            <th>Decisiom</th>
+            <td>{{ farmer_info_id.DECISION }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Comments</th>
+            <td>{{ farmer_info_id.Comments }}</td>
+        </tr>
+        <tr>
+            <th>Test preformed by</th>
+            <td>{{ farmer_info_id.TEST_PERFORMED_BY }}</td>
+        </tr>
+        <tr>
+            <th>Date</th>
+            <td>{{ farmer_info_id.DATE }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Signed by</th>
+            <td>{{ farmer_info_id.SIGNED_BY }}</td>
+        </tr>
+
+
+
+        <tr>
+            <th>Date of Report</th>
+            <td>{{ farmer_info_id.DATE_OF_REPORT }}</td>
+        </tr>  
+
+        <tr>
+            <th>Signed by Quality Assurance Officer</th>
+            <td>{{ farmer_info_id.SIGNED_BY_QUALITY_ASSURANCE_OFFICER }}</td>
+        </tr>  
+
+                <tr>
+            <th>Date</th>
+            <td>{{ farmer_info_id.DATE }}</td>
+        </tr>  
+
+  
+              <tr>
+            <th><a href="{% url 'table' %}" class="btn btn-secondary">Return</a></th>
+        </tr>
+    </table>
+                    </p>
+
+
+
+       
+ </div>        </div>
+
+<br>
+<br>
+<br>
+
+{% endblock %}
+

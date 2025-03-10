@@ -1,0 +1,1176 @@
+{% extends 'gcna/base.html' %} {% block content%}
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    /* General Styles */
+    /*     .hidden { display: none; }*/
+    #entryCheck {
+      display: none;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f7f7f7; /* Adjusted background color */
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .card {
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-body {
+      padding: 20px;
+    }
+
+    h4 {
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 24px;
+      color: #333;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+
+    th,
+    td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      font-weight: bold;
+      color: #555;
+    }
+
+    td {
+      color: #777;
+    }
+
+    button {
+      cursor: pointer;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      background-color: #007bff;
+      color: #fff;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    /* Form Styles */
+    record {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #555;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+      font-size: 16px;
+      color: #333;
+      outline: none;
+    }
+
+    #saveButton,
+    #closeButton {
+      margin-top: 10px;
+      background-color: #28a745;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    #closeButton {
+      background-color: #dc3545;
+      margin-left: 10px;
+    }
+
+    /* Responsive Styles */
+    @media screen and (max-width: 768px) {
+      .container {
+        max-width: 90%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container"></div>
+
+  <div id="landInfoData"></div>
+</body>
+
+  <script>
+    let openRequest = indexedDB.open("GCNA");
+    let db;
+
+    let fieldBlacklist = [];
+    const fieldBlacklistConfig = {
+      DATE_OF_SAMPLING: true, // Set to true to blacklist if null or empty
+      DECISION: true,
+      Quantity_of_Bags: true,
+
+      // Add more fields as needed
+    };
+
+    openRequest.onsuccess = function (event) {
+      let db = event.target.result;
+      let transaction = db.transaction("Container_Inspection_Log", "readonly");
+      let landInfoStore = transaction.objectStore("Container_Inspection_Log");
+      let getAllRequest = landInfoStore.getAll();
+
+      getAllRequest.onsuccess = function (event) {
+        let landInfoRecords = event.target.result;
+        let landInfoDataDiv = document.getElementById("landInfoData");
+
+        landInfoRecords.forEach((record) => {
+          let entryContainer = document.createElement("div");
+          entryContainer.id = `entryContainer_${record.id}`;
+          entryContainer.innerHTML = `
+
+          
+		<form action="" method="POST"  id="myForm" enctype="multipart/form-data" style=" background-color: #e4e4e4;
+
+    margin: 1px auto;
+    font-family: Raleway;
+    padding: 10px;
+    width: 100%;
+    min-width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">
+
+
+    <div class="card">
+ 
+  <div class="card-body">
+
+  </h5>
+    <p class="card-text">
+        <table id="vertical-1" class="table table-hover table-light">
+
+
+
+
+
+
+<h6>Document No. GCNA-R-01</h6>
+<h6>Document Title: Moisture Analysis in Dried Nutmeg</h6>
+<h6>Date Issued: 2023-07-03</h6>
+
+<h6>Version: 1</h6>
+    <h5> </h5>
+
+		{% csrf_token %}
+ 
+<h4>Pre-Inspection</h4>
+
+
+       <tr>
+
+<!-- 
+
+        ${record.Worker_ID_No}
+        ${record.Worker_ID_Name} -->
+<table class="table">
+  <thead>
+    <td stylr="Display:none;">${record.entryCheck}</td>
+
+    <tr>
+
+        <th scope="col" style="text-align:center;" colspan=8>CONTAINER PRE-INSPECTION FOR APPROVAL TO USE</th> 
+       </tr>
+    <tr>
+
+      <th scope="col" style="text-align:center;">DATE OF INSPECTION-</th> 
+      <th scope="col" style="text-align:center;">${record.Date_Of_Inspection}</th>
+      <th scope="col" style="text-align:center;">TIME-</th>
+      <th scope="col" style="text-align:center;">${record.Time}</th>
+      <th scope="col" style="text-align:center;">DATE OF INTENDED USE-</th>
+      <th scope="col" style="text-align:center;">${record.Date_Of_Intended_Use}</th>
+      <th scope="col" style="text-align:center;">AGENT-</th>
+      <th scope="col" style="text-align:center;">${record.Agent}</th>
+     </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+        <td scope="col" style="text-align:center;">SIZE OF CONTAINER</td>
+        <td scope="col" style="text-align:center;">${record.Size_Of_Container}</td>
+
+        <td scope="col" style="text-align:center;">LOCATION OF CONTAINER</td>
+        <td scope="col" style="text-align:center;">${record.Location_Of_Container}</td>
+
+        <td scope="col" style="text-align:center;">CONTAINER#</td>
+        <td scope="col" style="text-align:center;">${record.Container_Number}</td>
+
+    </tr>
+
+
+
+    <tr>
+
+        <td scope="col" style="text-align:center;"colspan=2>INTENDED CUSTOMER</td>
+        <td scope="col" style="text-align:center;"colspan=2>${record.Intended_Customer}</td>
+
+        <td scope="col" style="text-align:center;"colspan=2>PRODUCT TO BE SHIPPED</td>
+        <td scope="col" style="text-align:center;"colspan=2>${record.Products_To_Be_Shipped}</td>
+
+
+    </tr>
+
+
+
+
+    <tr>
+
+        <td scope="col" style="text-align:center;"colspan=2>GOODS PREVIOUSLY STORED IN CONTAINER</td>
+        <td scope="col" style="text-align:center;"colspan=6>${record.Goods_Prev_Stored}</td>
+    </tr>
+
+
+    <tr>
+
+        <td scope="col" style="text-align:center;"colspan=2>DOOR INSIDE & OUTSIDE</td>
+        
+            <td style="text-align:center;" colspan="1">
+                <label for="id_Free_From_Dent">Free From Dent</label><br>
+                ${record.Free_From_Dent}
+            </td>
+            <td style="text-align:center;" colspan="1">
+                <label for="id_Free_From_Holes">Free From Holes</label><br>
+                ${record.Free_From_Holes}
+            </td>
+            <td style="text-align:center;" colspan="1">
+                <label for="id_Free_From_Rust">Free From Rust</label><br>
+                ${record.Free_From_Rust}
+            </td>
+            <td style="text-align:center;" colspan="1">
+                <label for="id_Seals_Without_Vents">Seals Without Vents</label><br>
+                ${record.Seals_Without_Vents}
+            </td>
+            <td style="text-align:center;" colspan="1">
+                <label for="id_Locking_Mech_Func">Locking Mechanism Functional</label><br>
+                ${record.Locking_Mech_Func}
+            </td>
+        
+
+    </tr>
+
+
+
+
+
+    <tr>
+
+        <td scope="col" style="text-align:center;"colspan=2>FLOOR INSIDE</td>
+        
+            <td style="text-align:center;" colspan="1">
+                <label for="id_Free_From_Dent">Clean; Free From Dirt & Debris</label><br>
+                ${record.FL_Clean}
+            </td>
+            <td style="text-align:center;" colspan="1">
+                <label for="id_Free_From_Holes">Dry</label><br>
+                ${record.FL_Dry}
+            </td>
+            <td style="text-align:center;" colspan="1">
+                <label for="id_Free_From_Rust">Even & Smooth Surface</label><br>
+                ${record.FL_Surface}
+            </td>
+            <td style="text-align:center;" colspan="1">
+                <label for="id_Seals_Without_Vents">Free from oders</label><br>
+                ${record.FL_Odors}
+            </td>
+    </tr>
+
+
+
+
+
+    <tr>
+
+        <td scope="col" style="text-align:center;"colspan=2>ROOF INSIDE</td>
+        
+            <td style="text-align:center;" colspan="1">
+                <label for="id_Free_From_Dent">Free from Dents</label><br>
+                ${record.RF_Free_From_Dent}
+            </td>
+            <td style="text-align:center;" colspan="1">
+                <label for="id_Free_From_Holes">Free From Holes</label><br>
+                ${record.RF_Free_From_Holes}
+            </td>
+            <td style="text-align:center;" colspan="1">
+                <label for="id_Free_From_Rust">Free From Rust</label><br>
+                ${record.RF_Free_From_Rust}
+            </td>
+
+            <td style="text-align:center;" colspan="1">
+                <label for="id_Free_From_Rust">Dry</label><br>
+                ${record.RF_Dry}
+            </td>
+    </tr>
+
+
+
+
+
+
+
+    <tr>
+
+        <td scope="col" style="text-align:center;"colspan=2>RIGHT INSIDE</td>
+        
+            <td style="text-align:center;" colspan="1">
+                <label for="id_Free_From_Dent">Free From Dent</label><br>
+                ${record.RI_Free_From_Dent}
+            </td>
+            <td style="text-align:center;" colspan="1">
+                <label for="id_Free_From_Holes">Free From Holes</label><br>
+                ${record.RI_Free_From_Holes}
+            </td>
+            <td style="text-align:center;" colspan="1">
+                <label for="id_Free_From_Rust">Free From Rust</label><br>
+                ${record.RI_Free_From_Rust}
+            </td>
+
+            <td style="text-align:center;" colspan="1">
+                <label for="id_Free_From_Rust">Dry</label><br>
+                ${record.RI_Dry}
+            </td>
+    </tr>
+
+
+
+
+    <tr>
+
+        <td scope="col" style="text-align:center;"colspan=2>LEFT INSIDE</td>
+        
+            <td style="text-align:center;" colspan="1">
+                <label for="id_Free_From_Dent">Free From Dent</label><br>
+                ${record.LI_Free_From_Dent}
+            </td>
+            <td style="text-align:center;" colspan="1">
+                <label for="id_Free_From_Holes">Free From Holes</label><br>
+                ${record.LI_Free_From_Holes}
+            </td>
+            <td style="text-align:center;" colspan="1">
+                <label for="id_Free_From_Rust">Free From Rust</label><br>
+                ${record.LI_Free_From_Rust}
+            </td>
+
+            <td style="text-align:center;" colspan="1">
+                <label for="id_Free_From_Rust">Dry</label><br>
+                ${record.LI_Dry}
+            </td>
+    </tr>
+
+
+
+    <tr>
+
+        <td scope="col" style="text-align:center;"colspan=2>OTHER COMMENTS</td>
+        <td scope="col" style="text-align:center;"colspan=6>${record.Other_Comments}</td>
+    </tr>
+    <tr>
+
+        <td scope="col" style="text-align:center;"colspan=2>INSPECTED BY</td>
+        <td scope="col" style="text-align:center;"colspan=2>${record.Goods_Prev_Stored}</td>
+        <td style="text-align:center;" colspan="1">
+            <label for="id_Free_From_Holes">RECOMMEND TO USE</label><br>
+            ${record.Recommend}
+        </td>
+        <td style="text-align:center;" colspan="1">
+            <label for="id_Free_From_Rust">APPROVED</label><br>
+            ${record.Approved}
+        </td>
+    </tr>
+
+
+<tr>
+    <td scope="col" style="text-align:center;" colspan="8">DAY OF LOADING</td> 
+</tr>
+
+<tr>
+    <td scope="col" style="text-align:center;" colspan="1">DAY OF LOADING</td>
+    <td scope="col" style="text-align:center;" colspan="1"><input type="date" name="Date_Of_Loading" value="${record.Date_Of_Loading}" onblur="saveMainEditedField('Container_Inspection_Log', ${record.id}, 'Date_Of_Loading', this.value)"></td>
+    <td scope="col" style="text-align:center;" colspan="1">TIME OF LOADING</td> 
+    <td scope="col" style="text-align:center;" colspan="1">
+        <label for="id_Time_Loading_Start">Start</label><br>
+        <input type="time" name="Time_Loading_Start" value="${record.Time_Loading_Start}" onblur="saveMainEditedField('Container_Inspection_Log', ${record.id}, 'Time_Loading_Start', this.value)">
+    </td>
+    <td scope="col" style="text-align:center;" colspan="1">
+        <label for="id_Time_Loading_End">End</label><br>
+        <input type="time" name="Time_Loading_End" value="${record.Time_Loading_End}" onblur="saveMainEditedField('Container_Inspection_Log', ${record.id}, 'Time_Loading_End', this.value)">
+    </td>
+    <td scope="col" style="text-align:center;" colspan="1">PORT OF LOADING</td>
+    <td scope="col" style="text-align:center;" colspan="1"><input type="text" name="Port_of_Loading" value="${record.Port_of_Loading}" onblur="saveMainEditedField('Container_Inspection_Log', ${record.id}, 'Port_of_Loading', this.value)"></td>
+</tr>
+
+<tr>
+    <div style="display: none;"> ${record.Container_Condition} </div>
+    <td scope="col" style="text-align:center;" colspan="1">CONDITIONS AT LOADING</td>
+    <td scope="col" style="text-align:center;" colspan="1">
+        <label><input type="checkbox" name="container_condition" value="Sunny" ${record.Container_Condition.includes('Sunny') ? 'checked' : ''} onclick="updateContainerCondition()"> Sunny</label><br>
+    </td>
+    <td scope="col" style="text-align:center;" colspan="1">
+        <label><input type="checkbox" name="container_condition" value="Rainy" ${record.Container_Condition.includes('Rainy') ? 'checked' : ''} onclick="updateContainerCondition()"> Rainy</label><br>
+    </td>
+    <td scope="col" style="text-align:center;" colspan="1">
+        <label><input type="checkbox" name="container_condition" value="Overcast" ${record.Container_Condition.includes('Overcast') ? 'checked' : ''} onclick="updateContainerCondition()"> Overcast</label><br>
+    </td>
+    <td scope="col" style="text-align:center;" colspan="1">
+        <label><input type="checkbox" name="container_condition" value="Light Intermittent Showers" ${record.Container_Condition.includes('Light Intermittent Showers') ? 'checked' : ''} onclick="updateContainerCondition()"> Light Intermittent Showers</label><br>
+    </td>
+</tr>
+
+<tr>
+    <td scope="col" style="text-align:center;" colspan="1">CONTAINER#</td>
+    <td scope="col" style="text-align:center;" colspan="1"><input type="text" name="Container_Number" value="${record.Container_Number}"></td>
+    <td scope="col" style="text-align:center;" colspan="1">CONTAINER SIZE</td>
+    <td scope="col" style="text-align:center;" colspan="1"><input type="text" name="Container_Size" value="${record.Container_Size}"></td>
+</tr>
+
+<tr>
+    <div style="display: none;"> ${record.Container_Condition_st} </div>
+    <td scope="col" style="text-align:center;" colspan="1">CONDITIONS</td>
+    <td scope="col" style="text-align:center;" colspan="1">
+        <label><input type="checkbox" name="container_condition_st" value="Dry" ${record.Container_Condition_st.includes('Dry') ? 'checked' : ''} onclick="updateContainerConditionpt()"> Dry</label><br>
+    </td>
+    <td scope="col" style="text-align:center;" colspan="1">
+        <label><input type="checkbox" name="container_condition_st" value="Clean" ${record.Container_Condition_st.includes('Clean') ? 'checked' : ''} onclick="updateContainerConditionpt()"> Clean</label><br>
+    </td>
+    <td scope="col" style="text-align:center;" colspan="1">
+        <label><input type="checkbox" name="container_condition_st" value="Free from Odor" ${record.Container_Condition_st.includes('Free from Odor') ? 'checked' : ''} onclick="updateContainerConditionpt()"> Free from Odor</label><br>
+    </td>
+    <td scope="col" style="text-align:center;" colspan="1">
+        <label><input type="checkbox" name="container_condition_st" value="Free from Holes" ${record.Container_Condition_st.includes('Free from Holes') ? 'checked' : ''} onclick="updateContainerConditionpt()"> Free from Holes</label><br>
+    </td>
+    <td scope="col" style="text-align:center;" colspan="1">
+        <label><input type="checkbox" name="container_condition_st" value="Closes Tightly" ${record.Container_Condition_st.includes('Closes Tightly') ? 'checked' : ''} onclick="updateContainerConditionpt()"> Closes Tightly</label><br>
+    </td>
+</tr>
+
+<tr>
+    <td scope="col" style="text-align:center;" colspan="2">CUSTOMER:</td>
+    <td scope="col" style="text-align:center;" colspan="2"><input type="text" name="Customer" value="${record.Customer}"></td>
+    <td scope="col" style="text-align:center;" colspan="2">SEAL#</td>
+    <td scope="col" style="text-align:center;" colspan="2"><input type="text" name="Seal_Number" value="${record.Seal_Number}"></td>
+</tr>
+
+<tr>
+    <td scope="col" style="text-align:center;" colspan="2">BILL OF LADING#</td>
+    <td scope="col" style="text-align:center;" colspan="2"><input type="text" name="Bill_Of_Lading" value="${record.Bill_Of_Lading}"></td>
+</tr>
+
+<!-- Details on Land Carriers - Trucks Section -->
+
+
+
+
+
+
+
+
+
+
+
+<table class="table">
+<tbody>
+<tr>
+    <td scope="col" style="text-align:center;" colspan="8">DETAILS ON LAND CARRIERS - TRUCKS</td> 
+</tr>
+
+   <tr>
+
+    <td scope="col" style="text-align:center;"colspan=1>TRUCK#:</td>
+    <td scope="col" style="text-align:center;"colspan=1>DRIVER</td>
+    <td scope="col" style="text-align:center;"colspan=1>LOADED AT</td>
+    <td scope="col" style="text-align:center;"colspan=1>PRODUCT</td>
+    <td scope="col" style="text-align:center;"colspan=1>NO. OF BAGS(Count)</td>
+    <td scope="col" style="text-align:center;"colspan=1>TYPE OF BAGS(Jute/pp)</td>
+    <td scope="col" style="text-align:center;"colspan=1>TARPAULIN USED (Yes/No)</td>
+    <td scope="col" style="text-align:center;"colspan=1>CONDITION ON ARRIVAL(good/wet/dry)</td>
+</tr>
+<tr>
+                                        <td colspan=6><button type="button" class="add-row" onclick="addForm('LoTableG1', 'myForm', this.parentNode.parentNode,'${record.entryCheck}')">+</button></td>
+
+
+
+
+</tr>
+
+
+
+
+
+<table>
+<td id="newentryCheck">${record.entryCheck}</td>
+
+<div id="landInfoData2"></div>
+
+
+                            <div id="landInfoData1"></div>
+
+
+
+</table>
+<table>
+
+<tr>
+    <td scope="col" style="text-align:center;" colspan=1>ABSORBANT USED:</td>
+    <td scope="col" style="text-align:center;" colspan=1">
+        <select name="Absorabant_Used" class="form-control" onchange="saveEditedField('TruckEntry', ${record.id}, 'Absorabant_Used', this.value)">
+            ${generateOptions(ABSORBANT_OPTIONS, record.Absorabant_Used)}
+        </select>
+    </td>
+    <td scope="col" style="text-align:center;" colspan=1>PLACEMENT</td>
+    <td scope="col" style="text-align:center;" colspan=1">
+        <select name="Placement" class="form-control" onchange="saveEditedField('TruckEntry', ${record.id}, 'Placement', this.value)">
+            ${generateOptions(PLACEMENT_OPTIONS, record.Placement)}
+        </select>
+    </td>
+    <td scope="col" style="text-align:center;" colspan=1>FUMIGANT</td>
+    <td scope="col" style="text-align:center;" colspan=1">
+        <select name="Fumigant" class="form-control" onchange="saveEditedField('TruckEntry', ${record.id}, 'Fumigant', this.value)">
+            ${generateOptions(FUMIGANT_OPTIONS, record.Fumigant)}
+        </select>
+    </td>
+    <td scope="col" style="text-align:center;" colspan=1>FUMIGATED BY</td>
+    <td scope="col" style="text-align:center;" colspan=1">
+        <input type="text" name="Fumigated_By" class="form-control" value="${record.Fumigated_By}" onblur="saveEditedField('TruckEntry', ${record.id}, 'Fumigated_By', this.value)">
+    </td>
+</tr>
+
+<tr>
+    <td scope="col" style="text-align:center;" colspan=1>COMMENTS:</td>
+    <td scope="col" style="text-align:center;" colspan=7">
+        <textarea name="Comments" class="form-control" onblur="saveEditedField('Container_Inspection_Log', ${record.id}, 'Comments', this.value)">${record.Comments}</textarea>
+    </td>
+</tr>
+
+<tr>
+    <td scope="col" style="text-align:center;" colspan=1>INSPECTED AND PREPARED BY:</td>
+    <td scope="col" style="text-align:center;" colspan=7">
+        <input type="text" name="Inspected_And_Prepared_By" class="form-control" value="${record.Inspected_And_Prepared_By}" onblur="saveEditedField('Container_Inspection_Log', ${record.id}, 'Inspected_And_Prepared_By', this.value)">
+    </td>
+    <td scope="col" style="text-align:center;" colspan=1>DATE:</td>
+    <td scope="col" style="text-align:center;" colspan=7">
+        <input type="date" name="inspected_Date" class="form-control" value="${record.inspected_Date}" onblur="saveEditedField('Container_Inspection_Log', ${record.id}, 'inspected_Date', this.value)">
+    </td>
+</tr>
+
+<tr>
+    <td scope="col" style="text-align:center;" colspan=1>REVIEWED BY:</td>
+    <td scope="col" style="text-align:center;" colspan=7">
+        <input type="text" name="Reviewed_By" class="form-control" value="${record.Reviewed_By}" onblur="saveEditedField('Container_Inspection_Log', ${record.id}, 'Reviewed_By', this.value)">
+    </td>
+    <td scope="col" style="text-align:center;" colspan=1>DATE:</td>
+    <td scope="col" style="text-align:center;" colspan=7">
+        <input type="date" name="reviewed_Date" class="form-control" value="${record.reviewed_Date}" onblur="saveEditedField('Container_Inspection_Log', ${record.id}, 'reviewed_Date', this.value)">
+    </td>
+</tr>
+
+
+
+
+
+
+</tbody>
+</table>
+
+
+
+
+
+
+
+		</form>
+
+           `;
+          if (
+            record.COMPLETE == null ||
+            record.COMPLETE == "" ||
+            record.COMPLETE == "null" ||
+            record.COMPLETE == "N" ||
+            record.COMPLETE == "n" ||
+            record.COMPLETE == "No" ||
+            record.COMPLETE == "no"
+          ) {
+            landInfoDataDiv.appendChild(entryContainer);
+            console.log("test1");
+          } else {
+            landInfoDataDiv.appendChild(entryContainer);
+            console.log("test2");
+          }
+        });
+      };
+    };
+
+
+
+
+
+
+
+
+
+
+// Function to generate dropdown options from a predefined list
+function generateOptions(options, selectedValue) {
+    return options.map(option => `<option value="${option[0]}" ${option[0] === selectedValue ? 'selected' : ''}>${option[1]}</option>`).join('');
+}
+
+// Example option lists
+const ABSORBANT_OPTIONS = [
+    ['', 'Select'],
+    ['Dry Bags', 'Dry Bags'],
+    ['Kraft paper', 'Kraft paper'],
+    ['Other', 'Other'],
+];
+
+const PLACEMENT_OPTIONS = [
+    ['', 'Select'],
+    ['Left', 'Left'],
+    ['Right', 'Right'],
+    ['Top', 'Top'],
+    ['Back', 'Back'],
+    ['Front', 'Front'],
+];
+
+const FUMIGANT_OPTIONS = [
+    ['', 'Select'],
+    ['Plates', 'Plates'],
+    ['Strips', 'Strips'],
+    ['Tablet', 'Tablet'],
+];
+
+
+
+    function saveMainEditedField(storeName, id, field, newValue) {
+      let openRequestup = indexedDB.open("GCNA");
+      openRequestup.onsuccess = function (event) {
+        let db1 = event.target.result;
+        let transaction = db1.transaction(storeName, "readwrite");
+        let landInfoStore = transaction.objectStore(storeName);
+        let getRequest = landInfoStore.get(id);
+        getRequest.onsuccess = function (event) {
+          let record = event.target.result;
+          record[field] = newValue;
+          let updateRequest = landInfoStore.put(record);
+          updateRequest.onsuccess = function () {
+            console.log(`${field} updated successfully!`);
+          };
+        };
+      };
+    }
+
+
+    function saveEditedDate(id, newDate) {
+      let openRequestup = indexedDB.open("GCNA");
+
+      openRequestup.onsuccess = function (event) {
+        let db1 = event.target.result;
+        let transaction = db1.transaction(
+          "Container_Inspection_Log",
+          "readwrite"
+        );
+        let landInfoStore = transaction.objectStore("Container_Inspection_Log");
+        let getRequest = landInfoStore.get(id);
+
+        getRequest.onsuccess = function (event) {
+          let record = event.target.result;
+          record.END_DRYING_DATE = newDate;
+
+          let updateRequest = landInfoStore.put(record);
+          updateRequest.onsuccess = function () {
+            console.log("End Drying Date updated successfully!");
+          };
+        };
+      };
+    }
+
+    function saveEditedCompletion(id, completion) {
+      let openRequestup = indexedDB.open("GCNA");
+
+      openRequestup.onsuccess = function (event) {
+        let db1 = event.target.result;
+        let transaction = db1.transaction(
+          "Container_Inspection_Log",
+          "readwrite"
+        );
+        let landInfoStore = transaction.objectStore("Container_Inspection_Log");
+        let getRequest = landInfoStore.get(id);
+
+        getRequest.onsuccess = function (event) {
+          let record = event.target.result;
+          record.COMPLETE = completion;
+
+          let updateRequest = landInfoStore.put(record);
+          updateRequest.onsuccess = function () {
+            console.log("End Drying Date updated successfully!");
+          };
+        };
+      };
+    }
+  </script>
+
+
+
+  <!-- <script>
+    function saveEditedCompletion(id, completion) {
+      let openRequestup = indexedDB.open("GCNA");
+
+      openRequestup.onsuccess = function (event) {
+        let db1 = event.target.result;
+        let transaction = db1.transaction("In-House-Drying", "readwrite");
+        let landInfoStore = transaction.objectStore("In-House-Drying");
+        let getRequest = landInfoStore.get(id);
+
+        getRequest.onsuccess = function (event) {
+          let record = event.target.result;
+          record.COMPLETE = completion;
+
+          let updateRequest = landInfoStore.put(record);
+          updateRequest.onsuccess = function () {
+            console.log("End Drying Date updated successfully!");
+          };
+        };
+      };
+    }
+  </script> -->
+
+
+
+  <!-- <script>
+    let openRequest2 = indexedDB.open("GCNA");
+
+    openRequest2.onsuccess = function (event) {
+      let db = event.target.result;
+      let transaction = db.transaction("Shelves", "readonly");
+      let landInfoStore = transaction.objectStore("Shelves");
+      let getAllRequest = landInfoStore.getAll();
+
+      getAllRequest.onsuccess = function (event) {
+        let landInfoRecords = event.target.result;
+        let tables = document.querySelectorAll(".table"); // Select all tables
+
+        // Inside the loop where you iterate over landInfoRecords
+        landInfoRecords.forEach((record) => {
+          tables.forEach((table) => {
+            let floor = record.floor; // Get the floor entry from the record
+            let tableId = table.id; // Get the ID of the table
+
+            if (floor === tableId) {
+              // Check if the floor entry matches the table ID
+              let entryCheckTd = table.querySelector("td#entryCheck");
+              if (entryCheckTd.textContent.trim() === record.entry) {
+                // Check if the td with id "entryCheck" exists in the current table
+                let landInfoDataDiv = table.querySelector(".landInfoData1");
+                if (!landInfoDataDiv) {
+                  // Check if the div exists, if not, create it
+                  landInfoDataDiv = document.createElement("div");
+                  landInfoDataDiv.className = "landInfoData1";
+                  table.appendChild(landInfoDataDiv);
+                }
+
+                let entryContainer = document.createElement("div");
+                entryContainer.className = "entry-container";
+                entryContainer.dataset.formId = table.id; // Unique identifier for the entryContainer
+                // Unique identifier for the entryContainer
+                entryContainer.innerHTML = ``;
+                landInfoDataDiv.appendChild(entryContainer);
+              } else {
+                console.log(
+                  "No TD with ID 'entryCheck' found or its content does not match in table with ID:"
+                );
+              }
+            }
+          });
+        });
+      };
+    };
+  </script> -->
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      let openRequest4 = indexedDB.open("GCNA");
+      openRequest4.onsuccess = function (event) {
+        let db = event.target.result;
+        let transaction = db.transaction("TruckEntry", "readonly");
+        let landInfoStore = transaction.objectStore("TruckEntry");
+        let getAllRequest = landInfoStore.getAll();
+        getAllRequest.onsuccess = function (event) {
+          let landInfoRecords = event.target.result;
+          let tables = document.querySelectorAll("table"); // Select all tables
+          tables.forEach((table) => {
+            landInfoRecords.forEach((record) => {
+              let entryCheckTd = table.querySelector("td#newentryCheck");
+              if (
+                entryCheckTd &&
+                entryCheckTd.textContent.trim() === record.entry
+              ) {
+                let landInfoDataDiv = table.querySelector(".landInfoData2");
+                if (!landInfoDataDiv) {
+                  landInfoDataDiv = document.createElement("div");
+                  landInfoDataDiv.className = "landInfoData2";
+                  table.appendChild(landInfoDataDiv);
+                }
+                let entryContainer = document.createElement("div");
+                entryContainer.className = "entry-container";
+                entryContainer.dataset.formId = table.id;
+                entryContainer.innerHTML = generateCardHTML(record);
+                landInfoDataDiv.appendChild(entryContainer);
+              }
+            });
+          });
+        };
+      };
+    });
+
+    function saveEditedField(storeName, id, field, newValue) {
+      let openRequestup = indexedDB.open("GCNA");
+      openRequestup.onsuccess = function (event) {
+        let db1 = event.target.result;
+        let transaction = db1.transaction(storeName, "readwrite");
+        let landInfoStore = transaction.objectStore(storeName);
+        let getRequest = landInfoStore.get(id);
+        getRequest.onsuccess = function (event) {
+          let record = event.target.result;
+          record[field] = newValue;
+          let updateRequest = landInfoStore.put(record);
+          updateRequest.onsuccess = function () {
+            console.log(`${field} updated successfully!`);
+          };
+        };
+      };
+    }
+
+    function addRow(
+      storeName,
+      station,
+      labelText,
+      shelf,
+      tray,
+      section,
+      moisture,
+      floor,
+      entry,
+      buttonElement
+    ) {
+      let newRow = {
+        id: Date.now(),
+        station: station,
+        [storeName === "M_Shelves" ? "M_Shelf" : "W_Shelf"]: shelf,
+        [storeName === "M_Shelves" ? "M_Tray" : "W_Tray"]: tray,
+        [storeName === "M_Shelves" ? "M_Section" : "W_Section"]: section,
+        Moisture: moisture,
+        Week: "",
+        floor: floor,
+        entry: entry,
+      };
+
+      let openRequestup = indexedDB.open("GCNA");
+      openRequestup.onsuccess = function (event) {
+        let db1 = event.target.result;
+        let transaction = db1.transaction(storeName, "readwrite");
+        let landInfoStore = transaction.objectStore(storeName);
+
+        let addRequest = landInfoStore.add(newRow);
+        addRequest.onsuccess = function () {
+          console.log("New row added successfully!");
+
+          // Dynamically add the new card-like entry
+          let entryContainer = document.createElement("div");
+          entryContainer.className = "entry-container";
+          entryContainer.dataset.formId = buttonElement.closest("table").id;
+          entryContainer.innerHTML = generateCardHTML(newRow);
+
+          // Append the new card structure to the .landInfoData2 div
+          let landInfoDataDiv = buttonElement
+            .closest("table")
+            .querySelector(".landInfoData2");
+          if (landInfoDataDiv) {
+            landInfoDataDiv.appendChild(entryContainer);
+          }
+        };
+      };
+    }
+
+
+    function generateCardHTML(record) {
+  return `
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title"></h5>
+            <p class="card-text">
+                <center>
+                    <table>
+                        <thead>
+                            <tr>
+                                <td scope="col" style="text-align:center;" colspan=1>TRUCK#:</td>
+                                <td scope="col" style="text-align:center;" colspan=1>DRIVER</td>
+                                <td scope="col" style="text-align:center;" colspan=1>LOADED AT</td>
+                                <td scope="col" style="text-align:center;" colspan=1>PRODUCT</td>
+                                <td scope="col" style="text-align:center;" colspan=1>NO. OF BAGS(Count)</td>
+                                <td scope="col" style="text-align:center;" colspan=1>TYPE OF BAGS(Jute/pp)</td>
+                                <td scope="col" style="text-align:center;" colspan=1>TARPAULIN USED (Yes/No)</td>
+                                <td scope="col" style="text-align:center;" colspan=1>CONDITION ON ARRIVAL(good/wet/dry)</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input type="text" id="Truck_Number_${record.id}" class="form-control" name="Truck_Number" value="${record.Truck_Number}" onblur="saveEditedField('TruckEntry', ${record.id}, 'Truck_Number', this.value)"></td>
+                                <td><input type="text" id="Driver_${record.id}" class="form-control" name="Driver" value="${record.Driver}" onblur="saveEditedField('TruckEntry', ${record.id}, 'Driver', this.value)"></td>
+                                <td><input type="text" id="Loaded_At_${record.id}" class="form-control" name="Loaded_At" value="${record.Loaded_At}" onblur="saveEditedField('TruckEntry', ${record.id}, 'Loaded_At', this.value)"></td>
+                                <td><input type="text" id="Product_${record.id}" class="form-control" name="Product" value="${record.Product}" onblur="saveEditedField('TruckEntry', ${record.id}, 'Product', this.value)"></td>
+                                <td><input type="number" id="Num_Of_Bags_${record.id}" class="form-control" name="Num_Of_Bags" value="${record.Num_Of_Bags}" min="0" onblur="saveEditedField('TruckEntry', ${record.id}, 'Num_Of_Bags', this.value)"></td>
+                                <td>
+                                    <select id="Type_Of_Bag_${record.id}" class="form-control" name="Type_Of_Bag" onblur="saveEditedField('TruckEntry', ${record.id}, 'Type_Of_Bag', this.value)">
+                                        ${generateOptions(BAG_TYPE)}
+                                    </select>
+                                </td>
+                                <td>
+                                    <select id="Tarpaulin_Used_${record.id}" class="form-control" name="Tarpaulin_Used" onblur="saveEditedField('TruckEntry', ${record.id}, 'Tarpaulin_Used', this.value)">
+                                        ${generateOptions(CHECK)}
+                                    </select>
+                                </td>
+                                <td>
+                                    <select id="Condition_On_Arrival_${record.id}" class="form-control" name="Condition_On_Arrival" onblur="saveEditedField('TruckEntry', ${record.id}, 'Condition_On_Arrival', this.value)">
+                                        ${generateOptions(ARRIVAL_CONDITION)}
+                                    </select>
+                                </td>
+
+
+                                </tr>
+                        </tbody>
+                    </table>
+                </center>
+            </p>
+        </div>
+    </div>
+    <br> <br> <br>`;
+}
+
+// Function to generate dropdown options from a predefined list
+function generateOptions(options) {
+    return options.map(option => `<option value="${option[0]}">${option[1]}</option>`).join('');
+}
+
+// Example option lists
+const CHECK = [
+    ['', 'Select'],
+    ['Y', 'Yes'],
+    ['N', 'No']
+];
+
+const BAG_TYPE = [
+    ['', 'Select'],
+    ['Jute', 'Jute'],
+    ['PP', 'PP']
+];
+
+const ARRIVAL_CONDITION = [
+    ['', 'Select'],
+    ['Good', 'Good'],
+    ['wet', 'wet'],
+    ['dry', 'dry']
+  ];
+
+
+
+
+  function addForm(tableId, mainFormId, clickedRow,entry) {
+    console.log(entry);
+    var formCount = 0;
+    // const entry = document.getElementById('id_entryCheck').value;
+
+    formCount++;
+    var form = document.createElement('form');
+    form.id = `form_${formCount}`;
+    form.innerHTML = `
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Truck Number:</th>
+                    <th scope="col">Driver:</th>
+                    <th scope="col">Loaded At:</th>
+                    <th scope="col">Product:</th>
+                    <th scope="col">Number of Bags:</th>
+                    <th scope="col">Type of Bag:</th>
+                    <th scope="col">Tarpaulin Used:</th>
+                    <th scope="col">Arrival Condition:</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input type="text" id="Truck_Number_${formCount}" class="form-control" name="Truck_Number"></td>
+                    <td><input type="text" id="Driver_${formCount}" class="form-control" name="Driver"></td>
+                    <td><input type="text" id="Loaded_At_${formCount}" class="form-control" name="Loaded_At"></td>
+                    <td><input type="text" id="Product_${formCount}" class="form-control" name="Product"></td>
+                    <td><input type="number" id="Num_Of_Bags_${formCount}" class="form-control" name="Num_Of_Bags" min="0"></td>
+                    <td>
+                        <select id="Type_Of_Bag_${formCount}" class="form-control" name="Type_Of_Bag">
+                            ${generateOptions(BAG_TYPE)}
+                        </select>
+                    </td>
+                    <td>
+                        <select id="Tarpaulin_Used_${formCount}" class="form-control" name="Tarpaulin_Used">
+                            ${generateOptions(CHECK)}
+                        </select>
+                    </td>
+                    <td>
+                        <select id="Condition_On_Arrival_${formCount}" class="form-control" name="Condition_On_Arrival">
+                            ${generateOptions(ARRIVAL_CONDITION)}
+                        </select>
+                    </td>
+                    <td><button type="button" class="submit_contents" onclick="submitForm('${tableId}', '${mainFormId}', ${formCount},'${entry}')">✔</button></td>
+                    <td><button type="button" onclick="removeForm('form_${formCount}')">Close</button></td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="display: none;">
+            <input type="text" id="entry_${formCount}" value=${entry} required>
+        </div>
+    `;
+    var tbody = clickedRow.parentNode;
+    var newRow = tbody.insertRow(clickedRow.rowIndex + 1);
+    var newCell = newRow.insertCell(0);
+    newCell.appendChild(form);
+}
+
+
+
+
+// Function to save the edited field
+function saveEditedField(storeName, id, fieldName, newValue) {
+    let openRequestup = indexedDB.open("GCNA");
+
+    openRequestup.onsuccess = function (event) {
+        let db1 = event.target.result;
+        let transaction = db1.transaction(storeName, "readwrite");
+        let objectStore = transaction.objectStore(storeName);
+        let getRequest = objectStore.get(id);
+
+        getRequest.onsuccess = function (event) {
+            let record = event.target.result;
+            record[fieldName] = newValue;
+
+            let updateRequest = objectStore.put(record);
+            updateRequest.onsuccess = function () {
+                console.log(`${fieldName} updated successfully!`);
+            };
+        };
+    };
+}
+
+function submitForm(tableId, mainFormId, formCount, entryval) {
+    let truckNumber = document.getElementById(`Truck_Number_${formCount}`).value;
+    let driver = document.getElementById(`Driver_${formCount}`).value;
+    let loadedAt = document.getElementById(`Loaded_At_${formCount}`).value;
+    let product = document.getElementById(`Product_${formCount}`).value;
+    let numOfBags = document.getElementById(`Num_Of_Bags_${formCount}`).value;
+    let typeOfBag = document.getElementById(`Type_Of_Bag_${formCount}`).value;
+    let tarpaulinUsed = document.getElementById(`Tarpaulin_Used_${formCount}`).value;
+    let conditionOnArrival = document.getElementById(`Condition_On_Arrival_${formCount}`).value;
+
+    let newEntry = {
+        Truck_Number: truckNumber,
+        Driver: driver,
+        Loaded_At: loadedAt,
+        Product: product,
+        Num_Of_Bags: numOfBags,
+        Type_Of_Bag: typeOfBag,
+        Tarpaulin_Used: tarpaulinUsed,
+        Condition_On_Arrival: conditionOnArrival,
+        entry: entryval
+    };
+
+    // Save the new entry in IndexedDB
+    let openRequest = indexedDB.open("GCNA");
+
+    openRequest.onsuccess = function (event) {
+        let db = event.target.result;
+        let transaction = db.transaction("TruckEntry", "readwrite");
+        let objectStore = transaction.objectStore("TruckEntry");
+
+        // Check for the largest existing ID and increment by 1
+        objectStore.getAll().onsuccess = function(event) {
+            let entries = event.target.result;
+            let maxId = entries.length ? Math.max(...entries.map(entry => entry.id || 0)) : 0;
+            newEntry.id = maxId + 1;
+
+            let addRequest = objectStore.add(newEntry);
+
+            addRequest.onsuccess = function () {
+                reloadFields();
+                console.log("New form entry added successfully!");
+            };
+
+            addRequest.onerror = function (event) {
+                console.error("Error adding new entry:", event.target.error);
+            };
+        };
+    };
+
+    openRequest.onerror = function (event) {
+        console.error("Error opening IndexedDB:", event.target.error);
+    };
+}
+
+function reloadFields() {
+    window.location.reload();
+}
+
+
+
+
+
+// Function to remove the form
+function removeForm(formId) {
+    document.getElementById(formId).remove();
+}
+
+</script>
+
+  {% endblock %}
+</body>

@@ -1,0 +1,1047 @@
+{% extends 'gcna/base2.html' %}
+
+{% block content%}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+
+
+<script>
+    // Function to update test_selector options
+    function updateTestSelectorOptions() {
+        $.ajax({
+            url: '/get_test_selector_options/',
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                // Update test_selector options
+                var select = $('select[name="test_selector"]');  // Assuming your form has the name 'test_selector'
+                select.empty();  // Clear existing options
+
+                // Add new options
+                for (var i = 0; i < data.options.length; i++) {
+                    select.append('<option value="' + data.options[i] + '">' + data.options[i] + '</option>');
+                }
+            },
+            error: function (error) {
+                console.log('Error fetching test_selector options:', error);
+            }
+        });
+    }
+
+    // Call this function to update options when needed
+    // For example, you can call it on a button click or any other event
+    updateTestSelectorOptions();
+</script>
+
+
+
+
+
+{% comment %} 
+<script>
+$(document).ready(function() {
+  $('.hidden-label1').hide();
+  $('.hidden-label2').hide();
+  $('.hidden-label3').hide();
+  $('.hidden-label4').hide();
+  $('.hidden-label5').hide();
+
+
+
+
+
+  $('#LoTableG1_0').hide(); 
+  $('#LoTableG2_0').hide(); 
+  $('#LoTableG3_0').hide(); 
+  $('#LoTableG4_0').hide(); 
+
+  $('#Tab_Alert').hide(); 
+
+
+
+  $('#LoTableH1_0').hide(); 
+  $('#LoTableH2_0').hide(); 
+  $('#LoTableH3_0').hide(); 
+  $('#LoTableH4_0').hide(); 
+
+  $('#LoTableM1_0').hide(); 
+  $('#LoTableM2_0').hide(); 
+  $('#LoTableM3_0').hide(); 
+  $('#LoTableM4_0').hide(); 
+
+
+  $('#LoTableU1_0').hide(); 
+  $('#LoTableU2_0').hide(); 
+  $('#LoTableU3_0').hide(); 
+  $('#LoTableU4_0').hide(); 
+
+
+  $('#LoTableGP1_0').hide(); 
+  $('#LoTableGP2_0').hide(); 
+  $('#LoTableGP3_0').hide(); 
+  $('#LoTableGP4_0').hide(); 
+
+
+
+
+
+
+
+  $('#LoTableG1').hide(); 
+  $('#LoTableG2').hide(); 
+  $('#LoTableG3').hide(); 
+  $('#LoTableG4').hide(); 
+
+
+
+
+  $('#LoTableH1').hide(); 
+  $('#LoTableH2').hide(); 
+  $('#LoTableH3').hide(); 
+  $('#LoTableH4').hide(); 
+
+  $('#LoTableM1').hide(); 
+  $('#LoTableM2').hide(); 
+  $('#LoTableM3').hide(); 
+  $('#LoTableM4').hide(); 
+
+
+  $('#LoTableU1').hide(); 
+  $('#LoTableU2').hide(); 
+  $('#LoTableU3').hide(); 
+  $('#LoTableU4').hide(); 
+
+
+  $('#LoTableGP1').hide(); 
+  $('#LoTableGP2').hide(); 
+  $('#LoTableGP3').hide(); 
+  $('#LoTableGP4').hide(); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  $('#TableG1').hide(); 
+  $('#TableG2').hide(); 
+  $('#TableG3').hide(); 
+
+
+
+
+  $('#TableH1').hide(); 
+  $('#TableH2').hide(); 
+  $('#TableH3').hide(); 
+
+  $('#TableM1').hide(); 
+  $('#TableM2').hide(); 
+  $('#TableM3').hide(); 
+
+
+  $('#TableU1').hide(); 
+  $('#TableU2').hide(); 
+  $('#TableU3').hide(); 
+
+
+  $('#TableGP1').hide(); 
+  $('#TableGP2').hide(); 
+  $('#TableGP3').hide(); 
+
+
+    
+    
+    
+
+
+  $('#id_STATION').on('change', function() {
+    if ($(this).val() == 'G') {
+        $('#LoTableG1').show();
+        $('#LoTableG2').show(); 
+        $('#LoTableG3').show(); 
+        $('#LoTableG4').show(); 
+
+        $('#LoTableG1_0').show();
+        $('#LoTableG2_0').show(); 
+        $('#LoTableG3_0').show(); 
+        $('#LoTableG4_0').show(); 
+       
+        $('.hidden-label1').show();
+
+
+        $('#TableG1').show(); 
+        $('#TableG2').show(); 
+        $('#TableG3').show(); 
+        $('#id_STATION2').val("Grenville");
+
+
+
+    } else {
+        $('#LoTableG1').hide();
+        $('#LoTableG2').hide(); 
+        $('#LoTableG3').hide(); 
+        $('#LoTableG4').hide()
+
+        $('#LoTableG1_0').hide();
+        $('#LoTableG2_0').hide(); 
+        $('#LoTableG3_0').hide(); 
+        $('#LoTableG4_0').hide(); 
+        $('.hidden-label1').hide();
+
+
+
+        $('#TableG1').hide(); 
+        $('#TableG2').hide(); 
+        $('#TableG3').hide(); 
+
+
+
+    }
+
+
+
+  
+
+
+
+    if ($(this).val() == 'H') {
+        $('#LoTableH1').show();
+        $('#LoTableH2').show(); 
+        $('#LoTableH3').show(); 
+        $('#LoTableH4').show(); 
+
+
+        $('#LoTableH1_0').show();
+        $('#LoTableH2_0').show(); 
+        $('#LoTableH3_0').show(); 
+        $('#LoTableH4_0').show(); 
+
+        $('.hidden-label2').show();
+
+
+
+        $('#TableH1').show();
+        $('#TableH2').show(); 
+        $('#TableH3').show(); 
+        $('#id_STATION2').val("Hermitage");
+
+
+    } else {
+        $('#LoTableH1').hide();
+        $('#LoTableH2').hide(); 
+        $('#LoTableH3').hide(); 
+        $('#LoTableH4').hide();
+
+
+        $('#LoTableH1_0').hide();
+        $('#LoTableH2_0').hide(); 
+        $('#LoTableH3_0').hide(); 
+        $('#LoTableH4_0').hide();
+        $('.hidden-label2').hide();
+
+
+
+
+        $('#TableH1').hide();
+        $('#TableH2').hide(); 
+        $('#TableH3').hide(); 
+    }
+
+
+
+  
+    if ($(this).val() == 'M') {
+        $('#LoTableM1').show();
+        $('#LoTableM2').show(); 
+        $('#LoTableM3').show(); 
+        $('#LoTableM4').show(); 
+
+        $('#LoTableM1_0').show();
+        $('#LoTableM2_0').show(); 
+        $('#LoTableM3_0').show(); 
+        $('#LoTableM4_0').show(); 
+
+        $('.hidden-label3').show();
+
+        $('#id_STATION2').val("Marli");
+
+        $('#TableM1').show();
+        $('#TableM2').show(); 
+        $('#TableM3').show(); 
+
+    } else {
+        $('#LoTableM1').hide();
+        $('#LoTableM2').hide(); 
+        $('#LoTableM3').hide(); 
+        $('#LoTableM4').hide(); 
+
+
+        $('#LoTableM1_0').hide();
+        $('#LoTableM2_0').hide(); 
+        $('#LoTableM3_0').hide(); 
+        $('#LoTableM4_0').hide();
+
+        $('.hidden-label3').hide();
+
+   
+
+        $('#TableM1').hide();
+        $('#TableM2').hide(); 
+        $('#TableM3').hide(); 
+
+
+    }
+
+
+
+    if ($(this).val() == 'U') {
+        $('#LoTableU1').show();
+        $('#LoTableU2').show(); 
+        $('#LoTableU3').show(); 
+        $('#LoTableU4').show(); 
+
+
+        $('#LoTableU1_0').show();
+        $('#LoTableU2_0').show(); 
+        $('#LoTableU3_0').show(); 
+        $('#LoTableU4_0').show(); 
+
+
+        $('.hidden-label4').show();
+
+        $('#id_STATION2').val("Union");
+        $('#TableU1').show();
+        $('#TableU2').show(); 
+        $('#TableU3').show(); 
+
+    } else {
+        $('#LoTableU1').hide();
+        $('#LoTableU2').hide(); 
+        $('#LoTableU3').hide(); 
+        $('#LoTableU4').hide();
+
+
+        $('#LoTableU1_0').hide();
+        $('#LoTableU2_0').hide(); 
+        $('#LoTableU3_0').hide(); 
+        $('#LoTableU4_0').hide();
+
+        $('.hidden-label4').hide();
+
+        $('#TableU1').hide();
+        $('#TableU2').hide(); 
+        $('#TableU3').hide();
+
+    }
+
+
+
+  
+
+
+    if ($(this).val() == 'GP') {
+        $('#LoTableGP1').show();
+        $('#LoTableGP2').show(); 
+        $('#LoTableGP3').show(); 
+        $('#LoTableGP4').show(); 
+
+
+        $('#LoTableGP1_0').show();
+        $('#LoTableGP2_0').show(); 
+        $('#LoTableGP3_0').show(); 
+        $('#LoTableGP4_0').show(); 
+
+
+        $('#id_STATION2').val("Gouyave");
+        $('.hidden-label5').show();
+
+
+
+
+        $('#TableGP1').show();
+        $('#TableGP2').show(); 
+        $('#TableGP3').show(); 
+
+    } else {
+        $('#LoTableGP1').hide();
+        $('#LoTableGP2').hide(); 
+        $('#LoTableGP3').hide(); 
+        $('#LoTableGP4').hide();
+
+
+
+        $('#LoTableGP1_0').hide();
+        $('#LoTableGP2_0').hide(); 
+        $('#LoTableGP3_0').hide(); 
+        $('#LoTableGP4_0').hide();
+
+        $('.hidden-label5').hide();
+ 
+
+
+        $('#TableGP1').hide();
+        $('#TableGP2').hide(); 
+        $('#TableGP3').hide(); 
+
+ 
+    }
+
+
+
+
+  
+
+
+  
+
+});
+
+  $('#id_ALERT').on('change', function() {
+    if ($(this).val() == 'Yes') {
+        $('#Tab_Alert').show(); 
+
+    } else {
+        $('#Tab_Alert').hide();
+
+    }
+  
+});
+
+
+  $('#id_START_DRYING_DATE').on('change', function() {
+    var startDate = new Date($(this).val());
+    var approxEndDate = new Date(startDate.getTime() + (42 * 24 * 60 * 60 * 1000)); 
+
+    var day = ("0" + approxEndDate.getDate()).slice(-2); 
+
+    var month = ("0" + (approxEndDate.getMonth() + 1)).slice(-2);
+
+    var year = approxEndDate.getFullYear();
+
+    var formattedDate = year + "-" + month + "-" + day;
+
+    $('#id_APPROX_END_DRYING_DATE').val(formattedDate);
+      });
+
+  $('#id_NUM_OF_BAGS').on('change', function() {
+    var start =  $('#id_NUM_OF_BAGS').val();
+    var calc = start * 110; 
+    $('#id_TOTAL_LBS_NUTMEG_BOUGHT').val(calc);
+      });
+
+
+});
+
+
+
+
+
+
+
+
+
+</script> {% endcomment %}
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      var myForm = document.getElementById('myForm');
+  
+      myForm.addEventListener('submit', function(event) {
+
+          event.preventDefault();
+          var data = new FormData(event.target);
+          saveDataToIndexedDB(data);
+      });
+  
+      function saveDataToIndexedDB(data) {
+          var request = indexedDB.open('GCNA', 2);
+      
+          request.onsuccess = function(event) {
+              var db = event.target.result;
+              var transaction = db.transaction('In-House-Drying', 'readwrite');
+              var objectStore = transaction.objectStore('In-House-Drying');
+      
+              var obj = {};
+              for (var pair of data.entries()) {
+                  obj[pair[0]] = pair[1];
+              }
+      
+              // Get the highest id in the object store
+              var highestIdRequest = objectStore.openCursor(null, 'prev');
+              highestIdRequest.onsuccess = function(event) {
+                  var cursor = event.target.result;
+                  if (cursor) {
+                      obj.id = cursor.key + 1;
+                  } else {
+                      obj.id = 1; // This is the first item
+                  }
+      
+                  var request = objectStore.put(obj);
+      
+                  request.onsuccess = function() {
+                      console.log('Data added to IndexedDB');
+                      window.location.href = '/gcna00_2/';
+
+                  };
+      
+                  request.onerror = function() {
+                      console.error('Error adding data to IndexedDB');
+                  };
+              };
+          };
+      
+          request.onerror = function(event) {
+              console.error('Error opening IndexedDB', event);
+          };
+      }
+      
+  });
+  </script>
+
+
+
+	<center>
+<br>
+	{% if submitted %}
+		Entry successfully added to database!!!
+	{% else %}
+		<form action=""  id="myForm" method="POST" style=" background-color: #e4e4e4;
+
+    margin: 1px auto;
+    font-family: Raleway;
+    padding: 10px;
+    width: 85%;
+    min-width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">
+  <h6>Document No. GCNA-GMP</h6>
+<h6>Document Title:  </h6>
+<h6>Date Issued:  </h6>
+<h6>Version:  </h6>
+
+
+     <h1>In House Drying</h1>
+ 
+		{% csrf_token %}
+
+
+<div class="card">
+ 
+  <div class="card-body">
+
+  </h5>
+    <p class="card-text">
+        <table id="vertical-1" class="table table-hover table-light">
+        <!-- <caption>First Way</caption> -->
+       
+
+
+       <tr>
+{% comment %} {{ form.Worker_ID_No }}
+{{ form.Nutmeg_ID_No }} {% endcomment %}
+            <th>Station</th>
+            <td>{{ form.STATION }}</td>
+        </tr>  
+        <tr>
+            <th>Date of Purchase</th>
+            <td>{{ form.DATE_OF_PURCHASE }}</td>
+        </tr>
+        <tr>
+            <th>Number of Farmers</th>
+            <td>{{ form.TOTAL_NUM_OF_FARMERS }}</td>
+        </tr>
+
+        <tr>
+            <th>Number of Bags</th>
+            <td>{{ form.NUM_OF_BAGS }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Total Nutmegs bought(lbs)</th>
+            <td>{{ form.TOTAL_LBS_NUTMEG_BOUGHT }}</td>
+        </tr>
+
+
+
+
+<table class="table">
+
+    <center>
+<label>Dates</label>   
+ </center> 
+  <thead>
+    <tr>
+
+      <th scope="col">Start Drying Date</th>
+      <th scope="col">Approximate End Drying Date</th>
+      <th scope="col">End Drying Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+      <td>{{ form.START_DRYING_DATE }}</td>
+      <td>{{ form.APPROX_END_DRYING_DATE }}</td>
+      <td>{{ form.END_DRYING_DATE }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+ 
+
+
+
+
+        <tr>
+
+         <center>
+   
+            <p>PLACEMENT ON SHELF</p>
+</center>
+        </tr>
+
+
+        <tr>
+
+         <center>
+   
+            <p></p>
+</center>
+        </tr>
+
+
+
+
+
+
+
+<table class="table" id="LoTableG1">
+
+    <center>
+<label class="hidden-label1"> Ground Floor</label>   
+ </center> 
+  <thead>
+    <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Amount/lbs</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfG_GF }}</td>
+      <td>{{ form.TrayG_GF }}</td>
+      <td>{{ form.SectionG_GF }}</td>
+      <td>{{ form.WeightG_GF }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+ 
+
+
+ 
+
+
+
+
+<table class="table" id="LoTableG2">
+
+    <center>
+<label class="hidden-label1">1st Floor</label>   
+ </center> 
+  <thead>
+     <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Amount/lbs</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfG_1F }}</td>
+      <td>{{ form.TrayG_1F }}</td>
+      <td>{{ form.SectionG_1F }}</td>
+      <td>{{ form.WeightG_1F }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+ 
+
+
+
+   
+<table class="table" id="LoTableG3">
+
+    <center>
+<label class="hidden-label1" >2nd Floor</label>   
+ </center> 
+  <thead>
+      <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Amount/lbs</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfG_2F }}</td>
+      <td>{{ form.TrayG_2F }}</td>
+      <td>{{ form.SectionG_2F }}</td>
+      <td>{{ form.WeightG_2F }}</td>
+
+    </tr>
+
+
+  </tbody>
+</table>
+
+ 
+ 
+
+
+
+   
+<table class="table" id="LoTableG4">
+
+    <center>
+<label class="hidden-label1">Floor Loft</label>   
+ </center> 
+  <thead>
+       <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Amount/lbs</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfG_FL }}</td>
+      <td>{{ form.TrayG_FL }}</td>
+      <td>{{ form.SectionG_FL }}</td>
+      <td>{{ form.WeightG_FL }}</td>
+
+    </tr>
+
+
+  </tbody>
+</table>
+
+ 
+
+
+<br>  
+<br>  
+<br>  
+<br>  
+<br>  
+<br>  
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+ <tr>
+
+         <center>
+            <p>MOISTURE TESTING (Weeks 3, 6, 8)</p>
+</center>
+        </tr>
+
+
+        <tr>
+
+         <center>
+   
+            <p>LOCATION2</p>
+</center>
+        
+
+
+<table class="table" id="LoTableG1_0">
+
+    <center>
+<label class="hidden-label1"> Ground Floor</label>   
+ </center> 
+  <thead>
+    <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfG_0_GF }}</td>
+      <td>{{ form.TrayG_0_GF }}</td>
+      <td>{{ form.SectionG_0_GF }}</td>
+      <td>{{ form.MoistureG_GF }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+
+
+<table class="table" id="LoTableG2_0">
+
+    <center>
+<label class="hidden-label1">1st Floor</label>   
+ </center> 
+  <thead>
+     <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfG_0_1F }}</td>
+      <td>{{ form.TrayG_0_1F }}</td>
+      <td>{{ form.SectionG_0_1F }}</td>
+      <td>{{ form.MoistureG_1F }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+ 
+   
+<table class="table" id="LoTableG3_0">
+
+    <center>
+<label class="hidden-label1" >2nd Floor</label>   
+ </center> 
+  <thead>
+      <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfG_0_2F }}</td>
+      <td>{{ form.TrayG_0_2F }}</td>
+      <td>{{ form.SectionG_0_2F }}</td>
+      <td>{{ form.MoistureG_2F }}</td>
+
+    </tr>
+
+
+  </tbody>
+</table>
+
+
+
+
+ 
+
+ 
+
+   
+<table class="table" id="LoTableG4_0">
+
+    <center>
+<label class="hidden-label1">Floor Loft</label>   
+ </center> 
+  <thead>
+       <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfG_0_FL }}</td>
+      <td>{{ form.TrayG_0_FL }}</td>
+      <td>{{ form.SectionG_0_FL }}</td>
+      <td>{{ form.MoistureG_FL }}</td>
+
+    </tr>
+
+
+  </tbody>
+</table>
+
+
+
+
+ 
+
+
+
+             
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="table">
+
+    <center>
+ </center> 
+  <thead>
+
+  </thead>
+  <tbody>
+    <tr>
+
+
+       <td>ALERT</td>
+      <td>{{ form.ALERT }}</td>
+
+  
+  </tbody>
+</table>
+
+
+<table class="table" id="Tab_Alert">
+
+
+
+   </tr>
+
+       <td>Nature of  Alert</td>
+      <td>{{ form.ALERT_cont }}</td>
+
+    </tr>
+</table>
+
+
+        <tr>
+            <th>Sampling from Gouyvae</th>
+            <td>{{ form.Sampling_from_gouyvae }}</td>
+        </tr>
+
+
+<br>
+
+
+        <tr>
+            <th>Control Number</th>
+            <td>{{ form.Control_number }}</td>
+        </tr>
+</table>
+
+
+
+    </table>
+        <tr>
+            <th><a href="{% url 'table' %}" class="btn btn-secondary">Return</a></th>
+        </tr>
+
+		<input type="submit"  value="submit" class="btn btn-success">
+
+
+            <th><a type="submit" href="{% url 'add_Dispatch_Dried_0' %}" role="button" class="btn btn-primary">Next</a></th> 
+
+
+		</form>
+
+	{% endif %}
+
+	</center>
+{{ form.media }}
+
+{% endblock %}

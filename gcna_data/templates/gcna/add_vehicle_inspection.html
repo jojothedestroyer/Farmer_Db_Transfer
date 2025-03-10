@@ -1,0 +1,408 @@
+{% extends 'gcna/base2.html' %}
+
+{% block content%}
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var myForm = document.getElementById('myForm');
+    
+        myForm.addEventListener('submit', function(event) {
+  
+            event.preventDefault();
+            var data = new FormData(event.target);
+            saveDataToIndexedDB(data);
+        });
+    
+        function saveDataToIndexedDB(data) {
+    // Exclude csrfmiddlewaretoken from being saved to IndexedDB
+    data.delete('csrfmiddlewaretoken');
+    data.delete('initial-entryCheck');
+  
+    var request = indexedDB.open('GCNA', 2);
+  
+    request.onsuccess = function(event) {
+        var db = event.target.result;
+        var transaction = db.transaction('Vehicle_Inspection', 'readwrite');
+        var objectStore = transaction.objectStore('Vehicle_Inspection');
+  
+        var obj = {};
+        for (var pair of data.entries()) {
+            obj[pair[0]] = pair[1];
+        }
+  
+        // Get the highest id in the object store
+        var highestIdRequest = objectStore.openCursor(null, 'prev');
+        highestIdRequest.onsuccess = function(event) {
+            var cursor = event.target.result;
+            if (cursor) {
+                obj.id = cursor.key + 1;
+            } else {
+                obj.id = 1; // This is the first item
+            }
+  
+            var request = objectStore.put(obj);
+  
+            request.onsuccess = function() {
+                console.log('Data added to IndexedDB');
+                transferIndexedDBData(); // Transfer data to Django after saving to IndexedDB
+            };
+  
+            request.onerror = function() {
+                console.error('Error adding data to IndexedDB');
+            };
+        };
+    };
+  
+    request.onerror = function(event) {
+        console.error('Error opening IndexedDB', event);
+    };
+  }
+        function transferIndexedDBData() {
+            var request = indexedDB.open('GCNA', 2);
+        
+            request.onsuccess = function(event) {
+                var db = event.target.result;
+                var transaction = db.transaction('Vehicle_Inspection', 'readonly');
+                var objectStore = transaction.objectStore('Vehicle_Inspection');
+                var getRequest = objectStore.getAll();
+        
+                getRequest.onsuccess = function(event) {
+                    var data = event.target.result;
+                    data.forEach(function(item) {
+  
+                    });
+                };
+            };
+        
+            request.onerror = function(event) {
+                console.error('Error opening IndexedDB', event);
+            };
+        }
+    
+  
+
+    });
+  </script>
+  
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const cargoPresentField = document.querySelector('[name="Cargo_present"]');
+        const cargoPresentContRow = document.getElementById('cargoPresentContRow');
+
+        function toggleCargoPresentCont() {
+            if (cargoPresentField.value === 'Other') {
+                cargoPresentContRow.style.display = 'table-row';
+            } else {
+                cargoPresentContRow.style.display = 'none';
+            }
+        }
+
+        // Run the function on page load to check the initial value
+        toggleCargoPresentCont();
+
+        // Add an event listener to handle changes in Cargo_present
+        cargoPresentField.addEventListener('change', toggleCargoPresentCont);
+    });
+</script>
+  
+
+<form id="myForm" style="
+background-color: #e4e4e4;
+margin: 1px auto;
+font-family: Raleway;
+padding: 10px;
+width: 95%;
+min-width: 300px;
+border-radius: 10px;
+box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);
+overflow: auto; /* Add overflow property for scrolling */
+/* max-height: 600px;  */
+
+
+/* Set maximum height for the form */
+">
+
+    <div class="card">
+        <div class="card-body">
+            <center>
+            <h5>Vehicle Inspection Log</h5>
+        </center>
+            <p class="card-text"></p>
+            <!-- <h6>Document No. GCNA-R-02</h6>
+            <h6>Document Title: Moisture Analysis in Floated Nutmeg</h6>
+            <h6>Date Issued: 2023-07-03</h6>
+            <h6>Version: 1</h6>
+            <h5>Section B</h5> -->
+            {% csrf_token %}
+            <!-- <h4>Corrective Action for Floating Nutmeg Above 10% Moisture Content</h4> -->
+
+            <table id="vertical-1" class="table table-hover table-light">
+
+                <thead>
+                    <tr>
+                        <th colspan="2"  class="main-header" style="text-align:center;">Provider</th>
+                        <th colspan="2" class="main-header" style="text-align:center;">{{form.Provider}}</th>
+
+                    </tr>
+
+
+                    <tr>
+
+
+                    <th colspan="2" class="main-header" style="text-align:center;">Vehicle Number</th>
+                    <th colspan="2" class="main-header" style="text-align:center;">{{form.Vehicle_number}}</th>
+
+
+                </tr>
+
+
+                <tr>
+
+
+                    <th colspan="2" class="main-header" style="text-align:center;">Driver Name</th>
+                    <th colspan="2" class="main-header" style="text-align:center;">{{form.Driver_name}}</th>
+
+
+                </tr>
+
+
+
+                <tr>
+
+
+                    <th colspan="2" class="main-header" style="text-align:center;">Driver has Valid Liscense</th>
+                    <th colspan="2" class="main-header" style="text-align:center;">{{form.liscense_check}}</th>
+
+
+                </tr>
+
+                <tr>
+
+
+                    <th colspan="2" class="main-header" style="text-align:center;">Vehicle is Insured </th>
+                    <th colspan="2" class="main-header" style="text-align:center;">{{form.insurance_check}}</th>
+
+
+                </tr>
+
+                    <tr>
+
+                        <th colspan="4" class="main-header" style="text-align:center;">General Condition of Vehicle</th>
+
+                    </tr>
+
+                    <tr>
+
+                        <th colspan="2" class="main-header" style="text-align:center;">Cleaning Status</th>
+                        <th colspan="2" class="main-header" style="text-align:center;">{{form.Clean_check}}</th>
+
+
+                    </tr>
+
+
+
+
+
+                    <tr>
+
+                        <th colspan="2" class="main-header" style="text-align:center;">Oil Spill</th>
+                        <th colspan="2" class="main-header" style="text-align:center;">{{form.Oil_Spill}}</th>
+
+
+                    </tr>
+
+
+
+
+
+                    <tr>
+
+                        <th colspan="2" class="main-header" style="text-align:center;">Tyres fit for use (not smooth)</th>
+                        <th colspan="2" class="main-header" style="text-align:center;">{{form.Tyres_fit}}</th>
+
+
+                    </tr>
+
+
+
+
+
+                    <tr>
+
+                        <th colspan="4" class="main-header" style="text-align:center;">Condition of Vehicle Tray</th>
+
+                    </tr>
+
+
+
+
+                    <tr>
+
+                        <th colspan="2" class="main-header" style="text-align:center;">Residue of Previous Cargo</th>
+                        <th colspan="2" class="main-header" style="text-align:center;">{{form.Resisdue_prev_Cargo}}</th>
+
+
+                    </tr>
+
+
+
+
+                    <tr>
+
+                        <th colspan="2" class="main-header" style="text-align:center;">Presence of debris/extraneous matter</th>
+                        <th colspan="2" class="main-header" style="text-align:center;">{{form.Presence_of_Debris}}</th>
+
+
+                    </tr>
+
+
+
+
+                    <tr>
+
+                        <th colspan="2" class="main-header" style="text-align:center;">Tarpaulin  present</th>
+                        <th colspan="2" class="main-header" style="text-align:center;">{{form.Tarpaulin_present}}</th>
+
+
+                    </tr>
+
+                    
+                    
+                    <tr>
+
+                        <th colspan="4" class="main-header" style="text-align:center;">Security of Cargo</th>
+
+                    </tr>
+                    
+                    <tr>
+
+                        <th colspan="2" class="main-header" style="text-align:center;">Cargo Present</th>
+                        <th colspan="2" class="main-header" style="text-align:center;">{{form.Cargo_present}}</th>
+
+
+                    </tr>
+                    <tr id="cargoPresentContRow" style="display: none;">
+                        <th colspan="4" class="main-header" style="text-align:center;">{{ form.Cargo_present_cont }}</th>
+                    </tr>
+
+                    <tr>
+
+                        <th colspan="2" class="main-header" style="text-align:center;">Condition of Cargo</th>
+                        <th colspan="2" class="main-header" style="text-align:center;">{{form.Condition_of_cargo}}</th>
+
+
+                    </tr>
+
+
+
+
+
+                    <tr>
+
+                        <th colspan="2" class="main-header" style="text-align:center;">Are Goods covered?</th>
+                        <th colspan="2" class="main-header" style="text-align:center;">{{form.covered_goods}}</th>
+
+
+                    </tr>
+
+
+
+
+                    
+                    
+                    <tr>
+
+                        <th colspan="4" class="main-header" style="text-align:center;">Vehicles fit for use </th>
+
+                    </tr>
+                    
+
+                    <tr>
+
+                        <th colspan="2" class="main-header" style="text-align:center;">Are the Vehicles fit for use?</th>
+                        <th colspan="2" class="main-header" style="text-align:center;">{{form.vehicle_for_use}}</th>
+
+
+                    </tr>
+
+
+                    <tr>
+
+                        <th colspan="4" class="main-header" style="text-align:center;">Weather Condition </th>
+
+                    </tr>
+                    
+
+
+
+
+
+                    <tr>
+
+                        <th colspan="2" class="main-header" style="text-align:center;">Current Weather?</th>
+                        <th colspan="2" class="main-header" style="text-align:center;">{{form.Weather}}</th>
+
+
+                    </tr>
+
+
+
+
+
+
+
+
+                    <tr>
+
+                        <th colspan="2" class="main-header" style="text-align:center;">Comments</th>
+                        <th colspan="2" class="main-header" style="text-align:center;">{{form.comments}}</th>
+
+
+                    </tr>
+
+
+
+
+
+
+                    <tr>
+
+                        <th colspan="1" class="main-header" style="text-align:center;">Inspected by</th>
+                        <th colspan="1" class="main-header" style="text-align:center;">{{form.inspected_by}}</th>
+
+                        <th colspan="1" class="main-header" style="text-align:center;">Verified by</th>
+                        <th colspan="1" class="main-header" style="text-align:center;">{{form.verified_by}}</th>
+
+                    </tr>
+
+
+
+
+                    <tr>
+
+                        <th colspan="1" class="main-header" style="text-align:center;">Date</th>
+                        <th colspan="1" class="main-header" style="text-align:center;">{{form.inspected_by_date}}</th>
+
+                        <th colspan="1" class="main-header" style="text-align:center;">Date</th>
+                        <th colspan="1" class="main-header" style="text-align:center;">{{form.verified_by_date}}</th>
+
+                    </tr>
+
+
+                </thead>
+                <th colspan="12"><input type="submit" name="" value="✔" class="btn btn-success btn-circle btn-xl"></th>
+            </tbody>
+    
+            </table>
+        </div>
+    </div>
+
+</form>
+
+ 
+    
+</center>
+{{ form.media }}
+
+{% endblock %}

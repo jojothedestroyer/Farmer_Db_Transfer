@@ -1,0 +1,54 @@
+{% extends 'gcna/base.html' %}
+
+{% block content%}
+
+	<center>
+<br>
+	{% if submitted %}
+		Entry successfully added to database!!!
+	{% else %}
+		<form action="" method="POST" style=" background-color: #e4e4e4;
+
+    margin: 1px auto;
+    font-family: Raleway;
+    padding: 10px;
+    width: 55%;
+    min-width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">
+    <h1>GCNA Form</h1>
+
+		{% csrf_token %}
+		<h3>Section A</h3>
+		{{ form1.as_p }}
+		<h3>Section B</h3>
+		{{ form2.as_p }}
+		<h3>Section C</h3>
+		{{ form3.as_p }}
+		<h3>Section D</h3>
+		{{ form4.as_p }}
+		<h3>Section E</h3>
+		{{ form5.as_p }}
+		<h3>Section F</h3>
+		{{ form6.as_p }}
+		<input type="submit" name="" value="submit" class="btn btn-outline-success">
+		
+
+		</form>
+
+	{% endif %}
+
+
+
+	</center>
+{{ form1.media }}
+{{ form2.media }}
+{{ form3.media }}
+{{ form4.media }}
+{{ form5.media }}
+{{ form6.media }}
+
+{% endblock %}
+
+
+

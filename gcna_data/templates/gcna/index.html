@@ -1,0 +1,125 @@
+ 
+
+    <center>
+<br>
+
+
+<!--     {% if submitted %}
+        Entry successfully added to database!!!
+    {% else %} -->
+<form method="POST" action="{% url 'multi' %}?step={{ current_step }}"> 
+
+            {% csrf_token %}
+     
+
+          <div id="step1">
+
+            {{ form.farmer_ID }}
+            {{ form.name }}
+            {{ form.village }}
+            {{ form.parish }}
+            {{ form.GPS_location }}
+            {{ form.email }}
+            {{ form.phone }}
+ 
+            <button type="button" onclick="nextStep(2)">Next</button>
+          </div>  
+          
+           <div id="step2" style="display: none;">
+
+            {{ form.age }}
+            {{ form.titles }}
+            {{ form.family }}
+            {{ form.lease }}
+            {{ form.caretaker }}
+            {{ form.agent }}
+            {{ form.comments }}
+            {{ form.Tree_types }}
+            {{ form.Mature_trees }}
+            {{ form.Bearing_trees }}
+            {{ form.NonBearing_trees }}
+
+
+            <button type="button" onclick="prevStep(1)">Previous</button>
+            <button type="button" onclick="nextStep(3)">Next</button>
+          </div>
+
+
+            <div id="step3" style="display: none;">
+
+            {{ form.land_elevation }}
+            {{ form.soil_type }}
+            {{ form.rainfall_pattern }}
+            {{ form.other_crops }}
+            {{ form.intercrop }}
+            {{ form.pure_stand }}
+            {{ form.norm_land }}
+            {{ form.seas_land }}
+            {{ form.aban_land }}
+         
+            <button type="button" onclick="prevStep(2)">Previous</button>
+            <button type="button" onclick="nextStep(4)">Next</button>
+          </div>
+
+
+
+            <div id="step4" style="display: none;">
+
+            {{ form.road_access }}
+            {{ form.land_slide }}
+            {{ form.flooding }}
+            {{ form.heavy_metals }}
+            {{ form.chemical_spills }}
+            {{ form.dumping }}
+            {{ form.feedlot }}
+            {{ form.pesticides }}
+            {{ form.septic_tanks }}
+            {{ form.manical }}
+            {{ form.river }}
+            {{ form.spring }}
+            {{ form.spring }}
+            {{ form.harvested }}
+            {{ form.treated }}
+
+
+
+            <button type="button" onclick="prevStep(3)">Previous</button>
+            <button type="button" onclick="nextStep(5)">Next</button>
+          </div>
+
+
+
+
+
+
+
+          <div id="step5" style="display: none;">
+
+            {{ form.annual_production }}
+            {{ form.peak_productions }}
+            {{ form.inspected_by }}
+            {{ form.date }}   
+
+
+            <button type="button" onclick="prevStep(4)">Previous</button>
+        <input type="submit" name="" value="submit" class="btn btn-outline-success">
+          </div>
+        </form>
+    <!-- {% endif %} -->
+
+    </center>
+
+ 
+
+
+<script>
+  function nextStep(next) {
+    document.getElementById('step' + next).style.display = 'block';
+    document.getElementById('step' + (next - 1)).style.display = 'none';
+  }
+
+  function prevStep(prev) {
+    document.getElementById('step' + prev).style.display = 'block';
+    document.getElementById('step' + (prev + 1)).style.display = 'none';
+  }
+</script>

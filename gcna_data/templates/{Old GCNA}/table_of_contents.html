@@ -1,0 +1,294 @@
+
+    {% extends 'gcna/base2.html' %}
+
+{% block content %}
+
+
+<script src="/static/js/test_sync.js"></script>
+
+    <form method="POST" style=" background-color: #e4e4e4;
+
+    margin: 1px auto;
+    font-family: Raleway;
+    padding: 10px;
+    width: 65%;
+    min-width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">    
+
+
+<h1>Welcome</h1>
+<h2>To the GCNA  Form Webpage</h2>
+
+
+<p>Please select one of the below objects</p>
+
+        
+        <div class="card">
+         
+            <div style="max-height: 400px; overflow-y: auto;" class="card-body" >
+                <p class="card-text">
+                    <table id="vertical-1" class="table table-hover table-light" >
+       
+<h2>Farm Forms</h2>
+
+
+<!-- 
+         <tr>
+            <th>Farmer Info</th>
+            <td><a href="{% url 'gcna00_1' %}" class="btn btn-primary">Add</a></td>
+            <td><a href="{% url 'edit_table1' %}" class="btn btn-success">Edit</a></td>
+            <td><a href="{% url 'table1' %}" class="btn btn-secondary">View</a></td>
+        </tr>
+
+        <tr>
+            <th>Land Info</th>
+            <td><a href="{% url 'gcna00_2' %}" class="btn btn-primary">Add</a></td>
+            <td><a href="{% url 'edit_table2' %}" class="btn btn-success">Edit</a></td>
+            <td><a href="{% url 'table2' %}" class="btn btn-secondary">View</a></td>         </tr>
+   <br> -->
+                    </table>
+
+<!--  {% for farmer_info_id in farmer_info_id %}
+
+
+        <div class="card">
+         
+            <div class="card-body">
+                <p class="card-text">
+                    <table id="vertical-1" class="table table-hover table-light" >
+
+            <tr>
+            <th>Farm Type</th>
+            <td>{{ farmer_info_id.farm_type }}</td>
+        </tr>
+
+            <th>Tenurship Type</th>
+            <td>{{ farmer_info_id.tenurship }}</td>
+        </tr>
+         <tr>
+
+            <th>Training</th>
+            <td>{{ form.training }}</td>
+        </tr>
+
+        <tr>
+
+            <th>Purpose of Visit</th>
+            <td>{{ form.visit }}</td>
+        </tr>
+
+
+            <tr>
+            <th>Parish</th>
+            <td>{{ farmer_info_id.parish }}</td>
+        </tr>
+
+
+            <tr>
+            <th>Village</th>
+            <td>{{ farmer_info_id.village }}</td>
+        </tr>
+
+
+
+            <td><a href="{% url 'table2' %}" class="btn btn-secondary">View</a></td> 
+                    </table>
+                
+     
+            </div>
+        </div>
+
+   
+   <br>
+
+{% endfor %} -->
+
+
+        <div class="card">
+         
+            <div class="card-body">
+                <p class="card-text">
+                    <table id="vertical-1" class="table table-hover table-light" >
+           <tr>
+            <th>Visit Form</th>
+            <td><a href="{% url 'gcna00_24' %}" class="btn btn-primary">Add</a></td>
+            {% comment %} <td><a href="{% url 'edit_Visit' %}" class="btn btn-success">Edit</a></td> {% endcomment %}
+            <td><a href="{% url 'view_Visit' %}" class="btn btn-secondary">View</a></td>        </tr>    
+
+        <tr>
+            <th>Training Support Log</th>
+            <td><a href="{% url 'gcna00_22' %}" class="btn btn-primary">Add</a></td>
+            {% comment %} <td><a href="{% url 'edit_Training' %}" class="btn btn-success">Edit</a></td> {% endcomment %}
+            <td><a href="{% url 'view_Training' %}" class="btn btn-secondary">View</a></td>        </tr>
+
+
+
+        <tr>
+            <th>Labour Support Log</th>
+            <td><a href="{% url 'gcna00_23' %}" class="btn btn-primary">Add</a></td>
+            {% comment %} <td><a href="{% url 'edit_labour' %}" class="btn btn-success">Edit</a></td> {% endcomment %}
+            <td><a href="{% url 'view_labour' %}" class="btn btn-secondary">View</a></td>        </tr>
+
+
+
+
+        <tr>
+            <th>Land Tenurship</th>
+            <td><a href="{% url 'gcna00_3' %}" class="btn btn-primary">Add</a></td>
+            {% comment %} <td><a href="{% url 'edit_table3' %}" class="btn btn-success">Edit</a></td> {% endcomment %}
+            <td><a href="{% url 'table3' %}" class="btn btn-secondary">View</a></td>        </tr>
+
+        <tr>
+            <th>Nutmeg Trees</th>
+            <td><a href="{% url 'gcna00_4' %}" class="btn btn-primary">Add</a></td>
+            {% comment %} <td><a href="{% url 'edit_table4' %}" class="btn btn-success">Edit</a></td> {% endcomment %}
+            <td><a href="{% url 'table4' %}" class="btn btn-secondary">View</a></td>        </tr>
+
+
+        <tr>
+            <th>Nutmeg Variety</th>
+            <td><a href="{% url 'gcna00_5' %}" class="btn btn-primary">Add</a></td>
+            {% comment %} <td><a href="{% url 'edit_table5' %}" class="btn btn-success">Edit</a></td> {% endcomment %}
+            <td><a href="{% url 'table5' %}" class="btn btn-secondary">View</a></td>          </tr>
+
+
+
+        <tr>
+            <th>Other Crops</th>
+            <td><a href="{% url 'gcna00_6' %}" class="btn btn-primary">Add</a></td>
+            {% comment %} <td><a href="{% url 'edit_table6' %}" class="btn btn-success">Edit</a></td> {% endcomment %}
+            <td><a href="{% url 'table6' %}" class="btn btn-secondary">View</a></td>          </tr>
+
+
+
+        <tr>
+            <th>Coconut Trees</th>
+            <td><a href="{% url 'gcna00_7' %}" class="btn btn-primary">Add</a></td>
+            {% comment %} <td><a href="{% url 'edit_table7' %}" class="btn btn-success">Edit</a></td> {% endcomment %}
+            <td><a href="{% url 'table7' %}" class="btn btn-secondary">View</a></td>          </tr>
+
+        <tr>
+            <th>Citrus Mango Trees</th>
+            <td><a href="{% url 'gcna00_8' %}" class="btn btn-primary">Add</a></td>
+            {% comment %} <td><a href="{% url 'edit_table8' %}" class="btn btn-success">Edit</a></td> {% endcomment %}
+            <td><a href="{% url 'table8' %}" class="btn btn-secondary">View</a></td>          </tr>
+
+        <tr>
+            <th>Other Spices Trees</th>
+            <td><a href="{% url 'gcna00_9' %}" class="btn btn-primary">Add</a></td>
+            {% comment %} <td><a href="{% url 'edit_table9' %}" class="btn btn-success">Edit</a></td> {% endcomment %}
+            <td><a href="{% url 'table9' %}" class="btn btn-secondary">View</a></td>          </tr>
+
+
+        <tr>
+            <th>Other Seasoning Trees</th>
+            <td><a href="{% url 'gcna00_10' %}" class="btn btn-primary">Add</a></td>
+            {% comment %} <td><a href="{% url 'edit_table10' %}" class="btn btn-success">Edit</a></td> {% endcomment %}
+            <td><a href="{% url 'table10' %}" class="btn btn-secondary">View</a></td>          </tr>
+
+
+
+        <tr>
+            <th>Other Crops Cultivated</th>
+            <td><a href="{% url 'gcna00_11' %}" class="btn btn-primary">Add</a></td>
+            {% comment %} <td><a href="{% url 'edit_table11' %}" class="btn btn-success">Edit</a></td> {% endcomment %}
+            <td><a href="{% url 'table11' %}" class="btn btn-secondary">View</a></td>          </tr>
+
+
+        <tr>
+            <th>Condition</th>
+            <td><a href="{% url 'gcna00_12' %}" class="btn btn-primary">Add</a></td>
+            {% comment %} <td><a href="{% url 'edit_table12' %}" class="btn btn-success">Edit</a></td> {% endcomment %}
+            <td><a href="{% url 'table12' %}" class="btn btn-secondary">View</a></td>
+        </tr>
+
+        <tr>
+            <th>Nutmeg Land Form</th>
+            <td><a href="{% url 'gcna00_13' %}" class="btn btn-primary">Add</a></td>
+            {% comment %} <td><a href="{% url 'edit_table13' %}" class="btn btn-success">Edit</a></td> {% endcomment %}
+            <td><a href="{% url 'table13' %}" class="btn btn-secondary">View</a></td>
+        </tr>
+
+        <tr>
+            <th>Nutmeg Frequency Form</th>
+            <td><a href="{% url 'gcna00_14' %}" class="btn btn-primary">Add</a></td>
+            {% comment %} <td><a href="{% url 'edit_table14' %}" class="btn btn-success">Edit</a></td> {% endcomment %}
+            <td><a href="{% url 'table14' %}" class="btn btn-secondary">View</a></td>
+        </tr>
+
+
+        <tr>
+            <th>Potential Risks</th>
+            <td><a href="{% url 'gcna00_15' %}" class="btn btn-primary">Add</a></td>
+            {% comment %} <td><a href="{% url 'edit_table15' %}" class="btn btn-success">Edit</a></td> {% endcomment %}
+            <td><a href="{% url 'table15' %}" class="btn btn-secondary">View</a></td>
+        </tr>
+
+
+
+
+        <tr>
+            <th>Policy</th>
+            <td><a href="{% url 'gcna00_16' %}" class="btn btn-primary">Add</a></td>
+            {% comment %} <td><a href="{% url 'edit_table16' %}" class="btn btn-success">Edit</a></td> {% endcomment %}
+            <td><a href="{% url 'table16' %}" class="btn btn-secondary">View</a></td>
+        </tr>
+
+
+        <tr>
+            <th>Road Access</th>
+            <td><a href="{% url 'gcna00_17' %}" class="btn btn-primary">Add</a></td>
+            {% comment %} <td><a href="{% url 'edit_table17' %}" class="btn btn-success">Edit</a></td> {% endcomment %}
+            <td><a href="{% url 'table17' %}" class="btn btn-secondary">View</a></td>
+        </tr>
+
+        <tr>
+            <th>Food Safety and Quality</th>
+            <td><a href="{% url 'gcna00_18' %}" class="btn btn-primary">Add</a></td>
+            {% comment %} <td><a href="{% url 'edit_table18' %}" class="btn btn-success">Edit</a></td> {% endcomment %}
+            <td><a href="{% url 'table18' %}" class="btn btn-secondary">View</a></td>
+        </tr>
+
+        <tr>
+            <th>Farm Water Source</th>
+            <td><a href="{% url 'gcna00_19' %}" class="btn btn-primary">Add</a></td>
+            {% comment %} <td><a href="{% url 'edit_table19' %}" class="btn btn-success">Edit</a></td> {% endcomment %}
+            <td><a href="{% url 'table19' %}" class="btn btn-secondary">View</a></td>
+        </tr>
+ 
+         <tr>
+            <th>Farm House</th>
+            <td><a href="{% url 'gcna00_20' %}" class="btn btn-primary">Add</a></td>
+            {% comment %} <td><a href="{% url 'edit_table20' %}" class="btn btn-success">Edit</a></td> {% endcomment %}
+            <td><a href="{% url 'table20' %}" class="btn btn-secondary">View</a></td>
+        </tr>
+
+         <tr>
+            <th>inspector Summary</th>
+            <td><a href="{% url 'gcna00_21' %}" class="btn btn-primary">Add</a></td>
+            {% comment %} <td><a href="{% url 'edit_table21' %}" class="btn btn-success">Edit</a></td> {% endcomment %}
+            <td><a href="{% url 'table21' %}" class="btn btn-secondary">View</a></td>
+        </tr>
+ 
+                    </table>
+                
+     
+            </div>
+        </div>
+        </div>
+
+
+
+
+
+
+
+</table>
+<br> 
+
+</form>
+
+    {% endblock %}
+
+

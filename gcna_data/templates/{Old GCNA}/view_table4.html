@@ -1,0 +1,91 @@
+
+{% extends 'gcna/base2.html' %}
+
+
+{% block content%}
+
+
+<div class="card">
+ 
+  <div class="card-body">
+
+  </h5>
+    <p class="card-text">
+        <table id="vertical-1" class="table table-hover table-light">
+       
+
+
+  
+
+         <tr>
+
+            <th>Estimated quantity of  Mature trees older than  25 years</th>
+            <td>{{ farmer_info_id.Mature_trees_25_years_quantity }}</td>
+        </tr>
+        <tr>
+            <th>Estimated production of  Mature trees older than  25 years</th>
+            <td>{{ farmer_info_id.Mature_trees_25_years_estimated_production }}</td>
+        </tr>
+        <tr>
+            <th>Estimated quantity of  Bearing trees between  16 - 24 years</th>
+            <td>{{ farmer_info_id.Bearing_trees_16_24_years_quantity }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Estimated production of  Bearing trees between  16 - 24 years</th>
+            <td>{{ farmer_info_id.Bearing_trees_16_24_years }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Estimated quantity of  Bearing trees between  6 - 15 years</th>
+            <td>{{ farmer_info_id.Bearing_trees_6_15_years_quantity }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Estimated production of  Bearing trees between  6 - 15 years</th>
+            <td>{{ farmer_info_id.Bearing_trees_6_15_years_estimated_production }}</td>
+        </tr>  
+
+
+        <tr>
+            <th>Estimated quantity of non Bearing trees younger than 5 years</th>
+            <td>{{ farmer_info_id.Non_Bearing_trees_5_years_quantity }}</td>
+        </tr>  
+
+
+        <tr>
+            <th>Estimated production of non Bearing trees younger than 5 years</th>
+            <td>{{ farmer_info_id.Non_Bearing_trees_5_years_estimated_production }}</td>
+        </tr>  
+
+
+        <tr>
+            <th>Estimated Peak Period</th>
+            <td>{{ farmer_info_id.Estimated_peak_period }}</td>
+        </tr>  
+
+
+
+
+
+
+              <tr>
+            <th><a href="{% url 'table' %}" class="btn btn-secondary">Return</a></th>
+        </tr>
+    </table>
+                    </p>
+
+
+
+       
+ </div>        </div>
+
+<br>
+<br>
+<br>
+
+{% endblock %}
+

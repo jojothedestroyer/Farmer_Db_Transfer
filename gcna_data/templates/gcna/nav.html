@@ -1,0 +1,161 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="{% url 'home' %}">GCNA</a>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'adhome' %}">Home <span class="sr-only">(current)</span></a>
+      </li>
+<!--       <li class="nav-item">
+        <a class="nav-link" href="{% url 'database' %}">User Info</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'database1' %}">Land tenuershiip</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'database2' %}">Trees</a>
+      </li>     
+
+       <li class="nav-item">
+        <a class="nav-link" href="{% url 'database3' %}">Farm</a>
+      </li>     
+
+       <li class="nav-item">
+        <a class="nav-link" href="{% url 'database4' %}">Status</a>
+      </li>      
+
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'database5' %}">Symmary</a>
+      </li>
+ -->
+<!--       <li class="nav-item">
+        <a class="nav-link" href="{% url 'database6' %}">Fullform</a>
+      </li> -->
+
+<!--       <li class="nav-item">
+        <a class="nav-link" href="{% url 'login' %}">Fillform</a>
+      </li>
+ -->
+
+
+
+
+      <li class="nav-item">
+        <a class="nav-link" href="{% url '0gcna00_1' %}">Farm Forms</a>
+      </li>
+            <li class="nav-item">
+        <a class="nav-link" href="{% url 'import_data' %}">Import Files</a>
+      </li>
+
+   
+      
+
+           <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+         Farm Form View
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="{% url 'view_Farm_table0_1' %}">Farm Information Form</a>
+          <a class="dropdown-item" href="{% url 'view_Farm_table0_2' %}">Land Information Form</a>
+          <a class="dropdown-item" href="{% url 'view_Farm_table0_3' %}">Land Tenurship Form</a>
+          <a class="dropdown-item" href="{% url 'view_Farm_table0_4' %}">Nutmeg Trees Form</a>
+          <a class="dropdown-item" href="{% url 'view_Farm_table0_5' %}">Nutmeg Variety Form</a>
+          <a class="dropdown-item" href="{% url 'view_Farm_table0_6' %}">Other Crop Form</a>
+          <a class="dropdown-item" href="{% url 'view_Farm_table0_7' %}">Coconut Tree Form</a>
+          <a class="dropdown-item" href="{% url 'view_Farm_table0_8' %}">Citrus/Mango Tree Form</a>
+          <a class="dropdown-item" href="{% url 'view_Farm_table0_9' %}">Other Spices Form</a>
+          <a class="dropdown-item" href="{% url 'view_Farm_table0_10' %}">Other Seasonings Form</a>
+          <a class="dropdown-item" href="{% url 'view_Farm_table0_11' %}">Other Crops Cultivated Form</a>
+          <a class="dropdown-item" href="{% url 'view_Farm_table0_11' %}">Condition Form</a>
+          <a class="dropdown-item" href="{% url 'view_Farm_table0_13' %}">Nutmeg Land Form </a>
+          <a class="dropdown-item" href="{% url 'view_Farm_table0_14' %}">Nutmeg Frequency Form</a>
+          <a class="dropdown-item" href="{% url 'view_Farm_table0_15' %}">Potential Risks Form</a>
+          <a class="dropdown-item" href="{% url 'view_Farm_table0_16' %}">Policy Forms</a>
+          <a class="dropdown-item" href="{% url 'view_Farm_table0_17' %}">Road Access Form</a>
+          <a class="dropdown-item" href="{% url 'view_Farm_table0_18' %}">Food Safety and Quality Form</a>
+          <a class="dropdown-item" href="{% url 'view_Farm_table0_19' %}">Farm Water Source Form</a>
+          <a class="dropdown-item" href="{% url 'view_Farm_table0_20' %}">Farm House Form</a>
+          <a class="dropdown-item" href="{% url 'view_Farm_table0_21' %}">Inspector Form</a>
+
+        </div>
+      </li>
+
+
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Nutmeg Forms
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="{% url 'Dried0_A_add_data' %}">Dried Nutmeg Form A</a>
+          <a class="dropdown-item" href="{% url 'Dried0_B_add_data' %}">Dried Nutmeg Form B</a>
+          <a class="dropdown-item" href="{% url 'Floated0_A_add_data' %}">Floated Nutmeg Form A</a>
+          <a class="dropdown-item" href="{% url 'Floated0_B_add_data' %}">Floated Nutmeg Form B</a>
+          <a class="dropdown-item" href="{% url 'Quality0_add_data' %}">Quality Control Form</a>
+<!-- 
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a> -->
+        </div>
+
+
+           <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+         Nutmeg Form View
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="{% url 'view_driedA' %}">Dried Nutmeg Section A</a>
+          <a class="dropdown-item" href="{% url 'view_driedB' %}">Dried Nutmeg Section B</a>
+          <a class="dropdown-item" href="{% url 'view_floatedA' %}">Floated Nutmeg Section A</a>
+          <a class="dropdown-item" href="{% url 'view_floatedB' %}">Floated Nutmeg Section B</a>
+          <a class="dropdown-item" href="{% url 'view_quality' %}">Quality Control Section B</a>
+ <!-- 
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a> -->
+        </div>
+      </li>
+
+
+
+
+           <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+         Worker Information
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+       <a class="nav-dropdown" >
+          <form action="{% url 'login1' %}" method="post">
+                    {% csrf_token %}
+<label >Worker ID No
+            <input type="Text" name="Worker_ID_No"> 
+</label>
+<label >Nutmeg ID No
+
+            <input type="Text" name="Nutmeg_ID_No">           
+</label>
+             <input class="btn btn-success" type="submit" value="Login">
+</form></a>
+
+        </div>
+      </li>
+
+           
+
+
+
+
+
+<!--       <li class="nav-item">
+        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+      </li> -->
+    </ul>
+<!--     <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
+    </form>
+  </div>
+</nav>

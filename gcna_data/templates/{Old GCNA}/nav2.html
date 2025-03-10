@@ -1,0 +1,3055 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="{% url 'home' %}">GCNA</a>
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-toggle="collapse"
+    data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'home' %}"
+          >Home <span class="sr-only">(current)</span></a
+        >
+      </li>
+      <li class="nav-item">
+        <button id="exportButton" class="nav-link btn btn-link">
+          Export Data
+          <span
+            id="exportSpinner"
+            class="spinner-border spinner-border-sm"
+            role="status"
+            aria-hidden="true"
+            style="display: none"
+          ></span>
+        </button>
+      </li>
+      <li class="nav-item">
+        <button
+          class="nav-link btn btn-link"
+          id="loginButton"
+          data-toggle="modal"
+          data-target="#loginModal"
+        >
+          Login
+        </button>
+      </li>
+
+      <li class="nav-item">
+        <button
+          class="nav-link btn btn-link"
+          id="FarmerButton"
+          data-toggle="modal"
+          data-target="#FarmerModal"
+        >
+          Farmer
+        </button>
+      </li>
+
+      <!-- <li class="nav-item">
+        <button class="nav-link btn btn-link" id="searchButtonNav" data-toggle="modal" data-target="#searchModal">Search</button>
+      </li> -->
+
+      <!-- <li class="nav-item">
+        <button class="nav-link btn btn-link" id="updateButton">Update</button>
+        <div id="updateStatus" style="display: none;">Updating...</div>
+      </li> -->
+      <li class="nav-item">
+        <button
+          class="nav-link btn btn-link"
+          id="userSearchButtonNav"
+          data-toggle="modal"
+          data-target="#userSearchModal"
+        >
+          Search
+        </button>
+      </li>
+
+      <li class="nav-item">
+        <button
+          class="nav-link btn btn-link"
+          id="decisionSearchButton"
+          data-toggle="modal"
+          data-target="#decisionSearchModal"
+        >
+          Decision Check
+        </button>
+      </li>
+
+      <button
+        class="nav-link btn btn-link"
+        id="driedButton"
+        style="display: none"
+        data-toggle="modal"
+        data-target="#driedModal"
+      >
+        Dried
+      </button>
+    </ul>
+  </div>
+</nav>
+
+<div
+  class="modal fade"
+  id="userSearchModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="userSearchModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="userSearchModalLabel">User Search</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-4">
+              <input
+                type="text"
+                id="nutmegIdInput"
+                class="form-control mb-3"
+                placeholder="Nutmeg ID"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <button id="userSearchButton" class="btn btn-primary">
+                Search
+              </button>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-12">
+              <div id="userSearchResults"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="decisionSearchModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="decisionSearchModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="decisionSearchModal">
+          HASIP Correction Forms
+        </h5>
+        <button
+          type="button"
+          class="close"
+          id="decision_close_btn"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-4"></div>
+          </div>
+          <div class="row">
+            <div class="col-md-12"></div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-12">
+              <div id="decisionSearchResults"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="FarmerModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="FarmerModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="FarmerModalLabel">Farmer Form</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="myForm" method="POST">
+          {% csrf_token %}
+          <h1>Enter Farmer Entry</h1>
+          <label for="Worker_ID_No">Worker ID:</label>
+          <input
+            type="text"
+            id="Worker_ID_No"
+            name="Worker_ID_No"
+            class="form-control"
+          />
+          <label for="Nutmeg_ID_No">Farmer ID:</label>
+          <input
+            type="text"
+            id="Nutmeg_ID_No"
+            name="Nutmeg_ID_No"
+            class="form-control"
+          />
+          <label for="name">Farmer Name:</label>
+          <input type="text" id="name" name="name" class="form-control" />
+          <label for="age">Age:</label>
+          <input type="number" id="age" name="age" class="form-control" />
+          <label for="home_phone">Home Phone:</label>
+          <input
+            type="tel"
+            id="home_phone"
+            name="home_phone"
+            class="form-control"
+          />
+          <label for="mobile_phone">Mobile Phone:</label>
+          <input
+            type="tel"
+            id="mobile_phone"
+            name="mobile_phone"
+            class="form-control"
+          />
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" class="form-control" />
+          <input class="btn btn-success" type="submit" value="Farmer Form" />
+        </form>
+        <p id="offline-message" style="color: red"></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="searchModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="searchModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="searchModalLabel">Search Records</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Search form goes here -->
+        <div class="container">
+          <div class="row">
+            <div class="col-md-4">
+              <select id="databaseSelect" class="form-control mb-3">
+                <option value="">Select Database</option>
+                <option value="Worker">Worker</option>
+                <option value="Farmer">Farmer</option>
+                <option value="DriedA">DriedA</option>
+                <option value="DriedB">DriedB</option>
+                <option value="FloatA">FloatA</option>
+                <option value="FloatB">FloatB</option>
+                <option value="Quaility">Quaility</option>
+                <option value="visit">Visit</option>
+                <option value="In-House-Drying">In-House-Drying</option>
+                <option value="Dispatch-Of-Dried-Nutmeg">
+                  Dispatch-Of-Dried-Nutmeg
+                </option>
+                <option value="Dispatch-Of-Green">Dispatch-Of-Green</option>
+                <option value="Cracking-Summary">Cracking-Summary</option>
+                <option value="Floation-Summary">Floation-Summary</option>
+                <option value="Package-Control">Package-Control</option>
+                <option value="Editors">Editors</option>
+                <option value="Labour-support">Labour-support</option>
+                <option value="Training-support">Training-support</option>
+                <option value="land-info">Land-info</option>
+                <option value="Land-Tenur">Land-Tenur</option>
+                <option value="Nutmeg-Trees">Nutmeg-Trees</option>
+                <option value="Nutmeg-Variety">Nutmeg-Variety</option>
+                <option value="Other-Crops">Other-Crops</option>
+                <option value="Coconut-Trees">Coconut-Trees</option>
+                <option value="Citrus-Mango-Trees">Citrus-Mango-Trees</option>
+                <option value="Other-Spices-Trees">Other-Spices-Trees</option>
+                <option value="Other-Seasoning-Trees">
+                  Other-Seasoning-Trees
+                </option>
+                <option value="Other-Crops-Cultivated">
+                  Other-Crops-Cultivated
+                </option>
+                <option value="Condition">Condition</option>
+                <option value="Nutmeg-Land">Nutmeg-Land</option>
+                <option value="Nutmeg-Frequency">Nutmeg-Frequency</option>
+                <option value="Potential-Risks">Potential-Risks</option>
+                <option value="Road-Access">Road-Access</option>
+                <option value="Food-Safety-and-Quality">
+                  Food-Safety-and-Quality
+                </option>
+                <option value="Farm-Water-Source">Farm-Water-Source</option>
+                <option value="Farm-House">Farm-House</option>
+                <option value="Inspector-Symmary">Inspector-Symmary</option>
+                <option value="Policy">Policy</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <input
+                type="text"
+                id="workerIdInput"
+                class="form-control mb-3"
+                placeholder="Worker ID"
+              />
+            </div>
+            <div class="col-md-4">
+              <input
+                type="text"
+                id="farmerIdInput"
+                class="form-control mb-3"
+                placeholder="Farmer ID"
+              />
+            </div>
+            <div class="col-md-4">
+              <input
+                type="date"
+                id="dateCreatedInput"
+                class="form-control mb-3"
+                placeholder="Date Created"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <button id="searchButton" class="btn btn-primary">Search</button>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-12">
+              <div id="searchResults"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Login Modal -->
+<div
+  class="modal fade"
+  id="loginModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="loginModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="loginModalLabel">Select Farmer</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Your form goes here -->
+        <form id="verify-form" method="POST" action="{% url 'table001' %}">
+          {% csrf_token %}
+          <h1>Please enter your Worker ID Number</h1>
+          <label for="Worker_ID_No">Worker ID:</label>
+          <input
+            type="text"
+            id="Worker_ID_No"
+            name="Worker_ID_No"
+            class="form-control"
+          />
+          <label for="Nutmeg_ID_No">Farmer ID:</label>
+          <input
+            type="text"
+            id="Nutmeg_ID_No"
+            name="Nutmeg_ID_No"
+            class="form-control"
+          />
+          <input class="btn btn-success" type="submit" value="Select Farmer" />
+        </form>
+        <p id="offline-message" style="color: red"></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Export Successful Modal -->
+<div
+  class="modal fade"
+  id="exportModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exportModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exportModalLabel">Export Successful</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Your data has been exported successfully.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="driedModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="driedModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="driedModal"></h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div
+        class="modal-body"
+        style="max-height: calc(100vh - 210px); overflow-y: auto"
+      >
+        <div class="container">
+          <div class="row">
+            <div class="col-md-4"></div>
+          </div>
+          <div class="row">
+            <div class="col-md-12"></div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-12">
+              <form
+                action=""
+                method="POST"
+                id="driedForm"
+                enctype="multipart/form-data"
+                style="
+                  background-color: #e4e4e4;
+                  margin: 1px auto;
+                  font-family: Raleway;
+                  padding: 10px;
+                  width: 75%;
+                  min-width: 300px;
+                  border-radius: 10px;
+                  box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);
+                "
+              >
+                <div id="dried"></div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="floatModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="floatModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="floatModal"></h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div
+        class="modal-body"
+        style="max-height: calc(100vh - 210px); overflow-y: auto"
+      >
+        <div class="container">
+          <div class="row">
+            <div class="col-md-4"></div>
+          </div>
+          <div class="row">
+            <div class="col-md-12"></div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-12">
+              <form
+                action=""
+                method="POST"
+                id="floatForm"
+                enctype="multipart/form-data"
+                style="
+                  background-color: #e4e4e4;
+
+                  margin: 1px auto;
+                  font-family: Raleway;
+                  padding: 10px;
+                  width: 95%;
+                  min-width: 300px;
+                  border-radius: 10px;
+                  box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);
+                "
+              >
+                <div id="float"></div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- JavaScript -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="/static/js/xlsx.full.min.js"></script>
+
+<!--
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      var transferButton = document.getElementById('checkButton'); // assuming you have a button with id 'transferButton'
+
+
+      transferButton.addEventListener('click', function() {
+          transferIndexedDBData();
+      });
+ 
+      function transferIndexedDBData() {
+          var request = indexedDB.open('GCNA', 2);
+     
+          request.onsuccess = function(event) {
+              var db = event.target.result;
+              var modelNames = ['Worker', 'Farmer', 'DriedA', 'DriedB', 'FloatA', 'FloatB', 'Quaility', 'visit', 'In-House-Drying', 'Dispatch-Of-Dried-Nutmeg', 'Dispatch-Of-Green', 'Cracking-Summary', 'Floation-Summary', 'Package-Ciontrol', 'Editors', 'Labour-support', 'Training-support', 'land-info', 'Land-Tenur', 'Nutmeg-Trees', 'Nutmeg-Variety', 'Other-Crops', 'Coconut-Trees', 'Citrus-Mango-Trees', 'Other-Spices-Trees', 'Other-Seasoning-Trees', 'Other-Crops-Cultivated', 'Condition', 'Nutmeg-Land', 'Nutmeg-Frequency', 'Potential-Risks', 'Road-Access', 'Food-Safety-and-Quality', 'Farm-Water-Source', 'Farm-House', 'inspector-symmary', 'Policy','Sanitation-A','Sanitation-B','Sanitation-C'];
+
+
+              modelNames.forEach(function(modelName) {
+                  var transaction = db.transaction(modelName, 'readonly');
+                  var objectStore = transaction.objectStore(modelName);
+                  var getRequest = objectStore.getAll();
+
+
+                  getRequest.onsuccess = function(event) {
+                      var data = event.target.result;
+                      data.forEach(function(item) {
+                          sendDataToDjango(item, modelName);
+                      });
+                  };
+              });
+          };
+     
+          request.onerror = function(event) {
+              console.error('Error opening IndexedDB', event);
+          };
+      }
+ 
+      function sendDataToDjango(item, modelName) {
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', '/check-and-add/', true);
+          xhr.setRequestHeader('Content-Type', 'application/json');
+          xhr.onreadystatechange = function() {
+              if (xhr.readyState === XMLHttpRequest.DONE) {
+                  if (xhr.status === 200) {
+                      console.log('Entry added successfully for model:', modelName);
+                  } else {
+                      console.error('Error adding entry for model:', modelName, xhr.statusText);
+                  }
+              }
+          };
+          xhr.send(JSON.stringify({model: modelName, data: item}));
+      }
+  });
+</script>
+ -->
+
+<!--
+
+
+<script>
+  document.getElementById('checkButton').addEventListener('click', function() {
+      var request = window.indexedDB.open('GCNA', 2);
+
+
+      request.onerror = function(event) {
+          console.log('IndexedDB error:', event.target.errorCode);
+      };
+
+
+      request.onsuccess = function(event) {
+          var db = event.target.result;
+          var transaction = db.transaction(['DriedA'], 'readonly');
+          var objectStore = transaction.objectStore('DriedA');
+          var getRequest = objectStore.getAll();
+
+
+          getRequest.onsuccess = function(event) {
+              var data = event.target.result;
+              data.forEach(function(item) {
+                  // Check if the data needs to be added to Django
+                  checkAndAddToDjango(item);
+              });
+          };
+      };
+  });
+
+
+  function checkAndAddToDjango(item) {
+      // AJAX request to Django view
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', '/check-and-add/', true);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.onreadystatechange = function() {
+          if (xhr.readyState === XMLHttpRequest.DONE) {
+              if (xhr.status === 200) {
+                  console.log('Entry added successfully.');
+              } else {
+                  console.error('Error adding entry:', xhr.statusText);
+              }
+          }
+      };
+      xhr.send(JSON.stringify(item));
+  }
+
+
+
+
+
+
+// const modelNames = ['Worker', 'Farmer', 'DriedA', 'DriedB', 'FloatA', 'FloatB', 'Quaility', 'visit', 'In-House-Drying', 'Dispatch-Of-Dried-Nutmeg', 'Dispatch-Of-Green', 'Cracking-Summary', 'Floation-Summary', 'Package-Ciontrol', 'Editors', 'Labour-support', 'Training-support', 'land-info', 'Land-Tenur', 'Nutmeg-Trees', 'Nutmeg-Variety', 'Other-Crops', 'Coconut-Trees', 'Citrus-Mango-Trees', 'Other-Spices-Trees', 'Other-Seasoning-Trees', 'Other-Crops-Cultivated', 'Condition', 'Nutmeg-Land', 'Nutmeg-Frequency', 'Potential-Risks', 'Road-Access', 'Food-Safety-and-Quality', 'Farm-Water-Source', 'Farm-House', 'inspector-symmary', 'Policy','Sanitation-A','Sanitation-B','Sanitation-C'];
+
+
+// document.getElementById('checkButton').addEventListener('click', function() {
+//     modelNames.forEach(function(modelName) {
+//         var request = window.indexedDB.open('GCNA', 2);
+
+
+//         request.onerror = function(event) {
+//             console.log('IndexedDB error:', event.target.errorCode);
+//         };
+
+
+//         request.onsuccess = function(event) {
+//             var db = event.target.result;
+//             var transaction = db.transaction([modelName], 'readonly');
+//             var objectStore = transaction.objectStore(modelName);
+//             var getRequest = objectStore.getAll();
+
+
+//             getRequest.onsuccess = function(event) {
+//                 var data = event.target.result;
+//                 data.forEach(function(item) {
+//                     // Check if the data needs to be added to Django
+//                     checkAndAddToDjango(item);
+//                 });
+//             };
+//         };
+//     });
+// });
+
+
+// function checkAndAddToDjango(item) {
+//     // AJAX request to Django view
+//     var xhr = new XMLHttpRequest();
+//     xhr.open('POST', '/check-and-add/', true);
+//     xhr.setRequestHeader('Content-Type', 'application/json');
+//     xhr.onreadystatechange = function() {
+//         if (xhr.readyState === XMLHttpRequest.DONE) {
+//             if (xhr.status === 200) {
+//                 console.log('Entry added successfully.');
+//             } else {
+//                 console.error('Error adding entry:', xhr.statusText);
+//             }
+//         }
+//     };
+//     xhr.send(JSON.stringify(item));
+// }
+
+
+</script> -->
+<!-- <script>
+$(document).ready(function(){
+    $(".close").click(function(){
+        $('#driedModal').modal('hide'); // This line closes the modal
+        $('#dried').empty(); // This line clears the form inside the div with id 'dried'
+    });
+});
+
+
+</script> -->
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const exportButton = document.getElementById("exportButton");
+    const exportSpinner = document.getElementById("exportSpinner");
+    const updateButton = document.getElementById("updateButton");
+    const updateStatus = document.getElementById("updateStatus");
+
+    // Add event listener to the export button
+    exportButton.addEventListener("click", function () {
+      // Show loading indicator
+      exportButton.disabled = true;
+      exportSpinner.style.display = "inline-block";
+      updateStatus.textContent = "Exporting data...";
+
+      // Call the exportData function when the button is clicked
+      exportData();
+    });
+
+    // Add event listener to the update button
+    updateButton.addEventListener("click", function () {
+      // Display updating status
+      updateButton.disabled = true;
+      updateStatus.style.display = "block";
+      updateStatus.textContent = "Updating...";
+
+      if (navigator.onLine) {
+        // If online, clear cache and reload service worker
+        caches
+          .keys()
+          .then(function (cacheNames) {
+            return Promise.all(
+              cacheNames.map(function (cacheName) {
+                return caches.delete(cacheName);
+              })
+            );
+          })
+          .then(function () {
+            // Refresh the page to reload the service worker
+            displayMessage("Update Successful");
+            location.reload();
+          });
+      } else {
+        // If offline, display a message
+        updateStatus.innerText = "No internet connection";
+        setTimeout(function () {
+          updateButton.disabled = false;
+          updateStatus.style.display = "none";
+        }, 3000); // Reset the button after 3 seconds
+      }
+    });
+  });
+
+  function exportData() {
+    // Loop through model names and export data for each
+    modelNames.forEach(function (modelName, index) {
+      // Fetch data from indexedDB
+      fetchDataFromIndexedDB(modelName)
+        .then(function (data) {
+          // Call function to export data as Excel file
+          exportToExcel(data, modelName);
+          // Update progress status
+          updateStatus.textContent = `Exporting ${index + 1} of ${
+            modelNames.length
+          } models...`;
+          // If all models exported, reset UI
+          if (index === modelNames.length - 1) {
+            exportButton.disabled = false;
+            exportSpinner.style.display = "none";
+            updateStatus.textContent = "Export Complete";
+            $("#exportModal").modal("show"); // Show export success modal
+          }
+        })
+        .catch(function (error) {
+          console.error("Error exporting data:", error);
+          displayMessage("Error exporting data", true);
+        });
+    });
+  }
+
+  function fetchDataFromIndexedDB(modelName) {
+    return new Promise((resolve, reject) => {
+      const request = indexedDB.open(gcnaDBName);
+
+      request.onsuccess = function (event) {
+        const db = event.target.result;
+        const transaction = db.transaction(modelName, "readonly");
+        const objectStore = transaction.objectStore(modelName);
+        const getDataRequest = objectStore.getAll();
+
+        getDataRequest.onsuccess = function (event) {
+          resolve(event.target.result);
+        };
+
+        getDataRequest.onerror = function (event) {
+          reject(event.target.error);
+        };
+      };
+
+      request.onerror = function (event) {
+        reject(event.target.error);
+      };
+    });
+  }
+
+  function exportToExcel(data, modelName) {
+    // Create a new Excel workbook
+    const wb = XLSX.utils.book_new();
+    // Convert data to worksheet
+    const ws = XLSX.utils.json_to_sheet(data);
+    // Add worksheet to workbook
+    XLSX.utils.book_append_sheet(wb, ws, modelName);
+    // Save workbook as Excel file
+    XLSX.writeFile(wb, `${modelName}.xlsx`);
+  }
+
+  function displayMessage(message, isError = false) {
+    var messageElement = document.createElement("div");
+    messageElement.textContent = message;
+    messageElement.style.position = "fixed";
+    messageElement.style.bottom = "10px";
+    messageElement.style.right = "10px";
+    messageElement.style.padding = "10px";
+    messageElement.style.backgroundColor = isError ? "red" : "green";
+    messageElement.style.color = "white";
+
+    document.body.appendChild(messageElement);
+
+    // Remove the message after a certain time (e.g., 5 seconds)
+    setTimeout(function () {
+      document.body.removeChild(messageElement);
+    }, 5000);
+  }
+</script>
+
+<script>
+  // Mapping object for display names
+  const displayNames = {
+    Worker_ID_No: "Worker ID",
+    Nutmeg_ID_No: "Farmer ID",
+    Worker_Name: "Worker Name",
+    Age: "Age",
+    Home_Phone: "Home Phone",
+    Mobile_Phone: "Mobile Phone",
+    Email: "Email",
+    // Add more mappings as needed
+    farm_type: "Farm Location",
+  };
+
+  // Function to display records based on filters
+  function displayFilteredRecords(database, workerId, farmerId, dateCreated) {
+    const request = indexedDB.open("GCNA");
+
+    request.onsuccess = function (event) {
+      const db = event.target.result;
+      const transaction = db.transaction(database, "readonly");
+      const objectStore = transaction.objectStore(database);
+      const results = [];
+
+      objectStore.openCursor().onsuccess = function (event) {
+        const cursor = event.target.result;
+        if (cursor) {
+          const record = cursor.value;
+          // Check if the record matches the filter criteria, or if no filters are specified
+          if (
+            (!workerId || record.Worker_ID_No === workerId) &&
+            (!farmerId || record.Nutmeg_ID_No === farmerId) &&
+            (!dateCreated || record.Date_Created === dateCreated)
+          ) {
+            // Convert field names to display names and filter out null, blank, or 0 values
+            const modifiedRecord = {};
+            for (const key in record) {
+              if (
+                record[key] !== null &&
+                record[key] !== "" &&
+                record[key] !== 0
+              ) {
+                if (displayNames.hasOwnProperty(key)) {
+                  modifiedRecord[displayNames[key]] = record[key];
+                } else {
+                  modifiedRecord[key] = record[key];
+                }
+              }
+            }
+            results.push(modifiedRecord);
+          }
+          cursor.continue();
+        } else {
+          displaySearchResults(results);
+        }
+      };
+    };
+
+    request.onerror = function (event) {
+      console.error("Error opening database:", event.target.error);
+    };
+  }
+
+  // Function to display search results
+  function displaySearchResults(results) {
+    const searchResultsDiv = document.getElementById("searchResults");
+    searchResultsDiv.innerHTML = ""; // Clear previous results
+
+    if (results.length > 0) {
+      const resultList = document.createElement("ul");
+      resultList.classList.add("list-group");
+
+      results.forEach((result) => {
+        const listItem = document.createElement("li");
+        listItem.classList.add("list-group-item");
+        let listItemText = "";
+        for (const key in result) {
+          listItemText += `<b>${key}:</b> ${result[key]}<br>`;
+        }
+        // Create a button with a unique link based on the model
+        listItemText += `<button onclick="viewEntry(${result.id})">View Entry</button>`;
+        listItem.innerHTML = listItemText;
+        resultList.appendChild(listItem);
+      });
+
+      searchResultsDiv.appendChild(resultList);
+    } else {
+      searchResultsDiv.textContent = "No results found.";
+    }
+  }
+
+  // Event listener for search button
+  document
+    .getElementById("searchButton")
+    .addEventListener("click", function () {
+      const selectedDatabase = document.getElementById("databaseSelect").value;
+      if (selectedDatabase) {
+        const workerId = document.getElementById("workerIdInput").value;
+        const farmerId = document.getElementById("farmerIdInput").value;
+        const dateCreated = document.getElementById("dateCreatedInput").value;
+
+        displayFilteredRecords(
+          selectedDatabase,
+          workerId,
+          farmerId,
+          dateCreated
+        );
+        // Pass the selected model to viewEntry function
+        viewEntry(selectedDatabase);
+      }
+    });
+
+  // Event listener for the button to go to another page
+  document
+    .getElementById("goToOtherPageButton")
+    .addEventListener("click", function () {
+      // Redirect to another page based on the model (change the URL accordingly)
+      const selectedModel = document.getElementById("databaseSelect").value;
+      if (selectedModel === "Worker") {
+        window.location.href = "worker-page.html";
+      } else if (selectedModel === "Farmer") {
+        window.location.href = "farmer-page.html";
+      } else {
+        // Redirect to a default page if the model is not recognized
+        window.location.href = "default-page.html";
+      }
+    });
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    var myForm = document.getElementById("floatForm");
+
+    myForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+      var data = new FormData(event.target);
+      saveDataToIndexedDB(data);
+    });
+
+    function saveDataToIndexedDB(data) {
+      // Exclude csrfmiddlewaretoken from being saved to IndexedDB
+      data.delete("csrfmiddlewaretoken");
+
+      var request = indexedDB.open("GCNA", 2);
+
+      request.onsuccess = function (event) {
+        var db = event.target.result;
+        var transaction = db.transaction("FloatA", "readwrite");
+        var objectStore = transaction.objectStore("FloatA");
+
+        var obj = {};
+        for (var pair of data.entries()) {
+          // Parse values based on input types
+          obj[pair[0]] = parseValue(pair[1], pair[0]);
+        }
+
+        var id = obj.id;
+
+        // Check if an entry with the same ID exists
+        var getRequest = objectStore.get(id);
+        getRequest.onsuccess = function (event) {
+          var existingEntry = getRequest.result;
+          if (existingEntry) {
+            // If entry with the same ID exists, update it
+            var updateRequest = objectStore.put(obj);
+            updateRequest.onsuccess = function () {
+              console.log("Entry updated in IndexedDB");
+              transferIndexedDBData(); // Transfer data to Django after saving/updating to IndexedDB
+            };
+            updateRequest.onerror = function () {
+              console.error("Error updating entry in IndexedDB");
+            };
+          } else {
+            // If entry with the same ID doesn't exist, add a new one
+            var addRequest = objectStore.add(obj);
+            addRequest.onsuccess = function () {
+              console.log("New entry added to IndexedDB");
+              transferIndexedDBData(); // Transfer data to Django after saving/updating to IndexedDB
+              $("#floatModal").modal("hide");
+            };
+            addRequest.onerror = function () {
+              console.error("Error adding new entry to IndexedDB");
+            };
+          }
+        };
+
+        getRequest.onerror = function (event) {
+          console.error("Error getting entry from IndexedDB", event);
+        };
+      };
+
+      request.onerror = function (event) {
+        console.error("Error opening IndexedDB", event);
+      };
+    }
+
+    function transferIndexedDBData() {
+      var request = indexedDB.open("GCNA", 2);
+
+      request.onsuccess = function (event) {
+        var db = event.target.result;
+        var transaction = db.transaction("FloatA", "readonly");
+        var objectStore = transaction.objectStore("FloatA");
+        var getRequest = objectStore.getAll();
+
+        getRequest.onsuccess = function (event) {
+          var data = event.target.result;
+          data.forEach(function (item) {
+            sendDataToDjango(item);
+          });
+        };
+      };
+
+      request.onerror = function (event) {
+        console.error("Error opening IndexedDB", event);
+      };
+    }
+
+    function sendDataToDjango(item) {
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", "/check-and-add/", true);
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+          if (xhr.status === 200) {
+            console.log("Entry added successfully.");
+          } else {
+            console.error("Error adding entry:", xhr.statusText);
+          }
+        }
+      };
+      xhr.send(JSON.stringify(item));
+    }
+
+    // Function to parse values based on input types
+    function parseValue(value, fieldName) {
+      // Check if the field name indicates a numeric input type
+      if (
+        fieldName.includes("DATE") ||
+        fieldName.includes("id") ||
+        fieldName.includes("Weight") ||
+        fieldName.includes("BATCH_CODE") ||
+        fieldName.includes("Insect_Damaged") ||
+        fieldName.includes("Broken") ||
+        fieldName.includes("Mould") ||
+        fieldName.includes("READING") ||
+        fieldName.includes("AVERAGE")
+      ) {
+        // Convert to numeric value if possible
+        return isNaN(value) ? value : parseFloat(value);
+      } else {
+        // Return value as is
+        return value;
+      }
+    }
+  });
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    var myForm = document.getElementById("driedForm");
+
+    myForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+      var data = new FormData(event.target);
+      saveDataToIndexedDB(data);
+    });
+
+    function saveDataToIndexedDB(data) {
+      // Exclude csrfmiddlewaretoken from being saved to IndexedDB
+      data.delete("csrfmiddlewaretoken");
+
+      var request = indexedDB.open("GCNA", 2);
+
+      request.onsuccess = function (event) {
+        var db = event.target.result;
+        var transaction = db.transaction("DriedA", "readwrite");
+        var objectStore = transaction.objectStore("DriedA");
+
+        var obj = {};
+        for (var pair of data.entries()) {
+          // Parse values based on input types
+          obj[pair[0]] = parseValue(pair[1], pair[0]);
+        }
+
+        var id = obj.id;
+
+        // Check if an entry with the same ID exists
+        var getRequest = objectStore.get(id);
+        getRequest.onsuccess = function (event) {
+          var existingEntry = getRequest.result;
+          if (existingEntry) {
+            // If entry with the same ID exists, update it
+            var updateRequest = objectStore.put(obj);
+            updateRequest.onsuccess = function () {
+              console.log("Entry updated in IndexedDB");
+              transferIndexedDBData(); // Transfer data to Django after saving/updating to IndexedDB
+            };
+            updateRequest.onerror = function () {
+              console.error("Error updating entry in IndexedDB");
+            };
+          } else {
+            // If entry with the same ID doesn't exist, add a new one
+            var addRequest = objectStore.add(obj);
+            addRequest.onsuccess = function () {
+              console.log("New entry added to IndexedDB");
+              transferIndexedDBData(); // Transfer data to Django after saving/updating to IndexedDB
+              $("#floatModal").modal("hide");
+            };
+            addRequest.onerror = function () {
+              console.error("Error adding new entry to IndexedDB");
+            };
+          }
+        };
+
+        getRequest.onerror = function (event) {
+          console.error("Error getting entry from IndexedDB", event);
+        };
+      };
+
+      request.onerror = function (event) {
+        console.error("Error opening IndexedDB", event);
+      };
+    }
+
+    function transferIndexedDBData() {
+      var request = indexedDB.open("GCNA", 2);
+
+      request.onsuccess = function (event) {
+        var db = event.target.result;
+        var transaction = db.transaction("DriedA", "readonly");
+        var objectStore = transaction.objectStore("DriedA");
+        var getRequest = objectStore.getAll();
+
+        getRequest.onsuccess = function (event) {
+          var data = event.target.result;
+          data.forEach(function (item) {
+            sendDataToDjango(item);
+          });
+        };
+      };
+
+      request.onerror = function (event) {
+        console.error("Error opening IndexedDB", event);
+      };
+    }
+
+    function sendDataToDjango(item) {
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", "/check-and-add/", true);
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+          if (xhr.status === 200) {
+            console.log("Entry added successfully.");
+          } else {
+            console.error("Error adding entry:", xhr.statusText);
+          }
+        }
+      };
+      xhr.send(JSON.stringify(item));
+    }
+
+    // Function to parse values based on input types
+    function parseValue(value, fieldName) {
+      // Check if the field name indicates a numeric input type
+      if (
+        fieldName.includes("DATE") ||
+        fieldName.includes("id") ||
+        fieldName.includes("Weight") ||
+        fieldName.includes("BATCH_CODE") ||
+        fieldName.includes("Insect_Damaged") ||
+        fieldName.includes("Broken") ||
+        fieldName.includes("Mould") ||
+        fieldName.includes("READING") ||
+        fieldName.includes("AVERAGE")
+      ) {
+        // Convert to numeric value if possible
+        return isNaN(value) ? value : parseFloat(value);
+      } else {
+        // Return value as is
+        return value;
+      }
+    }
+  });
+</script>
+
+<script>
+  searchEntriesByDecision();
+
+  // Function to search for entries based on the decision
+  function searchEntriesByDecision() {
+    const gcnaDBName = "GCNA";
+    openIndexedDBConnection(gcnaDBName)
+      .then((db) => {
+        const transaction = db.transaction(modelNames, "readonly");
+        const decisionData = {};
+
+        transaction.onerror = function (event) {
+          console.error("Transaction error:", event.target.error);
+        };
+
+        modelNames.forEach((modelName) => {
+          const objectStore = transaction.objectStore(modelName);
+          const request = objectStore.openCursor();
+          decisionData[modelName] = [];
+
+          request.onsuccess = function (event) {
+            const cursor = event.target.result;
+            if (cursor) {
+              const record = cursor.value;
+              // Check if the decision matches the provided decision and is empty or failed
+              if (
+                record.DECISION === "" ||
+                record.DECISION === "Fail" ||
+                record.DECISION === "FAIL" ||
+                record.DECISION_L === "" ||
+                record.DECISION_L === "Fail" ||
+                record.DECISION_L === "FAIL" ||
+                record.DECISION_H === "" ||
+                record.DECISION_H === "Fail" ||
+                record.DECISION_H === "FAIL"
+              ) {
+                decisionData[modelName].push(record);
+              }
+              cursor.continue();
+            }
+          };
+
+          request.onerror = function (event) {
+            console.error(
+              `Error accessing object store "${modelName}":`,
+              event.target.error
+            );
+          };
+        });
+
+        transaction.oncomplete = function () {
+          console.log("Decision Data:", decisionData);
+          displayDecisionSearchResults(decisionData);
+        };
+      })
+      .catch((error) =>
+        console.error(`Error accessing database "${gcnaDBName}":`, error)
+      );
+  }
+
+  // Define field name to display name mapping
+  const fieldDisplayNames = {
+    Worker_ID_No: "Worker ID",
+    Worker_ID_Name: "Worker Name",
+    Date_Created: "Date Created",
+    DATE_OF_SAMPLING: "Date of Sampling",
+    STATION: "Station",
+    BATCH_CODE: "Batch Code",
+    Quantity_of_Bags: "Quantity of Bags",
+    Quantity_of_Sample: "Quantity of Sample",
+    Total_Weight: "Total Weight",
+    Initial_Sample_Weight: "Initial Sample Weight",
+    Insect_Damaged: "Insect Damaged",
+    Broken: "Broken",
+    Mould: "Mould",
+    Final_Sample_Weight: "Final Sample Weight",
+    READING_1: "Reading 1",
+    READING_2: "Reading 2",
+    READING_3: "Reading 3",
+    AVERAGE: "Average",
+    DECISION: "Decision",
+    Comments: "Comments",
+    TEST_PERFORMED_BY: "Test Performed by",
+    APPROVED_BY: "Approved by",
+    DATE_OF_REPORT: "Date of Report",
+    SIGNED_BY_QUALITY_ASSURANCE_OFFICER: "Signed by Quality Assurance Officer",
+    DATE: "Date",
+
+    // Add more field mappings as needed
+  };
+
+  // function displayDecisionSearchResults(results) {
+  //   const decisionSearchResultsDiv = document.getElementById(
+  //     "decisionSearchResults"
+  //   );
+  //   decisionSearchResultsDiv.innerHTML = ""; // Clear previous results
+
+  //   if (Object.keys(results).length > 0) {
+  //     for (const modelName in results) {
+  //       const modelContainer = document.createElement("div");
+  //       modelContainer.classList.add("model-container");
+
+  //       const modelHeader = document.createElement("h5");
+  //       modelHeader.textContent = `${modelName} Form`;
+  //       modelContainer.appendChild(modelHeader);
+
+  //       const resultList = document.createElement("ul");
+  //       resultList.classList.add("list-group");
+
+  //       results[modelName].forEach((item) => {
+  //         const listItem = document.createElement("li");
+  //         listItem.classList.add("list-group-item");
+
+  //         let listItemText = "";
+  //         for (const key in item) {
+  //           // Check if the field name has a display name defined
+  //           const displayName = fieldDisplayNames[key] || key;
+  //           listItemText += `<b>${displayName}:</b> ${item[key]}<br>`;
+  //         }
+
+  //         // Create a button with a unique link based on the model
+  //         listItemText += `<button onclick="viewEntry(${item.id}, '${modelName}')">View Entry</button>`; // Pass modelName along with item.id
+  //         listItem.innerHTML = listItemText;
+
+  //         resultList.appendChild(listItem);
+  //       });
+
+  //       modelContainer.appendChild(resultList);
+  //       decisionSearchResultsDiv.appendChild(modelContainer);
+  //     }
+  //   } else {
+  //     decisionSearchResultsDiv.textContent = "No results found.";
+  //   }
+  // }
+  function displayDecisionSearchResults(results) {
+    const decisionSearchResultsDiv = document.getElementById(
+      "decisionSearchResults"
+    );
+    decisionSearchResultsDiv.innerHTML = ""; // Clear previous results
+
+    // Filter models to only include "DriedA" and "FloatA"
+    const filteredResults = {};
+    filteredResults["DriedA"] = results["DriedA"] || [];
+    filteredResults["FloatA"] = results["FloatA"] || [];
+
+    if (Object.keys(filteredResults).length > 0) {
+      for (const modelName in filteredResults) {
+        const modelContainer = document.createElement("div");
+        modelContainer.classList.add("model-container");
+
+        const modelHeader = document.createElement("h5");
+        modelHeader.textContent = `${modelName} Form`;
+        modelContainer.appendChild(modelHeader);
+
+        const resultList = document.createElement("ul");
+        resultList.classList.add("list-group");
+
+        filteredResults[modelName].forEach((item) => {
+          const listItem = document.createElement("li");
+          listItem.classList.add("list-group-item");
+
+          let listItemText = "";
+          for (const key in item) {
+            // Check if the field name has a display name defined
+            const displayName = fieldDisplayNames[key] || key;
+            listItemText += `<b>${displayName}:</b> ${item[key]}<br>`;
+          }
+
+          // Create a button with a unique link based on the model
+          listItemText += `<button onclick="viewEntry(${item.id}, '${modelName}')">View Entry</button>`; // Pass modelName along with item.id
+          listItem.innerHTML = listItemText;
+
+          resultList.appendChild(listItem);
+        });
+
+        modelContainer.appendChild(resultList);
+        decisionSearchResultsDiv.appendChild(modelContainer);
+      }
+    } else {
+      decisionSearchResultsDiv.textContent = "No results found.";
+    }
+  }
+
+  // // Function to check for any Fail decisions
+  // function checkForFailDecisions() {
+  //   const gcnaDBName = "GCNA";
+  //   openIndexedDBConnection(gcnaDBName)
+  //     .then((db) => {
+  //       const transaction = db.transaction(modelNames, "readonly");
+  //       let failFound = false;
+
+  //       transaction.onerror = function (event) {
+  //         console.error("Transaction error:", event.target.error);
+  //       };
+
+  //       modelNames.forEach((modelName) => {
+  //         const objectStore = transaction.objectStore(modelName);
+  //         const request = objectStore.openCursor();
+
+  //         request.onsuccess = function (event) {
+  //           const cursor = event.target.result;
+  //           if (cursor) {
+  //             const record = cursor.value;
+  //             // Check if the decision is Fail
+  //             if (record.DECISION === "Fail" || record.DECISION === "FAIL") {
+  //               failFound = true;
+  //             }
+  //             cursor.continue();
+  //           }
+  //         };
+
+  //         request.onerror = function (event) {
+  //           console.error(
+  //             `Error accessing object store "${modelName}":`,
+  //             event.target.error
+  //           );
+  //         };
+  //       });
+
+  //       transaction.oncomplete = function () {
+  //         // Change the button color based on whether a Fail decision was found
+  //         const button = document.getElementById("decisionSearchButton");
+  //         button.style.backgroundColor = failFound ? "red" : "initial";
+  //       };
+  //     })
+  //     .catch((error) =>
+  //       console.error(`Error accessing database "${gcnaDBName}":`, error)
+  //     );
+  // }
+
+  // Call the function when the page loads
+  setInterval(checkForFailDecisions, 1 * 5 * 1000);
+
+  function openDecisionSearchModal() {
+    const hasFailDecision = checkForFailDecision();
+    if (hasFailDecision) {
+      $("#decisionSearchModal").modal("show");
+    }
+  }
+
+  // Function to check for any Fail decisions or empty decisions
+  function checkForFailDecisions() {
+    const gcnaDBName = "GCNA";
+    openIndexedDBConnection(gcnaDBName)
+      .then((db) => {
+        const transaction = db.transaction(modelNames, "readonly");
+        let failFound = false;
+        let emptyFound = false;
+
+        transaction.onerror = function (event) {
+          console.error("Transaction error:", event.target.error);
+        };
+
+        modelNames.forEach((modelName) => {
+          const objectStore = transaction.objectStore(modelName);
+          const request = objectStore.openCursor();
+
+          request.onsuccess = function (event) {
+            const cursor = event.target.result;
+            if (cursor) {
+              const record = cursor.value;
+              // Check if the decision is Fail
+              if (
+                record.DECISION === "Fail" ||
+                record.DECISION === "FAIL" ||
+                record.DECISION_H === "Fail" ||
+                record.DECISION_H === "FAIL" ||
+                record.DECISION_L === "Fail" ||
+                record.DECISION_L === "FAIL"
+              ) {
+                failFound = true;
+              }
+              // Check if the decision is empty
+              if (
+                record.DECISION === "" ||
+                record.DECISION_L === "" ||
+                record.DECISION_H === ""
+              ) {
+                emptyFound = true;
+              }
+              cursor.continue();
+            }
+          };
+
+          request.onerror = function (event) {
+            console.error(
+              `Error accessing object store "${modelName}":`,
+              event.target.error
+            );
+          };
+        });
+
+        transaction.oncomplete = function () {
+          // Change the button color based on whether a Fail decision or an empty decision was found
+          const button = document.getElementById("decisionSearchButton");
+          if (failFound && emptyFound) {
+            // Apply a gradient of red and orange if both Fail and empty decisions are found
+            button.style.background = "linear-gradient(to right, red , orange)";
+          } else if (failFound) {
+            button.style.backgroundColor = "red";
+          } else if (emptyFound) {
+            button.style.backgroundColor = "orange";
+          } else {
+            button.style.backgroundColor = "initial";
+          }
+        };
+      })
+      .catch((error) =>
+        console.error(`Error accessing database "${gcnaDBName}":`, error)
+      );
+  }
+
+  // Call the function when the page loads
+  checkForFailDecisions();
+
+  // // Function to view a specific entry in the "DriedA" model
+  // function viewEntry(entryId) {
+  //   const gcnaDBName = 'GCNA';
+  //   openIndexedDBConnection(gcnaDBName)
+  //       .then(db => {
+  //           const transaction = db.transaction(['DriedA'], 'readonly');
+
+  //           transaction.onerror = function (event) {
+  //               console.error("Transaction error:", event.target.error);
+  //           };
+
+  //           const objectStore = transaction.objectStore('DriedA');
+  //           const request = objectStore.get(entryId);
+
+  //           request.onsuccess = function (event) {
+  //               const record = event.target.result;
+  //               fillModalWithData(record);
+  //           };
+
+  //           request.onerror = function (event) {
+  //               console.error("Error accessing object store 'DriedA':", event.target.error);
+  //           };
+  //       })
+  //       .catch(error => console.error(`Error accessing database "${gcnaDBName}":`, error));
+  // }
+
+  function viewEntry(entryId, modelType) {
+    if (modelType === "DriedA") {
+      viewDriedAEntry(entryId);
+    } else if (modelType === "FloatA") {
+      viewFloatAEntry(entryId);
+    } else {
+      console.error("Unknown model type:", modelType);
+    }
+  }
+
+  function viewDriedAEntry(entryId) {
+    const gcnaDBName = "GCNA";
+    openIndexedDBConnection(gcnaDBName)
+      .then((db) => {
+        const transaction = db.transaction(["DriedA"], "readonly");
+
+        transaction.onerror = function (event) {
+          console.error("Transaction error:", event.target.error);
+        };
+
+        const objectStore = transaction.objectStore("DriedA");
+        const request = objectStore.get(entryId);
+
+        request.onsuccess = function (event) {
+          const record = event.target.result;
+          displayFormWithDataA(record);
+
+          document.getElementById("decision_close_btn").click();
+        };
+
+        request.onerror = function (event) {
+          console.error(
+            "Error accessing object store 'DriedA':",
+            event.target.error
+          );
+        };
+      })
+      .catch((error) =>
+        console.error(`Error accessing database "${gcnaDBName}":`, error)
+      );
+  }
+
+  // Function to view an entry in the "FloatA" modal
+  function viewFloatAEntry(entryId) {
+    const gcnaDBName = "GCNA";
+    openIndexedDBConnection(gcnaDBName)
+      .then((db) => {
+        const transaction = db.transaction(["FloatA"], "readonly");
+
+        transaction.onerror = function (event) {
+          console.error("Transaction error:", event.target.error);
+        };
+
+        const objectStore = transaction.objectStore("FloatA");
+        const request = objectStore.get(entryId);
+
+        request.onsuccess = function (event) {
+          const record = event.target.result;
+          displayFormWithDataB(record);
+
+          document.getElementById("decision_close_btn").click();
+        };
+
+        request.onerror = function (event) {
+          console.error(
+            "Error accessing object store 'FloatA':",
+            event.target.error
+          );
+        };
+      })
+      .catch((error) =>
+        console.error(`Error accessing database "${gcnaDBName}":`, error)
+      );
+  }
+
+  // Open or create a database
+  var request = indexedDB.open("yourDatabaseName", 1);
+
+  // Define object stores
+  request.onupgradeneeded = function (event) {
+    var db = event.target.result;
+    var objectStore = db.createObjectStore("yourObjectStoreName", {
+      keyPath: "id",
+      autoIncrement: true,
+    });
+    // Define indexes if needed
+  };
+
+  request.onerror = function (event) {
+    console.log("Database error: " + event.target.errorCode);
+  };
+
+  function displayFormWithDataA(data) {
+    document.getElementById("dried").innerHTML = `
+      <div class="card-body">
+        <h5 class="card-title">Document No. GCNA-R-01</h5>
+        <h6>Document Title: Moisture Analysis in Dried Nutmeg</h6>
+        <h6>Date Issued: 2023-07-03</h6>
+        <h6>Version: 1</h6>
+        <h5>Section A</h5>
+
+
+            <div style="display:none;">
+            <input type="number" name="id" value="${data.id}" class="form-control">
+            </div>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col" style="text-align:center;">Date of Sampling</th>
+                        <th scope="col" style="text-align:center;">Station</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="date" name="DATE_OF_SAMPLING" value="${data.DATE_OF_SAMPLING}" class="form-control"><br>
+                        </td>
+                        <td><input type="text" name="STATION" value="${data.STATION}" class="form-control"><br>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table id="vertical-1" class="table table-hover table-light">
+                <tr>
+                    <th>Batch Code</th>
+                    <td><input type="number" name="BATCH_CODE" value="${data.BATCH_CODE}" class="form-control"><br></td>
+                </tr>
+            </table>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Quantity of Bags</th>
+                        <th scope="col">Quantity of Bags to be Sampled</th>
+                        <th scope="col">Total Weight</th>
+                        <th scope="col">Initial Sample Weight</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="number" name="Quantity_of_Bags" value="${data.Quantity_of_Bags}" class="form-control"><br>
+                        </td>
+                        <td><input type="number" name="Quantity_of_Sample" value="${data.Quantity_of_Sample}" class="form-control"><br>
+                        </td>
+                        <td>                <input type="number" name="Total_Weight" value="${data.Total_Weight}" class="form-control"><br>
+                        </td>
+                        <td>                <input type="number" name="Initial_Sample_Weight" value="${data.Initial_Sample_Weight}" class="form-control"><br>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Insect Damaged</th>
+                        <th scope="col">Broken</th>
+                        <th scope="col">Mould</th>
+                        <th scope="col">Final Sample Weight</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td> <input type="number" name="Insect_Damaged" value="${data.Insect_Damaged}" class="form-control"><br>
+                        </td>
+                        <td>                <input type="number" name="Broken" value="${data.Broken}" class="form-control"><br>
+                        </td>
+                        <td>                <input type="number" name="Mould" value="${data.Mould}" class="form-control"><br>
+                        </td>
+                        <td>                <input type="number" name="Final_Sample_Weight" value="${data.Final_Sample_Weight}" class="form-control"><br>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Reading 1</th>
+                        <th scope="col">Reading 2</th>
+                        <th scope="col">Reading 3</th>
+                        <th scope="col">Average</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>                <input type="text" name="READING_1" value="${data.READING_1}" class="form-control"><br>
+                        </td>
+                        <td>                <input type="text" name="READING_2" value="${data.READING_2}" class="form-control"><br>
+                        </td>
+                        <td>                <input type="text" name="READING_3" value="${data.READING_3}" class="form-control"><br>
+                        </td>
+                        <td>                <input type="text" name="AVERAGE" value="${data.AVERAGE}" class="form-control"><br>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Decision</th>
+                        <th scope="col">Comments</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>                <select name="DECISION" class="form-control">
+                          <option value=${data.DECISION}>Select New Decision</option>
+                          <option value="Pass">Pass</option>
+                          <option value="Fail">Fail</option>
+
+                      </select><br></td>
+                        <td>                <textarea name="Comments" class="form-control">${data.Comments}</textarea><br>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Test Performed by</th>
+                        <th scope="col">Date of Test</th>
+                        <th scope="col">Approved by</th>
+                        <th scope="col">Date of Report</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>                <input type="text" name="TEST_PERFORMED_BY" value="${data.TEST_PERFORMED_BY}" class="form-control"><br>
+                        </td>
+                        <td>                <input type="date" name="DATE" value="${data.DATE}" class="form-control"><br>
+                        </td>
+                        <td>                <input type="text" name="APPROVED_BY" value="${data.APPROVED_BY}" class="form-control"><br>
+                        </td>
+                        <td>                <input type="date" name="DATE_OF_REPORT" value="${data.DATE_OF_REPORT}" class="form-control"><br>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Signed by Quality Assurance Officer</th>
+                        <th scope="col">Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>                <input type="text" name="SIGNED_BY_QUALITY_ASSURANCE_OFFICER" value="${data.SIGNED_BY_QUALITY_ASSURANCE_OFFICER}" class="form-control"><br>
+                        </td>
+                        <td>                <input type="date" name="DATE" value="${data.DATE}" class="form-control"><br>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <input type="submit" name="" value="✔" class="btn btn-success btn-circle btn-xl">
+            <br>
+            <br>
+            <table>
+
+            </table>
+    </div>
+      `;
+
+    $("#driedModal").modal("show");
+  }
+
+  function displayFormWithDataB(data) {
+    document.getElementById("float").innerHTML = `
+
+    <div style="display:none;">
+            <input type="number" name="id" value="${data.id}" class="form-control">
+            </div>
+
+    {% csrf_token %}
+
+
+
+    <div class="card">
+
+  <div class="card-body">
+
+  </h5>
+    <p class="card-text">
+        <table id="vertical-1" class="table table-hover table-light">
+
+
+
+
+  <h6>Document No. GCNA-R-02</h6>
+  <h6>Document Title: Moisture Analysis in Floated Nutmeg</h6>
+  <h6>Date Issued: 2023-07-03</h6>
+
+  <h6>Version: 1</h6>
+
+    <h5>Section A</h5>
+    <h4>Moisture Analysis in Floated Nutmeg</h4>
+
+            {% csrf_token %}
+
+
+
+        <tr>
+
+
+
+    <table class="table">
+    <thead>
+        <tr>
+
+        <th scope="col" style="text-align:center;">DATE OF SAMPLING (Heavies)</th>
+        <th scope="col" style="text-align:center;">DATE OF SAMPLING (Lights)</th>
+        <th scope="col" style="text-align:center;">Station</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+
+                <td><input type="date" name="DATE_OF_SAMPLING_H" value="${data.DATE_OF_SAMPLING_H}" class="form-control"><br></td>
+                <td><input type="date" name="DATE_OF_SAMPLING_L" value="${data.DATE_OF_SAMPLING_L}" class="form-control"><br></td>
+                <td><input type="text" name="STATION" value="${data.STATION}" class="form-control"><br></td>
+
+
+        </tr>
+
+    </tbody>
+    </table>
+
+
+    <br>
+
+
+
+
+
+            <table id="vertical-1" class="table table-hover table-light">
+                    <tr>
+                <th>Batch Code</th>
+                <td><input type="number" name="BATCH_CODE" value="${data.BATCH_CODE}" class="form-control"><br></td>
+            </tr>
+    </table>
+
+
+
+
+
+    <br>
+
+
+
+
+
+
+    <table class="table">
+
+        <center>
+    <!-- <label>Weight (oz/lbs)</label>    -->
+    </center>
+    <thead>
+        <tr>
+
+        <th scope="col" style="text-align:center; font-size:18px ;">Heavies</th>
+        <th scope="col" style="text-align:center; font-size:18px ;">Lights</th>
+        </tr>
+
+        <tr>
+
+        <th scope="col" style="text-align:center;">Quantity of Sample(Heavies)</th>
+        <th scope="col" style="text-align:center;">Quantity of Sample(Lights)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+
+        <td><input type="text" name="Quantity_of_Sample_H" value="${data.Quantity_of_Sample_H}" class="form-control"><br></td>
+        <td><input type="text" name="Quantity_of_Sample_L" value="${data.Quantity_of_Sample_L}" class="form-control"><br></td>
+
+        </tr>
+
+    </tbody>
+
+        <table>
+            <tr>
+                <th colspan="4" class="main-header">HEAVIES</th>
+                <th colspan="4" class="main-header">LIGHTS</th>
+            </tr>
+            <tr>
+        <th scope="col" style="text-align:center;">Quantity of Sample(Heavies)</th>
+        <th scope="col" style="text-align:center; width: 100px"><input type="text" name="Quantity_of_Sample_H" value="${data.Quantity_of_Sample_H}" class="form-control"><br></td>
+            <th style="; width: 1px"></th>
+            <th style="; width: 1px"></th>
+        <th scope="col" style="text-align:center;">Quantity of Sample(Lights)</th>
+        <th scope="col" style="text-align:center; width: 100px"><input type="text" name="Quantity_of_Sample_L" value="${data.Quantity_of_Sample_L}" class="form-control"><br> </td>
+            </tr>
+            <tr>
+                <td>Total Weight(Heavies)</td>
+                <td scope="col" style="text-align:center; width: 100px"><input type="text" name="Total_Weight_H" value="${data.Total_Weight_H}" class="form-control"><br></td>
+                <td>Initial Sample Weight(Heavies)</td>
+                <td scope="col" style="text-align:center; width: 100px"><input type="text" name="Initial_Sample_Weight_H" value="${data.Initial_Sample_Weight_H}" class="form-control"><br></td>
+
+                <td>Total Weight(Light)</td>
+                <td scope="col" style="text-align:center; width: 100px"><input type="text" name="Total_Weight_L" value="${data.Total_Weight_L}" class="form-control"><br></td>
+                <td>Initial Sample Weight(Light)</td>
+                <td scope="col" style="text-align:center; width: 100px"><input type="text" name="Initial_Sample_Weight_L" value="${data.Initial_Sample_Weight_L}" class="form-control"><br></td>
+            </tr>
+
+        </table>
+
+
+
+
+
+    <br>
+    <br>
+    <br>
+
+
+
+
+
+    <table>
+            <tr>
+
+                <th colspan="8" class="main-header">Weight (oz/lbs)</th>
+            </tr>
+            <tr>
+        <th colspan="4" style="text-align:center;">Heavies</th>
+        <th colspan="4" style="text-align:center; ">Lights</td>
+
+
+            </tr>
+            <tr>
+                <td scope="col" style="text-align:center; width: 100px">Insect Damaged </td>
+                <td scope="col" style="text-align:center; width: 100px">Broken</td>
+                <td scope="col" style="text-align:center; width: 100px">Mould</td>
+
+                <!-- <td scope="col" style="text-align:center; width: 100px"><input type="text" name="Initial_Sample_Weight_L" value="${data.Initial_Sample_Weight_L}" class="form-control"><br></td> -->
+
+                <td></td>
+                <td></td>
+
+                <td scope="col" style="text-align:center; width: 100px">Insect Damaged </td>
+                <td scope="col" style="text-align:center; width: 100px">Broken</td>
+                <td scope="col" style="text-align:center; width: 100px">Mould</td>
+
+
+            </tr>
+
+
+
+            <tr>
+                <td scope="col" style="text-align:center; width: 100px"><input type="text" name="Insect_Damaged_H" value="${data.Insect_Damaged_H}" class="form-control"><br>} </td>
+                <td scope="col" style="text-align:center; width: 100px"><input type="text" name="Broken_H" value="${data.Broken_H}" class="form-control"><br></td>
+                <td scope="col" style="text-align:center; width: 100px"><input type="text" name="Mould_H" value="${data.Mould_H}" class="form-control"><br></td>
+
+                <!-- <td scope="col" style="text-align:center; width: 100px"><input type="text" name="Initial_Sample_Weight_L" value="${data.Initial_Sample_Weight_L}" class="form-control"><br></td> -->
+
+                <td></td>
+                <td></td>
+
+                <td scope="col" style="text-align:center; width: 100px"><input type="text" name="Insect_Damaged_L" value="${data.Insect_Damaged_L}" class="form-control"><br>} </td>
+                <td scope="col" style="text-align:center; width: 100px"><input type="text" name="Broken_L" value="${data.Broken_L}" class="form-control"><br></td>
+                <td scope="col" style="text-align:center; width: 100px"><input type="text" name="Mould_L" value="${data.Mould_L}" class="form-control"><br></td>
+
+
+            </tr>
+            <tr>
+                <td scope="col" style="text-align:center; width: 100px">Final Sample Weight (Heavies) </td>
+                <td colspan="2" style="text-align:center; width: 100px"><input type="text" name="Final_Sample_Weight_H" value="${data.Final_Sample_Weight_H}" class="form-control"><br></td>
+
+
+                <!-- <td scope="col" style="text-align:center; width: 100px"><input type="text" name="Initial_Sample_Weight_L" value="${data.Initial_Sample_Weight_L}" class="form-control"><br></td> -->
+
+                <td></td>
+                <td></td>
+
+                <td scope="col" style="text-align:center; width: 100px">Final Sample Weight (Lights) </td>
+                <td colspan="2" style="text-align:center; width: 100px"><input type="text" name="Final_Sample_Weight_L" value="${data.Final_Sample_Weight_L}" class="form-control"><br></td>
+
+
+
+            </tr>
+
+        </table>
+
+
+
+
+
+    <br>
+    <br>
+    <br>
+
+
+
+
+
+
+
+
+
+
+    <table>
+
+
+            <tr>
+
+                <th colspan="8" class="main-header">MOISTURE CONTENT RESULTS (%)</th>
+            </tr>
+
+
+            <tr>
+        <th colspan="4" style="text-align:center;">CRITERIA</th>
+        <th colspan="4" style="text-align:center; "><10%</th>
+
+
+            </tr>
+
+
+            <tr>
+        <th colspan="4" style="text-align:center;">Heavies</th>
+        <th colspan="4" style="text-align:center; ">Lights</th>
+
+            </tr>
+
+
+
+            <tr>
+                <th scope="col" style="text-align:center; width: 100px">READING 1 </th>
+                <th scope="col" style="text-align:center; width: 100px">READING 2</th>
+                <th scope="col" style="text-align:center; width: 100px">READING 3</th>
+                <th scope="col" style="text-align:center; width: 100px">Average  </th>
+
+
+
+
+                <th scope="col" style="text-align:center; width: 100px">READING 1 </th>
+                <th scope="col" style="text-align:center; width: 100px">READING 2</th>
+                <th scope="col" style="text-align:center; width: 100px">READING 3</th>
+                <th scope="col" style="text-align:center; width: 100px">Average  </th>
+
+
+            </tr>
+
+
+
+            <tr>
+                <th scope="col" style="text-align:center; width: 100px"><input type="text" name="READING_1_H" value="${data.READING_1_H}" class="form-control"><br></th>
+                <th scope="col" style="text-align:center; width: 100px"><input type="text" name="READING_2_H" value="${data.READING_2_H}" class="form-control"><br></th>
+                <th scope="col" style="text-align:center; width: 100px"><input type="text" name="READING_3_H" value="${data.READING_3_H}" class="form-control"><br></th>
+                <th scope="col" style="text-align:center; width: 100px"><input type="text" name="AVERAGE_H" value="${data.AVERAGE_H}" class="form-control"><br></th>
+
+
+
+
+                <th scope="col" style="text-align:center; width: 100px"><input type="text" name="READING_1_L" value="${data.READING_1_L}" class="form-control"><br></th>
+                <th scope="col" style="text-align:center; width: 100px"><input type="text" name="READING_2_L" value="${data.READING_2_L}" class="form-control"><br></th>
+                <th scope="col" style="text-align:center; width: 100px"><input type="text" name="READING_3_L" value="${data.READING_3_L}" class="form-control"><br></th>
+                <th scope="col" style="text-align:center; width: 100px"><input type="text" name="AVERAGE_L" value="${data.AVERAGE_L}" class="form-control"><br></th>
+
+
+            </tr>
+
+
+
+
+            <tr>
+        <th colspan="1" style="text-align:center;">DECISION (Pass/Fail)</th>
+        <th colspan="3" style="text-align:center;">
+                          <select name="DECISION_H" class="form-control">
+                          <option value=${data.DECISION_H}>Select New Decision</option>
+                          <option value="Pass">Pass</option>
+                          <option value="Fail">Fail</option>
+                          </select><br></th>
+
+
+        <th colspan="1" style="text-align:center; ">DECISION (Pass/Fail)</th>
+        <th colspan="3" style="text-align:center;">
+                          <select name="DECISION_H" class="form-control">
+                          <option value=${data.DECISION_H}>Select New Decision</option>
+                          <option value="Pass">Pass</option>
+                          <option value="Fail">Fail</option>
+                          </select><br></th>
+            </tr>
+
+
+    </table>
+
+    <table>
+
+
+            <tr>
+        <th colspan="1" style="text-align:center;">Comments</th>
+        <th colspan="3" style="text-align:center;"><input type="text" name="Comments_H" value="${data.Comments_H}" class="form-control"><br></th>
+
+                <th></th>
+
+        <th colspan="1" style="text-align:center; ">Comments</th>
+        <th colspan="3" style="text-align:center;"><input type="text" name="Comments_L" value="${data.Comments_L}" class="form-control"><br></th>
+
+            </tr>
+
+
+
+
+            <tr>
+                <th scope="col" style="text-align:center; width: 100px">Test Performed by</th>
+                <th scope="col" style="text-align:center; width: 100px"><input type="text" name="TEST_PERFORMED_BY_H" value="${data.TEST_PERFORMED_BY_H}" class="form-control"><br></th>
+                <th scope="col" style="text-align:center; width: 100px">Date</th>
+                <th scope="col" style="text-align:center; width: 100px"><input type="text" name="DATE_H" value="${data.DATE_H}" class="form-control"><br></th>
+
+
+                <th></th>
+                <th></th>
+
+                <th scope="col" style="text-align:center; width: 100px">Test Performed by </th>
+                <th scope="col" style="text-align:center; width: 100px"><input type="text" name="TEST_PERFORMED_BY_L" value="${data.TEST_PERFORMED_BY_L}" class="form-control"><br></th>
+                <th scope="col" style="text-align:center; width: 100px">Date</th>
+                <th scope="col" style="text-align:center; width: 100px"><input type="text" name="DATE_L" value="${data.DATE_L}" class="form-control"><br></th>
+
+
+            </tr>
+
+
+
+            <tr>
+                <th scope="col" style="text-align:center; width: 100px">Approved By </th>
+                <th colspan="2" style="text-align:center; width: 100px"><input type="text" name="Approved_BY" value="${data.Approved_BY}" class="form-control"><br></th>
+
+
+                <th></th>
+                <th></th>
+
+                <th scope="col" style="text-align:center; width: 100px">Date Of Report</th>
+                <th colspan="2" style="text-align:center; width: 100px"><input type="text" name="DATE_OF_REPORT" value="${data.DATE_OF_REPORT}" class="form-control"><br></th>
+
+
+            </tr>
+
+
+
+
+            <tr>
+                <th scope="col" style="text-align:center; width: 100px">SIGNED BY Quality Assurance Officer</th>
+                <th colspan="2" style="text-align:center; width: 100px"><input type="text" name="SIGNED_BY_Quality_Assurance_Officer" value="${data.SIGNED_BY_Quality_Assurance_Officer}" class="form-control"><br></th>
+
+
+                <th></th>
+                <th></th>
+
+                <th scope="col" style="text-align:center; width: 100px">Date</th>
+                <th colspan="2" style="text-align:center; width: 100px"><input type="text" name="DATE" value="${data.DATE}" class="form-control"><br></th>
+
+
+            </tr>
+
+
+        </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <input type="submit" name="" value="✔" class="btn btn-success btn-circle btn-xl">
+
+            <br>
+            <br>
+
+
+
+
+
+    </table>
+
+
+  </div>
+    `;
+
+    $("#floatModal").modal("show");
+  }
+
+  // function displayFormWithDataB(data) {
+  //   document.getElementById('float').innerHTML = `
+  //   <form action="" method="POST"  id="floatForm" enctype="multipart/form-data" style=" background-color: #e4e4e4;
+
+  //   margin: 1px auto;
+  //   font-family: Raleway;
+  //   padding: 10px;
+  //   width: 95%;
+  //   min-width: 300px;
+  //   border-radius: 10px;
+  //   box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">
+
+  //   {% csrf_token %}
+
+  //   <div class="card">
+
+  // <div class="card-body">
+
+  // </h5>
+  //   <p class="card-text">
+  //       <table id="vertical-1" class="table table-hover table-light">
+
+  // <h6>Document No. GCNA-R-02</h6>
+  // <h6>Document Title: Moisture Analysis in Floated Nutmeg</h6>
+  // <h6>Date Issued: 2023-07-03</h6>
+
+  // <h6>Version: 1</h6>
+
+  //   <h5>Section A</h5>
+  //   <h4>Moisture Analysis in Floated Nutmeg</h4>
+
+  //           {% csrf_token %}
+
+  //       <tr>
+
+  //   <table class="table">
+  //   <thead>
+  //       <tr>
+
+  //       <th scope="col" style="text-align:center;">DATE OF SAMPLING (Heavies)</th>
+  //       <th scope="col" style="text-align:center;">DATE OF SAMPLING (Lights)</th>
+  //       <th scope="col" style="text-align:center;">Station</th>
+  //       </tr>
+  //   </thead>
+  //   <tbody>
+  //       <tr>
+
+  //               <td>${data.DATE_OF_SAMPLING_H }</td>
+  //               <td>${data.DATE_OF_SAMPLING_L }</td>
+  //               <td>${data.STATION }</td>
+
+  //       </tr>
+
+  //   </tbody>
+  //   </table>
+
+  //   <br>
+
+  //           <table id="vertical-1" class="table table-hover table-light">
+  //                   <tr>
+  //               <th>Batch Code</th>
+  //               <td>${data.BATCH_CODE }</td>
+  //           </tr>
+  //   </table>
+
+  //   <br>
+
+  //   <table class="table">
+
+  //       <center>
+  //   <!-- <label>Weight (oz/lbs)</label>    -->
+  //   </center>
+  //   <thead>
+  //       <tr>
+
+  //       <th scope="col" style="text-align:center; font-size:18px ;">Heavies</th>
+  //       <th scope="col" style="text-align:center; font-size:18px ;">Lights</th>
+  //       </tr>
+
+  //       <tr>
+
+  //       <th scope="col" style="text-align:center;">Quantity of Sample(Heavies)</th>
+  //       <th scope="col" style="text-align:center;">Quantity of Sample(Lights)</th>
+  //       </tr>
+  //   </thead>
+  //   <tbody>
+  //       <tr>
+
+  //       <td>${data.Quantity_of_Sample_H }</td>
+  //       <td>${data.Quantity_of_Sample_L }</td>
+
+  //       </tr>
+
+  //   </tbody>
+
+  //       <table>
+  //           <tr>
+  //               <th colspan="4" class="main-header">HEAVIES</th>
+  //               <th colspan="4" class="main-header">LIGHTS</th>
+  //           </tr>
+  //           <tr>
+  //       <th scope="col" style="text-align:center;">Quantity of Sample(Heavies)</th>
+  //       <th scope="col" style="text-align:center; width: 100px">${data.Quantity_of_Sample_H }</td>
+  //           <th style="; width: 1px"></th>
+  //           <th style="; width: 1px"></th>
+  //       <th scope="col" style="text-align:center;">Quantity of Sample(Lights)</th>
+  //       <th scope="col" style="text-align:center; width: 100px">${data.Quantity_of_Sample_L }</td>
+  //           </tr>
+  //           <tr>
+  //               <td>Total Weight(Heavies)</td>
+  //               <td scope="col" style="text-align:center; width: 100px">${data.Total_Weight_H}</td>
+  //               <td>Initial Sample Weight(Heavies)</td>
+  //               <td scope="col" style="text-align:center; width: 100px">${data.Initial_Sample_Weight_H}</td>
+
+  //               <td>Total Weight(Light)</td>
+  //               <td scope="col" style="text-align:center; width: 100px">${data.Total_Weight_L}</td>
+  //               <td>Initial Sample Weight(Light)</td>
+  //               <td scope="col" style="text-align:center; width: 100px">${data.Initial_Sample_Weight_L}</td>
+  //           </tr>
+
+  //       </table>
+
+  //   <br>
+  //   <br>
+  //   <br>
+
+  //   <table>
+  //           <tr>
+
+  //               <th colspan="8" class="main-header">Weight (oz/lbs)</th>
+  //           </tr>
+  //           <tr>
+  //       <th colspan="4" style="text-align:center;">Heavies</th>
+  //       <th colspan="4" style="text-align:center; ">Lights</td>
+
+  //           </tr>
+  //           <tr>
+  //               <td scope="col" style="text-align:center; width: 100px">Insect Damaged </td>
+  //               <td scope="col" style="text-align:center; width: 100px">Broken</td>
+  //               <td scope="col" style="text-align:center; width: 100px">Mould</td>
+
+  //               <!-- <td scope="col" style="text-align:center; width: 100px">${data.Initial_Sample_Weight_L}</td> -->
+
+  //               <td></td>
+  //               <td></td>
+
+  //               <td scope="col" style="text-align:center; width: 100px">Insect Damaged </td>
+  //               <td scope="col" style="text-align:center; width: 100px">Broken</td>
+  //               <td scope="col" style="text-align:center; width: 100px">Mould</td>
+
+  //           </tr>
+
+  //           <tr>
+  //               <td scope="col" style="text-align:center; width: 100px">${data.Insect_Damaged_H}} </td>
+  //               <td scope="col" style="text-align:center; width: 100px">${data.Broken_H}</td>
+  //               <td scope="col" style="text-align:center; width: 100px">${data.Mould_H}</td>
+
+  //               <!-- <td scope="col" style="text-align:center; width: 100px">${data.Initial_Sample_Weight_L}</td> -->
+
+  //               <td></td>
+  //               <td></td>
+
+  //               <td scope="col" style="text-align:center; width: 100px">${data.Insect_Damaged_L}} </td>
+  //               <td scope="col" style="text-align:center; width: 100px">${data.Broken_L}</td>
+  //               <td scope="col" style="text-align:center; width: 100px">${data.Mould_L}</td>
+
+  //           </tr>
+  //           <tr>
+  //               <td scope="col" style="text-align:center; width: 100px">Final Sample Weight (Heavies) </td>
+  //               <td colspan="2" style="text-align:center; width: 100px">${data.Final_Sample_Weight_H}</td>
+
+  //               <!-- <td scope="col" style="text-align:center; width: 100px">${data.Initial_Sample_Weight_L}</td> -->
+
+  //               <td></td>
+  //               <td></td>
+
+  //               <td scope="col" style="text-align:center; width: 100px">Final Sample Weight (Lights) </td>
+  //               <td colspan="2" style="text-align:center; width: 100px">${data.Final_Sample_Weight_L}</td>
+
+  //           </tr>
+
+  //       </table>
+
+  //   <br>
+  //   <br>
+  //   <br>
+
+  //   <table>
+
+  //           <tr>
+
+  //               <th colspan="8" class="main-header">MOISTURE CONTENT RESULTS (%)</th>
+  //           </tr>
+
+  //           <tr>
+  //       <th colspan="4" style="text-align:center;">CRITERIA</th>
+  //       <th colspan="4" style="text-align:center; "><10%</th>
+
+  //           </tr>
+
+  //           <tr>
+  //       <th colspan="4" style="text-align:center;">Heavies</th>
+  //       <th colspan="4" style="text-align:center; ">Lights</th>
+
+  //           </tr>
+
+  //           <tr>
+  //               <th scope="col" style="text-align:center; width: 100px">READING 1 </th>
+  //               <th scope="col" style="text-align:center; width: 100px">READING 2</th>
+  //               <th scope="col" style="text-align:center; width: 100px">READING 3</th>
+  //               <th scope="col" style="text-align:center; width: 100px">Average  </th>
+
+  //               <th scope="col" style="text-align:center; width: 100px">READING 1 </th>
+  //               <th scope="col" style="text-align:center; width: 100px">READING 2</th>
+  //               <th scope="col" style="text-align:center; width: 100px">READING 3</th>
+  //               <th scope="col" style="text-align:center; width: 100px">Average  </th>
+
+  //           </tr>
+
+  //           <tr>
+  //               <th scope="col" style="text-align:center; width: 100px">${data.READING_1_H}</th>
+  //               <th scope="col" style="text-align:center; width: 100px">${data.READING_2_H}</th>
+  //               <th scope="col" style="text-align:center; width: 100px">${data.READING_3_H}</th>
+  //               <th scope="col" style="text-align:center; width: 100px">${data.AVERAGE_H}</th>
+
+  //               <th scope="col" style="text-align:center; width: 100px">${data.READING_1_L}</th>
+  //               <th scope="col" style="text-align:center; width: 100px">${data.READING_2_L}</th>
+  //               <th scope="col" style="text-align:center; width: 100px">${data.READING_3_L}</th>
+  //               <th scope="col" style="text-align:center; width: 100px">${data.AVERAGE_L}</th>
+
+  //           </tr>
+
+  //           <tr>
+  //       <th colspan="1" style="text-align:center;">DECISION (Pass/Fail)</th>
+  //       <th colspan="3" style="text-align:center;">${data.DECISION_H}</th>
+
+  //       <th colspan="1" style="text-align:center; ">DECISION (Pass/Fail)</th>
+  //       <th colspan="3" style="text-align:center;">${data.DECISION_L}</th>
+
+  //           </tr>
+
+  //   </table>
+
+  //   <table>
+
+  //           <tr>
+  //       <th colspan="1" style="text-align:center;">Comments</th>
+  //       <th colspan="3" style="text-align:center;">${data.Comments_H}</th>
+
+  //               <th></th>
+
+  //       <th colspan="1" style="text-align:center; ">Comments</th>
+  //       <th colspan="3" style="text-align:center;">${data.Comments_L}</th>
+
+  //           </tr>
+
+  //           <tr>
+  //               <th scope="col" style="text-align:center; width: 100px">Test Performed by</th>
+  //               <th scope="col" style="text-align:center; width: 100px">${data.TEST_PERFORMED_BY_H}</th>
+  //               <th scope="col" style="text-align:center; width: 100px">Date</th>
+  //               <th scope="col" style="text-align:center; width: 100px">${data.DATE_H}</th>
+
+  //               <th></th>
+  //               <th></th>
+
+  //               <th scope="col" style="text-align:center; width: 100px">Test Performed by </th>
+  //               <th scope="col" style="text-align:center; width: 100px">${data.TEST_PERFORMED_BY_L}</th>
+  //               <th scope="col" style="text-align:center; width: 100px">Date</th>
+  //               <th scope="col" style="text-align:center; width: 100px">${data.DATE_L}</th>
+
+  //           </tr>
+
+  //           <tr>
+  //               <th scope="col" style="text-align:center; width: 100px">Approved By </th>
+  //               <th colspan="2" style="text-align:center; width: 100px">${data.Approved_BY}</th>
+
+  //               <th></th>
+  //               <th></th>
+
+  //               <th scope="col" style="text-align:center; width: 100px">Date Of Report</th>
+  //               <th colspan="2" style="text-align:center; width: 100px">${data.DATE_OF_REPORT}</th>
+
+  //           </tr>
+
+  //           <tr>
+  //               <th scope="col" style="text-align:center; width: 100px">SIGNED BY Quality Assurance Officer</th>
+  //               <th colspan="2" style="text-align:center; width: 100px">${data.SIGNED_BY_Quality_Assurance_Officer}</th>
+
+  //               <th></th>
+  //               <th></th>
+
+  //               <th scope="col" style="text-align:center; width: 100px">Date</th>
+  //               <th colspan="2" style="text-align:center; width: 100px">${data.DATE}</th>
+
+  //           </tr>
+
+  //       </table>
+
+  //           <input type="submit" name="" value="✔" class="btn btn-success btn-circle btn-xl">
+
+  //           <br>
+  //           <br>
+
+  //   </table>
+
+  //           </form>
+  // </div>
+  //   `;
+
+  //   $('#floatModal').modal('show');
+
+  // }
+
+  // {% comment %}
+
+  // function fillModalWithDataA(record, editableFields) {
+  //   // Assuming your modal fields have IDs corresponding to the keys in the record
+  //   //document.getElementById('dateOfSampling').value = record.DATE_OF_SAMPLING;
+  //   //document.getElementById('batchCode').value = record.BATCH_CODE;
+  //   //document.getElementById('quantityOfBags').value = record.quantityOfBags;
+  //   // Similarly, fill other fields with respective record values
+  //   document.getElementById('dateOfSampling').value = record.DATE_OF_SAMPLING;
+  //   document.getElementById('batchCode').value = record.BATCH_CODE;
+  //   document.getElementById('quantityOfBags').value = record.Total_Quantity_of_Bags_in_Non_Compliance;
+  //   document.getElementById('quantityToSample').value = record.Total_Quantity_of_Bags_in_Non_Compliance; // Change this if it's a different field
+  //   document.getElementById('totalWeight').value = record.Total_Weight_of_Nutmeg_in_Non_Compliance;
+  //   document.getElementById('initialSampleWeight').value = record.Initial_Sample_Weight;
+  //   document.getElementById('insectDamaged').value = record.Insect_Damaged;
+  //   document.getElementById('broken').value = record.Broken;
+  //   document.getElementById('mould').value = record.Mould;
+  //   document.getElementById('finalSampleWeight').value = record.Final_Sample_Weight;
+  //   document.getElementById('reading1').value = record.READING_1;
+  //   document.getElementById('reading2').value = record.READING_2;
+  //   document.getElementById('reading3').value = record.READING_3;
+  //   document.getElementById('average').value = record.AVERAGE;
+  //   document.getElementById('decision').value = record.DECISION;
+  //   document.getElementById('comments').value = record.Comments;
+  //   document.getElementById('testPerformedBy').value = record.TEST_PERFORMED_BY;
+  //   document.getElementById('dateOfTest').value = record.DATE_OF_REPORT; // Change this if it's a different field
+  //   document.getElementById('approvedBy').value = record.APPROVED_BY;
+  //   document.getElementById('dateOfReport').value = record.DATE_OF_REPORT;
+  //  // document.getElementById('checkedByQAOfficer').value = record.CHECKED_BY_QA_OFFICER;
+  //   document.getElementById('signedByQAOfficer').value = record.SIGNED_BY_QUALITY_ASSURANCE_OFFICER;
+  //   document.getElementById('dateQAOfficer').value = record.DATE;
+
+  //   Object.keys(record).forEach(function(key) {
+  //     var element = document.getElementById(key);
+  //     if (element && editableFields.includes(key)) {
+  //       // Enable editing for editable fields
+  //       element.removeAttribute('readonly');
+  //     } else if (element) {
+  //       // Make non-editable for non-editable fields
+  //       element.setAttribute('readonly', 'readonly');
+  //     }
+
+  //     // Fill in the value for all fields
+  //     element.value = record[key];
+  //   });
+
+  //   // Then show the modal
+  //   $('#driedAModal').modal('show');
+  // }
+
+  // // Function to fill the modal with entry data
+  // function fillModalWithDataB(record, editableFields) {
+  //   // Assuming your modal fields have IDs corresponding to the keys in the record
+  //   document.getElementById('date_of_sampling_heavies').value = record.DATE_OF_SAMPLING_H;
+  //   document.getElementById('date_of_sampling_lights').value = record.DATE_OF_SAMPLING_L;
+  //   document.getElementById('station').value = record.STATION;
+
+  //   // Batch Code
+  //   document.getElementById('batch_code').value = record.BATCH_CODE;
+
+  //   // Quantity of Sample
+  //   document.getElementById('quantity_of_sample_heavies').value = record.Quantity_of_Sample_H;
+  //   document.getElementById('quantity_of_sample_lights').value = record.Quantity_of_Sample_L;
+
+  //   // Total Weight
+  //   document.getElementById('total_weight_heavies').value = record.Total_Weight_H;
+  //   document.getElementById('total_weight_lights').value = record.Total_Weight_L;
+
+  //   // Initial Sample Weight
+  //   document.getElementById('initial_sample_weight_heavies').value = record.Initial_Sample_Weight_H;
+  //   document.getElementById('initial_sample_weight_lights').value = record.Initial_Sample_Weight_L;
+
+  //   // Weight (oz/lbs)
+  //   document.getElementById('insect_damaged_heavies').value = record.Insect_Damaged_H;
+  //   document.getElementById('broken_heavies').value = record.Broken_H;
+  //   document.getElementById('mould_heavies').value = record.Mould_H;
+  //   document.getElementById('insect_damaged_lights').value = record.Insect_Damaged_L;
+  //   document.getElementById('broken_lights').value = record.Broken_L;
+  //   document.getElementById('mould_lights').value = record.Mould_L;
+  //   document.getElementById('final_sample_weight_heavies').value = record.Final_Sample_Weight_H;
+  //   document.getElementById('final_sample_weight_lights').value = record.Final_Sample_Weight_L;
+
+  //   // MOISTURE CONTENT RESULTS
+  //   document.getElementById('reading_1_heavies').value = record.READING_1_H;
+  //   document.getElementById('reading_2_heavies').value = record.READING_2_H;
+  //   document.getElementById('reading_3_heavies').value = record.READING_3_H;
+  //   document.getElementById('average_heavies').value = record.AVERAGE_H;
+  //   document.getElementById('reading_1_lights').value = record.READING_1_L;
+  //   document.getElementById('reading_2_lights').value = record.READING_2_L;
+  //   document.getElementById('reading_3_lights').value = record.READING_3_L;
+  //   document.getElementById('average_lights').value = record.AVERAGE_L;
+  //   document.getElementById('decision_heavies').value = record.DECISION_H;
+  //   document.getElementById('decision_lights').value = record.DECISION_L;
+  //   document.getElementById('comments_heavies').value = record.Comments_H;
+  //   document.getElementById('comments_lights').value = record.Comments_L;
+  //   document.getElementById('test_performed_by_heavies').value = record.TEST_PERFORMED_BY_H;
+  //   document.getElementById('date_heavies').value = record.DATE_H;
+  //   document.getElementById('test_performed_by_lights').value = record.TEST_PERFORMED_BY_L;
+  //   document.getElementById('date_lights').value = record.DATE_L;
+
+  //   // Approved By
+  //   document.getElementById('approved_by').value = record.Approved_BY;
+
+  //   // Date Of Report
+  //   document.getElementById('date_of_report').value = record.DATE_OF_REPORT;
+
+  //   // SIGNED BY Quality Assurance Officer
+  //   document.getElementById('signed_by_qa_officer').value = record.SIGNED_BY_Quality_Assurance_Officer;
+  //   document.getElementById('date_signed').value = record.DATE;
+
+  //   Object.keys(record).forEach(function(key) {
+  //     var element = document.getElementById(key);
+  //     if (element && editableFields.includes(key)) {
+  //       // Enable editing for editable fields
+  //       element.removeAttribute('readonly');
+  //     } else if (element) {
+  //       // Make non-editable for non-editable fields
+  //       element.setAttribute('readonly', 'readonly');
+  //     }
+
+  //     // Fill in the value for all fields
+  //     element.value = record[key];
+  //   });
+
+  //   // Then show the modal
+  //   $('#FloatAModal').modal('show');
+  // }
+  // //'Worker_ID_No': forms.HiddenInput(attrs={'class':'form-control'}),
+  // //'Nutmeg_ID_No': forms.HiddenInput(attrs={'class':'form-control'}),
+  // //'DATE_OF_SAMPLING': forms.DateInput(attrs={'type':'date','class':'form-control'}),
+  // //'STATION':forms.TextInput(attrs={'class':'form-control'}),
+  // //'BATCH_CODE' :forms.NumberInput(attrs={'class':'form-control'}),
+  // //'Total_Quantity_of_Bags_in_Non_Compliance':forms.NumberInput(attrs={'class':'form-control'}),
+  // //'Total_Weight_of_Nutmeg_in_Non_Compliance' :forms.NumberInput(attrs={'class':'form-control'}),
+  // //'Additional_Drying_Period' :forms.TextInput(attrs={'class':'form-control'}),
+  // //'Initial_Sample_Weight' :forms.NumberInput(attrs={'class':'form-control'}),
+
+  //  {% endcomment %}
+</script>
+
+<script>
+  // Function to search for users based on Nutmeg ID
+  function searchUserByNutmegId(nutmegId) {
+    const gcnaDBName = "GCNA";
+    openIndexedDBConnection(gcnaDBName)
+      .then((db) => {
+        const transaction = db.transaction(modelNames, "readonly");
+        const nutmegData = {};
+
+        transaction.onerror = function (event) {
+          console.error("Transaction error:", event.target.error);
+        };
+
+        modelNames.forEach((modelName) => {
+          const objectStore = transaction.objectStore(modelName);
+          const request = objectStore.openCursor();
+          nutmegData[modelName] = [];
+
+          request.onsuccess = function (event) {
+            const cursor = event.target.result;
+            if (cursor) {
+              const record = cursor.value;
+              // Check if Nutmeg_ID_No field matches the provided Nutmeg ID
+              if (record.Worker_ID_No === nutmegId) {
+                nutmegData[modelName].push(record);
+              }
+              cursor.continue();
+            }
+          };
+
+          request.onerror = function (event) {
+            console.error(
+              `Error accessing object store "${modelName}":`,
+              event.target.error
+            );
+          };
+        });
+
+        transaction.oncomplete = function () {
+          console.log("Nutmeg Data:", nutmegData);
+          displayUserSearchResults(nutmegData);
+        };
+      })
+      .catch((error) =>
+        console.error(`Error accessing database "${gcnaDBName}":`, error)
+      );
+  }
+
+  // Mapping object for customized display names
+  const customDisplayNames = {
+    farm_type: "Farm Location",
+    // Add more customized display names as needed
+  };
+
+  // Function to display search results for user search
+  function displayUserSearchResults(results) {
+    const userSearchResultsDiv = document.getElementById("userSearchResults");
+    userSearchResultsDiv.innerHTML = ""; // Clear previous results
+
+    if (Object.keys(results).length > 0) {
+      for (const modelName in results) {
+        const modelContainer = document.createElement("div");
+        modelContainer.classList.add("model-container");
+
+        const modelHeader = document.createElement("h5");
+        modelHeader.textContent = `${modelName} Form`;
+        modelContainer.appendChild(modelHeader);
+
+        const resultList = document.createElement("ul");
+        resultList.classList.add("list-group");
+
+        results[modelName].forEach((item) => {
+          const listItem = document.createElement("li");
+          listItem.classList.add("list-group-item");
+
+          let listItemText = "";
+          for (const key in item) {
+            // Check if the key has a custom display name
+            const displayName = customDisplayNames[key] || key;
+            listItemText += `<b>${displayName}:</b> ${item[key]}<br>`;
+          }
+
+          // Create a button with a unique link based on the model
+          listItemText += `<button onclick="viewEntry(${item.id})">View Entry</button>`;
+          listItem.innerHTML = listItemText;
+
+          resultList.appendChild(listItem);
+        });
+
+        modelContainer.appendChild(resultList);
+        userSearchResultsDiv.appendChild(modelContainer);
+      }
+    } else {
+      userSearchResultsDiv.textContent = "No results found.";
+    }
+  }
+
+  // Event listener for the user search button in the modal
+  document
+    .getElementById("userSearchButton")
+    .addEventListener("click", function () {
+      const nutmegId = document.getElementById("nutmegIdInput").value;
+      if (nutmegId) {
+        searchUserByNutmegId(nutmegId);
+      } else {
+        alert("Please enter Nutmeg ID.");
+      }
+    });
+
+  // Function to open IndexedDB connection
+  function openIndexedDBConnection(dbName) {
+    return new Promise((resolve, reject) => {
+      const request = indexedDB.open(dbName, 2);
+
+      request.onupgradeneeded = function (event) {
+        const db = event.target.result;
+        modelNames.forEach((modelName) => {
+          const objectStore = db.createObjectStore(modelName, {
+            keyPath: "id",
+          });
+          // Create index if it doesn't exist
+          if (!objectStore.indexNames.contains("Nutmeg_ID_No")) {
+            objectStore.createIndex("Nutmeg_ID_No", "Nutmeg_ID_No", {
+              unique: false,
+            });
+          }
+        });
+      };
+
+      request.onsuccess = function (event) {
+        resolve(event.target.result);
+      };
+
+      request.onerror = function (event) {
+        reject(event.target.error);
+      };
+    });
+  }
+</script>
+<!-- 
+{% comment %}
+
+<script>
+    // Function to search for users based on Nutmeg ID
+    function searchUserByNutmegId() {
+      const gcnaDBName = 'GCNA';
+      openIndexedDBConnection(gcnaDBName)
+        .then(db => {
+          const transaction = db.transaction(modelNames, 'readonly');
+          const nutmegData = {};
+
+
+          transaction.onerror = function(event) {
+            console.error("Transaction error:", event.target.error);
+          };
+
+
+          modelNames.forEach(modelName => {
+            const objectStore = transaction.objectStore(modelName);
+            const request = objectStore.openCursor();
+            nutmegData[modelName] = [];
+
+
+            request.onsuccess = function(event) {
+              const cursor = event.target.result;
+              if (cursor) {
+                const record = cursor.value;
+                // Check if Nutmeg_ID_No field matches the provided Nutmeg ID
+                //if (record.DECISION === decision) {
+                if (record.DECISION === "Fail"|| ==="") {
+                    nutmegData[modelName].push(record);
+                }
+                cursor.continue();
+              }
+            };
+
+
+            request.onerror = function(event) {
+              console.error(`Error accessing object store "${modelName}":`, event.target.error);
+            };
+          });
+
+
+          transaction.oncomplete = function() {
+            console.log("Decision Data:", nutmegData);
+            displayUserSearchResults(nutmegData);
+          };
+        })
+        .catch(error => console.error(`Error accessing database "${gcnaDBName}":`, error));
+    }
+
+
+  // // Mapping object for customized display names
+  // const customDisplayNames = {
+  //   farm_type: 'Farm Location',
+  //   // Add more customized display names as needed
+  // };
+
+
+  // Function to display search results for user search
+  function displayUserSearchResults(results) {
+    const userSearchResultsDiv = document.getElementById('decisionSearchResults');
+    userSearchResultsDiv.innerHTML = ''; // Clear previous results
+
+
+    if (Object.keys(results).length > 0) {
+        for (const modelName in results) {
+            const modelContainer = document.createElement('div');
+            modelContainer.classList.add('model-container');
+
+
+            const modelHeader = document.createElement('h5');
+            modelHeader.textContent = `${modelName} Form`;
+            modelContainer.appendChild(modelHeader);
+
+
+            const resultList = document.createElement('ul');
+            resultList.classList.add('list-group');
+
+
+            results[modelName].forEach(item => {
+                const listItem = document.createElement('li');
+                listItem.classList.add('list-group-item');
+
+
+                let listItemText = '';
+                for (const key in item) {
+                    // Check if the key has a custom display name
+                    const displayName = customDisplayNames[key] || key;
+                    listItemText += `<b>${displayName}:</b> ${item[key]}<br>`;
+                }
+
+
+                // Create a button with a unique link based on the model
+                listItemText += `<button onclick="viewEntry(${item.id})">View Entry</button>`;
+                listItem.innerHTML = listItemText;
+
+                resultList.appendChild(listItem);
+            });
+
+
+            modelContainer.appendChild(resultList);
+            userSearchResultsDiv.appendChild(modelContainer);
+        }
+    } else {
+        userSearchResultsDiv.textContent = 'No results found.';
+    }
+  }
+
+
+    // Event listener for the user search button in the modal
+    document.getElementById('decisionSearchButton').addEventListener('click', function() {
+      const nutmegId = document.getElementById('decisionInput').value;
+      if (nutmegId) {
+        searchUserByNutmegId(nutmegId);
+      } else {
+        alert("Please enter Nutmeg ID.");
+      }
+    });
+
+
+    // Function to open IndexedDB connection
+    function openIndexedDBConnection(dbName) {
+      return new Promise((resolve, reject) => {
+        const request = indexedDB.open(dbName, 2);
+
+
+        request.onupgradeneeded = function(event) {
+          const db = event.target.result;
+          modelNames.forEach(modelName => {
+            const objectStore = db.createObjectStore(modelName, { keyPath: 'id' });
+            // Create index if it doesn't exist
+            if (!objectStore.indexNames.contains('DECISION')) {
+              objectStore.createIndex('DECISION', 'DECISION', { unique: false });
+            }
+          });
+        };
+
+
+        request.onsuccess = function(event) {
+          resolve(event.target.result);
+        };
+
+
+        request.onerror = function(event) {
+          reject(event.target.error);
+        };
+      });
+    }
+</script>
+
+{% endcomment %} -->

@@ -1,0 +1,340 @@
+
+
+{% extends 'gcna/base2.html' %}
+
+
+{% block content%}
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+$(document).ready(function() {
+  $('.hidden-label1').hide();
+  $('.hidden-label2').hide();
+  $('.hidden-label3').hide();
+  $('.hidden-label4').hide();
+  $('.hidden-label5').hide();
+
+
+
+
+
+  $('#LoTableG1_0').hide(); 
+  $('#LoTableG2_0').hide(); 
+  $('#LoTableG3_0').hide(); 
+  $('#LoTableG4_0').hide(); 
+
+
+
+
+  $('#LoTableH1_0').hide(); 
+  $('#LoTableH2_0').hide(); 
+  $('#LoTableH3_0').hide(); 
+  $('#LoTableH4_0').hide(); 
+
+  $('#LoTableM1_0').hide(); 
+  $('#LoTableM2_0').hide(); 
+  $('#LoTableM3_0').hide(); 
+  $('#LoTableM4_0').hide(); 
+
+
+  $('#LoTableU1_0').hide(); 
+  $('#LoTableU2_0').hide(); 
+  $('#LoTableU3_0').hide(); 
+  $('#LoTableU4_0').hide(); 
+
+
+  $('#LoTableGP1_0').hide(); 
+  $('#LoTableGP2_0').hide(); 
+  $('#LoTableGP3_0').hide(); 
+  $('#LoTableGP4_0').hide(); 
+
+
+
+
+
+
+
+  $('#LoTableG1').hide(); 
+  $('#LoTableG2').hide(); 
+  $('#LoTableG3').hide(); 
+  $('#LoTableG4').hide(); 
+
+
+
+
+  $('#LoTableH1').hide(); 
+  $('#LoTableH2').hide(); 
+  $('#LoTableH3').hide(); 
+  $('#LoTableH4').hide(); 
+
+  $('#LoTableM1').hide(); 
+  $('#LoTableM2').hide(); 
+  $('#LoTableM3').hide(); 
+  $('#LoTableM4').hide(); 
+
+
+  $('#LoTableU1').hide(); 
+  $('#LoTableU2').hide(); 
+  $('#LoTableU3').hide(); 
+  $('#LoTableU4').hide(); 
+
+
+  $('#LoTableGP1').hide(); 
+  $('#LoTableGP2').hide(); 
+  $('#LoTableGP3').hide(); 
+  $('#LoTableGP4').hide(); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  $('#TableG1').hide(); 
+  $('#TableG2').hide(); 
+  $('#TableG3').hide(); 
+
+
+
+
+  $('#TableH1').hide(); 
+  $('#TableH2').hide(); 
+  $('#TableH3').hide(); 
+
+  $('#TableM1').hide(); 
+  $('#TableM2').hide(); 
+  $('#TableM3').hide(); 
+
+
+  $('#TableU1').hide(); 
+  $('#TableU2').hide(); 
+  $('#TableU3').hide(); 
+
+
+  $('#TableGP1').hide(); 
+  $('#TableGP2').hide(); 
+  $('#TableGP3').hide(); 
+
+
+    
+    
+    
+
+
+  
+  $('#id_Type_of_Training').on('change', function() {
+    if ($(this).val() == 'Other') {
+        $('#LoTableG1').show();
+
+
+ 
+
+
+
+    } else {
+        $('#LoTableG1').hide();
+ 
+    }
+});
+
+
+  
+  $('#id_Objective_of_the_Training').on('change', function() {
+    if ($(this).val() == 'Other') {
+        $('#LoTableG2').show();
+
+
+ 
+
+
+
+    } else {
+        $('#LoTableG2').hide();
+ 
+    }
+
+});
+
+  
+  $('#id_Facilitator_of_the_Training').on('change', function() {
+    if ($(this).val() == 'Other') {
+        $('#LoTableG3').show();
+
+
+ 
+
+
+
+    } else {
+        $('#LoTableG3').hide();
+ 
+    }
+
+
+  
+  
+
+});
+
+
+
+  $('#id_START_DRYING_DATE').on('change', function() {
+    var startDate = new Date($(this).val());
+    var approxEndDate = new Date(startDate.getTime() + (42 * 24 * 60 * 60 * 1000)); 
+
+    var day = ("0" + approxEndDate.getDate()).slice(-2); 
+
+    var month = ("0" + (approxEndDate.getMonth() + 1)).slice(-2);
+
+    var year = approxEndDate.getFullYear();
+
+    var formattedDate = year + "-" + month + "-" + day;
+
+    $('#id_APPROX_END_DRYING_DATE').val(formattedDate);
+      });
+
+  $('#id_NUM_OF_BAGS').on('change', function() {
+    var start =  $('#id_NUM_OF_BAGS').val();
+    var calc = start * 110; 
+    $('#id_TOTAL_LBS_NUTMEG_BOUGHT').val(calc);
+      });
+
+
+});
+
+
+
+
+
+
+
+
+
+</script>
+
+
+ {% for farmer_info_id in farmer_info_id %}
+
+
+        <table id="vertical-1" class="table table-hover table-light">
+    <h1>GCNA Form</h1>
+
+
+        {% csrf_token %}
+
+        <h3>Training Summary</h3>
+ 
+    
+ 
+ 
+
+
+
+
+
+
+        <tr>
+            <th>Type of Training</th>
+            <td>{{ farmer_info_id.Type_of_Training }}</td>
+        </tr>
+
+
+
+
+        <tr id="LoTableG1">
+            <th>Type of Training</th>
+            <td>{{ farmer_info_id.Type_of_Training_cont }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Date Recieved</th>
+            <td>{{ farmer_info_id.Date_Recieved }}</td>
+        </tr>
+
+
+
+        <tr>
+            <th>Objective of Training</th>
+            <td>{{ farmer_info_id.Objective_of_the_Training }}</td>
+        </tr>
+
+
+
+
+        <tr id="LoTableG2">
+            <th>Objective of Training</th>
+            <td>{{ farmer_info_id.Objective_of_the_Training_cont }}</td>
+        </tr>
+
+
+
+        <tr>
+            <th>Facilitator of Training</th>
+            <td>{{ farmer_info_id.Facilitator_of_the_Training }}</td>
+        </tr>
+
+
+
+        <tr id="LoTableG3">
+            <th>Facilitator of Training</th>
+            <td>{{ farmer_info_id.Facilitator_of_the_Training_cont }}</td>
+        </tr>
+
+
+           
+
+        <br>
+        <br>
+
+
+
+
+
+
+
+
+</center>
+
+           <a href="{% url 'adhome' %}" class="btn btn-secondary">Return</a>
+
+     <form action="{% url 'delete_table0_22' farmer_info_id.pk %}" method="POST" style="display: inline-block;">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
+
+
+            <a href="{% url 'edit_table0_22' farmer_info_id.pk %}" class="btn btn-success">Edit</a>
+
+
+
+</table>
+                    </p>
+
+
+
+       
+ </div>        </div>
+
+<br>
+<br>
+<br>
+{% endfor %}
+
+{% endblock %}

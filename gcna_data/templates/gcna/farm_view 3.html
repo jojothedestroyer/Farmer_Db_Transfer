@@ -1,0 +1,52 @@
+{% extends 'gcna/base.html' %}
+
+{% block content%}
+
+	<h1>Database</h1>
+
+
+	<h3>Farm Table</h3>
+
+{% for farm in farm_list %}
+
+<div class="card">
+  <div class="card-header">
+     
+  </div>
+  <div class="card-body">
+    <h5 class="card-title"><strong>Land Elevation: {{ farm }}</strong>
+</h5>
+    <p class="card-text">
+	<ul>
+	<!-- <li>Name: {{ farm.land_elevation }}</li> -->
+	<li>Soil Types: {{ farm.soil_type }}</li>
+	<li>Rainfall Pattern: {{ farm.rainfall_pattern }}</li>
+	<li>Other Crops: {{ farm.other_crops }}</li>
+	<li>Intercrop: {{ farm.intercrop }}</li>
+	<li>Pure Stand: {{ farm.pure_stand }}</li>
+	<li>Normal Land: {{ farm.norm_land }}</li>
+	<li>Seasonal Land: {{ farm.seas_land }}</li>
+	<li>Abandoned Land: {{ farm.aban_land }}</li>
+ </ul></p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+</div>
+
+
+<!-- 
+    land_elevation = models.CharField(max_length=1, choices=STATUS_CHOICESD, default='P')
+    soil_type = models.CharField(max_length=1, choices=STATUS_CHOICESDS, default='P')
+    rainfall_pattern = models.CharField(max_length=1, choices=STATUS_CHOICESDSS, default='P')
+    other_crops = models.CharField(max_length=50, null=True)
+    intercrop = models.CharField(max_length=50, null=True)
+    pure_stand = models.CharField(max_length=50, null=True)
+    norm_land = models.CharField(max_length=50, null=True)
+    seas_land = models.CharField(max_length=50, null=True)
+    aban_land = models.CharField(max_length=50, null=True)
+
+ -->
+
+{% endfor %}
+{% endblock %}
+
+

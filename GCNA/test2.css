@@ -1,0 +1,270 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+body {
+	font-family: 'Poppins', sans-serif;
+	background: linear-gradient(rgba(51, 106, 148, 0.8), rgba(19, 90, 172, 0.8) ,rgba(96, 50, 237, 0.8), rgba(53, 8, 216, 0.8) );
+    min-height: 200vh;
+    width: 100%;
+
+
+}
+.wrapper {
+	width: 1170px;
+	margin: auto;
+}
+header {
+	height: 100vh;
+	-webkit-background-size: cover;
+	background-size: cover;
+	background-position: center center;
+	position: relative;
+    margin-bottom: 30%;
+}
+.menu {
+	float: right;
+	list-style: none;
+	margin-top: 30px;
+}
+.menu li {
+	display: inline-block;
+}
+.menu li a {
+	color: #fff;
+	text-decoration: none;
+	padding: 5px 20px;
+	font-family: 'Poppins', sans-serif;
+	font-size: 16px;
+	text-transform: uppercase;
+	transition: all 0.35s ease-in-out;
+
+}
+.menu li a:hover {
+	background: #fff;
+	color: #333;
+}
+.logo {
+	float: left;
+}
+.logo img {
+	width: 100%;
+	padding: 15px 0;
+}
+.banner-text {
+	position: absolute;
+	width: 600px;
+	height: 300px;
+	margin: 20% 30%;
+	text-align: center;
+}
+.banner-text h1 {
+	text-align: center;
+	color: #fff;
+	text-transform: uppercase;
+	font-size: 60px;
+}
+        .banner-text p {
+	font-family: 'Ubuntu', sans-serif;
+	font-size: 16px;
+	line-height: 1.5;
+	color: #ddd;
+}
+.banner-text h1 span {
+	color: darkorange;
+}
+.banner-text a {
+	border: 1px solid #fff;
+	padding: 10px 25px;
+	text-decoration: none;
+	text-transform: uppercase;
+	font-size: 14px;
+	margin-top: 20px;
+	display: inline-block;
+	color: #fff;
+}
+.banner-text a:hover {
+	background: #fff;
+	color: #333;
+}
+/*resposive*/
+
+@media (max-width:600px) {
+	.wrapper {
+		width: 100%;
+	}
+	.logo {
+		float: none;
+		width: 50%;
+		text-align: center;
+		margin: auto;
+	}
+	.menu {
+		float: none;
+		margin-top: 0;
+	}
+	.menu li a {
+		padding: 5px;
+		font-size: 11px;
+	}
+	.menu {
+		text-align: center;
+	}
+	.banner-text {
+		width: 100%;
+		height: auto;
+		margin: 15% 0;
+	}
+	.banner-text h1 {
+		font-size: 30px;
+	}
+}
+
+
+.login-form {
+    background: #fff;
+    width: 475px;
+  text-align: center;
+    margin: 25px auto;
+    display: -webkit-box;
+    display: block;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+            flex-direction: column;
+    border-radius: 10px;
+    box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);
+  }
+  .login-form h1 {
+    padding: 35px 35px 0 35px;
+    font-weight: 300;
+  }
+  .login-form .content {
+    padding: 35px;
+    text-align: center;
+  }
+  .login-form .input-field {
+    padding: 12px 5px;
+  }
+  .login-form .input-field input {
+    font-size: 15px;
+    display: block;
+    font-family: 'Rubik', sans-serif;
+    width: 100%;
+    padding: 10px 1px;
+    border: 0;
+    border-bottom: 1px solid #747474;
+    outline: none;
+    -webkit-transition: all .2s;
+    transition: all .2s;
+  }
+
+textarea{
+   font-size: 15px;
+    display: block;
+    font-family: 'Rubik', sans-serif;
+    width: 100%;
+    padding: 10px 1px;
+    border: 0;
+    border-bottom: 1px solid #747474;
+    outline: none;
+    -webkit-transition: all .2s;
+    transition: all .2s;
+	color: #333;
+
+	background-color: #0563af;
+
+}
+  .content{
+	float: center;
+	position: absolute;
+  }
+  footer{	background-color: #8d8888;
+
+  }
+
+  .footer-clean {
+	padding:50px 0;
+	background-color:#fff;
+	color:#4b4c4d;
+  }
+  
+  .footer-clean h3 {
+	margin-top:0;
+	margin-bottom:12px;
+	font-weight:bold;
+	font-size:16px;
+  }
+  
+  .footer-clean ul {
+	padding:0;
+	list-style:none;
+	line-height:1.6;
+	font-size:14px;
+	margin-bottom:0;
+  }
+  
+  .footer-clean ul a {
+	color:inherit;
+	text-decoration:none;
+	opacity:0.8;
+  }
+  
+  .footer-clean ul a:hover {
+	opacity:1;
+  }
+  
+  .footer-clean .item.social {
+	text-align:right;
+  }
+  
+  @media (max-width:767px) {
+	.footer-clean .item {
+	  text-align:center;
+	  padding-bottom:20px;
+	}
+  }
+  
+  @media (max-width: 768px) {
+	.footer-clean .item.social {
+	  text-align:center;
+	}
+  }
+  
+  .footer-clean .item.social > a {
+	font-size:24px;
+	width:40px;
+	height:40px;
+	line-height:40px;
+	display:inline-block;
+	text-align:center;
+	border-radius:50%;
+	border:1px solid #ccc;
+	margin-left:10px;
+	margin-top:22px;
+	color:inherit;
+	opacity:0.75;
+  }
+  
+  .footer-clean .item.social > a:hover {
+	opacity:0.9;
+  }
+  
+  @media (max-width:991px) {
+	.footer-clean .item.social > a {
+	  margin-top:40px;
+	}
+  }
+  
+  @media (max-width:767px) {
+	.footer-clean .item.social > a {
+	  margin-top:10px;
+	}
+  }
+  
+  .footer-clean .copyright {
+	margin-top:14px;
+	margin-bottom:0;
+	font-size:13px;
+	opacity:0.6;
+  }
+  

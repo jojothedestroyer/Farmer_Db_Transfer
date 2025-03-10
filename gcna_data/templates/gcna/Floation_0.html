@@ -1,0 +1,1661 @@
+{% extends 'gcna/base2.html' %}
+
+{% block content%}
+
+
+
+
+
+
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+<script>
+$(document).ready(function() {
+  $('.hidden-label1').hide();
+  $('.hidden-label2').hide();
+  $('.hidden-label3').hide();
+  $('.hidden-label4').hide();
+  $('.hidden-label5').hide();
+
+
+
+
+
+  $('#LoTableG1_0').hide(); 
+  $('#LoTableG2_0').hide(); 
+  $('#LoTableG3_0').hide(); 
+  $('#LoTableG4_0').hide(); 
+
+
+
+
+  $('#LoTableH1_0').hide(); 
+  $('#LoTableH2_0').hide(); 
+  $('#LoTableH3_0').hide(); 
+  $('#LoTableH4_0').hide(); 
+
+  $('#LoTableM1_0').hide(); 
+  $('#LoTableM2_0').hide(); 
+  $('#LoTableM3_0').hide(); 
+  $('#LoTableM4_0').hide(); 
+
+
+  $('#LoTableU1_0').hide(); 
+  $('#LoTableU2_0').hide(); 
+  $('#LoTableU3_0').hide(); 
+  $('#LoTableU4_0').hide(); 
+
+
+  $('#LoTableGP1_0').hide(); 
+  $('#LoTableGP2_0').hide(); 
+  $('#LoTableGP3_0').hide(); 
+  $('#LoTableGP4_0').hide(); 
+
+
+
+
+
+
+
+  $('#LoTableG1').hide(); 
+  $('#LoTableG2').hide(); 
+  $('#LoTableG3').hide(); 
+  $('#LoTableG4').hide(); 
+
+
+
+
+  $('#LoTableH1').hide(); 
+  $('#LoTableH2').hide(); 
+  $('#LoTableH3').hide(); 
+  $('#LoTableH4').hide(); 
+
+  $('#LoTableM1').hide(); 
+  $('#LoTableM2').hide(); 
+  $('#LoTableM3').hide(); 
+  $('#LoTableM4').hide(); 
+
+
+  $('#LoTableU1').hide(); 
+  $('#LoTableU2').hide(); 
+  $('#LoTableU3').hide(); 
+  $('#LoTableU4').hide(); 
+
+
+  $('#LoTableGP1').hide(); 
+  $('#LoTableGP2').hide(); 
+  $('#LoTableGP3').hide(); 
+  $('#LoTableGP4').hide(); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  $('#TableG1').hide(); 
+  $('#TableG2').hide(); 
+  $('#TableG3').hide(); 
+
+
+
+
+  $('#TableH1').hide(); 
+  $('#TableH2').hide(); 
+  $('#TableH3').hide(); 
+
+  $('#TableM1').hide(); 
+  $('#TableM2').hide(); 
+  $('#TableM3').hide(); 
+
+
+  $('#TableU1').hide(); 
+  $('#TableU2').hide(); 
+  $('#TableU3').hide(); 
+
+
+  $('#TableGP1').hide(); 
+  $('#TableGP2').hide(); 
+  $('#TableGP3').hide(); 
+
+
+    
+    
+    
+
+
+  
+  $('#id_STATION').on('change', function() {
+    if ($(this).val() == 'G') {
+        $('#LoTableG1').show();
+        $('#LoTableG2').show(); 
+        $('#LoTableG3').show(); 
+        $('#LoTableG4').show(); 
+
+        $('#LoTableG1_0').show();
+        $('#LoTableG2_0').show(); 
+        $('#LoTableG3_0').show(); 
+        $('#LoTableG4_0').show(); 
+       
+        $('.hidden-label1').show();
+
+
+        $('#TableG1').show(); 
+        $('#TableG2').show(); 
+        $('#TableG3').show(); 
+        $('#id_STATION2').val("Grenville");
+
+
+
+    } else {
+        $('#LoTableG1').hide();
+        $('#LoTableG2').hide(); 
+        $('#LoTableG3').hide(); 
+        $('#LoTableG4').hide()
+
+        $('#LoTableG1_0').hide();
+        $('#LoTableG2_0').hide(); 
+        $('#LoTableG3_0').hide(); 
+        $('#LoTableG4_0').hide(); 
+        $('.hidden-label1').hide();
+
+
+
+        $('#TableG1').hide(); 
+        $('#TableG2').hide(); 
+        $('#TableG3').hide(); 
+
+
+
+    }
+
+
+
+  
+
+
+
+    if ($(this).val() == 'H') {
+        $('#LoTableH1').show();
+        $('#LoTableH2').show(); 
+        $('#LoTableH3').show(); 
+        $('#LoTableH4').show(); 
+
+
+        $('#LoTableH1_0').show();
+        $('#LoTableH2_0').show(); 
+        $('#LoTableH3_0').show(); 
+        $('#LoTableH4_0').show(); 
+
+        $('.hidden-label2').show();
+
+
+
+        $('#TableH1').show();
+        $('#TableH2').show(); 
+        $('#TableH3').show(); 
+        $('#id_STATION2').val("Hermitage");
+
+
+    } else {
+        $('#LoTableH1').hide();
+        $('#LoTableH2').hide(); 
+        $('#LoTableH3').hide(); 
+        $('#LoTableH4').hide();
+
+
+        $('#LoTableH1_0').hide();
+        $('#LoTableH2_0').hide(); 
+        $('#LoTableH3_0').hide(); 
+        $('#LoTableH4_0').hide();
+        $('.hidden-label2').hide();
+
+
+
+
+        $('#TableH1').hide();
+        $('#TableH2').hide(); 
+        $('#TableH3').hide(); 
+    }
+
+
+
+  
+    if ($(this).val() == 'M') {
+        $('#LoTableM1').show();
+        $('#LoTableM2').show(); 
+        $('#LoTableM3').show(); 
+        $('#LoTableM4').show(); 
+
+        $('#LoTableM1_0').show();
+        $('#LoTableM2_0').show(); 
+        $('#LoTableM3_0').show(); 
+        $('#LoTableM4_0').show(); 
+
+        $('.hidden-label3').show();
+
+        $('#id_STATION2').val("Marli");
+
+        $('#TableM1').show();
+        $('#TableM2').show(); 
+        $('#TableM3').show(); 
+
+    } else {
+        $('#LoTableM1').hide();
+        $('#LoTableM2').hide(); 
+        $('#LoTableM3').hide(); 
+        $('#LoTableM4').hide(); 
+
+
+        $('#LoTableM1_0').hide();
+        $('#LoTableM2_0').hide(); 
+        $('#LoTableM3_0').hide(); 
+        $('#LoTableM4_0').hide();
+
+        $('.hidden-label3').hide();
+
+   
+
+        $('#TableM1').hide();
+        $('#TableM2').hide(); 
+        $('#TableM3').hide(); 
+
+
+    }
+
+
+
+    if ($(this).val() == 'U') {
+        $('#LoTableU1').show();
+        $('#LoTableU2').show(); 
+        $('#LoTableU3').show(); 
+        $('#LoTableU4').show(); 
+
+
+        $('#LoTableU1_0').show();
+        $('#LoTableU2_0').show(); 
+        $('#LoTableU3_0').show(); 
+        $('#LoTableU4_0').show(); 
+
+
+        $('.hidden-label4').show();
+
+        $('#id_STATION2').val("Union");
+        $('#TableU1').show();
+        $('#TableU2').show(); 
+        $('#TableU3').show(); 
+
+    } else {
+        $('#LoTableU1').hide();
+        $('#LoTableU2').hide(); 
+        $('#LoTableU3').hide(); 
+        $('#LoTableU4').hide();
+
+
+        $('#LoTableU1_0').hide();
+        $('#LoTableU2_0').hide(); 
+        $('#LoTableU3_0').hide(); 
+        $('#LoTableU4_0').hide();
+
+        $('.hidden-label4').hide();
+
+        $('#TableU1').hide();
+        $('#TableU2').hide(); 
+        $('#TableU3').hide();
+
+    }
+
+
+
+  
+
+
+    if ($(this).val() == 'GP') {
+        $('#LoTableGP1').show();
+        $('#LoTableGP2').show(); 
+        $('#LoTableGP3').show(); 
+        $('#LoTableGP4').show(); 
+
+
+        $('#LoTableGP1_0').show();
+        $('#LoTableGP2_0').show(); 
+        $('#LoTableGP3_0').show(); 
+        $('#LoTableGP4_0').show(); 
+
+
+        $('#id_STATION2').val("Gouyave");
+        $('.hidden-label5').show();
+
+
+
+
+        $('#TableGP1').show();
+        $('#TableGP2').show(); 
+        $('#TableGP3').show(); 
+
+    } else {
+        $('#LoTableGP1').hide();
+        $('#LoTableGP2').hide(); 
+        $('#LoTableGP3').hide(); 
+        $('#LoTableGP4').hide();
+
+
+
+        $('#LoTableGP1_0').hide();
+        $('#LoTableGP2_0').hide(); 
+        $('#LoTableGP3_0').hide(); 
+        $('#LoTableGP4_0').hide();
+
+        $('.hidden-label5').hide();
+ 
+
+
+        $('#TableGP1').hide();
+        $('#TableGP2').hide(); 
+        $('#TableGP3').hide(); 
+
+ 
+    }
+
+
+
+
+  
+
+
+  
+
+});
+
+
+
+  $('#id_START_DRYING_DATE').on('change', function() {
+    var startDate = new Date($(this).val());
+    var approxEndDate = new Date(startDate.getTime() + (4 * 24 * 60 * 60 * 1000)); 
+
+    var day = ("0" + approxEndDate.getDate()).slice(-2); 
+
+    var month = ("0" + (approxEndDate.getMonth() + 1)).slice(-2);
+
+    var year = approxEndDate.getFullYear();
+
+    var formattedDate = year + "-" + month + "-" + day;
+
+    $('#id_APPROX_END_DRYING_DATE').val(formattedDate);
+      });
+
+  $('#id_NUM_OF_BAGS').on('change', function() {
+    var start =  $('#id_NUM_OF_BAGS').val();
+    var calc = start * 110; 
+    $('#id_TOTAL_LBS_NUTMEG_BOUGHT').val(calc);
+      });
+
+
+});
+
+
+
+
+
+
+
+
+
+</script>
+
+<style>
+  .add-row, .submit_contents {
+      padding: 5px 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      background-color: #007bff;
+      color: white;
+      font-size: 14px; /* Ensure button text is readable */
+  }
+
+  .add-row:hover, .submit_contents:hover {
+      background-color: #0056b3;
+  }
+
+
+
+  
+  .addrow, .submit_contents {
+      padding: 5px 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      background-color: #007bff;
+      color: white;
+      font-size: 14px; /* Ensure button text is readable */
+  }
+
+  .addrow:hover, .submit_contents:hover {
+      background-color: #0056b3;
+  }</style>
+
+<!-- 
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      var myForm = document.getElementById('myForm');
+  
+      myForm.addEventListener('submit', function(event) {
+
+          event.preventDefault();
+          var data = new FormData(event.target);
+          saveDataToIndexedDB(data);
+      });
+  
+      function saveDataToIndexedDB(data) {
+          var request = indexedDB.open('GCNA', 2);
+      
+          request.onsuccess = function(event) {
+              var db = event.target.result;
+              var transaction = db.transaction('Floation-Summary', 'readwrite');
+              var objectStore = transaction.objectStore('Floation-Summary');
+      
+              var obj = {};
+              for (var pair of data.entries()) {
+                  obj[pair[0]] = pair[1];
+              }
+      
+              // Get the highest id in the object store
+              var highestIdRequest = objectStore.openCursor(null, 'prev');
+              highestIdRequest.onsuccess = function(event) {
+                  var cursor = event.target.result;
+                  if (cursor) {
+                      obj.id = cursor.key + 1;
+                  } else {
+                      obj.id = 1; // This is the first item
+                  }
+      
+                  var request = objectStore.put(obj);
+      
+                  request.onsuccess = function() {
+                      console.log('Data added to IndexedDB');
+                      window.location.href = '/gcna00_2/';
+
+                  };
+      
+                  request.onerror = function() {
+                      console.error('Error adding data to IndexedDB');
+                  };
+              };
+          };
+      
+          request.onerror = function(event) {
+              console.error('Error opening IndexedDB', event);
+          };
+      }
+      
+  });
+  </script>
+ -->
+
+
+ <script>
+  document.addEventListener('DOMContentLoaded', function() {
+      var myForm = document.getElementById('myForm');
+  
+      myForm.addEventListener('submit', function(event) {
+
+          event.preventDefault();
+          var data = new FormData(event.target);
+          saveDataToIndexedDB(data);
+      });
+  
+      function saveDataToIndexedDB(data) {
+  // Exclude csrfmiddlewaretoken from being saved to IndexedDB
+  data.delete('csrfmiddlewaretoken');
+
+  var request = indexedDB.open('GCNA', 2);
+
+  request.onsuccess = function(event) {
+      var db = event.target.result;
+      var transaction = db.transaction('Floation-Summary', 'readwrite');
+      var objectStore = transaction.objectStore('Floation-Summary');
+
+      var obj = {};
+      for (var pair of data.entries()) {
+          obj[pair[0]] = pair[1];
+      }
+
+      // Get the highest id in the object store
+      var highestIdRequest = objectStore.openCursor(null, 'prev');
+      highestIdRequest.onsuccess = function(event) {
+          var cursor = event.target.result;
+          if (cursor) {
+              obj.id = cursor.key + 1;
+          } else {
+              obj.id = 1; // This is the first item
+          }
+
+          var request = objectStore.put(obj);
+
+          request.onsuccess = function() {
+              console.log('Data added to IndexedDB');
+              transferIndexedDBData(); // Transfer data to Django after saving to IndexedDB
+          };
+
+          request.onerror = function() {
+              console.error('Error adding data to IndexedDB');
+          };
+      };
+  };
+
+  request.onerror = function(event) {
+      console.error('Error opening IndexedDB', event);
+  };
+}
+      function transferIndexedDBData() {
+          var request = indexedDB.open('GCNA', 2);
+      
+          request.onsuccess = function(event) {
+              var db = event.target.result;
+              var transaction = db.transaction('Floation-Summary', 'readonly');
+              var objectStore = transaction.objectStore('Floation-Summary');
+              var getRequest = objectStore.getAll();
+      
+              getRequest.onsuccess = function(event) {
+                  var data = event.target.result;
+                  data.forEach(function(item) {
+                        // sendDataToDjango(item);
+                      });
+                    window.location.reload();
+
+              };
+          };
+      
+          request.onerror = function(event) {
+              console.error('Error opening IndexedDB', event);
+          };
+      }
+  
+      function sendDataToDjango(item) {
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', '/check-and-add/', true);
+          xhr.setRequestHeader('Content-Type', 'application/json');
+          xhr.onreadystatechange = function() {
+              if (xhr.readyState === XMLHttpRequest.DONE) {
+                  if (xhr.status === 200) {
+                      console.log('Entry added successfully.');
+                  } else {
+                      console.error('Error adding entry:', xhr.statusText);
+                  }
+              }
+          };
+          xhr.send(JSON.stringify(item));
+      }
+  });
+</script>
+
+
+
+
+
+
+
+<script>
+
+
+  var request = indexedDB.open('Signin', 1);
+ 
+  request.onsuccess = function(event) {
+      var db = event.target.result;
+      var transaction = db.transaction('verify', 'readonly');
+      var store = transaction.objectStore('verify');
+      var getRequest = store.get(1); // Assuming you want to get the first entry
+ 
+      getRequest.onsuccess = function(event) {
+          var data = event.target.result;
+          if (data) {
+              // Set the values in the form
+              document.querySelector('[name="Worker_ID_No"]').value = data.Worker_ID_No;
+              document.querySelector('[name="Worker_ID_Name"]').value = data.Name;
+          }
+      };
+  };
+ </script>
+
+
+
+	<center>
+<br>
+	{% if submitted %}
+		Entry successfully added to database!!!
+	{% else %}
+		<form action="" method="POST" id="myForm" style=" background-color: #e4e4e4;
+
+    margin: 1px auto;
+    font-family: Raleway;
+    padding: 10px;
+    width: 55%;
+    min-width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">
+
+<h6>Document No. GCNA-GMP</h6>
+<h6>Document Title:  </h6>
+<h6>Date Issued:  </h6>
+<h6>Version:  </h6>
+
+
+    <h1>Flotation Summary Sheet</h1>
+ 
+		{% csrf_token %}
+
+		<!-- {{ form.as_p }} -->
+    {{ form.Worker_ID_No }}
+    {{ form.Worker_ID_Name }}
+
+        <table id="vertical-1" class="table table-hover table-light">
+
+       <tr>
+
+            <th>Station</th>
+            <td>{{ form.STATION }}</td>
+        </tr>  
+
+<table class="table">
+
+    <center>
+<label>Dates</label>   
+ </center> 
+  <thead>
+    <tr>
+
+      <th scope="col">Start Drying Date</th>
+      <th scope="col">Approximate End Drying Date</th>
+      <th scope="col">End Drying Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+      <td>{{ form.START_DRYING_DATE }}</td>
+      <td>{{ form.APPROX_END_DRYING_DATE }}</td>
+      <td>{{ form.END_DRYING_DATE }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+        <table id="vertical-1" class="table table-hover table-light">
+
+        <tr>
+
+         <center>
+            <p><b>LOCATION - PLACEMENT ON SHELF</b></p>
+        </center>
+        </tr>
+
+
+
+        <table id="vertical-1" class="table table-hover table-light">
+
+        <tr>
+
+<table class="table" id="LoTableG1">
+
+    <center>
+<label class="hidden-label1">Lights</label>   
+ </center> 
+  <thead>
+    <tr>
+      <th scope="col">Ground Floor</th>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Moisture Contents</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.G_FloorG_light }}</td>
+      <td>{{ form.TrayG_light }}</td>
+      <td>{{ form.SectionG_light }}</td>
+      <td>{{ form.MoistureG_light }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+ 
+
+
+ 
+
+
+
+
+<table class="table" id="LoTableG2">
+
+    <center>
+<label class="hidden-label1">Heavies</label>   
+ </center> 
+  <thead>
+     <tr>
+      <th scope="col">Ground Floor</th>
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Moisture Contents</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+       <td>{{ form.G_FloorG_heavy }}</td>
+
+       <td>{{ form.ShelfG_heavy }}</td>
+      <td>{{ form.TrayG_heavy }}</td>
+      <td>{{ form.MoistureG_heavy }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+ 
+
+
+
+
+
+
+
+ 
+
+<table class="table" id="LoTableH1">
+
+    <center>
+<label class="hidden-label2">Lights</label>   
+ </center> 
+  <thead>
+    <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfH_light }}</td>
+      <td>{{ form.TrayH_light }}</td>
+      <td>{{ form.SectionH_light }}</td>
+      <td>{{ form.MoistureH_light }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+ 
+ 
+
+
+<table class="table" id="LoTableH2">
+
+    <center>
+<label class="hidden-label2">Heavies</label>   
+ </center> 
+  <thead>
+     <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfH_heavy }}</td>
+      <td>{{ form.TrayH_heavy }}</td>
+      <td>{{ form.SectionH_heavy }}</td>
+      <td>{{ form.MoistureH_heavy }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="table" id="LoTableM1">
+
+    <center>
+<label class="hidden-label3">Lights</label>   
+ </center> 
+  <thead>
+    <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfM_light }}</td>
+      <td>{{ form.TrayM_light }}</td>
+      <td>{{ form.SectionM_light }}</td>
+      <td>{{ form.MoistureM_light }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+ 
+
+
+
+
+
+
+<table class="table" id="LoTableM2">
+
+    <center>
+<label class="hidden-label3">Heavies</label>   
+ </center> 
+  <thead>
+     <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfM_heavy }}</td>
+      <td>{{ form.TrayM_heavy }}</td>
+      <td>{{ form.SectionM_heavy }}</td>
+      <td>{{ form.MoistureM_heavy }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+<table class="table" id="LoTableU1">
+
+    <center>
+<label class="hidden-label4">Lights</label>   
+ </center> 
+  <thead>
+    <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfU_light }}</td>
+      <td>{{ form.TrayU_light }}</td>
+      <td>{{ form.SectionU_light }}</td>
+      <td>{{ form.MoistureU_light }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+ 
+
+
+
+
+
+
+
+<table class="table" id="LoTableU2">
+
+    <center>
+<label class="hidden-label4">Heavies</label>   
+ </center> 
+  <thead>
+     <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfU_heavy }}</td>
+      <td>{{ form.TrayU_heavy }}</td>
+      <td>{{ form.SectionU_heavy }}</td>
+      <td>{{ form.MoistureU_heavy }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+ 
+
+
+
+
+
+
+ 
+
+
+
+<table class="table" id="LoTableGP1">
+
+    <center>
+<label class="hidden-label5">Lights</label>   
+ </center> 
+  <thead>
+    <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfGP_light }}</td>
+      <td>{{ form.TrayGP_light }}</td>
+      <td>{{ form.SectionGP_light }}</td>
+      <td>{{ form.MoistureGP_light }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+<table class="table" id="LoTableGP2">
+
+    <center>
+<label class="hidden-label5">Heavies</label>   
+ </center> 
+  <thead>
+     <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfGP_heavy }}</td>
+      <td>{{ form.TrayGP_heavy }}</td>
+      <td>{{ form.SectionGP_heavy }}</td>
+      <td>{{ form.MoistureGP_heavy }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+ 
+        <table id="vertical-1" class="table table-hover table-light">
+
+
+<!-- 
+
+        <tr>
+            <th>Batch Number</th>
+            <td>{{ form.BATCH_NUMBER }}</td>
+        </tr>     -->
+
+
+        <tr>
+            <th>Control Number</th>
+            <td>{{ form.Control_NUMBER }}</td>
+            
+        </tr>    
+
+<br>
+
+
+    </table>
+
+        <tr>
+          
+            <th><a href="{% url 'table' %}" class="btn btn-secondary">Return</a></th>
+        </tr>
+
+
+            <th><a type="submit" href="{% url 'add_Cracking_0' %}" role="button" class="btn btn-primary">Previous</a></th>
+
+		<input type="submit" name="" value="submit" class="btn btn-success">
+		
+
+            <th><a type="submit" href="{% url 'add_Package_0' %}" role="button" class="btn btn-primary">Next</a></th> 
+<tr>
+  <th>
+    
+    <style>
+      .menu {
+        display: flex;
+        list-style: none;
+        padding: 0;
+      }
+    
+      .menu li {
+        margin-right: 20px;
+      }
+    
+      .dropdown {
+        position: relative;
+        display: inline-block;
+      }
+    
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        z-index: 1;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+    
+      .dropdown-content.show {
+        display: block;
+        opacity: 1;
+      }
+    
+      .dropdown-content .container {
+        padding: 15px;
+      }
+    
+      .dropdown button {
+        cursor: pointer;
+      }
+  
+      .entryCheck{
+        display: none;
+      }
+    </style>
+    
+    <ul class="menu">
+      <li class="dropdown">
+        <button type="button" class="addrow" onclick="toggleDropdown()">Cracked Nutmeg List</button>
+        <div class="dropdown-content" id="myDropdown">
+          <div class="container">
+          </div>
+          <div id="landInfoData"></div>
+        </div>
+      </li>
+    </ul>
+  </td>
+
+  </th>
+</tr>
+            <script>
+              function toggleDropdown() {
+                var dropdownContent = document.getElementById("myDropdown");
+                dropdownContent.classList.toggle("show");
+              }
+              </script>
+
+
+
+
+
+
+		</form>
+    <!-- <script>
+      let openRequest = indexedDB.open("GCNA");
+      let fieldBlacklist = [];
+      const fieldBlacklistConfig = {
+        DATE_OF_SAMPLING: true, // Set to true to blacklist if null or empty
+        DECISION: true,
+        Quantity_of_Bags: true,
+        // Add more fields as needed
+      };
+      openRequest.onsuccess = function(event) {
+  let db = event.target.result;
+  let transaction = db.transaction("Cracking-Summary", "readonly");
+  let landInfoStore = transaction.objectStore("Cracking-Summary");
+  let getAllRequest = landInfoStore.getAll();
+
+  getAllRequest.onsuccess = function(event) {
+      let landInfoRecords = event.target.result;
+      let landInfoDataDiv = document.getElementById("landInfoData");
+
+      landInfoRecords.forEach((record) => {
+          let entryContainer = document.createElement("div");
+          entryContainer.id = `entryContainer_${record.id}`;
+          entryContainer.classList.add("entryContainer"); // Add the class for initial hiding
+          let entryCheckTd=record.id
+
+          let batchCodeCheckboxes = '';
+          let codes = record.BatchCodes.split(",");
+          for(let i = 0; i < codes.length; i++) {
+              batchCodeCheckboxes += `<input type="checkbox" id="code${i}" name="code${i}" value="${codes[i]}" onchange="updateControlNum(this)">
+                                      <label for="code${i}">${codes[i]}</label><br>`;
+          }
+
+
+          // let deliveryCodeCheckboxes = '';
+          // let codes2 = record.Delivery_Advice_Num.split(",");
+          // for(let i = 0; i < codes2.length; i++) {
+          //     deliveryCodeCheckboxes += `<input type="checkbox" id="codes2${i}" name="codes2${i}" value="${codes2[i]}" onchange="updateControlNum2(this)">
+          //                             <label for="codes2${i}">${codes2[i]}</label><br>`;
+          // }
+          let dropdownContent = `
+          <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton_${record.id}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Entry: ${record.id}      
+          </button>
+          <input type="hidden" id="valueChange_${record.Control_Num}">
+          <button type="hidden" style="display:none;" class="add-row" onclick="fill_table()"></button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton_${record.id}">
+
+
+              
+              <form>
+                  <table class="table table-hover table-light">
+
+
+
+
+
+
+
+
+
+
+
+                       <tr>
+            <th>STATION</th>
+            <td>${ record.STATION }</td>
+        </tr>
+    <tr>
+            <th>DATE OF CRACKING</th>
+            <td>${ record.DATE_OF_CRACKING }</td>
+        </tr>
+
+
+
+
+        <tr>
+            <th>WAREHOUSE RECEIPT NUMBERS</th>
+            <td>${ record.WAREHOUSE_RECEIPT_NUMBERS }</td>
+        </tr>
+    <tr>
+            <th># OF BAGS </th>
+            <td>${ record.NUM_OF_BAGS }</td>
+        </tr>
+
+
+        <tr>
+            <th>LBS OF NUTMEGS CRACKED</th>
+            <td>${ record.LBS_OF_NUTMEGS_CRACKED }</td>
+        </tr>
+
+
+
+
+   <tr>
+            <th>Control Number</th>
+            <td>${ record.Control_Num }</td>
+        </tr>
+
+
+
+
+        <tr>
+            <th>Number of Nutmeg Pieces(lbs)</th>
+            <td>${ record.num_pieces }</td>
+        </tr>
+
+
+        <tr>
+            <th>Number of Nutmeg Fragments(lbs)</th>
+            <td>${ record.fragments }</td>
+        </tr>
+
+
+        <tr>
+            <th>Number of Regular Nutmeg(lbs) </th>
+            <td>${ record.regular_nutmeg }</td>
+        </tr>
+
+
+
+        <tr>
+            <th>Number of Nutmeg Escapes(lbs)</th>
+            <td>${ record.escape_nutmeg }</td>
+        </tr>
+
+
+                  </table>
+              </form>
+          </div>
+      </div>`;
+      entryContainer.innerHTML = dropdownContent;
+
+
+                  landInfoDataDiv.appendChild(entryContainer);
+                  let setButton = entryContainer.querySelector(`#valueChange_${record.Control_number}`);
+  
+                  setButton.addEventListener('click', function() {
+      // Create a div container for the form
+      let formContainer = document.createElement('div');
+      formContainer.classList.add('form-container');
+  
+      // Create the table element
+      let table = document.createElement('table');
+  
+      // Create table header
+      let thead = document.createElement('thead');
+      let headerRow = document.createElement('tr');
+      let shelfHeader = document.createElement('th');
+      shelfHeader.textContent = 'Shelf';
+      let trayHeader = document.createElement('th');
+      trayHeader.textContent = 'Tray';
+      let sectionHeader = document.createElement('th');
+      sectionHeader.textContent = 'Section';
+      let stationHeader = document.createElement('th');
+      stationHeader.textContent = 'Station';
+      headerRow.appendChild(shelfHeader);
+      headerRow.appendChild(trayHeader);
+      headerRow.appendChild(sectionHeader);
+      headerRow.appendChild(stationHeader);
+      thead.appendChild(headerRow);
+      table.appendChild(thead);
+  
+      // Create table body
+      let tbody = document.createElement('tbody');
+      let dataRow = document.createElement('tr');
+  
+      let createCell = (fieldName, recordField) => {
+      let value = record[recordField];
+      if (value !== undefined && value.trim() !== '') {
+          let cell = document.createElement('td');
+          let input = document.createElement('input');
+          input.type = 'text';
+          input.name = fieldName;
+          input.value = value;
+          cell.appendChild(input);
+          return cell;
+      }
+      return null;
+  };
+  let createInputFields = (prefix) => {
+      let shelfCell = createCell(`${prefix}Shelf`, `Shelf${prefix}`);
+      let trayCell = createCell(`${prefix}Tray`, `Tray${prefix}`);
+      let sectionCell = createCell(`${prefix}Section`, `Section${prefix}`);
+      let stationCell = createCell(`STATION`, `STATION`);
+      let moistureCell = createCell(`${prefix}`, `${prefix}`); // New line for moisture field
+  
+      if (shelfCell && trayCell && sectionCell && stationCell ) {
+          dataRow.appendChild(shelfCell);
+          dataRow.appendChild(trayCell);
+          dataRow.appendChild(sectionCell);
+          dataRow.appendChild(stationCell);
+          if(moistureCell){dataRow.appendChild();}else{console.log('Can not find it')}
+          // Append the moisture cell if it exists
+      }
+  };
+  
+  // Call the function to create input fields for each set of drying fields
+  createInputFields('STATION');
+  createInputFields('G_0_GF');
+  createInputFields('G_0_1F');
+  createInputFields('G_0_2F');
+  createInputFields('G_0_FL');
+  createInputFields('H_0_GF');
+  createInputFields('H_0_1F');
+  createInputFields('H_0_2F');
+  createInputFields('H_0_FL');
+  createInputFields('M_0_GF');
+  createInputFields('M_0_1F');
+  createInputFields('M_0_2F');
+  createInputFields('M_0_FL');
+  createInputFields('U_0_GF');
+  createInputFields('U_0_1F');
+  createInputFields('U_0_2F');
+  createInputFields('U_0_FL');
+  createInputFields('GP_0_GF');
+  createInputFields('GP_0_1F');
+  createInputFields('GP_0_2F');
+  createInputFields('GP_0_FL');
+  
+  // Call the function to create input fields for each moisture field
+  createInputFields('MoistureG_GF');
+  createInputFields('MoistureG_1F');
+  createInputFields('MoistureG_2F');
+  createInputFields('MoistureG_FL');
+  createInputFields('MoistureH_GF');
+  createInputFields('MoistureH_1F');
+  createInputFields('MoistureH_2F');
+  createInputFields('MoistureH_FL');
+  createInputFields('MoistureM_GF');
+  createInputFields('MoistureM_1F');
+  createInputFields('MoistureM_2F');
+  createInputFields('MoistureM_FL');
+  createInputFields('MoistureU_GF');
+  createInputFields('MoistureU_1F');
+  createInputFields('MoistureU_2F');
+  createInputFields('MoistureU_FL');
+  createInputFields('MoistureGP_GF');
+  createInputFields('MoistureGP_1F');
+  createInputFields('MoistureGP_2F');
+  createInputFields('MoistureGP_FL');
+  
+  
+      if (dataRow.children.length > 0) {
+          tbody.appendChild(dataRow);
+          table.appendChild(tbody);
+  
+          // Append the table to the form container
+          formContainer.appendChild(table);
+  
+          // Append the form container to the div with id "FormStore"
+          document.getElementById('FormStore').appendChild(formContainer);
+      }
+  });
+  
+  
+  
+  
+  
+  
+  
+  
+              });
+          };
+      };
+  </script>
+   -->
+
+
+
+
+
+
+
+
+  <script>
+    let openRequest = indexedDB.open("GCNA");
+
+    openRequest.onsuccess = function(event) {
+    let db = event.target.result;
+    let transaction = db.transaction("Cracking-Summary", "readonly");
+    let landInfoStore = transaction.objectStore("Cracking-Summary");
+    let getAllRequest = landInfoStore.getAll();
+
+    getAllRequest.onsuccess = function(event) {
+      let landInfoRecords = event.target.result;
+      let landInfoDataDiv = document.getElementById("landInfoData");
+
+      landInfoRecords.forEach((record) => {
+    let entryContainer = document.createElement("div");
+    entryContainer.id = `entryContainer_${record.id}`;
+    entryContainer.classList.add("entryContainer"); // Add the class for initial hiding
+    let entryCheckTd=record.id
+                    //    batchnum = record.BATCH_CODES;
+                                    // station = record.STATION;
+                                    // vehicle = record.Vehicle_number;
+                                    // dpu = record.DATE_OF_PICK_UP;
+                                    // fmc = record.FINAL_MOISTURE_CONTENT;
+                                    // del = record.CORRESPONDING_DELIVERY_ADVICE;
+                                    // Product=record.Product
+                                    // Num_Bags=record.Num_Bags
+                                    // Weight=record.Weight
+    let dropdownContent = `
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton_${record.id}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Entry: ${record.id}      
+        </button>
+                        <button type="button" class="add-row" onclick="updateControlNum('${record.Control_Num}')">Set</button>
+                                <input type="checkbox" style="opacity:0" id="valueChange_${record.Control_number}">
+
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton_${record.id}">
+            <form>
+                  <table class="table table-hover table-light">
+
+
+
+
+
+
+
+
+
+
+
+                       <tr>
+            <th>STATION</th>
+            <td>${ record.STATION }</td>
+        </tr>
+    <tr>
+            <th>DATE OF CRACKING</th>
+            <td>${ record.DATE_OF_CRACKING }</td>
+        </tr>
+
+
+
+
+        <tr>
+            <th>WAREHOUSE RECEIPT NUMBERS</th>
+            <td>${ record.WAREHOUSE_RECEIPT_NUMBERS }</td>
+        </tr>
+    <tr>
+            <th># OF BAGS </th>
+            <td>${ record.NUM_OF_BAGS }</td>
+        </tr>
+
+
+        <tr>
+            <th>LBS OF NUTMEGS CRACKED</th>
+            <td>${ record.LBS_OF_NUTMEGS_CRACKED }</td>
+        </tr>
+
+
+
+        <tr>
+            <th>Batch Codes</th>
+            <td>${ record.BatchCodes }</td>
+        </tr>
+
+   <tr>
+            <th>Control Number</th>
+            <td>${ record.Control_Num }</td>
+        </tr>
+
+
+
+
+        <tr>
+            <th>Number of Nutmeg Pieces(lbs)</th>
+            <td>${ record.num_pieces }</td>
+        </tr>
+
+
+        <tr>
+            <th>Number of Nutmeg Fragments(lbs)</th>
+            <td>${ record.fragments }</td>
+        </tr>
+
+
+        <tr>
+            <th>Number of Regular Nutmeg(lbs) </th>
+            <td>${ record.regular_nutmeg }</td>
+        </tr>
+
+
+
+        <tr>
+            <th>Number of Nutmeg Escapes(lbs)</th>
+            <td>${ record.escape_nutmeg }</td>
+        </tr>
+
+
+                  </table>
+            </form>
+        </div>
+    </div>`;
+    
+entryContainer.innerHTML = dropdownContent;
+
+                landInfoDataDiv.appendChild(entryContainer);
+                let setButton = entryContainer.querySelector(`#valueChange_${record.Control_number}`);
+
+
+
+
+
+
+
+
+            });
+        };
+    };
+</script>
+
+
+
+
+
+
+
+  <script>
+      
+function updateControlNum(cnum) {
+  console.log(cnum)
+  document.querySelector('[name="Control_NUMBER"]').value = '' ;
+  document.querySelector('[name="Control_NUMBER"]').value = cnum ;
+
+}
+
+
+
+
+
+
+// function updateControlNum2(checkbox1) {
+//   let deliveryNumField = document.querySelector('[name="Delivery_Advice_Num"]');
+//   let deliveryValues = deliveryNumField.value ? deliveryNumField.value.split(',') : [];
+//   if (checkbox1.checked) {
+//       // Add the checkbox1's value to the field
+//       deliveryValues.push(checkbox1.value);
+//   } else {
+//       // Remove the checkbox1's value from the field
+//       deliveryValues = deliveryValues.filter(value => value !== checkbox1.value);
+//   }
+//   if(deliveryNumField.value ==""){
+//       deliveryNumField.value = deliveryValues;
+
+//   }else{
+//       deliveryNumField.value = deliveryValues.join(',');
+
+//   }
+// }
+
+
+
+
+
+
+
+  </script>
+	{% endif %}
+
+	</center>
+{{ form.media }}
+
+{% endblock %}

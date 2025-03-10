@@ -1,0 +1,241 @@
+{% extends 'gcna/base2.html' %}
+
+{% block content%}
+<style type="text/css">
+    .btn-circle.btn-xl {
+        width: 30px;
+        height: 30px;
+        padding: 3px 0px;
+        border-radius: 25px;
+        font-size: 15px;
+        text-align: center;
+    }
+
+    #map {
+        height: 4px;
+        width: 10%;
+        margin-bottom: 20px;
+    }
+</style>
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var myForm = document.getElementById('myForm');
+    
+        myForm.addEventListener('submit', function(event) {
+
+            event.preventDefault();
+            var data = new FormData(event.target);
+            saveDataToIndexedDB(data);
+        });
+    
+        function saveDataToIndexedDB(data) {
+    // Exclude csrfmiddlewaretoken from being saved to IndexedDB
+    data.delete('csrfmiddlewaretoken');
+    data.delete('initial-Land_ID_N0');
+
+    var request = indexedDB.open('GCNA', 2);
+
+    request.onsuccess = function(event) {
+        var db = event.target.result;
+        var transaction = db.transaction('Farmer', 'readwrite');
+        var objectStore = transaction.objectStore('Farmer');
+
+        var obj = {};
+        for (var pair of data.entries()) {
+            obj[pair[0]] = pair[1];
+        }
+
+        // Get the highest id in the object store
+        var highestIdRequest = objectStore.openCursor(null, 'prev');
+        highestIdRequest.onsuccess = function(event) {
+            var cursor = event.target.result;
+            if (cursor) {
+                obj.id = cursor.key + 1;
+            } else {
+                obj.id = 1; // This is the first item
+            }
+
+            var request = objectStore.put(obj);
+
+            request.onsuccess = function() {
+                console.log('Data added to IndexedDB');
+                transferIndexedDBData(); // Transfer data to Django after saving to IndexedDB
+            };
+
+            request.onerror = function() {
+                console.error('Error adding data to IndexedDB');
+            };
+        };
+    };
+
+    request.onerror = function(event) {
+        console.error('Error opening IndexedDB', event);
+    };
+}
+        function transferIndexedDBData() {
+            var request = indexedDB.open('GCNA', 2);
+        
+            request.onsuccess = function(event) {
+                var db = event.target.result;
+                var transaction = db.transaction('Farmer', 'readonly');
+                var objectStore = transaction.objectStore('Farmer');
+                var getRequest = objectStore.getAll();
+        
+                getRequest.onsuccess = function(event) {
+                    var data = event.target.result;
+                    data.forEach(function(item) {
+                        
+                        // sendDataToDjango(item);
+                    });
+                    // window.location.reload();
+
+                };
+            };
+        
+            request.onerror = function(event) {
+                console.error('Error opening IndexedDB', event);
+            };
+        }
+    
+        function sendDataToDjango(item) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/check-and-add/', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        console.log('Entry added successfully.');
+                    } else {
+                        console.error('Error adding entry:', xhr.statusText);
+                    }
+                }
+            };
+            xhr.send(JSON.stringify(item));
+        }
+    });
+  </script>
+  
+
+
+
+
+
+
+
+
+
+<center>
+    <br>
+    {% if submitted %}
+    Entry successfully added to the database!!!
+    {% else %}
+    <form action="" method="POST" id="myForm" enctype="multipart/form-data" style="background-color: #e4e4e4;
+        margin: 1px auto;
+        font-family: Raleway;
+        padding: 10px;
+        width: 85%;
+        min-width: 300px;
+        border-radius: 10px;
+        box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">
+
+        <div class="card">
+            <div class="card-body">
+                </h5>
+                <p class="card-text">
+                    <table id="vertical-1" class="table table-hover table-light">
+                        <h1>GCNA Form</h1>
+                        {% csrf_token %}
+                        <h3>Section 1</h3>
+                        <h4>Farmer Info</h4>
+
+<!-- 
+                        {{form.Worker_ID_No}}
+                        -->
+
+ 
+ <tr>
+    <th>Farmer ID:</th>
+    <td>{{ form.Nutmeg_ID_No }}</td>
+</tr> 
+
+
+
+
+
+                        <tr>
+                            <th>Farmer Name:</th>
+                            <td>{{ form.name }}</td>
+                        </tr> 
+                  
+                        <tr>
+                             <th>Age</th>
+                             <td>{{ form.age }}</td>
+                         </tr>  
+                         
+                         <tr>
+                            <th>Address</th>
+                            <td>{{ form.address }}</td>
+                        </tr>  
+                         
+                      <tr>
+                          <th>Home Phone</th>
+                          <td>{{ form.home_phone }}</td>
+                      </tr>  
+                  
+                  
+                  
+                  
+                      <tr>
+                          <th>Mobile Phone</th>
+                          <td>{{ form.mobile_phone }}</td>
+                      </tr>  
+                  
+                  
+                  
+                  
+                  
+                      <tr>
+                          <th>Email</th>
+                          <td>{{ form.email }}</td>
+                      </tr>  
+                  
+
+
+
+
+
+
+
+                      <tr>
+                        <center>
+                        <th><input type="submit" 
+                            name="" value="✔" class="btn btn-success btn-circle btn-xl"></th>
+                    </center>
+                    </tr>
+
+                      <tr>
+                        <center>
+
+                                          <th><a href="{% url 'table' %}" class="btn btn-secondary">Exit</a></th>
+                                        </center>
+
+                                        </tr>  
+                               
+                                          <br>
+                        <br>
+                        
+                    </table>
+                    <tr>
+                        {% comment %} <th><a type="submit" href="{% url 'gcna00_23' %}" role="button" class="btn btn-primary">Previous</a></th> {% endcomment %}
+                        {% comment %} <th><a type="submit" href="{% url 'gcna00_2' %}" role="button" class="btn btn-primary">Next</a></th> {% endcomment %}
+                    </tr>
+                </div>
+            </div>
+        </form>
+        {% endif %}
+    </center>
+    {{ form.media }}
+    {% endblock %}

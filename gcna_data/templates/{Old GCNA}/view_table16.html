@@ -1,0 +1,55 @@
+
+{% extends 'gcna/base2.html' %}
+
+
+{% block content%}
+
+
+<div class="card">
+ 
+  <div class="card-body">
+
+  </h5>
+    <p class="card-text">
+        <table id="vertical-1" class="table table-hover table-light">
+       
+
+ 
+
+         <tr>
+
+            <th>Presence of Pesticides</th>
+            <td>{{ farmer_info_id.Pesticides }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Presence of Septic tanks</th>
+            <td>{{ farmer_info_id.Septic_Tanks }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Other relevant presences</th>
+            <td>{{ farmer_info_id.Other }}</td>
+        </tr>
+
+
+
+              <tr>
+            <th><a href="{% url 'table' %}" class="btn btn-secondary">Return</a></th>
+        </tr>
+    </table>
+                    </p>
+
+
+
+       
+ </div>        </div>
+
+<br>
+<br>
+<br>
+
+{% endblock %}
+

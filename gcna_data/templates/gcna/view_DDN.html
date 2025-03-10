@@ -1,0 +1,1204 @@
+
+
+{% extends 'gcna/base.html' %}
+
+
+{% block content%}
+
+ {% for form in form %}
+
+<div class="card">
+ 
+  <div class="card-body">
+
+  </h5>
+    <p class="card-text">
+        <table id="vertical-1" class="table table-hover table-light">
+
+
+
+
+
+
+
+
+
+
+
+       <tr>
+{{ form.Nutmeg_ID_No }}
+
+            <th>Station</th>
+            <td>{{ form.STATION }}</td>
+        </tr>  
+        <tr>
+            <th>Date of Pick up</th>
+            <td>{{ form.DATE_OF_PICK_UP }}</td>
+        </tr>
+        <tr>
+            <th>Final Moisture Content</th>
+            <td>{{ form.FINAL_MOISTURE_CONTENT }}</td>
+        </tr>
+
+
+       <tr>
+            <th>Batch Number</th>
+            <td>{{ form.BATCH_NUMBER }}</td>
+        </tr>
+
+
+        <table id="vertical-1" class="table table-hover table-light">
+
+        <tr>
+
+         <center>
+            <p><b>FINAL MOISTURE CONTENT (%)</b></p>
+        </center>
+        </tr>
+
+
+        <tr>
+
+         <center>
+            <p>LOCATION </p>
+        </center>
+        </tr>
+
+
+{% if form.ShelfG_GF and form.TrayG_GF and form.SectionG_GF and form.MoistureG_GF %}
+<table class="table" id="LoTableG1">
+
+    <center>
+<label class="hidden-label1"> Ground Floor</label>   
+ </center> 
+  <thead>
+    <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfG_GF }}</td>
+      <td>{{ form.TrayG_GF }}</td>
+      <td>{{ form.SectionG_GF }}</td>
+      <td>{{ form.MoistureG_GF }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+ {% else %}
+
+ <td> </td>
+
+ {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+{% if form.ShelfG_1F and form.TrayG_1F and form.SectionG_1F and form.MoistureG_1F %}
+
+
+
+<table class="table" id="LoTableG2">
+
+    <center>
+<label class="hidden-label1">1st Floor</label>   
+ </center> 
+  <thead>
+     <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfG_1F }}</td>
+      <td>{{ form.TrayG_1F }}</td>
+      <td>{{ form.SectionG_1F }}</td>
+      <td>{{ form.MoistureG_1F }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+ 
+
+{% else %}
+
+ <td> </td>
+
+ {% endif %}
+
+
+   
+
+
+
+
+
+{% if form.ShelfG_2F and form.TrayG_2F and form.SectionG_2F and form.MoistureG_2F %}
+<table class="table" id="LoTableG3">
+
+    <center>
+<label class="hidden-label1" >2nd Floor</label>   
+ </center> 
+  <thead>
+      <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfG_2F }}</td>
+      <td>{{ form.TrayG_2F }}</td>
+      <td>{{ form.SectionG_2F }}</td>
+      <td>{{ form.MoistureG_2F }}</td>
+
+    </tr>
+
+
+  </tbody>
+</table>
+
+ 
+ 
+{% else %}
+
+ <td> </td>
+
+ {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+{% if form.ShelfG_FL and form.TrayG_FL and form.SectionG_FL and form.MoistureG_FL %}
+
+<table class="table" id="LoTableG4">
+
+    <center>
+<label class="hidden-label1">Floor Loft</label>   
+ </center> 
+  <thead>
+       <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfG_FL }}</td>
+      <td>{{ form.TrayG_FL }}</td>
+      <td>{{ form.SectionG_FL }}</td>
+      <td>{{ form.MoistureG_FL }}</td>
+
+    </tr>
+
+
+  </tbody>
+</table>
+
+ {% else %}
+
+ <td> </td>
+
+ {% endif %}
+
+
+
+
+             
+
+
+
+
+
+
+
+
+
+
+
+ 
+{% if form.ShelfH_GF and form.TrayH_GF and form.SectionH_GF and form.MoistureH_GF %}
+<table class="table" id="LoTableH1">
+
+    <center>
+<label class="hidden-label2"> Ground Floor</label>   
+ </center> 
+  <thead>
+    <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfH_GF }}</td>
+      <td>{{ form.TrayH_GF }}</td>
+      <td>{{ form.SectionH_GF }}</td>
+      <td>{{ form.MoistureH_GF }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+{% else %}
+
+ <td> </td>
+
+ {% endif %}
+
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% if form.ShelfH_1F and form.TrayH_1F and form.SectionH_1F and form.MoistureH_1F %}
+
+<table class="table" id="LoTableH2">
+
+    <center>
+<label class="hidden-label2">1st Floor</label>   
+ </center> 
+  <thead>
+     <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfH_1F }}</td>
+      <td>{{ form.TrayH_1F }}</td>
+      <td>{{ form.SectionH_1F }}</td>
+      <td>{{ form.MoistureH_1F }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+ 
+{% else %}
+
+ <td> </td>
+
+ {% endif %}
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% if form.ShelfH_2F and form.TrayH_2F and form.SectionH_2F and form.MoistureH_2F %}
+
+<table class="table" id="LoTableH3">
+
+    <center>
+<label class="hidden-label2" >2nd Floor</label>   
+ </center> 
+  <thead>
+      <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfH_2F }}</td>
+      <td>{{ form.TrayH_2F }}</td>
+      <td>{{ form.SectionH_2F }}</td>
+      <td>{{ form.MoistureH_2F }}</td>
+
+    </tr>
+
+
+  </tbody>
+</table>
+
+
+
+{% else %}
+
+ <td> </td>
+
+ {% endif %}
+
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+ {% if form.ShelfH_FL and form.TrayH_FL and form.SectionH_FL and form.MoistureH_FL %}
+  
+<table class="table" id="LoTableH4">
+
+    <center>
+<label class="hidden-label2">Floor Loft</label>   
+ </center> 
+  <thead>
+       <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfH_FL }}</td>
+      <td>{{ form.TrayH_FL }}</td>
+      <td>{{ form.SectionH_FL }}</td>
+      <td>{{ form.MoistureH_FL }}</td>
+
+    </tr>
+
+
+  </tbody>
+</table>
+
+
+
+{% else %}
+
+ <td> </td>
+
+ {% endif %}
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ {% if form.ShelfM_GF and form.TrayM_GF and form.SectionM_GF and form.MoistureM_GF %}
+
+<table class="table" id="LoTableM1">
+
+    <center>
+<label class="hidden-label3"> Ground Floor</label>   
+ </center> 
+  <thead>
+    <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfM_GF }}</td>
+      <td>{{ form.TrayM_GF }}</td>
+      <td>{{ form.SectionM_GF }}</td>
+      <td>{{ form.MoistureM_GF }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+{% else %}
+
+ <td> </td>
+
+ {% endif %}
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ {% if form.ShelfM_1F and form.TrayM_1F and form.SectionM_1F and form.MoistureM_1F %}
+
+
+<table class="table" id="LoTableM2">
+
+    <center>
+<label class="hidden-label3">1st Floor</label>   
+ </center> 
+  <thead>
+     <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfM_1F }}</td>
+      <td>{{ form.TrayM_1F }}</td>
+      <td>{{ form.SectionM_1F }}</td>
+      <td>{{ form.MoistureM_1F }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+ {% else %}
+
+ <td> </td>
+
+ {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ {% if form.ShelfM_2F and form.TrayM_2F and form.SectionM_2F and form.MoistureM_2F %}
+
+<table class="table" id="LoTableM3">
+
+    <center>
+<label class="hidden-label3">2nd Floor</label>   
+ </center> 
+  <thead>
+      <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfM_2F }}</td>
+      <td>{{ form.TrayM_2F }}</td>
+      <td>{{ form.SectionM_2F }}</td>
+      <td>{{ form.MoistureM_2F }}</td>
+
+    </tr>
+
+
+  </tbody>
+</table>
+
+
+{% else %}
+
+ <td> </td>
+
+ {% endif %}
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ {% if form.ShelfM_FL and form.TrayM_FL and form.SectionM_FL and form.MoistureM_FL %}
+
+<table class="table" id="LoTableM4">
+
+    <center>
+<label class="hidden-label3">Floor Loft</label>   
+ </center> 
+  <thead>
+       <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfM_FL }}</td>
+      <td>{{ form.TrayM_FL }}</td>
+      <td>{{ form.SectionM_FL }}</td>
+      <td>{{ form.MoistureM_FL }}</td>
+
+    </tr>
+
+
+  </tbody>
+</table>
+
+
+
+{% else %}
+
+ <td> </td>
+
+ {% endif %}
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ {% if form.ShelfU_GF and form.TrayU_GF and form.SectionU_GF and form.MoistureU_GF %}
+
+<table class="table" id="LoTableU1">
+
+    <center>
+<label class="hidden-label4"> Ground Floor</label>   
+ </center> 
+  <thead>
+    <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfU_GF }}</td>
+      <td>{{ form.TrayU_GF }}</td>
+      <td>{{ form.SectionU_GF }}</td>
+      <td>{{ form.MoistureU_GF }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+ 
+{% else %}
+
+ <td> </td>
+
+ {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ {% if form.ShelfU_1F and form.TrayU_1F and form.SectionU_1F and form.MoistureU_1F %}
+
+
+<table class="table" id="LoTableU2">
+
+    <center>
+<label class="hidden-label4">1st Floor</label>   
+ </center> 
+  <thead>
+     <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfU_1F }}</td>
+      <td>{{ form.TrayU_1F }}</td>
+      <td>{{ form.SectionU_1F }}</td>
+      <td>{{ form.MoistureU_1F }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+ 
+{% else %}
+
+ <td> </td>
+
+ {% endif %}
+
+
+
+
+
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ {% if form.ShelfU_2F and form.TrayU_2F and form.SectionU_2F and form.MoistureU_2F %}
+
+<table class="table" id="LoTableU3">
+
+    <center>
+<label class="hidden-label4">2nd Floor</label>   
+ </center> 
+  <thead>
+      <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfU_2F }}</td>
+      <td>{{ form.TrayU_2F }}</td>
+      <td>{{ form.SectionU_2F }}</td>
+      <td>{{ form.MoistureU_2F }}</td>
+
+    </tr>
+
+
+  </tbody>
+</table>
+
+
+
+{% else %}
+
+ <td> </td>
+
+ {% endif %}
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ {% if form.ShelfU_FL and form.TrayU_FL and form.SectionU_FL and form.MoistureU_FL %}
+  
+<table class="table" id="LoTableU4">
+
+    <center>
+<label class="hidden-label4">Floor Loft</label>   
+ </center> 
+  <thead>
+       <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfU_FL }}</td>
+      <td>{{ form.TrayU_FL }}</td>
+      <td>{{ form.SectionU_FL }}</td>
+      <td>{{ form.MoistureU_FL }}</td>
+
+    </tr>
+
+
+  </tbody>
+</table>
+
+
+{% else %}
+
+ <td> </td>
+
+ {% endif %}
+
+
+ 
+
+
+
+
+
+
+
+
+
+ 
+
+ {% if form.ShelfGP_GF and form.TrayGP_GF and form.SectionGP_GF and form.MoistureGP_GF %}
+
+
+<table class="table" id="LoTableGP1">
+
+    <center>
+<label class="hidden-label5"> Ground Floor</label>   
+ </center> 
+  <thead>
+    <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfGP_GF }}</td>
+      <td>{{ form.TrayGP_GF }}</td>
+      <td>{{ form.SectionGP_GF }}</td>
+      <td>{{ form.MoistureGP_GF }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+{% else %}
+
+ <td> </td>
+
+ {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ {% if form.ShelfGP_1F and form.TrayGP_1F and form.SectionGP_1F and form.MoistureGP_1F %}
+
+<table class="table" id="LoTableGP2">
+
+    <center>
+<label class="hidden-label5">1st Floor</label>   
+ </center> 
+  <thead>
+     <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfGP_1F }}</td>
+      <td>{{ form.TrayGP_1F }}</td>
+      <td>{{ form.SectionGP_1F }}</td>
+      <td>{{ form.MoistureGP_1F }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+{% else %}
+
+ <td> </td>
+
+ {% endif %}
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ {% if form.ShelfGP_2F and form.TrayGP_2F and form.SectionGP_2F and form.MoistureGP_2F %}
+
+   
+<table class="table" id="LoTableGP3">
+
+    <center>
+<label class="hidden-label5">2nd Floor</label>   
+ </center> 
+  <thead>
+      <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfGP_2F }}</td>
+      <td>{{ form.TrayGP_2F }}</td>
+      <td>{{ form.SectionGP_2F }}</td>
+      <td>{{ form.MoistureGP_2F }}</td>
+
+    </tr>
+
+
+  </tbody>
+</table>
+
+
+{% else %}
+
+ <td> </td>
+
+ {% endif %}
+
+ 
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ {% if form.ShelfGP_FL and form.TrayGP_FL and form.SectionGP_FL and form.MoistureGP_FL %}
+   
+<table class="table" id="LoTableGP4">
+
+    <center>
+<label class="hidden-label5">Floor Loft</label>   
+ </center> 
+  <thead>
+       <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfGP_FL }}</td>
+      <td>{{ form.TrayGP_FL }}</td>
+      <td>{{ form.SectionGP_FL }}</td>
+      <td>{{ form.MoistureGP_FL }}</td>
+
+    </tr>
+
+
+  </tbody>
+</table>
+
+
+{% else %}
+
+ <td> </td>
+
+ {% endif %}
+
+
+
+
+
+        <table id="vertical-1" class="table table-hover table-light">
+
+
+
+
+
+        <tr>
+            <th>Corresponding Delivery Advice</th>
+            <td>{{ form.CORRESPONDING_DELIVERY_ADVICE }}</td>
+        </tr>
+   
+
+          <tr>
+            <th>Control Number</th>
+            <td>{{ form.Control_number }}</td>
+        </tr>
+   
+   
+
+   
+
+    </table>
+
+
+            <a href="{% url 'adhome'%}" class="btn btn-secondary">Return</a>
+            <a href="{% url 'edit_Dispatch_Dried_0' form.pk %}" class="btn btn-success">Edit</a> 
+
+                    </p>
+
+
+
+       
+ </div>        </div>
+
+<br>
+<br>
+<br>
+{% endfor %}
+
+{% endblock %}

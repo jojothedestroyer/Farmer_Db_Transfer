@@ -1,0 +1,1049 @@
+{% extends 'gcna/base2.html' %}
+
+{% block content%}
+
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+$(document).ready(function() {
+  $('.hidden-label1').hide();
+  $('.hidden-label2').hide();
+  $('.hidden-label3').hide();
+  $('.hidden-label4').hide();
+  $('.hidden-label5').hide();
+
+
+
+
+
+  $('#LoTableG1_0').hide(); 
+  $('#LoTableG2_0').hide(); 
+  $('#LoTableG3_0').hide(); 
+  $('#LoTableG4_0').hide(); 
+
+
+
+
+  $('#LoTableH1_0').hide(); 
+  $('#LoTableH2_0').hide(); 
+  $('#LoTableH3_0').hide(); 
+  $('#LoTableH4_0').hide(); 
+
+  $('#LoTableM1_0').hide(); 
+  $('#LoTableM2_0').hide(); 
+  $('#LoTableM3_0').hide(); 
+  $('#LoTableM4_0').hide(); 
+
+
+  $('#LoTableU1_0').hide(); 
+  $('#LoTableU2_0').hide(); 
+  $('#LoTableU3_0').hide(); 
+  $('#LoTableU4_0').hide(); 
+
+
+  $('#LoTableGP1_0').hide(); 
+  $('#LoTableGP2_0').hide(); 
+  $('#LoTableGP3_0').hide(); 
+  $('#LoTableGP4_0').hide(); 
+
+
+
+
+
+
+
+  $('#LoTableG1').hide(); 
+  $('#LoTableG2').hide(); 
+  $('#LoTableG3').hide(); 
+  $('#LoTableG4').hide(); 
+
+
+
+
+  $('#LoTableH1').hide(); 
+  $('#LoTableH2').hide(); 
+  $('#LoTableH3').hide(); 
+  $('#LoTableH4').hide(); 
+
+  $('#LoTableM1').hide(); 
+  $('#LoTableM2').hide(); 
+  $('#LoTableM3').hide(); 
+  $('#LoTableM4').hide(); 
+
+
+  $('#LoTableU1').hide(); 
+  $('#LoTableU2').hide(); 
+  $('#LoTableU3').hide(); 
+  $('#LoTableU4').hide(); 
+
+
+  $('#LoTableGP1').hide(); 
+  $('#LoTableGP2').hide(); 
+  $('#LoTableGP3').hide(); 
+  $('#LoTableGP4').hide(); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  $('#TableG1').hide(); 
+  $('#TableG2').hide(); 
+  $('#TableG3').hide(); 
+
+
+
+
+  $('#TableH1').hide(); 
+  $('#TableH2').hide(); 
+  $('#TableH3').hide(); 
+
+  $('#TableM1').hide(); 
+  $('#TableM2').hide(); 
+  $('#TableM3').hide(); 
+
+
+  $('#TableU1').hide(); 
+  $('#TableU2').hide(); 
+  $('#TableU3').hide(); 
+
+
+  $('#TableGP1').hide(); 
+  $('#TableGP2').hide(); 
+  $('#TableGP3').hide(); 
+
+
+    
+    
+    
+
+
+  
+  $('#id_farm_type').on('change', function() {
+    if ($(this).val() == 'Nutmeg') {
+        $('#LoTableG1').show();
+        $('#LoTableG2').show(); 
+        $('#LoTableG3').show(); 
+        $('#LoTableG4').show(); 
+
+        $('#LoTableG1_0').show();
+        $('#LoTableG2_0').show(); 
+        $('#LoTableG3_0').show(); 
+        $('#LoTableG4_0').show(); 
+       
+        $('.hidden-label1').show();
+
+
+        $('#TableG1').show(); 
+        $('#TableG2').show(); 
+        $('#TableG3').show(); 
+        $('#id_STATION2').val("Grenville");
+
+
+
+    } else {
+        $('#LoTableG1').hide();
+        $('#LoTableG2').hide(); 
+        $('#LoTableG3').hide(); 
+        $('#LoTableG4').hide()
+
+        $('#LoTableG1_0').hide();
+        $('#LoTableG2_0').hide(); 
+        $('#LoTableG3_0').hide(); 
+        $('#LoTableG4_0').hide(); 
+        $('.hidden-label1').hide();
+
+
+
+        $('#TableG1').hide(); 
+        $('#TableG2').hide(); 
+        $('#TableG3').hide(); 
+
+
+
+    }
+
+
+
+  
+
+
+
+    if ($(this).val() == 'H') {
+        $('#LoTableH1').show();
+        $('#LoTableH2').show(); 
+        $('#LoTableH3').show(); 
+        $('#LoTableH4').show(); 
+
+
+        $('#LoTableH1_0').show();
+        $('#LoTableH2_0').show(); 
+        $('#LoTableH3_0').show(); 
+        $('#LoTableH4_0').show(); 
+
+        $('.hidden-label2').show();
+
+
+
+        $('#TableH1').show();
+        $('#TableH2').show(); 
+        $('#TableH3').show(); 
+        $('#id_STATION2').val("Hermitage");
+
+
+    } else {
+        $('#LoTableH1').hide();
+        $('#LoTableH2').hide(); 
+        $('#LoTableH3').hide(); 
+        $('#LoTableH4').hide();
+
+
+        $('#LoTableH1_0').hide();
+        $('#LoTableH2_0').hide(); 
+        $('#LoTableH3_0').hide(); 
+        $('#LoTableH4_0').hide();
+        $('.hidden-label2').hide();
+
+
+
+
+        $('#TableH1').hide();
+        $('#TableH2').hide(); 
+        $('#TableH3').hide(); 
+    }
+
+
+
+  
+    if ($(this).val() == 'M') {
+        $('#LoTableM1').show();
+        $('#LoTableM2').show(); 
+        $('#LoTableM3').show(); 
+        $('#LoTableM4').show(); 
+
+        $('#LoTableM1_0').show();
+        $('#LoTableM2_0').show(); 
+        $('#LoTableM3_0').show(); 
+        $('#LoTableM4_0').show(); 
+
+        $('.hidden-label3').show();
+
+        $('#id_STATION2').val("Marli");
+
+        $('#TableM1').show();
+        $('#TableM2').show(); 
+        $('#TableM3').show(); 
+
+    } else {
+        $('#LoTableM1').hide();
+        $('#LoTableM2').hide(); 
+        $('#LoTableM3').hide(); 
+        $('#LoTableM4').hide(); 
+
+
+        $('#LoTableM1_0').hide();
+        $('#LoTableM2_0').hide(); 
+        $('#LoTableM3_0').hide(); 
+        $('#LoTableM4_0').hide();
+
+        $('.hidden-label3').hide();
+
+   
+
+        $('#TableM1').hide();
+        $('#TableM2').hide(); 
+        $('#TableM3').hide(); 
+
+
+    }
+
+
+
+    if ($(this).val() == 'U') {
+        $('#LoTableU1').show();
+        $('#LoTableU2').show(); 
+        $('#LoTableU3').show(); 
+        $('#LoTableU4').show(); 
+
+
+        $('#LoTableU1_0').show();
+        $('#LoTableU2_0').show(); 
+        $('#LoTableU3_0').show(); 
+        $('#LoTableU4_0').show(); 
+
+
+        $('.hidden-label4').show();
+
+        $('#id_STATION2').val("Union");
+        $('#TableU1').show();
+        $('#TableU2').show(); 
+        $('#TableU3').show(); 
+
+    } else {
+        $('#LoTableU1').hide();
+        $('#LoTableU2').hide(); 
+        $('#LoTableU3').hide(); 
+        $('#LoTableU4').hide();
+
+
+        $('#LoTableU1_0').hide();
+        $('#LoTableU2_0').hide(); 
+        $('#LoTableU3_0').hide(); 
+        $('#LoTableU4_0').hide();
+
+        $('.hidden-label4').hide();
+
+        $('#TableU1').hide();
+        $('#TableU2').hide(); 
+        $('#TableU3').hide();
+
+    }
+
+
+
+  
+
+
+    if ($(this).val() == 'Coconut') {
+        $('#LoTableGP1').show();
+        $('#LoTableGP2').show(); 
+        $('#LoTableGP3').show(); 
+        $('#LoTableGP4').show(); 
+
+
+        $('#LoTableGP1_0').show();
+        $('#LoTableGP2_0').show(); 
+        $('#LoTableGP3_0').show(); 
+        $('#LoTableGP4_0').show(); 
+
+
+        $('#id_STATION2').val("Gouyave");
+        $('.hidden-label5').show();
+
+
+
+
+        $('#TableGP1').show();
+        $('#TableGP2').show(); 
+        $('#TableGP3').show(); 
+
+    } else {
+        $('#LoTableGP1').hide();
+        $('#LoTableGP2').hide(); 
+        $('#LoTableGP3').hide(); 
+        $('#LoTableGP4').hide();
+
+
+
+        $('#LoTableGP1_0').hide();
+        $('#LoTableGP2_0').hide(); 
+        $('#LoTableGP3_0').hide(); 
+        $('#LoTableGP4_0').hide();
+
+        $('.hidden-label5').hide();
+ 
+
+
+        $('#TableGP1').hide();
+        $('#TableGP2').hide(); 
+        $('#TableGP3').hide(); 
+
+ 
+    }
+
+
+
+
+  
+
+
+  
+
+});
+
+
+
+  $('#id_START_DRYING_DATE').on('change', function() {
+    var startDate = new Date($(this).val());
+    var approxEndDate = new Date(startDate.getTime() + (15 * 24 * 60 * 60 * 1000)); 
+
+    var day = ("0" + approxEndDate.getDate()).slice(-2); 
+
+    var month = ("0" + (approxEndDate.getMonth() + 1)).slice(-2);
+
+    var year = approxEndDate.getFullYear();
+
+    var formattedDate = year + "-" + month + "-" + day;
+
+    $('#id_APPROX_END_DRYING_DATE').val(formattedDate);
+      });
+
+  $('#id_NUM_OF_BAGS').on('change', function() {
+    var start =  $('#id_NUM_OF_BAGS').val();
+    var calc = start * 110; 
+    $('#id_TOTAL_LBS_NUTMEG_BOUGHT').val(calc);
+      });
+
+
+
+
+
+
+      if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        }
+
+        function showPosition(position) {
+            document.getElementById("id_latitude").value = position.coords.latitude.toFixed(6);
+            document.getElementById("id_longitude").value = position.coords.longitude.toFixed(6);
+
+            var map = L.map('map').setView([position.coords.latitude, position.coords.longitude], 10);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+            var marker = L.marker([position.coords.latitude, position.coords.longitude]).addTo(map);
+        }
+
+
+        var formBField = document.getElementById('formB-my-field');
+        var storedValue = sessionStorage.getItem('formAField');
+        if (storedValue) {
+          formBField.value = storedValue;
+        }
+
+});
+
+</script>
+
+<script>
+
+
+    var request = indexedDB.open('Signin2', 1);
+   
+    request.onsuccess = function(event) {
+        var db = event.target.result;
+        var transaction = db.transaction('verify', 'readonly');
+        var store = transaction.objectStore('verify');
+        var getRequest = store.get(1); // Assuming you want to get the first entry
+   
+        getRequest.onsuccess = function(event) {
+            var data = event.target.result;
+            if (data) {
+                // Set the values in the form
+                document.querySelector('[name="Worker_ID_No"]').value = data.Worker_ID_No;
+                document.querySelector('[name="Nutmeg_ID_No"]').value = data.Nutmeg_ID_No;
+            }
+        };
+    };
+   </script>
+
+
+
+<!-- 
+      
+   <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var myForm = document.getElementById('verify-form');
+    
+        myForm.addEventListener('submit', function(event) {
+
+            event.preventDefault();
+            var data = new FormData(event.target);
+            saveDataToIndexedDB(data);
+        });
+    
+        function saveDataToIndexedDB(data) {
+            var request = indexedDB.open('GCNA', 2);
+        
+            request.onsuccess = function(event) {
+                var db = event.target.result;
+                var transaction = db.transaction('land-info', 'readwrite');
+                var objectStore = transaction.objectStore('land-info');
+        
+                var obj = {};
+                for (var pair of data.entries()) {
+                    obj[pair[0]] = pair[1];
+                }
+        
+                // Get the highest id in the object store
+                var highestIdRequest = objectStore.openCursor(null, 'prev');
+                highestIdRequest.onsuccess = function(event) {
+                    var cursor = event.target.result;
+                    if (cursor) {
+                        obj.id = cursor.key + 1;
+                    } else {
+                        obj.id = 1; // This is the first item
+                    }
+        
+                    var request = objectStore.put(obj);
+        
+                    request.onsuccess = function() {
+                        console.log('Data added to IndexedDB');
+                        // window.location.href = '/gcna00_2/';
+
+                    };
+        
+                    request.onerror = function() {
+                        console.error('Error adding data to IndexedDB');
+                    };
+                };
+            };
+        
+            request.onerror = function(event) {
+                console.error('Error opening IndexedDB', event);
+            };
+        }
+        
+    });
+    </script> -->
+
+
+
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var myForm = document.getElementById('verify-form');
+        
+            myForm.addEventListener('submit', function(event) {
+    
+                event.preventDefault();
+                var data = new FormData(event.target);
+                saveDataToIndexedDB(data);
+            });
+        
+            function saveDataToIndexedDB(data) {
+        // Exclude csrfmiddlewaretoken from being saved to IndexedDB
+        data.delete('csrfmiddlewaretoken');
+        data.delete('initial-Land_ID_N0');
+        
+
+        var request = indexedDB.open('GCNA', 2);
+    
+        request.onsuccess = function(event) {
+            var db = event.target.result;
+            var transaction = db.transaction('land-info', 'readwrite');
+            var objectStore = transaction.objectStore('land-info');
+    
+            var obj = {};
+            for (var pair of data.entries()) {
+                obj[pair[0]] = pair[1];
+            }
+    
+            // Get the highest id in the object store
+            var highestIdRequest = objectStore.openCursor(null, 'prev');
+            highestIdRequest.onsuccess = function(event) {
+                var cursor = event.target.result;
+                if (cursor) {
+                    obj.id = cursor.key + 1;
+                } else {
+                    obj.id = 1; // This is the first item
+                }
+    
+                var request = objectStore.put(obj);
+    
+                request.onsuccess = function() {
+                    console.log('Data added to IndexedDB');
+                    transferIndexedDBData(); // Transfer data to Django after saving to IndexedDB
+                };
+    
+                request.onerror = function() {
+                    console.error('Error adding data to IndexedDB');
+                };
+            };
+        };
+    
+        request.onerror = function(event) {
+            console.error('Error opening IndexedDB', event);
+        };
+    }
+            function transferIndexedDBData() {
+                var request = indexedDB.open('GCNA', 2);
+            
+                request.onsuccess = function(event) {
+                    var db = event.target.result;
+                    var transaction = db.transaction('land-info', 'readonly');
+                    var objectStore = transaction.objectStore('land-info');
+                    var getRequest = objectStore.getAll();
+            
+                    getRequest.onsuccess = function(event) {
+                        var data = event.target.result;
+                        data.forEach(function(item) {
+                            
+                            // sendDataToDjango(item);
+                        });
+                        // window.location.reload();
+    
+                    };
+                };
+            
+                request.onerror = function(event) {
+                    console.error('Error opening IndexedDB', event);
+                };
+            }
+        
+            function sendDataToDjango(item) {
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '/check-and-add/', true);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        if (xhr.status === 200) {
+                            console.log('Entry added successfully.');
+                        } else {
+                            console.error('Error adding entry:', xhr.statusText);
+                        }
+                    }
+                };
+                xhr.send(JSON.stringify(item));
+            }
+        });
+      </script>
+      
+    
+    
+
+	<center>
+<br>
+	{% if submitted %}
+		Entry successfully added to database!!!
+	{% else %}
+
+
+
+
+
+
+    <form action="" id="verify-form"  method="POST" action="table001" enctype="multipart/form-data" style=" background-color: #e4e4e4;
+
+    margin: 1px auto;
+    font-family: Raleway;
+    padding: 10px;
+    width: 85%;
+    min-width: 300px;
+    box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">
+  
+        {% csrf_token %}
+
+
+<div class="card">
+ 
+  <div class="card-body">
+
+  </h5>
+    <p class="card-text">
+        <table id="vertical-1" class="table table-hover table-light">
+        <!--  <div class="card">
+            <div class="card-body">
+                </h5>
+                <p class="card-text">
+                    <table id="vertical-1" class="table table-hover table-light">
+                        <h1>GCNA Form</h1>
+                        {% csrf_token %}
+                        <h3>Section 1</h3>
+                        <h4>land-info Info</h4>
+
+
+
+
+
+                        <tr>
+                            <th>land-info Name:</th>
+                            <td>{{ form.name }}</td>
+                        </tr> 
+                  
+                        <tr>
+                             <th>Age</th>
+                             <td>{{ form.age }}</td>
+                         </tr>  
+                         
+                         <tr>
+                            <th>Address</th>
+                            <td>{{ form.address }}</td>
+                            
+                        </tr>  
+                         
+                      <tr>
+                          <th>Home Phone</th>
+                          <td>{{ form.home_phone }}</td>
+                      </tr>  
+                  
+                  
+                  
+                  
+                      <tr>
+                          <th>Mobile Phone</th>
+                          <td>{{ form.mobile_phone }}</td>
+                      </tr>  
+                  
+                  
+                  
+                  
+                  
+                      <tr>
+                          <th>Email</th>
+                          <td>{{ form.email }}</td>
+                      </tr>  
+                  
+
+
+
+
+
+
+
+                      <tr>
+                        <center>
+                        <th><input type="submit" 
+                            name="" value="✔" class="btn btn-success btn-circle btn-xl"></th>
+                    </center>
+                    </tr>
+
+                      <tr>
+                        <center>
+
+                                          <th><a href="{% url 'table' %}" class="btn btn-secondary">Exit</a></th>
+                                        </center>
+
+                                        </tr>  
+                               
+                                          <br>
+                        <br>
+                        
+                    </table>
+                    <tr> -->
+       
+
+        
+
+
+		<h3>Section 2</h3>
+		<h4>Land Info</h4>
+    {{form.Worker_ID_No}} 
+    {{form.Nutmeg_ID_No}}
+
+
+
+            <tr>
+            <th>Farm Type</th>
+            <td>{{ form.farm_type }}</td>
+        </tr>
+
+        <tr>
+            <th>Land ID</th>
+            <td>{{ form.Land_ID_N0 }}</td>
+        </tr>
+
+
+            <tr>
+            <th>Tenuership Type</th>
+            <td>{{ form.tenurship }}</td>
+        </tr>           
+
+         <tr>
+
+            <th>Training</th>
+            <td>{{ form.training }}</td>
+        </tr>
+
+        <tr>
+
+            <th>Purpose of Visit</th>
+            <td>{{ form.visit }}</td>
+        </tr>
+
+
+            <tr>
+            <th>Parish</th>
+            <td>{{ form.parish }}</td>
+        </tr>
+
+
+
+            <tr>
+            <th>Village</th>
+            <td>{{ form.village }}</td>
+        </tr>
+
+
+
+            <tr>
+            <th>Latitude</th>
+            <td>{{ form.latitude }}</td>
+        </tr>
+
+
+
+            <tr>
+            <th>Longitude</th>
+            <td>{{ form.longitude }}</td>
+        </tr> 
+
+
+
+
+        <tr>
+            <th>Altitude</th>
+            <td>{{ form.altitude }}</td>
+        </tr> 
+
+
+
+            <tr>
+            <th>Acreage</th>
+            <td>{{ form.acreage }}</td>
+        </tr>
+
+
+
+            <tr>
+            <th>Insurance Zone</th>
+            <td>{{ form.insurance_zone }}</td>
+        </tr> 
+
+
+
+
+
+            <tr>
+            <th>Land Elevation</th>
+            <td>{{ form.land_elevation }}</td>
+        </tr>
+
+
+
+
+
+            <tr>
+            <th>Soil Type</th>
+            <td>{{ form.soil_type }}</td>
+        </tr>
+
+
+
+
+
+            <tr>
+            <th>Rainfall Pattern</th>
+            <td>{{ form.rainfall_pattern }}</td>
+        </tr>
+
+
+
+
+
+
+<table class="table" id="LoTableGP2_0">
+
+    <center>
+            <th>What is the intended end use if the Atlantic Tall Tree</th>
+            <td>{{ form.End_Use_Atlantic_Tall }}</td>
+        </tr>
+
+
+
+            <tr>
+            <th>What is the intended end use of the Dwarf Tree</th>
+            <td>{{ form.End_Use_Dwarf }}</td>
+        </tr>
+
+
+                <tr>
+            <th>What is the number of Bearing trees for Atlantic Tall Trees</th>
+            <td>{{ form.No_of_Bearing_Trees_Atlantic_Tall }}</td>
+        </tr>
+
+
+
+
+                <tr>
+            <th>What is the number of Bearing trees for Dwarf Trees</th>
+            <td>{{ form.No_of_Bearing_Trees_Dwarf }}</td>
+        </tr>
+
+
+
+                    <tr>
+            <th>What is the estimated production of Atlantic Tall Trees</th>
+            <td>{{ form.Estimated_Productiom_Atlantic_Tall }}</td>
+        </tr>
+
+
+
+
+                <tr>
+            <th>What is the estimated production of Dwarf Trees</th>
+            <td>{{ form.Estimated_Productiom_Dwarf }}</td>
+        </tr>
+
+
+
+
+                    <tr>
+            <th>'What is the number of Non-Bearing trees for Atlantic Tall Trees</th>
+            <td>{{ form.No_of_Non_Bearing_Trees_Atlantic_Tall }}</td>
+        </tr>
+
+
+
+
+                <tr>
+            <th>What is the number of Non-Bearing Dwarf Trees</th>
+            <td>{{ form.No_of_Non_Bearing_Trees_Dwarf }}</td>
+        </tr>
+
+
+                    <tr>
+            <th>What is the state disease for Atlantic Tall Trees</th>
+            <td>{{ form.Presence_of_Disease_Atlantic_Tall }}</td>
+        </tr>
+
+
+
+
+                <tr>
+            <th>What is the state disease for Dwarf Trees</th>
+            <td>{{ form.Presence_of_Disease_Dwarf }}</td>
+        </tr>
+
+                    <tr>
+            <th>What is the state of the Atlantic Tall Tree cultivation</th>
+            <td>{{ form.Cultivation_Atlantic_Tall }}</td>
+        </tr>
+ 
+
+
+                <tr>
+            <th>What is the state of the Dwarf Tree cultivation</th>
+            <td>{{ form.Cultivation_Dwarf }}</td>
+        </tr>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="table" id="LoTableG2_0">
+
+    <center>
+            <th>Number of Mature trees older than 25 years</th>
+            <td>{{ form.Mature_trees_25_years_quantity }}</td>
+        </tr>
+
+
+
+            <tr>
+            <th>Estimated production for Mature older than 25 years</th>
+            <td>{{ form.Mature_trees_25_years_estimated_production }}</td>
+        </tr>
+
+
+                <tr>
+         <th>Number of Bearing trees between 16 to 24</th>
+
+            <td>{{ form.Bearing_trees_16_24_years_quantity }}</td>
+        </tr>
+
+
+
+
+                <tr>
+            <th>Number of Bearing trees between 16 to 24</th>
+            <td>{{ form.Bearing_trees_16_24_years }}</td>
+        </tr>
+
+
+
+                    <tr>
+            <th>Estimated production Bearing trees between 6 to 15</th>
+            <td>{{ form.Bearing_trees_6_15_years_quantity }}</td>
+        </tr>
+
+
+
+
+                <tr>
+            <th>Number of Bearing trees between 6 to 15</th>
+            <td>{{ form.Bearing_trees_6_15_years_estimated_production }}</td>
+        </tr>
+
+
+
+
+                    <tr>
+            <th>Number of Non-Bearing trees younger than 5 years</th>
+            <td>{{ form.Non_Bearing_trees_5_years_quantity }}</td>
+        </tr>
+
+
+
+
+                <tr>
+            <th>Estimated production for Non-bearing trees younger than 5 years</th>
+            <td>{{ form.Non_Bearing_trees_5_years_estimated_production }}</td>
+        </tr>
+
+
+                    <tr>
+            <th>What is the estimated peak period?</th>
+            <td>{{ form.Estimated_peak_period }}</td>
+        </tr>
+
+</table>
+
+
+
+
+
+
+		<input type="submit" name="" value="✔" class="btn btn-success btn-circle btn-xl">
+
+		<br>
+		<br>
+
+    </table>
+
+
+
+        <tr>
+            <th><a href="{% url 'table' %}" class="btn btn-secondary">Exit</a></th>
+            {% comment %} <th><a type="submit" href="{% url 'gcna00_1' %}" role="button" class="btn btn-primary">Previous</a></th>
+            <th><a type="submit" href="{% url 'gcna00_3' %}" role="button" class="btn btn-primary">Next</a></th> {% endcomment %}
+        </tr>
+
+		</form>
+
+	{% endif %}
+
+	</center>
+
+<!-- 	<form>
+   		 <div id="map"></div>
+</form> -->
+{{ form.media }}
+
+
+{% endblock %}
+
+
+
+
+

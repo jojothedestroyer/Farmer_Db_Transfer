@@ -1,0 +1,64 @@
+
+
+{% extends 'gcna/base.html' %}
+
+
+{% block content%}
+
+ {% for form in form %}
+
+<div class="card">
+ 
+  <div class="card-body">
+
+  </h5>
+    <p class="card-text">
+        <table id="vertical-1" class="table table-hover table-light">
+        <!-- <caption>First Way</caption> -->
+       
+ 
+       <tr>
+
+            <th>Station</th>
+            <td>{{ form.STATION }}</td>
+        </tr>  
+        <tr>
+            <th>Date of Cracking</th>
+            <td>{{ form.DATE_OF_CRACKING }}</td>
+        </tr>
+        <tr>
+            <th>Warehouse Receipt Numbers</th>
+            <td>{{ form.WAREHOUSE_RECEIPT_NUMBERS }}</td>
+        </tr>
+        <tr>
+            <th>Number of Bags</th>
+            <td>{{ form.NUM_OF_BAGS }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Nutmegs Cracked(lbs)</th>
+            <td>{{ form.LBS_OF_NUTMEGS_CRACKED }}</td>
+        </tr>
+
+
+    </table>
+
+
+            <a href="{% url 'adhome'%}" class="btn btn-secondary">Return</a>
+            <a href="{% url 'edit_Cracking_0' form.pk %}" class="btn btn-success">Edit</a>           
+
+
+                    </p>
+
+
+
+       
+ </div>        </div>
+
+<br>
+<br>
+<br>
+{% endfor %}
+
+{% endblock %}

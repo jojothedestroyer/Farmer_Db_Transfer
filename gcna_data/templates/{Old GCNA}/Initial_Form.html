@@ -1,0 +1,452 @@
+{% extends 'gcna/base2.html' %}
+
+{% block content %}
+
+<style>
+    /* Style the button */
+    .custom-dropdown-button {
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+    }
+  
+    .custom-dropdown-button .custom-plus-sign {
+      font-size: 20px;
+      margin-right: 10px;
+    }
+  
+    /* Style the dropdown content */
+    .custom-dropdown-content {
+      max-height: 400px;
+      overflow-y: auto;
+      display: none;
+      margin-top: 10px;
+      border: 1px solid #ddd;
+      padding: 10px;
+    }
+  </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>
+    /* Add some basic styling for the search button */
+    #searchButton {
+        background-color: #4CAF50; /* Green background */
+        border: none;              /* Remove borders */
+        color: white;              /* White text */
+        padding: 10px 20px;        /* Some padding */
+        text-align: center;        /* Centered text */
+        text-decoration: none;     /* Remove underline */
+        display: inline-block;     /* Make the button inline-block */
+        font-size: 16px;           /* Increase font size */
+        margin: 4px 2px;           /* Some margin */
+        cursor: pointer;           /* Pointer/hand icon on hover */
+        border-radius: 8px;        /* Rounded corners */
+        transition: background-color 0.3s; /* Smooth transition */
+    }
+
+    /* Add a hover effect for the button */
+    #searchButton:hover {
+        background-color: #45a049; /* Darker green background on hover */
+    }
+</style>
+
+
+
+    <form method="POST" style="background-color: #e4e4e4;
+        margin: 1px auto;
+        font-family: Raleway;
+        padding: 10px;
+        width: 65%;
+        min-width: 300px;
+        border-radius: 10px;
+        box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">
+        {% csrf_token %}
+        <h1>Welcome</h1>
+        <h2>To the GCNA Form Webpage</h2>
+        <p>Please select one of the below objects</p>
+
+        <div class="card">
+            <div class="card-body">
+                <p class="card-text">
+                    <table id="vertical-1" class="table table-hover table-light">
+                        <h2>Farm Forms</h2>
+
+                        <tr>
+                            <th>Farmer Info</th>
+                            <td><a href="{% url 'gcna00_1' %}" class="btn btn-primary">Add</a></td>
+                            {% comment %} <td><a href="{% url 'edit_table1' %}" class="btn btn-success">Edit</a></td> {% endcomment %}
+                            <td><a href="{% url 'table1' %}" class="btn btn-secondary">View</a></td>
+                        </tr>
+
+                        <tr>
+                            <th>Land Info</th>
+                            <td><a href="{% url 'gcna00_2' %}" class="btn btn-primary">Add</a></td>
+                            {% comment %} <td><a href="{% url 'table2' %}" class="btn btn-secondary">View</a></td> {% endcomment %}
+                            {% comment %} <td>
+                                <button class="btn btn-info" onclick="createIndexedDB('{{ farmer_info_id.Nutmeg_ID_No }}')">Create Entry</button>
+                            </td> {% endcomment %}
+                        </tr>
+                        <br>
+                    </table>
+                    <!-- <button type="button" class="custom-dropdown-button" onclick="toggleCustomDropdown()">
+                        <span class="custom-plus-sign">+</span>
+                      </button> -->
+
+
+                      <div>
+                        <center>
+                          <h5>Search Farmer</h5> 
+                        </center>
+ 
+
+                        <label for="searchName">Name:</label>
+                        <input type="text" id="searchName" class="form-control">
+                        <label for="searchNutmegID">Nutmeg ID:</label>
+                        <input type="text" id="searchNutmegID" class="form-control">
+                        <button id="searchButton" class="">Search</button>
+                    </div>
+                
+                
+                      <div id="landInfoData2" >
+                        <!-- Your content goes here
+                         class="custom-dropdown-content" -->
+                      </div>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <div id="landInfoData" style="max-height: 400px; overflow-y: auto;">
+                        <!-- Display entries with delete and edit buttons here -->
+                    </div>
+                </p>
+            </div>
+        </div>
+
+        <!-- Edit form container -->
+        <div id="editFormContainer" style="background-color: #ffffff;
+        margin: 10px auto;
+        font-family: Raleway;
+        padding: 10px;
+        width: 85%;
+        min-width: 300px;
+        border-radius: 10px;
+        box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">
+
+        
+        </div>
+
+
+
+       <form id="editForm" style="margin-bottom: 10px;"> 
+        <!-- Rest of your HTML content -->
+
+
+
+        <div class="card">
+         
+            <div class="card-body">
+                <p class="card-text">
+                    <table id="vertical-1" class="table table-hover table-light" >
+
+
+
+
+    </form>
+
+    <script>
+        function toggleCustomDropdown() {
+           var content = document.getElementById('landInfoData2');
+          if (content.style.display === 'none' || content.style.display === '') {
+            content.style.display = 'block';
+          } else {
+            content.style.display = 'none';
+          }
+        }
+      </script>
+<script>
+        document.getElementById('searchButton').addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent page reload
+
+            // Get search input values
+            let searchName = document.getElementById('searchName').value.toLowerCase();
+            let searchNutmegID = document.getElementById('searchNutmegID').value.toLowerCase();
+
+            // Open the GCNA database
+            let openRequest = indexedDB.open("GCNA");
+
+            openRequest.onsuccess = function(event) {
+                let db = event.target.result;
+
+                // Open a transaction to read from the Farmer store
+                let transaction = db.transaction("Farmer", "readonly");
+                let landInfoStore = transaction.objectStore("Farmer");
+
+                // Get all records from Farmer store
+                let getAllRequest = landInfoStore.getAll();
+
+                getAllRequest.onsuccess = function(event) {
+                    let landInfoRecords = event.target.result;
+
+                    // Filter landInfoRecords based on search criteria
+                    let filteredLandInfoRecords2 = landInfoRecords.filter(record => {
+                        let name = record.name ? record.name.toLowerCase() : "";
+                        let nutmegID = record.Nutmeg_ID_No ? record.Nutmeg_ID_No.toLowerCase() : "";
+
+                        let nameMatch = !searchName || name === searchName;
+                        let nutmegIDMatch = !searchNutmegID || nutmegID === searchNutmegID;
+
+                        return nameMatch && nutmegIDMatch;
+                    });
+
+                    // Clear previous search results
+                    let landInfoDataDiv = document.getElementById('landInfoData2');
+                    landInfoDataDiv.innerHTML = '';
+
+                    if (filteredLandInfoRecords2.length > 0) {
+                        // Map filteredLandInfoRecords to include delete and edit buttons
+                        filteredLandInfoRecords2.forEach(record => {
+                            let entryDiv = document.createElement("div");
+                            let Nutmeg = record.Nutmeg_ID_No;
+                            entryDiv.innerHTML = `
+                                <hr>
+                                <p>ID: ${record.id}</p>
+                                <p>Farmer ID: ${record.Nutmeg_ID_No}</p>
+                                <p>Farmer Name: ${record.name}</p>
+                                <p>Address: ${record.address}</p>
+                                <p>Home Phone number: ${record.home_phone}</p>
+                                <p>Mobile Phone Number: ${record.mobile_phone}</p>
+                                <br>  
+                                <hr>
+                            `;
+                            landInfoDataDiv.appendChild(entryDiv);
+
+                            // Create the continue button
+                            let editFormContainerbtn = document.createElement("button");
+                            editFormContainerbtn.classList.add("btn", "btn-success");
+                            editFormContainerbtn.textContent = "Continue";
+                            editFormContainerbtn.onclick = function(event) {
+                                createNewDatabaseAndStoreFarmerId(event, Nutmeg, record.Worker_ID_No);
+                            };
+                            entryDiv.appendChild(editFormContainerbtn);
+                        });
+                    } else {
+                        landInfoDataDiv.innerHTML = '<p>No Entries Found</p>';
+                    }
+                };
+            };
+        });
+
+        function createNewDatabaseAndStoreFarmerId(event, Nutmeg, Worker_ID_No) {
+            // Your existing logic to create a new database and store Farmer ID
+            console.log("Nutmeg ID:", Nutmeg);
+            console.log("Worker ID:", Worker_ID_No);
+        }
+</script>
+<script>
+    function deleteDatabaseOnLoad() {
+    const deleteRequest2 = indexedDB.deleteDatabase('Signin2');
+
+    deleteRequest2.onerror = function(event) {
+        console.error("Error deleting database on page load.");
+    };
+
+    deleteRequest2.onsuccess = function(event) {
+        console.log("Database deleted successfully on page load.");
+    };
+}
+
+// Call the delete function when the page loads
+window.onload = function() {
+    deleteDatabaseOnLoad();
+};
+
+</script>
+<script>
+    function Reload() {
+        console.log("DOM fully loaded and parsed");
+
+        // Check for IndexedDB support
+        if (!window.indexedDB) {
+            console.error("Your browser doesn't support a stable version of IndexedDB.");
+            return;
+        }
+
+        // Delete the LandId database
+        const deleteRequest = indexedDB.deleteDatabase('LandId');
+
+        deleteRequest.onsuccess = function() {
+            console.log('IndexedDB cleared.');
+        };
+        
+        deleteRequest.onerror = function() {
+            console.error('Failed to clear IndexedDB.');
+        };
+
+        // Open the GCNA database
+        let openRequest = indexedDB.open("GCNA");
+
+        openRequest.onerror = function(event) {
+            console.error("Failed to open GCNA database:", event.target.error);
+        };
+
+        openRequest.onsuccess = function(event) {
+            let db = event.target.result;
+            console.log("Opened GCNA database");
+
+            // Open a transaction to read from the land-info store
+            let transaction = db.transaction("land-info", "readonly");
+            let landInfoStore = transaction.objectStore("land-info");
+
+            // Get all records from land-info store
+            let getAllRequest = landInfoStore.getAll();
+
+            getAllRequest.onerror = function(event) {
+                console.error("Failed to retrieve land-info records:", event.target.error);
+            };
+
+            getAllRequest.onsuccess = function(event) {
+                let landInfoRecords = event.target.result;
+                console.log("Retrieved land-info records:", landInfoRecords);
+
+                // Open the Check database
+                let openRequestCheck = indexedDB.open("Signin2");
+
+                openRequestCheck.onerror = function(event) {
+                    console.error("Failed to open Signin2 database:", event.target.error);
+                };
+
+                openRequestCheck.onsuccess = function(event) {
+                    let dbCheck = event.target.result;
+
+                    // Open a transaction to read from the verify store
+                    let transactionCheck = dbCheck.transaction("verify", "readonly");
+                    let verifyStore = transactionCheck.objectStore("verify");
+
+                    // Get all records from verify store
+                    let getAllRequestCheck = verifyStore.getAll();
+
+                    getAllRequestCheck.onerror = function(event) {
+                        console.error("Failed to retrieve verify records:", event.target.error);
+                    };
+
+                    getAllRequestCheck.onsuccess = function(event) {
+                        let verifyRecords = event.target.result;
+                        console.log("Retrieved verify records:", verifyRecords);
+
+                        // Ensure both Nutmeg_ID_No values are compared as strings
+                        let filteredLandInfoRecords = landInfoRecords.filter(landInfoRecord =>
+                            verifyRecords.some(verifyRecord => String(verifyRecord.Nutmeg_ID_No) === String(landInfoRecord.Nutmeg_ID_No))
+                        );
+
+                        if (filteredLandInfoRecords.length > 0) {
+                            console.log("Filtered records found:", filteredLandInfoRecords);
+                        } else {
+                            console.log("No matching records found");
+                        }
+
+                        // Map filteredLandInfoRecords to include delete and edit buttons
+                        let landInfoDataDiv = document.getElementById('landInfoData');
+                        if (!landInfoDataDiv) {
+                            console.error("Element with ID 'landInfoData' not found");
+                            return;
+                        }
+
+                        filteredLandInfoRecords.forEach(record => {
+                            let entryDiv = document.createElement("div");
+                            entryDiv.innerHTML = `
+                                <hr>
+                                <p>ID: ${record.id}</p>
+                                <p>Farm Type: ${record.farm_type}</p>
+                                <p>Tenureship Type: ${record.tenurship}</p>
+                                <p>Training: ${record.training}</p>
+                                <p>Visit: ${record.visit}</p>
+                                <p>Parish: ${record.parish}</p>
+                                <p>Village: ${record.village}</p>
+                                <p>Land_ID_No: ${record.Land_ID_N0}</p>
+                                <button class="btn btn-danger" onclick="deleteEntry(${record.id})">Delete</button>
+                                <button class="btn btn-primary" onclick="editEntry(${record.id})">Edit</button>
+                                <button class="btn btn-success" onclick="createNewDatabaseAndStoreLandId(event, '${record.Land_ID_N0}')">Continue</button>
+                                <br>  
+                                <hr> 
+                            `;
+                            landInfoDataDiv.appendChild(entryDiv);
+
+                            // Create an empty div to hold the edit form for this entry
+                            let editFormContainer = document.createElement("div");
+                            editFormContainer.id = `editFormContainer_${record.id}`;
+                            landInfoDataDiv.appendChild(editFormContainer);
+                        });
+                    };
+                };
+            };
+        };
+
+        window.createNewDatabaseAndStoreLandId = function(event, landIdNo) {
+            event.preventDefault();  // Prevent the default form submission behavior
+            console.log(`Storing Land ID No: ${landIdNo}`);  // Logging the Land ID No to be stored
+            
+            let openRequest = indexedDB.open("LandId");
+
+            openRequest.onupgradeneeded = function(event) {
+                let db = event.target.result;
+                let store = db.createObjectStore("land-ids", { keyPath: "id" });
+                store.add({ id: 1, Land_ID_N0: landIdNo.toString() });
+            };
+
+            openRequest.onsuccess = function(event) {
+                console.log('Database (LandId) created and Land ID No stored.');
+                window.location.href = '/table/';
+            };
+
+            openRequest.onerror = function(event) {
+                console.error('Error creating database (LandId):', event.target.error);
+            };
+        };
+    };
+</script>
+<script>
+    function test(Nutmeg_ID_No){
+        console.log(Nutmeg_ID_No)
+    }
+</script>
+       <script>
+      
+    function createNewDatabaseAndStoreFarmerId(event, Nutmeg, workerId) {
+        event.preventDefault();
+        let farmerId2 = Nutmeg.toString();
+        console.log("Nutmeg (passed to createNewDatabaseAndStoreFarmerId):", Nutmeg);
+        console.log("Farmer ID 2:", farmerId2);
+
+        const request = indexedDB.open('Signin2', 1);
+
+        request.onupgradeneeded = function(event) {
+            const db = event.target.result;
+            const objectStore = db.createObjectStore('verify', { keyPath: 'id', autoIncrement: true });
+            objectStore.add({ Worker_ID_No: workerId, Nutmeg_ID_No: farmerId2 });
+        };
+
+        request.onsuccess = function(event) {
+            console.log('Worker ID and Nutmeg ID saved to IndexedDB.');
+            Reload();
+            // window.location.reload();
+        };
+    }
+    
+    </script>
+{% endblock %}
