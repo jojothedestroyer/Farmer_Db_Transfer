@@ -510,20 +510,12 @@ class Dispatch_Of_Dried_Nutmeg_Rec_Form(ModelForm):
         model = Dispatch_Of_Dried_Nutmeg_Rec
         fields = '__all__'
         widgets = {
-<<<<<<< HEAD
             'Station': forms.Select(attrs={'class':'form-control'}),    
-=======
-            'Station': forms.TextInput(attrs={'class':'form-control'}),
->>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
             'BatchCode': forms.TextInput(attrs={'class':'form-control'}),
             'Vehicle_number': forms.TextInput(attrs={'class':'form-control'}),
             'Delivery_advice_num': forms.TextInput(attrs={'class':'form-control'}),
             'WAREHOUSE_RECEIPT_NUMBER': forms.TextInput(attrs={'class':'form-control'}),
-<<<<<<< HEAD
             'Station_rec': forms.Select(attrs={'class':'form-control'}),    
-=======
-            'Station_rec': forms.TextInput(attrs={'class':'form-control'}),
->>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
             'Product': forms.TextInput(attrs={'class':'form-control'}),
             'Num_Bags': forms.TextInput(attrs={'class':'form-control'}),
             'Weight': forms.TextInput(attrs={'class':'form-control'}),
@@ -545,11 +537,7 @@ class Dispatch_Of_Green_Nutmeg_Rec_Form(ModelForm):
         model = Dispatch_Of_Green_Nutmeg_Rec
         fields = '__all__'
         widgets = {
-<<<<<<< HEAD
             'Station': forms.Select(attrs={'class':'form-control'}),
-=======
-            'Station': forms.TextInput(attrs={'class':'form-control'}),
->>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
             'BatchCode': forms.TextInput(attrs={'class':'form-control'}),
             'WAREHOUSE_RECEIPT_NUMBER': forms.TextInput(attrs={'class':'form-control'}),
             'Delivery_advice_num': forms.TextInput(attrs={'class':'form-control'}),
@@ -560,11 +548,8 @@ class Dispatch_Of_Green_Nutmeg_Rec_Form(ModelForm):
             'conf_Product': forms.TextInput(attrs={'class':'form-control'}),
             'conf_Num_Bags': forms.TextInput(attrs={'class':'form-control'}),
             'conf_Weight': forms.TextInput(attrs={'class':'form-control'}),
-<<<<<<< HEAD
                         'Vehicle_number': forms.TextInput(attrs={'class':'form-control'}),
 
-=======
->>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
         }
 
 
@@ -2563,11 +2548,7 @@ class Dispatch_Of_Dried_Nutmeg_Form(ModelForm):
         'Worker_ID_No' : forms.HiddenInput(attrs={'class':'form-control'}),
     'Worker_ID_Name': forms.HiddenInput(attrs={'class':'form-control'}),
     
-<<<<<<< HEAD
     'STATION_recieved': forms.Select(attrs={'class':'form-control'}),
-=======
-    'STATION_recieved': forms.TextInput(attrs={'class':'form-control'}),
->>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     'Nutmeg_ID_No': forms.HiddenInput(attrs={'class':'form-control'}),
     'STATION': forms.Select(attrs={'class':'form-control'}),
@@ -2865,11 +2846,7 @@ class Dispatch_Of_Green_Nutmeg_Form(ModelForm):
 
         'Worker_ID_No' : forms.HiddenInput(attrs={'class':'form-control'}),
     'Worker_ID_Name': forms.HiddenInput(attrs={'class':'form-control'}),
-<<<<<<< HEAD
     'DATE_CREATED': forms.DateInput(attrs={'type':'date','class':'form-control'}),
-=======
-    
->>>>>>> 2f77c1ff2c41e2835471e62d0a1d735b5cb80b89
 
     'Nutmeg_ID_No': forms.HiddenInput(attrs={'class':'form-control'}),
     'STATION': forms.Select(attrs={'class':'form-control'}),
