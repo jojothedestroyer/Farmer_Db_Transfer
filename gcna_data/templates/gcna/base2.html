@@ -581,7 +581,7 @@
         showLoadingSpinner(true); // Show the loading spinner
         console.log("Syncing data with Firebase for user:", customUserId);
         const indexedDBData = await getIndexedDBData();
-        await loadDataFromFirebase(customUserId);
+        // await loadDataFromFirebase(customUserId);
     
         if (indexedDBData.length === 0) {
           console.log("IndexedDB is empty. Loading data from Firebase...");
@@ -735,13 +735,13 @@
     
       function disableUserInteraction() {
         // Disable interaction while syncing
-        document.body.style.pointerEvents = "none";
+        // document.body.style.pointerEvents = "none";
         console.log("User interaction disabled.");
       }
     
       function enableUserInteraction() {
         // Enable interaction after syncing
-        document.body.style.pointerEvents = "auto";
+        // document.body.style.pointerEvents = "auto";
         console.log("User interaction enabled.");
       }
     

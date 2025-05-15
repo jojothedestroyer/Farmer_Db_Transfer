@@ -77,29 +77,73 @@
       }
 
       function transferIndexedDBData() {
-          var request = indexedDB.open('GCNA', 2);
+            var request = indexedDB.open('GCNA', 2);
+        
+            request.onsuccess = function(event) {
+                var db = event.target.result;
+                var transaction = db.transaction('Vehicle_Inspection', 'readonly');
+                var objectStore = transaction.objectStore('Vehicle_Inspection');
+                var getRequest = objectStore.getAll();
+        
+                getRequest.onsuccess = function(event) {
+                    var data = event.target.result;
+                    data.forEach(function(item) {
+  
+                    });
+                };
+            };
+        
+            request.onerror = function(event) {
+                console.error('Error opening IndexedDB', event);
+            };
+        }
+    
+        function populateSelect_second() {
+    var request = indexedDB.open('GCNA', 2);
 
-          request.onsuccess = function(event) {
-              var db = event.target.result;
-              var transaction = db.transaction('Vehicle_Inspection', 'readonly');
-              var objectStore = transaction.objectStore('Vehicle_Inspection');
-              var getRequest = objectStore.getAll();
+    request.onerror = function(event) {
+        console.error("IndexedDB error:", event.target.error);
+    };
 
-              getRequest.onsuccess = function(event) {
-                  var data = event.target.result;
-                  data.forEach(function(item) {
-                      // Perform your data transfer logic here
-                  });
-                  alert('Data has been successfully submitted and saved!');
-                  modal.style.display = 'none';
-              };
-          };
+    request.onsuccess = function(event) {
+        var db = event.target.result;
+        var select = document.getElementById('vehicleSelect');
+        
+        // If select doesn't exist, create it (though this shouldn't happen if the HTML is properly set up)
+        if (!select) {
+            var selectDiv = document.getElementById('selectContainer');
+            select = document.createElement('select');
+            select.id = 'vehicleSelect';
+            select.classList.add('form-control');
+            selectDiv.appendChild(select);
+        }
+        
+        // Clear existing options
+        select.innerHTML = '';
 
-          request.onerror = function(event) {
-              console.error('Error opening IndexedDB', event);
-          };
-      }
-  });
+        var transaction = db.transaction('Vehicle_Inspection', 'readonly');
+        var objectStore = transaction.objectStore('Vehicle_Inspection');
+        var vehicleNumbers = [];
+
+        objectStore.openCursor().onsuccess = function(event) {
+            var cursor = event.target.result;
+            if (cursor) {
+                var vehicleNumber = cursor.value.Vehicle_number;
+                if (!vehicleNumbers.includes(vehicleNumber)) {
+                    vehicleNumbers.push(vehicleNumber);
+                    var option = document.createElement('option');
+                    option.textContent = vehicleNumber;
+                    option.value = vehicleNumber;
+                    select.appendChild(option);
+                }
+                cursor.continue();
+            }
+        };
+    };
+}
+
+
+    });
 </script>
 
  
@@ -773,7 +817,7 @@
         <tr>
         <ul class="menu">
           <li class="dropdown">
-            <button type="button" class="addrow" onclick="toggleDropdown()">In House Drying List</button>
+            <button type="button" class="addrow" onclick="toggleDropdown()">Purchased Nutmeg List</button>
             <div class="dropdown-content" id="myDropdown">
               <div class="container">
               </div>
@@ -959,8 +1003,11 @@
                         let existsInDried = dispatchRecordsDried.some(dispatchRecord => 
                             dispatchRecord.BATCH_CODES.includes(record.Control_number)
                         );
-    
+                        
+                        if(record.COMPLETE =='Yes'){
+
                         // Check the Dispatch-Of-Green store if not found in Dispatch-Of-Dried-Nutmeg
+
                         if (!existsInDried) {
                             getAllDispatchRequestGreen.onsuccess = function(event) {
                                 let dispatchRecordsGreen = event.target.result;
@@ -1037,6 +1084,14 @@
                         } else {
                             console.log(`Record.Control_number ${record.Control_number} already exists in Dispatch-Of-Dried-Nutmeg BATCH_CODES. Dropdown not generated.`);
                         }
+
+
+
+                    }else{
+                    console.log(`Record.Control_number ${record.Control_number} NOT COMPLETE.`);
+
+                  }
+
                     };
     
                     getAllDispatchRequestDried.onerror = function() {

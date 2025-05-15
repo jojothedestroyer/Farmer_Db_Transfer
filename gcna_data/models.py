@@ -2122,7 +2122,9 @@ class Mace_Dispatched_Rec(models.Model):
         ('M', 'Marli'),
         ('U', 'Union'),
         ('GP', 'Gouyave'),
-
+   ('V', 'Victoria'),
+        ('T', 'Thebaide'),
+        ('HO', 'Head Office'),
    
 
 
@@ -2173,7 +2175,9 @@ class Mace_Purchase(models.Model):
         ('M', 'Marli'),
         ('U', 'Union'),
         ('GP', 'Gouyave'),
-
+   ('V', 'Victoria'),
+        ('T', 'Thebaide'),
+        ('HO', 'Head Office'),
    
 
 
@@ -2231,7 +2235,9 @@ class Mace_Dispatched(models.Model):
         ('M', 'Marli'),
         ('U', 'Union'),
         ('GP', 'Gouyave'),
-
+   ('V', 'Victoria'),
+        ('T', 'Thebaide'),
+        ('HO', 'Head Office'),
    
 
 
@@ -2291,7 +2297,9 @@ class In_House_Drying(models.Model):
         ('M', 'Marli'),
         ('U', 'Union'),
         ('GP', 'Gouyave'),
-
+   ('V', 'Victoria'),
+        ('T', 'Thebaide'),
+        ('HO', 'Head Office'),
    
 
 
@@ -2346,11 +2354,31 @@ class In_House_Drying(models.Model):
 
     SECTION0 = [
         ('', '--Select Section--'),
-        ('1-3', '1-3'),
-        ('4-6', '4-6'),
-        ('7-9', '7-9'),
+    ('A', 'A'),
+    ('B', 'B'),
+    ('C', 'C'),
+    ('D', 'D'),
+    ('E', 'E'),
+    ('F', 'F'),
+    ('G', 'G'),
+    ('H', 'H'),
+    ('I', 'I'),
+    ('J', 'J'),
+    ('K', 'K'),
+    ('L', 'L'),
+    ('M', 'M'),
+    ('N', 'N'),
+    ('O', 'O'),
+    ('P', 'P'),
+    ('Q', 'Q'),
+    ('R', 'R'),
+    ('S', 'S'),
+    ('T', 'T'),
+]
+   
 
-    ]
+
+    
 
     SHELF1 = [
         ('', '--Select shelf--'),
@@ -2387,11 +2415,31 @@ class In_House_Drying(models.Model):
 
     SECTION1 = [
         ('', '--Select Section--'),
-        ('1-3', '1-3'),
-        ('4-6', '4-6'),
-        ('7-9', '7-9'),
+     ('A', 'A'),
+    ('B', 'B'),
+    ('C', 'C'),
+    ('D', 'D'),
+    ('E', 'E'),
+    ('F', 'F'),
+    ('G', 'G'),
+    ('H', 'H'),
+    ('I', 'I'),
+    ('J', 'J'),
+    ('K', 'K'),
+    ('L', 'L'),
+    ('M', 'M'),
+    ('N', 'N'),
+    ('O', 'O'),
+    ('P', 'P'),
+    ('Q', 'Q'),
+    ('R', 'R'),
+    ('S', 'S'),
+    ('T', 'T'),
+]
+   
 
-    ]
+
+    
 
     SHELF2 = [
         ('', '--Select shelf--'),
@@ -2428,11 +2476,31 @@ class In_House_Drying(models.Model):
 
     SECTION2 = [
         ('', '--Select Section--'),
-        ('1-3', '1-3'),
-        ('4-6', '4-6'),
-        ('7-9', '7-9'),
+    ('A', 'A'),
+    ('B', 'B'),
+    ('C', 'C'),
+    ('D', 'D'),
+    ('E', 'E'),
+    ('F', 'F'),
+    ('G', 'G'),
+    ('H', 'H'),
+    ('I', 'I'),
+    ('J', 'J'),
+    ('K', 'K'),
+    ('L', 'L'),
+    ('M', 'M'),
+    ('N', 'N'),
+    ('O', 'O'),
+    ('P', 'P'),
+    ('Q', 'Q'),
+    ('R', 'R'),
+    ('S', 'S'),
+    ('T', 'T'),
+]
+   
 
-    ]
+
+    
 
 
     SHELF3 = [
@@ -2470,11 +2538,31 @@ class In_House_Drying(models.Model):
 
     SECTION3 = [
         ('', '--Select Section--'),
-        ('1-3', '1-3'),
-        ('4-6', '4-6'),
-        ('7-9', '7-9'),
+    ('A', 'A'),
+    ('B', 'B'),
+    ('C', 'C'),
+    ('D', 'D'),
+    ('E', 'E'),
+    ('F', 'F'),
+    ('G', 'G'),
+    ('H', 'H'),
+    ('I', 'I'),
+    ('J', 'J'),
+    ('K', 'K'),
+    ('L', 'L'),
+    ('M', 'M'),
+    ('N', 'N'),
+    ('O', 'O'),
+    ('P', 'P'),
+    ('Q', 'Q'),
+    ('R', 'R'),
+    ('S', 'S'),
+    ('T', 'T'),
+]
+   
 
-    ]
+
+    
 
 
     SHELF4 = [
@@ -2509,11 +2597,31 @@ class In_House_Drying(models.Model):
 
     SECTION4 = [
         ('', '--Select Section--'),
-        ('1-3', '1-3'),
-        ('4-6', '4-6'),
-        ('7-9', '7-9'),
+    ('A', 'A'),
+    ('B', 'B'),
+    ('C', 'C'),
+    ('D', 'D'),
+    ('E', 'E'),
+    ('F', 'F'),
+    ('G', 'G'),
+    ('H', 'H'),
+    ('I', 'I'),
+    ('J', 'J'),
+    ('K', 'K'),
+    ('L', 'L'),
+    ('M', 'M'),
+    ('N', 'N'),
+    ('O', 'O'),
+    ('P', 'P'),
+    ('Q', 'Q'),
+    ('R', 'R'),
+    ('S', 'S'),
+    ('T', 'T'),
+]
+   
 
-    ]
+
+    
 
     SELECTION = [
         ('', 'Send Alert?'),
@@ -2535,31 +2643,14 @@ class In_House_Drying(models.Model):
     TOTAL_NUM_OF_FARMERS= models.CharField('Total Numbers of Farmers',default= 0,max_length=50)
     TOTAL_LBS_NUTMEG_BOUGHT= models.CharField('Total lbs of nutmeg bought',null=True,default= 0,max_length=50)
     NUM_OF_BAGS= models.CharField('Number of Bags',default= 0,max_length=50)
-    START_DRYING_DATE= models.DateField('Start drying date',null=True)
-    APPROX_END_DRYING_DATE= models.DateField('Approximate end drying date',null=True)
-    END_DRYING_DATE= models.DateField('End drying date',null=True,blank=True)
+    START_DRYING_DATE= models.DateField('Start drying date',null=True,blank=True)
+    APPROX_END_DRYING_DATE= models.DateField('Approximate end drying date',null=True,blank=True)
+    END_DRYING_DATE= models.DateField('End drying date',null=True,blank=True,)
 
 
 
     COMPLETE= models.CharField('Is it Complete',null=True,blank=True, max_length=50)
 
-
-
-# PLACEMENT ON SHELF
-
-
-
-    # ShelfG= models.CharField('Shelf',max_length=50, choices=SHELF0, null=True,blank=True) 
-    # TrayG= models.CharField('Tray',max_length=50, choices=TRAY0, null=True,blank=True)
-    # SectionG= models.CharField('Section',max_length=50, choices=SECTION0, null=True,blank=True)
-
-    # Shelf= models.CharField('Shelf',max_length=50, choices=SHELF0, null=True,blank=True) 
-    # Tray= models.CharField('Tray',max_length=50, choices=TRAY0, null=True,blank=True)
-    # Section= models.CharField('Section',max_length=50, choices=SECTION0, null=True,blank=True)
-
-    # Shelf= models.CharField('Shelf',max_length=50, choices=SHELF0, null=True,blank=True) 
-    # Tray= models.CharField('Tray',max_length=50, choices=TRAY0, null=True,blank=True)
-    # SectionM= models.CharField('Section',max_length=50, choices=SECTION0, null=True,blank=True)
 
     WeightG_GF= models.CharField('Section',max_length=50, null=True,blank=True)
     WeightG_1F= models.CharField('Section',max_length=50, null=True,blank=True)
@@ -2586,32 +2677,6 @@ class In_House_Drying(models.Model):
     WeightGP_2F= models.CharField('Section',max_length=50, null=True,blank=True)
     WeightGP_FL= models.CharField('Section',max_length=50, null=True,blank=True)
 
-    # MoistureG_GF= models.CharField('Section',max_length=50, null=True,blank=True)
-    # MoistureG_1F= models.CharField('Section',max_length=50, null=True,blank=True)
-    # MoistureG_2F= models.CharField('Section',max_length=50, null=True,blank=True)
-    # MoistureG_FL= models.CharField('Section',max_length=50, null=True,blank=True)
-
-    # MoistureH_GF= models.CharField('Section',max_length=50, null=True,blank=True)
-    # MoistureH_1F= models.CharField('Section',max_length=50, null=True,blank=True)
-    # MoistureH_2F= models.CharField('Section',max_length=50, null=True,blank=True)
-    # MoistureH_FL= models.CharField('Section',max_length=50, null=True,blank=True)
-
-    # MoistureM_GF= models.CharField('Section',max_length=50, null=True,blank=True)
-    # MoistureM_1F= models.CharField('Section',max_length=50, null=True,blank=True)
-    # MoistureM_2F= models.CharField('Section',max_length=50, null=True,blank=True)
-    # MoistureM_FL= models.CharField('Section',max_length=50, null=True,blank=True)
-
-    # MoistureU_GF= models.CharField('Section',max_length=50, null=True,blank=True)
-    # MoistureU_1F= models.CharField('Section',max_length=50, null=True,blank=True)
-    # MoistureU_2F= models.CharField('Section',max_length=50, null=True,blank=True)
-    # MoistureU_FL= models.CharField('Section',max_length=50, null=True,blank=True)
-
-    # MoistureGP_GF= models.CharField('Section',max_length=50, null=True,blank=True)
-    # MoistureGP_1F= models.CharField('Section',max_length=50, null=True,blank=True)
-    # MoistureGP_2F= models.CharField('Section',max_length=50, null=True,blank=True)
-    # MoistureGP_FL= models.CharField('Section',max_length=50, null=True,blank=True)
-
-     # LOCATION1  
  
     ShelfG_GF= models.CharField('Shelf',max_length=50, choices=SHELF0, null=True,blank=True) 
     TrayG_GF= models.CharField('Tray',max_length=50, choices=TRAY0, null=True,blank=True)
@@ -2693,101 +2758,6 @@ class In_House_Drying(models.Model):
     TrayGP_FL= models.CharField('Tray',max_length=50, choices=TRAY0, null=True,blank=True)
     SectionGP_FL= models.CharField('Section',max_length=50,  null=True,blank=True)
 
-# MOISTURE TESTING (Weeks 3, 6, 8)
-
-
-
-   # LOCATION2    
-
-    # ShelfG_0_GF= models.CharField('Shelf',max_length=50, choices=SHELF0, null=True,blank=True) 
-    # TrayG_0_GF= models.CharField('Tray',max_length=50, choices=TRAY0, null=True,blank=True)
-    # SectionG_0_GF= models.CharField('Section',max_length=50, choices=SECTION0, null=True,blank=True)
-
-    # ShelfG_0_1F= models.CharField('Shelf',max_length=50, choices=SHELF0, null=True,blank=True) 
-    # TrayG_0_1F= models.CharField('Tray',max_length=50, choices=TRAY0, null=True,blank=True)
-    # SectionG_0_1F= models.CharField('Section',max_length=50, choices=SECTION0, null=True,blank=True)
-
-    # ShelfG_0_2F= models.CharField('Shelf',max_length=50, choices=SHELF0, null=True,blank=True) 
-    # TrayG_0_2F= models.CharField('Tray',max_length=50, choices=TRAY0, null=True,blank=True)
-    # SectionG_0_2F= models.CharField('Section',max_length=50, choices=SECTION0, null=True,blank=True)
-
-    # ShelfG_0_FL= models.CharField('Shelf',max_length=50, choices=SHELF0, null=True,blank=True) 
-    # TrayG_0_FL= models.CharField('Tray',max_length=50, choices=TRAY0, null=True,blank=True)
-    # SectionG_0_FL= models.CharField('Section',max_length=50, choices=SECTION0, null=True,blank=True)
-
-    # ShelfH_0_GF= models.CharField('Shelf',max_length=50, choices=SHELF0, null=True,blank=True) 
-    # TrayH_0_GF= models.CharField('Tray',max_length=50, choices=TRAY0, null=True,blank=True)
-    # SectionH_0_GF= models.CharField('Section',max_length=50, choices=SECTION0, null=True,blank=True)
-
-    # ShelfH_0_1F= models.CharField('Shelf',max_length=50, choices=SHELF0, null=True,blank=True) 
-    # TrayH_0_1F= models.CharField('Tray',max_length=50, choices=TRAY0, null=True,blank=True)
-    # SectionH_0_1F= models.CharField('Section',max_length=50, choices=SECTION0, null=True,blank=True)
-
-    # ShelfH_0_2F= models.CharField('Shelf',max_length=50, choices=SHELF0, null=True,blank=True) 
-    # TrayH_0_2F= models.CharField('Tray',max_length=50, choices=TRAY0, null=True,blank=True)
-    # SectionH_0_2F= models.CharField('Section',max_length=50, choices=SECTION0, null=True,blank=True)
-
-    # ShelfH_0_FL= models.CharField('Shelf',max_length=50, choices=SHELF0, null=True,blank=True) 
-    # TrayH_0_FL= models.CharField('Tray',max_length=50, choices=TRAY0, null=True,blank=True)
-    # SectionH_0_FL= models.CharField('Section',max_length=50, choices=SECTION0, null=True,blank=True)
-
-
-    # ShelfM_0_GF= models.CharField('Shelf',max_length=50, choices=SHELF0, null=True,blank=True) 
-    # TrayM_0_GF= models.CharField('Tray',max_length=50, choices=TRAY0, null=True,blank=True)
-    # SectionM_0_GF= models.CharField('Section',max_length=50, choices=SECTION0, null=True,blank=True)
-
-    # ShelfM_0_1F= models.CharField('Shelf',max_length=50, choices=SHELF0, null=True,blank=True) 
-    # TrayM_0_1F= models.CharField('Tray',max_length=50, choices=TRAY0, null=True,blank=True)
-    # SectionM_0_1F= models.CharField('Section',max_length=50, choices=SECTION0, null=True,blank=True)
-
-
-    # ShelfM_0_2F= models.CharField('Shelf',max_length=50, choices=SHELF0, null=True,blank=True) 
-    # TrayM_0_2F= models.CharField('Tray',max_length=50, choices=TRAY0, null=True,blank=True)
-    # SectionM_0_2F= models.CharField('Section',max_length=50, choices=SECTION0, null=True,blank=True)
-
-
-    # ShelfM_0_FL= models.CharField('Shelf',max_length=50, choices=SHELF0, null=True,blank=True)
-    # TrayM_0_FL= models.CharField('Tray',max_length=50, choices=TRAY0, null=True,blank=True)
-    # SectionM_0_FL= models.CharField('Section',max_length=50, choices=SECTION0, null=True,blank=True)
-
-
-    # ShelfU_0_GF= models.CharField('Shelf',max_length=50, choices=SHELF0, null=True,blank=True) 
-    # TrayU_0_GF= models.CharField('Tray',max_length=50, choices=TRAY0, null=True,blank=True)
-    # SectionU_0_GF= models.CharField('Section',max_length=50, choices=SECTION0, null=True,blank=True)
-
-
-    # ShelfU_0_1F= models.CharField('Shelf',max_length=50, choices=SHELF0, null=True,blank=True) 
-    # TrayU_0_1F= models.CharField('Tray',max_length=50, choices=TRAY0, null=True,blank=True)
-    # SectionU_0_1F= models.CharField('Section',max_length=50, choices=SECTION0, null=True,blank=True)
-
-    # ShelfU_0_2F= models.CharField('Shelf',max_length=50, choices=SHELF0, null=True,blank=True) 
-    # TrayU_0_2F= models.CharField('Tray',max_length=50, choices=TRAY0, null=True,blank=True)
-    # SectionU_0_2F= models.CharField('Section',max_length=50, choices=SECTION0, null=True,blank=True)
-
-    # ShelfU_0_FL= models.CharField('Shelf',max_length=50, choices=SHELF0, null=True,blank=True) 
-    # TrayU_0_FL= models.CharField('Tray',max_length=50, choices=TRAY0, null=True,blank=True)
-    # SectionU_0_FL= models.CharField('Section',max_length=50, choices=SECTION0, null=True,blank=True)
-
-
-    # ShelfGP_0_GF= models.CharField('Shelf',max_length=50, choices=SHELF0, null=True,blank=True) 
-    # TrayGP_0_GF= models.CharField('Tray',max_length=50, choices=TRAY0, null=True,blank=True)
-    # SectionGP_0_GF= models.CharField('Section',max_length=50, choices=SECTION0, null=True,blank=True)
-
-    # ShelfGP_0_1F= models.CharField('Shelf',max_length=50, choices=SHELF0, null=True,blank=True) 
-    # TrayGP_0_1F= models.CharField('Tray',max_length=50, choices=TRAY0, null=True,blank=True)
-    # SectionGP_0_1F= models.CharField('Section',max_length=50, choices=SECTION0, null=True,blank=True)
-
-    # ShelfGP_0_2F= models.CharField('Shelf',max_length=50, choices=SHELF0, null=True,blank=True) 
-    # TrayGP_0_2F= models.CharField('Tray',max_length=50, choices=TRAY0, null=True,blank=True)
-    # SectionGP_0_2F= models.CharField('Section',max_length=50, choices=SECTION0, null=True,blank=True)
-
-    # ShelfGP_0_FL= models.CharField('Shelf',max_length=50, choices=SHELF0, null=True,blank=True) 
-    # TrayGP_0_FL= models.CharField('Tray',max_length=50, choices=TRAY0, null=True,blank=True)
-    # SectionGP_0_FL= models.CharField('Section',max_length=50, choices=SECTION0, null=True,blank=True)
-
-
-# MONITORING AND INSPECTION
-
     Location_Status = [
         ('', '--Select Location--'),
         ('Ground Floor', 'Ground Floor'),
@@ -2843,11 +2813,31 @@ class In_House_Drying(models.Model):
 
     SECTION0 = [
         ('', '--Select Section--'),
-        ('1-3', '1-3'),
-        ('4-6', '4-6'),
-        ('7-9', '7-9'),
+    ('A', 'A'),
+    ('B', 'B'),
+    ('C', 'C'),
+    ('D', 'D'),
+    ('E', 'E'),
+    ('F', 'F'),
+    ('G', 'G'),
+    ('H', 'H'),
+    ('I', 'I'),
+    ('J', 'J'),
+    ('K', 'K'),
+    ('L', 'L'),
+    ('M', 'M'),
+    ('N', 'N'),
+    ('O', 'O'),
+    ('P', 'P'),
+    ('Q', 'Q'),
+    ('R', 'R'),
+    ('S', 'S'),
+    ('T', 'T'),
+]
+   
 
-    ]
+
+    
 
 
     SHELF1 = [
@@ -2885,13 +2875,31 @@ class In_House_Drying(models.Model):
 
     SECTION1 = [
         ('', '--Select Section--'),
-        ('1-3', '1-3'),
-        ('4-6', '4-6'),
-        ('7-9', '7-9'),
+    ('A', 'A'),
+    ('B', 'B'),
+    ('C', 'C'),
+    ('D', 'D'),
+    ('E', 'E'),
+    ('F', 'F'),
+    ('G', 'G'),
+    ('H', 'H'),
+    ('I', 'I'),
+    ('J', 'J'),
+    ('K', 'K'),
+    ('L', 'L'),
+    ('M', 'M'),
+    ('N', 'N'),
+    ('O', 'O'),
+    ('P', 'P'),
+    ('Q', 'Q'),
+    ('R', 'R'),
+    ('S', 'S'),
+    ('T', 'T'),
+]
+   
 
-    ]
 
-
+    
 
 
 
@@ -2935,14 +2943,31 @@ class In_House_Drying(models.Model):
 
     SECTION2 = [
         ('', '--Select Section--'),
-        ('1-3', '1-3'),
-        ('4-6', '4-6'),
-        ('7-9', '7-9'),
+    ('A', 'A'),
+    ('B', 'B'),
+    ('C', 'C'),
+    ('D', 'D'),
+    ('E', 'E'),
+    ('F', 'F'),
+    ('G', 'G'),
+    ('H', 'H'),
+    ('I', 'I'),
+    ('J', 'J'),
+    ('K', 'K'),
+    ('L', 'L'),
+    ('M', 'M'),
+    ('N', 'N'),
+    ('O', 'O'),
+    ('P', 'P'),
+    ('Q', 'Q'),
+    ('R', 'R'),
+    ('S', 'S'),
+    ('T', 'T'),
+]
+   
 
-    ]
 
-
-
+    
 
 
 
@@ -2984,12 +3009,31 @@ class In_House_Drying(models.Model):
 
     SECTION3 = [
         ('', '--Select Section--'),
-        ('1-3', '1-3'),
-        ('4-6', '4-6'),
-        ('7-9', '7-9'),
+    ('A', 'A'),
+    ('B', 'B'),
+    ('C', 'C'),
+    ('D', 'D'),
+    ('E', 'E'),
+    ('F', 'F'),
+    ('G', 'G'),
+    ('H', 'H'),
+    ('I', 'I'),
+    ('J', 'J'),
+    ('K', 'K'),
+    ('L', 'L'),
+    ('M', 'M'),
+    ('N', 'N'),
+    ('O', 'O'),
+    ('P', 'P'),
+    ('Q', 'Q'),
+    ('R', 'R'),
+    ('S', 'S'),
+    ('T', 'T'),
+]
+   
 
-    ]
 
+    
 
 
 
@@ -3031,12 +3075,31 @@ class In_House_Drying(models.Model):
 
     SECTION4 = [
         ('', '--Select Section--'),
-        ('1-3', '1-3'),
-        ('4-6', '4-6'),
-        ('7-9', '7-9'),
+    ('A', 'A'),
+    ('B', 'B'),
+    ('C', 'C'),
+    ('D', 'D'),
+    ('E', 'E'),
+    ('F', 'F'),
+    ('G', 'G'),
+    ('H', 'H'),
+    ('I', 'I'),
+    ('J', 'J'),
+    ('K', 'K'),
+    ('L', 'L'),
+    ('M', 'M'),
+    ('N', 'N'),
+    ('O', 'O'),
+    ('P', 'P'),
+    ('Q', 'Q'),
+    ('R', 'R'),
+    ('S', 'S'),
+    ('T', 'T'),
+]
+   
 
-    ]
 
+    
 
 
 
@@ -3072,7 +3135,6 @@ class In_House_Drying(models.Model):
 
     Sampling_from_gouyvae= models.CharField('Sampling from Gouyvae',max_length=50, null=True,blank=True)
 
-    # Guideline_for_pickupmoisture_<6.5%_inhouse
 
     Control_number= models.CharField('Control Number',max_length=50, null=True,blank=True)
 
@@ -3133,15 +3195,31 @@ class Dispatch_Of_Dried_Nutmeg(models.Model):
 
     SECTION0 = [
         ('', '--Select Section--'),
-        ('1-3', '1-3'),
-        ('4-6', '4-6'),
-        ('7-9', '7-9'),
-
+        ('A', 'A'),
+    ('B', 'B'),
+    ('C', 'C'),
+    ('D', 'D'),
+    ('E', 'E'),
+    ('F', 'F'),
+    ('G', 'G'),
+    ('H', 'H'),
+    ('I', 'I'),
+    ('J', 'J'),
+    ('K', 'K'),
+    ('L', 'L'),
+    ('M', 'M'),
+    ('N', 'N'),
+    ('O', 'O'),
+    ('P', 'P'),
+    ('Q', 'Q'),
+    ('R', 'R'),
+    ('S', 'S'),
+    ('T', 'T'),
+]
    
 
 
-    ]
-
+    
     Worker_ID_No = models.CharField(max_length=50, null=True,blank=True)
     Worker_ID_Name = models.CharField(max_length=50, null=True,blank=True)
 
@@ -3427,8 +3505,9 @@ class Dispatch_Of_Green_Nutmeg(models.Model):
         ('M', 'Marli'),
         ('U', 'Union'),
         ('GP', 'Gouyave'),
-        ('V', 'Victoria'),
-
+   ('V', 'Victoria'),
+        ('T', 'Thebaide'),
+        ('HO', 'Head Office'),
    
 
 
@@ -3487,22 +3566,22 @@ class Cracking_Summary(models.Model):
 
 
 
-    STATION= models.CharField('Station',max_length=50,  choices=STATION_CHOICES, null=True)
+    STATION= models.CharField('Station',max_length=50,  choices=STATION_CHOICES, null=True,blank=True)
     DATE_OF_CRACKING= models.DateField('Date of cracking',null=True)
-    WAREHOUSE_RECEIPT_NUMBERS= models.CharField('Warehouse Reciept Number',max_length=50, null=True)
+    WAREHOUSE_RECEIPT_NUMBERS= models.CharField('Warehouse Reciept Number',max_length=50, null=True,blank=True)
     NUM_OF_BAGS= models.IntegerField('Number of Bags',default= 0)
-    LBS_OF_NUTMEGS_CRACKED= models.IntegerField('Lbs of Nutmegs cracked',default= 0)
-    Delivery_Advice_Num= models.CharField('Number of Bags',max_length=50, null=True)
-    Control_Num= models.CharField('Number of Bags',max_length=50, null=True)
-    BatchCodes= models.CharField('Number of Bags',max_length=50, null=True)
+    LBS_OF_NUTMEGS_CRACKED= models.IntegerField('Lbs of Nutmegs cracked',default= 0,blank=True)
+    Delivery_Advice_Num= models.CharField('Number of Bags',max_length=50, null=True,blank=True)
+    Control_Num= models.CharField('Number of Bags',max_length=50, null=True,blank=True)
+    BatchCodes= models.CharField('Number of Bags',max_length=50, null=True,blank=True)
 
-    num_pieces= models.CharField(max_length=50, null=True)
+    num_pieces= models.CharField(max_length=50, null=True,blank=True)
 
-    fragments= models.CharField(max_length=50, null=True)
+    fragments= models.CharField(max_length=50, null=True,blank=True)
 
-    regular_nutmeg= models.CharField(max_length=50, null=True)
+    regular_nutmeg= models.CharField(max_length=50, null=True,blank=True)
 
-    escape_nutmeg= models.CharField(max_length=50, null=True)
+    escape_nutmeg= models.CharField(max_length=50, null=True,blank=True)
 
 
 
@@ -3614,22 +3693,33 @@ class Floation_Summary(models.Model):
 
     ]
 
-
     SECTION0 = [
-        ('', '--Select Section--'),
-        ('1', '1'),
-        ('2', '2'),
-        ('3', '3'),
-        ('4', '4'),
-        ('5', '5'),
-        ('6', '6'),
-        ('7', '7'),
-        ('8', '8'),
-        ('9', '9'),
+    ('', '--Select Section--'),
+    ('A', 'A'),
+    ('B', 'B'),
+    ('C', 'C'),
+    ('D', 'D'),
+    ('E', 'E'),
+    ('F', 'F'),
+    ('G', 'G'),
+    ('H', 'H'),
+    ('I', 'I'),
+    ('J', 'J'),
+    ('K', 'K'),
+    ('L', 'L'),
+    ('M', 'M'),
+    ('N', 'N'),
+    ('O', 'O'),
+    ('P', 'P'),
+    ('Q', 'Q'),
+    ('R', 'R'),
+    ('S', 'S'),
+    ('T', 'T'),
+]
    
 
 
-    ]
+    
 
 
 
@@ -3680,14 +3770,31 @@ class Floation_Summary(models.Model):
 
     SECTION0 = [
         ('', '--Select Section--'),
-        ('1', '1'),
-        ('2', '2'),
-        ('3', '3'),
-        ('4', '4'),
-        ('5', '5'),
-        ('6', '6'),
-        ('7', '7'),
-    ]
+     ('A', 'A'),
+    ('B', 'B'),
+    ('C', 'C'),
+    ('D', 'D'),
+    ('E', 'E'),
+    ('F', 'F'),
+    ('G', 'G'),
+    ('H', 'H'),
+    ('I', 'I'),
+    ('J', 'J'),
+    ('K', 'K'),
+    ('L', 'L'),
+    ('M', 'M'),
+    ('N', 'N'),
+    ('O', 'O'),
+    ('P', 'P'),
+    ('Q', 'Q'),
+    ('R', 'R'),
+    ('S', 'S'),
+    ('T', 'T'),
+]
+   
+
+
+    
 
 
 
@@ -3733,15 +3840,31 @@ class Floation_Summary(models.Model):
 
     SECTION1 = [
         ('', '--Select Section--'),
-        ('1', '1'),
-        ('2', '2'),
-        ('3', '3'),
-        ('4', '4'),
-        ('5', '5'),
-        ('6', '6'),
-        ('7', '7'),
-    ]
+    ('A', 'A'),
+    ('B', 'B'),
+    ('C', 'C'),
+    ('D', 'D'),
+    ('E', 'E'),
+    ('F', 'F'),
+    ('G', 'G'),
+    ('H', 'H'),
+    ('I', 'I'),
+    ('J', 'J'),
+    ('K', 'K'),
+    ('L', 'L'),
+    ('M', 'M'),
+    ('N', 'N'),
+    ('O', 'O'),
+    ('P', 'P'),
+    ('Q', 'Q'),
+    ('R', 'R'),
+    ('S', 'S'),
+    ('T', 'T'),
+]
+   
 
+
+    
 
 
 
@@ -3786,14 +3909,31 @@ class Floation_Summary(models.Model):
 
     SECTION2 = [
         ('', '--Select Section--'),
-        ('1', '1'),
-        ('2', '2'),
-        ('3', '3'),
-        ('4', '4'),
-        ('5', '5'),
-        ('6', '6'),
-        ('7', '7'),
-    ]
+    ('A', 'A'),
+    ('B', 'B'),
+    ('C', 'C'),
+    ('D', 'D'),
+    ('E', 'E'),
+    ('F', 'F'),
+    ('G', 'G'),
+    ('H', 'H'),
+    ('I', 'I'),
+    ('J', 'J'),
+    ('K', 'K'),
+    ('L', 'L'),
+    ('M', 'M'),
+    ('N', 'N'),
+    ('O', 'O'),
+    ('P', 'P'),
+    ('Q', 'Q'),
+    ('R', 'R'),
+    ('S', 'S'),
+    ('T', 'T'),
+]
+   
+
+
+    
 
 
 
@@ -3838,15 +3978,31 @@ class Floation_Summary(models.Model):
 
     SECTION3 = [
         ('', '--Select Section--'),
-        ('1', '1'),
-        ('2', '2'),
-        ('3', '3'),
-        ('4', '4'),
-        ('5', '5'),
-        ('6', '6'),
-        ('7', '7'),
-    ]
+    ('A', 'A'),
+    ('B', 'B'),
+    ('C', 'C'),
+    ('D', 'D'),
+    ('E', 'E'),
+    ('F', 'F'),
+    ('G', 'G'),
+    ('H', 'H'),
+    ('I', 'I'),
+    ('J', 'J'),
+    ('K', 'K'),
+    ('L', 'L'),
+    ('M', 'M'),
+    ('N', 'N'),
+    ('O', 'O'),
+    ('P', 'P'),
+    ('Q', 'Q'),
+    ('R', 'R'),
+    ('S', 'S'),
+    ('T', 'T'),
+]
+   
 
+
+    
 
 
 
@@ -3888,14 +4044,32 @@ class Floation_Summary(models.Model):
 
     SECTION4 = [
         ('', '--Select Section--'),
-        ('1', '1'),
-        ('2', '2'),
-        ('3', '3'),
-        ('4', '4'),
-        ('5', '5'),
-        ('6', '6'),
-        ('7', '7'),
-    ]
+       ('A', 'A'),
+    ('B', 'B'),
+    ('C', 'C'),
+    ('D', 'D'),
+    ('E', 'E'),
+    ('F', 'F'),
+    ('G', 'G'),
+    ('H', 'H'),
+    ('I', 'I'),
+    ('J', 'J'),
+    ('K', 'K'),
+    ('L', 'L'),
+    ('M', 'M'),
+    ('N', 'N'),
+    ('O', 'O'),
+    ('P', 'P'),
+    ('Q', 'Q'),
+    ('R', 'R'),
+    ('S', 'S'),
+    ('T', 'T'),
+]
+   
+
+
+    
+    
 
 
 
@@ -3923,7 +4097,8 @@ class Floation_Summary(models.Model):
     STATION= models.CharField('Station',max_length=50,  choices=STATION_CHOICES, null=True)    
     START_DRYING_DATE= models.DateField('Start drying date',null=True)
     APPROX_END_DRYING_DATE= models.DateField('Approximate end drying date',null=True)
-    END_DRYING_DATE= models.DateField('End drying date',null=True)
+    END_DRYING_DATE= models.DateField('End drying date',null=True,blank=True)
+    entryCheck = models.CharField(default = shelf_id, max_length=50)
 
 
 

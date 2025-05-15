@@ -197,6 +197,16 @@
       display: block;
     }
 
+    .save-btn {
+      background-color: #28a745;
+      color: white;
+      margin-right: 10px;
+    }
+
+    .save-btn:hover {
+      background-color: #218838;
+    }
+
     @media (max-width: 768px) {
       .table th, .table td {
         min-width: 120px;
@@ -214,7 +224,9 @@
   </style>
 </head>
 <body>
-  <div class="container"></div>
+  <div class="container">
+    <h1>Pending Cracking Entries</h1>
+  </div>
 
   <div id="crackingInfoData"></div>
 
@@ -233,7 +245,10 @@
         crackingInfoRecords.forEach((record) => {
           // Skip records that are already marked as complete
           if (
-            record.COMPLETE == "Yeasdimpmaspdpasmdsads" 
+            record.COMPLETE == "Yes" ||
+            record.COMPLETE == "Y" ||
+            record.COMPLETE == "y" ||
+            record.COMPLETE == "yes"
           ) {
             return;
           }
@@ -241,60 +256,90 @@
           let entryContainer = document.createElement("div");
           entryContainer.id = `entryContainer_${record.id}`;
           entryContainer.innerHTML = `
-              <form>
+              <form id="form_${record.id}">
               <div class="card">
                 <div class="card-body">
                   <p class="card-text">
                     <table id="vertical-1" class="table table-hover table-light">
                       <tr>
                         <th>Station</th>
-                        <td>${record.STATION}</td>
+                        <td>
+                          <input type="text" class="form-control" name="STATION" value="${record.STATION || ''}" />
+                        </td>
                       </tr>  
                       <tr>
                         <th>Date of Cracking</th>
-                        <td>${record.DATE_OF_CRACKING}</td>
+                        <td>
+                          <input type="date" class="form-control" name="DATE_OF_CRACKING" value="${record.DATE_OF_CRACKING || ''}" />
+                        </td>
                       </tr>
                       <tr>
                         <th>Delivery Advice Number</th>
-                        <td>${record.Delivery_Advice_Num}</td>
+                        <td>
+                          <input type="text" class="form-control" name="Delivery_Advice_Num" value="${record.Delivery_Advice_Num || ''}" />
+                        </td>
                       </tr>
                       <tr>
                         <th>Warehouse Receipt Numbers</th>
-                        <td>${record.WAREHOUSE_RECEIPT_NUMBERS}</td>
+                        <td>
+                          <input type="text" class="form-control" name="WAREHOUSE_RECEIPT_NUMBERS" value="${record.WAREHOUSE_RECEIPT_NUMBERS || ''}" />
+                        </td>
                       </tr>
                       <tr>
                         <th>Number of Bags</th>
-                        <td>${record.NUM_OF_BAGS}</td>
+                        <td>
+                          <input type="number" class="form-control" name="NUM_OF_BAGS" value="${record.NUM_OF_BAGS || ''}" />
+                        </td>
                       </tr>
                       <tr>
                         <th>LBS of Nutmegs Cracked</th>
-                        <td>${record.LBS_OF_NUTMEGS_CRACKED}</td>
+                        <td>
+                          <input type="number" class="form-control" name="LBS_OF_NUTMEGS_CRACKED" value="${record.LBS_OF_NUTMEGS_CRACKED || ''}" />
+                        </td>
                       </tr>
                       <tr>
                         <th>Batch Codes</th>
-                        <td>${record.BatchCodes}</td>
+                        <td>
+                          <input type="text" class="form-control" name="BatchCodes" value="${record.BatchCodes || ''}" />
+                        </td>
                       </tr>
                       <tr>
                         <th>Control Number</th>
-                        <td>${record.Control_Num}</td>
+                        <td>
+                          <input type="text" class="form-control" name="Control_Num" value="${record.Control_Num || ''}" />
+                        </td>
                       </tr>
                       <tr>
                         <th>Number of Nutmeg Pieces (lbs)</th>
-                        <td>${record.num_pieces}</td>
+                        <td>
+                          <input type="number" class="form-control" name="num_pieces" value="${record.num_pieces || ''}" />
+                        </td>
                       </tr>
                       <tr>
                         <th>Number of Nutmeg Fragments (lbs)</th>
-                        <td>${record.fragments}</td>
+                        <td>
+                          <input type="number" class="form-control" name="fragments" value="${record.fragments || ''}" />
+                        </td>
                       </tr>
                       <tr>
                         <th>Number of Regular Nutmeg (lbs)</th>
-                        <td>${record.regular_nutmeg}</td>
+                        <td>
+                          <input type="number" class="form-control" name="regular_nutmeg" value="${record.regular_nutmeg || ''}" />
+                        </td>
                       </tr>
                       <tr>
                         <th>Number of Nutmeg Escapes (lbs)</th>
-                        <td>${record.escape_nutmeg}</td>
+                        <td>
+                          <input type="number" class="form-control" name="escape_nutmeg" value="${record.escape_nutmeg || ''}" />
+                        </td>
                       </tr>
-                      
+                      <tr>
+                        <th>Actions</th>
+                        <td>
+                          <button type="button" class="save-btn" onclick="saveEditedRecord(${record.id})">Save Changes</button>
+                          <button type="button" onclick="saveEditedCompletion(${record.id}, 'Yes')">Mark as Complete</button>
+                        </td>
+                      </tr>
                     </table>
                   </p>
                 </div>
@@ -308,6 +353,38 @@
       };
     };
 
+    function saveEditedRecord(id) {
+      let form = document.getElementById(`form_${id}`);
+      let formData = new FormData(form);
+      let openRequestup = indexedDB.open("GCNA");
+
+      openRequestup.onsuccess = function (event) {
+        let db1 = event.target.result;
+        let transaction = db1.transaction("Cracking-Summary", "readwrite");
+        let crackingInfoStore = transaction.objectStore("Cracking-Summary");
+        let getRequest = crackingInfoStore.get(id);
+
+        getRequest.onsuccess = function (event) {
+          let record = event.target.result;
+          
+          // Update record with form values
+          for (let [key, value] of formData.entries()) {
+            record[key] = value;
+          }
+
+          let updateRequest = crackingInfoStore.put(record);
+          updateRequest.onsuccess = function () {
+            alert("Record updated successfully!");
+          };
+          
+          updateRequest.onerror = function(event) {
+            console.error("Error updating record:", event.target.error);
+            alert("Error updating record. Please try again.");
+          };
+        };
+      };
+    }
+
     function saveEditedCompletion(id, completion) {
       let openRequestup = indexedDB.open("GCNA");
 
@@ -319,11 +396,22 @@
 
         getRequest.onsuccess = function (event) {
           let record = event.target.result;
+          
+          // First save any edited values from the form
+          let form = document.getElementById(`form_${id}`);
+          let formData = new FormData(form);
+          
+          // Update record with form values
+          for (let [key, value] of formData.entries()) {
+            record[key] = value;
+          }
+          
+          // Then mark as complete
           record.COMPLETE = completion;
 
           let updateRequest = crackingInfoStore.put(record);
           updateRequest.onsuccess = function () {
-            console.log("Entry marked as complete!");
+            alert("Entry marked as complete!");
             // Remove the entry from the display
             let entryContainer = document.getElementById(`entryContainer_${id}`);
             if (entryContainer) {

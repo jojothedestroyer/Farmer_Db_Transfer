@@ -666,8 +666,30 @@ class Final_Weight_Inspection_fields_Form(ModelForm):
 from django import forms
 
 class SectionForm(forms.Form):
-    section_choices = [(i, str(i)) for i in range(1, 11)]
-    
+    # section_choices = [(i, str(i)) for i in range(1, 11)]
+    section_choices = [
+    # ('', '--Select Section--'),
+    ('1', 'A'),
+    ('2', 'B'),
+    ('3', 'C'),
+    ('4', 'D'),
+    ('5', 'E'),
+    ('6', 'F'),
+    ('7', 'G'),
+    ('8', 'H'),
+    ('9', 'I'),
+    ('10', 'J'),
+    ('11', 'K'),
+    ('12', 'L'),
+    ('13', 'M'),
+    ('14', 'N'),
+    ('15', 'O'),
+    ('16', 'P'),
+    ('17', 'Q'),
+    ('18', 'R'),
+    ('19', 'S'),
+    ('20', 'T'),
+]
     section1 = forms.ChoiceField(
         label='Section 1',
         choices=section_choices,
@@ -2918,6 +2940,7 @@ class Floation_Summary_Form(ModelForm):
 
 
 
+    'entryCheck': forms.HiddenInput(attrs={'class':'form-control'}),
 
 
 

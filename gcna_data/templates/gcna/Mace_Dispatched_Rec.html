@@ -635,12 +635,18 @@ Also Vehicles connect for this honestly not a long period mayber an hour or two 
    </script>
   
 <script>
+$(document).ready(function() {
 
-$('#id_NUM_OF_BAGS').on('change', function() {
-    var start =  $('#id_NUM_OF_BAGS').val();
-    var calc = start * 110; 
-    $('#id_TOTAL_LBS_NUTMEG_BOUGHT').val(calc);
-      });
+$('#id_Num_Bags, #id_WEIGHT_PER_BAG,#id_ADDITIONAL_WEIGHT').on('change', function() {
+        var numBags = Number($('#id_Num_Bags').val());
+        var weightPerBag = Number($('#id_WEIGHT_PER_BAG').val());
+        var additionalbags = Number($('#id_ADDITIONAL_WEIGHT').val());
+
+        var totalWeight = (numBags * weightPerBag)+ additionalbags;
+
+        $('#id_Weight').val(totalWeight);
+    });
+});
 </script>
   <style>
     .menu {
@@ -746,6 +752,7 @@ $('#id_NUM_OF_BAGS').on('change', function() {
 
     </tr>  
 
+
     
 </tr>
 
@@ -798,9 +805,20 @@ $('#id_NUM_OF_BAGS').on('change', function() {
   <tr>
     <th>Weight</th>
     <td>{{ form.Weight }}</td>
+
+
+
+    <td>Weight per Bag (lbs)</td>
+    <td><input type="number" id="id_WEIGHT_PER_BAG" class="form-control" value="140"></td> 
+    
+    <td>Additional Weight (lbs)</td>
+    <td><input type="number" id="id_ADDITIONAL_WEIGHT" class="form-control" value="0"></td>
 </tr>
       
 
+<tr>
+ 
+</tr>
 
 <tr>
     <th colspan="2" style="text-align: center; font-size: 18px; font-weight: bold; background-color: #f8f9fa;">
