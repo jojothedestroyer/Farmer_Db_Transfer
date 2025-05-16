@@ -276,7 +276,7 @@ $(document).ready(function() {
   
 
 
-
+<!-- 
   <script>
 
 
@@ -297,8 +297,24 @@ $(document).ready(function() {
             }
         };
     };
-   </script>
+   </script> -->
   
+
+<script>
+    $(document).ready(function() {
+
+     
+        $('#id_NUM_OF_BAGS').on('change', function() {
+            var bags = new Number($('#id_NUM_OF_BAGS').val());
+
+          
+            $('#id_LBS_OF_NUTMEGS_CRACKED').val(bags * 140); 
+        });
+
+        
+    }); 
+    </script>
+    
 
 	<center>
 <br>

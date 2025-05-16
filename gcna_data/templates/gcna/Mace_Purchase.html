@@ -341,8 +341,21 @@
             $('#id_BATCH_CODE_M2').val(station + Date + "M2"); 
             $('#id_BATCH_CODE_M3').val(station + Date + "M3"); 
         });
-    
-    });
+     
+     
+        $('#id_NUM_MACE1_BAGS, #id_NUM_MACE2_BAGS, #id_NUM_MACE3_BAGS').on('change', function() {
+            var mace1 = new Number($('#id_NUM_MACE1_BAGS').val());
+            var mace2 = new Number($('#id_NUM_MACE2_BAGS').val());
+            var mace3 = new Number($('#id_NUM_MACE3_BAGS').val());
+
+            
+            $('#id_MACE_1').val(mace1 * 40); 
+            $('#id_MACE_2').val(mace2 * 70);
+            $('#id_MACE_3').val(mace3 * 100); 
+        });
+
+        
+    }); 
     </script>
     
 
@@ -442,6 +455,8 @@
         <tr>
             <th>Quantity of Mace 1</th>
             <td>{{ form.MACE_1 }}</td>
+            <td>Number of Bags</td>
+    <td><input type="number" id="id_NUM_MACE1_BAGS" class="form-control" value="0"></td
         </tr>
 
 
@@ -456,6 +471,8 @@
         <tr>
             <th>Quantity of Mace 2</th>
             <td>{{ form.MACE_2 }}</td>
+                        <td>Number of Bags</td>
+    <td><input type="number" id="id_NUM_MACE2_BAGS" class="form-control" value="0"></td
         </tr>
 
 
@@ -474,6 +491,8 @@
         <tr>
             <th>Quantity of Mace 3</th>
             <td>{{ form.MACE_3 }}</td>
+                        <td>Number of Bags</td>
+    <td><input type="number" id="id_NUM_MACE3_BAGS" class="form-control" value="0"></td
         </tr>
 
        
