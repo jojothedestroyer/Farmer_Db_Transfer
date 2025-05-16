@@ -724,7 +724,8 @@
 
 
   <table class="table">
-                               <center>       <h5 class="card-title">${record.floor}</h5>     </center>       
+                               <center>       <h5 class="card-title">${record.floor}</h5>    <br/>                                                              <button class="btn btn-danger" onclick="deleteEntry(${record.id})">Delete</button>
+ </center>       
 
             <thead>
                                     <tr>
@@ -743,6 +744,7 @@
                                         <td>${record.amount}</td>
 
                                     </tr>
+
 <tr style="display: none;"> <td style="opacity: 0;">${record.floor}</td>
                                         <td style="opacity: 0;">${record.entry}</td>
                                         <td style="opacity: 0;">${record.station}</td></tr>
@@ -755,6 +757,75 @@
         });
       };
     };
+
+
+        function deleteEntry(id) {
+          event.preventDefault();
+      let openRequest = indexedDB.open("GCNA");
+
+      openRequest.onsuccess = function (event) {
+        let db = event.target.result;
+        let transaction = db.transaction("Shelves", "readwrite");
+        let landInfoStore = transaction.objectStore("Shelves");
+
+        // Get the record to be deleted
+        let getRequest = landInfoStore.get(id);
+
+        getRequest.onsuccess = function (event) {
+          let record = event.target.result;
+
+          // Now, let's open the DELETED database and add the record there
+          let openDeletedRequest = indexedDB.open("DELETED");
+
+          openDeletedRequest.onsuccess = function (event) {
+            let deletedDB = event.target.result;
+            let deletedTransaction = deletedDB.transaction(
+              "Shelves",
+              "readwrite"
+            );
+            let deletedStore = deletedTransaction.objectStore("Shelves");
+
+            // Add the record to the DELETED database
+            let addRequest = deletedStore.add(record);
+
+            addRequest.onsuccess = function () {
+              window.location.reload()
+              console.log(`Record with ID ${id} copied to DELETED database.`);
+            };
+
+            addRequest.onerror = function () {
+              console.log(
+                `Failed to copy record with ID ${id} to DELETED database.`
+              );
+            };
+          };
+
+          openDeletedRequest.onerror = function () {
+            console.log("Failed to open DELETED database.");
+          };
+        };
+
+        // Now, proceed with deleting the record from the original database
+        let deleteRequest = landInfoStore.delete(id);
+
+        deleteRequest.onsuccess = function () {
+          console.log(`Record with ID ${id} deleted from GCNA database.`);
+          // You might want to refresh your display here.
+        };
+
+        deleteRequest.onerror = function () {
+          console.log(
+            `Failed to delete record with ID ${id} from GCNA database.`
+          );
+        };
+      };
+
+      openRequest.onerror = function () {
+        console.log("Failed to open GCNA database.");
+      };
+    }
+ 
+ 
 </script>
 
 
