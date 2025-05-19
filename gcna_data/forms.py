@@ -3297,7 +3297,7 @@ class Dried_Form_A(ModelForm):
     'Nutmeg_ID_No': forms.HiddenInput(attrs={'class':'form-control'}),
     'DATE_OF_SAMPLING': forms.DateInput(attrs={'type':'date','class':'form-control'}),
     'STATION':forms.TextInput(attrs={'class':'form-control'}),
-    'BATCH_CODE' :forms.NumberInput(attrs={'class':'form-control'}),
+    'BATCH_CODE' :forms.TextInput(attrs={'class':'form-control'}),
     'Quantity_of_Bags' :forms.NumberInput(attrs={'class':'form-control'}),
     'Quantity_of_Sample' :forms.NumberInput(attrs={'class':'form-control'}),
     'Total_Weight':forms.NumberInput(attrs={'class':'form-control'}),
@@ -3351,7 +3351,7 @@ class Dried_Form_B(ModelForm):
     'Nutmeg_ID_No': forms.HiddenInput(attrs={'class':'form-control'}),
     'DATE_OF_SAMPLING': forms.DateInput(attrs={'type':'date','class':'form-control'}),
     'STATION':forms.TextInput(attrs={'class':'form-control'}),
-    'BATCH_CODE' :forms.NumberInput(attrs={'class':'form-control'}),
+    'BATCH_CODE' :forms.TextInput(attrs={'class':'form-control'}),
     'Total_Quantity_of_Bags_in_Non_Compliance':forms.NumberInput(attrs={'class':'form-control'}),
     'Total_Weight_of_Nutmeg_in_Non_Compliance' :forms.NumberInput(attrs={'class':'form-control'}),
     'Additional_Drying_Period' :forms.TextInput(attrs={'class':'form-control'}),
@@ -3393,7 +3393,7 @@ class Floated_Form_A(ModelForm):
     
 
     'Nutmeg_ID_No': forms.HiddenInput(attrs={'class':'form-control'}),
-     'BATCH_CODE' :forms.NumberInput(attrs={'class':'form-control'}),
+     'BATCH_CODE' :forms.TextInput(attrs={'class':'form-control'}),
     'Land_ID_N0': forms.HiddenInput(attrs={'class':'form-control'}),
 
     'DATE_OF_SAMPLING_H': forms.DateInput(attrs={'type':'date','class':'form-control'}),

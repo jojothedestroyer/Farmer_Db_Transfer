@@ -676,7 +676,7 @@
       };
     };
   </script>
-<script>
+<!-- <script>
     let openRequest2 = indexedDB.open("GCNA");
 
     openRequest2.onsuccess = function (event) {
@@ -826,9 +826,539 @@
     }
  
  
+</script> -->
+
+
+
+
+
+
+
+<script>
+    let openRequest2 = indexedDB.open("GCNA");
+
+    openRequest2.onsuccess = function (event) {
+        let db = event.target.result;
+        let transaction = db.transaction("Shelves", "readonly");
+        let landInfoStore = transaction.objectStore("Shelves");
+        let getAllRequest = landInfoStore.getAll();
+
+        getAllRequest.onsuccess = function (event) {
+            let landInfoRecords = event.target.result;
+            let tables = document.querySelectorAll(".table"); // Select all tables
+
+            tables.forEach(table => {
+                let existingDiv = table.querySelector(".landInfoData1");
+                if (existingDiv) {
+                    existingDiv.remove();
+                }
+            });
+
+            tables.forEach((table) => {
+                let entryCheckTd = table.querySelector("td#entryCheck");
+                if (!entryCheckTd) return;
+
+                let entryValue = entryCheckTd.textContent.trim();
+                let landInfoDataDiv = document.createElement("div");
+                landInfoDataDiv.className = "landInfoData1";
+                table.appendChild(landInfoDataDiv);
+
+                let matchingRecords = landInfoRecords.filter(record => record.entry === entryValue);
+
+                matchingRecords.forEach((record) => {
+                    let entryContainer = document.createElement("div");
+                    entryContainer.className = "entry-container";
+                    entryContainer.dataset.formId = table.id;
+                    entryContainer.dataset.recordId = record.id;
+
+                    const recordId = Number(record.id);
+
+                    entryContainer.innerHTML = `
+                        <table class="table" id="record-table-${recordId}">
+                            <center>
+                                <h5 class="card-title" contenteditable="true" data-record-id="${recordId}" data-field="floor">${record.floor}</h5>
+                                <br/>
+                                <button class="btn btn-danger delete-btn" data-record-id="${recordId}">Delete</button>
+                            </center>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Shelf</th>
+                                    <th scope="col">Tray</th>
+                                    <th scope="col">Section</th>
+                                    <th scope="col">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td contenteditable="true" data-record-id="${recordId}" data-field="Shelf">${record.Shelf}</td>
+                                    <td contenteditable="true" data-record-id="${recordId}" data-field="Tray">${record.Tray}</td>
+                                    <td contenteditable="true" data-record-id="${recordId}" data-field="Section">${record.Section}</td>
+                                    <td contenteditable="true" data-record-id="${recordId}" data-field="amount">${record.amount}</td>
+                                </tr>
+                                <tr style="display: none;">
+                                    <td style="opacity: 0;">${record.floor}</td>
+                                    <td style="opacity: 0;">${record.entry}</td>
+                                    <td style="opacity: 0;">${record.station}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    `;
+                    landInfoDataDiv.appendChild(entryContainer);
+
+                });
+
+                // Add event listener for saving changes after content is added
+                landInfoDataDiv.addEventListener('blur', function (e) {
+                    if (e.target && e.target.hasAttribute('contenteditable') && e.target.dataset.recordId && e.target.dataset.field) {
+                        const recordIdToUpdate = parseInt(e.target.dataset.recordId, 10);
+                        const fieldToUpdate = e.target.dataset.field;
+                        let newValue = e.target.textContent.trim();
+
+                        if (fieldToUpdate === "amount") {
+                            const numericValue = parseFloat(newValue);
+                            if (isNaN(numericValue)) {
+                                console.error("Invalid amount: Not a number. Reverting or add validation.");
+                                const originalRecord = landInfoRecords.find(r => r.id === recordIdToUpdate);
+                                if (originalRecord) {
+                                    e.target.textContent = originalRecord[fieldToUpdate];
+                                }
+                                return;
+                            }
+                            newValue = numericValue;
+                        } else if (fieldToUpdate === "floor" && e.target.tagName === 'H5') {
+                        }
+
+                        console.log(`Attempting to save: ID=${recordIdToUpdate}, Field=${fieldToUpdate}, Value=${newValue}`);
+                        saveUpdatedRecordField(recordIdToUpdate, fieldToUpdate, newValue);
+                    }
+                }, true);
+
+                // Attach event listener for delete button, using event delegation
+                landInfoDataDiv.addEventListener('click', function(event) {
+                    if (event.target.classList.contains('delete-btn')) {
+                        const recordIdToDelete = parseInt(event.target.dataset.recordId, 10);
+                        const recordTable = document.getElementById(`record-table-${recordIdToDelete}`); //remove
+
+                        if (recordTable) {
+                            deleteEntry(recordIdToDelete, recordTable); // Pass the table row to be removed
+                        } else {
+                            deleteEntry(recordIdToDelete);
+                        }
+                    }
+                });
+            });
+        };
+        getAllRequest.onerror = function (event) {
+            console.error("Error fetching all records: ", event.target.error);
+        };
+    };
+    openRequest2.onerror = function (event) {
+        console.error("Failed to open GCNA database for reading: ", event.target.error);
+    };
+
+    function saveUpdatedRecordField(recordId, fieldName, newValue) {
+        let openRequest = indexedDB.open("GCNA");
+
+        openRequest.onsuccess = function (event) {
+            let db = event.target.result;
+            let transaction = db.transaction("Shelves", "readwrite");
+            let store = transaction.objectStore("Shelves");
+            let getRequest = store.get(recordId);
+
+            getRequest.onsuccess = function (e) {
+                let record = e.target.result;
+                if (record) {
+                    if (record.hasOwnProperty(fieldName)) {
+                        record[fieldName] = newValue;
+                        let putRequest = store.put(record);
+
+                        putRequest.onsuccess = function () {
+                            console.log(`Record ${recordId} updated successfully. Field: ${fieldName}, New Value: ${newValue}`);
+                        };
+                        putRequest.onerror = function (putEvent) {
+                            console.error(`Error updating record ${recordId}. Field: ${fieldName}`, putEvent.target.error);
+                        };
+                    } else {
+                        console.warn(`Field "${fieldName}" does not exist on record ${recordId}. Update skipped.`);
+                    }
+                } else {
+                    console.error(`Record ${recordId} not found for update.`);
+                }
+            };
+            getRequest.onerror = function (getEvent) {
+                console.error(`Error fetching record ${recordId} for update: `, getEvent.target.error);
+            };
+
+            transaction.oncomplete = function () {
+                console.log(`Transaction completed for updating record ${recordId}.`);
+            };
+            transaction.onerror = function (transEvent) {
+                console.error("Transaction error during update: ", transEvent.target.error);
+            };
+        };
+        openRequest.onerror = function (event) {
+            console.error("Failed to open GCNA database for saving changes: ", event.target.error);
+        };
+    }
+
+    function deleteEntry(id, recordTableElement) {
+      event.preventDefault()
+        const recordIdToDelete = Number(id);
+
+        let openRequest = indexedDB.open("GCNA");
+
+        openRequest.onsuccess = function (event) {
+            let db = event.target.result;
+
+            let getTransaction = db.transaction("Shelves", "readonly");
+            let landInfoStoreGet = getTransaction.objectStore("Shelves");
+            let getRequest = landInfoStoreGet.get(recordIdToDelete);
+
+            getRequest.onsuccess = function (e_get) {
+                let recordToCopy = e_get.target.result;
+
+                if (recordToCopy) {
+                    let openDeletedRequest = indexedDB.open("DELETED");
+
+                    openDeletedRequest.onupgradeneeded = function (e_upgrade) {
+                        let deletedDBUpgrade = e_upgrade.target.result;
+                        if (!deletedDBUpgrade.objectStoreNames.contains("Shelves")) {
+                            deletedDBUpgrade.createObjectStore("Shelves", {
+                                keyPath: "id"
+                            });
+                            console.log("DELETED/Shelves object store created.");
+                        }
+                    };
+
+                    openDeletedRequest.onsuccess = function (e_deleted_db) {
+                        let deletedDB = e_deleted_db.target.result;
+                        if (!deletedDB.objectStoreNames.contains("Shelves")) {
+                            console.error("DELETED database does not have 'Shelves' object store. Record not copied.");
+                            proceedWithDeletion(db, recordIdToDelete, recordTableElement);
+                            return;
+                        }
+                        let deletedTransaction = deletedDB.transaction("Shelves", "readwrite");
+                        let deletedStore = deletedTransaction.objectStore("Shelves");
+                        let addRequest = deletedStore.add(recordToCopy);
+
+                        addRequest.onsuccess = function () {
+                            console.log(`Record with ID ${recordIdToDelete} copied to DELETED database.`);
+                            proceedWithDeletion(db, recordIdToDelete, recordTableElement);
+                        };
+                        addRequest.onerror = function (add_err) {
+                            console.log(`Failed to copy record with ID ${recordIdToDelete} to DELETED database. Error: ${add_err.target.error}`);
+                            proceedWithDeletion(db, recordIdToDelete, recordTableElement);
+                        };
+                    };
+                    openDeletedRequest.onerror = function (deleted_err) {
+                        console.log("Failed to open/setup DELETED database. Error: ", deleted_err.target.error);
+                        proceedWithDeletion(db, recordIdToDelete, recordTableElement);
+                    };
+                } else {
+                    console.log(`Record with ID ${recordIdToDelete} not found in GCNA. Cannot copy to DELETED.`);
+                    // window.location.reload();
+                    if(recordTableElement){
+                         recordTableElement.remove();
+                    }
+                }
+            };
+            getRequest.onerror = function (get_err) {
+                console.error(`Error fetching record ${recordIdToDelete} for copying: ${get_err.target.error}`);
+                proceedWithDeletion(db, recordIdToDelete, recordTableElement);
+            };
+        };
+        openRequest.onerror = function (open_err) {
+            console.log("Failed to open GCNA database for delete operation. Error: ", open_err.target.error);
+        };
+    }
+
+    function proceedWithDeletion(db, recordIdToDelete, recordTableElement) {
+        let transaction = db.transaction("Shelves", "readwrite");
+        let landInfoStore = transaction.objectStore("Shelves");
+        let deleteRequest = landInfoStore.delete(recordIdToDelete);
+
+        deleteRequest.onsuccess = function () {
+            console.log(`Record with ID ${recordIdToDelete} deleted from GCNA database.`);
+            // Remove the table row from the DOM
+            if (recordTableElement) {
+                recordTableElement.remove();
+            }
+        };
+        deleteRequest.onerror = function (del_err) {
+            console.log(`Failed to delete record with ID ${recordIdToDelete} from GCNA database. Error: ${del_err.target.error}`);
+        };
+         transaction.onerror = function(trans_err) {
+            console.error("Transaction error during delete: ", trans_err.target.error);
+        };
+    }
 </script>
 
 
+
+
+
+
+
+
+
+
+
+<!-- <script>
+    let openRequest2 = indexedDB.open("GCNA");
+
+    openRequest2.onsuccess = function (event) {
+        let db = event.target.result;
+        let transaction = db.transaction("Shelves", "readonly");
+        let landInfoStore = transaction.objectStore("Shelves");
+        let getAllRequest = landInfoStore.getAll();
+
+        getAllRequest.onsuccess = function (event) {
+            let landInfoRecords = event.target.result;
+            let tables = document.querySelectorAll(".table"); // Select all tables
+
+            tables.forEach(table => {
+                let existingDiv = table.querySelector(".landInfoData1");
+                if (existingDiv) {
+                    existingDiv.remove();
+                }
+            });
+
+            tables.forEach((table) => {
+                let entryCheckTd = table.querySelector("td#entryCheck");
+                if (!entryCheckTd) return;
+
+                let entryValue = entryCheckTd.textContent.trim();
+                let landInfoDataDiv = document.createElement("div");
+                landInfoDataDiv.className = "landInfoData1";
+                table.appendChild(landInfoDataDiv);
+
+                let matchingRecords = landInfoRecords.filter(record => record.entry === entryValue);
+
+                matchingRecords.forEach((record) => {
+                    let entryContainer = document.createElement("div");
+                    entryContainer.className = "entry-container";
+                    entryContainer.dataset.formId = table.id; // This was existing
+                    entryContainer.dataset.recordId = record.id; // Storing record id for easier access if needed at container level
+
+                    // Make sure record.id is a number if it's used as a key and expected to be numeric elsewhere
+                    // For a key like 'id', it's often an integer.
+                    const recordId = Number(record.id);
+
+                    entryContainer.innerHTML = `
+                        <table class="table">
+                            <center>
+                                <h5 class="card-title" contenteditable="true" data-record-id="${recordId}" data-field="floor">${record.floor}</h5>
+                                <br/>
+                                <button class="btn btn-danger" onclick="deleteEntry(${recordId})">Delete</button>
+                            </center>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Shelf</th>
+                                    <th scope="col">Tray</th>
+                                    <th scope="col">Section</th>
+                                    <th scope="col">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td contenteditable="true" data-record-id="${recordId}" data-field="Shelf">${record.Shelf}</td>
+                                    <td contenteditable="true" data-record-id="${recordId}" data-field="Tray">${record.Tray}</td>
+                                    <td contenteditable="true" data-record-id="${recordId}" data-field="Section">${record.Section}</td>
+                                    <td contenteditable="true" data-record-id="${recordId}" data-field="amount">${record.amount}</td>
+                                </tr>
+                                <tr style="display: none;">
+                                    <td style="opacity: 0;">${record.floor}</td>
+                                    <td style="opacity: 0;">${record.entry}</td>
+                                    <td style="opacity: 0;">${record.station}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    `;
+                    landInfoDataDiv.appendChild(entryContainer);
+                    
+                });
+
+                // Add event listener for saving changes after content is added
+                landInfoDataDiv.addEventListener('blur', function(e) {
+                    if (e.target && e.target.hasAttribute('contenteditable') && e.target.dataset.recordId && e.target.dataset.field) {
+                        const recordIdToUpdate = parseInt(e.target.dataset.recordId, 10);
+                        const fieldToUpdate = e.target.dataset.field;
+                        let newValue = e.target.textContent.trim();
+
+                        // Optional: Handle specific field types, e.g., 'amount' should be a number
+                        if (fieldToUpdate === "amount") {
+                            const numericValue = parseFloat(newValue);
+                            if (isNaN(numericValue)) {
+                                console.error("Invalid amount: Not a number. Reverting or add validation.");
+                                // To revert, you might need to store original value on focus
+                                // For now, we'll try to get the original value again (simple revert)
+                                const originalRecord = landInfoRecords.find(r => r.id === recordIdToUpdate);
+                                if (originalRecord) {
+                                    e.target.textContent = originalRecord[fieldToUpdate]; // Revert
+                                }
+                                return; // Stop update if conversion failed
+                            }
+                            newValue = numericValue;
+                        } else if (fieldToUpdate === "floor" && e.target.tagName === 'H5') {
+                            // The floor is in an H5 tag in your example
+                            // No specific conversion needed unless it's numeric and you want to enforce that
+                        }
+
+
+                        console.log(`Attempting to save: ID=${recordIdToUpdate}, Field=${fieldToUpdate}, Value=${newValue}`);
+                        saveUpdatedRecordField(recordIdToUpdate, fieldToUpdate, newValue);
+                    }
+                }, true); // Use capture phase for blur on contenteditable
+            });
+        };
+        getAllRequest.onerror = function(event) {
+            console.error("Error fetching all records: ", event.target.error);
+        };
+    };
+    openRequest2.onerror = function (event) {
+        console.error("Failed to open GCNA database for reading: ", event.target.error);
+    };
+
+    function saveUpdatedRecordField(recordId, fieldName, newValue) {
+        let openRequest = indexedDB.open("GCNA");
+
+        openRequest.onsuccess = function (event) {
+            let db = event.target.result;
+            let transaction = db.transaction("Shelves", "readwrite");
+            let store = transaction.objectStore("Shelves");
+            let getRequest = store.get(recordId); // Use the numeric recordId
+
+            getRequest.onsuccess = function (e) {
+                let record = e.target.result;
+                if (record) {
+                    // Check if the field exists on the record to avoid creating new unwanted properties
+                    if (record.hasOwnProperty(fieldName)) {
+                        record[fieldName] = newValue;
+                        let putRequest = store.put(record); // put() will update if key exists, or add if not.
+
+                        putRequest.onsuccess = function () {
+                            console.log(`Record ${recordId} updated successfully. Field: ${fieldName}, New Value: ${newValue}`);
+                            // Optionally, provide user feedback here (e.g., a small "saved" message)
+                        };
+                        putRequest.onerror = function (putEvent) {
+                            console.error(`Error updating record ${recordId}. Field: ${fieldName}`, putEvent.target.error);
+                        };
+                    } else {
+                         console.warn(`Field "${fieldName}" does not exist on record ${recordId}. Update skipped.`);
+                    }
+                } else {
+                    console.error(`Record ${recordId} not found for update.`);
+                }
+            };
+            getRequest.onerror = function (getEvent) {
+                console.error(`Error fetching record ${recordId} for update: `, getEvent.target.error);
+            };
+
+            transaction.oncomplete = function() {
+                console.log(`Transaction completed for updating record ${recordId}.`);
+            };
+            transaction.onerror = function(transEvent) {
+                console.error("Transaction error during update: ", transEvent.target.error);
+            };
+        };
+        openRequest.onerror = function (event) {
+            console.error("Failed to open GCNA database for saving changes: ", event.target.error);
+        };
+    }
+
+    function deleteEntry(id) {
+        // event.preventDefault(); // Not strictly needed here unless button is type="submit" in a form
+
+        const recordIdToDelete = Number(id); // Ensure ID is numeric if key is numeric
+
+        let openRequest = indexedDB.open("GCNA");
+
+        openRequest.onsuccess = function (event) {
+            let db = event.target.result;
+
+            // First, get the record to be copied to DELETED
+            let getTransaction = db.transaction("Shelves", "readonly");
+            let landInfoStoreGet = getTransaction.objectStore("Shelves");
+            let getRequest = landInfoStoreGet.get(recordIdToDelete);
+
+            getRequest.onsuccess = function (e_get) {
+                let recordToCopy = e_get.target.result;
+
+                if (recordToCopy) {
+                    let openDeletedRequest = indexedDB.open("DELETED"); // Make sure this DB and object store exist
+
+                    openDeletedRequest.onupgradeneeded = function(e_upgrade) {
+                        let deletedDBUpgrade = e_upgrade.target.result;
+                        if (!deletedDBUpgrade.objectStoreNames.contains("Shelves")) {
+                             // Assuming 'id' is the keyPath for DELETED Shelves as well.
+                            deletedDBUpgrade.createObjectStore("Shelves", { keyPath: "id" });
+                            console.log("DELETED/Shelves object store created.");
+                        }
+                    };
+
+                    openDeletedRequest.onsuccess = function (e_deleted_db) {
+                        let deletedDB = e_deleted_db.target.result;
+                        if (!deletedDB.objectStoreNames.contains("Shelves")) {
+                            console.error("DELETED database does not have 'Shelves' object store. Record not copied.");
+                             // Proceed with deletion from GCNA anyway or handle error differently?
+                            proceedWithDeletion(db, recordIdToDelete); // db here is GCNA's db
+                            return;
+                        }
+                        let deletedTransaction = deletedDB.transaction("Shelves", "readwrite");
+                        let deletedStore = deletedTransaction.objectStore("Shelves");
+                        let addRequest = deletedStore.add(recordToCopy); // Use recordToCopy
+
+                        addRequest.onsuccess = function () {
+                            console.log(`Record with ID ${recordIdToDelete} copied to DELETED database.`);
+                            // Now proceed with deletion from original DB
+                            proceedWithDeletion(db, recordIdToDelete); // db here is GCNA's db
+                        };
+                        addRequest.onerror = function (add_err) {
+                            console.log(`Failed to copy record with ID ${recordIdToDelete} to DELETED database. Error: ${add_err.target.error}`);
+                            // Decide if you still want to delete from original if copy fails
+                            proceedWithDeletion(db, recordIdToDelete); // db here is GCNA's db
+                        };
+                    };
+                    openDeletedRequest.onerror = function (deleted_err) {
+                        console.log("Failed to open/setup DELETED database. Error: ", deleted_err.target.error);
+                        // Still attempt to delete from GCNA
+                        proceedWithDeletion(db, recordIdToDelete); // db here is GCNA's db
+                    };
+                } else {
+                    console.log(`Record with ID ${recordIdToDelete} not found in GCNA. Cannot copy to DELETED.`);
+                    // It might have already been deleted, or ID is wrong.
+                    // No record to copy, so just try to delete (or refresh UI)
+                     window.location.reload(); // Or attempt deletion anyway if it might exist
+                }
+            };
+            getRequest.onerror = function(get_err) {
+                console.error(`Error fetching record ${recordIdToDelete} for copying: ${get_err.target.error}`);
+                 // Still attempt to delete from GCNA
+                proceedWithDeletion(db, recordIdToDelete); // db here is GCNA's db
+            };
+        };
+        openRequest.onerror = function (open_err) {
+            console.log("Failed to open GCNA database for delete operation. Error: ", open_err.target.error);
+        };
+    }
+
+    function proceedWithDeletion(db, recordIdToDelete) { // db is GCNA's db instance
+        let transaction = db.transaction("Shelves", "readwrite");
+        let landInfoStore = transaction.objectStore("Shelves");
+        let deleteRequest = landInfoStore.delete(recordIdToDelete);
+
+        deleteRequest.onsuccess = function () {
+            console.log(`Record with ID ${recordIdToDelete} deleted from GCNA database.`);
+            // window.location.reload(); // Reload to reflect changes
+        };
+        deleteRequest.onerror = function (del_err) {
+            console.log(`Failed to delete record with ID ${recordIdToDelete} from GCNA database. Error: ${del_err.target.error}`);
+        };
+        transaction.onerror = function(trans_err) {
+            console.error("Transaction error during delete: ", trans_err.target.error);
+        };
+    }
+</script> -->
 
 <script>
 document.addEventListener('click', function(event) {
@@ -1046,13 +1576,23 @@ const SHELF00 = [
     ['', '--Select Shelf--'],
     ['A', 'A'], ['B', 'B'], ['C', 'C'], ['D', 'D'],
     ['E', 'E'], ['F', 'F'], ['G', 'G'], ['H', 'H'],
-    ['I', 'I'], ['J', 'J'], ['K', 'K'], ['L', 'L']
+    ['I', 'I'], ['J', 'J'], ['K', 'K'],         ['L', 'L'],
+        ['M', 'M'],
+        ['N', 'N'],
+        ['O', 'O'],
+        ['P', 'P'],
+        ['Q', 'Q'],
+        ['R', 'R'],
+        ['S', 'S'],
+        ['T', 'T'],
+        ['U', 'U'],
+        ['V', 'V'],
 ];
 
 const TRAY00 = [
     ['', '--Select Tray--'],
     ['1', '1'], ['2', '2'], ['3', '3'], ['4', '4'], ['5', '5'],
-    ['6', '6'], ['7', '7'], ['8', '8'], ['9', '9'], ['10', '10']
+    ['6', '6'],
 ];
 
 const SECTION00 = [
@@ -1373,16 +1913,22 @@ document.addEventListener("DOMContentLoaded", function () {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr class="original-entry">
-                                            <td><input type="text" class="form-control" value="${record.M_Shelf || ''}" required></td>
-                                            <td><input type="text" class="form-control" value="${record.M_Tray || ''}" required></td>
-                                            <td><input type="text" class="form-control" value="${record.M_Section || ''}" required></td>
-                                            <td><input type="text" class="form-control" value="${record.Moisture || ''}" required></td>
-                                            <td><input type="text" class="form-control" value="${record.Week || ''}" required></td>
-                                            <td><input type="date" class="form-control" value="${record.Date || ''}" required></td>
-                                            <td>
+                                       <tr class="original-entry" data-record-id="${record.id}">
+                                            <td><input type="text" class="form-control shelf-input" value="${record.M_Shelf || ''}" required onblur="saveOnBlur(this, '${record.id}', 'M_Shelf')"></td>
+                                            <td><input type="text" class="form-control tray-input" value="${record.M_Tray || ''}" required onblur="saveOnBlur(this, '${record.id}', 'M_Tray')"></td>
+                                            <td><input type="text" class="form-control section-input" value="${record.M_Section || ''}" required onblur="saveOnBlur(this, '${record.id}', 'M_Section')"></td>
+                                            <td><input type="text" class="form-control moisture-input" value="${record.Moisture || ''}" required onblur="saveOnBlur(this, '${record.id}', 'Moisture')"></td>
+                                            <td><input type="text" class="form-control week-input" value="${record.Week || ''}" required onblur="saveOnBlur(this, '${record.id}', 'Week')"></td>
+                                            <td><input type="date" class="form-control date-input" value="${record.Date || ''}" required onblur="saveOnBlur(this, '${record.id}', 'Date')"></td>
+                                                   <td>
                                                 <button onclick="duplicateEntry(this, '${record.M_Shelf || ''}', '${record.M_Tray || ''}', '${record.M_Section || ''}', '${record.entry || ''}', '${record.floor || ''}')">Add Moisture Week</button>
                                             </td>
+                                                                                        <td>
+
+                                                                                            <button class="save-button" onclick="saveEntry(this, '${record.id}')">Save</button>
+
+                                            </td>
+
                                         </tr>
                                     </tbody>
                                 </table>
@@ -1404,9 +1950,134 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 });
 
+function saveOnBlur(inputElement, recordId, propertyName) {
+    let newValue = inputElement.value;
+
+    let openRequest = indexedDB.open("GCNA");
+
+    openRequest.onsuccess = function (event) {
+        let db = event.target.result;
+        let transaction = db.transaction("M_Shelves", "readwrite");
+        let landInfoStore = transaction.objectStore("M_Shelves");
+        let getRequest = landInfoStore.get(parseInt(recordId));
+
+        getRequest.onsuccess = function (event) {
+            let record = event.target.result;
+            if (record) {
+                record[propertyName] = newValue; // Dynamically update the property
+
+                let updateRequest = landInfoStore.put(record);
+
+                updateRequest.onsuccess = function () {
+                    console.log(`Record with ID ${recordId} - ${propertyName} updated to: ${newValue}`);
+                    // Optionally provide visual feedback (e.g., briefly change background color)
+                    inputElement.classList.add('saved');
+                    setTimeout(() => {
+                        inputElement.classList.remove('saved');
+                    }, 1000);
+                };
+
+                updateRequest.onerror = function (event) {
+                    console.error(`Error updating record with ID ${recordId} - ${propertyName}:`, event.target.error);
+                    // Optionally provide error feedback
+                    inputElement.classList.add('error');
+                    setTimeout(() => {
+                        inputElement.classList.remove('error');
+                    }, 1000);
+                };
+            } else {
+                console.log(`Record with ID ${recordId} not found.`);
+            }
+        };
+
+        getRequest.onerror = function (event) {
+            console.error(`Error getting record with ID ${recordId}:`, event.target.error);
+        };
+
+        transaction.oncomplete = function () {
+            db.close();
+        };
+
+        transaction.onerror = function (event) {
+            console.error("Transaction error:", event.target.error);
+        };
+    };
+
+    openRequest.onerror = function (event) {
+        console.error("Error opening IndexedDB:", event.target.error);
+    };
+}
 
 
+function saveEntry(buttonElement, recordId) {
+    let row = buttonElement.closest('tr');
+    let shelf = row.querySelector('.shelf-input').value;
+    let tray = row.querySelector('.tray-input').value;
+    let section = row.querySelector('.section-input').value;
+    let moisture = row.querySelector('.moisture-input').value;
+    let week = row.querySelector('.week-input').value;
+    let date = row.querySelector('.date-input').value;
 
+    let openRequest = indexedDB.open("GCNA");
+
+    openRequest.onsuccess = function (event) {
+        let db = event.target.result;
+        let transaction = db.transaction("M_Shelves", "readwrite");
+        let landInfoStore = transaction.objectStore("M_Shelves");
+        let getRequest = landInfoStore.get(parseInt(recordId)); // Assuming record ID is an integer
+
+        getRequest.onsuccess = function (event) {
+            let record = event.target.result;
+            if (record) {
+                record.M_Shelf = shelf;
+                record.M_Tray = tray;
+                record.M_Section = section;
+                record.Moisture = moisture;
+                record.Week = week;
+                record.Date = date;
+
+                let updateRequest = landInfoStore.put(record);
+
+                updateRequest.onsuccess = function () {
+                    console.log(`Record with ID ${recordId} updated successfully.`);
+                    // Optionally provide user feedback, e.g., by changing the button text
+                    buttonElement.textContent = 'Saved!';
+                    setTimeout(() => {
+                        buttonElement.textContent = 'Save';
+                    }, 1500);
+                };
+
+                updateRequest.onerror = function (event) {
+                    console.error(`Error updating record with ID ${recordId}:`, event.target.error);
+                    // Optionally provide error feedback to the user
+                    buttonElement.textContent = 'Error Saving';
+                    setTimeout(() => {
+                        buttonElement.textContent = 'Save';
+                    }, 1500);
+                };
+            } else {
+                console.log(`Record with ID ${recordId} not found.`);
+                // Optionally handle the case where the record doesn't exist
+            }
+        };
+
+        getRequest.onerror = function (event) {
+            console.error(`Error getting record with ID ${recordId}:`, event.target.error);
+        };
+
+        transaction.oncomplete = function () {
+            db.close();
+        };
+
+        transaction.onerror = function (event) {
+            console.error("Transaction error:", event.target.error);
+        };
+    };
+
+    openRequest.onerror = function (event) {
+        console.error("Error opening IndexedDB:", event.target.error);
+    };
+}
 
   
   

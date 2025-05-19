@@ -193,7 +193,7 @@ class Dried_Moisture_Analysis_A(models.Model):
 
     DATE_OF_SAMPLING = models.DateField('Date of Sampling',null=True,  blank=True)
     STATION= models.CharField(max_length=50, null=True,  blank=True)
-    BATCH_CODE= models.IntegerField(default= 0,  blank=True)
+    BATCH_CODE= models.CharField(max_length=50, null=True,  blank=True)
     Quantity_of_Bags= models.IntegerField(default= 0,  blank=True)
     Quantity_of_Sample= models.IntegerField(default= 0,  blank=True)
     Total_Weight = models.FloatField(default= 0,  blank=True)
@@ -262,7 +262,7 @@ class Dried_Moisture_Analysis_B(models.Model):
 
     DATE_OF_SAMPLING = models.DateField('Date of Sampling',null=True,  blank=True) 
     STATION = models.CharField(max_length=50, null=True,  blank=True)
-    BATCH_CODE = models.IntegerField(default= 0,  blank=True)
+    BATCH_CODE= models.CharField(max_length=50, null=True, blank=True)
     Total_Quantity_of_Bags_in_Non_Compliance = models.IntegerField(default= 0,  blank=True)
     Total_Weight_of_Nutmeg_in_Non_Compliance = models.IntegerField(default= 0,  blank=True)
     Additional_Drying_Period1 = models.CharField(max_length=50, null=True,  blank=True)
@@ -320,7 +320,7 @@ class Floated_Moisture_Analysis_A(models.Model):
     DATE_OF_SAMPLING_H = models.DateField('Date of Heavy Sampling',null=True) 
     DATE_OF_SAMPLING_L = models.DateField('Date of Light Sampling',null=True) 
     STATION = models.CharField(max_length=50, null=True)
-    BATCH_CODE = models.IntegerField(default= 0)
+    Batch_Code= models.CharField(max_length=50, null=True, blank=True)
 
     # HEAVIES
     Quantity_of_Sample_H = models.IntegerField(default= 0)

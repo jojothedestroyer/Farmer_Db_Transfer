@@ -1,6 +1,52 @@
 {% extends 'gcna/base2.html' %}
 
 {% block content%}
+  <style>
+    .menu {
+      display: flex;
+      list-style: none;
+      padding: 0;
+    }
+  
+    .menu li {
+      margin-right: 20px;
+    }
+  
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+  
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f9f9f9;
+      min-width: 160px;
+      z-index: 1;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+  
+    .dropdown-content.show {
+      display: block;
+      opacity: 1;
+    }
+    .checkhide{
+        opacity: 0;
+
+    }
+    .dropdown-content .container {
+      padding: 15px;
+    }
+  
+    .dropdown button {
+      cursor: pointer;
+    }
+
+    .entryCheck{
+      display: none;
+    }
+  </style>
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -37,9 +83,7 @@
       var myForm = document.getElementById('myForm');
   
       myForm.addEventListener('submit', function(event) {
-          if (navigator.onLine) {
-              return;
-          }
+        
   
           event.preventDefault();
           var data = new FormData(event.target);
@@ -53,7 +97,8 @@
               var db = event.target.result;
               var transaction = db.transaction('DriedB', 'readwrite');
               var objectStore = transaction.objectStore('DriedB');
-      
+                  data.delete('csrfmiddlewaretoken');
+
               var obj = {};
               for (var pair of data.entries()) {
                   obj[pair[0]] = pair[1];
@@ -73,7 +118,7 @@
       
                   request.onsuccess = function() {
                       console.log('Data added to IndexedDB');
-                      window.location.href = '/gcna00_24/';
+                      window.location.reload();
                   };
       
                   request.onerror = function() {
@@ -91,7 +136,23 @@
   </script>
 
 
+<script>
+    
+ $(document).ready(function() {
 
+     $('#id_READING_1,#id_READING_2,#id_READING_3').on('change', function() {
+        var reading1 = parseFloat($('#id_READING_1').val()) || 0;
+        var reading2 = parseFloat($('#id_READING_2').val()) || 0;
+        var reading3 = parseFloat($('#id_READING_3').val()) || 0;
+        
+
+    var sum = reading1+reading2+reading3; 
+
+    var avg = sum / 3; 
+        $('#id_AVERAGE').val(avg.toFixed(2));
+      });
+      });
+</script>
 
 	{% if submitted %}
 		Entry successfully added to database!!!
@@ -424,7 +485,6 @@
 		<br>
 
 		
-</table>
 
               <tr>
             <th><a href="{% url 'table' %}" class="btn btn-secondary">Exit</a></th>
@@ -435,8 +495,209 @@
         </tr>
 		</form>		
 
-		</form>
 
+  <ul class="menu">
+    <li class="dropdown">
+      <button type="button" class="addrow" onclick="toggleDropdown()">Dispatched Dried Nutmeg List</button>
+      <div class="dropdown-content" id="myDropdown">
+        <div class="container">
+        </div>
+        <div id="landInfoData"></div>
+      </div>
+    </li>
+  </ul>
+</td>
+ </table>
+
+ <script>
+      function toggleDropdown() {
+        var dropdownContent = document.getElementById("myDropdown");
+        dropdownContent.classList.toggle("show");
+      }
+      </script>
+
+
+
+
+   <script>
+        let openRequest = indexedDB.open("GCNA");
+        let fieldBlacklist = [];
+        const fieldBlacklistConfig = {
+            DATE_OF_SAMPLING: true, // Set to true to blacklist if null or empty
+            DECISION: true,
+            Quantity_of_Bags: true,
+            // Add more fields as needed
+        };
+    
+        openRequest.onsuccess = function(event) {
+            let db = event.target.result;
+            let transaction = db.transaction("Dispatch-Of-Dried-Nutmeg", "readonly");
+            let landInfoStore = transaction.objectStore("Dispatch-Of-Dried-Nutmeg");
+            let getAllRequest = landInfoStore.getAll();
+    
+            getAllRequest.onsuccess = function(event) {
+                let landInfoRecords = event.target.result;
+                let landInfoDataDiv = document.getElementById("landInfoData");
+    
+                landInfoRecords.forEach((record) => {
+                    let entryContainer = document.createElement("div");
+                    entryContainer.id = `entryContainer_${record.id}`;
+                    entryContainer.classList.add("entryContainer"); // Add the class for initial hiding
+    
+                    let dispatchTransaction = db.transaction("DriedB", "readwrite");
+                    let dispatchStore = dispatchTransaction.objectStore("DriedB");
+    
+                    let getAllDispatchRequest = dispatchStore.getAll();
+                    getAllDispatchRequest.onsuccess = function(event) {
+                        let dispatchRecords = event.target.result;
+    
+                        // Split the batch codes into an array
+                        let batchCodes = record.BATCH_CODES.split(',').map(code => code.trim());
+                        let existingBatchCodes = [];
+                        let missingBatchCodes = [];
+    
+                        // Check for each batch code if it already exists
+                        batchCodes.forEach(code => {
+                            let exists = dispatchRecords.some(dispatchRecord => 
+                                dispatchRecord.BATCH_CODE.toString().includes(code)
+                            );
+                            if (exists) {
+                                existingBatchCodes.push(code); // Store already existing batch codes
+                            } else {
+                                missingBatchCodes.push(code); // Store missing batch codes
+                            }
+                        });
+                        let StationCheckboxes = '';
+                let codes2 = record.STATION;
+                StationCheckboxes += `<input type="checkbox" id="code" name="code" value="${codes2}" onchange="setSelectedStation('${codes2}')"> <label for="code">${codes2}</label><br>`;
+
+                        // If all batch codes exist, don't generate the entry
+                        if (missingBatchCodes.length === 0) {
+                            console.log(`All batch codes for Record Control_number ${record.Control_number} already exist in Dispatch-Of-Dried-Nutmeg. Dropdown not generated.`);
+                        } else {
+                            // Generate the dropdown and display missing batch codes
+                            //                                <button type="button" class="add-row" onclick="set_valuecode('${missingBatchCodes.join(', ')}', '${record.STATION}', '${record.Vehicle_number}', '${record.Delivery_advice_num}', '${record.Product}', '${record.Num_Bags}', '${record.Weight}')">Set</button>
+
+                            let dropdownContent = `
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton_${record.id}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Entry: ${record.id}      
+                                </button>
+                                <input type="checkbox" class='checkhide' id="valueChange_${record.Control_number}">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton_${record.id}">
+                                    <form>
+                                        <table class="table table-hover table-light">
+                                            <tr>
+                                                       <tr>
+                                        <th>Station Dispatched From</th>
+                                        <td>${StationCheckboxes}</td>
+                                    </tr>
+                                            </tr> 
+                                            <tr>
+                                                <th>Station Dispatched to</th>
+                                                <td>${record.STATION_recieved}</td>
+                                            </tr>  
+                                            <tr>
+                                                <th>Vehicle Number</th>
+                                                <td>${record.Vehicle_number} <input type="checkbox" id="vehicle_${record.id}" onchange="toggleField(this, 'Vehicle_number', '${record.id}','${record.Vehicle_number}')"></td>
+                                            </tr>  
+                                            <tr>
+                                                <th>Batch Codes</th>
+                                                <td>
+                                                    ${batchCodes.map(code => {
+                                                        if (missingBatchCodes.includes(code)) {
+                                                            return `${code} <input type="checkbox" id="batchCode_${code}" onchange="updateControlNum(this)" value="${code}">`; // Create a checkbox next to missing batch codes
+                                                        } else {
+                                                            return code; // Just show the batch code without a checkbox
+                                                        }
+                                                    }).join(', ')}
+                                                </td>
+                                            </tr>
+                                <tr>
+                                            <th>Delivery Advice Number</th>
+                                            <td>${record.CORRESPONDING_DELIVERY_ADVICE} <input type="checkbox" id="deliveryAdvice_${record.id}" onchange="toggleField(this, 'Delivery_advice_num', '${record.id}','${record.CORRESPONDING_DELIVERY_ADVICE}')"></td>
+                                        </tr>
+                                            <tr>
+                                                <th>Product</th>
+                                                <td>${record.Product} <input type="checkbox" id="product_${record.id}" onchange="toggleField(this, 'Product', '${record.id}','${record.Product}')"></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Number of Bags</th>
+                                                <td>${record.Num_Bags} <input type="checkbox" id="numBags_${record.id}" onchange="toggleField(this, 'Num_Bags', '${record.id}','${record.Num_Bags}')"></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Weight</th>
+                                                <td>${record.Weight} <input type="checkbox" id="weight_${record.id}" onchange="toggleField(this, 'Weight', '${record.id}','${record.Weight}')"></td>
+                                            </tr>
+                                        </table>
+                                    </form>
+                                </div>
+                            </div>`;
+    
+                            entryContainer.innerHTML = dropdownContent;
+                            landInfoDataDiv.appendChild(entryContainer);
+                        }
+                    };
+    
+                    getAllDispatchRequest.onerror = function() {
+                        console.error(`Error retrieving Dispatch-Of-Dried-Nutmeg records for Batch Codes: ${record.BATCH_CODES}.`);
+                    };
+                });
+            };
+    
+            getAllRequest.onerror = function() {
+                console.error("Error retrieving In-House-Drying records from the Mace_Dispatched store.");
+            };
+        };
+    
+        // Function to toggle the field selection based on checkbox
+        function toggleField(checkbox, fieldName, recordId,value) {
+            let formField = document.querySelector(`[name="${fieldName}"]`);
+            if (checkbox.checked) {
+                // Add the value to the form field if checked
+                formField.value = formField.value ? formField.value + `, ${value}` : value;
+            } else {
+                // Remove the value from the form field if unchecked
+                formField.value = formField.value.split(',').filter(val => val.trim() !== value).join(', ');
+            }
+        }
+    
+        // Function to update the station based on the checkbox selection
+        function updateControlNum(checkbox) {
+            let controlNumField = document.querySelector('[name="BATCH_CODE"]');
+            let currentValues = controlNumField.value ? controlNumField.value.split(',') : [];
+            if (checkbox.checked) {
+                // Add the checkbox's value to the field
+                currentValues.push(checkbox.value);
+            } else {
+                // Remove the checkbox's value from the field
+                currentValues = currentValues.filter(value => value !== checkbox.value);
+            }
+            if (controlNumField.value == "") {
+                controlNumField.value = currentValues;
+            } else {
+                controlNumField.value = currentValues.join(',');
+            }
+        }
+
+
+
+  function setSelectedStation(stationCode) {
+    console.log(stationCode)
+      const stationDropdown = document.querySelector('select[name="Station"]');  // Access the dropdown by name
+      
+      // Loop through the options and select the one that matches the stationCode
+      for (let i = 0; i < stationDropdown.options.length; i++) {
+          if (stationDropdown.options[i].value === stationCode) {
+              stationDropdown.selectedIndex = i;  // Set the selected index
+              break;
+          }
+      }
+  }
+
+
+    </script>
+    
 	{% endif %}
 
 	</center>
