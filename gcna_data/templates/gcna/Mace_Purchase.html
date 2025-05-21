@@ -325,34 +325,72 @@
 
 
 
-
 <script>
     $(document).ready(function() {
+        
     
-        $('#id_MACE_1, #id_MACE_2, #id_MACE_3, #id_STATION').on('change', function() {
-            var Date = new String($('#id_DATE_OF_PURCHASE').val());
+        $('#id_MACE_1, #id_MACE_2, #id_MACE_3, #id_STATION, #id_DATE_OF_PURCHASE').on('change', function() {
+    var purchaseDate = $('#id_DATE_OF_PURCHASE').val().replace(/[/\-]/g, '');
     
             var station = new String($('#id_STATION').val());
             var mace1 = new String($('#id_DATE_OF_PICK_UP').val());
             var mace2 = new String($('#id_DATE_OF_PICK_UP').val());
             var mace3 = new String($('#id_DATE_OF_PICK_UP').val());
 
-            $('#id_BATCH_CODE_M1').val(station + Date + "M1"); 
-            $('#id_BATCH_CODE_M2').val(station + Date + "M2"); 
-            $('#id_BATCH_CODE_M3').val(station + Date + "M3"); 
+            $('#id_BATCH_CODE_M1').val(station  + "M1"+ purchaseDate); 
+            $('#id_BATCH_CODE_M2').val(station  + "M2"+ purchaseDate); 
+            $('#id_BATCH_CODE_M3').val(station  + "M3"+ purchaseDate); 
         });
      
      
-        $('#id_NUM_MACE1_BAGS, #id_NUM_MACE2_BAGS, #id_NUM_MACE3_BAGS').on('change', function() {
+        $('#id_NUM_MACE1_BAGS, #id_NUM_MACE2_BAGS, #id_NUM_MACE3_BAGS,#id_MACE_1,#id_MACE_2,#id_MACE_3').on('change', function() {
             var mace1 = new Number($('#id_NUM_MACE1_BAGS').val());
             var mace2 = new Number($('#id_NUM_MACE2_BAGS').val());
             var mace3 = new Number($('#id_NUM_MACE3_BAGS').val());
-
             
+
+    //   var mace1val = new Number($('#id_MACE_1').val());
+    //         var mace2val = new Number($('#id_MACE_2').val());
+    //         var mace3val = new Number($('#id_MACE_3').val());
+            
+
             $('#id_MACE_1').val(mace1 * 40); 
             $('#id_MACE_2').val(mace2 * 70);
             $('#id_MACE_3').val(mace3 * 100); 
+            // $('#id_TOTAL_LBS_NUTMEG_BOUGHT').val(mace1val+mace2val+mace3val); 
+            $('#id_NUM_OF_BAGS').val(mace1+mace2+mace3+0); 
+
+
+            
+
         });
+
+
+
+
+
+  $('#id_NUM_MACE1_BAGS, #id_NUM_MACE2_BAGS, #id_NUM_MACE3_BAGS,#id_MACE_1,#id_MACE_2,#id_MACE_3').on('change', function() {
+            // var mace1 = new Number($('#id_NUM_MACE1_BAGS').val());
+            // var mace2 = new Number($('#id_NUM_MACE2_BAGS').val());
+            // var mace3 = new Number($('#id_NUM_MACE3_BAGS').val());
+            
+
+      var mace1val = new Number($('#id_MACE_1').val());
+            var mace2val = new Number($('#id_MACE_2').val());
+            var mace3val = new Number($('#id_MACE_3').val());
+            
+
+            // $('#id_MACE_1').val(mace1 * 40); 
+            // $('#id_MACE_2').val(mace2 * 70);
+            // $('#id_MACE_3').val(mace3 * 100); 
+            $('#id_TOTAL_LBS_NUTMEG_BOUGHT').val(mace1val+mace2val+mace3val); 
+            // $('#id_NUM_OF_BAGS').val(mace1+mace2+mace3+0); 
+
+
+            
+
+        });
+
 
         
     }); 
@@ -502,24 +540,21 @@
         </tr>    
 
 
-
 </table>
-
-
 
 
         <tr>
             <th><a href="{% url 'table' %}" class="btn btn-secondary">Return</a></th>
         </tr>
 
-
+<tr>
             <th><a type="submit" href="{% url 'add_Dispatch_Dried_0' %}" role="button" class="btn btn-primary">Previous</a></th>		
-		<input type="submit" name="" value="submit" class="btn btn-success">
+	 <th>	<input type="submit" name="" value="submit" class="btn btn-success"></th>
 		
 
             <th><a type="submit" href="{% url 'add_Cracking_0' %}" role="button" class="btn btn-primary">Next</a></th> 
 
-
+</tr>
 
  
 		</form>
