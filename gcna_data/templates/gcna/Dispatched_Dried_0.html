@@ -1530,7 +1530,7 @@ opacity: o;
     }
 </script>
 	</center>
-  <script>
+  <!-- <script>
     let openRequest = indexedDB.open("GCNA");
 
     let fieldBlacklist = [];
@@ -1685,8 +1685,205 @@ opacity: o;
             console.error("Error retrieving In-House-Drying records.");
         };
     };
-</script>
+</script> -->
+      <script>
+        let openRequest = indexedDB.open("GCNA");
+    
+        let fieldBlacklist = [];
+        const fieldBlacklistConfig = {
+            DATE_OF_SAMPLING: true, // Set to true to blacklist if null or empty
+            DECISION: true,
+            Quantity_of_Bags: true,
+            // Add more fields as needed
+        };
+    openRequest.onsuccess = function(event) {
+    let db = event.target.result;
 
+    let transaction = db.transaction("In-House-Drying", "readonly");
+    let landInfoStore = transaction.objectStore("In-House-Drying");
+    let getAllRequest = landInfoStore.getAll();
+
+    getAllRequest.onsuccess = function(event) {
+        let landInfoRecords = event.target.result;
+        let landInfoDataDiv = document.getElementById("landInfoData");
+        if (!landInfoDataDiv) {
+            console.error("Element with ID 'landInfoData' not found.");
+            return;
+        }
+        landInfoDataDiv.innerHTML = ''; // Clear previous entries
+
+        landInfoRecords.forEach((record) => {
+            // Ensure record.Control_number is not null/undefined, then split, trim, and filter empty strings
+            const inHouseControlNumbers = record.Control_number ?
+                record.Control_number.split(",").map(cn => cn.trim()).filter(cn => cn) : [];
+
+            let batchCodeCheckboxes = '';
+            if (inHouseControlNumbers.length > 0) {
+                inHouseControlNumbers.forEach((codeValue, i) => {
+                    const checkboxId = `control_num_code_${record.id}_${i}`; // Unique ID
+                    // Pass record.id and the specific code to updateControlNum if needed
+                    batchCodeCheckboxes += `<input type="checkbox" id="${checkboxId}" name="control_num_codes_${record.id}" value="${codeValue}" onchange="updateControlNum(this, '${record.id}', '${codeValue}')">
+                                          <label for="${checkboxId}">${codeValue}</label><br>`;
+                });
+            } else {
+                batchCodeCheckboxes = 'N/A';
+            }
+
+            let stationCheckboxHtml = '';
+            const stationValue = record.STATION ? record.STATION.trim() : '';
+            if (stationValue) {
+                const stationCheckboxId = `station_code_${record.id}`; // Unique ID
+                // Pass record.id and stationValue to setSelectedStation if needed
+                stationCheckboxHtml += `<input type="checkbox" id="${stationCheckboxId}" name="station_${record.id}" value="${stationValue}" onchange="setSelectedStation(this, '${record.id}', '${stationValue}')"> <label for="${stationCheckboxId}">${stationValue}</label><br>`;
+            } else {
+                stationCheckboxHtml = 'N/A';
+            }
+
+            // Check if record is complete BEFORE doing expensive dispatch checks
+            if (record.COMPLETE !== 'Yes') {
+                console.log(`Record ID ${record.id} (Control Numbers: ${inHouseControlNumbers.join(', ') || 'N/A'}) is not marked as COMPLETE. Skipping.`);
+                return; // Skip to the next record
+            }
+
+            let dispatchTransaction = db.transaction(["Dispatch-Of-Dried-Nutmeg", "Dispatch-Of-Green"], "readonly");
+            let dispatchStoreDried = dispatchTransaction.objectStore("Dispatch-Of-Dried-Nutmeg");
+            let dispatchStoreGreen = dispatchTransaction.objectStore("Dispatch-Of-Green");
+
+            let getAllDispatchRequestDried = dispatchStoreDried.getAll();
+            // It's often better to initiate both requests and then handle them,
+            // possibly with Promise.all if you refactor to use Promises.
+            // For nested callbacks, one after the other is fine.
+
+            getAllDispatchRequestDried.onsuccess = function(eventDried) {
+                let dispatchRecordsDried = eventDried.target.result;
+                let existsInDried = false;
+                if (inHouseControlNumbers.length > 0) { // Only check if there are control numbers
+                    existsInDried = dispatchRecordsDried.some(dispatchRecord => {
+                        if (!dispatchRecord.BATCH_CODES) return false;
+                        return inHouseControlNumbers.some(cn => dispatchRecord.BATCH_CODES.includes(cn));
+                    });
+                }
+
+                if (existsInDried) {
+                    console.log(`Record ID ${record.id} (Control Numbers: ${inHouseControlNumbers.join(', ')}) found in Dispatch-Of-Dried-Nutmeg. Dropdown not generated.`);
+                } else {
+                    // Not in Dried, now check Green
+                    let getAllDispatchRequestGreen = dispatchStoreGreen.getAll(); // Get fresh request object
+
+                    getAllDispatchRequestGreen.onsuccess = function(eventGreen) {
+                        let dispatchRecordsGreen = eventGreen.target.result;
+                        let existsInGreen = false;
+                        if (inHouseControlNumbers.length > 0) { // Only check if there are control numbers
+                             existsInGreen = dispatchRecordsGreen.some(dispatchRecord => {
+                                if (!dispatchRecord.BATCH_CODES) return false;
+                                return inHouseControlNumbers.some(cn => dispatchRecord.BATCH_CODES.includes(cn));
+                            });
+                        }
+
+                        if (existsInGreen) {
+                            console.log(`Record ID ${record.id} (Control Numbers: ${inHouseControlNumbers.join(', ')}) found in Dispatch-Of-Green. Dropdown not generated.`);
+                        } else {
+                            // Not in Dried and not in Green, and record.COMPLETE is 'Yes'
+                            console.log(`Record ID ${record.id} (Control Numbers: ${inHouseControlNumbers.join(', ') || 'None'}) is COMPLETE and not found in any dispatch. Generating dropdown.`);
+                            let entryContainer = document.createElement("div");
+                            entryContainer.id = `entryContainer_${record.id}`;
+                            entryContainer.classList.add("entryContainer", "mb-3"); // Added margin-bottom for spacing
+
+                            let dropdownContent = `
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton_${record.id}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Entry ID: ${record.id} (Controls: ${inHouseControlNumbers.join(', ') || 'N/A'})
+                                </button>
+                                <input type="hidden" id="valueChange_${record.id}_ControlNum" value="${record.Control_number || ''}">
+                                <button type="button" style="display:none;" class="add-row" onclick="fill_table('${record.id}')">Fill Table from Record ${record.id}</button>
+                                <div class="dropdown-menu p-2 shadow" aria-labelledby="dropdownMenuButton_${record.id}" style="width: max-content; max-width: 500px;"> <table class="table table-sm table-bordered">
+                                        <tbody>
+                                            <tr><th>Station</th><td>${stationCheckboxHtml}</td></tr>
+                                            <tr><th>Date of Purchase</th><td>${record.DATE_OF_PURCHASE || 'N/A'}</td></tr>
+                                            <tr><th>Place of Purchase</th><td>${record.PLACE_OF_PURCHASE || 'N/A'}</td></tr>
+                                            <tr><th>Number of Farmers</th><td>${record.TOTAL_NUM_OF_FARMERS || 'N/A'}</td></tr>
+                                            <tr><th>Number of Bags</th><td>${record.NUM_OF_BAGS || 'N/A'}</td></tr>
+                                            <tr><th>Batch Codes</th><td>${batchCodeCheckboxes}</td></tr>
+                                            <tr><th>Total Nutmegs bought (lbs)</th><td>${record.TOTAL_LBS_NUTMEG_BOUGHT || 'N/A'}</td></tr>
+                                            <tr>
+                                                <th>Dates</th>
+                                                <td>
+                                                    <table class="table table-sm table-borderless mb-0">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col" class="small text-muted">Start Drying</th>
+                                                                <th scope="col" class="small text-muted">Approx. End Drying</th>
+                                                                <th scope="col" class="small text-muted">Actual End Drying</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>${record.START_DRYING_DATE || 'N/A'}</td>
+                                                                <td>${record.APPROX_END_DRYING_DATE || 'N/A'}</td>
+                                                                <td>${record.END_DRYING_DATE || 'N/A'}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>`;
+                            entryContainer.innerHTML = dropdownContent;
+                            landInfoDataDiv.appendChild(entryContainer);
+                        }
+                    }; // End getAllDispatchRequestGreen.onsuccess
+                     getAllDispatchRequestGreen.onerror = function(event) {
+                        console.error(`Error retrieving Dispatch-Of-Green records for In-House record ID ${record.id}:`, event.target.error);
+                    };
+                }
+            }; // End getAllDispatchRequestDried.onsuccess
+            getAllDispatchRequestDried.onerror = function(event) {
+                console.error(`Error retrieving Dispatch-Of-Dried-Nutmeg records for In-House record ID ${record.id}:`, event.target.error);
+            };
+
+            dispatchTransaction.onerror = function(event) {
+                console.error(`Dispatch check transaction error for In-House record ID ${record.id}:`, event.target.error);
+            };
+            // dispatchTransaction.oncomplete can be useful for debugging transaction lifecycle
+        }); // End forEach landInfoRecords
+    }; // End getAllRequest.onsuccess
+
+    getAllRequest.onerror = function(event) {
+        console.error("Error retrieving In-House-Drying records:", event.target.error);
+    };
+
+    transaction.onerror = function(event) {
+        console.error("In-House-Drying transaction error:", event.target.error);
+    };
+    transaction.oncomplete = function() {
+        console.log("In-House-Drying data processing complete.");
+    };
+}; // End openRequest.onsuccess
+
+openRequest.onerror = function(event) {
+    console.error("Failed to open IndexedDB:", event.target.error);
+};
+
+// == Mock/Placeholder functions for your external handlers ==
+// You'll need to adapt these if their signatures have changed (e.g., to accept recordId or specific code)
+// function updateControlNum(checkboxElement, recordId, codeValue) {
+//  console.log(`updateControlNum called for code: ${codeValue} (Record ID: ${recordId}), Checked: ${checkboxElement.checked}`);
+//  // Your logic here, e.g., to update a hidden field or an array of selected codes for this record
+// }
+
+// function setSelectedStation(checkboxElement, recordId, stationValue) {
+//  console.log(`setSelectedStation called for station: ${stationValue} (Record ID: ${recordId}), Checked: ${checkboxElement.checked}`);
+//  // Your logic here
+// }
+
+// function fill_table(recordId) {
+//  console.log(`fill_table called for Record ID: ${recordId}`);
+//  // Your logic to populate a table, possibly using data associated with this recordId
+//  // You might retrieve the selected batch codes and station for this specific record.
+</script>
+    
 <!-- 
   <script>
     let openRequest = indexedDB.open("GCNA");

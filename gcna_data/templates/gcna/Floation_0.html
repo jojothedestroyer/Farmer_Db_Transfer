@@ -2463,14 +2463,135 @@ document.addEventListener('click', function(event) {
         }
     }
 });
-function addMForm(tableId, mainFormId, container, entryCheck) {
+// function addMForm(tableId, mainFormId, container, entryCheck) {
   
+//     formCount++;
+//     const form = document.createElement('form');
+//     const formId = `moisture_form_${formCount}`;
+//         form.id = formId;
+
+//     form.innerHTML = `
+//         <table class="table">
+//             <thead>
+//                 <tr>
+//                     <th scope="col">Floor:</th>
+//                     <th scope="col">Shelf:</th>
+//                     <th scope="col">Tray:</th>
+//                     <th scope="col" colspan=2>Section:</th>
+//                     <th scope="col">Moisture</th>
+//                     <th scope="col">Heavy or Light</th>
+//                                         <th scope="col"> </th>
+
+//                     <th scope="col">Date</th>
+//                     <th scope="col">Actions</th>
+//                 </tr>
+//             </thead>
+//             <tbody>
+//                 <tr>
+//                   <td>
+//                         <select id="floor_${entryCheck}" class="form-control" name="floor" required>
+//                             <option value="">--Select Floor--</option>
+//                             <option value="Ground Floor">Ground Floor</option>
+//                             <option value="1st Floor">1st Floor</option>
+//                             <option value="2nd Floor">2nd Floor</option>
+//                             <option value="Floor Loft">Floor Loft</option>
+//                         </select>
+//                     </td>
+//                     <td>
+//                         <select id="Shelf_${entryCheck}" class="form-control" name="M_Shelf" required>
+//                             <option value="">--Select Shelf--</option>
+//                             ${generateOptions(SHELF00)}
+//                         </select>
+//                     </td>
+//                     <td>
+//                         <select id="Tray_${entryCheck}" class="form-control" name="M_Tray" required>
+//                             <option value="">--Select Tray--</option>
+//                             ${generateOptions(TRAY00)}
+//                         </select>
+//                     </td>
+                    
+//                     <td>
+//                         <select id="section1_${entryCheck}" class="form-control" name="section1" required onchange="updateSectionValue('${entryCheck}')">
+//                             <option value="">--Select Section--</option>
+//                             ${generateOptions(SECTION00)}
+//                         </select>
+//                     </td>
+
+//                     <td>
+//                         <select id="section2_${entryCheck}" class="form-control" name="section2" required onchange="updateSectionValue('${entryCheck}')">
+//                             <option value="">--Select Section--</option>
+//                             ${generateOptions(SECTION00)}
+//                         </select>
+//                         <input type="hidden" id="Section_${entryCheck}" name="M_Section">
+//                     </td>
+
+//                     <td>
+//                         <input type="text" id="amount_${entryCheck}" class="form-control" name="Moisture" required>
+//                     </td>
+         
+
+//                          <td>
+//    <select id="weight_${entryCheck}" class="form-control" name="Weight" required>
+//                             <option value="">--Select Weight--</option>
+//                             ${generateOptions(WEIGHT)}
+//                         </select>
+//                     <td>
+
+
+//                     <td>
+//                         <input type="date" id="date_${entryCheck}" class="form-control" name="Date" value="${new Date().toISOString().split('T')[0]}" required>
+//                     </td>
+//                     <td>
+//                         <button type="button" class="submit_contents" onclick="submitMForm('${tableId}', '${mainFormId}', ${formCount}, '${entryCheck}','${formCount}')">✔</button>
+//                     </td>
+//                     <td>
+//                         <button type="button" class="addrow" onclick="removeForm('form_${formCount}_${entryCheck}')">Close</button>
+//                     </td>
+//                 </tr>
+//             </tbody>
+//         </table>
+//         <div>
+//             <input type="hidden" id="entry_${entryCheck}" name="entry" value="${entryCheck}">
+//             <input type="hidden" id="station_${entryCheck}" name="station">
+//         </div>
+//     `;
+//     container.appendChild(form);
+// }
+
+
+function addMForm(tableId, mainFormId, container, entryCheck) {
     formCount++;
     const form = document.createElement('form');
     const formId = `moisture_form_${formCount}`;
-        form.id = formId;
+    form.id = formId;
 
+    // First create just the weight selection form
     form.innerHTML = `
+        <div class="weight-selection">
+            <label for="weight_${entryCheck}">Select Weight:</label>
+            <select id="weight_${entryCheck}" class="form-control" name="Weight" required 
+                    onchange="generateMoistureFormFields('${tableId}', '${mainFormId}', ${formCount}, '${entryCheck}')">
+                <option value="">--Select Weight--</option>
+                ${generateOptions(WEIGHT)}
+            </select>
+        </div>
+        <div id="formFieldsContainer_${entryCheck}"></div>
+    `;
+    container.appendChild(form);
+}
+
+function generateMoistureFormFields(tableId, mainFormId, formCount, entryCheck) {
+    const weightSelect = document.getElementById(`weight_${entryCheck}`);
+    const selectedWeight = weightSelect.value;
+    const container = document.getElementById(`formFieldsContainer_${entryCheck}`);
+    
+    if (!selectedWeight) {
+        container.innerHTML = '';
+        return;
+    }
+    
+    container.innerHTML = `
+        <h3>${selectedWeight} Moisture Entry</h3>
         <table class="table">
             <thead>
                 <tr>
@@ -2479,16 +2600,13 @@ function addMForm(tableId, mainFormId, container, entryCheck) {
                     <th scope="col">Tray:</th>
                     <th scope="col" colspan=2>Section:</th>
                     <th scope="col">Moisture</th>
-                    <th scope="col">Heavy or Light</th>
-                                        <th scope="col"> </th>
-
                     <th scope="col">Date</th>
                     <th scope="col">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                  <td>
+                    <td>
                         <select id="floor_${entryCheck}" class="form-control" name="floor" required>
                             <option value="">--Select Floor--</option>
                             <option value="Ground Floor">Ground Floor</option>
@@ -2528,23 +2646,12 @@ function addMForm(tableId, mainFormId, container, entryCheck) {
                     <td>
                         <input type="text" id="amount_${entryCheck}" class="form-control" name="Moisture" required>
                     </td>
-         
-
-                         <td>
-   <select id="weight_${entryCheck}" class="form-control" name="Weight" required>
-                            <option value="">--Select Weight--</option>
-                            ${generateOptions(WEIGHT)}
-                        </select>
-                    <td>
-
 
                     <td>
                         <input type="date" id="date_${entryCheck}" class="form-control" name="Date" value="${new Date().toISOString().split('T')[0]}" required>
                     </td>
                     <td>
                         <button type="button" class="submit_contents" onclick="submitMForm('${tableId}', '${mainFormId}', ${formCount}, '${entryCheck}','${formCount}')">✔</button>
-                    </td>
-                    <td>
                         <button type="button" class="addrow" onclick="removeForm('form_${formCount}_${entryCheck}')">Close</button>
                     </td>
                 </tr>
@@ -2553,10 +2660,11 @@ function addMForm(tableId, mainFormId, container, entryCheck) {
         <div>
             <input type="hidden" id="entry_${entryCheck}" name="entry" value="${entryCheck}">
             <input type="hidden" id="station_${entryCheck}" name="station">
+            <input type="hidden" id="weight_${entryCheck}_value" name="Weight" value="${selectedWeight}">
         </div>
     `;
-    container.appendChild(form);
 }
+
 
 async function submitMForm(tableId, mainFormId, formNumber, entryCheck,formCount) {
     try {

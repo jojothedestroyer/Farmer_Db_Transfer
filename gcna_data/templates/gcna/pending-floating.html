@@ -558,10 +558,140 @@
       }
     }
 
-    // Function to add a new shelf row
-    function addNewShelfRow(entryCheck, station) {
-      // Create a new shelf object
-      let newShelf = {
+  //   // Function to add a new shelf row
+  //   function addNewShelfRow(entryCheck, station) {
+  //     // Create a new shelf object
+  //     let newShelf = {
+  //       entry: entryCheck,
+  //       station: station,
+  //       floor: "",
+  //       M_Shelf: "",
+  //       M_Tray: "",
+  //       M_Section: "",
+  //       Moisture: "",
+  //       Weight: "",
+  //       Date: new Date().toISOString().split("T")[0],
+  //       timestamp: new Date().toISOString()
+  //     };
+
+  //     // Save to IndexedDB
+  //     let openRequestup = indexedDB.open("GCNA");
+
+  //     openRequestup.onsuccess = function (event) {
+  //       let db = event.target.result;
+  //       let transaction = db.transaction("M_Shelves", "readwrite");
+  //       let shelvesStore = transaction.objectStore("M_Shelves");
+        
+  //       // Get the next ID
+  //       let getNextIdRequest = shelvesStore.openCursor(null, 'prev');
+  //       getNextIdRequest.onsuccess = function(event) {
+  //         let cursor = event.target.result;
+  //         let nextId = cursor ? cursor.key + 1 : 1;
+          
+  //         newShelf.id = nextId;
+          
+  //         // Save the new shelf
+  //         let addRequest = shelvesStore.add(newShelf);
+          
+  //         addRequest.onsuccess = function() {
+  //           console.log("New shelf added with ID:", nextId);
+            
+  //           // Find the table to add the row to
+  //           let tables = document.querySelectorAll(`table[id^="shelves-table-"]`);
+  //           let targetTable = null;
+            
+  //           for (let table of tables) {
+  //             let tableEntryCheck = table.closest('.card').previousElementSibling.querySelector('#entryCheck');
+  //             if (tableEntryCheck && tableEntryCheck.textContent === entryCheck) {
+  //               targetTable = table;
+  //               break;
+  //             }
+  //           }
+            
+  //           if (targetTable) {
+  //             // Add the new row to the table
+  //             let tbody = targetTable.querySelector('tbody');
+  //             let newRow = document.createElement('tr');
+  //             newRow.id = `shelf-row-${nextId}`;
+  //             newRow.innerHTML = `
+  //               <td><input type="text" class="form-control" value="" onchange="updateShelfField(${nextId}, 'floor', this.value)"></td>
+  //               <td><input type="text" class="form-control" value="" onchange="updateShelfField(${nextId}, 'M_Shelf', this.value)"></td>
+  //               <td><input type="text" class="form-control" value="" onchange="updateShelfField(${nextId}, 'M_Tray', this.value)"></td>
+  //               <td><input type="text" class="form-control" value="" onchange="updateShelfField(${nextId}, 'M_Section', this.value)"></td>
+  //               <td><input type="text" class="form-control" value="" onchange="updateShelfField(${nextId}, 'Moisture', this.value)"></td>
+  //               <td><input type="text" class="form-control" value="" onchange="updateShelfField(${nextId}, 'Weight', this.value)"></td>
+  //               <td><input type="date" class="form-control" value="${newShelf.Date}" onchange="updateShelfField(${nextId}, 'Date', this.value)"></td>
+  //               <td>
+  //                 <button type="button" class="btn btn-danger btn-sm" onclick="deleteShelf(${nextId})">Delete</button>
+  //               </td>
+  //             `;
+  //             tbody.appendChild(newRow);
+  //           } else {
+  //             console.error("Could not find table for entryCheck:", entryCheck);
+  //             // Refresh the page to show the new shelf
+  //             window.location.reload();
+  //           }
+  //         };
+          
+  //         addRequest.onerror = function() {
+  //           console.error("Error adding new shelf");
+  //         };
+  //       };
+  //     };
+  //   }
+  //
+  
+  // Function to add a new shelf row with weight-first approach
+function addNewShelfRow(entryCheck, station) {
+    // Create a container div for the weight selection
+    const container = document.createElement('div');
+    container.className = 'weight-selection-container';
+    container.innerHTML = `
+        <div class="weight-selection">
+            <label for="weight_select_${entryCheck}">Select Weight:</label>
+            <select id="weight_select_${entryCheck}" class="form-control" required>
+                <option value="">--Select Weight--</option>
+                ${generateOptions(WEIGHT)}
+            </select>
+            <button type="button" class="btn btn-primary mt-2" 
+                    onclick="generateShelfFields('${entryCheck}', '${station}')">
+                Continue
+            </button>
+        </div>
+    `;
+    
+    // Find where to insert this (before the table)
+    let tables = document.querySelectorAll(`table[id^="shelves-table-"]`);
+    let targetTable = null;
+    
+    for (let table of tables) {
+        let tableEntryCheck = table.closest('.card').previousElementSibling.querySelector('#entryCheck');
+        if (tableEntryCheck && tableEntryCheck.textContent === entryCheck) {
+            targetTable = table;
+            break;
+        }
+    }
+    
+    if (targetTable) {
+        targetTable.parentNode.insertBefore(container, targetTable);
+    } else {
+        console.error("Could not find table for entryCheck:", entryCheck);
+    }
+}
+
+// Function to generate the shelf fields after weight selection
+function generateShelfFields(entryCheck, station) {
+    const weightSelect = document.getElementById(`weight_select_${entryCheck}`);
+    const selectedWeight = weightSelect.value;
+    const container = weightSelect.closest('.weight-selection-container');
+    
+    if (!selectedWeight) {
+        alert('Please select a weight type first');
+        return;
+    }
+    
+    // Create a new shelf object with the selected weight
+    let newShelf = {
         entry: entryCheck,
         station: station,
         floor: "",
@@ -569,15 +699,15 @@
         M_Tray: "",
         M_Section: "",
         Moisture: "",
-        Weight: "",
+        Weight: selectedWeight, // Set the selected weight
         Date: new Date().toISOString().split("T")[0],
         timestamp: new Date().toISOString()
-      };
-
-      // Save to IndexedDB
-      let openRequestup = indexedDB.open("GCNA");
-
-      openRequestup.onsuccess = function (event) {
+    };
+    
+    // Save to IndexedDB to get an ID first
+    let openRequestup = indexedDB.open("GCNA");
+    
+    openRequestup.onsuccess = function(event) {
         let db = event.target.result;
         let transaction = db.transaction("M_Shelves", "readwrite");
         let shelvesStore = transaction.objectStore("M_Shelves");
@@ -585,60 +715,118 @@
         // Get the next ID
         let getNextIdRequest = shelvesStore.openCursor(null, 'prev');
         getNextIdRequest.onsuccess = function(event) {
-          let cursor = event.target.result;
-          let nextId = cursor ? cursor.key + 1 : 1;
-          
-          newShelf.id = nextId;
-          
-          // Save the new shelf
-          let addRequest = shelvesStore.add(newShelf);
-          
-          addRequest.onsuccess = function() {
-            console.log("New shelf added with ID:", nextId);
+            let cursor = event.target.result;
+            let nextId = cursor ? cursor.key + 1 : 1;
             
-            // Find the table to add the row to
-            let tables = document.querySelectorAll(`table[id^="shelves-table-"]`);
-            let targetTable = null;
+            newShelf.id = nextId;
             
-            for (let table of tables) {
-              let tableEntryCheck = table.closest('.card').previousElementSibling.querySelector('#entryCheck');
-              if (tableEntryCheck && tableEntryCheck.textContent === entryCheck) {
-                targetTable = table;
-                break;
-              }
-            }
+            // Save the new shelf
+            let addRequest = shelvesStore.add(newShelf);
             
-            if (targetTable) {
-              // Add the new row to the table
-              let tbody = targetTable.querySelector('tbody');
-              let newRow = document.createElement('tr');
-              newRow.id = `shelf-row-${nextId}`;
-              newRow.innerHTML = `
-                <td><input type="text" class="form-control" value="" onchange="updateShelfField(${nextId}, 'floor', this.value)"></td>
-                <td><input type="text" class="form-control" value="" onchange="updateShelfField(${nextId}, 'M_Shelf', this.value)"></td>
-                <td><input type="text" class="form-control" value="" onchange="updateShelfField(${nextId}, 'M_Tray', this.value)"></td>
-                <td><input type="text" class="form-control" value="" onchange="updateShelfField(${nextId}, 'M_Section', this.value)"></td>
-                <td><input type="text" class="form-control" value="" onchange="updateShelfField(${nextId}, 'Moisture', this.value)"></td>
-                <td><input type="text" class="form-control" value="" onchange="updateShelfField(${nextId}, 'Weight', this.value)"></td>
-                <td><input type="date" class="form-control" value="${newShelf.Date}" onchange="updateShelfField(${nextId}, 'Date', this.value)"></td>
-                <td>
-                  <button type="button" class="btn btn-danger btn-sm" onclick="deleteShelf(${nextId})">Delete</button>
-                </td>
-              `;
-              tbody.appendChild(newRow);
-            } else {
-              console.error("Could not find table for entryCheck:", entryCheck);
-              // Refresh the page to show the new shelf
-              window.location.reload();
-            }
-          };
-          
-          addRequest.onerror = function() {
-            console.error("Error adding new shelf");
-          };
+            addRequest.onsuccess = function() {
+                console.log("New shelf added with ID:", nextId);
+                
+                // Replace the weight selection with the full form
+                container.innerHTML = `
+                    <h4>${selectedWeight} Shelf Entry</h4>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Floor</th>
+                                <th>Shelf</th>
+                                <th>Tray</th>
+                                <th>Section</th>
+                                <th>Moisture</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                         <tr id="shelf-row-${nextId}">
+                                <td>
+                                    <select class="form-control" onchange="updateShelfField(${nextId}, 'floor', this.value)">
+                                        <option value="">--Select Floor--</option>
+                                        <option value="Ground Floor">Ground Floor</option>
+                                        <option value="1st Floor">1st Floor</option>
+                                        <option value="2nd Floor">2nd Floor</option>
+                                        <option value="Floor Loft">Floor Loft</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control" onchange="updateShelfField(${nextId}, 'M_Shelf', this.value)">
+                                        ${generateOptions(SHELF00)}
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control" onchange="updateShelfField(${nextId}, 'M_Tray', this.value)">
+                                        ${generateOptions(TRAY00)}
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control" onchange="updateShelfField(${nextId}, 'M_Section', this.value)">
+                                        ${generateOptions(SECTION00)}
+                                    </select>
+                                </td>
+                                <td><input type="text" class="form-control" value="" onchange="updateShelfField(${nextId}, 'Moisture', this.value)"></td>
+                                <td><input type="date" class="form-control" value="${newShelf.Date}" onchange="updateShelfField(${nextId}, 'Date', this.value)"></td>
+                                <td>
+                                    <button type="button" class="btn btn-danger btn-sm" onclick="deleteShelf(${nextId})">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <input type="hidden" id="weight_${nextId}" value="${selectedWeight}">
+                `;
+            };
+            
+            addRequest.onerror = function() {
+                console.error("Error adding new shelf");
+                container.innerHTML = '<div class="alert alert-danger">Error creating shelf entry</div>';
+            };
         };
-      };
-    }
+    };
+    
+    openRequestup.onerror = function() {
+        console.error("Error opening database");
+        container.innerHTML = '<div class="alert alert-danger">Database error</div>';
+    };
+}
+  const SHELF00 = [
+    ['', '--Select Shelf--'],
+    ['A', 'A'], ['B', 'B'], ['C', 'C'], ['D', 'D'],
+    ['E', 'E'], ['F', 'F'], ['G', 'G'], ['H', 'H'],
+    ['I', 'I'], ['J', 'J'], ['K', 'K'], ['L', 'L']
+];
+
+const TRAY00 = [
+    ['', '--Select Tray--'],
+    ['1', '1'], ['2', '2'], ['3', '3'], ['4', '4'], ['5', '5'],
+    ['6', '6'], ['7', '7'], ['8', '8'], ['9', '9'], ['10', '10']
+];
+
+const SECTION00 = [
+    ['', '--Select Section--'],
+    ['A', 'A'], ['B', 'B'], ['C', 'C'], ['D', 'D'], ['E', 'E'],
+    ['F', 'F'], ['G', 'G'], ['H', 'H'], ['I', 'I'], ['J', 'J'],
+    ['K', 'K'], ['L', 'L'], ['M', 'M'], ['N', 'N'], ['O', 'O'],
+    ['P', 'P'], ['Q', 'Q'], ['R', 'R'], ['S', 'S'], ['T', 'T']
+];
+
+
+
+
+
+const WEIGHT = [
+    ['', '--Select Weight--'],
+    ['Heavies', 'Heavies'], ['Lights', 'Lights']
+];
+
+
+
+
+function generateOptions(options) {
+    return options.map(option => `<option value="${option[0]}">${option[1]}</option>`).join('');
+}
   </script>
 </body>
 
