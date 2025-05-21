@@ -1056,7 +1056,7 @@
                             let dropdownContent = `
                             <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton_${record.id}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Entry ID: ${record.id} (Controls: ${inHouseControlNumbers.join(', ') || 'N/A'})
+                                    Entry ID: ${record.id} (${inHouseControlNumbers.join(', ') || 'N/A'})
                                 </button>
                                 <input type="hidden" id="valueChange_${record.id}_ControlNum" value="${record.Control_number || ''}">
                                 <button type="button" style="display:none;" class="add-row" onclick="fill_table('${record.id}')">Fill Table from Record ${record.id}</button>
