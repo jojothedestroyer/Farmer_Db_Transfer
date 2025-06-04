@@ -268,7 +268,7 @@
 
 
 
-
+<!-- 
   <script>
       $(document).ready(function() {
       
@@ -287,7 +287,7 @@
       
       });
       </script>
-      
+       -->
 
 
 
@@ -745,7 +745,7 @@
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton_${record.id}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Entry: ${record.id}      
                         </button>
-                        <button type="button" class="add-row" onclick="set_valuecode('${record.BATCH_CODE_M1}', '${record.BATCH_CODE_M2}', '${record.BATCH_CODE_M3}', '${record.STATION}', '${record.Vehicle_number}', '${record.Delivery_advice_num}')">Set</button>
+                        <button type="button" class="add-row" onclick="set_valuecode('${record.BATCH_CODE_M1}', '${record.BATCH_CODE_M2}', '${record.BATCH_CODE_M3}', '${record.STATION}', '${record.Vehicle_number}', '${record.Delivery_advice_num}','${record.MACE_1}','${record.MACE_2}','${record.MACE_3}')">Set</button>
                         <input type="checkbox" class="checkhide" : 0" id="valueChange_${record.Control_number}">
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton_${record.id}">
                             <form>
@@ -830,10 +830,20 @@
     };
 </script>
 <script>
-    function set_valuecode(batchnum1, batchnum2, batchnum3, station, whr, del) {
+    function set_valuecode(batchnum1, batchnum2, batchnum3, station, whr, del,m1,m2,m3) {
         document.querySelector('[name="BATCH_CODE_M1"]').value = batchnum1;
         document.querySelector('[name="BATCH_CODE_M2"]').value = batchnum2;
         document.querySelector('[name="BATCH_CODE_M3"]').value = batchnum3;
+
+
+
+
+
+
+
+                document.querySelector('[name="MACE_1"]').value = m1;
+        document.querySelector('[name="MACE_2"]').value = m2;
+        document.querySelector('[name="MACE_3"]').value = m3;
         document.querySelector('[name="STATION"]').value = station;
         document.querySelector('[name="Vehicle_number"]').value = whr;
         // document.querySelector('[name="Delivery_advice_num"]').value = del;

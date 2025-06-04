@@ -3396,7 +3396,7 @@ class Floated_Form_A(ModelForm):
      'BATCH_CODE' :forms.TextInput(attrs={'class':'form-control'}),
     'Land_ID_N0': forms.HiddenInput(attrs={'class':'form-control'}),
 
-    'DATE_OF_SAMPLING_H': forms.DateInput(attrs={'type':'date','class':'form-control'}),
+    'DATE_OF_SAMPLING': forms.DateInput(attrs={'type':'date','class':'form-control'}),
     'DATE_OF_SAMPLING_L': forms.DateInput(attrs={'type':'date','class':'form-control'}),
     'STATION' :forms.TextInput(attrs={'class':'form-control'}),
 

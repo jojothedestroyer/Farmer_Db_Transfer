@@ -7,43 +7,30 @@
             border-collapse: collapse;
         }
 
-
         th, td {
             border: 1px solid #dddddd;
             text-align: center;
             padding: 8px;
         }
 
-
-        th {
-/*            background-color: #f2f2f2;*/
-        }
-
-
         .main-header {
             text-align: center;
             font-size: 24px;
         }
-
 
         .sub-header {
             font-size: 18px;
         }
     </style>
 
-
-
 	<center>
 <br>
-
-
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
       var myForm = document.getElementById('myForm');
   
       myForm.addEventListener('submit', function(event) {
-
           event.preventDefault();
           var data = new FormData(event.target);
           saveDataToIndexedDB(data);
@@ -89,369 +76,209 @@
               console.error('Error opening IndexedDB', event);
           };
       }
-      
   });
-  </script>
-
-
-
-
-
+</script>
 
 	{% if submitted %}
 		Entry successfully added to database!!!
 	{% else %}
-		<form action="" method="POST"  id="myForm" enctype="multipart/form-data" style=" background-color: #e4e4e4;
-
-    margin: 1px auto;
-    font-family: Raleway;
-    padding: 10px;
-    width: 95%;
-    min-width: 300px;
-    border-radius: 10px;
-    box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">
-
+		<form action="" method="POST" id="myForm" enctype="multipart/form-data" style="background-color: #e4e4e4;
+            margin: 1px auto;
+            font-family: Raleway;
+            padding: 10px;
+            width: 95%;
+            min-width: 300px;
+            border-radius: 10px;
+            box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">
 
     <div class="card">
- 
-  <div class="card-body">
-
-  </h5>
-    <p class="card-text">
-        <table id="vertical-1" class="table table-hover table-light">
-
-
-<h6>Document No. GCNA-R-02</h6>
-<h6>Document Title: Moisture Analysis in Floated Nutmeg</h6>
-<h6>Date Issued: 2023-07-03</h6>
-<h6>Version: 1</h6>
-    <h5>Section B</h5>
-		{% csrf_token %}
-    <h4>Corrective Action for Floating Nutmeg Above 10% Moisture Content</h4>
-
-
-
-
-
-       <tr>
-{% comment %} {{ form3.Worker_ID_No }}
-{{ form3.Nutmeg_ID_No }} {% endcomment %}
-
-
-
-<table class="table">
-  <thead>
-    <tr>
-
-      <th scope="col" style="text-align:center;">DATE OF SAMPLING (Heavies)</th> 
-      <th scope="col" style="text-align:center;">DATE OF SAMPLING (Lights)</th>
-      <th scope="col" style="text-align:center;">Station</th>
-     </tr>
-  </thead>
-  <tbody>
-    <tr>
-
-            <td>{{ form4.DATE_OF_SAMPLING_H }}</td>
-            <td>{{ form4.DATE_OF_SAMPLING_L }}</td>
-            <td>{{ form4.STATION }}</td>
-
-
-    </tr>
-
-  </tbody>
-</table>
-
-
-<br>
-
-
-    <table table style="width:10px;">
-
-        <tr>
-            <th colspan="4" class="main-header">HEAVIES</th>
-            <th colspan="4" class="main-header">LIGHTS</th>
-        </tr>
-        <tr>
-      <td scope="col" style="text-align:center;">Total Quantity of Bags in Non Compliance(Heavies)</td> 
-      <td colspan="3" style="text-align:center; width: 100px">{{ form4.Total_Quantity_of_Bags_in_Non_Compliance_H }}</td>
-      <td scope="col" style="text-align:center;">Total Quantity of Bags in Non Compliance(Lights)</td>
-      <td colspan="3" style="text-align:center; width: 100px">{{ form4.Total_Quantity_of_Bags_in_Non_Compliance_L }}</td>
-        </tr>
-        <tr>
-            <td>Total Weight (lbs) of Nutmeg in Non Compliance(Heavies)</td>
-            <td colspan="3" style="text-align:center; width: 100px">{{form4.Total_Weight_of_Nutmeg_in_Non_Compliance_H}}</td>
-
-
-
- 
-            <td>Total Weight (lbs) of Nutmeg in Non Compliance(Lights)</td>
-            <td colspan="3" style="text-align:center; width: 100px">{{form4.Total_Weight_of_Nutmeg_in_Non_Compliance_L}}</td>
-
-        </tr>
-
-
-
-
-        <tr >
-      <td scope="col" style="text-align:center;">Additional Drying Period</td> 
-      <td colspan="3" style="text-align:center; width: 100px">{{ form4.Additional_Drying_Period_days_H }}</td>
-      <td scope="col" style="text-align:center;">Additional Drying Period</td>
-      <td colspan="3" style="text-align:center; width: 100px">{{ form4.Additional_Drying_Period_days_L }}</td>
-        </tr>
- 
-
-
-         <tr > 
-            <td colspan="1">Total Weight(Heavies)</td>
-            <td colspan="1" style="text-align:center; width: 100px">{{form4.Total_Weight_H}}</td>
-            <td colspan="1">Initial Sample Weight(Heavies)</td>
-            <td colspan="1" style="text-align:center; width: 100px">{{form4.Initial_Sample_Weight_H}}</td>
-
-            <td colspan="1">Total Weight(Light)</td>
-            <td colspan="1" style="text-align:center; width: 100px">{{form4.Total_Weight_L}}</td>
-            <td colspan="1">Initial Sample Weight(Light)</td>
-            <td colspan="1"style="text-align:center; width: 100px">{{form4.Initial_Sample_Weight_L}}</td>
-        </tr>
-    </table>
-
-
-    <table>
-
-
-
-
-
-    </table>
-
-
-
-
-
-
-
-
-
-  <table>
-        <tr>
-
-            <th colspan="8" class="main-header">Weight (oz/lbs)</th>
-         </tr>
-        <tr>
-      <th colspan="4" style="text-align:center;">Heavies</th> 
-      <th colspan="4" style="text-align:center; ">Lights</td>
-
-
-        </tr>
-        <tr>
-            <td scope="col" style="text-align:center; width: 100px">Insect Damaged </td>
-            <td scope="col" style="text-align:center; width: 100px">Broken</td>
-            <td scope="col" style="text-align:center; width: 100px">Mould</td>
-
-            <!-- <td scope="col" style="text-align:center; width: 100px">{{form3.Initial_Sample_Weight_L}}</td> -->
-
-            <td></td>
-            <td></td>
-
-            <td scope="col" style="text-align:center; width: 100px">Insect Damaged </td>
-            <td scope="col" style="text-align:center; width: 100px">Broken</td>
-            <td scope="col" style="text-align:center; width: 100px">Mould</td>
-
-
-        </tr>
-
-
-
-        <tr>
-            <td scope="col" style="text-align:center; width: 100px">{{form4.Insect_Damaged_H}} </td>
-            <td scope="col" style="text-align:center; width: 100px">{{form4.Broken_H}}</td>
-            <td scope="col" style="text-align:center; width: 100px">{{form4.Mould_H}}</td>
-
-            <!-- <td scope="col" style="text-align:center; width: 100px">{{form4.Initial_Sample_Weight_L}}</td> -->
-
-            <td></td>
-            <td></td>
-            
-            <td scope="col" style="text-align:center; width: 100px">{{form4.Insect_Damaged_L}} </td>
-            <td scope="col" style="text-align:center; width: 100px">{{form4.Broken_L}}</td>
-            <td scope="col" style="text-align:center; width: 100px">{{form4.Mould_L}}</td>
-
-
-        </tr>
-
-      <tr>
-            <td scope="col" style="text-align:center; width: 100px">Final Sample Weight (Heavies) </td>
-            <td colspan="2" style="text-align:center; width: 100px">{{form4.Final_Sample_Weight_H}}</td>
-
-
-            <!-- <td scope="col" style="text-align:center; width: 100px">{{form4.Initial_Sample_Weight_L}}</td> -->
-
-            <td></td>
-            <td></td>
-            
-            <td scope="col" style="text-align:center; width: 100px">Final Sample Weight (Lights) </td>
-            <td colspan="2" style="text-align:center; width: 100px">{{form4.Final_Sample_Weight_L}}</td>
-
-
-
-        </tr>
-
-
-
-</table>
-
-
-
-  <table>
-
-  	
-        <tr>
-
-            <td colspan="8" class="main-header">MOISTURE CONTENT RESULTS (%)</td>
-         </tr>
-
-
-        <tr>
-      <td colspan="4" style="text-align:center;">CRITERIA</td> 
-      <td colspan="4" style="text-align:center; "><10%</td>
-
-
-        </tr>
-
-
-        <tr>
-      <td colspan="4" style="text-align:center;">Heavies</td> 
-      <td colspan="4" style="text-align:center; ">Lights</td>
-
-        </tr>
-
-
-
-        <tr>
-            <td scope="col" style="text-align:center; width: 100px">READING 1 </td>
-            <td scope="col" style="text-align:center; width: 100px">READING 2</td>
-            <td scope="col" style="text-align:center; width: 100px">READING 3</td>
-            <td scope="col" style="text-align:center; width: 100px">Average</td>
-
-
-
-            
-            <td scope="col" style="text-align:center; width: 100px">READING 1 </td>
-            <td scope="col" style="text-align:center; width: 100px">READING 2</td>
-            <td scope="col" style="text-align:center; width: 100px">READING 3</td>
-            <td scope="col">Average</td>
-
-
-        </tr>
-
-
-
-        <tr>
-            <td scope="col" style="text-align:center; width: 100px">{{form4.READING_1_H}} </td>
-            <td scope="col" style="text-align:center; width: 100px">{{form4.READING_2_H}}</td>
-            <td scope="col" style="text-align:center; width: 100px">{{form4.READING_3_H}}</td>
-            <td scope="col" style="text-align:center; width: 100px">{{form4.AVERAGE_H}}</td>
-
-
-
-            
-            <td scope="col" style="text-align:center; width: 100px">{{form4.READING_1_L}} </td>
-            <td scope="col" style="text-align:center; width: 100px">{{form4.READING_2_L}} </td>
-            <td scope="col" style="text-align:center; width: 100px">{{form4.READING_3_L}}</td>
-            <td scope="col" style="text-align:center; width: 100px">{{form4.AVERAGE_L}}</td>
-
-
-        </tr>
-
-
-
-        <tr>
-      <td colspan="1" style="text-align:center;">DECISION (Pass/Fail)</td> 
-      <td colspan="3" style="text-align:center;">{{form4.DECISION_H}}</td> 
-
-
-      <td colspan="1" style="text-align:center; ">DECISION (Pass/Fail)</td>
-      <td colspan="3" style="text-align:center;">{{form4.DECISION_L}}</td> 
-
-        </tr>
-
-
-
-        <tr>
-            <td scope="col" style="text-align:center; width: 100px">Test Performed by</td>
-            <td scope="col" style="text-align:center; width: 100px">{{form4.TEST_PERFORMED_BY_H}}</td>
-            <td scope="col" style="text-align:center; width: 100px">Date</td>
-            <td scope="col" style="text-align:center; width: 100px">{{form4.DATE_H}}</td>
-
-
-
-            <td scope="col" style="text-align:center; width: 100px">Test Performed by </td>
-            <td scope="col" style="text-align:center; width: 100px">{{form4.TEST_PERFORMED_BY_L}}</td>
-            <td scope="col" style="text-align:center; width: 100px">Date</td>
-            <td scope="col" style="text-align:center; width: 100px">{{form4.DATE_L}}</td>
-
-
-        </tr>
-
-
-
-        <tr>
-            <td scope="col" style="text-align:center; width: 100px">Approved By </td>
-            <td colspan="2" style="text-align:center; width: 100px">{{form4.SIGNED_BY}}</td>
-
-
-            
-            <td></td>
-            <td></td>
-            
-            <td scope="col" style="text-align:center; width: 100px">Date Of Report</td>
-            <td colspan="2" style="text-align:center; width: 100px">{{form4.DATE_OF_REPORT}}</td>
-
-
-        </tr>
--
-
-
-
-        <tr>
-            <td scope="col" style="text-align:center; width: 100px">SIGNED BY Quality Assurance Officer</td>
-            <td colspan="2" style="text-align:center; width: 100px">{{form4.SIGNED_BY_Quality_Assurance_Officer}}</td>
-
-
-            <td></td>
-            <td></td>
-            
-            <td scope="col" style="text-align:center; width: 100px">Date</td>
-            <td colspan="2" style="text-align:center; width: 100px">{{form4.DATE}}</td>
-
-
-        </tr>
-
-
-    </table>
-
-
-		<input type="submit" name="" value="✔" class="btn btn-success btn-circle btn-xl">
-
-		<br>
-		<br>
-</table>
-
-              <tr>
-            <th><a href="{% url 'table' %}" class="btn btn-secondary">Exit</a></th>
-            <th><a type="submit" href="{% url 'database10' %}" role="button" class="btn btn-primary">Previous</a></th>
-            <th><a type="submit" href="{% url 'database12' %}" role="button" class="btn btn-primary">Next</a></th>
- 
-
-        </tr>		
-
+        <div class="card-body">
+            <p class="card-text">
+                <table id="vertical-1" class="table table-hover table-light">
+                    <h6>GCNA-R-05</h6>
+                    <h6>Corrective Action for Nutmeg Above 10% Moisture Content</h6>
+                    <h6>Date Issued: 2025-04-08</h6>
+                    <h6>Version: 2</h6>
+
+                    <h4 class="text-center">Corrective Action for Nutmeg Above 10% Moisture Content</h4>
+
+                    {% csrf_token %}
+
+                    <table class="table">
+                            <tr>
+                            <th scope="col" style="text-align:center;">DATE OF SAMPLING</th> 
+                            <th scope="col" style="text-align:center;">
+                                <input type="date" name="date_of_sampling" class="form-control">
+                            </th>
+                            <th scope="col" style="text-align:center;">Station</th> 
+                            <th scope="col" style="text-align:center;">
+                                <select name="station" class="form-control">
+                                    <option value="">--Select Location--</option>
+                                    <option value="G">Grenville</option>
+                                    <option value="H">Hermitage</option>
+                                    <option value="M">Marli</option>
+                                    <option value="U">Union</option>
+                                    <option value="GP">Gouyave</option>
+                                </select>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <input type="text" name="Worker_ID_No" class="form-control" hidden>
+                        <input type="text" name="Worker_ID_Name" class="form-control" hidden>
+                    </tbody>
+                </table>
+
+                <br>
+
+                <table id="vertical-1" class="table table-hover table-light">
+                    <tr>
+                        <th>Sample Tested</th>
+                        <td>
+                            <select name="sample_tested" class="form-control">
+                                <option value="Heavies">Heavies</option>
+                                <option value="Lights">Lights</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+
+                <table id="vertical-1" class="table table-hover table-light">
+                    <tr>
+                        <th>Batch Code</th>
+                        <td><input type="text" name="batch_code" class="form-control"></td>
+                    </tr>
+                </table>
+
+                <br>
+                                <table id="vertical-1" class="table table-hover table-light">
+
+                        <tr>
+                            <th>Total Quantity of Bags in Non Compliance</th>
+                            <td>{{Total_Quantity_of_Bags_in_Non_Compliance }}</td>
+                        </tr>
+                        <tr>
+                            <td>Total Weight (lbs) of Nutmeg in Non Compliance</td>
+                            <td>{{Total_Weight_of_Nutmeg_in_Non_Compliance }}</td>
+                        </tr>
+                        <tr>
+                            <td>Additional Drying Period</td>
+                            <td>{{ form4.Additional_Drying_Period }} weeks</td>
+                        </tr>
+                        <tr>
+                            <td>Initial Sample Weight (lbs)</td>
+                            <td>{{ form4.Initial_Sample_Weight }}</td>
+                        </tr>
+                    </table>
+
+                    <table class="table">
+                        <tr>
+                            <th colspan="3">Weight (oz/lbs)</th>
+                        </tr>
+                        <tr>
+                            <td>Insect Damaged</td>
+                            <td>Broken</td>
+                            <td>Mould</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form4.Insect_Damaged }}</td>
+                            <td>{{ form4.Broken }}</td>
+                            <td>{{ form4.Mould }}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">Final Sample Weight</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">{{ form4.Final_Sample_Weight }}</td>
+                        </tr>
+                    </table>
+
+                    <table class="table">
+                        <tr>
+                            <th colspan="5">MOISTURE CONTENT RESULTS (%)</th>
+                        </tr>
+                        <tr>
+                            <td>CRITERIA (CCP1)</td>
+                            <td colspan="4">&lt;10% (CODEX)&nbsp;&nbsp;&nbsp;&nbsp;&lt;7% (GCNA)</td>
+                        </tr>
+                        <tr>
+                            <td>DATE OF SAMPLING</td>
+                            <td>READING 1 (After Corrective Action)</td>
+                            <td>READING 2 (After Corrective Action)</td>
+                            <td>READING 3 (After Corrective Action)</td>
+                            <td>AVERAGE</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form4.DATE_OF_SAMPLING_1 }}</td>
+                            <td>{{ form4.READING_1_1 }}</td>
+                            <td>{{ form4.READING_2_1 }}</td>
+                            <td>{{ form4.READING_3_1 }}</td>
+                            <td>{{ form4.AVERAGE_1 }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form4.DATE_OF_SAMPLING_2 }}</td>
+                            <td>{{ form4.READING_1_2 }}</td>
+                            <td>{{ form4.READING_2_2 }}</td>
+                            <td>{{ form4.READING_3_2 }}</td>
+                            <td>{{ form4.AVERAGE_2 }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form4.DATE_OF_SAMPLING_3 }}</td>
+                            <td>{{ form4.READING_1_3 }}</td>
+                            <td>{{ form4.READING_2_3 }}</td>
+                            <td>{{ form4.READING_3_3 }}</td>
+                            <td>{{ form4.AVERAGE_3 }}</td>
+                        </tr>
+                        <tr>
+                            <td>DECISION (Pass/Fail)</td>
+                            <td>1. {{ form4.DECISION_1 }}</td>
+                            <td>2. {{ form4.DECISION_2 }}</td>
+                            <td colspan="2">3. {{ form4.DECISION_3 }}</td>
+                        </tr>
+                        <tr>
+                            <td>Comments</td>
+                            <td colspan="4">{{ form4.Comments }}</td>
+                        </tr>
+                    </table>
+
+                    <table class="table">
+                        <tr>
+                            <td>TEST PERFORMED BY:</td>
+                            <td>{{ form4.TEST_PERFORMED_BY }}</td>
+                            <td>DATE</td>
+                            <td>{{ form4.TEST_DATE }}</td>
+                        </tr>
+                        <tr>
+                            <td>SIGNED BY: Station Manager/Foreman</td>
+                            <td>{{ form4.SIGNED_BY }}</td>
+                            <td>DATE OF REPORT</td>
+                            <td>{{ form4.DATE_OF_REPORT }}</td>
+                        </tr>
+                        <tr>
+                            <th colspan="4">CHECKED BY QA OFFICER</th>
+                        </tr>
+                        <tr>
+                            <td>SIGNED BY QUALITY ASSURANCE OFFICER</td>
+                            <td>{{ form4.SIGNED_BY_QA_OFFICER }}</td>
+                            <td>DATE</td>
+                            <td>{{ form4.QA_DATE }}</td>
+                        </tr>
+                    </table>
+
+                    <input type="submit" name="" value="✔" class="btn btn-success btn-circle btn-xl">
+                    <br><br>
+
+                    <tr>
+                        <th><a href="{% url 'table' %}" class="btn btn-secondary">Exit</a></th>
+                        <th><a type="submit" href="{% url 'database10' %}" role="button" class="btn btn-primary">Previous</a></th>
+                        <th><a type="submit" href="{% url 'database12' %}" role="button" class="btn btn-primary">Next</a></th>
+                    </tr>
+                </table>
+            </p>
+        </div>
+    </div>
 		</form>
-
 	{% endif %}
-
 	</center>
 {{ form4.media }}
-
 {% endblock %}
-
-
-
