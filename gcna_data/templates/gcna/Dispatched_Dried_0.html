@@ -128,6 +128,8 @@
             opacity: 0;
         }
     </style>
+        <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+
 </head>
 <body>
     <div class="container">
@@ -161,17 +163,17 @@
                 <!-- Common Fields -->
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <div class="mb-3">
+                        <!-- <div class="mb-3">
                             <label for="worker_id" class="form-label">Worker ID No.</label>
                             <input type="text" class="form-control" id="worker_id" name="Worker_ID_No">
-                        </div>
+                        </div> -->
                     </div>
-                    <div class="col-md-6">
+                    <!-- <div class="col-md-6">
                         <div class="mb-3">
                             <label for="worker_name" class="form-label">Worker Name</label>
                             <input type="text" class="form-control" id="worker_name" name="Worker_ID_Name">
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 
                 <!-- Vehicle Section -->
@@ -191,6 +193,16 @@
                     </div>
                 </div>
 
+    <div id="signature-pad-container" class="mt-4">
+            <div class="form-group">
+                <label for="signature-pad-canvas"><strong>Receiving Officer's Signature:</strong></label>
+                <canvas id="signature-pad-canvas" width="500" height="200"></canvas>
+                <div class="text-right">
+                    <button type="button" class="btn btn-sm btn-outline-secondary mt-1" id="clear-signature">Clear</button>
+                </div>
+                <input type="hidden" name="signature" id="signature-data">
+            </div>
+        </div>
                 <!-- Mace Form Section -->
                 <div id="maceForm" class="form-section">
                     <h2 class="text-center mb-3">Dispatched Mace Form</h2>
@@ -386,6 +398,16 @@
                             </div>
                         </div>
                     </div>
+
+
+
+
+        <div class="d-flex justify-content-between mt-4">
+            <a href="#" class="btn btn-secondary">Return</a>
+            <a href="#" class="btn btn-primary">Previous</a>
+            <button type="submit" form="mainForm" class="btn btn-success">Submit</button> <a href="#" class="btn btn-primary">Next</a>
+        </div>
+
                 </div>
 
                 <!-- Form Buttons -->
@@ -497,6 +519,40 @@
             </div>
         </div>
     </div>
+
+
+
+
+
+<script>
+        // --- Signature Pad Logic ---
+        const canvas = document.getElementById('signature-pad-canvas');
+        const signaturePad = new SignaturePad(canvas, {
+            backgroundColor: 'rgb(255, 255, 255)' // set background color
+        });
+
+        // Clear button functionality
+        document.getElementById('clear-signature').addEventListener('click', function () {
+            signaturePad.clear();
+        });
+
+        // On form submission, get the signature data and put it in the hidden input
+        const form = document.getElementById('mainForm'); // Use the ID of your form
+        form.addEventListener('submit', function (event) {
+            if (signaturePad.isEmpty()) {
+                alert("Please provide a signature.");
+                event.preventDefault(); // Stop form submission
+            } else {
+                // Get the signature as a data URL (base64 encoded PNG)
+                const signatureData = signaturePad.toDataURL('image/png');
+                document.getElementById('signature-data').value = signatureData;
+            }
+        });
+    </script>
+
+
+
+
 
     <script>
         // Set current date
@@ -1019,6 +1075,7 @@
                             return; // Skip to the next record
                         }
 
+
                         const dispatchTransaction = db.transaction(["Dispatch-Of-Dried-Nutmeg", "Dispatch-Of-Green"], "readonly");
                         const dispatchStoreDried = dispatchTransaction.objectStore("Dispatch-Of-Dried-Nutmeg");
                         const dispatchStoreGreen = dispatchTransaction.objectStore("Dispatch-Of-Green");
@@ -1141,6 +1198,8 @@
             };
         }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

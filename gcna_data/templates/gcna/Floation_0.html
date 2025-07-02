@@ -2302,6 +2302,27 @@ if (section1Value && section2Value) { // Only combine if both have actual values
       let landInfoDataDiv = document.getElementById("landInfoData");
 
       landInfoRecords.forEach((record) => {
+
+
+
+
+                        const dispatchTransaction = db.transaction("Floation-Summary", "readonly");
+                        const dispatchStore = dispatchTransaction.objectStore("Floation-Summary");
+
+                        const getAllDispatchRequest = dispatchStore.getAll();
+                        getAllDispatchRequest.onsuccess = function(event) {
+                            const dispatchRecords = event.target.result;
+
+                            const exists = dispatchRecords.some(dispatchRecord => {
+                                return (
+                                    dispatchRecord.Control_NUMBER === record.Control_Num
+                                );
+                            });
+
+
+
+
+
     let entryContainer = document.createElement("div");
     entryContainer.id = `entryContainer_${record.id}`;
     entryContainer.classList.add("entryContainer"); // Add the class for initial hiding
@@ -2315,6 +2336,9 @@ if (section1Value && section2Value) { // Only combine if both have actual values
                                     // Product=record.Product
                                     // Num_Bags=record.Num_Bags
                                     // Weight=record.Weight
+
+if (!exists) {
+
     let dropdownContent = `
     <div class="dropdown">
         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton_${record.id}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -2421,7 +2445,7 @@ entryContainer.innerHTML = dropdownContent;
 
 
 
-            });
+    }}});
         };
     };
 </script>

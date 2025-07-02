@@ -676,6 +676,11 @@ def add_Mace_Purchase(request):
 
 	return render(request,'gcna/Mace_Purchase.html',{'form':form,  'submitted':submitted})
 
+def find_Traceability_Origin(request):
+
+
+	return render(request,'gcna/find_Traceability_origin.html')
+
 
 
 

@@ -143,7 +143,7 @@
 
         <td><a href="{% url 'view_Mace_Purchase' %}" class="btn btn-secondary">View</a></td>
     </tr>
-    <th>Mace Dispatch Form</th>
+    <!-- <th>Mace Dispatch Form</th>
     <td><a href="{% url 'Mace_Dispatched' %}" class="btn btn-primary">Add</a></td>
 
     <td><a href="{% url 'view_Mace_Dispatched' %}" class="btn btn-secondary">View</a></td>
@@ -155,7 +155,7 @@
 
 <td><a href="{% url 'view_Mace_Dispatched_Rec' %}" class="btn btn-secondary">View</a></td>
 </tr>
-
+ -->
 
 
 </tr>
@@ -185,7 +185,7 @@
 
 
         <tr>
-            <th>Dispatch Dried Nutmeg Form</th>
+            <th>Dispatch Forms</th>
             <td><a href="{% url 'add_Dispatch_Dried_0' %}" class="btn btn-primary">Add</a></td>
             {% comment %} <td><a href="{% url 'edit_Dispatch_Dried' %}" class="btn btn-success">Edit</a></td> {% endcomment %}
 
@@ -198,7 +198,7 @@
 
 
         <tr>
-            <th>Dried Nutmeg Recieved Form</th>
+            <th>Dispatch Recieved Forms</th>
             <td><a href="{% url 'Dispatch_Of_Dried_Nutmeg_Rec' %}" class="btn btn-primary">Add</a></td>
  
             <td><a href="{% url 'view_Dispatch_Of_Dried_Nutmeg_Rec' %}" class="btn btn-secondary">View</a></td>
@@ -208,7 +208,7 @@
 
 
 
-
+<!-- 
          <tr>
             <th>Dispatch Green Nutmeg Form</th>
             <td><a href="{% url 'add_Dispatch_Green_0' %}" class="btn btn-primary">Add</a></td>
@@ -227,7 +227,7 @@
  
             <td><a href="{% url 'view_Dispatch_Of_Green_Nutmeg_Rec' %}" class="btn btn-secondary">View</a></td>
         </tr>
-
+ -->
 
         <tr>
             <th>Dried Nutmeg Section A(HACCP)</th>
@@ -309,6 +309,12 @@
 
             <td><a href="{% url 'Pending_Container_Inspection_Log' %}" class="btn btn-success">DAY OF LOADING</a></td>
 
+        </tr>
+
+
+                <tr>
+            <th>Traceability Log</th>
+            <td><a href="{% url 'find-Traceability-Origin' %}" class="btn btn-primary">View</a></td>
         </tr>
 
 

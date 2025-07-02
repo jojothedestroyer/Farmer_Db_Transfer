@@ -194,6 +194,7 @@ urlpatterns = [
     path("add_Mace_Purchase/", views.add_Mace_Purchase, name="Mace_Purchase"),
 
 
+    path("find_Traceability_Origin/", views.find_Traceability_Origin, name="find-Traceability-Origin"),
 
 
 

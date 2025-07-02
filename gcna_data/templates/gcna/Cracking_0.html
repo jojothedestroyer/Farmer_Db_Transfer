@@ -490,6 +490,525 @@ $(document).ready(function() {
     
     
         {% endif %}
+            <script>
+              function toggleDropdown() {
+                var dropdownContent = document.getElementById("myDropdown");
+                dropdownContent.classList.toggle("show");
+              }
+              </script>
+
+
+
+
+
+
+		</form>
+    <!-- <script>
+      let openRequest = indexedDB.open("GCNA");
+      let fieldBlacklist = [];
+      const fieldBlacklistConfig = {
+        DATE_OF_SAMPLING: true, // Set to true to blacklist if null or empty
+        DECISION: true,
+        Quantity_of_Bags: true,
+        // Add more fields as needed
+      };
+      openRequest.onsuccess = function(event) {
+  let db = event.target.result;
+  let transaction = db.transaction("Cracking-Summary", "readonly");
+  let landInfoStore = transaction.objectStore("Cracking-Summary");
+  let getAllRequest = landInfoStore.getAll();
+
+  getAllRequest.onsuccess = function(event) {
+      let landInfoRecords = event.target.result;
+      let landInfoDataDiv = document.getElementById("landInfoData");
+
+      landInfoRecords.forEach((record) => {
+          let entryContainer = document.createElement("div");
+          entryContainer.id = `entryContainer_${record.id}`;
+          entryContainer.classList.add("entryContainer"); // Add the class for initial hiding
+          let entryCheckTd=record.id
+
+          let batchCodeCheckboxes = '';
+          let codes = record.BatchCodes.split(",");
+          for(let i = 0; i < codes.length; i++) {
+              batchCodeCheckboxes += `<input type="checkbox" id="code${i}" name="code${i}" value="${codes[i]}" onchange="updateControlNum(this)">
+                                      <label for="code${i}">${codes[i]}</label><br>`;
+          }
+
+
+          // let deliveryCodeCheckboxes = '';
+          // let codes2 = record.Delivery_Advice_Num.split(",");
+          // for(let i = 0; i < codes2.length; i++) {
+          //     deliveryCodeCheckboxes += `<input type="checkbox" id="codes2${i}" name="codes2${i}" value="${codes2[i]}" onchange="updateControlNum2(this)">
+          //                             <label for="codes2${i}">${codes2[i]}</label><br>`;
+          // }
+          let dropdownContent = `
+          <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton_${record.id}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Entry: ${record.id}      
+          </button>
+          <input type="hidden" id="valueChange_${record.Control_Num}">
+          <button type="hidden" style="display:none;" class="add-row" onclick="fill_table()"></button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton_${record.id}">
+
+
+              
+              <form>
+                  <table class="table table-hover table-light">
+
+
+
+
+
+
+
+
+
+
+
+                       <tr>
+            <th>STATION</th>
+            <td>${ record.STATION }</td>
+        </tr>
+    <tr>
+            <th>DATE OF CRACKING</th>
+            <td>${ record.DATE_OF_CRACKING }</td>
+        </tr>
+
+
+
+
+        <tr>
+            <th>WAREHOUSE RECEIPT NUMBERS</th>
+            <td>${ record.WAREHOUSE_RECEIPT_NUMBERS }</td>
+        </tr>
+    <tr>
+            <th># OF BAGS </th>
+            <td>${ record.NUM_OF_BAGS }</td>
+        </tr>
+
+
+        <tr>
+            <th>LBS OF NUTMEGS CRACKED</th>
+            <td>${ record.LBS_OF_NUTMEGS_CRACKED }</td>
+        </tr>
+
+
+
+
+   <tr>
+            <th>Control Number</th>
+            <td>${ record.Control_Num }</td>
+        </tr>
+
+
+
+
+        <tr>
+            <th>Number of Nutmeg Pieces(lbs)</th>
+            <td>${ record.num_pieces }</td>
+        </tr>
+
+
+        <tr>
+            <th>Number of Nutmeg Fragments(lbs)</th>
+            <td>${ record.fragments }</td>
+        </tr>
+
+
+        <tr>
+            <th>Number of Regular Nutmeg(lbs) </th>
+            <td>${ record.regular_nutmeg }</td>
+        </tr>
+
+
+
+        <tr>
+            <th>Number of Nutmeg Escapes(lbs)</th>
+            <td>${ record.escape_nutmeg }</td>
+        </tr>
+
+
+                  </table>
+              </form>
+          </div>
+      </div>`;
+      entryContainer.innerHTML = dropdownContent;
+
+
+                  landInfoDataDiv.appendChild(entryContainer);
+                  let setButton = entryContainer.querySelector(`#valueChange_${record.Control_number}`);
+  
+                  setButton.addEventListener('click', function() {
+      // Create a div container for the form
+      let formContainer = document.createElement('div');
+      formContainer.classList.add('form-container');
+  
+      // Create the table element
+      let table = document.createElement('table');
+  
+      // Create table header
+      let thead = document.createElement('thead');
+      let headerRow = document.createElement('tr');
+      let shelfHeader = document.createElement('th');
+      shelfHeader.textContent = 'Shelf';
+      let trayHeader = document.createElement('th');
+      trayHeader.textContent = 'Tray';
+      let sectionHeader = document.createElement('th');
+      sectionHeader.textContent = 'Section';
+      let stationHeader = document.createElement('th');
+      stationHeader.textContent = 'Station';
+      headerRow.appendChild(shelfHeader);
+      headerRow.appendChild(trayHeader);
+      headerRow.appendChild(sectionHeader);
+      headerRow.appendChild(stationHeader);
+      thead.appendChild(headerRow);
+      table.appendChild(thead);
+  
+      // Create table body
+      let tbody = document.createElement('tbody');
+      let dataRow = document.createElement('tr');
+  
+      let createCell = (fieldName, recordField) => {
+      let value = record[recordField];
+      if (value !== undefined && value.trim() !== '') {
+          let cell = document.createElement('td');
+          let input = document.createElement('input');
+          input.type = 'text';
+          input.name = fieldName;
+          input.value = value;
+          cell.appendChild(input);
+          return cell;
+      }
+      return null;
+  };
+  let createInputFields = (prefix) => {
+      let shelfCell = createCell(`${prefix}Shelf`, `Shelf${prefix}`);
+      let trayCell = createCell(`${prefix}Tray`, `Tray${prefix}`);
+      let sectionCell = createCell(`${prefix}Section`, `Section${prefix}`);
+      let stationCell = createCell(`STATION`, `STATION`);
+      let moistureCell = createCell(`${prefix}`, `${prefix}`); // New line for moisture field
+  
+      if (shelfCell && trayCell && sectionCell && stationCell ) {
+          dataRow.appendChild(shelfCell);
+          dataRow.appendChild(trayCell);
+          dataRow.appendChild(sectionCell);
+          dataRow.appendChild(stationCell);
+          if(moistureCell){dataRow.appendChild();}else{console.log('Can not find it')}
+          // Append the moisture cell if it exists
+      }
+  };
+  
+  // Call the function to create input fields for each set of drying fields
+  createInputFields('STATION');
+  createInputFields('G_0_GF');
+  createInputFields('G_0_1F');
+  createInputFields('G_0_2F');
+  createInputFields('G_0_FL');
+  createInputFields('H_0_GF');
+  createInputFields('H_0_1F');
+  createInputFields('H_0_2F');
+  createInputFields('H_0_FL');
+  createInputFields('M_0_GF');
+  createInputFields('M_0_1F');
+  createInputFields('M_0_2F');
+  createInputFields('M_0_FL');
+  createInputFields('U_0_GF');
+  createInputFields('U_0_1F');
+  createInputFields('U_0_2F');
+  createInputFields('U_0_FL');
+  createInputFields('GP_0_GF');
+  createInputFields('GP_0_1F');
+  createInputFields('GP_0_2F');
+  createInputFields('GP_0_FL');
+  
+  // Call the function to create input fields for each moisture field
+  createInputFields('MoistureG_GF');
+  createInputFields('MoistureG_1F');
+  createInputFields('MoistureG_2F');
+  createInputFields('MoistureG_FL');
+  createInputFields('MoistureH_GF');
+  createInputFields('MoistureH_1F');
+  createInputFields('MoistureH_2F');
+  createInputFields('MoistureH_FL');
+  createInputFields('MoistureM_GF');
+  createInputFields('MoistureM_1F');
+  createInputFields('MoistureM_2F');
+  createInputFields('MoistureM_FL');
+  createInputFields('MoistureU_GF');
+  createInputFields('MoistureU_1F');
+  createInputFields('MoistureU_2F');
+  createInputFields('MoistureU_FL');
+  createInputFields('MoistureGP_GF');
+  createInputFields('MoistureGP_1F');
+  createInputFields('MoistureGP_2F');
+  createInputFields('MoistureGP_FL');
+  
+  
+      if (dataRow.children.length > 0) {
+          tbody.appendChild(dataRow);
+          table.appendChild(tbody);
+  
+          // Append the table to the form container
+          formContainer.appendChild(table);
+  
+          // Append the form container to the div with id "FormStore"
+          document.getElementById('FormStore').appendChild(formContainer);
+      }
+  });
+  
+  
+  
+  
+  
+  
+  
+  
+              });
+          };
+      };
+  </script>
+   -->
+
+
+
+
+
+
+
+
+  <script>
+    let openRequest = indexedDB.open("GCNA");
+
+    openRequest.onsuccess = function(event) {
+    let db = event.target.result;
+    let transaction = db.transaction("Dispatch_Of_Dried_Nutmeg_Rec", "readonly");
+    let landInfoStore = transaction.objectStore("Dispatch_Of_Dried_Nutmeg_Rec");
+    let getAllRequest = landInfoStore.getAll();
+
+    getAllRequest.onsuccess = function(event) {
+      let landInfoRecords = event.target.result;
+      let landInfoDataDiv = document.getElementById("landInfoData");
+
+         landInfoRecords.forEach((record) => {
+
+
+
+
+                        const dispatchTransaction = db.transaction("Cracking-Summary", "readonly");
+                        const dispatchStore = dispatchTransaction.objectStore("Cracking-Summary");
+
+                        const getAllDispatchRequest = dispatchStore.getAll();
+                        getAllDispatchRequest.onsuccess = function(event) {
+                            const dispatchRecords = event.target.result;
+
+                            const exists = dispatchRecords.some(dispatchRecord => {
+                                return (
+                                    dispatchRecord.BatchCodes && dispatchRecord.BatchCodes.includes(record.BatchCode_DRIED)
+                                );
+                            });
+
+
+                let entryContainer = document.createElement("div");
+                entryContainer.id = `entryContainer_${record.id}`;
+                entryContainer.classList.add("entryContainer");
+                
+                // let batchCodeCheckboxes = '';
+                // let codes = record.BatchCode_DRIED.split(",");
+                // for(let i = 0; i < codes.length; i++) {
+                //     batchCodeCheckboxes += `<input type="checkbox" id="code${i}_${record.id}" name="code${i}" value="${codes[i]}" onchange="updateControlNum(this)">
+                //                             <label for="code${i}_${record.id}">${codes[i]}</label><br>`;
+                // }
+
+
+let codes = record.BatchCode_DRIED.split(",").map(code => code.trim());
+
+// First, find which codes already exist in Cracking-Summary
+const existsAlready = dispatchRecords.some(dispatchRecord => {
+    return dispatchRecord.BatchCodes && dispatchRecord.BatchCodes.split(",").some(
+        crackedCode => codes.includes(crackedCode.trim())
+    );
+});
+
+// Filter out the existing codes
+let filteredCodes = codes.filter(code => {
+    return !dispatchRecords.some(dispatchRecord =>
+        dispatchRecord.BatchCodes &&
+        dispatchRecord.BatchCodes.split(",").map(c => c.trim()).includes(code)
+    );
+});
+
+// Now generate checkboxes only for codes that are not already used
+let batchCodeCheckboxes = '';
+for (let i = 0; i < filteredCodes.length; i++) {
+    batchCodeCheckboxes += `<input type="checkbox" id="code${i}_${record.id}" name="code${i}" value="${filteredCodes[i]}" onchange="updateControlNum(this)">
+                            <label for="code${i}_${record.id}">${filteredCodes[i]}</label><br>`;
+}
+
+
+
+                let deliveryCodeCheckboxes = '';
+                let codes2 = record.Delivery_advice_num_DRIED.split(",");
+                for(let i = 0; i < codes2.length; i++) {
+                    deliveryCodeCheckboxes += `<input type="checkbox" id="codes2${i}_${record.id}" name="codes2${i}" value="${codes2[i]}" onchange="updateControlNum2(this)">
+                                            <label for="codes2${i}_${record.id}">${codes2[i]}</label><br>`;
+                }
+                
+                // Create the button for each entry
+                let entryButton = document.createElement("button");
+                entryButton.className = "btn btn-primary entry-button";
+                entryButton.textContent = `Entry: ${record.id}`;
+                entryButton.onclick = function() {
+                    // Create a div container for the form
+                    let formContainer = document.createElement('div');
+                    formContainer.classList.add('form-container');
+                    
+                    // Create the table element
+                    let table = document.createElement('table');
+                    table.className = 'table table-hover table-light';
+                    
+                    // Create table header
+                    let thead = document.createElement('thead');
+                    let headerRow = document.createElement('tr');
+                    
+                    // Add headers
+                    ['Shelf', 'Tray', 'Section', 'Station'].forEach(headerText => {
+                        let th = document.createElement('th');
+                        th.textContent = headerText;
+                        headerRow.appendChild(th);
+                    });
+                    
+                    thead.appendChild(headerRow);
+                    table.appendChild(thead);
+                    
+                    // Create table body
+                    let tbody = document.createElement('tbody');
+                    let dataRow = document.createElement('tr');
+                    
+                    // Helper function to create table cells
+                    let createCell = (fieldName, recordField) => {
+                        let value = record[recordField];
+                        if (value !== undefined && value.trim() !== '') {
+                            let cell = document.createElement('td');
+                            let input = document.createElement('input');
+                            input.type = 'text';
+                            input.name = fieldName;
+                            input.value = value;
+                            cell.appendChild(input);
+                            return cell;
+                        }
+                        return null;
+                    };
+                    
+                    // Add cells to the row
+                    let shelfCell = createCell('shelf', 'Shelf_DRIED');
+                    if (shelfCell) dataRow.appendChild(shelfCell);
+                    
+                    let trayCell = createCell('tray', 'Tray_DRIED');
+                    if (trayCell) dataRow.appendChild(trayCell);
+                    
+                    let sectionCell = createCell('section', 'Section_DRIED');
+                    if (sectionCell) dataRow.appendChild(sectionCell);
+                    
+                    let stationCell = createCell('station', 'Station_DRIED');
+                    if (stationCell) dataRow.appendChild(stationCell);
+                    
+                    tbody.appendChild(dataRow);
+                    table.appendChild(tbody);
+                    
+                    // Add table to form container
+                    formContainer.appendChild(table);
+                    
+                    // Create a close button
+                    let closeButton = document.createElement('button');
+                    closeButton.className = 'btn btn-secondary';
+                    closeButton.textContent = 'Close';
+                    closeButton.onclick = function() {
+                        document.body.removeChild(formContainer);
+                    };
+                    
+                    formContainer.appendChild(closeButton);
+                    
+                    // Style the form container
+                    formContainer.style.position = 'fixed';
+                    formContainer.style.top = '50%';
+                    formContainer.style.left = '50%';
+                    formContainer.style.transform = 'translate(-50%, -50%)';
+                    formContainer.style.backgroundColor = 'white';
+                    formContainer.style.padding = '20px';
+                    formContainer.style.zIndex = '1000';
+                    formContainer.style.border = '1px solid #ccc';
+                    formContainer.style.borderRadius = '5px';
+                    formContainer.style.boxShadow = '0 0 10px rgba(0,0,0,0.1)';
+                    
+                    // Add form container to body
+                    document.body.appendChild(formContainer);
+                };
+                
+
+
+
+                // Create dropdown content
+                                            if (!exists) {
+
+  let dropdownContent = `
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton_${record.id}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Entry: ${record.id}      
+        </button
+                    <input type="hidden" id="valueChange_${record.BatchCode_DRIED}">
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton_${record.id}">
+                        <form>
+                            <table class="table table-hover table-light">
+                                <tr>
+                                    <th>Station</th>
+                                    <td>${record.Station_DRIED}</td>
+                                </tr> 
+                                <tr>
+                                    <th>Vehicle Number</th>
+                                    <td>${record.Vehicle_number_DRIED}</td>
+                                </tr>  
+                                <tr>
+                                    <th>Batch Codes</th>
+                                    <td>${batchCodeCheckboxes}</td>
+                                </tr>
+                                <tr>
+                                    <th>Delivery Advice Number</th>
+                                    <td>${deliveryCodeCheckboxes}</td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                </div>`;
+                
+                entryContainer.innerHTML = dropdownContent;
+                landInfoDataDiv.appendChild(entryContainer);
+            }}
+        });
+        };
+    };
+</script>
+
+
+
+
+
+
+
+  <script>
+      
+function updateControlNum(cnum) {
+  console.log(cnum)
+  document.querySelector('[name="Control_NUMBER"]').value = '' ;
+  document.querySelector('[name="Control_NUMBER"]').value = cnum ;
+
+}
+
+
+
+
+  </script>
+<!-- 
       <script>// Function to populate the select element with options
         function populateSelect() {
             var request = indexedDB.open('GCNA', 2);
@@ -548,142 +1067,345 @@ $(document).ready(function() {
           populateSelect();
         });
         
-        </script>
+        </script> -->
+
+
         </center>
-      <script>
-        let openRequest = indexedDB.open("GCNA");
-        let fieldBlacklist = [];
-        const fieldBlacklistConfig = {
-          DATE_OF_SAMPLING: true, // Set to true to blacklist if null or empty
-          DECISION: true,
-          Quantity_of_Bags: true,
-          // Add more fields as needed
-        };
-        openRequest.onsuccess = function(event) {
-    let db = event.target.result;
-    let transaction = db.transaction("Dispatch_Of_Dried_Nutmeg_Rec", "readonly");
-    let landInfoStore = transaction.objectStore("Dispatch_Of_Dried_Nutmeg_Rec");
-    let getAllRequest = landInfoStore.getAll();
 
-    getAllRequest.onsuccess = function(event) {
-        let landInfoRecords = event.target.result;
-        let landInfoDataDiv = document.getElementById("landInfoData");
+<!-- 
 
-        landInfoRecords.forEach((record) => {
-            let entryContainer = document.createElement("div");
-            entryContainer.id = `entryContainer_${record.id}`;
-            entryContainer.classList.add("entryContainer"); // Add the class for initial hiding
-            
-        
-            
-            let entryCheckTd=record.id
-
-
-
-
-
-
-
-
-
-
-            
-            let batchCodeCheckboxes = '';
-            let codes = record.BatchCode.split(",");
-            for(let i = 0; i < codes.length; i++) {
-                batchCodeCheckboxes += `<input type="checkbox" id="code${i}" name="code${i}" value="${codes[i]}" onchange="updateControlNum(this)">
-                                        <label for="code${i}">${codes[i]}</label><br>`;
-            }
-
-
-            let deliveryCodeCheckboxes = '';
-            let codes2 = record.Delivery_advice_num.split(",");
-            for(let i = 0; i < codes2.length; i++) {
-                deliveryCodeCheckboxes += `<input type="checkbox" id="codes2${i}" name="codes2${i}" value="${codes2[i]}" onchange="updateControlNum2(this)">
-                                        <label for="codes2${i}">${codes2[i]}</label><br>`;
-            }
-            let dropdownContent = `
-            <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton_${record.id}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Entry: ${record.id}      
-            </button>
-            <input type="hidden" id="valueChange_${record.BatchCodes}">
-            <button type="hidden" style="display:none;" class="add-row" onclick="fill_table()"></button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton_${record.id}">
-
-
-                
-                <form>
-                    <table class="table table-hover table-light">
-                        <tr>
-                            <th>Station</th>
-                            <td>${record.Station }</td>
-                        </tr> 
-                        <tr>
-                            <th>Vehicle Number</th>
-                            <td>${record.Vehicle_number }</td>
-                        </tr>  
-                        <tr>
-                            <th>Batch Codes</th>
-                            <td>${batchCodeCheckboxes}</td>
-                        </tr>
-                        <tr>
-                            <th>Delivery Advice Number</th>
-                            <td>${deliveryCodeCheckboxes}</td>
-                        </tr>
-                    </table>
-                </form>
-            </div>
-        </div>`;
-        entryContainer.innerHTML = dropdownContent;
-
-
-                    landInfoDataDiv.appendChild(entryContainer);
-                    let setButton = entryContainer.querySelector(`#valueChange_${record.Control_number}`);
-    
-                    setButton.addEventListener('click', function() {
-        // Create a div container for the form
-        let formContainer = document.createElement('div');
-        formContainer.classList.add('form-container');
-    
-        // Create the table element
-        let table = document.createElement('table');
-    
-        // Create table header
-        let thead = document.createElement('thead');
-        let headerRow = document.createElement('tr');
-        let shelfHeader = document.createElement('th');
-        shelfHeader.textContent = 'Shelf';
-        let trayHeader = document.createElement('th');
-        trayHeader.textContent = 'Tray';
-        let sectionHeader = document.createElement('th');
-        sectionHeader.textContent = 'Section';
-        let stationHeader = document.createElement('th');
-        stationHeader.textContent = 'Station';
-        headerRow.appendChild(shelfHeader);
-        headerRow.appendChild(trayHeader);
-        headerRow.appendChild(sectionHeader);
-        headerRow.appendChild(stationHeader);
-        thead.appendChild(headerRow);
-        table.appendChild(thead);
-    
-        // Create table body
-        let tbody = document.createElement('tbody');
-        let dataRow = document.createElement('tr');
-    
-        let createCell = (fieldName, recordField) => {
-        let value = record[recordField];
-        if (value !== undefined && value.trim() !== '') {
-            let cell = document.createElement('td');
-            let input = document.createElement('input');
-            input.type = 'text';
-            input.name = fieldName;
-            input.value = value;
-            cell.appendChild(input);
-            return cell;
-        }
-        return null;
+        <script>
+    let openRequest = indexedDB.open("GCNA");
+    let fieldBlacklist = [];
+    const fieldBlacklistConfig = {
+        DATE_OF_SAMPLING: true, // Set to true to blacklist if null or empty
+        DECISION: true,
+        Quantity_of_Bags: true,
+        // Add more fields as needed
     };
+    
+    openRequest.onsuccess = function(event) {
+        let db = event.target.result;
+        let transaction = db.transaction("Dispatch_Of_Dried_Nutmeg_Rec", "readonly");
+        let landInfoStore = transaction.objectStore("Dispatch_Of_Dried_Nutmeg_Rec");
+        let getAllRequest = landInfoStore.getAll();
+
+        getAllRequest.onsuccess = function(event) {
+            let landInfoRecords = event.target.result;
+            let landInfoDataDiv = document.getElementById("landInfoData");
+
+            landInfoRecords.forEach((record) => {
+                let entryContainer = document.createElement("div");
+                entryContainer.id = `entryContainer_${record.id}`;
+                entryContainer.classList.add("entryContainer");
+                
+                let batchCodeCheckboxes = '';
+                let codes = record.BatchCode_DRIED.split(",");
+                for(let i = 0; i < codes.length; i++) {
+                    batchCodeCheckboxes += `<input type="checkbox" id="code${i}_${record.id}" name="code${i}" value="${codes[i]}" onchange="updateControlNum(this)">
+                                            <label for="code${i}_${record.id}">${codes[i]}</label><br>`;
+                }
+
+                let deliveryCodeCheckboxes = '';
+                let codes2 = record.Delivery_advice_num_DRIED.split(",");
+                for(let i = 0; i < codes2.length; i++) {
+                    deliveryCodeCheckboxes += `<input type="checkbox" id="codes2${i}_${record.id}" name="codes2${i}" value="${codes2[i]}" onchange="updateControlNum2(this)">
+                                            <label for="codes2${i}_${record.id}">${codes2[i]}</label><br>`;
+                }
+                
+                // Create the button for each entry
+                let entryButton = document.createElement("button");
+                entryButton.className = "btn btn-primary entry-button";
+                entryButton.textContent = `Entry: ${record.id}`;
+                entryButton.onclick = function() {
+                    // Create a div container for the form
+                    let formContainer = document.createElement('div');
+                    formContainer.classList.add('form-container');
+                    
+                    // Create the table element
+                    let table = document.createElement('table');
+                    table.className = 'table table-hover table-light';
+                    
+                    // Create table header
+                    let thead = document.createElement('thead');
+                    let headerRow = document.createElement('tr');
+                    
+                    // Add headers
+                    ['Shelf', 'Tray', 'Section', 'Station'].forEach(headerText => {
+                        let th = document.createElement('th');
+                        th.textContent = headerText;
+                        headerRow.appendChild(th);
+                    });
+                    
+                    thead.appendChild(headerRow);
+                    table.appendChild(thead);
+                    
+                    // Create table body
+                    let tbody = document.createElement('tbody');
+                    let dataRow = document.createElement('tr');
+                    
+                    // Helper function to create table cells
+                    let createCell = (fieldName, recordField) => {
+                        let value = record[recordField];
+                        if (value !== undefined && value.trim() !== '') {
+                            let cell = document.createElement('td');
+                            let input = document.createElement('input');
+                            input.type = 'text';
+                            input.name = fieldName;
+                            input.value = value;
+                            cell.appendChild(input);
+                            return cell;
+                        }
+                        return null;
+                    };
+                    
+                    // Add cells to the row
+                    let shelfCell = createCell('shelf', 'Shelf_DRIED');
+                    if (shelfCell) dataRow.appendChild(shelfCell);
+                    
+                    let trayCell = createCell('tray', 'Tray_DRIED');
+                    if (trayCell) dataRow.appendChild(trayCell);
+                    
+                    let sectionCell = createCell('section', 'Section_DRIED');
+                    if (sectionCell) dataRow.appendChild(sectionCell);
+                    
+                    let stationCell = createCell('station', 'Station_DRIED');
+                    if (stationCell) dataRow.appendChild(stationCell);
+                    
+                    tbody.appendChild(dataRow);
+                    table.appendChild(tbody);
+                    
+                    // Add table to form container
+                    formContainer.appendChild(table);
+                    
+                    // Create a close button
+                    let closeButton = document.createElement('button');
+                    closeButton.className = 'btn btn-secondary';
+                    closeButton.textContent = 'Close';
+                    closeButton.onclick = function() {
+                        document.body.removeChild(formContainer);
+                    };
+                    
+                    formContainer.appendChild(closeButton);
+                    
+                    // Style the form container
+                    formContainer.style.position = 'fixed';
+                    formContainer.style.top = '50%';
+                    formContainer.style.left = '50%';
+                    formContainer.style.transform = 'translate(-50%, -50%)';
+                    formContainer.style.backgroundColor = 'white';
+                    formContainer.style.padding = '20px';
+                    formContainer.style.zIndex = '1000';
+                    formContainer.style.border = '1px solid #ccc';
+                    formContainer.style.borderRadius = '5px';
+                    formContainer.style.boxShadow = '0 0 10px rgba(0,0,0,0.1)';
+                    
+                    // Add form container to body
+                    document.body.appendChild(formContainer);
+                };
+                
+                // Create dropdown content
+                let dropdownContent = `
+                <div class="dropdown">
+                    ${entryButton.outerHTML}
+                    <input type="hidden" id="valueChange_${record.BatchCode_DRIED}">
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton_${record.id}">
+                        <form>
+                            <table class="table table-hover table-light">
+                                <tr>
+                                    <th>Station</th>
+                                    <td>${record.Station_DRIED}</td>
+                                </tr> 
+                                <tr>
+                                    <th>Vehicle Number</th>
+                                    <td>${record.Vehicle_number_DRIED}</td>
+                                </tr>  
+                                <tr>
+                                    <th>Batch Codes</th>
+                                    <td>${batchCodeCheckboxes}</td>
+                                    <td>${record.BatchCode_DRIED}</td>
+                                </tr>
+                                <tr>
+                                    <th>Delivery Advice Number</th>
+                                    <td>${deliveryCodeCheckboxes}</td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                </div>`;
+                
+                entryContainer.innerHTML = dropdownContent;
+                landInfoDataDiv.appendChild(entryContainer);
+            });
+        };
+    };
+</script> -->
+
+
+
+  <!-- <script>
+    let openRequest = indexedDB.open("GCNA");
+    let fieldBlacklist = [];
+    const fieldBlacklistConfig = {
+        DATE_OF_SAMPLING: true, // Set to true to blacklist if null or empty
+        DECISION: true,
+        Quantity_of_Bags: true,
+        // Add more fields as needed
+    };
+    
+    openRequest.onsuccess = function(event) {
+        let db = event.target.result;
+        let transaction = db.transaction("Dispatch_Of_Dried_Nutmeg_Rec", "readonly");
+        let landInfoStore = transaction.objectStore("Dispatch_Of_Dried_Nutmeg_Rec");
+        let getAllRequest = landInfoStore.getAll();
+
+        getAllRequest.onsuccess = function(event) {
+            let landInfoRecords = event.target.result;
+            let landInfoDataDiv = document.getElementById("landInfoData");
+
+            landInfoRecords.forEach((record) => {
+                let entryContainer = document.createElement("div");
+                entryContainer.id = `entryContainer_${record.id}`;
+                entryContainer.classList.add("entryContainer");
+                
+                let batchCodeCheckboxes = '';
+                let codes = record.BatchCode_DRIED.split(",");
+                for(let i = 0; i < codes.length; i++) {
+                    batchCodeCheckboxes += `<input type="checkbox" id="code${i}_${record.id}" name="code${i}" value="${codes[i]}" onchange="updateControlNum(this)">
+                                            <label for="code${i}_${record.id}">${codes[i]}</label><br>`;
+                }
+
+                let deliveryCodeCheckboxes = '';
+                let codes2 = record.Delivery_advice_num_DRIED.split(",");
+                for(let i = 0; i < codes2.length; i++) {
+                    deliveryCodeCheckboxes += `<input type="checkbox" id="codes2${i}_${record.id}" name="codes2${i}" value="${codes2[i]}" onchange="updateControlNum2(this)">
+                                            <label for="codes2${i}_${record.id}">${codes2[i]}</label><br>`;
+                }
+                
+                // Create the button for each entry
+                let entryButton = document.createElement("button");
+                entryButton.className = "btn btn-primary entry-button";
+                entryButton.textContent = `Entry: ${record.id}`;
+                entryButton.onclick = function() {
+                    // Create a div container for the form
+                    let formContainer = document.createElement('div');
+                    formContainer.classList.add('form-container');
+                    
+                    // Create the table element
+                    let table = document.createElement('table');
+                    table.className = 'table table-hover table-light';
+                    
+                    // Create table header
+                    let thead = document.createElement('thead');
+                    let headerRow = document.createElement('tr');
+                    
+                    // Add headers
+                    ['Shelf', 'Tray', 'Section', 'Station'].forEach(headerText => {
+                        let th = document.createElement('th');
+                        th.textContent = headerText;
+                        headerRow.appendChild(th);
+                    });
+                    
+                    thead.appendChild(headerRow);
+                    table.appendChild(thead);
+                    
+                    // Create table body
+                    let tbody = document.createElement('tbody');
+                    let dataRow = document.createElement('tr');
+                    
+                    // Helper function to create table cells
+                    let createCell = (fieldName, recordField) => {
+                        let value = record[recordField];
+                        if (value !== undefined && value.trim() !== '') {
+                            let cell = document.createElement('td');
+                            let input = document.createElement('input');
+                            input.type = 'text';
+                            input.name = fieldName;
+                            input.value = value;
+                            cell.appendChild(input);
+                            return cell;
+                        }
+                        return null;
+                    };
+                    
+                    // Add cells to the row
+                    let shelfCell = createCell('shelf', 'Shelf_DRIED');
+                    if (shelfCell) dataRow.appendChild(shelfCell);
+                    
+                    let trayCell = createCell('tray', 'Tray_DRIED');
+                    if (trayCell) dataRow.appendChild(trayCell);
+                    
+                    let sectionCell = createCell('section', 'Section_DRIED');
+                    if (sectionCell) dataRow.appendChild(sectionCell);
+                    
+                    let stationCell = createCell('station', 'Station_DRIED');
+                    if (stationCell) dataRow.appendChild(stationCell);
+                    
+                    tbody.appendChild(dataRow);
+                    table.appendChild(tbody);
+                    
+                    // Add table to form container
+                    formContainer.appendChild(table);
+                    
+                    // Create a close button
+                    let closeButton = document.createElement('button');
+                    closeButton.className = 'btn btn-secondary';
+                    closeButton.textContent = 'Close';
+                    closeButton.onclick = function() {
+                        document.body.removeChild(formContainer);
+                    };
+                    
+                    formContainer.appendChild(closeButton);
+                    
+                    // Style the form container
+                    formContainer.style.position = 'fixed';
+                    formContainer.style.top = '50%';
+                    formContainer.style.left = '50%';
+                    formContainer.style.transform = 'translate(-50%, -50%)';
+                    formContainer.style.backgroundColor = 'white';
+                    formContainer.style.padding = '20px';
+                    formContainer.style.zIndex = '1000';
+                    formContainer.style.border = '1px solid #ccc';
+                    formContainer.style.borderRadius = '5px';
+                    formContainer.style.boxShadow = '0 0 10px rgba(0,0,0,0.1)';
+                    
+                    // Add form container to body
+                    document.body.appendChild(formContainer);
+                };
+                
+                // Create dropdown content
+                let dropdownContent = `
+                <div class="dropdown">
+                    ${entryButton.outerHTML}
+                    <input type="hidden" id="valueChange_${record.BatchCode_DRIED}">
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton_${record.id}">
+                        <form>
+                            <table class="table table-hover table-light">
+                                <tr>
+                                    <th>Station</th>
+                                    <td>${record.Station_DRIED}</td>
+                                </tr> 
+                                <tr>
+                                    <th>Vehicle Number</th>
+                                    <td>${record.Vehicle_number_DRIED}</td>
+                                </tr>  
+                                <tr>
+                                    <th>Batch Codes</th>
+                                    <td>${batchCodeCheckboxes}</td>
+                                    <td>${record.BatchCode_DRIED}</td>
+                                </tr>
+                                <tr>
+                                    <th>Delivery Advice Number</th>
+                                    <td>${deliveryCodeCheckboxes}</td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                </div>`;
+                
+                entryContainer.innerHTML = dropdownContent;
+                landInfoDataDiv.appendChild(entryContainer);
+            });
     let createInputFields = (prefix) => {
         let shelfCell = createCell(`${prefix}Shelf`, `Shelf${prefix}`);
         let trayCell = createCell(`${prefix}Tray`, `Tray${prefix}`);
@@ -770,7 +1492,7 @@ $(document).ready(function() {
             };
         };
     </script>
-    
+     -->
     <script>
         
 function updateControlNum(checkbox) {
