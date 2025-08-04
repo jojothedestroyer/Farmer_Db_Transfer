@@ -335,6 +335,7 @@
                         <div class="dropdown-content" id="inHousePurchaseList">
                             <div class="container">
                                 <div id="driedDataList"></div>
+                                <div id="driedDataList2"></div>
                             </div>
                         </div>
                     </div>
@@ -395,6 +396,7 @@
                         <div class="dropdown-content" id="inHousePurchaseListGreen">
                             <div class="container">
                                 <div id="greenDataList"></div>
+                                <div id="greenDataList2"></div>
                             </div>
                         </div>
                     </div>
@@ -713,7 +715,8 @@
                             document.getElementById('maceDataList').innerHTML = '';
                             document.getElementById('driedDataList').innerHTML = '';
                             document.getElementById('greenDataList').innerHTML = '';
-                            
+                                                   document.getElementById('driedDataList2').innerHTML = '';
+                            document.getElementById('greenDataList2').innerHTML = '';     
                             // Optional: Call transfer function if you have one
                             // transferIndexedDBData();
                         };
@@ -828,6 +831,12 @@
             } else if (checkbox.closest('#driedDataList')) {
                 stationDropdown = document.querySelector('[name="STATION_DRIED"]');
             } else if (checkbox.closest('#greenDataList')) {
+                stationDropdown = document.querySelector('[name="STATION_GREEN"]');
+
+
+                            } else if (checkbox.closest('#driedDataList2')) {
+                stationDropdown = document.querySelector('[name="STATION_DRIED"]');
+            } else if (checkbox.closest('#greenDataList2')) {
                 stationDropdown = document.querySelector('[name="STATION_GREEN"]');
             }
             
@@ -1026,7 +1035,8 @@
         // Load In-House-Drying data for Dried and Green forms
         function loadInHouseData(formType) {
             const openRequest = indexedDB.open("GCNA");
-            
+            const PresentGreens = [];
+
             openRequest.onsuccess = function(event) {
                 const db = event.target.result;
                 const transaction = db.transaction("In-House-Drying", "readonly");
@@ -1084,34 +1094,54 @@
 
                         getAllDispatchRequestDried.onsuccess = function(eventDried) {
                             const dispatchRecordsDried = eventDried.target.result;
+                            const batchCodesDried = dispatchRecordsDried
+  .filter(record => record.BATCH_CODES_DRIED !== null && record.BATCH_CODES_DRIED !== '')
+  .map(record => record.BATCH_CODES_DRIED);
+
+
+
+
+                   const batchCodesGreen = dispatchRecordsDried
+  .filter(record => record.BATCH_CODES_GREEN !== null && record.BATCH_CODES_GREEN !== '')
+  .map(record => record.BATCH_CODES_GREEN);
+
+
+  console.log("DRIED: "+batchCodesDried)
+  console.log("GREEN: "+batchCodesGreen)
+
                             let existsInDried = false;
                             if (inHouseControlNumbers.length > 0) {
                                 existsInDried = dispatchRecordsDried.some(dispatchRecord => {
-                                    if (!dispatchRecord.BATCH_CODES) return false;
-                                    return inHouseControlNumbers.some(cn => dispatchRecord.BATCH_CODES.includes(cn));
+                                    if (!dispatchRecord.BATCH_CODES_DRIED) return false;
+                                    return inHouseControlNumbers.some(cn => dispatchRecord.BATCH_CODES_DRIED.includes(cn));
                                 });
                             }
+                                         // store whole record
+
 
                             if (existsInDried) {
                                 console.log(`Record ID ${record.id} (Control Numbers: ${inHouseControlNumbers.join(', ')}) found in Dispatch-Of-Dried-Nutmeg. Dropdown not generated.`);
+                                                                    loadExternalInHouseData(formType,batchCodesDried,batchCodesGreen)
+
                             } else {
                                 // Not in Dried, now check Green
-                                const getAllDispatchRequestGreen = dispatchStoreGreen.getAll();
+                                        let existsInGreen = false;
+                            if (inHouseControlNumbers.length > 0) {
+                                existsInGreen = dispatchRecordsDried.some(dispatchRecord => {
+                                    if (!dispatchRecord.BATCH_CODES_GREEN) return false;
+                                    return inHouseControlNumbers.some(cn => dispatchRecord.BATCH_CODES_GREEN.includes(cn));
+                                });
+                            }
 
-                                getAllDispatchRequestGreen.onsuccess = function(eventGreen) {
-                                    const dispatchRecordsGreen = eventGreen.target.result;
-                                    let existsInGreen = false;
-                                    if (inHouseControlNumbers.length > 0) {
-                                         existsInGreen = dispatchRecordsGreen.some(dispatchRecord => {
-                                            if (!dispatchRecord.BATCH_CODES) return false;
-                                            return inHouseControlNumbers.some(cn => dispatchRecord.BATCH_CODES.includes(cn));
-                                        });
-                                    }
-
-                                    if (existsInGreen) {
+                            
+                                if (existsInGreen) {
                                         console.log(`Record ID ${record.id} (Control Numbers: ${inHouseControlNumbers.join(', ')}) found in Dispatch-Of-Green. Dropdown not generated.`);
-                                    } else {
+                                                                            loadExternalInHouseData(formType,batchCodesDried,batchCodesGreen)
+
+                            } else {
                                         // Not in Dried and not in Green, and record.COMPLETE is 'Yes'
+
+                                        
                                         console.log(`Record ID ${record.id} (Control Numbers: ${inHouseControlNumbers.join(', ') || 'None'}) is COMPLETE and not found in any dispatch. Generating dropdown.`);
                                         const entryContainer = document.createElement("div");
                                         entryContainer.id = `entryContainer_${record.id}`;
@@ -1161,14 +1191,13 @@
                                         </div>`;
                                         entryContainer.innerHTML = dropdownContent;
                                         landInfoDataDiv.appendChild(entryContainer);
+                                        loadExternalInHouseData(formType,batchCodesDried,batchCodesGreen)
                                     }
                                 };
                                 
-                                getAllDispatchRequestGreen.onerror = function(event) {
-                                    console.error(`Error retrieving Dispatch-Of-Green records for In-House record ID ${record.id}:`, event.target.error);
-                                };
+                               
                             }
-                        };
+                        
                         
                         getAllDispatchRequestDried.onerror = function(event) {
                             console.error(`Error retrieving Dispatch-Of-Dried-Nutmeg records for In-House record ID ${record.id}:`, event.target.error);
@@ -1197,7 +1226,310 @@
                 console.error("Failed to open IndexedDB:", event.target.error);
             };
         }
+    
+    
+    
+    
     </script>
+<script>
+        // function loadExternalInHouseData(formType, presetDataDried = [], presetDataGreen = []) {
+        //     const openRequest = indexedDB.open("GCNA_External");
+            
+        //     openRequest.onsuccess = function(event) {
+        //         const db = event.target.result;
+        //         const transaction = db.transaction("In-House-Drying", "readonly");
+        //         const landInfoStore = transaction.objectStore("In-House-Drying");
+        //         const getAllRequest = landInfoStore.getAll();
+
+        //         getAllRequest.onsuccess = function(event) {
+        //             const landInfoRecords = event.target.result;
+        //             const landInfoDataDiv = document.getElementById(formType === 'dried' ? 'driedDataList2' : 'greenDataList2');
+                    
+        //             if (!landInfoDataDiv) {
+        //                 console.error(`Element with ID '${formType}DataList' not found.`);
+        //                 return;
+        //             }
+                    
+        //             landInfoDataDiv.innerHTML = ''; // Clear previous entries
+
+        //             landInfoRecords.forEach((record) => {
+        //                 // Ensure record.Control_number is not null/undefined, then split, trim, and filter empty strings
+        //                 const inHouseControlNumbers = record.Control_number ?
+        //                     record.Control_number.split(",").map(cn => cn.trim()).filter(cn => cn) : [];
+
+        //                 let batchCodeCheckboxes = '';
+        //                 if (inHouseControlNumbers.length > 0) {
+        //                     inHouseControlNumbers.forEach((codeValue, i) => {
+        //                         const checkboxId = `control_num_code_${record.id}_${i}_${formType}`; // Unique ID
+        //                         batchCodeCheckboxes += `<input type="checkbox" id="${checkboxId}" name="control_num_codes_${record.id}" value="${codeValue}" onchange="updateControlNum(this, '${record.id}', '${codeValue}')">
+        //                                               <label for="${checkboxId}">${codeValue}</label><br>`;
+        //                     });
+        //                 } else {
+        //                     batchCodeCheckboxes = 'N/A';
+        //                 }
+
+        //                 let stationCheckboxHtml = '';
+        //                 const stationValue = record.STATION ? record.STATION.trim() : '';
+        //                 if (stationValue) {
+        //                     const stationCheckboxId = `station_code_${record.id}_${formType}`; // Unique ID
+        //                     stationCheckboxHtml += `<input type="checkbox" id="${stationCheckboxId}" name="station_${record.id}" value="${stationValue}" onchange="setSelectedStation(this, '${record.id}', '${stationValue}')"> <label for="${stationCheckboxId}">${stationValue}</label><br>`;
+        //                 } else {
+        //                     stationCheckboxHtml = 'N/A';
+        //                 }
+
+        //                 // Check if record is complete BEFORE doing expensive dispatch checks
+        //                 if (record.COMPLETE !== 'Yes') {
+        //                     console.log(`Record ID ${record.id} (Control Numbers: ${inHouseControlNumbers.join(', ') || 'N/A'}) is not marked as COMPLETE. Skipping.`);
+        //                     return; // Skip to the next record
+        //                 }
+
+
+        //                 const dispatchTransaction = db.transaction(["Dispatch-Of-Dried-Nutmeg", "Dispatch-Of-Green"], "readonly");
+        //                 const dispatchStoreDried = dispatchTransaction.objectStore("Dispatch-Of-Dried-Nutmeg");
+        //                 const dispatchStoreGreen = dispatchTransaction.objectStore("Dispatch-Of-Green");
+
+        //                 const getAllDispatchRequestDried = dispatchStoreDried.getAll();
+
+        //                 getAllDispatchRequestDried.onsuccess = function(eventDried) {
+        //                     const dispatchRecordsDried = eventDried.target.result;
+        //                     let existsInDried = false;
+        //                     if (inHouseControlNumbers.length > 0) {
+        //                         existsInDried = dispatchRecordsDried.some(dispatchRecord => {
+        //                             if (!presetDataDried) return false;
+        //                             return inHouseControlNumbers.some(cn => dispatchRecord.BATCH_CODES.includes(cn));
+        //                         });
+        //                     }
+
+        //                     if (existsInDried) {
+        //                         console.log(`Record ID ${record.id} (Control Numbers: ${inHouseControlNumbers.join(', ')}) found in Dispatch-Of-Dried-Nutmeg. Dropdown not generated.`);
+        //                     } else {
+        //                         // Not in Dried, now check Green
+
+        //                         getAllDispatchRequestGreen.onsuccess = function(eventGreen) {
+        //                             const dispatchRecordsGreen = eventGreen.target.result;
+        //                             let existsInGreen = false;
+        //                             if (inHouseControlNumbers.length > 0) {
+        //                                  existsInGreen = dispatchRecordsGreen.some(dispatchRecord => {
+        //                                     if (!presetDataGreen) return false;
+        //                                     return inHouseControlNumbers.some(cn => dispatchRecord.BATCH_CODES.includes(cn));
+        //                                 });
+        //                             }
+
+        //                             if (existsInGreen) {
+        //                                 console.log(`Record ID ${record.id} (Control Numbers: ${inHouseControlNumbers.join(', ')}) found in Dispatch-Of-Green. Dropdown not generated.`);
+        //                             } else {
+        //                                 // Not in Dried and not in Green, and record.COMPLETE is 'Yes'
+        //                                 console.log(`Record ID ${record.id} (Control Numbers: ${inHouseControlNumbers.join(', ') || 'None'}) is COMPLETE and not found in any dispatch. Generating dropdown.`);
+        //                                 const entryContainer = document.createElement("div");
+        //                                 entryContainer.id = `entryContainer_${record.id}`;
+        //                                 entryContainer.classList.add("entryContainer", "mb-3");
+
+        //                                 const dropdownContent = `
+        //                                 <div class="dropdown">
+        //                                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton_${record.id}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        //                                         Entry ID: ${record.id} (${inHouseControlNumbers.join(', ') || 'N/A'})
+        //                                     </button>
+        //                                     <input type="hidden" id="valueChange_${record.id}_ControlNum" value="${record.Control_number || ''}">
+        //                                     <button type="button" style="display:none;" class="add-row" onclick="fill_table('${record.id}')">Fill Table from Record ${record.id}</button>
+        //                                     <div class="dropdown-menu p-2 shadow" aria-labelledby="dropdownMenuButton_${record.id}" style="width: max-content; max-width: 500px;">
+        //                                         <table class="table table-sm table-bordered">
+        //                                             <tbody>
+        //                                                 <tr><th>Station</th><td>${stationCheckboxHtml}</td></tr>
+        //                                                 <tr><th>Date of Purchase</th><td>${record.DATE_OF_PURCHASE || 'N/A'}</td></tr>
+        //                                                 <tr><th>Place of Purchase</th><td>${record.PLACE_OF_PURCHASE || 'N/A'}</td></tr>
+        //                                                 <tr><th>Number of Farmers</th><td>${record.TOTAL_NUM_OF_FARMERS || 'N/A'}</td></tr>
+        //                                                 <tr><th>Number of Bags</th><td>${record.NUM_OF_BAGS || 'N/A'}</td></tr>
+        //                                                 <tr><th>Batch Codes</th><td>${batchCodeCheckboxes}</td></tr>
+        //                                                 <tr><th>Total Nutmegs bought (lbs)</th><td>${record.TOTAL_LBS_NUTMEG_BOUGHT || 'N/A'}</td></tr>
+        //                                                 <tr>
+        //                                                     <th>Dates</th>
+        //                                                     <td>
+        //                                                         <table class="table table-sm table-borderless mb-0">
+        //                                                             <thead>
+        //                                                                 <tr>
+        //                                                                     <th scope="col" class="small text-muted">Start Drying</th>
+        //                                                                     <th scope="col" class="small text-muted">Approx. End Drying</th>
+        //                                                                     <th scope="col" class="small text-muted">Actual End Drying</th>
+        //                                                                 </tr>
+        //                                                             </thead>
+        //                                                             <tbody>
+        //                                                                 <tr>
+        //                                                                     <td>${record.START_DRYING_DATE || 'N/A'}</td>
+        //                                                                     <td>${record.APPROX_END_DRYING_DATE || 'N/A'}</td>
+        //                                                                     <td>${record.END_DRYING_DATE || 'N/A'}</td>
+        //                                                                 </tr>
+        //                                                             </tbody>
+        //                                                         </table>
+        //                                                     </td>
+        //                                                 </tr>
+        //                                             </tbody>
+        //                                         </table>
+        //                                     </div>
+        //                                 </div>`;
+        //                                 entryContainer.innerHTML = dropdownContent;
+        //                                 landInfoDataDiv.appendChild(entryContainer);
+        //                             }
+        //                         };
+                                
+        //                         getAllDispatchRequestGreen.onerror = function(event) {
+        //                             console.error(`Error retrieving Dispatch-Of-Green records for In-House record ID ${record.id}:`, event.target.error);
+        //                         };
+        //                     }
+        //                 };
+                        
+        //                 getAllDispatchRequestDried.onerror = function(event) {
+        //                     console.error(`Error retrieving Dispatch-Of-Dried-Nutmeg records for In-House record ID ${record.id}:`, event.target.error);
+        //                 };
+
+        //                 dispatchTransaction.onerror = function(event) {
+        //                     console.error(`Dispatch check transaction error for In-House record ID ${record.id}:`, event.target.error);
+        //                 };
+        //             });
+        //         };
+
+        //         getAllRequest.onerror = function(event) {
+        //             console.error("Error retrieving In-House-Drying records:", event.target.error);
+        //         };
+
+        //         transaction.onerror = function(event) {
+        //             console.error("In-House-Drying transaction error:", event.target.error);
+        //         };
+                
+        //         transaction.oncomplete = function() {
+        //             console.log("In-House-Drying data processing complete.");
+        //         };
+        //     };
+
+        //     openRequest.onerror = function(event) {
+        //         console.error("Failed to open IndexedDB:", event.target.error);
+        //     };
+
+
+
+        // }
+    
+
+function loadExternalInHouseData(formType, presetDataDried = [], presetDataGreen = []) {
+    const openRequest = indexedDB.open("GCNA_External");
+
+    openRequest.onsuccess = function(event) {
+        const db = event.target.result;
+        const transaction = db.transaction("In-House-Drying", "readonly");
+        const landInfoStore = transaction.objectStore("In-House-Drying");
+        const getAllRequest = landInfoStore.getAll();
+
+        getAllRequest.onsuccess = function(event) {
+            const landInfoRecords = event.target.result;
+            const landInfoDataDiv = document.getElementById(formType === 'dried' ? 'driedDataList' : 'greenDataList');
+
+            if (!landInfoDataDiv) {
+                console.error(`Element with ID '${formType}DataList' not found.`);
+                return;
+            }
+
+
+            landInfoRecords.forEach((record) => {
+                const inHouseControlNumbers = record.Control_number ?
+                    record.Control_number.split(",").map(cn => cn.trim()).filter(cn => cn) : [];
+
+                if (record.COMPLETE !== 'Yes') {
+                    console.log(`Record ID ${record.id} is not marked as COMPLETE. Skipping.`);
+                    return;
+                }
+
+                // ✅ USE presetDataDried and presetDataGreen directly
+                const existsInDried = inHouseControlNumbers.some(cn => presetDataDried.includes(cn));
+                const existsInGreen = inHouseControlNumbers.some(cn => presetDataGreen.includes(cn));
+
+                if (existsInDried || existsInGreen) {
+                    console.log(`Record ID ${record.id} (Control Numbers: ${inHouseControlNumbers.join(', ')}) found in Dispatch. Dropdown not generated.`);
+                    return;
+                }
+
+                // Proceed to generate dropdown
+                let batchCodeCheckboxes = inHouseControlNumbers.map((codeValue, i) => {
+                    const checkboxId = `control_num_code_${record.id}_${i}_${formType}`;
+                    return `<input type="checkbox" id="${checkboxId}" name="control_num_codes_${record.id}" value="${codeValue}" onchange="updateControlNum(this, '${record.id}', '${codeValue}')">
+                            <label for="${checkboxId}">${codeValue}</label><br>`;
+                }).join('') || 'N/A';
+
+                const stationValue = record.STATION ? record.STATION.trim() : '';
+                const stationCheckboxHtml = stationValue ?
+                    `<input type="checkbox" id="station_code_${record.id}_${formType}" name="station_${record.id}" value="${stationValue}" onchange="setSelectedStation(this, '${record.id}', '${stationValue}')"> 
+                    <label for="station_code_${record.id}_${formType}">${stationValue}</label><br>` : 'N/A';
+
+                const entryContainer = document.createElement("div");
+                entryContainer.id = `entryContainer_${record.id}`;
+                entryContainer.classList.add("entryContainer", "mb-3");
+
+                const dropdownContent = `
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton_${record.id}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Entry ID (External): ${record.id} (${inHouseControlNumbers.join(', ') || 'N/A'})
+                    </button>
+                    <input type="hidden" id="valueChange_${record.id}_ControlNum" value="${record.Control_number || ''}">
+                    <button type="button" style="display:none;" class="add-row" onclick="fill_table('${record.id}')">Fill Table from Record ${record.id}</button>
+                    <div class="dropdown-menu p-2 shadow" aria-labelledby="dropdownMenuButton_${record.id}" style="width: max-content; max-width: 500px;">
+                        <table class="table table-sm table-bordered">
+                            <tbody>
+                                <tr><th>Station</th><td>${stationCheckboxHtml}</td></tr>
+                                <tr><th>Date of Purchase</th><td>${record.DATE_OF_PURCHASE || 'N/A'}</td></tr>
+                                <tr><th>Place of Purchase</th><td>${record.PLACE_OF_PURCHASE || 'N/A'}</td></tr>
+                                <tr><th>Number of Farmers</th><td>${record.TOTAL_NUM_OF_FARMERS || 'N/A'}</td></tr>
+                                <tr><th>Number of Bags</th><td>${record.NUM_OF_BAGS || 'N/A'}</td></tr>
+                                <tr><th>Batch Codes</th><td>${batchCodeCheckboxes}</td></tr>
+                                <tr><th>Total Nutmegs bought (lbs)</th><td>${record.TOTAL_LBS_NUTMEG_BOUGHT || 'N/A'}</td></tr>
+                                <tr>
+                                    <th>Dates</th>
+                                    <td>
+                                        <table class="table table-sm table-borderless mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" class="small text-muted">Start Drying</th>
+                                                    <th scope="col" class="small text-muted">Approx. End Drying</th>
+                                                    <th scope="col" class="small text-muted">Actual End Drying</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>${record.START_DRYING_DATE || 'N/A'}</td>
+                                                    <td>${record.APPROX_END_DRYING_DATE || 'N/A'}</td>
+                                                    <td>${record.END_DRYING_DATE || 'N/A'}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>`;
+
+                entryContainer.innerHTML = dropdownContent;
+                landInfoDataDiv.appendChild(entryContainer);
+            });
+        };
+
+        getAllRequest.onerror = function(event) {
+            console.error("Error retrieving In-House-Drying records:", event.target.error);
+        };
+
+        transaction.onerror = function(event) {
+            console.error("In-House-Drying transaction error:", event.target.error);
+        };
+
+        transaction.oncomplete = function() {
+            console.log("External In-House-Drying data processing complete.");
+        };
+    };
+
+    openRequest.onerror = function(event) {
+        console.error("Failed to open GCNA_External IndexedDB:", event.target.error);
+    };
+}
+
+</script>
+
     <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
