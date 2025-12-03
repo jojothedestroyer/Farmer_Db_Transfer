@@ -1,0 +1,69 @@
+{% extends 'gcna/base3.html' %}
+
+{% block content %}
+<center>
+    <form id="verify-form" method="POST" action="table001" style="background-color: #e4e4e4; margin: 1px auto; font-family: Raleway; padding: 10px; width: 55%; min-width: 300px; border-radius: 10px; box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">
+        <h1>Please enter your Nutmeg ID Number</h1>
+    
+        {% csrf_token %}
+
+        <tr>
+            <th>Worker ID</th>
+            <td>{{ form.Worker_ID_No }}</td>
+        </tr>
+
+        <tr>
+            <th>Farmer ID</th>
+            <td>{{ form.Nutmeg_ID_No }}</td>
+        </tr>
+
+        <input class="btn btn-success" type="submit" value="Login">
+    </form>
+
+    <p id="offline-message" style="color: red;"></p>
+</center>
+
+<script>
+    // Check if the user is online or offline
+    window.addEventListener('offline', function() {
+        document.getElementById('offline-message').innerText = 'You are currently offline. Using local data.';
+    });
+
+    window.addEventListener('online', function() {
+        document.getElementById('offline-message').innerText = 'You are now online.';
+    });
+
+    // Clear the store on the initial load
+    const deleteRequest = indexedDB.deleteDatabase('Check');
+    
+    deleteRequest.onsuccess = function() {
+        console.log('IndexedDB cleared.');
+    };
+
+    deleteRequest.onerror = function() {
+        console.error('Failed to clear IndexedDB.');
+    };
+
+    // Handle form submission and save Worker_ID_No and Nutmeg_ID_No to IndexedDB
+    document.getElementById('verify-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const workerId = document.querySelector('[name="Worker_ID_No"]').value;
+        const nutmegId = document.querySelector('[name="Nutmeg_ID_No"]').value;
+
+        // Assuming you want to save Worker_ID_No and Nutmeg_ID_No to IndexedDB
+        const request = indexedDB.open('Check', 1);
+
+        request.onupgradeneeded = function(event) {
+            const db = event.target.result;
+            const objectStore = db.createObjectStore('verify', { keyPath: 'id', autoIncrement: true });
+            objectStore.add({ Worker_ID_No: workerId, Nutmeg_ID_No: nutmegId });
+        };
+
+        request.onsuccess = function(event) {
+            console.log('Worker ID and Nutmeg ID saved to IndexedDB.');
+            window.location.href = '/table001/';
+        };
+    });
+</script>
+</center>
+{% endblock %}

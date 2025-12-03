@@ -1,0 +1,106 @@
+{% extends 'gcna/base.html' %}
+
+{% block content%}
+	<style type="text/css">
+		.btn-circle.btn-xl {
+            width: 30px;
+            height: 30px;
+            padding: 3px 0px;
+            border-radius: 25px;
+            font-size: 15px;
+            text-align: center;
+		}
+
+
+		 #map {
+		            height: 4px;
+		            width: 10%;
+		            margin-bottom: 20px;
+		        }
+
+
+	</style>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        }
+
+        function showPosition(position) {
+            document.getElementById("id_latitude").value = position.coords.latitude.toFixed(6);
+            document.getElementById("id_longitude").value = position.coords.longitude.toFixed(6);
+
+            var map = L.map('map').setView([position.coords.latitude, position.coords.longitude], 10);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+            var marker = L.marker([position.coords.latitude, position.coords.longitude]).addTo(map);
+        }
+    </script>
+
+
+
+
+
+
+
+
+	<center>
+<br>
+	{% if submitted %}
+		Entry successfully added to database!!!
+	{% else %}
+
+
+
+
+
+
+
+		<form action="" method="POST" enctype="multipart/form-data" style=" background-color: #e4e4e4;
+
+    margin: 1px auto;
+    font-family: Raleway;
+    padding: 10px;
+    width: 55%;
+    min-width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">
+    <h1>GCNA Form</h1>
+
+		{% csrf_token %}
+		<h3>Section A</h3>
+		{{ form1.as_p }}
+
+	
+		<input type="submit" name="" value="✔" class="btn btn-success btn-circle btn-xl">
+
+		<br>
+		<br>
+
+		<a class="btn btn-outline-dark" type="submit" href="{% url 'database0_2' %}" role="button">></a>
+
+
+
+		</form>
+
+	{% endif %}
+
+	</center>
+
+<!-- 	<form>
+   		 <div id="map"></div>
+</form> -->
+{{ form1.media }}
+
+
+{% endblock %}
+
+
+
+
+

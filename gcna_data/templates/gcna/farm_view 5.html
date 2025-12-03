@@ -1,0 +1,36 @@
+{% extends 'gcna/base.html' %}
+
+{% block content%}
+
+	<h1>Database</h1>
+
+
+	<h3>Symmary Table</h3>
+
+{% for sum in symmary_list %}
+
+<div class="card">
+  <div class="card-header">
+     
+  </div>
+  <div class="card-body">
+    <h5 class="card-title"> </h5>
+    <p class="card-text">
+	<ul>
+	<li>Estimated Annual Production: {{ sum.annual_production }}</li>
+	<li>Estimated Peak Prodution: {{ sum.peak_productions }}</li>
+ 	<li>Inspected By: {{ sum.inspected_by }}</li>
+	<li>Date: {{ sum.date }}</li>
+
+</ul>
+ </p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+</div>
+
+
+
+{% endfor %}
+{% endblock %}
+
+

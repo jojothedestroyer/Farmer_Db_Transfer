@@ -1,0 +1,665 @@
+{% load static %} {% load pwa %} {% progressive_web_app_meta %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="manifest" href="('/static/manifest.json)" />
+    <!-- <script src="/static/js/true_sync.js"></script> -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dexie/3.1.1/dexie.min.js"></script>
+    <script src="https://unpkg.com/idb@5.2.0/build/iife/index-min.js"></script>
+
+    {% comment %}
+    <script>
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker
+          .register("/static/js/serviceworker.js")
+          .then(function (registration) {
+            console.log(
+              "Service Worker registered with scope:",
+              registration.scope
+            );
+          })
+          .catch(function (error) {
+            console.error("Service Worker registration failed:", error);
+          });
+      }
+    </script>
+    {% endcomment %} {% comment %}
+    <script>
+      // Check if the service worker is available in the browser
+      if ("serviceWorker" in navigator) {
+        // Register the service worker
+        navigator.serviceWorker
+          .register("/static/js/serviceworker.js")
+          .then(function (registration) {
+            console.log(
+              "Service Worker registered with scope:",
+              registration.scope
+            );
+          })
+          .catch(function (error) {
+            console.error("Service Worker registration failed:", error);
+          });
+
+        // Add a click event listener to the refresh cache button
+        document
+          .getElementById("refresh-cache-button")
+          .addEventListener("click", function () {
+            // Send a message to the service worker to trigger cache refresh
+            navigator.serviceWorker.controller.postMessage({
+              action: "refreshCache",
+            });
+          });
+      }
+    </script>
+    {% endcomment %}
+<!-- 
+    <script>
+      setInterval(better_transferIndexedDBData, 10 * 1000); // Trigger every 10 seconds
+
+      function better_transferIndexedDBData() {
+        var request = indexedDB.open("GCNA", 2);
+
+        request.onsuccess = function (event) {
+          var db = event.target.result;
+          var modelNames = [
+            "Worker",
+            "Farmer",
+            "DriedA",
+            "DriedB",
+            "FloatA",
+            "FloatB",
+            "Quaility",
+            "visit",
+            "In-House-Drying",
+            "Dispatch-Of-Dried-Nutmeg",
+            "Dispatch-Of-Green",
+            "Cracking-Summary",
+            "Floation-Summary",
+            "Package-Ciontrol",
+            "Editors",
+            "Labour-support",
+            "Training-support",
+            "land-info",
+            "Land-Tenur",
+            "Nutmeg-Trees",
+            "Nutmeg-Variety",
+            "Other-Crops",
+            "Coconut-Trees",
+            "Citrus-Mango-Trees",
+            "Other-Spices-Trees",
+            "Other-Seasoning-Trees",
+            "Other-Crops-Cultivated",
+            "Condition",
+            "Nutmeg-Land",
+            "Nutmeg-Frequency",
+            "Potential-Risks",
+            "Road-Access",
+            "Food-Safety-and-Quality",
+            "Farm-Water-Source",
+            "Farm-House",
+            "inspector-symmary",
+            "Policy",
+            "Sanitation-A",
+            "Sanitation-B",
+            "Sanitation-C",
+            "Cracking_Schedule",
+            "Assorting_Log",
+            "Extractor_Log",
+            "Fumigation_Log",
+            "Shelves",
+            "W_Shelves",
+            "M_Shelves",
+            "W_Shelves_Dried",
+            "M_Shelves_Dried",
+            "Vehicle_Inspection",
+            "Final_Weight_Inspection",
+            "Final_Weight_Inspection_fields",
+            "Dispatch_Of_Dried_Nutmeg_Rec",
+            "Dispatch_Of_Green_Nutmeg_Rec",
+            "Mace_Dispatched",
+            "Mace_Purchase",
+            "Mace_Dispatched_Rec",
+            "Cracking_Extraction_Summary",
+            "Day_Of_Loading",
+            "TruckEntry",
+            "Container_Inspection_Log",
+          ];
+
+          modelNames.forEach(function (modelName) {
+            var transaction = db.transaction(modelName, "readonly");
+            var objectStore = transaction.objectStore(modelName);
+            var getRequest = objectStore.getAll();
+
+            getRequest.onsuccess = function (event) {
+              var data = event.target.result;
+              data.forEach(function (item) {
+                better_sendDataToDjango(item, modelName);
+              });
+            };
+          });
+        };
+
+        request.onerror = function (event) {
+          console.error("Error opening IndexedDB:", event);
+        };
+      }
+
+      function better_sendDataToDjango(item, modelName) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/check-and-add/", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+              console.log("Entry added successfully for model:", modelName);
+            } else {
+              console.error(
+                "Error adding entry for model:",
+                modelName,
+                xhr.statusText
+              );
+            }
+          }
+        };
+        xhr.send(JSON.stringify({ model: modelName, data: item }));
+      }
+    </script> -->
+    <div id="loadingSpinner">Syncing data... Please wait...</div>
+
+    <script type="module">
+      // Import Firebase modules
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+      import { getDatabase, ref, set, get, query, orderByChild, equalTo, update, push } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
+      import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
+    
+      // Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyBZTB_mN_gIb6mqeM8nid4x83oKRehmFKo",
+        authDomain: "farmer-project-sync.firebaseapp.com",
+        databaseURL: "https://farmer-project-sync-default-rtdb.firebaseio.com",
+        projectId: "farmer-project-sync",
+        storageBucket: "farmer-project-sync.firebasestorage.app",
+        messagingSenderId: "1366353203",
+        appId: "1:1366353203:web:fa29fd29cc326a0d63ca46"
+      };
+    
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const db = getDatabase(app);
+      const auth = getAuth(app);
+    
+      document.addEventListener("DOMContentLoaded", async function () {
+        console.log("Initializing IndexedDB...");
+        await initializeIndexedDB(); // Initialize IndexedDB first
+        console.log("Finished initializing IndexedDB.");
+        checkUserAndSyncData();
+      });
+    
+      // Initialize IndexedDB and create object stores if they don't exist
+      function initializeIndexedDB() {
+        return new Promise((resolve, reject) => {
+          const dbVersion = 2; // Increment this number if you change the schema
+          var request = indexedDB.open("GCNA", dbVersion);
+    
+          request.onupgradeneeded = function (event) {
+            var db = event.target.result;
+            console.log("Database upgrade needed. Creating object stores...");
+    
+            const modelNames = [
+              "Worker", "Farmer", "DriedA", "DriedB", "FloatA", "FloatB", "Quaility", "visit",
+              "In-House-Drying", "Dispatch-Of-Dried-Nutmeg", "Dispatch-Of-Green", "Cracking-Summary",
+              "Floation-Summary", "Package-Ciontrol", "Editors", "Labour-support", "Training-support",
+              "land-info", "Land-Tenur", "Nutmeg-Trees", "Nutmeg-Variety", "Other-Crops", "Coconut-Trees",
+              "Citrus-Mango-Trees", "Other-Spices-Trees", "Other-Seasoning-Trees", "Other-Crops-Cultivated",
+              "Condition", "Nutmeg-Land", "Nutmeg-Frequency", "Potential-Risks", "Road-Access",
+              "Food-Safety-and-Quality", "Farm-Water-Source", "Farm-House", "inspector-symmary", "Policy",
+              "Sanitation-A", "Sanitation-B", "Sanitation-C", "Cracking_Schedule", "Assorting_Log",
+              "Extractor_Log", "Fumigation_Log", "Shelves", "W_Shelves", "M_Shelves", "W_Shelves_Dried",
+              "M_Shelves_Dried", "Vehicle_Inspection", "Final_Weight_Inspection", "Final_Weight_Inspection_fields",
+              "Dispatch_Of_Dried_Nutmeg_Rec", "Dispatch_Of_Green_Nutmeg_Rec", "Mace_Dispatched", "Mace_Purchase",
+              "Mace_Dispatched_Rec", "Cracking_Extraction_Summary", "Day_Of_Loading", "TruckEntry",
+              "Container_Inspection_Log"
+            ];
+    
+            modelNames.forEach((modelName) => {
+              if (!db.objectStoreNames.contains(modelName)) {
+                console.log(`Creating object store: ${modelName}`);
+                db.createObjectStore(modelName, { keyPath: "id" }); // Store data by 'id'
+              } else {
+                console.log(`Object store already exists: ${modelName}`);
+              }
+            });
+          };
+    
+          request.onsuccess = function (event) {
+            console.log("IndexedDB initialized successfully.");
+            resolve(event.target.result);
+          };
+    
+          request.onerror = function (event) {
+            console.error("Error opening IndexedDB:", event);
+            reject("Error opening IndexedDB:", event);
+          };
+        });
+      }
+    
+      async function checkUserAndSyncData() {
+        console.log("Checking for current user...");
+        const user = await getCurrentUser();
+        if (!user) {
+          console.log("No user found. Prompting for user creation...");
+          showUserModal();
+        } else {
+          console.log("User found:", user.customUserId);
+          if (navigator.onLine) {
+            syncDataWithFirebase(user.customUserId); // Use customUserId for syncing only when online
+          } else {
+            console.log("User is offline, will sync when online.");
+          }
+        }
+      }
+    
+      async function getCurrentUser() {
+        // Check if customUserId is already stored in localStorage
+        const customUserId = localStorage.getItem("customUserId");
+        if (customUserId) {
+          console.log("User ID found in localStorage:", customUserId);
+          return { customUserId }; // Return customUserId if it exists
+        }
+    
+        // If no customUserId is found, prompt the user to log in
+        return null;
+      }
+    
+      function showUserModal() {
+        const userName = prompt("Please enter your name:");
+        if (userName) {
+          console.log("User name provided:", userName);
+          createUser(userName);
+        } else {
+          console.log("No user name provided.");
+        }
+      }
+    
+      async function createUser(userName) {
+        // Check if the user already exists in Firebase
+        console.log("Searching for user in Firebase...");
+        const existingUser = await findUserByName(userName);
+        if (existingUser) {
+          console.log("User already exists in Firebase:", existingUser);
+          const customUserId = existingUser.customUserId;
+          localStorage.setItem("customUserId", customUserId); // Save to localStorage
+          console.log("User logged in successfully!");
+          if (navigator.onLine) {
+            syncDataWithFirebase(customUserId); // Sync data if online
+          }
+        } else {
+          console.log("User does not exist. Creating new user...");
+          const customUserId = generateCustomUserId(userName);
+          localStorage.setItem("customUserId", customUserId); // Save to localStorage
+    
+          // Save the username and customUserId in Firebase
+          await set(ref(db, `Users/${customUserId}/name`), userName);
+          console.log("User created successfully in Firebase!");
+          if (navigator.onLine) {
+            syncDataWithFirebase(customUserId); // Sync data if online
+          }
+        }
+      }
+    
+      async function findUserByName(userName) {
+        // Query Firebase to find a user by name
+        const usersRef = ref(db, "Users");
+        const userQuery = query(usersRef, orderByChild("name"), equalTo(userName));
+        const snapshot = await get(userQuery);
+    
+        if (snapshot.exists()) {
+          // Return the first matching user's customUserId
+          const userData = snapshot.val();
+          const customUserId = Object.keys(userData)[0];
+          console.log("User found in Firebase with customUserId:", customUserId);
+          return { customUserId };
+        } else {
+          console.log("No user found in Firebase.");
+          return null; // No user found
+        }
+      }
+    
+      function generateCustomUserId(userName) {
+        // Generate a unique ID based on the username and a random string
+        const randomString = Math.random().toString(36).substring(2, 10);
+        return `${userName}-${randomString}`;
+      }
+    
+      async function syncDataWithFirebase(customUserId) {
+        disableUserInteraction(); // Disable user interaction while syncing
+        showLoadingSpinner(true); // Show the loading spinner
+        console.log("Syncing data with Firebase for user:", customUserId);
+        const indexedDBData = await getIndexedDBData();
+        // await loadDataFromFirebase(customUserId);
+    
+        if (indexedDBData.length === 0) {
+          console.log("IndexedDB is empty. Loading data from Firebase...");
+          await loadDataFromFirebase(customUserId);
+        } else {
+          console.log("IndexedDB contains data. Uploading to Firebase...");
+          await uploadDataToFirebase(customUserId, indexedDBData);
+    
+          console.log("Syncing IndexedDB with Firebase...");
+          await syncIndexedDBWithFirebase(customUserId);
+        }
+        hideLoadingSpinner(); // Hide the loading spinner
+        enableUserInteraction(); // Re-enable user interaction after syncing
+      }
+    
+      async function getIndexedDBData() {
+        const db = await initializeIndexedDB();
+        return new Promise((resolve, reject) => {
+          const modelNames = [
+            "Worker", "Farmer", "DriedA", "DriedB", "FloatA", "FloatB", "Quaility", "visit",
+            "In-House-Drying", "Dispatch-Of-Dried-Nutmeg", "Dispatch-Of-Green", "Cracking-Summary",
+            "Floation-Summary", "Package-Ciontrol", "Editors", "Labour-support", "Training-support",
+            "land-info", "Land-Tenur", "Nutmeg-Trees", "Nutmeg-Variety", "Other-Crops", "Coconut-Trees",
+            "Citrus-Mango-Trees", "Other-Spices-Trees", "Other-Seasoning-Trees", "Other-Crops-Cultivated",
+            "Condition", "Nutmeg-Land", "Nutmeg-Frequency", "Potential-Risks", "Road-Access",
+            "Food-Safety-and-Quality", "Farm-Water-Source", "Farm-House", "inspector-symmary", "Policy",
+            "Sanitation-A", "Sanitation-B", "Sanitation-C", "Cracking_Schedule", "Assorting_Log",
+            "Extractor_Log", "Fumigation_Log", "Shelves", "W_Shelves", "M_Shelves", "W_Shelves_Dried",
+            "M_Shelves_Dried", "Vehicle_Inspection", "Final_Weight_Inspection", "Final_Weight_Inspection_fields",
+            "Dispatch_Of_Dried_Nutmeg_Rec", "Dispatch_Of_Green_Nutmeg_Rec", "Mace_Dispatched", "Mace_Purchase",
+            "Mace_Dispatched_Rec", "Cracking_Extraction_Summary", "Day_Of_Loading", "TruckEntry",
+            "Container_Inspection_Log"
+          ];
+    
+          const allData = [];
+    
+          modelNames.forEach((modelName) => {
+            const transaction = db.transaction(modelName, "readonly");
+            const store = transaction.objectStore(modelName);
+            const request = store.getAll();
+    
+            request.onsuccess = function () {
+              allData.push({ modelName, data: request.result });
+              if (allData.length === modelNames.length) {
+                resolve(allData);
+              }
+            };
+    
+            request.onerror = function () {
+              reject("Error reading data from IndexedDB");
+            };
+          });
+        });
+      }
+    
+      async function uploadDataToFirebase(customUserId, data) {
+        try {
+          console.log("Uploading data to Firebase...");
+          const userRef = ref(db, `Users/${customUserId}/models`);
+    
+          for (const model of data) {
+            const modelName = model.modelName;
+            const modelData = model.data;
+    
+            const modelRef = ref(db, `Users/${customUserId}/models/${modelName}`);
+            // Use the existing ids in the data rather than creating new unique keys
+            modelData.forEach(async (item) => {
+              const itemRef = ref(db, `Users/${customUserId}/models/${modelName}/${item.id}`);
+              await set(itemRef, item); // Use the built-in id as the key
+            });
+    
+            console.log(`Uploaded ${modelData.length} items to Firebase for model ${modelName}`);
+          }
+    
+          console.log("Data uploaded successfully to Firebase.");
+        } catch (error) {
+          console.error("Error uploading data to Firebase:", error);
+        }
+      }
+    
+      async function loadDataFromFirebase(customUserId) {
+        console.log("Loading data from Firebase...");
+        const userRef = ref(db, `Users/${customUserId}/models`);
+        const snapshot = await get(userRef);
+    
+        if (snapshot.exists()) {
+          const data = snapshot.val();
+          for (const modelName in data) {
+            const modelData = data[modelName];
+            console.log(`Loading ${modelName} from Firebase`);
+            await loadModelToIndexedDB(modelName, modelData);
+          }
+          console.log("Data successfully loaded from Firebase.");
+        } else {
+          console.log("No data found in Firebase.");
+        }
+      }
+    
+      async function loadModelToIndexedDB(modelName, modelData) {
+  const db = await initializeIndexedDB();
+  const transaction = db.transaction(modelName, "readwrite");
+  const store = transaction.objectStore(modelName);
+
+  // Log the modelData type and content for debugging purposes
+  console.log(`modelData for ${modelName}:`, modelData);
+  console.log(`Type of modelData for ${modelName}:`, typeof modelData);
+
+  // Check if modelData is an array
+  if (Array.isArray(modelData)) {
+    modelData.forEach(item => {
+      // Ensure that the item has the necessary 'id' field
+      if (item && item.id) {
+        store.put(item); // Add or update the record in IndexedDB
+      } else {
+        console.error(`Item is missing 'id' field for model ${modelName}:`, item);
+      }
+    });
+  }
+  // Check if modelData is an object (but not an array)
+  else if (modelData && typeof modelData === 'object') {
+    // If it's an object, convert it to an array of its values and iterate
+    Object.values(modelData).forEach(item => {
+      // Ensure that the item has the necessary 'id' field
+      if (item && item.id) {
+        store.put(item); // Add or update the record in IndexedDB
+      } else {
+        console.error(`Item is missing 'id' field for model ${modelName}:`, item);
+      }
+    });
+  } else {
+    // Handle other cases where modelData is neither an array nor an object
+    console.error(`Unexpected modelData type for ${modelName}:`, modelData);
+  }
+}
+
+    
+      async function syncIndexedDBWithFirebase(customUserId) {
+        console.log("Syncing IndexedDB with Firebase...");
+    
+        // First, get all the data from IndexedDB
+        const indexedDBData = await getIndexedDBData();
+        for (const model of indexedDBData) {
+          const modelName = model.modelName;
+          const modelData = model.data;
+    
+          // Upload the model data to Firebase
+          await uploadDataToFirebase(customUserId, [{ modelName, data: modelData }]);
+        }
+        console.log("IndexedDB synced with Firebase.");
+      }
+    
+      function disableUserInteraction() {
+        // Disable interaction while syncing
+        // document.body.style.pointerEvents = "none";
+        console.log("User interaction disabled.");
+      }
+    
+      function enableUserInteraction() {
+        // Enable interaction after syncing
+        // document.body.style.pointerEvents = "auto";
+        console.log("User interaction enabled.");
+      }
+    
+      function showLoadingSpinner(show) {
+        const spinner = document.getElementById("loadingSpinner");
+        if (show) {
+          spinner.style.display = "block";
+        } else {
+          spinner.style.display = "none";
+        }
+      }
+    
+      function hideLoadingSpinner() {
+        showLoadingSpinner(false);
+      }
+    
+    </script>
+    
+
+
+    
+<!-- 
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        better_transferIndexedDBData(); // Run once when the page loads
+      });
+    
+      function better_transferIndexedDBData() {
+        var request = indexedDB.open("GCNA", 2);
+    
+        request.onsuccess = function (event) {
+          var db = event.target.result;
+          var modelNames = [
+            "Worker",
+            "Farmer",
+            "DriedA",
+            "DriedB",
+            "FloatA",
+            "FloatB",
+            "Quaility",
+            "visit",
+            "In-House-Drying",
+            "Dispatch-Of-Dried-Nutmeg",
+            "Dispatch-Of-Green",
+            "Cracking-Summary",
+            "Floation-Summary",
+            "Package-Ciontrol",
+            "Editors",
+            "Labour-support",
+            "Training-support",
+            "land-info",
+            "Land-Tenur",
+            "Nutmeg-Trees",
+            "Nutmeg-Variety",
+            "Other-Crops",
+            "Coconut-Trees",
+            "Citrus-Mango-Trees",
+            "Other-Spices-Trees",
+            "Other-Seasoning-Trees",
+            "Other-Crops-Cultivated",
+            "Condition",
+            "Nutmeg-Land",
+            "Nutmeg-Frequency",
+            "Potential-Risks",
+            "Road-Access",
+            "Food-Safety-and-Quality",
+            "Farm-Water-Source",
+            "Farm-House",
+            "inspector-symmary",
+            "Policy",
+            "Sanitation-A",
+            "Sanitation-B",
+            "Sanitation-C",
+            "Cracking_Schedule",
+            "Assorting_Log",
+            "Extractor_Log",
+            "Fumigation_Log",
+            "Shelves",
+            "W_Shelves",
+            "M_Shelves",
+            "W_Shelves_Dried",
+            "M_Shelves_Dried",
+            "Vehicle_Inspection",
+            "Final_Weight_Inspection",
+            "Final_Weight_Inspection_fields",
+            "Dispatch_Of_Dried_Nutmeg_Rec",
+            "Dispatch_Of_Green_Nutmeg_Rec",
+            "Mace_Dispatched",
+            "Mace_Purchase",
+            "Mace_Dispatched_Rec",
+            "Cracking_Extraction_Summary",
+            "Day_Of_Loading",
+            "TruckEntry",
+            "Container_Inspection_Log",
+          ];
+    
+          modelNames.forEach(function (modelName) {
+            var transaction = db.transaction(modelName, "readonly");
+            var objectStore = transaction.objectStore(modelName);
+            var getRequest = objectStore.getAll();
+    
+            getRequest.onsuccess = function (event) {
+              var data = event.target.result;
+              data.forEach(function (item) {
+                better_sendDataToDjango(item, modelName);
+              });
+            };
+          });
+        };
+    
+        request.onerror = function (event) {
+          console.error("Error opening IndexedDB:", event);
+        };
+      }
+    
+      function better_sendDataToDjango(item, modelName) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/check-and-add/", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+              console.log("Entry added successfully for model:", modelName);
+            } else {
+              console.error(
+                "Error adding entry for model:",
+                modelName,
+                xhr.statusText
+              );
+            }
+          }
+        };
+        xhr.send(JSON.stringify({ model: modelName, data: item }));
+      }
+    </script> -->
+    
+
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <!--Chart js-->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"
+      integrity="sha256-Uv9BNBucvCPipKQ2NS9wYpJmi8DTOEfTA/nH2aoJALw="
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css"
+      integrity="sha256-aa0xaJgmK/X74WM224KMQeNQC2xYKwlAt08oZqjeF0E="
+      crossorigin="anonymous"
+    />
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+    <title>Text-Editor/IDE Charts</title>
+  </head>
+  <body>
+    {%block scripts%} {%endblock scripts%} {%block content%} {%endblock
+    content%}
+  </body>
+</html>

@@ -1,0 +1,796 @@
+
+
+{% extends 'gcna/base.html' %}
+
+
+
+{% block content%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Unified Nutmeg Processing Records</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Raleway', sans-serif;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+        }
+        .header-container {
+            background-color: #e4e4e4;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);
+        }
+        .record-card {
+            background-color: #ffffff;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+        .record-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        .card-header {
+            background-color: #f1f1f1;
+            padding: 15px;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .card-body {
+            padding: 20px;
+        }
+        .badge-mace {
+            background-color: #28a745;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+        }
+        .badge-dried {
+            background-color: #007bff;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+        }
+        .badge-green {
+            background-color: #17a2b8;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+        }
+        .form-header {
+            background-color: #f1f1f1;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+        .filter-section {
+            background-color: #ffffff;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .table-responsive {
+            margin-top: 10px;
+        }
+        .table th {
+            background-color: #f8f9fa;
+        }
+        .no-records {
+            text-align: center;
+            padding: 50px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        .loading {
+            text-align: center;
+            padding: 50px;
+        }
+        .spinner-border {
+            width: 3rem;
+            height: 3rem;
+        }
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            margin-bottom: 40px;
+        }
+        .detail-row {
+            margin-bottom: 8px;
+        }
+        .detail-label {
+            font-weight: bold;
+            color: #495057;
+        }
+        .batch-code {
+            background-color: #f8f9fa;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-right: 5px;
+            margin-bottom: 5px;
+            display: inline-block;
+            font-family: monospace;
+            border: 1px solid #dee2e6;
+        }
+        .collapse-toggle {
+            cursor: pointer;
+            color: #007bff;
+        }
+        .collapse-toggle:hover {
+            text-decoration: underline;
+        }
+        .form-section-header {
+            background-color: #f8f9fa;
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            border-left: 4px solid #007bff;
+        }
+        .worker-info {
+            background-color: #e9ecef;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        .confirmation-section {
+            background-color: #fff3cd;
+            padding: 10px;
+            border-radius: 5px;
+            border-left: 4px solid #ffc107;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header-container">
+            <div class="form-header">
+                <h6>Document No. GCNA-GMP</h6>
+                <h6>Document Title: View Unified Nutmeg Processing Records</h6>
+                <h6>Date: <span id="current-date"></span></h6>
+                <h6>Version: 1.0</h6>
+            </div>
+            
+            <h1 class="text-center mb-4">Unified Nutmeg Processing Records</h1>
+            
+            <!-- Filter Section -->
+            <div class="filter-section">
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <label for="filterStation" class="form-label">Filter by Station</label>
+                        <select class="form-select" id="filterStation">
+                            <option value="">All Stations</option>
+                            <option value="G">Grenville</option>
+                            <option value="H">Hermitage</option>
+                            <option value="M">Marli</option>
+                            <option value="U">Union</option>
+                            <option value="GP">Gouyave</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="filterFormType" class="form-label">Filter by Form Type</label>
+                        <select class="form-select" id="filterFormType">
+                            <option value="">All Forms</option>
+                            <option value="mace">Mace</option>
+                            <option value="dried">Dried</option>
+                            <option value="green">Green</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="startDate" class="form-label">Start Date</label>
+                        <input type="date" class="form-control" id="startDate">
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="endDate" class="form-label">End Date</label>
+                        <input type="date" class="form-control" id="endDate">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="searchBatchCode" class="form-label">Search Batch Code</label>
+                        <input type="text" class="form-control" id="searchBatchCode" placeholder="Enter batch code...">
+                    </div>
+                    <div class="col-md-6 mb-3 d-flex align-items-end">
+                        <button id="applyFilters" class="btn btn-primary me-2">Apply Filters</button>
+                        <button id="resetFilters" class="btn btn-secondary">Reset Filters</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Records Display -->
+            <div id="recordsContainer">
+                <div class="loading">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-3">Loading records...</p>
+                </div>
+            </div>
+            
+            <!-- Pagination -->
+            <div class="pagination-container">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination" id="pagination">
+                        <!-- Pagination will be generated dynamically -->
+                    </ul>
+                </nav>
+            </div>
+            
+            <!-- Back Button -->
+            <div class="text-center mt-4 mb-3">
+                <a href="unified-nutmeg-form.html" class="btn btn-secondary">Back to Form</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Set current date
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date();
+            const formattedDate = today.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            document.getElementById('current-date').textContent = formattedDate;
+            
+            // Load records
+            loadRecords();
+            
+            // Set up event listeners for filters
+            document.getElementById('applyFilters').addEventListener('click', function() {
+                loadRecords();
+            });
+            
+            document.getElementById('resetFilters').addEventListener('click', function() {
+                document.getElementById('filterStation').value = '';
+                document.getElementById('filterFormType').value = '';
+                document.getElementById('startDate').value = '';
+                document.getElementById('endDate').value = '';
+                document.getElementById('searchBatchCode').value = '';
+                loadRecords();
+            });
+        });
+        
+        // Global variables for pagination
+        let currentPage = 1;
+        let recordsPerPage = 10;
+        let totalRecords = 0;
+        let allRecords = [];
+        
+        // Function to load records from IndexedDB
+        function loadRecords() {
+            const recordsContainer = document.getElementById('recordsContainer');
+            recordsContainer.innerHTML = `
+                <div class="loading">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-3">Loading records...</p>
+                </div>
+            `;
+            
+            const request = indexedDB.open('GCNA', 2);
+            
+            request.onerror = function(event) {
+                console.error('Error opening database:', event.target.error);
+                recordsContainer.innerHTML = `
+                    <div class="alert alert-danger" role="alert">
+                        Error opening database. Please try again later.
+                    </div>
+                `;
+            };
+            
+            request.onsuccess = function(event) {
+                const db = event.target.result;
+                
+                // Check if the object store exists
+                if (!db.objectStoreNames.contains('Dispatch_Of_Dried_Nutmeg_Rec')) {
+                    recordsContainer.innerHTML = `
+                        <div class="no-records">
+                            <h4>No Records Found</h4>
+                            <p>The Dispatch_Of_Dried_Nutmeg_Rec database does not exist yet.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                const transaction = db.transaction(['Dispatch_Of_Dried_Nutmeg_Rec'], 'readonly');
+                const objectStore = transaction.objectStore('Dispatch_Of_Dried_Nutmeg_Rec');
+                const getAllRequest = objectStore.getAll();
+                
+                getAllRequest.onerror = function(event) {
+                    console.error('Error retrieving records:', event.target.error);
+                    recordsContainer.innerHTML = `
+                        <div class="alert alert-danger" role="alert">
+                            Error retrieving records. Please try again later.
+                        </div>
+                    `;
+                };
+                
+                getAllRequest.onsuccess = function(event) {
+                    let records = event.target.result;
+                    
+                    if (records.length === 0) {
+                        recordsContainer.innerHTML = `
+                            <div class="no-records">
+                                <h4>No Records Found</h4>
+                                <p>There are no nutmeg processing records in the database.</p>
+                            </div>
+                        `;
+                        return;
+                    }
+                    
+                    // Sort records by timestamp or ID (newest first)
+                    records.sort((a, b) => {
+                        if (a.timestamp && b.timestamp) {
+                            return new Date(b.timestamp) - new Date(a.timestamp);
+                        }
+                        return b.id - a.id;
+                    });
+                    
+                    // Apply filters
+                    records = applyFilters(records);
+                    
+                    // Store all filtered records for pagination
+                    allRecords = records;
+                    totalRecords = records.length;
+                    
+                    // Display records with pagination
+                    displayRecords();
+                };
+            };
+        }
+        
+        // Function to apply filters to records
+        function applyFilters(records) {
+            const stationFilter = document.getElementById('filterStation').value;
+            const formTypeFilter = document.getElementById('filterFormType').value;
+            const startDateFilter = document.getElementById('startDate').value;
+            const endDateFilter = document.getElementById('endDate').value;
+            const batchCodeFilter = document.getElementById('searchBatchCode').value.trim().toLowerCase();
+            
+            return records.filter(record => {
+                // Station filter - check all station fields from unified form
+                if (stationFilter) {
+                    const stationFields = [
+                        record.STATION_MACE, 
+                        record.Station_DRIED, 
+                        record.Station_GREEN
+                    ];
+                    
+                    if (!stationFields.some(field => field === stationFilter)) {
+                        return false;
+                    }
+                }
+                
+                // Form type filter
+                if (formTypeFilter && record.forms_selected) {
+                    if (!record.forms_selected[formTypeFilter]) {
+                        return false;
+                    }
+                }
+                
+                // Date range filter
+                if (startDateFilter || endDateFilter) {
+                    const recordDate = record.timestamp ? new Date(record.timestamp) : null;
+                    
+                    if (recordDate) {
+                        if (startDateFilter) {
+                            const startDate = new Date(startDateFilter);
+                            if (recordDate < startDate) {
+                                return false;
+                            }
+                        }
+                        
+                        if (endDateFilter) {
+                            const endDate = new Date(endDateFilter);
+                            endDate.setHours(23, 59, 59, 999); // End of day
+                            if (recordDate > endDate) {
+                                return false;
+                            }
+                        }
+                    }
+                }
+                
+                // Batch code filter - updated field names from unified form
+                if (batchCodeFilter) {
+                    const batchCodeFields = [
+                        record.BATCH_CODE_M1,
+                        record.BATCH_CODE_M2,
+                        record.BATCH_CODE_M3,
+                        record.BatchCode_DRIED,
+                        record.BatchCode_GREEN
+                    ];
+                    
+                    const hasBatchCode = batchCodeFields.some(field => {
+                        return field && field.toLowerCase().includes(batchCodeFilter);
+                    });
+                    
+                    if (!hasBatchCode) {
+                        return false;
+                    }
+                }
+                
+                return true;
+            });
+        }
+        
+        // Function to display records with pagination
+        function displayRecords() {
+            const recordsContainer = document.getElementById('recordsContainer');
+            const paginationElement = document.getElementById('pagination');
+            
+            // Calculate pagination
+            const totalPages = Math.ceil(totalRecords / recordsPerPage);
+            if (currentPage > totalPages) {
+                currentPage = 1;
+            }
+            
+            const startIndex = (currentPage - 1) * recordsPerPage;
+            const endIndex = Math.min(startIndex + recordsPerPage, totalRecords);
+            const recordsToDisplay = allRecords.slice(startIndex, endIndex);
+            
+            // Generate HTML for records
+            let recordsHTML = '';
+            
+            if (recordsToDisplay.length === 0) {
+                recordsHTML = `
+                    <div class="no-records">
+                        <h4>No Records Found</h4>
+                        <p>No records match your filter criteria.</p>
+                    </div>
+                `;
+            } else {
+                recordsToDisplay.forEach(record => {
+                    const formBadges = [];
+                    
+                    if (record.forms_selected) {
+                        if (record.forms_selected.mace) {
+                            formBadges.push('<span class="badge-mace">Mace Received</span>');
+                        }
+                        if (record.forms_selected.dried) {
+                            formBadges.push('<span class="badge-dried">Dried Nutmeg Received</span>');
+                        }
+                        if (record.forms_selected.green) {
+                            formBadges.push('<span class="badge-green">Green Nutmeg Received</span>');
+                        }
+                    }
+                    
+                    const recordDate = record.timestamp ? new Date(record.timestamp).toLocaleString() : 'Unknown Date';
+                    
+                    recordsHTML += `
+                        <div class="record-card">
+                            <div class="card-header">
+                                <div>
+                                    <strong>Record ID: ${record.id}</strong>
+                                    <div class="mt-1">${formBadges.join(' ')}</div>
+                                </div>
+                                <div class="text-end">
+                                    <div>${recordDate}</div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                    `;
+                    
+                    // Worker Information (Common to all forms)
+                    if (record.Worker_ID_No || record.Worker_ID_Name) {
+                        recordsHTML += `
+                            <div class="worker-info mb-3">
+                                <h6>Worker Information</h6>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <span class="detail-label">Worker ID:</span> ${record.Worker_ID_No || 'N/A'}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <span class="detail-label">Worker Name:</span> ${record.Worker_ID_Name || 'N/A'}
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }
+                    
+                    recordsHTML += '<div class="row">';
+                    
+                    // Mace Form Details
+                    if (record.forms_selected && record.forms_selected.mace) {
+                        recordsHTML += `
+                            <div class="col-md-4 mb-4">
+                                <div class="form-section-header">
+                                    <h5>Mace Received</h5>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Date:</span> ${record.Date_MACE || 'N/A'}
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Station:</span> ${record.STATION_MACE || 'N/A'}
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Vehicle Number:</span> ${record.Vehicle_number_MACE || 'N/A'}
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Mace Batch Codes:</span><br>
+                                    ${record.BATCH_CODE_M1 ? `<span class="batch-code">M1: ${record.BATCH_CODE_M1}</span>` : ''}
+                                    ${record.BATCH_CODE_M2 ? `<span class="batch-code">M2: ${record.BATCH_CODE_M2}</span>` : ''}
+                                    ${record.BATCH_CODE_M3 ? `<span class="batch-code">M3: ${record.BATCH_CODE_M3}</span>` : ''}
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Delivery Advice:</span> ${record.Delivery_advice_num_MACE || 'N/A'}
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Product:</span> ${record.Product_MACE || 'N/A'}
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Number of Bags:</span> ${record.Num_Bags_MACE || 'N/A'}
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Weight:</span> ${record.Weight_MACE || 'N/A'} lbs
+                                </div>
+                                
+                                <!-- Mace Confirmation Fields -->
+                                ${(record.conf_Product_MACE || record.conf_Num_Bags_MACE || record.conf_Weight_MACE) ? `
+                                <div class="confirmation-section mt-3">
+                                    <h6>Confirmation Fields</h6>
+                                    <div class="detail-row">
+                                        <span class="detail-label">Confirmed Product:</span> ${record.conf_Product_MACE || 'N/A'}
+                                    </div>
+                                    <div class="detail-row">
+                                        <span class="detail-label">Confirmed Bags:</span> ${record.conf_Num_Bags_MACE || 'N/A'}
+                                    </div>
+                                    <div class="detail-row">
+                                        <span class="detail-label">Confirmed Weight:</span> ${record.conf_Weight_MACE || 'N/A'} lbs
+                                    </div>
+                                </div>
+                                ` : ''}
+                            </div>
+                        `;
+                    }
+                    
+                    // Dried Form Details
+                    if (record.forms_selected && record.forms_selected.dried) {
+                        recordsHTML += `
+                            <div class="col-md-4 mb-4">
+                                <div class="form-section-header">
+                                    <h5>Dried Nutmeg Received</h5>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Date:</span> ${record.Date_DRIED || 'N/A'}
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Station From:</span> ${record.Station_DRIED || 'N/A'}
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Station Received:</span> ${record.Station_rec_DRIED || 'N/A'}
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Vehicle Number:</span> ${record.Vehicle_number_DRIED || 'N/A'}
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Batch Codes:</span><br>
+                                    ${record.BatchCode_DRIED ? record.BatchCode_DRIED.split(',').map(code => `<span class="batch-code">${code.trim()}</span>`).join('') : 'N/A'}
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Delivery Advice:</span> ${record.Delivery_advice_num_DRIED || 'N/A'}
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Product:</span> ${record.Product_DRIED || 'N/A'}
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Number of Bags:</span> ${record.Num_Bags_DRIED || 'N/A'}
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Weight:</span> ${record.Weight_DRIED || 'N/A'} lbs
+                                </div>
+                                
+                                <!-- Dried Confirmation Fields -->
+                                ${(record.conf_Product_DRIED || record.conf_Num_Bags_DRIED || record.conf_Weight_DRIED) ? `
+                                <div class="confirmation-section mt-3">
+                                    <h6>Confirmation Fields</h6>
+                                    <div class="detail-row">
+                                        <span class="detail-label">Confirmed Product:</span> ${record.conf_Product_DRIED || 'N/A'}
+                                    </div>
+                                    <div class="detail-row">
+                                        <span class="detail-label">Confirmed Bags:</span> ${record.conf_Num_Bags_DRIED || 'N/A'}
+                                    </div>
+                                    <div class="detail-row">
+                                        <span class="detail-label">Confirmed Weight:</span> ${record.conf_Weight_DRIED || 'N/A'} lbs
+                                    </div>
+                                </div>
+                                ` : ''}
+                            </div>
+                        `;
+                    }
+                    
+                    // Green Form Details
+                    if (record.forms_selected && record.forms_selected.green) {
+                        recordsHTML += `
+                            <div class="col-md-4 mb-4">
+                                <div class="form-section-header">
+                                    <h5>Green Nutmeg Received</h5>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Date:</span> ${record.Date_GREEN || 'N/A'}
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Station:</span> ${record.Station_GREEN || 'N/A'}
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Warehouse Receipt:</span> ${record.WAREHOUSE_RECEIPT_NUMBER_GREEN || 'N/A'}
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Batch Codes:</span><br>
+                                    ${record.BatchCode_GREEN ? record.BatchCode_GREEN.split(',').map(code => `<span class="batch-code">${code.trim()}</span>`).join('') : 'N/A'}
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Vehicle Number:</span> ${record.Vehicle_number_GREEN || 'N/A'}
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Delivery Advice:</span> ${record.Delivery_advice_num_GREEN || 'N/A'}
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Product:</span> ${record.Product_GREEN || 'N/A'}
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Number of Bags:</span> ${record.Num_Bags_GREEN || 'N/A'}
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Weight:</span> ${record.Weight_GREEN || 'N/A'} lbs
+                                </div>
+                                
+                                <!-- Green Confirmation Fields -->
+                                ${(record.conf_Product_GREEN || record.conf_Num_Bags_GREEN || record.conf_Weight_GREEN) ? `
+                                <div class="confirmation-section mt-3">
+                                    <h6>Confirmation Fields</h6>
+                                    <div class="detail-row">
+                                        <span class="detail-label">Confirmed Product:</span> ${record.conf_Product_GREEN || 'N/A'}
+                                    </div>
+                                    <div class="detail-row">
+                                        <span class="detail-label">Confirmed Bags:</span> ${record.conf_Num_Bags_GREEN || 'N/A'}
+                                    </div>
+                                    <div class="detail-row">
+                                        <span class="detail-label">Confirmed Weight:</span> ${record.conf_Weight_GREEN || 'N/A'} lbs
+                                    </div>
+                                </div>
+                                ` : ''}
+                            </div>
+                        `;
+                    }
+                    
+                    // Additional Details Section
+                    recordsHTML += `
+                                </div>
+                                <div class="col-12 mt-3">
+                                    <div class="collapse" id="moreDetails_${record.id}">
+                                        <div class="card card-body bg-light">
+                                            <h6>Additional Details</h6>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="detail-row">
+                                                        <span class="detail-label">Record Created:</span> ${recordDate}
+                                                    </div>
+                                                    <div class="detail-row">
+                                                        <span class="detail-label">Forms Selected:</span> 
+                                                        ${record.forms_selected ? Object.keys(record.forms_selected).filter(key => record.forms_selected[key]).join(', ') : 'N/A'}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="detail-row">
+                                                        <span class="detail-label">Database ID:</span> ${record.id}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-center mt-2">
+                                        <a class="collapse-toggle" data-bs-toggle="collapse" href="#moreDetails_${record.id}" role="button" aria-expanded="false" aria-controls="moreDetails_${record.id}">
+                                            Show More Details
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            
+            recordsContainer.innerHTML = recordsHTML;
+            
+            // Generate pagination
+            let paginationHTML = '';
+            
+            if (totalPages > 1) {
+                paginationHTML += `
+                    <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+                        <a class="page-link" href="#" data-page="${currentPage - 1}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                `;
+                
+                const maxPagesToShow = 5;
+                let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
+                let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
+                
+                if (endPage - startPage + 1 < maxPagesToShow) {
+                    startPage = Math.max(1, endPage - maxPagesToShow + 1);
+                }
+                
+                for (let i = startPage; i <= endPage; i++) {
+                    paginationHTML += `
+                        <li class="page-item ${i === currentPage ? 'active' : ''}">
+                            <a class="page-link" href="#" data-page="${i}">${i}</a>
+                        </li>
+                    `;
+                }
+                
+                paginationHTML += `
+                    <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+                        <a class="page-link" href="#" data-page="${currentPage + 1}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                `;
+            }
+            
+            paginationElement.innerHTML = paginationHTML;
+            
+            // Add event listeners to pagination links
+            const pageLinks = document.querySelectorAll('.page-link');
+            pageLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const page = parseInt(this.getAttribute('data-page'));
+                    if (!isNaN(page)) {
+                        currentPage = page;
+                        displayRecords();
+                        window.scrollTo(0, 0);
+                    }
+                });
+            });
+            
+            // Add event listeners to collapse toggles
+            const collapseToggles = document.querySelectorAll('.collapse-toggle');
+            collapseToggles.forEach(toggle => {
+                toggle.addEventListener('click', function() {
+                    const expanded = this.getAttribute('aria-expanded') === 'true';
+                    this.textContent = expanded ? 'Show More Details' : 'Hide Details';
+                });
+            });
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

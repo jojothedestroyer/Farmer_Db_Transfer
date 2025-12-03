@@ -1,0 +1,1121 @@
+{% extends 'gcna/base2.html' %}
+
+{% block content %}
+
+
+<style>
+    .search-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+</style>
+
+
+
+    <form style="background-color: #e4e4e4;
+        margin: 1px auto;
+        font-family: Raleway;
+        padding: 10px;
+        width: 65%;
+        min-width: 300px;
+        border-radius: 10px;
+        box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">
+        {% csrf_token %}
+<!--         <h1>Welcome</h1>
+        <h2>To the GCNA Form Webpage</h2>
+        <p>Please select one of the below objects</p> -->
+
+<!--         <div class="card">
+            <div class="card-body">
+                <p class="card-text">
+                    <table id="vertical-1" class="table table-hover table-light">
+                        <h2>Farm Forms</h2>
+
+                        <tr>
+                            <th>Farmer Info</th>
+                            <td><a href="{% url 'gcna00_1' %}" class="btn btn-primary">Add</a></td>
+                            {% comment %} <td><a href="{% url 'edit_table1' %}" class="btn btn-success">Edit</a></td> {% endcomment %}
+                            <td><a href="{% url 'table1' %}" class="btn btn-secondary">View</a></td>
+                        </tr>
+
+                        <tr>
+                            <th>Land Info</th>
+                            <td><a href="{% url 'gcna00_2' %}" class="btn btn-primary">Add</a></td>
+                            {% comment %} <td><a href="{% url 'table2' %}" class="btn btn-secondary">View</a></td> {% endcomment %}
+                            {% comment %} <td>
+                                <button class="btn btn-info" onclick="createIndexedDB('{{ farmer_info_id.Nutmeg_ID_No }}')">Create Entry</button>
+                            </td> {% endcomment %}
+                        </tr>
+                        <br>
+                    </table>
+                    <div id="landInfoData" style="max-height: 400px; overflow-y: auto;">
+                        <!-- Display entries with delete and edit buttons here -->
+<!--                     </div>
+                </p>
+            </div>
+        </div> -->
+        <!-- Edit form container -->
+<!--         <div id="editFormContainer" style="background-color: #ffffff;
+        margin: 10px auto;
+        font-family: Raleway;
+        padding: 10px;
+        width: 85%;
+        min-width: 300px;
+        border-radius: 10px;
+        box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">
+
+        
+        </div> -->
+
+
+
+<!--        <form id="editForm" style="margin-bottom: 10px;"> 
+
+
+
+        <div class="card">
+         
+            <div class="card-body">
+                <p class="card-text">
+                    <table id="vertical-1" class="table table-hover table-light" >
+ -->
+
+
+<!-- The is the HACCP Forms -->
+    
+<!--             <h2>HACCP Forms</h2>
+ -->
+
+<!-- 
+        <tr>
+            <th>Dried Nutmeg Section A</th>
+            <td><a href="{% url 'database8' %}" class="btn btn-primary">Add</a></td>
+            {% comment %} <td><a href="{% url 'edit_dried0_A' %}" class="btn btn-success">Edit</a></td> {% endcomment %}
+
+            <td><a href="{% url 'view_dried0A' %}" class="btn btn-secondary">View</a></td>
+        </tr>
+        
+       <tr>
+            <th>Dried Nutmeg Section B</th>
+            <td><a href="{% url 'database9' %}" class="btn btn-primary">Add</a></td>
+            {% comment %} <td><a href="{% url 'edit_dried0_B' %}" class="btn btn-success">Edit</a></td> {% endcomment %}
+
+            <td><a href="{% url 'view_dried0B' %}" class="btn btn-secondary">View</a></td>
+        </tr>  -->
+      
+<!-- </table>
+
+            </div>
+        </div>
+
+
+         <br>
+        <br>
+        <br>
+ -->
+       <div class="card">
+         
+            <div class="card-body">
+                <p class="card-text">
+                    <table id="vertical-1" class="table table-hover table-light" >
+
+
+
+
+
+    
+            <h2>Inventory and Traceability Forms</h2>
+
+        <tr>
+            <th>Nutmeg Purchase Form</th>
+            <td><a href="{% url 'add_In_House_0' %}" class="btn btn-primary">Add</a></td>
+            {% comment %} <td><a href="{% url 'edit_In_House' %}" class="btn btn-success">Edit</a></td> {% endcomment %}
+
+            <td><a href="{% url 'view_IH_0' %}" class="btn btn-secondary">View</a></td>
+
+            <td><a href="{% url 'In_House_Pending' %}" class="btn btn-success">Pending</a></td>
+
+        </tr>
+        <th>Mace Purchase Form</th>
+        <td><a href="{% url 'Mace_Purchase' %}" class="btn btn-primary">Add</a></td>
+
+        <td><a href="{% url 'view_Mace_Purchase' %}" class="btn btn-secondary">View</a></td>
+    </tr>
+    <!-- <th>Mace Dispatch Form</th>
+    <td><a href="{% url 'Mace_Dispatched' %}" class="btn btn-primary">Add</a></td>
+
+    <td><a href="{% url 'view_Mace_Dispatched' %}" class="btn btn-secondary">View</a></td>
+</tr>
+
+
+<th>Mace Dispatch Recieved Form</th>
+<td><a href="{% url 'add_Mace_Dispatched_Rec' %}" class="btn btn-primary">Add</a></td>
+
+<td><a href="{% url 'view_Mace_Dispatched_Rec' %}" class="btn btn-secondary">View</a></td>
+</tr>
+ -->
+
+
+</tr>
+<th>Weight Inspection</th>
+<td><a href="{% url 'add_Final_Weigtht_Inspection' %}" class="btn btn-primary">Add</a></td>
+
+<td><a href="{% url 'view_Final_Weigtht_Inspection' %}" class="btn btn-secondary">View</a></td>
+</tr>
+
+
+
+
+</tr>
+<th>Vehicle Inspection</th>
+<td><a href="{% url 'add_Vehicle_Inspection' %}" class="btn btn-primary">Add</a></td>
+
+<td><a href="{% url 'view_Vehicle_Inspection' %}" class="btn btn-secondary">View</a></td>
+</tr>
+
+
+
+
+
+
+
+
+
+
+        <tr>
+            <th>Dispatch Forms</th>
+            <td><a href="{% url 'add_Dispatch_Dried_0' %}" class="btn btn-primary">Add</a></td>
+            {% comment %} <td><a href="{% url 'edit_Dispatch_Dried' %}" class="btn btn-success">Edit</a></td> {% endcomment %}
+
+            <td><a href="{% url 'view_DISD_0' %}" class="btn btn-secondary">View</a></td>
+        </tr>
+ 
+
+
+
+
+
+        <tr>
+            <th>Dispatch Recieved Forms</th>
+            <td><a href="{% url 'Dispatch_Of_Dried_Nutmeg_Rec' %}" class="btn btn-primary">Add</a></td>
+ 
+            <td><a href="{% url 'view_Dispatch_Of_Dried_Nutmeg_Rec' %}" class="btn btn-secondary">View</a></td>
+        </tr>
+ 
+
+
+
+
+<!-- 
+         <tr>
+            <th>Dispatch Green Nutmeg Form</th>
+            <td><a href="{% url 'add_Dispatch_Green_0' %}" class="btn btn-primary">Add</a></td>
+ 
+            <td><a href="{% url 'view_DISG_0' %}" class="btn btn-secondary">View</a></td>
+        </tr>
+
+
+
+
+
+
+        <tr>
+            <th>Green Nutmeg Recieved Form</th>
+            <td><a href="{% url 'Dispatch_Of_Green_Nutmeg_Rec' %}" class="btn btn-primary">Add</a></td>
+ 
+            <td><a href="{% url 'view_Dispatch_Of_Green_Nutmeg_Rec' %}" class="btn btn-secondary">View</a></td>
+        </tr>
+ -->
+
+        <tr>
+            <th>Dried Nutmeg Section A(HACCP)</th>
+            <td><a href="{% url 'database8' %}" class="btn btn-primary">Add</a></td>
+            {% comment %} <td><a href="{% url 'edit_dried0_A' %}" class="btn btn-success">Edit</a></td> {% endcomment %}
+
+            <td><a href="{% url 'view_dried0A' %}" class="btn btn-secondary">View</a></td>
+        </tr>
+        
+       <tr>
+            <th>Dried Nutmeg Section B(HACCP)</th>
+            <td><a href="{% url 'database9' %}" class="btn btn-primary">Add</a></td>
+            {% comment %} <td><a href="{% url 'edit_dried0_B' %}" class="btn btn-success">Edit</a></td> {% endcomment %}
+
+            <td><a href="{% url 'view_dried0B' %}" class="btn btn-secondary">View</a></td>
+        </tr> 
+
+         <tr>
+            <th>Cracking Nutmeg Form</th>
+            <td><a href="{% url 'add_Cracking_0' %}" class="btn btn-primary">Add</a></td>
+            {% comment %} <td><a href="{% url 'edit_Cracking' %}" class="btn btn-success">Edit</a></td> {% endcomment %}
+
+            <td><a href="{% url 'view_CRK_0' %}" class="btn btn-secondary">View</a></td>
+            <td><a href="{% url 'pending_cracking' %}" class="btn btn-success">Pending</a></td>
+
+        </tr>
+
+         <tr>
+            <th>Floation Form</th>
+            <td><a href="{% url 'add_Floation_0' %}" class="btn btn-primary">Add</a></td>
+            {% comment %} <td><a href="{% url 'edit_Floation' %}" class="btn btn-success">Edit</a></td> {% endcomment %}
+
+       
+            <td><a href="{% url 'view_FLT_0' %}" class="btn btn-secondary">View</a></td>
+            <td><a href="{% url 'pending_floating' %}" class="btn btn-success">Pending</a></td>
+
+        </tr>
+
+        <tr>
+            <th>Floated Nutmeg Section A(HACCP)</th>
+            <td><a href="{% url 'database10' %}" class="btn btn-primary">Add</a></td>
+            {% comment %} <td><a href="{% url 'edit_floated0_A' %}" class="btn btn-success">Edit</a></td> {% endcomment %}
+
+            <td><a href="{% url 'view_floated0A' %}" class="btn btn-secondary">View</a></td>
+        </tr> 
+
+        <tr>
+            <th>Floated Nutmeg Section B(HACCP)</th>
+            <td><a href="{% url 'database11' %}" class="btn btn-primary">Add</a></td>
+            {% comment %} <td><a href="{% url 'edit_floated0_B' %}" class="btn btn-success">Edit</a></td> {% endcomment %}
+
+            <td><a href="{% url 'view_floated0B' %}" class="btn btn-secondary">View</a></td>
+        </tr> 
+
+        <tr>
+            <th>Quality Control Assorting(HACCP)</th>
+            <td><a href="{% url 'database12' %}" class="btn btn-primary">Add</a></td>
+            {% comment %} <td><a href="{% url 'edit_quality0' %}" class="btn btn-success">Edit</a></td> {% endcomment %}
+
+            <td><a href="{% url 'view_quality0_' %}" class="btn btn-secondary">View</a></td>
+        </tr>
+
+
+
+         <tr>
+            <th>Package Form</th>
+            <td><a href="{% url 'add_Package_0' %}" class="btn btn-primary">Add</a></td>
+            {% comment %} <td><a href="{% url 'edit_Package' %}" class="btn btn-success">Edit</a></td> {% endcomment %}
+
+            <td><a href="{% url 'view_PKG_0' %}" class="btn btn-secondary">View</a></td>
+        </tr>
+
+
+        <tr>
+            <th>Container Inspection Log</th>
+            <td><a href="{% url 'add_Container_Inspection_Log' %}" class="btn btn-primary">Add</a></td>
+
+            <td><a href="{% url 'view_Container_Inspection_Log' %}" class="btn btn-secondary">View</a></td>
+
+            <td><a href="{% url 'Pending_Container_Inspection_Log' %}" class="btn btn-success">DAY OF LOADING</a></td>
+
+        </tr>
+
+
+                <tr>
+            <th>Traceability Log</th>
+            <td><a href="{% url 'find-Traceability-Origin' %}" class="btn btn-primary">View</a></td>
+        </tr>
+
+
+        <h1>IndexedDB Tables</h1>
+        <div class="search-container">
+            <input type="text" id="workerNameSearch" placeholder="Search by Worker Name">
+            <input type="text" id="warehouseReceiptSearch" placeholder="Search by Warehouse Receipt">
+            <input type="text" id="batchCodeSearch" placeholder="Search by Batch Code">
+            <button onclick="performSearch()">Search</button>
+        </div>
+        <div id="tables"></div>
+
+
+    </form>
+
+        <script>
+            const modelNames = ['Worker', 'Farmer', 'DriedA', 'DriedB', 'FloatA', 'FloatB', 'Quality', 'Visit', 'In-House-Drying', 'Dispatch-Of-Dried-Nutmeg', 'Dispatch-Of-Green', 'Cracking-Summary', 'Floation-Summary', 'Package-Control', 'Editors', 'Labour-support', 'Training-support', 'Land-info', 'Land-Tenure', 'Nutmeg-Trees', 'Nutmeg-Variety', 'Other-Crops', 'Coconut-Trees', 'Citrus-Mango-Trees', 'Other-Spices-Trees', 'Other-Seasoning-Trees', 'Other-Crops-Cultivated', 'Condition', 'Nutmeg-Land', 'Nutmeg-Frequency', 'Potential-Risks', 'Road-Access', 'Food-Safety-and-Quality', 'Farm-Water-Source', 'Farm-House', 'Inspector-Summary', 'Policy', 'Sanitation-A', 'Sanitation-B', 'Sanitation-C', 'Cracking_Schedule', 'Assorting_Log', 'Extractor_Log', 'Fumigation_Log', 'Shelves', 'W_Shelves', 'M_Shelves', 'W_Shelves_Dried', 'M_Shelves_Dried', 'Vehicle_Inspection', 'Final_Weight_Inspection', 'Final_Weight_Inspection_Fields', 'Dispatch_Of_Dried_Nutmeg_Rec', 'Dispatch_Of_Green_Nutmeg_Rec', 'Mace_Dispatched', 'Mace_Purchase', 'Mace_Dispatched_Rec'];
+        
+            const dbName = 'GCNA';
+        
+            function openIndexedDBConnection(dbName) {
+                return new Promise((resolve, reject) => {
+                    const request = indexedDB.open(dbName, 2);
+        
+                    request.onsuccess = function (event) {
+                        resolve(event.target.result);
+                    };
+        
+                    request.onerror = function (event) {
+                        reject(event.target.error);
+                    };
+                });
+            }
+        
+            function getObjectStoreData(db, storeName) {
+                return new Promise((resolve, reject) => {
+                    const transaction = db.transaction(storeName, 'readonly');
+                    const objectStore = transaction.objectStore(storeName);
+                    const request = objectStore.getAll();
+        
+                    request.onsuccess = function (event) {
+                        resolve(event.target.result);
+                    };
+        
+                    request.onerror = function (event) {
+                        reject(event.target.error);
+                    };
+                });
+            }
+        
+            function displayData(storeName, data) {
+                if (data && data.length > 0) { // Only display if there is data
+                    const tableDiv = document.createElement('div');
+                    tableDiv.innerHTML = `<h2>${storeName}</h2><pre>${JSON.stringify(data, null, 2)}</pre>`;
+                    document.getElementById('tables').appendChild(tableDiv);
+                }
+            }
+        
+            function matchesSearch(entry, workerName, warehouseReceipt, batchCode) {
+                const lowerWorkerName = workerName.toLowerCase();
+                const lowerWarehouseReceipt = warehouseReceipt.toLowerCase();
+                const lowerBatchCode = batchCode.toLowerCase();
+        
+                return (workerName && entry.Worker_ID_Name?.toLowerCase().includes(lowerWorkerName)) ||
+                    (warehouseReceipt && entry.WAREHOUSE_RECEIPT_NUMBER?.toLowerCase().includes(lowerWarehouseReceipt)) ||
+                    (batchCode && (entry.Control_number?.toLowerCase().includes(lowerBatchCode) ||
+                        entry.CONTROL_NUMBER?.toLowerCase().includes(lowerBatchCode) ||
+                        entry.BatchCodes?.some(code => code.toLowerCase().includes(lowerBatchCode))));
+            }
+        
+            async function displayIndexedDBTables(workerName = '', warehouseReceipt = '', batchCode = '') {
+                try {
+                    const db = await openIndexedDBConnection(dbName);
+                    const inHouseDryingData = await getObjectStoreData(db, 'In-House-Drying');
+                    const shelvesData = await getObjectStoreData(db, 'Shelves');
+                    const wShelvesData = await getObjectStoreData(db, 'W_Shelves');
+                    const mShelvesData = await getObjectStoreData(db, 'M_Shelves');
+        
+                    const inHouseDryingMap = inHouseDryingData.reduce((acc, item) => {
+                        acc[item.entryCheck] = { ...item, shelves: [], wShelves: [], mShelves: [] };
+                        return acc;
+                    }, {});
+        
+                    shelvesData.forEach(shelf => {
+                        if (inHouseDryingMap[shelf.entry]) {
+                            inHouseDryingMap[shelf.entry].shelves.push(shelf);
+                        }
+                    });
+        
+                    wShelvesData.forEach(shelf => {
+                        if (inHouseDryingMap[shelf.entry]) {
+                            inHouseDryingMap[shelf.entry].wShelves.push(shelf);
+                        }
+                    });
+        
+                    mShelvesData.forEach(shelf => {
+                        if (inHouseDryingMap[shelf.entry]) {
+                            inHouseDryingMap[shelf.entry].mShelves.push(shelf);
+                        }
+                    });
+        
+                    const filteredInHouseDryingData = Object.values(inHouseDryingMap).filter(item => matchesSearch(item, workerName, warehouseReceipt, batchCode) ||
+                        item.shelves.some(shelf => matchesSearch(shelf, workerName, warehouseReceipt, batchCode)) ||
+                        item.wShelves.some(shelf => matchesSearch(shelf, workerName, warehouseReceipt, batchCode)) ||
+                        item.mShelves.some(shelf => matchesSearch(shelf, workerName, warehouseReceipt, batchCode))
+                    );
+        
+                    if (filteredInHouseDryingData.length > 0) {
+                        displayData('In-House-Drying', filteredInHouseDryingData);
+                    }
+        
+                    for (const modelName of modelNames) {
+                        if (!['In-House-Drying', 'Shelves', 'W_Shelves', 'M_Shelves'].includes(modelName)) {
+                            const data = await getObjectStoreData(db, modelName);
+                            const filteredData = data.filter(item => matchesSearch(item, workerName, warehouseReceipt, batchCode));
+                            if (filteredData.length > 0) {
+                                displayData(modelName, filteredData);
+                            }
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error displaying IndexedDB tables:', error);
+                }
+            }
+        
+            function performSearch() {
+                event.preventDefault();
+                const workerName = document.getElementById('workerNameSearch').value;
+                const warehouseReceipt = document.getElementById('warehouseReceiptSearch').value;
+                const batchCode = document.getElementById('batchCodeSearch').value;
+                document.getElementById('tables').innerHTML = '';
+                
+                // Only proceed with displaying if at least one search field has input
+                if (workerName || warehouseReceipt || batchCode) {
+                    displayIndexedDBTables(workerName, warehouseReceipt, batchCode);
+                }
+            }
+        
+            displayIndexedDBTables();
+        </script>
+        
+
+
+<!-- 
+
+
+        <h1>IndexedDB Tables</h1>
+        <div class="search-container">
+            <input type="text" id="workerNameSearch" placeholder="Search by Worker Name">
+            <input type="text" id="warehouseReceiptSearch" placeholder="Search by Warehouse Receipt">
+            <input type="text" id="batchCodeSearch" placeholder="Search by Batch Code">
+            <button onclick="performSearch()">Search</button>
+        </div>
+        <div id="tables"></div>
+        <script>
+            const modelNames = ['Worker', 'Farmer', 'DriedA', 'DriedB', 'FloatA', 'FloatB', 'Quaility', 'visit', 'In-House-Drying', 'Dispatch-Of-Dried-Nutmeg', 'Dispatch-Of-Green', 'Cracking-Summary', 'Floation-Summary', 'Package-Ciontrol', 'Editors', 'Labour-support', 'Training-support', 'land-info', 'Land-Tenur', 'Nutmeg-Trees', 'Nutmeg-Variety', 'Other-Crops', 'Coconut-Trees', 'Citrus-Mango-Trees', 'Other-Spices-Trees', 'Other-Seasoning-Trees', 'Other-Crops-Cultivated', 'Condition', 'Nutmeg-Land', 'Nutmeg-Frequency', 'Potential-Risks', 'Road-Access', 'Food-Safety-and-Quality', 'Farm-Water-Source', 'Farm-House', 'inspector-symmary', 'Policy', 'Sanitation-A', 'Sanitation-B', 'Sanitation-C', 'Cracking_Schedule', 'Assorting_Log', 'Extractor_Log', 'Fumigation_Log', 'Shelves', 'W_Shelves', 'M_Shelves', 'W_Shelves_Dried', 'M_Shelves_Dried', 'Vehicle_Inspection', 'Final_Weight_Inspection', 'Final_Weight_Inspection_fields', 'Dispatch_Of_Dried_Nutmeg_Rec', 'Dispatch_Of_Green_Nutmeg_Rec', 'Mace_Dispatched', 'Mace_Purchase', 'Mace_Dispatched_Rec'];
+        
+            const dbName = 'GCNA';  // Change to 'DELETED' if you want to display that database
+        
+            function openIndexedDBConnection(dbName) {
+                return new Promise((resolve, reject) => {
+                    const request = indexedDB.open(dbName, 2);
+        
+                    request.onsuccess = function (event) {
+                        resolve(event.target.result);
+                    };
+        
+                    request.onerror = function (event) {
+                        reject(event.target.error);
+                    };
+                });
+            }
+        
+            function getObjectStoreData(db, storeName) {
+                return new Promise((resolve, reject) => {
+                    const transaction = db.transaction(storeName, 'readonly');
+                    const objectStore = transaction.objectStore(storeName);
+                    const request = objectStore.getAll();
+        
+                    request.onsuccess = function (event) {
+                        resolve(event.target.result);
+                    };
+        
+                    request.onerror = function (event) {
+                        reject(event.target.error);
+                    };
+                });
+            }
+        
+            function displayData(storeName, data) {
+                const tableDiv = document.createElement('div');
+                tableDiv.innerHTML = `<h2>${storeName}</h2><pre>${JSON.stringify(data, null, 2)}</pre>`;
+                document.getElementById('tables').appendChild(tableDiv);
+            }
+        
+            function matchesSearch(entry, workerName, warehouseReceipt, batchCode) {
+                const lowerWorkerName = workerName.toLowerCase();
+                const lowerWarehouseReceipt = warehouseReceipt.toLowerCase();
+                const lowerBatchCode = batchCode.toLowerCase();
+        
+                return (workerName && entry.Worker_ID_Name?.toLowerCase().includes(lowerWorkerName)) ||
+                    (warehouseReceipt && entry.WAREHOUSE_RECEIPT_NUMBER?.toLowerCase().includes(lowerWarehouseReceipt)) ||
+                    (batchCode && (entry.Control_number?.toLowerCase().includes(lowerBatchCode) ||
+                        entry.CONTROL_NUMBER?.toLowerCase().includes(lowerBatchCode) ||
+                        entry.BatchCodes?.some(code => code.toLowerCase().includes(lowerBatchCode))));
+            }
+        
+            async function displayIndexedDBTables(workerName = '', warehouseReceipt = '', batchCode = '') {
+                try {
+                    const db = await openIndexedDBConnection(dbName);
+                    const inHouseDryingData = await getObjectStoreData(db, 'In-House-Drying');
+                    const shelvesData = await getObjectStoreData(db, 'Shelves');
+                    const wShelvesData = await getObjectStoreData(db, 'W_Shelves');
+                    const mShelvesData = await getObjectStoreData(db, 'M_Shelves');
+        
+                    const inHouseDryingMap = inHouseDryingData.reduce((acc, item) => {
+                        acc[item.entryCheck] = { ...item, shelves: [], wShelves: [], mShelves: [] };
+                        return acc;
+                    }, {});
+        
+                    shelvesData.forEach(shelf => {
+                        if (inHouseDryingMap[shelf.entry]) {
+                            inHouseDryingMap[shelf.entry].shelves.push(shelf);
+                        }
+                    });
+        
+                    wShelvesData.forEach(shelf => {
+                        if (inHouseDryingMap[shelf.entry]) {
+                            inHouseDryingMap[shelf.entry].wShelves.push(shelf);
+                        }
+                    });
+        
+                    mShelvesData.forEach(shelf => {
+                        if (inHouseDryingMap[shelf.entry]) {
+                            inHouseDryingMap[shelf.entry].mShelves.push(shelf);
+                        }
+                    });
+        
+                    const filteredInHouseDryingData = Object.values(inHouseDryingMap).filter(item => matchesSearch(item, workerName, warehouseReceipt, batchCode) ||
+                        item.shelves.some(shelf => matchesSearch(shelf, workerName, warehouseReceipt, batchCode)) ||
+                        item.wShelves.some(shelf => matchesSearch(shelf, workerName, warehouseReceipt, batchCode)) ||
+                        item.mShelves.some(shelf => matchesSearch(shelf, workerName, warehouseReceipt, batchCode))
+                    );
+        
+                    displayData('In-House-Drying', filteredInHouseDryingData);
+        
+                    for (const modelName of modelNames) {
+                        if (!['In-House-Drying', 'Shelves', 'W_Shelves', 'M_Shelves'].includes(modelName)) {
+                            const data = await getObjectStoreData(db, modelName);
+                            const filteredData = data.filter(item => matchesSearch(item, workerName, warehouseReceipt, batchCode));
+                            displayData(modelName, filteredData);
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error displaying IndexedDB tables:', error);
+                }
+            }
+        
+            function performSearch() {
+                event.preventDefault();
+                const workerName = document.getElementById('workerNameSearch').value;
+                const warehouseReceipt = document.getElementById('warehouseReceiptSearch').value;
+                const batchCode = document.getElementById('batchCodeSearch').value;
+                document.getElementById('tables').innerHTML = '';
+                displayIndexedDBTables(workerName, warehouseReceipt, batchCode);
+            }
+        
+            displayIndexedDBTables();
+        </script>
+        
+        
+
+
+
+
+
+ -->
+
+
+
+    
+
+
+
+
+    
+    <script>
+
+        const deleteRequest = indexedDB.deleteDatabase('LandId');
+    
+        deleteRequest.onsuccess = function() {
+            console.log('IndexedDB cleared.');
+        };
+    
+        deleteRequest.onerror = function() {
+            console.error('Failed to clear IndexedDB.');
+        };
+
+
+        // Open the GCNA database
+        let openRequest = indexedDB.open("GCNA");
+
+        openRequest.onsuccess = function(event) {
+            let db = event.target.result;
+
+            // Open a transaction to read from the land-info store
+            let transaction = db.transaction("land-info", "readonly");
+            let landInfoStore = transaction.objectStore("land-info");
+
+            // Get all records from land-info store
+            let getAllRequest = landInfoStore.getAll();
+
+            getAllRequest.onsuccess = function(event) {
+                let landInfoRecords = event.target.result;
+
+                // Open the Check database
+                let openRequestCheck = indexedDB.open("Check");
+
+                openRequestCheck.onsuccess = function(event) {
+                    let dbCheck = event.target.result;
+
+                    // Open a transaction to read from the verify store
+                    let transactionCheck = dbCheck.transaction("verify", "readonly");
+                    let verifyStore = transactionCheck.objectStore("verify");
+
+                    // Get all records from verify store
+                    let getAllRequestCheck = verifyStore.getAll();
+
+                    getAllRequestCheck.onsuccess = function(event) {
+                        let verifyRecords = event.target.result;
+
+                        // Filter landInfoRecords based on Nutmeg_ID_No in verifyRecords
+                        let filteredLandInfoRecords = landInfoRecords.filter(landInfoRecord =>
+                            verifyRecords.some(verifyRecord => verifyRecord.Nutmeg_ID_No === landInfoRecord.Nutmeg_ID_No)
+                        );
+
+                        // Map filteredLandInfoRecords to include delete and edit buttons
+                        let landInfoDataDiv = document.getElementById('landInfoData');
+                        filteredLandInfoRecords.forEach(record => {
+                            let entryDiv = document.createElement("div");
+                            entryDiv.innerHTML = `
+                                <hr>
+                                <p>ID: ${record.id}</p>
+                                <p>Farm Type: ${record.farm_type}</p>
+                                <p>Tenureship Type: ${record.tenurship}</p>
+                                <p>Training: ${record.training}</p>
+                                <p>Visit: ${record.visit}</p>
+                                <p>Parish: ${record.parish}</p>
+                                <p>Village: ${record.village}</p>
+                                <p>Land_ID_No: ${record.Land_ID_N0}</p>
+                                <button class="btn btn-danger" onclick="deleteEntry(${record.id})">Delete</button>
+                                <button class="btn btn-primary" onclick="editEntry(${record.id})">Edit</button>
+                                <button class="btn btn-success" onclick="createNewDatabaseAndStoreLandId(${record.Land_ID_N0})">Continue</button>
+                                <br>  
+                                <hr> 
+                            `;
+                            landInfoDataDiv.appendChild(entryDiv);
+
+                            // Create an empty div to hold the edit form for this entry
+                            let editFormContainer = document.createElement("div");
+                            editFormContainer.id = `editFormContainer_${record.id}`;
+                            landInfoDataDiv.appendChild(editFormContainer);
+
+
+
+
+
+                        });
+                    };
+                };
+            };
+        };
+
+        // Function to delete a record based on ID
+        function deleteEntry(id) {
+            let db = indexedDB.open("GCNA");
+
+            db.onsuccess = function(event) {
+                let transaction = event.target.result.transaction("land-info", "readwrite");
+                let landInfoStore = transaction.objectStore("land-info");
+
+                let deleteRequest = landInfoStore.delete(id);
+
+                deleteRequest.onsuccess = function() {
+                    console.log(`Record with ID ${id} deleted.`);
+                    // You might want to refresh your display here.
+                };
+
+                deleteRequest.onerror = function() {
+                    console.log(`Failed to delete record with ID ${id}.`);
+                };
+            };
+
+            db.onerror = function() {
+                console.log("Failed to open database.");
+            };
+        }
+        function createNewDatabaseAndStoreLandId(landIdNo) {
+            let openRequest = indexedDB.open("LandId");
+            event.preventDefault();
+
+            openRequest.onupgradeneeded = function(event) {
+                let db = event.target.result;
+                let store = db.createObjectStore("land-ids", { keyPath: "id" });
+        
+                store.add({ id: 1, Land_ID_N0: landIdNo.toString() });
+            };
+        
+            openRequest.onsuccess = function(event) {
+                console.log('Database (LandId) created and Land ID No stored.');
+
+                window.location.href = '/table/';
+
+            };
+        
+            openRequest.onerror = function(event) {
+                console.error('Error creating database (LandId):', event.target.error);
+            }
+        }
+        
+
+            
+    // function editEntry(id) {
+    //     event.preventDefault(); // Prevent form submission and page reload
+
+    //     // Open the GCNA database
+    //     let openRequest = indexedDB.open("GCNA");
+
+    //     openRequest.onsuccess = function(event) {
+    //         let db = event.target.result;
+
+    //         // Open a new transaction to read from the land-info store
+    //         let transaction = db.transaction("land-info", "readwrite");
+    //         let landInfoStore = transaction.objectStore("land-info");
+
+    //         // Get the record with the specified ID
+    //         let getRequest = landInfoStore.get(id);
+
+    //         getRequest.onsuccess = function(event) {
+    //             let record = event.target.result;
+
+    //             // Generate the form fields dynamically based on the record properties
+    //             let formFieldsHTML = '';
+    //             for (let property in record) {
+    //                 if (record.hasOwnProperty(property) && property !== 'id') {
+    //                     // Customize the displayed name if specified
+    //                     let displayName = property;
+    //                     if (customNames.hasOwnProperty(property)) {
+    //                         displayName = customNames[property].name;
+    //                     }
+
+    //                     // Customize input type if specified
+    //                     let inputType = 'text';
+    //                     if (customNames.hasOwnProperty(property) && customNames[property].type) {
+    //                         inputType = customNames[property].type;
+    //                     }
+
+    //                     // Create the form field with form-control class and specified input type
+    //                     formFieldsHTML += `
+    //                         <label for="${property}">${displayName}:</label>`;
+    //                     if (inputType === 'Select') {
+    //                         formFieldsHTML += `
+    //                             <select id="${property}" name="${property}" class="form-control">`;
+    //                         for (let option of customNames[property].options) {
+    //                             formFieldsHTML += `<option value="${option}">${option}</option>`;
+    //                         }
+    //                         formFieldsHTML += `</select>`;
+    //                     } else {
+    //                         formFieldsHTML += `
+    //                             <input type="${inputType}" id="${property}" name="${property}" value="${record[property]}" class="form-control">`;
+    //                     }
+    //                     formFieldsHTML += `<br>`;
+    //                 }
+    //             }
+
+    //             // Create an edit form and populate it with the generated fields
+    //             const editFormContainer = document.getElementById('editFormContainer');
+    //             editFormContainer.innerHTML = `
+    //                 <form id="editForm">
+    //                     ${formFieldsHTML} 
+    //                     <button type="button" id="saveButton">Save</button>
+    //                     <button type="button" id="closeButton">Close</button>
+    //                 </form>
+    //             `;
+
+    //             // Add an event listener to the "Save" button to save changes
+    //             const saveButton = document.getElementById('saveButton');
+    //             saveButton.addEventListener('click', function() {
+    //                 // Open a new transaction to update the record
+    //                 let updateTransaction = db.transaction("land-info", "readwrite");
+    //                 let landInfoStoreToUpdate = updateTransaction.objectStore("land-info");
+
+    //                 // Update the record with the new data
+    //                 for (let property in record) {
+    //                     if (record.hasOwnProperty(property) && property !== 'id') {
+    //                         record[property] = document.getElementById(property).value;
+    //                     }
+    //                 }
+
+    //                 // Put the updated record back into the store
+    //                 let putRequest = landInfoStoreToUpdate.put(record);
+
+    //                 putRequest.onsuccess = function() {
+    //                     console.log('Record updated successfully');
+    //                 };
+
+    //                 putRequest.onerror = function(event) {
+    //                     console.error('Error updating record:', event.target.error);
+    //                 };
+
+    //                 // Complete the transaction
+    //                 updateTransaction.oncomplete = function() {
+    //                     console.log('Transaction completed');
+    //                     // You might want to refresh your display here.
+    //                 };
+    //             });
+
+    //             // Add an event listener to the "Close" button to hide the form
+    //             const closeButton = document.getElementById('closeButton');
+    //             closeButton.addEventListener('click', function() {
+    //                 editFormContainer.innerHTML = ''; // Clear the edit form
+    //             });
+    //         };
+
+    //         getRequest.onerror = function(event) {
+    //             console.error('Error getting record:', event.target.error);
+    //         };
+    //     };
+
+    //     openRequest.onerror = function(event) {
+    //         console.error('Error opening database:', event.target.error);
+    //     };
+    // }
+// Function to edit a record based on ID
+
+    function editEntry(id) {
+        event.preventDefault(); // Prevent form submission and page reload
+
+        // Check if an edit form is already present
+        const existingEditForm = document.getElementById('editFormContainer');
+        if (existingEditForm) {
+            // Clear the existing edit form
+            existingEditForm.innerHTML = '';
+        }
+
+        // Open the GCNA database
+        let openRequest = indexedDB.open("GCNA");
+
+        openRequest.onsuccess = function(event) {
+            let db = event.target.result;
+
+            // Open a new transaction to read from the land-info store
+            let transaction = db.transaction("land-info", "readwrite");
+            let landInfoStore = transaction.objectStore("land-info");
+
+            // Get the record with the specified ID
+            let getRequest = landInfoStore.get(id);
+
+            getRequest.onsuccess = function(event) {
+                let record = event.target.result;
+
+                // Generate the form fields dynamically based on the record properties
+                let formFieldsHTML = '';
+                for (let property in record) {
+                    if (record.hasOwnProperty(property) && property !== 'id') {
+                        // Customize the displayed name if specified
+                        let displayName = property;
+                        if (customNames.hasOwnProperty(property)) {
+                            displayName = customNames[property].name;
+                        }
+
+                        // Customize input type if specified
+                        let inputType = 'text';
+                        if (customNames.hasOwnProperty(property) && customNames[property].type) {
+                            inputType = customNames[property].type;
+                        }
+
+                        // Create the form field with form-control class and specified input type
+                        formFieldsHTML += `
+                            <label for="${property}">${displayName}:</label>`;
+                        if (inputType === 'Select') {
+                            formFieldsHTML += `
+                                <select id="${property}" name="${property}" class="form-control">`;
+                            for (let option of customNames[property].options) {
+                                formFieldsHTML += `<option value="${option}">${option}</option>`;
+                            }
+                            formFieldsHTML += `</select>`;
+                        } else {
+                            formFieldsHTML += `
+                                <input type="${inputType}" id="${property}" name="${property}" value="${record[property]}" class="form-control">`;
+                        }
+                        formFieldsHTML += `<br>`;
+                    }
+                }
+
+                // Create an edit form and populate it with the generated fields
+                const editFormContainer = document.getElementById('editFormContainer');
+                editFormContainer.innerHTML = `
+                <div style="position: relative;">
+    <button type="button" class="btn btn-primary" id="closeButton" style="position: absolute; top: 0; right: 0; background-color: red;">X</button>
+</div> <br>
+                    <form id="editForm">
+                        ${formFieldsHTML}
+                        <button type="button" id="saveButton">Save</button>
+                        <button type="button" id="closeButton">Close</button>
+                    </form>
+                `;
+
+                // Add an event listener to the "Save" button to save changes
+                const saveButton = document.getElementById('saveButton');
+                saveButton.addEventListener('click', function() {
+                    // Open a new transaction to update the record
+                    let updateTransaction = db.transaction("land-info", "readwrite");
+                    let landInfoStoreToUpdate = updateTransaction.objectStore("land-info");
+
+                    // Update the record with the new data
+                    for (let property in record) {
+                        if (record.hasOwnProperty(property) && property !== 'id') {
+                            record[property] = document.getElementById(property).value;
+                        }
+                    }
+
+                    // Put the updated record back into the store
+                    let putRequest = landInfoStoreToUpdate.put(record);
+
+                    putRequest.onsuccess = function() {
+                        console.log('Record updated successfully');
+                    };
+
+                    putRequest.onerror = function(event) {
+                        console.error('Error updating record:', event.target.error);
+                    };
+
+                    // Complete the transaction
+                    updateTransaction.oncomplete = function() {
+                        console.log('Transaction completed');
+                        // You might want to refresh your display here.
+                    };
+                });
+
+                // Add an event listener to the "Close" button to hide the form
+                const closeButton = document.getElementById('closeButton');
+                closeButton.addEventListener('click', function() {
+                    editFormContainer.innerHTML = ''; // Clear the edit form
+                });
+            };
+
+            getRequest.onerror = function(event) {
+                console.error('Error getting record:', event.target.error);
+            };
+        };
+
+        openRequest.onerror = function(event) {
+            console.error('Error opening database:', event.target.error);
+        };
+    }
+
+    // Custom names and types for form field display
+    const customNames = {
+        farm_type: { name: "Farm Type", type: "text" },
+        tenurship: { name: "Tenurship", type: "text" },
+        training: { name: "Training", type: "text" },
+        visit: { name: "Visit", type: "text" },
+        parish: { name: "Parish", type: "Select", options: ["St.Mark", "St.David", "St.George", "St.Patrick"] },
+        village: { name: "Village", type: "text" },
+        Land_ID_N0: { name: "Land_ID_N0", type: "NumberInput" },
+        Worker_ID_No:{ name: "Worker_ID_No", type: "NumberInput" },
+        Nutmeg_ID_No:{ name: "Nutmeg_ID_No", type: "NumberInput" },
+        latitude:{ name: "latitude", type: "NumberInput" },
+        longitude:{ name: "longitude", type: "NumberInput" },
+        acreage:{ name: "acreage", type: "NumberInput" },
+        insurance_zone:{ name: "insurance_zone", type: "NumberInput" },
+        land_elevation:{ name: "land_elevation", type: "NumberInput" },
+        soil_type:{ name: "soil_type", type: "NumberInput" },
+        rainfall_pattern:{ name: "rainfall_pattern", type: "NumberInput" },
+        Mature_trees_25_years_quantity:{ name: "Mature_trees_25_years_quantity", type: "NumberInput" },
+        Mature_trees_25_years_estimated_production:{ name: "Mature_trees_25_years_estimated_production", type: "NumberInput" },
+        Bearing_trees_16_24_years_quantity:{ name: "Bearing_trees_16_24_years_quantity", type: "NumberInput" },
+        Bearing_trees_16_24_years:{ name: "Bearing_trees_16_24_years", type: "NumberInput" },
+        Bearing_trees_6_15_years_quantity:{ name: "Bearing_trees_6_15_years_quantity", type: "NumberInput" },
+        Bearing_trees_6_15_years_estimated_production:{ name: "Bearing_trees_6_15_years_estimated_production", type: "NumberInput" },
+        Non_Bearing_trees_5_years_quantity:{ name: "Non_Bearing_trees_5_years_quantity", type: "NumberInput" },
+        Non_Bearing_trees_5_years_estimated_production:{ name: "Non_Bearing_trees_5_years_estimated_production", type: "NumberInput" },
+        Estimated_peak_period:{ name: "Estimated_peak_period", type: "NumberInput" },
+        End_Use_Atlantic_Tall:{ name: "End_Use_Atlantic_Tall", type: "NumberInput" },
+        End_Use_Dwarf:{ name: "End_Use_Dwarf", type: "NumberInput" },
+        No_of_Bearing_Trees_Atlantic_Tall:{ name: "No_of_Bearing_Trees_Atlantic_Tall", type: "NumberInput" },
+        No_of_Bearing_Trees_Dwarf:{ name: "No_of_Bearing_Trees_Dwarf", type: "NumberInput" },
+        Estimated_Productiom_Atlantic_Tall:{ name: "Estimated_Productiom_Atlantic_Tall", type: "NumberInput" },
+        Estimated_Productiom_Dwarf:{ name: "Estimated_Productiom_Dwarf", type: "NumberInput" },
+        No_of_Non_Bearing_Trees_Atlantic_Tall:{ name: "No_of_Non_Bearing_Trees_Atlantic_Tall", type: "NumberInput" },
+        No_of_Non_Bearing_Trees_Dwarf:{ name: "No_of_Non_Bearing_Trees_Dwarf", type: "NumberInput" },
+        Presence_of_Disease_Atlantic_Tall:{ name: "Presence_of_Disease_Atlantic_Tall", type: "NumberInput" },
+        Presence_of_Disease_Dwarf:{ name: "Presence_of_Disease_Dwarf", type: "NumberInput" },
+        Cultivation_Atlantic_Tall:{ name: "Cultivation Atlantic Tall", type: "NumberInput" },
+        Cultivation_Dwarf:{ name: "Cultivation Dwarf", type: "NumberInput" },
+
+
+
+
+    };
+
+
+
+
+        // Display the entry with the "Continue" button
+        
+        
+        
+        
+        
+//         // Function to edit a record based on ID
+// function editEntry(id) {
+//     event.preventDefault(); // Prevent form submission and page reload
+
+//     // Open the GCNA database
+//     let openRequest = indexedDB.open("GCNA");
+
+//     openRequest.onsuccess = function(event) {
+//         let db = event.target.result;
+
+//         // Open a new transaction to read from the land-info store
+//         let transaction = db.transaction("land-info", "readwrite");
+//         let landInfoStore = transaction.objectStore("land-info");
+
+//         // Get the record with the specified ID
+//         let getRequest = landInfoStore.get(id);
+
+//         getRequest.onsuccess = function(event) {
+//             let record = event.target.result;
+
+//             // Generate the form fields dynamically based on the record properties
+//             let formFieldsHTML = '';
+//             for (let property in record) {
+//                 if (record.hasOwnProperty(property) && property !== 'id') {
+//                     formFieldsHTML += `
+//                         <label for="${property}">${property}:</label>
+//                         <input type="text" id="${property}" name="${property}" value="${record[property]}"> <br>
+//                     `;
+//                 }
+//             }
+
+//             // Create an edit form and populate it with the generated fields
+//             const editFormContainer = document.getElementById('editFormContainer');
+//             editFormContainer.innerHTML = `
+//                 <form id="editForm">
+//                     ${formFieldsHTML}
+//                     <button type="button" id="saveButton">Save</button>
+//                     <button type="button" id="closeButton">Close</button>
+//                 </form>
+//             `;
+
+//             // Add an event listener to the "Save" button to save changes
+//             const saveButton = document.getElementById('saveButton');
+//             saveButton.addEventListener('click', function() {
+//                 // Open a new transaction to update the record
+//                 let updateTransaction = db.transaction("land-info", "readwrite");
+//                 let landInfoStoreToUpdate = updateTransaction.objectStore("land-info");
+
+//                 // Update the record with the new data
+//                 for (let property in record) {
+//                     if (record.hasOwnProperty(property) && property !== 'id') {
+//                         record[property] = document.getElementById(property).value;
+//                     }
+//                 }
+
+//                 // Put the updated record back into the store
+//                 let putRequest = landInfoStoreToUpdate.put(record);
+
+//                 putRequest.onsuccess = function() {
+//                     console.log('Record updated successfully');
+//                 };
+
+//                 putRequest.onerror = function(event) {
+//                     console.error('Error updating record:', event.target.error);
+//                 };
+
+//                 // Complete the transaction
+//                 updateTransaction.oncomplete = function() {
+//                     console.log('Transaction completed');
+//                     // You might want to refresh your display here.
+//                 };
+//             });
+
+//             // Add an event listener to the "Close" button to hide the form
+//             const closeButton = document.getElementById('closeButton');
+//             closeButton.addEventListener('click', function() {
+//                 editFormContainer.innerHTML = ''; // Clear the edit form
+//             });
+//         };
+
+//         getRequest.onerror = function(event) {
+//             console.error('Error getting record:', event.target.error);
+//         };
+//     };
+
+//     openRequest.onerror = function(event) {
+//         console.error('Error opening database:', event.target.error);
+//     };
+// }
+
+
+    </script>
+{% endblock %}

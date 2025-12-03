@@ -1,0 +1,65 @@
+{% extends 'gcna/base.html' %}
+
+{% block content%}
+
+	<h1>Database</h1>
+
+
+	<h3>Status Table</h3>
+
+{% for state in state_list %}
+
+<div class="card">
+  <div class="card-header">
+      
+  </div>
+  <div class="card-body">
+    <h5 class="card-title"><strong>Road Access: {{ state }}</strong>
+</h5>
+    <p class="card-text">
+	<ul>
+	<!-- <li>Road Access: {{ state.road_access }}</li> -->
+	<li>Land Slide: {{ state.land_slide }}</li>
+	<li>Flooding: {{ state.flooding }}</li>
+	<li>Heavy Metals: {{ state.heavy_metals }}</li>
+	<li>Chemical Spills: {{ state.chemical_spills }}</li>
+	<!-- <li>P: {{ statestatestate.chemical_spills }}</li> -->
+	<li>Dumping: {{ state.dumping }}</li>
+	<li>Feedlot: {{ state.feedlot }}</li>
+	<li>Pesticides: {{ state.pesticides }}</li>
+	<li>Septic Tanks: {{ state.septic_tanks }}</li>
+	<li>Manical(NAWASA): {{ state.manical }}</li>
+	<li>River: {{ state.phone }}</li>
+	<li>Spring: {{ state.age }}</li>
+	<li>Well: {{ state.river }}</li>
+	<li>Rain Harvested: {{ state.spring }}</li>
+	<li>Was the water treated?: {{ state.well }}</li>
+
+
+</ul></p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+</div>
+
+
+
+<!--     road_access = models.CharField(max_length=50, null=True)
+    land_slide = models.CharField(max_length=50, null=True)
+    flooding = models.CharField(max_length=50, null=True)
+    heavy_metals = models.CharField(max_length=50, null=True)
+    chemical_spills = models.CharField(max_length=50, null=True)
+    dumping = models.CharField(max_length=50, null=True)
+    feedlot = models.CharField(max_length=50, null=True)
+    pesticides = models.CharField(max_length=50, null=True)
+    septic_tanks = models.CharField(max_length=50, null=True)
+    manical = models.CharField(max_length=1, choices=WATER_SOURCE, default='P')
+    river = models.CharField(max_length=1, choices=WATER_SOURCE, default='P')
+    spring = models.CharField(max_length=1, choices=WATER_SOURCE, default='P')
+    well = models.CharField(max_length=1, choices=WATER_SOURCE, default='P')
+    harvested = models.CharField(max_length=1, choices=WATER_SOURCE, default='P')
+    treated = models.CharField(max_length=1, choices=TREATED_WATER, default='P')
+ -->
+{% endfor %}
+{% endblock %}
+
+

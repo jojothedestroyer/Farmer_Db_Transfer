@@ -1,0 +1,72 @@
+
+{% extends 'gcna/base2.html' %}
+
+
+{% block content%}
+
+
+<div class="card">
+ 
+  <div class="card-body">
+
+  </h5>
+    <p class="card-text">
+        <table id="vertical-1" class="table table-hover table-light">
+       
+
+
+  
+
+         <tr>
+
+            <th>Presence of land Slides</th>
+            <td>{{ farmer_info_id.Slides }}</td>
+        </tr>
+
+        <tr>
+            <th>Presence of Flooding</th>
+            <td>{{ farmer_info_id.Flooding }}</td>
+        </tr>
+
+        <tr>
+            <th>Presence of Heavy Metals</th>
+            <td>{{ farmer_info_id.Heavy_Metal }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Presence of Chemical Spillss</th>
+            <td>{{ farmer_info_id.Chemical_Spills }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Presence of trash Dumping</th>
+            <td>{{ farmer_info_id.Dumping_of_trash }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Presence of feedlots</th>
+            <td>{{ farmer_info_id.Feedlot }}</td>
+        </tr>  
+
+
+
+              <tr>
+            <th><a href="{% url 'table' %}" class="btn btn-secondary">Return</a></th>
+        </tr>
+    </table>
+                    </p>
+
+
+
+       
+ </div>        </div>
+
+<br>
+<br>
+<br>
+
+{% endblock %}
+

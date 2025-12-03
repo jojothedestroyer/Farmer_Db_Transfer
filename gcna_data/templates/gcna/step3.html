@@ -1,0 +1,12 @@
+<form method="POST" action="{% url 'submit' %}">
+    {% csrf_token %}
+    {{ form.age.errors }}
+    <label for="id_age">Age:</label>
+    {{ form.age }}
+    <br><br>
+    {{ form.occupation.errors }}
+    <label for="id_occupation">Occupation:</label>
+    {{ form.occupation }}
+    <br><br>
+    <button type="submit">Submit</button>
+</form>

@@ -1,0 +1,46 @@
+{% extends 'gcna/base.html' %}
+
+{% block content%}
+
+	<center>
+<br>
+	{% if submitted %}
+		Entry successfully added to database!!!
+	{% else %}
+		<form action="" method="POST" style=" background-color: #e4e4e4;
+
+    margin: 1px auto;
+    font-family: Raleway;
+    padding: 10px;
+    width: 55%;
+    min-width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">
+    <h1>Dispatched Green Nutmeg Form</h1>
+ 
+		{% csrf_token %}
+
+		{{ form.as_p }}
+
+        <tr>
+            <th><a href="{% url 'adhome' %}" class="btn btn-secondary">Return</a></th>
+        </tr>
+
+
+            <th><a type="submit" href="{% url 'add_Dispatch_Dried' %}" role="button" class="btn btn-primary">Previous</a></th>		
+		<input type="submit" name="" value="submit" class="btn btn-success">
+		
+
+            <th><a type="submit" href="{% url 'add_Cracking' %}" role="button" class="btn btn-primary">Next</a></th> 
+
+
+
+ 
+		</form>
+
+	{% endif %}
+
+	</center>
+{{ form.media }}
+
+{% endblock %}

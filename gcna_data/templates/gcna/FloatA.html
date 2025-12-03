@@ -1,0 +1,398 @@
+{% extends 'gcna/base2.html' %}
+
+{% block content%}
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: center;
+            padding: 8px;
+        }
+
+        .main-header {
+            text-align: center;
+            font-size: 24px;
+        }
+
+        .sub-header {
+            font-size: 18px;
+        }
+    </style>
+	<center>
+<br>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var myForm = document.getElementById('myForm');
+    
+        myForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            var data = new FormData(event.target);
+            saveDataToIndexedDB(data);
+        });
+    
+        function saveDataToIndexedDB(data) {
+            // Exclude csrfmiddlewaretoken from being saved to IndexedDB
+            data.delete('csrfmiddlewaretoken');
+
+            var request = indexedDB.open('GCNA', 2);
+
+            request.onsuccess = function(event) {
+                var db = event.target.result;
+                var transaction = db.transaction('FloatA', 'readwrite');
+                var objectStore = transaction.objectStore('FloatA');
+
+                var obj = {};
+                for (var pair of data.entries()) {
+                    obj[pair[0]] = pair[1];
+                }
+
+                // Get the highest id in the object store
+                var highestIdRequest = objectStore.openCursor(null, 'prev');
+                highestIdRequest.onsuccess = function(event) {
+                    var cursor = event.target.result;
+                    if (cursor) {
+                        obj.id = cursor.key + 1;
+                    } else {
+                        obj.id = 1; // This is the first item
+                    }
+
+                    var request = objectStore.put(obj);
+
+                    request.onsuccess = function() {
+                        console.log('Data added to IndexedDB');
+                        transferIndexedDBData(); // Transfer data to Django after saving to IndexedDB
+                    };
+
+                    request.onerror = function() {
+                        console.error('Error adding data to IndexedDB');
+                    };
+                };
+            };
+
+            request.onerror = function(event) {
+                console.error('Error opening IndexedDB', event);
+            };
+        }
+        
+        function transferIndexedDBData() {
+            var request = indexedDB.open('GCNA', 2);
+        
+            request.onsuccess = function(event) {
+                var db = event.target.result;
+                var transaction = db.transaction('FloatA', 'readonly');
+                var objectStore = transaction.objectStore('FloatA');
+                var getRequest = objectStore.getAll();
+        
+                getRequest.onsuccess = function(event) {
+                    var data = event.target.result;
+                    data.forEach(function(item) {
+                        // sendDataToDjango(item);
+                    });
+                    window.location.reload();
+                };
+            };
+        
+            request.onerror = function(event) {
+                console.error('Error opening IndexedDB', event);
+            };
+        }
+    
+        function sendDataToDjango(item) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/check-and-add/', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        console.log('Entry added successfully.');
+                    } else {
+                        console.error('Error adding entry:', xhr.statusText);
+                    }
+                }
+            };
+            xhr.send(JSON.stringify(item));
+        }
+    });
+</script>
+<!--   
+<script>
+    var request = indexedDB.open('Signin', 1);
+   
+    request.onsuccess = function(event) {
+        var db = event.target.result;
+        var transaction = db.transaction('verify', 'readonly');
+        var store = transaction.objectStore('verify');
+        var getRequest = store.get(1); // Assuming you want to get the first entry
+   
+        getRequest.onsuccess = function(event) {
+            var data = event.target.result;
+            if (data) {
+                // Set the values in the form
+                document.querySelector('[name="Worker_ID_No"]').value = data.Worker_ID_No;
+                document.querySelector('[name="Worker_ID_Name"]').value = data.Name;
+            }
+        };
+    };
+</script> -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    function calculateAverage() {
+        const r1 = parseFloat(document.querySelector('[name="reading_1"]').value) || 0;
+        const r2 = parseFloat(document.querySelector('[name="reading_2"]').value) || 0;
+        const r3 = parseFloat(document.querySelector('[name="reading_3"]').value) || 0;
+
+        const avg = ((r1 + r2 + r3) / 3).toFixed(2);
+        document.querySelector('[name="average_reading"]').value = avg;
+    }
+
+    function calculateFinalSampleWeight() {
+        const initial = parseFloat(document.querySelector('[name="initial_sample_weight"]').value) || 0;
+        const insect = parseFloat(document.querySelector('[name="insect_damaged"]').value) || 0;
+        const broken = parseFloat(document.querySelector('[name="broken"]').value) || 0;
+        const mould = parseFloat(document.querySelector('[name="mould"]').value) || 0;
+
+        const finalWeight = (initial - (insect + broken + mould)).toFixed(2);
+        document.querySelector('[name="final_sample_weight"]').value = finalWeight;
+    }
+
+    // Add event listeners for average reading
+    ['reading_1', 'reading_2', 'reading_3'].forEach(name => {
+        document.querySelector(`[name="${name}"]`).addEventListener('input', calculateAverage);
+    });
+
+    // Add event listeners for final sample weight
+    ['initial_sample_weight', 'insect_damaged', 'broken', 'mould'].forEach(name => {
+        document.querySelector(`[name="${name}"]`).addEventListener('input', calculateFinalSampleWeight);
+    });
+});
+</script>
+
+	{% if submitted %}
+		Entry successfully added to database!!!
+	{% else %}
+		<form action="" method="POST"  id="myForm" enctype="multipart/form-data" style=" background-color: #e4e4e4;
+    margin: 1px auto;
+    font-family: Raleway;
+    padding: 10px;
+    width: 95%;
+    min-width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">
+
+    <div class="card">
+        <div class="card-body">
+            <table id="vertical-1" class="table table-hover table-light">
+                <h6>Document No. GCNA-R-02</h6>
+                <h6>Document Title: Moisture Analysis in Floated Nutmeg</h6>
+                <h6>Date Issued: 2023-07-03</h6>
+                <h6>Version: 1</h6>
+                <h5>Section A</h5>
+                <h4>Moisture Analysis in Floated Nutmeg</h4>
+
+                {% csrf_token %}
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="text-align:center;">DATE OF SAMPLING</th> 
+                            <th scope="col" style="text-align:center;">
+                                <input type="date" name="date_of_sampling" class="form-control">
+                            </th>
+                            <th scope="col" style="text-align:center;">Station</th> 
+                            <th scope="col" style="text-align:center;">
+                                <select name="station" class="form-control">
+                                    <option value="">--Select Location--</option>
+                                    <option value="G">Grenville</option>
+                                    <option value="H">Hermitage</option>
+                                    <option value="M">Marli</option>
+                                    <option value="U">Union</option>
+                                    <option value="GP">Gouyave</option>
+                                </select>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <input type="text" name="Worker_ID_No" class="form-control" hidden>
+                        <input type="text" name="Worker_ID_Name" class="form-control" hidden>
+                    </tbody>
+                </table>
+
+                <br>
+
+                <table id="vertical-1" class="table table-hover table-light">
+                    <tr>
+                        <th>Sample Tested</th>
+                        <td>
+                            <select name="sample_tested" class="form-control">
+                                <option value="Heavies">Heavies</option>
+                                <option value="Lights">Lights</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+
+                <table id="vertical-1" class="table table-hover table-light">
+                    <tr>
+                        <th>Batch Code</th>
+                        <td><input type="text" name="batch_code" class="form-control"></td>
+                    </tr>
+                </table>
+
+                <br>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="text-align:center;">Quantity of Sample</th> 
+                            <th scope="col" style="text-align:center;">
+                                <input type="number" name="quantity_of_sample" class="form-control">
+                            </th> 
+                        </tr>
+                    </thead>
+                </table>
+
+                <table>
+                    <tr>
+                        <td>Total Weight(lbs)</td>
+                        <td scope="col" style="text-align:center; width: 100px">
+                            <input type="text" name="total_weight" class="form-control">
+                        </td>
+                        <td>Initial Sample Weight(lbs)</td>
+                        <td scope="col" style="text-align:center; width: 100px">
+                            <input type="text" name="initial_sample_weight" class="form-control">
+                        </td>
+                    </tr>
+                </table>
+
+                <br><br><br>
+
+                <table>
+                    <tr>
+                        <th colspan="6" class="main-header">Weight (oz/lbs)</th>
+                    </tr>
+                    <tr>
+                        <td scope="col" colspan="2" style="text-align:center; width: 100px">Insect Damaged</td>
+                        <td scope="col" colspan="2" style="text-align:center; width: 100px">Broken</td>
+                        <td scope="col" colspan="2" style="text-align:center; width: 100px">Mould</td>
+                    </tr>
+                    <tr>
+                        <td scope="col" colspan="2" style="text-align:center; width: 100px">
+                            <input type="number" name="insect_damaged" class="form-control">
+                        </td>
+                        <td scope="col" colspan="2" style="text-align:center; width: 100px">
+                            <input type="number" name="broken" class="form-control">
+                        </td>
+                        <td scope="col" colspan="2" style="text-align:center; width: 100px">
+                            <input type="number" name="mould" class="form-control">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td scope="col" colspan="2" style="text-align:center; width: 100px">Final Sample Weight</td>
+                        <td colspan="4" style="text-align:center; width: 100px">
+                            <input type="number" name="final_sample_weight" class="form-control">
+                        </td>
+                    </tr>
+                </table>
+
+                <br><br><br>
+
+                <table>
+                    <tr>
+                        <th colspan="8" class="main-header">MOISTURE CONTENT RESULTS (%)</th>
+                    </tr>
+                    <tr>
+                        <th colspan="4" style="text-align:center;">CRITERIA</th> 
+                        <th colspan="4" style="text-align:center;"><10%(CODEX) <7% (GCNA)</th>
+                    </tr>
+                    <tr>
+                        <th scope="col" colspan="2" style="text-align:center; width: 100px">READING 1</th>
+                        <th scope="col" colspan="2" style="text-align:center; width: 100px">READING 2</th>
+                        <th scope="col" colspan="2" style="text-align:center; width: 100px">READING 3</th>
+                        <th scope="col" colspan="2" style="text-align:center; width: 100px">Average</th>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align:center;">
+                            <input type="number" step="0.01" name="reading_1" class="form-control">
+                        </td>
+                        <td colspan="2" style="text-align:center;">
+                            <input type="number" step="0.01" name="reading_2" class="form-control">
+                        </td>
+                        <td colspan="2" style="text-align:center;">
+                            <input type="number" step="0.01" name="reading_3" class="form-control">
+                        </td>
+                        <td colspan="2" style="text-align:center;">
+                            <input type="number" step="0.01" name="average_reading" class="form-control" readonly>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th colspan="4" style="text-align:center;">DECISION (Pass/Fail)</th> 
+                        <th colspan="4" style="text-align:center;">
+                            <select name="decision" class="form-control">
+                                <option value="Pass">Pass</option>
+                                <option value="Fail">Fail</option>
+                            </select>
+                        </th> 
+                    </tr>
+                </table>
+
+                <table>
+                    <tr>
+                        <th colspan="4" style="text-align:center;">Comments</th> 
+                        <th colspan="4" style="text-align:center;">
+                            <textarea name="comments" class="form-control" rows="3"></textarea>
+                        </th> 
+                    </tr>
+                    <tr>
+                        <th scope="col" colspan="2" style="text-align:center; width: 100px">Test Performed by</th>
+                        <th scope="col" colspan="2" style="text-align:center; width: 100px">
+                            <input type="text" name="test_performed_by" class="form-control">
+                        </th>
+                        <th scope="col" colspan="2" style="text-align:center; width: 100px">Date</th>
+                        <th scope="col" colspan="2" style="text-align:center; width: 100px">
+                            <input type="date" name="test_date" class="form-control">
+                        </th>
+                    </tr>
+                    <tr>
+                        <th scope="col" colspan="2" style="text-align:center; width: 100px">Signed By: Station Manager/Foreman</th>
+                        <th scope="col" colspan="2" style="text-align:center; width: 100px">
+                            <input type="text" name="signed_by_manager" class="form-control">
+                        </th>
+                        <th scope="col" colspan="2" style="text-align:center; width: 100px">Date OF REPORT</th>
+                        <th scope="col" colspan="2" style="text-align:center; width: 100px">
+                            <input type="date" name="report_date" class="form-control">
+                        </th>
+                    </tr>
+                    <tr>
+                        <th scope="col" style="text-align:center; width: 100px">SIGNED BY Quality Assurance Officer</th>
+                        <th colspan="2" style="text-align:center; width: 100px">
+                            <input type="text" name="signed_by_qa_officer" class="form-control">
+                        </th>
+                        <th></th>
+                        <th></th>
+                        <th scope="col" style="text-align:center; width: 100px">Date</th>
+                        <th colspan="2" style="text-align:center; width: 100px">
+                            <input type="date" name="qa_date" class="form-control">
+                        </th>
+                    </tr>
+                </table>
+
+                <input type="submit" name="" value="✔" class="btn btn-success btn-circle btn-xl">
+                <br><br>
+
+                <tr>
+                    <th><a href="{% url 'table001' %}" class="btn btn-secondary">Exit</a></th>
+                    <th><a type="submit" href="{% url 'database8' %}" role="button" class="btn btn-primary">Previous</a></th>
+                    <th><a type="submit" href="{% url 'database12' %}" role="button" class="btn btn-primary">Next</a></th>
+                </tr>		
+            </table>
+        </div>
+    </div>
+</form>
+{% endif %}
+</center>
+{{ form3.media }}
+{% endblock %}

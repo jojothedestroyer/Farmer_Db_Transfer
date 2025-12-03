@@ -1,0 +1,55 @@
+
+{% extends 'gcna/base2.html' %}
+
+
+{% block content%}
+
+
+<div class="card">
+ 
+  <div class="card-body">
+
+  </h5>
+    <p class="card-text">
+        <table id="vertical-1" class="table table-hover table-light">
+       
+
+
+
+        <tr>
+            <th>Estimated Annual Production</th>
+            <td>{{ farmer_info_id.estimated_annual_production }}</td>
+        </tr>
+
+
+         <tr>
+
+            <th>Estimated Peak Production</th>
+            <td>{{ farmer_info_id.estimated_peak_productions }}</td>
+        </tr>
+        <tr>
+            <th>Inspected by</th>
+            <td>{{ farmer_info_id.inspected_by }}</td>
+        </tr>
+        <tr>
+            <th>Date</th>
+            <td>{{ farmer_info_id.date }}</td>
+        </tr>
+
+              <tr>
+            <th><a href="{% url 'table' %}" class="btn btn-secondary">Return</a></th>
+        </tr>
+    </table>
+                    </p>
+
+
+
+       
+ </div>        </div>
+
+<br>
+<br>
+<br>
+
+{% endblock %}
+

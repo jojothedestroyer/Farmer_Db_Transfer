@@ -1,0 +1,119 @@
+
+{% extends 'gcna/base2.html' %}
+
+
+{% block content%}
+
+
+<div class="card">
+ 
+  <div class="card-body">
+
+  </h5>
+    <p class="card-text">
+        <table id="vertical-1" class="table table-hover table-light">
+       
+
+
+         <tr>
+
+            <th>End Use of Atlantic tall</th>
+            <td>{{ farmer_info_id.End_Use_Atlantic_Tall }}</td>
+        </tr>
+
+        
+        <tr>
+            <th>End Use of Dwarf</th>
+            <td>{{ farmer_info_id.End_Use_Dwarf }}</td>
+        </tr>
+
+        <tr>
+            <th>Number of Bearing Atlantic Tall Trees </th>
+            <td>{{ farmer_info_id.No_of_Bearing_Trees_Atlantic_Tall }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Number of Bearing Dwarf Trees </th>
+            <td>{{ farmer_info_id.No_of_Bearing_Trees_Dwarf }}</td>
+        </tr>
+
+
+
+
+
+        <tr>
+            <th>Estimated production of the Atlantic Tall Trees </th>
+            <td>{{ farmer_info_id.Estimated_Productiom_Atlantic_Tall }}</td>
+        </tr>
+
+
+
+
+
+        <tr>
+            <th>Estimated production of the Dwarf Trees</th>
+            <td>{{ farmer_info_id.Estimated_Productiom_Dwarf }}</td>
+        </tr>  
+
+
+        <tr>
+            <th>Estimated number of non Bearing Atlantic Tall Trees</th>
+            <td>{{ farmer_info_id.No_of_Non_Bearing_Trees_Atlantic_Tall }}</td>
+        </tr>  
+
+
+        <tr>
+            <th>Estimated number of non Bearing Dwarf Trees</th>
+            <td>{{ farmer_info_id.No_of_Non_Bearing_Trees_Dwarf }}</td>
+        </tr>  
+
+
+        <tr>
+            <th>Presence of Disease in Atlantic Tall Trees</th>
+            <td>{{ farmer_info_id.Presence_of_Disease_Atlantic_Tall }}</td>
+        </tr>
+
+
+
+
+        <tr>
+            <th>Presence of Disease in Dwarf Trees</th>
+            <td>{{ farmer_info_id.Presence_of_Disease_Dwarf }}</td>
+        </tr> 
+
+
+
+
+        <tr>
+            <th>Cultivation of Atlantic Tall Trees</th>
+            <td>{{ farmer_info_id.Cultivation_Atlantic_Tall }}</td>
+        </tr> 
+
+
+
+
+        <tr>
+            <th>Cultivation of Dwarf Trees</th>
+            <td>{{ farmer_info_id.Cultivation_Dwarf }}</td>
+        </tr> 
+
+
+
+              <tr>
+            <th><a href="{% url 'table' %}" class="btn btn-secondary">Return</a></th>
+        </tr>
+    </table>
+                    </p>
+
+
+
+       
+ </div>        </div>
+
+<br>
+<br>
+<br>
+
+{% endblock %}
+

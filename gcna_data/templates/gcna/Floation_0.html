@@ -1,0 +1,3001 @@
+{% extends 'gcna/base2.html' %}
+
+{% block content%}
+
+
+
+
+
+
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+<script>
+$(document).ready(function() {
+  $('.hidden-label1').hide();
+  $('.hidden-label2').hide();
+  $('.hidden-label3').hide();
+  $('.hidden-label4').hide();
+  $('.hidden-label5').hide();
+
+
+
+
+
+  $('#LoTableG1_0').hide(); 
+  $('#LoTableG2_0').hide(); 
+  $('#LoTableG3_0').hide(); 
+  $('#LoTableG4_0').hide(); 
+
+
+
+
+  $('#LoTableH1_0').hide(); 
+  $('#LoTableH2_0').hide(); 
+  $('#LoTableH3_0').hide(); 
+  $('#LoTableH4_0').hide(); 
+
+  $('#LoTableM1_0').hide(); 
+  $('#LoTableM2_0').hide(); 
+  $('#LoTableM3_0').hide(); 
+  $('#LoTableM4_0').hide(); 
+
+
+  $('#LoTableU1_0').hide(); 
+  $('#LoTableU2_0').hide(); 
+  $('#LoTableU3_0').hide(); 
+  $('#LoTableU4_0').hide(); 
+
+
+  $('#LoTableGP1_0').hide(); 
+  $('#LoTableGP2_0').hide(); 
+  $('#LoTableGP3_0').hide(); 
+  $('#LoTableGP4_0').hide(); 
+
+
+
+
+
+
+
+  $('#LoTableG1').hide(); 
+  $('#LoTableG2').hide(); 
+  $('#LoTableG3').hide(); 
+  $('#LoTableG4').hide(); 
+
+
+
+
+  $('#LoTableH1').hide(); 
+  $('#LoTableH2').hide(); 
+  $('#LoTableH3').hide(); 
+  $('#LoTableH4').hide(); 
+
+  $('#LoTableM1').hide(); 
+  $('#LoTableM2').hide(); 
+  $('#LoTableM3').hide(); 
+  $('#LoTableM4').hide(); 
+
+
+  $('#LoTableU1').hide(); 
+  $('#LoTableU2').hide(); 
+  $('#LoTableU3').hide(); 
+  $('#LoTableU4').hide(); 
+
+
+  $('#LoTableGP1').hide(); 
+  $('#LoTableGP2').hide(); 
+  $('#LoTableGP3').hide(); 
+  $('#LoTableGP4').hide(); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  $('#TableG1').hide(); 
+  $('#TableG2').hide(); 
+  $('#TableG3').hide(); 
+
+
+
+
+  $('#TableH1').hide(); 
+  $('#TableH2').hide(); 
+  $('#TableH3').hide(); 
+
+  $('#TableM1').hide(); 
+  $('#TableM2').hide(); 
+  $('#TableM3').hide(); 
+
+
+  $('#TableU1').hide(); 
+  $('#TableU2').hide(); 
+  $('#TableU3').hide(); 
+
+
+  $('#TableGP1').hide(); 
+  $('#TableGP2').hide(); 
+  $('#TableGP3').hide(); 
+
+
+    
+    
+    
+
+
+  
+  $('#id_STATION').on('change', function() {
+    if ($(this).val() == 'G') {
+        $('#LoTableG1').show();
+        $('#LoTableG2').show(); 
+        $('#LoTableG3').show(); 
+        $('#LoTableG4').show(); 
+
+        $('#LoTableG1_0').show();
+        $('#LoTableG2_0').show(); 
+        $('#LoTableG3_0').show(); 
+        $('#LoTableG4_0').show(); 
+       
+        $('.hidden-label1').show();
+
+
+        $('#TableG1').show(); 
+        $('#TableG2').show(); 
+        $('#TableG3').show(); 
+        $('#id_STATION2').val("Grenville");
+
+
+
+    } else {
+        $('#LoTableG1').hide();
+        $('#LoTableG2').hide(); 
+        $('#LoTableG3').hide(); 
+        $('#LoTableG4').hide()
+
+        $('#LoTableG1_0').hide();
+        $('#LoTableG2_0').hide(); 
+        $('#LoTableG3_0').hide(); 
+        $('#LoTableG4_0').hide(); 
+        $('.hidden-label1').hide();
+
+
+
+        $('#TableG1').hide(); 
+        $('#TableG2').hide(); 
+        $('#TableG3').hide(); 
+
+
+
+    }
+
+
+
+  
+
+
+
+    if ($(this).val() == 'H') {
+        $('#LoTableH1').show();
+        $('#LoTableH2').show(); 
+        $('#LoTableH3').show(); 
+        $('#LoTableH4').show(); 
+
+
+        $('#LoTableH1_0').show();
+        $('#LoTableH2_0').show(); 
+        $('#LoTableH3_0').show(); 
+        $('#LoTableH4_0').show(); 
+
+        $('.hidden-label2').show();
+
+
+
+        $('#TableH1').show();
+        $('#TableH2').show(); 
+        $('#TableH3').show(); 
+        $('#id_STATION2').val("Hermitage");
+
+
+    } else {
+        $('#LoTableH1').hide();
+        $('#LoTableH2').hide(); 
+        $('#LoTableH3').hide(); 
+        $('#LoTableH4').hide();
+
+
+        $('#LoTableH1_0').hide();
+        $('#LoTableH2_0').hide(); 
+        $('#LoTableH3_0').hide(); 
+        $('#LoTableH4_0').hide();
+        $('.hidden-label2').hide();
+
+
+
+
+        $('#TableH1').hide();
+        $('#TableH2').hide(); 
+        $('#TableH3').hide(); 
+    }
+
+
+
+  
+    if ($(this).val() == 'M') {
+        $('#LoTableM1').show();
+        $('#LoTableM2').show(); 
+        $('#LoTableM3').show(); 
+        $('#LoTableM4').show(); 
+
+        $('#LoTableM1_0').show();
+        $('#LoTableM2_0').show(); 
+        $('#LoTableM3_0').show(); 
+        $('#LoTableM4_0').show(); 
+
+        $('.hidden-label3').show();
+
+        $('#id_STATION2').val("Marli");
+
+        $('#TableM1').show();
+        $('#TableM2').show(); 
+        $('#TableM3').show(); 
+
+    } else {
+        $('#LoTableM1').hide();
+        $('#LoTableM2').hide(); 
+        $('#LoTableM3').hide(); 
+        $('#LoTableM4').hide(); 
+
+
+        $('#LoTableM1_0').hide();
+        $('#LoTableM2_0').hide(); 
+        $('#LoTableM3_0').hide(); 
+        $('#LoTableM4_0').hide();
+
+        $('.hidden-label3').hide();
+
+   
+
+        $('#TableM1').hide();
+        $('#TableM2').hide(); 
+        $('#TableM3').hide(); 
+
+
+    }
+
+
+
+    if ($(this).val() == 'U') {
+        $('#LoTableU1').show();
+        $('#LoTableU2').show(); 
+        $('#LoTableU3').show(); 
+        $('#LoTableU4').show(); 
+
+
+        $('#LoTableU1_0').show();
+        $('#LoTableU2_0').show(); 
+        $('#LoTableU3_0').show(); 
+        $('#LoTableU4_0').show(); 
+
+
+        $('.hidden-label4').show();
+
+        $('#id_STATION2').val("Union");
+        $('#TableU1').show();
+        $('#TableU2').show(); 
+        $('#TableU3').show(); 
+
+    } else {
+        $('#LoTableU1').hide();
+        $('#LoTableU2').hide(); 
+        $('#LoTableU3').hide(); 
+        $('#LoTableU4').hide();
+
+
+        $('#LoTableU1_0').hide();
+        $('#LoTableU2_0').hide(); 
+        $('#LoTableU3_0').hide(); 
+        $('#LoTableU4_0').hide();
+
+        $('.hidden-label4').hide();
+
+        $('#TableU1').hide();
+        $('#TableU2').hide(); 
+        $('#TableU3').hide();
+
+    }
+
+
+
+  
+
+
+    if ($(this).val() == 'GP') {
+        $('#LoTableGP1').show();
+        $('#LoTableGP2').show(); 
+        $('#LoTableGP3').show(); 
+        $('#LoTableGP4').show(); 
+
+
+        $('#LoTableGP1_0').show();
+        $('#LoTableGP2_0').show(); 
+        $('#LoTableGP3_0').show(); 
+        $('#LoTableGP4_0').show(); 
+
+
+        $('#id_STATION2').val("Gouyave");
+        $('.hidden-label5').show();
+
+
+
+
+        $('#TableGP1').show();
+        $('#TableGP2').show(); 
+        $('#TableGP3').show(); 
+
+    } else {
+        $('#LoTableGP1').hide();
+        $('#LoTableGP2').hide(); 
+        $('#LoTableGP3').hide(); 
+        $('#LoTableGP4').hide();
+
+
+
+        $('#LoTableGP1_0').hide();
+        $('#LoTableGP2_0').hide(); 
+        $('#LoTableGP3_0').hide(); 
+        $('#LoTableGP4_0').hide();
+
+        $('.hidden-label5').hide();
+ 
+
+
+        $('#TableGP1').hide();
+        $('#TableGP2').hide(); 
+        $('#TableGP3').hide(); 
+
+ 
+    }
+
+
+
+
+  
+
+
+  
+
+});
+
+
+
+  $('#id_START_DRYING_DATE').on('change', function() {
+    var startDate = new Date($(this).val());
+    var approxEndDate = new Date(startDate.getTime() + (4 * 24 * 60 * 60 * 1000)); 
+
+    var day = ("0" + approxEndDate.getDate()).slice(-2); 
+
+    var month = ("0" + (approxEndDate.getMonth() + 1)).slice(-2);
+
+    var year = approxEndDate.getFullYear();
+
+    var formattedDate = year + "-" + month + "-" + day;
+
+    $('#id_APPROX_END_DRYING_DATE').val(formattedDate);
+      });
+
+  $('#id_NUM_OF_BAGS').on('change', function() {
+    var start =  $('#id_NUM_OF_BAGS').val();
+    var calc = start * 110; 
+    $('#id_TOTAL_LBS_NUTMEG_BOUGHT').val(calc);
+      });
+
+
+});
+
+
+
+
+
+
+
+
+
+</script>
+
+<style>
+  .add-row, .submit_contents {
+      padding: 5px 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      background-color: #007bff;
+      color: white;
+      font-size: 14px; /* Ensure button text is readable */
+  }
+
+  .add-row:hover, .submit_contents:hover {
+      background-color: #0056b3;
+  }
+
+
+
+  
+  .addrow, .submit_contents {
+      padding: 5px 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      background-color: #007bff;
+      color: white;
+      font-size: 14px; /* Ensure button text is readable */
+  }
+
+  .addrow:hover, .submit_contents:hover {
+      background-color: #0056b3;
+  }</style>
+
+
+<!-- 
+ <script>
+  document.addEventListener('DOMContentLoaded', function() {
+      var myForm = document.getElementById('myForm');
+  
+      myForm.addEventListener('submit', function(event) {
+
+          event.preventDefault();
+          var data = new FormData(event.target);
+          saveDataToIndexedDB(data);
+      });
+  
+      function saveDataToIndexedDB(data) {
+  // Exclude csrfmiddlewaretoken from being saved to IndexedDB
+  data.delete('csrfmiddlewaretoken');
+
+  var request = indexedDB.open('GCNA', 2);
+
+  request.onsuccess = function(event) {
+      var db = event.target.result;
+      var transaction = db.transaction('Floation-Summary', 'readwrite');
+      var objectStore = transaction.objectStore('Floation-Summary');
+
+      var obj = {};
+      for (var pair of data.entries()) {
+          obj[pair[0]] = pair[1];
+      }
+
+      // Get the highest id in the object store
+      var highestIdRequest = objectStore.openCursor(null, 'prev');
+      highestIdRequest.onsuccess = function(event) {
+          var cursor = event.target.result;
+          if (cursor) {
+              obj.id = cursor.key + 1;
+          } else {
+              obj.id = 1; // This is the first item
+          }
+
+          var request = objectStore.put(obj);
+
+          request.onsuccess = function() {
+              console.log('Data added to IndexedDB');
+              transferIndexedDBData(); // Transfer data to Django after saving to IndexedDB
+          };
+
+          request.onerror = function() {
+              console.error('Error adding data to IndexedDB');
+          };
+      };
+  };
+
+  request.onerror = function(event) {
+      console.error('Error opening IndexedDB', event);
+  };
+}
+      function transferIndexedDBData() {
+          var request = indexedDB.open('GCNA', 2);
+      
+          request.onsuccess = function(event) {
+              var db = event.target.result;
+              var transaction = db.transaction('Floation-Summary', 'readonly');
+              var objectStore = transaction.objectStore('Floation-Summary');
+              var getRequest = objectStore.getAll();
+      
+              getRequest.onsuccess = function(event) {
+                  var data = event.target.result;
+                  data.forEach(function(item) {
+                        // sendDataToDjango(item);
+                      });
+                    window.location.reload();
+
+              };
+          };
+      
+          request.onerror = function(event) {
+              console.error('Error opening IndexedDB', event);
+          };
+      }
+  
+      function sendDataToDjango(item) {
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', '/check-and-add/', true);
+          xhr.setRequestHeader('Content-Type', 'application/json');
+          xhr.onreadystatechange = function() {
+              if (xhr.readyState === XMLHttpRequest.DONE) {
+                  if (xhr.status === 200) {
+                      console.log('Entry added successfully.');
+                  } else {
+                      console.error('Error adding entry:', xhr.statusText);
+                  }
+              }
+          };
+          xhr.send(JSON.stringify(item));
+      }
+  });
+</script>
+ -->
+
+
+<!-- <script>
+  document.addEventListener('DOMContentLoaded', function() {
+      var myForm = document.getElementById('myForm');
+  
+      myForm.addEventListener('submit', function(event) {
+          event.preventDefault();
+          var data = new FormData(event.target);
+          saveDataToIndexedDB(data);
+      });
+  
+      function saveDataToIndexedDB(data) {
+          // Exclude csrfmiddlewaretoken from being saved to IndexedDB
+          data.delete('csrfmiddlewaretoken');
+
+          var request = indexedDB.open('GCNA', 2);
+
+          request.onsuccess = function(event) {
+              var db = event.target.result;
+              var transaction = db.transaction(['Floation-Summary', 'M_Shelves'], 'readwrite');
+              var objectStore = transaction.objectStore('Floation-Summary');
+              var shelvesStore = transaction.objectStore('M_Shelves');
+
+              var obj = {};
+              for (var pair of data.entries()) {
+                  obj[pair[0]] = pair[1];
+              }
+
+              // Get the highest id in the object store
+              var highestIdRequest = objectStore.openCursor(null, 'prev');
+              highestIdRequest.onsuccess = function(event) {
+                  var cursor = event.target.result;
+                  if (cursor) {
+                      obj.id = cursor.key + 1;
+                  } else {
+                      obj.id = 1; // This is the first item
+                  }
+
+                  // Save the main form data
+                  var request = objectStore.put(obj);
+
+                  request.onsuccess = function() {
+                      console.log('Main form data added to IndexedDB');
+                      
+                      // Now save any shelf data that was generated
+                      saveGeneratedShelves(db, obj.id);
+                      
+                      transferIndexedDBData(); // Transfer data to Django after saving to IndexedDB
+                  };
+
+                  request.onerror = function() {
+                      console.error('Error adding data to IndexedDB');
+                  };
+              };
+          };
+
+          request.onerror = function(event) {
+              console.error('Error opening IndexedDB', event);
+          };
+      }
+
+      // Function to save generated shelves
+      function saveGeneratedShelves(db, mainFormId) {
+           const form = document.getElementById(formId);
+              if (!form) throw new Error(`Form ${formId} not found`);
+              
+              const formData = new FormData(form);
+              formData.delete('csrfmiddlewaretoken');
+              
+              // Get the entry value from the form or fallback to entryCheck
+              let entryValue = formData.get('entry');
+              if (!entryValue) {
+                  entryValue = document.querySelector('[name="entryCheck"]').value;
+              }
+          // Get all the shelf data from the form
+          var shelves = [];
+          
+          // Get all moisture shelf forms that were added dynamically
+          var moistureForms = document.querySelectorAll('[id^="form_"]');
+          
+          moistureForms.forEach(function(form) {
+              var shelfData = {
+                  parentId: mainFormId,
+                  floor: form.querySelector('[name="floor"]')?.value || '',
+                  M_Shelf: form.querySelector('[name="M_Shelf"]')?.value || '',
+                  M_Tray: form.querySelector('[name="M_Tray"]')?.value || '',
+                  M_Section: form.querySelector('[name="M_Section"]')?.value || '',
+                  Moisture: form.querySelector('[name="Moisture"]')?.value || '',
+                  Weight: form.querySelector('[name="Weight"]')?.value || '',
+                  Date: form.querySelector('[name="Date"]')?.value || '',
+                  station: document.getElementById('id_STATION')?.value || '',
+                  timestamp: new Date().toISOString()
+              };
+              
+              shelves.push(shelfData);
+          });
+          
+          // If we have shelves to save
+          if (shelves.length > 0) {
+              var transaction = db.transaction('M_Shelves', 'readwrite');
+              var shelvesStore = transaction.objectStore('M_Shelves');
+              
+              // Save each shelf
+              shelves.forEach(function(shelf) {
+                  // Get the next ID for the shelf
+                  var getNextIdRequest = shelvesStore.openCursor(null, 'prev');
+                  getNextIdRequest.onsuccess = function(event) {
+                      var cursor = event.target.result;
+                      var nextId = cursor ? cursor.key + 1 : 1;
+                      
+                      // Add the ID to the shelf data
+                      shelf.id = nextId;
+
+                      
+                      // Save the shelf
+                      shelvesStore.put(shelf);
+                  };
+              });
+              
+              console.log('Saved ' + shelves.length + ' shelves to IndexedDB');
+          }
+      }
+      
+      function transferIndexedDBData() {
+          var request = indexedDB.open('GCNA', 2);
+      
+          request.onsuccess = function(event) {
+              var db = event.target.result;
+              var transaction = db.transaction(['Floation-Summary', 'M_Shelves'], 'readonly');
+              var objectStore = transaction.objectStore('Floation-Summary');
+              var shelvesStore = transaction.objectStore('M_Shelves');
+              
+              var getRequest = objectStore.getAll();
+              var getShelvesRequest = shelvesStore.getAll();
+      
+              getRequest.onsuccess = function(event) {
+                  var data = event.target.result;
+                  data.forEach(function(item) {
+                      // sendDataToDjango(item);
+                  });
+                  
+                  // Now get all shelves
+                  getShelvesRequest.onsuccess = function(event) {
+                      var shelves = event.target.result;
+                      shelves.forEach(function(shelf) {
+                          // sendShelfDataToDjango(shelf);
+                      });
+                      
+                      window.location.reload();
+                  };
+              };
+          };
+      
+          request.onerror = function(event) {
+              console.error('Error opening IndexedDB', event);
+          };
+      }
+  
+      function sendDataToDjango(item) {
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', '/check-and-add/', true);
+          xhr.setRequestHeader('Content-Type', 'application/json');
+          xhr.onreadystatechange = function() {
+              if (xhr.readyState === XMLHttpRequest.DONE) {
+                  if (xhr.status === 200) {
+                      console.log('Entry added successfully.');
+                  } else {
+                      console.error('Error adding entry:', xhr.statusText);
+                  }
+              }
+          };
+          xhr.send(JSON.stringify(item));
+      }
+      
+      function sendShelfDataToDjango(item) {
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', '/add-shelf/', true);
+          xhr.setRequestHeader('Content-Type', 'application/json');
+          xhr.onreadystatechange = function() {
+              if (xhr.readyState === XMLHttpRequest.DONE) {
+                  if (xhr.status === 200) {
+                      console.log('Shelf added successfully.');
+                  } else {
+                      console.error('Error adding shelf:', xhr.statusText);
+                  }
+              }
+          };
+          xhr.send(JSON.stringify(item));
+      }
+  });
+</script> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      var myForm = document.getElementById('myForm');
+  
+      myForm.addEventListener('submit', function(event) {
+          event.preventDefault();
+          var data = new FormData(event.target);
+          
+          // First save all shelf and moisture forms
+          saveAllForms().then(() => {
+              // Then save the main form data
+              saveDataToIndexedDB(data);
+          }).catch(error => {
+              console.error('Error saving forms:', error);
+          });
+      });
+  
+      async function saveAllForms() {
+          // Save all regular shelf forms
+        //   const shelfForms = document.querySelectorAll('form[id^="form_"]');
+        //   for (const form of shelfForms) {
+        //       await submitForm(form.id);
+        //   }
+          
+          // Save all moisture forms
+          const moistureForms = document.querySelectorAll('form[id^="moisture_form_"]');
+          for (const form of moistureForms) {
+              await M_submitForm(form.id);
+          }
+      }
+
+      function saveDataToIndexedDB(data) {
+          // Exclude csrfmiddlewaretoken and other unnecessary fields
+          data.delete('csrfmiddlewaretoken');
+          data.delete('initial-entryCheck');
+          // Remove all section fields as before
+          data.delete('Section1G_GF');
+          data.delete('Section1G_1F');
+          data.delete('Section1G_2F');
+          data.delete('Section1G_FL');
+          data.delete('Section1H_GF');
+          data.delete('Section1H_1F');
+          data.delete('Section1H_2F');
+          data.delete('Section1H_FL');
+          data.delete('Section1M_GF');
+          data.delete('Section1M_1F');
+          data.delete('Section1M_2F');
+          data.delete('Section1M_FL');
+          data.delete('Section1U_GF');
+          data.delete('Section1U_1F');
+          data.delete('Section1U_2F');
+          data.delete('Section1U_FL');
+          data.delete('Section1GP_GF');
+          data.delete('Section1GP_1F');
+          data.delete('Section1GP_2F');
+          data.delete('Section1GP_FL');
+          data.delete('Section2G_GF');
+          data.delete('Section2G_1F');
+          data.delete('Section2G_2F');
+          data.delete('Section2G_FL');
+          data.delete('Section2H_GF');
+          data.delete('Section2H_1F');
+          data.delete('Section2H_2F');
+          data.delete('Section2H_FL');
+          data.delete('Section2M_GF');
+          data.delete('Section2M_1F');
+          data.delete('Section2M_2F');
+          data.delete('Section2M_FL');
+          data.delete('Section2U_GF');
+          data.delete('Section2U_1F');
+          data.delete('Section2U_2F');
+          data.delete('Section2U_FL');
+          data.delete('Section2GP_GF');
+          data.delete('Section2GP_1F');
+          data.delete('Section2GP_2F');
+          data.delete('Section2GP_FL');
+
+          var request = indexedDB.open('GCNA', 2);
+
+          request.onsuccess = function(event) {
+              var db = event.target.result;
+              var transaction = db.transaction('Floation-Summary', 'readwrite');
+              var objectStore = transaction.objectStore('Floation-Summary');
+
+              var obj = {};
+              for (var pair of data.entries()) {
+                  obj[pair[0]] = pair[1];
+              }
+              var obj1 = {
+                      ALERT: data.get('ALERT'),
+                  };
+                  console.log(obj1.ALERT)
+              var alertcheck=obj1.ALERT
+              
+              // Get the highest id in the object store
+              var highestIdRequest = objectStore.openCursor(null, 'prev');
+              highestIdRequest.onsuccess = function(event) {
+                  var cursor = event.target.result;
+                  if (cursor) {
+                      obj.id = cursor.key + 1;
+                  } else {
+                      obj.id = 1; // This is the first item
+                  }
+
+                  var request = objectStore.put(obj);
+
+                  request.onsuccess = function() {
+                      console.log('Data added to IndexedDB');
+                      window.location.reload();
+                      transferIndexedDBData(alertcheck,obj);
+                  };
+
+                  request.onerror = function() {
+                      console.error('Error adding data to IndexedDB');
+                  };
+              };
+          };
+
+          request.onerror = function(event) {
+              console.error('Error opening IndexedDB', event);
+          };
+      }
+
+      function transferIndexedDBData(alertcheck,obj) {
+              var request = indexedDB.open('GCNA', 2);
+
+              request.onsuccess = function(event) {
+                  var db = event.target.result;
+                  var transaction = db.transaction('Floation-Summary', 'readonly');
+                  var objectStore = transaction.objectStore('Floation-Summary');
+                  var getRequest = objectStore.getAll();
+
+                  getRequest.onsuccess = function(event) {
+                      var data = event.target.result;
+                      data.forEach(function(item) {
+                          // sendDataToDjango(item);
+                      });
+                      // window.location.reload();
+                      clickAllButtons();
+                      if (alertcheck=== 'Yes') {
+          sendEmail(obj, obj.id); // Send email only if decision is "Fail"
+      }
+                  };
+              };
+                request.onerror = function(event) {
+                    console.error('Error opening IndexedDB', event);
+                };
+            }
+      
+      async function submitForm(formId) {
+          try {
+              const form = document.getElementById(formId);
+              if (!form) throw new Error(`Form ${formId} not found`);
+              
+              const formData = new FormData(form);
+              formData.delete('csrfmiddlewaretoken');
+              
+              // Get the entry value from the form or fallback to entryCheck
+              let entryValue = formData.get('entry');
+              if (!entryValue) {
+                  entryValue = document.querySelector('[name="entryCheck"]').value;
+              }
+
+              const shelfData = {
+                  ...Object.fromEntries(formData.entries()),
+                  station: document.getElementById('id_STATION').value,
+                  entry: entryValue  // Ensure entry is always set
+              };
+
+              const db = await openIndexedDB('GCNA', 2);
+              const transaction = db.transaction(['Shelves'], 'readwrite');
+              
+              // Save to both stores
+              for (const storeName of ['Shelves']) {
+                  const store = transaction.objectStore(storeName);
+                  shelfData.id = await getNextId(store);
+                  await putData(store, shelfData);
+              }
+
+              console.log('Shelf data saved successfully');
+              return true;
+          } catch (error) {
+              console.error('Submit error:', error);
+              return false;
+          }
+      }
+
+      async function M_submitForm(formId) {
+          try {
+              console.log(formId)
+              const form = document.getElementById(`${formId}`);
+              if (!form) throw new Error(`Form ${formId} not found`);
+              
+              const formData = new FormData(form);
+              formData.delete('csrfmiddlewaretoken');
+              
+              let entryValue = formData.get('entry');
+              if (!entryValue) {
+                  entryValue = document.querySelector('[name="entryCheck"]').value;
+              }
+
+          const section1Value = formData.get('section1');
+const section2Value = formData.get('section2');
+let combinedSectionValue = ""; // Default to empty string
+
+if (section1Value && section2Value) { // Only combine if both have actual values
+    combinedSectionValue = `${section1Value}-${section2Value}`;
+} else if (section1Value) { 
+    
+} else if (section2Value) { 
+}
+
+
+              const moistureData = {
+                  ...Object.fromEntries(formData.entries()),
+                  entry: entryValue,  // Ensure entry is always set
+ M_Section: combinedSectionValue
+              };
+              const db = await openIndexedDB('GCNA', 2);
+              const transaction = db.transaction('M_Shelves', 'readwrite');
+              const store = transaction.objectStore('M_Shelves');
+              
+              moistureData.id = await getNextId(store);
+              await putData(store, moistureData);
+
+              console.log('Moisture data saved');
+              return true;
+          } catch (error) {
+              console.error('Moisture submit error:', error);
+              return false;
+          }
+      }
+
+      // Helper functions
+      function openIndexedDB(name, version) {
+          return new Promise((resolve, reject) => {
+              const request = indexedDB.open(name, version);
+              request.onsuccess = (event) => resolve(event.target.result);
+              request.onerror = (event) => reject('Error opening DB');
+          });
+      }
+
+      function getNextId(objectStore) {
+          return new Promise((resolve, reject) => {
+              const request = objectStore.openCursor(null, 'prev');
+              request.onsuccess = (event) => {
+                  const cursor = event.target.result;
+                  resolve(cursor ? cursor.key + 1 : 1);
+              };
+              request.onerror = (event) => reject('Error getting next ID');
+          });
+      }
+
+      function putData(store, data) {
+          return new Promise((resolve, reject) => {
+              const request = store.put(data);
+              request.onsuccess = () => resolve();
+              request.onerror = () => reject('Error saving data');
+          });
+      }
+
+      // Rest of your existing functions (sendEmail, etc.) remain the same
+    //   function sendEmail(obj, formId) {
+    //       // Construct email content using form obj
+    //       var emailContent = 'Station: ' + obj.STATION + '\n';
+    //       emailContent += 'Date of Purchase: ' + obj.DATE_OF_PURCHASE + '\n';
+    //       emailContent += 'Place of Purchase: ' + obj.PLACE_OF_PURCHASE + '\n';
+    //       emailContent += 'Total pounds of nutmeg bought: ' + obj.TOTAL_LBS_NUTMEG_BOUGHT + '\n';
+    //       emailContent += 'Batch Number: ' + obj.Control_number + '\n';
+    //       emailContent += 'Reason for Alert: ' + obj.ALERT_cont + '\n';
+    //       emailContent += 'Form ID: ' + formId;
+    //       emailContent += window.location.origin + '/admin/gcna_data/in_house_drying/' + formId + '/change/';
+
+    //       if (navigator.onLine) {
+    //           // If online, send the email immediately
+    //           sendEmailRequest(emailContent);
+    //       } else {
+    //           // If offline, store the email in IndexedDB
+    //           saveEmailToIndexedDB(emailContent);
+    //       }
+    //   }
+
+    //   function sendEmailRequest(emailContent) {
+    //       var xhr = new XMLHttpRequest();
+
+    //       // Configure the request
+    //       xhr.open('POST', '/send-email/', true);  // Replace with your Django endpoint URL
+    //       xhr.setRequestHeader('Content-Type', 'application/json');
+
+    //       // Handle response
+    //       xhr.onload = function() {
+    //           if (xhr.status >= 200 && xhr.status < 300) {
+    //               console.log('Email sent successfully');
+    //               alert('Email sent successfully');
+    //               // If email sent successfully, remove it from IndexedDB
+    //               removeEmailFromIndexedDB();
+    //               window.location.reload()
+    //           } else {
+    //               console.error('Error sending email:', xhr.statusText);
+    //               alert('Error sending email. Please try again later.');
+    //           }
+    //       };
+
+    //       // Handle network errors
+    //       xhr.onerror = function() {
+    //           console.error('Network error occurred while sending email.');
+    //           alert('Network error occurred while sending email. Please try again later.');
+    //       };
+
+    //       // Send the request with the email content as JSON
+    //       xhr.send(JSON.stringify({ content: emailContent }));
+    //   }
+
+    //   function saveEmailToIndexedDB(emailContent) {
+    //       // Open IndexedDB and store the email
+    //       var request = indexedDB.open('EmailsDB', 1);
+
+    //       request.onerror = function(event) {
+    //           console.error('Error opening IndexedDB:', event.target.errorCode);
+    //       };
+
+    //       request.onsuccess = function(event) {
+    //           var db = event.target.result;
+    //           var transaction = db.transaction(['emails'], 'readwrite');
+    //           var objectStore = transaction.objectStore('emails');
+
+    //           // Create an object for the email
+    //           var email = {
+    //               content: emailContent
+    //           };
+
+    //           // Add the email to the object store
+    //           var addRequest = objectStore.add(email);
+
+    //           addRequest.onsuccess = function() {
+    //               console.log('Email saved to IndexedDB');
+    //           };
+
+    //           addRequest.onerror = function(event) {
+    //               console.error('Error saving email to IndexedDB:', event.target.errorCode);
+    //           };
+    //       };
+    //   }
+
+    //   function removeEmailFromIndexedDB() {
+    //       // Open IndexedDB and remove the sent email
+    //       var request = indexedDB.open('EmailsDB', 1);
+
+    //       request.onerror = function(event) {
+    //           console.error('Error opening IndexedDB:', event.target.errorCode);
+    //       };
+
+    //       request.onsuccess = function(event) {
+    //           var db = event.target.result;
+    //           var transaction = db.transaction(['emails'], 'readwrite');
+    //           var objectStore = transaction.objectStore('emails');
+
+    //           // Delete all emails from the object store
+    //           var clearRequest = objectStore.clear();
+
+    //           clearRequest.onsuccess = function() {
+    //               console.log('Email removed from IndexedDB');
+    //           };
+
+    //           clearRequest.onerror = function(event) {
+    //               console.error('Error removing email from IndexedDB:', event.target.errorCode);
+    //           };
+    //       };
+    //   }
+
+      // Event listener for online status change
+    //   window.addEventListener('online', function() {
+    //       // When the browser comes online, check if there are pending emails in IndexedDB and send them
+    //       sendPendingEmailsFromIndexedDB();
+    //   });
+
+    //   function sendPendingEmailsFromIndexedDB() {
+    //       var request = indexedDB.open('EmailsDB', 1);
+
+    //       request.onerror = function(event) {
+    //           console.error('Error opening IndexedDB:', event.target.errorCode);
+    //       };
+
+    //       request.onsuccess = function(event) {
+    //           var db = event.target.result;
+    //           var transaction = db.transaction(['emails'], 'readwrite');
+    //           var objectStore = transaction.objectStore('emails');
+
+    //           var getEmailsRequest = objectStore.getAll();
+
+    //           getEmailsRequest.onsuccess = function(event) {
+    //               var emails = event.target.result;
+    //               emails.forEach(function(email) {
+    //                   sendEmailRequest(email.content);
+    //               });
+    //           };
+
+    //           getEmailsRequest.onerror = function(event) {
+    //               console.error('Error getting emails from IndexedDB:', event.target.errorCode);
+    //           };
+    //       };
+    //   }
+ 
+ });
+</script>
+
+
+
+
+
+
+
+
+<!-- <script>
+  document.addEventListener('DOMContentLoaded', function() {
+      var myForm = document.getElementById('myForm');
+      
+      // Store the current entryCheck value for use in shelf data
+      window.currentEntryCheck = "{{ form.entryCheck.value|default:'0' }}";
+  
+      myForm.addEventListener('submit', function(event) {
+          event.preventDefault();
+          var data = new FormData(event.target);
+          saveDataToIndexedDB(data);
+      });
+  
+      function saveDataToIndexedDB(data) {
+          // Exclude csrfmiddlewaretoken from being saved to IndexedDB
+          data.delete('csrfmiddlewaretoken');
+
+          var request = indexedDB.open('GCNA', 2);
+
+          request.onsuccess = function(event) {
+              var db = event.target.result;
+              var transaction = db.transaction(['Floation-Summary', 'M_Shelves'], 'readwrite');
+              var objectStore = transaction.objectStore('Floation-Summary');
+              var shelvesStore = transaction.objectStore('M_Shelves');
+
+              var obj = {};
+              for (var pair of data.entries()) {
+                  obj[pair[0]] = pair[1];
+              }
+
+              // Get the highest id in the object store
+              var highestIdRequest = objectStore.openCursor(null, 'prev');
+              highestIdRequest.onsuccess = function(event) {
+                  var cursor = event.target.result;
+                  if (cursor) {
+                      obj.id = cursor.key + 1;
+                  } else {
+                      obj.id = 1; // This is the first item
+                  }
+
+                  // Save the main form data
+                  var request = objectStore.put(obj);
+
+                  request.onsuccess = function() {
+                      console.log('Main form data added to IndexedDB with ID:', obj.id);
+                      
+                      // Now save any shelf data that was generated
+                      // Make sure to use the entryCheck value from the form
+                      saveGeneratedShelves(db, obj.id, obj.entryCheck);
+                      
+                      transferIndexedDBData(); // Transfer data to Django after saving to IndexedDB
+                  };
+
+                  request.onerror = function() {
+                      console.error('Error adding data to IndexedDB');
+                  };
+              };
+          };
+
+          request.onerror = function(event) {
+              console.error('Error opening IndexedDB', event);
+          };
+      }
+
+      // Function to save generated shelves
+      function saveGeneratedShelves(db, mainFormId, entryCheck) {
+          // Get all the shelf data from the form
+          var shelves = [];
+          
+          // Get all moisture shelf forms that were added dynamically
+          var moistureForms = document.querySelectorAll('[id^="form_"]');
+          
+          moistureForms.forEach(function(form) {
+              var formEntryCheck = form.querySelector('[name="entry"]')?.value || window.currentEntryCheck;
+              
+              var shelfData = {
+                  parentId: mainFormId,
+                  entry: formEntryCheck, // Use the entryCheck from the form
+                  floor: form.querySelector('[name="floor"]')?.value || '',
+                  M_Shelf: form.querySelector('[name="M_Shelf"]')?.value || '',
+                  M_Tray: form.querySelector('[name="M_Tray"]')?.value || '',
+                  M_Section: form.querySelector('[name="M_Section"]')?.value || '',
+                  Moisture: form.querySelector('[name="Moisture"]')?.value || '',
+                  Weight: form.querySelector('[name="Weight"]')?.value || '',
+                  Date: form.querySelector('[name="Date"]')?.value || '',
+                  station: document.getElementById('id_STATION')?.value || '',
+                  timestamp: new Date().toISOString()
+              };
+              
+              shelves.push(shelfData);
+          });
+          
+          // Also include any shelves that were saved individually
+          if (window.shelfData && window.shelfData.length > 0) {
+              window.shelfData.forEach(function(shelf) {
+                  // Update the shelf's entry to match the form's entryCheck
+                  shelf.entry = entryCheck || window.currentEntryCheck;
+                  shelf.parentId = mainFormId;
+                  shelves.push(shelf);
+              });
+          }
+          
+          // If we have shelves to save
+          if (shelves.length > 0) {
+              var transaction = db.transaction('M_Shelves', 'readwrite');
+              var shelvesStore = transaction.objectStore('M_Shelves');
+              
+              // Save each shelf
+              shelves.forEach(function(shelf) {
+                  // Get the next ID for the shelf
+                  var getNextIdRequest = shelvesStore.openCursor(null, 'prev');
+                  getNextIdRequest.onsuccess = function(event) {
+                      var cursor = event.target.result;
+                      var nextId = cursor ? cursor.key + 1 : 1;
+                      
+                      // Add the ID to the shelf data
+                      shelf.id = nextId;
+                      
+                      // Save the shelf
+                      shelvesStore.put(shelf);
+                  };
+              });
+              
+              console.log('Saved ' + shelves.length + ' shelves to IndexedDB with entry value:', entryCheck || window.currentEntryCheck);
+          }
+      }
+      
+      function transferIndexedDBData() {
+          var request = indexedDB.open('GCNA', 2);
+      
+          request.onsuccess = function(event) {
+              var db = event.target.result;
+              var transaction = db.transaction(['Floation-Summary', 'M_Shelves'], 'readonly');
+              var objectStore = transaction.objectStore('Floation-Summary');
+              var shelvesStore = transaction.objectStore('M_Shelves');
+              
+              var getRequest = objectStore.getAll();
+              var getShelvesRequest = shelvesStore.getAll();
+      
+              getRequest.onsuccess = function(event) {
+                  var data = event.target.result;
+                  data.forEach(function(item) {
+                      // sendDataToDjango(item);
+                  });
+                  
+                  // Now get all shelves
+                  getShelvesRequest.onsuccess = function(event) {
+                      var shelves = event.target.result;
+                      shelves.forEach(function(shelf) {
+                          // sendShelfDataToDjango(shelf);
+                      });
+                      
+                      window.location.reload();
+                  };
+              };
+          };
+      
+          request.onerror = function(event) {
+              console.error('Error opening IndexedDB', event);
+          };
+      }
+  
+      function sendDataToDjango(item) {
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', '/check-and-add/', true);
+          xhr.setRequestHeader('Content-Type', 'application/json');
+          xhr.onreadystatechange = function() {
+              if (xhr.readyState === XMLHttpRequest.DONE) {
+                  if (xhr.status === 200) {
+                      console.log('Entry added successfully.');
+                  } else {
+                      console.error('Error adding entry:', xhr.statusText);
+                  }
+              }
+          };
+          xhr.send(JSON.stringify(item));
+      }
+      
+      function sendShelfDataToDjango(item) {
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', '/add-shelf/', true);
+          xhr.setRequestHeader('Content-Type', 'application/json');
+          xhr.onreadystatechange = function() {
+              if (xhr.readyState === XMLHttpRequest.DONE) {
+                  if (xhr.status === 200) {
+                      console.log('Shelf added successfully.');
+                  } else {
+                      console.error('Error adding shelf:', xhr.statusText);
+                  }
+              }
+          };
+          xhr.send(JSON.stringify(item));
+      }
+  });
+</script> -->
+
+
+<!-- 
+<script>
+
+
+  var request = indexedDB.open('Signin', 1);
+ 
+  request.onsuccess = function(event) {
+      var db = event.target.result;
+      var transaction = db.transaction('verify', 'readonly');
+      var store = transaction.objectStore('verify');
+      var getRequest = store.get(1); // Assuming you want to get the first entry
+ 
+      getRequest.onsuccess = function(event) {
+          var data = event.target.result;
+          if (data) {
+              // Set the values in the form
+              document.querySelector('[name="Worker_ID_No"]').value = data.Worker_ID_No;
+              document.querySelector('[name="Worker_ID_Name"]').value = data.Name;
+          }
+      };
+  };
+ </script>
+ -->
+
+
+	<center>
+<br>
+	{% if submitted %}
+		Entry successfully added to database!!!
+	{% else %}
+		<form action="" method="POST" id="myForm" style=" background-color: #e4e4e4;
+
+    margin: 1px auto;
+    font-family: Raleway;
+    padding: 10px;
+    width: 55%;
+    min-width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">
+
+<h6>Document No. GCNA-GMP</h6>
+<h6>Document Title:  </h6>
+<h6>Date Issued:  </h6>
+<h6>Version:  </h6>
+
+
+    <h1>Flotation Summary Sheet</h1>
+ 
+		{% csrf_token %}
+
+		<!-- {{ form.as_p }} -->
+    {{ form.Worker_ID_No }}
+    {{ form.Worker_ID_Name }}
+
+        <table id="vertical-1" class="table table-hover table-light">
+
+       <tr>
+
+            <th>Station</th>
+            <td>{{ form.STATION }}</td>
+        </tr>  
+
+<table class="table">
+
+    <center>
+<label>Dates</label>   
+ </center> 
+  <thead>
+    <tr>
+
+      <th scope="col">Start Drying Date</th>
+      <th scope="col">Approximate End Drying Date</th>
+      <th scope="col">End Drying Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+      <td>{{ form.START_DRYING_DATE }}</td>
+      <td>{{ form.APPROX_END_DRYING_DATE }}</td>
+      <td>{{ form.END_DRYING_DATE }}</td>
+
+    </tr>
+        <td>{{ form.entryCheck }}</td>
+<td><input type="hidden" name="entryCheck" value="{{ form.entryCheck.value }}"></td>
+  </tbody>
+</table>
+
+        <table id="vertical-1" class="table table-hover table-light">
+
+        <tr>
+
+         <center>
+            <p><b>LOCATION - PLACEMENT ON SHELF</b></p>
+        </center>
+        </tr>
+
+
+
+        <table id="vertical-1" class="table table-hover table-light">
+
+        <tr>
+
+          <button id="moisturebtn" data-entry="${record.entryCheck}" data-value="{{ form.entryCheck.value }}" class="btn btn-primary">Add Moisture Row</button>
+        </center>
+        <tr style="display: none;">
+            <div id="newMoistureShelves-${record.entryCheck}"></div>
+          </tr>
+
+
+
+<div id="landInfoData2"></div>
+
+<!-- <table class="table" id="LoTableG1">
+
+    <center>
+<label class="hidden-label1">Lights</label>   
+ </center> 
+  <thead>
+    <tr>
+      <th scope="col">Ground Floor</th>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Moisture Contents</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.G_FloorG_light }}</td>
+      <td>{{ form.TrayG_light }}</td>
+      <td>{{ form.SectionG_light }}</td>
+      <td>{{ form.MoistureG_light }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+ 
+
+
+ 
+
+
+
+
+<table class="table" id="LoTableG2">
+
+    <center>
+<label class="hidden-label1">Heavies</label>   
+ </center> 
+  <thead>
+     <tr>
+      <th scope="col">Ground Floor</th>
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Moisture Contents</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+       <td>{{ form.G_FloorG_heavy }}</td>
+
+       <td>{{ form.ShelfG_heavy }}</td>
+      <td>{{ form.TrayG_heavy }}</td>
+      <td>{{ form.MoistureG_heavy }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+ 
+
+
+
+
+
+
+
+ 
+
+<table class="table" id="LoTableH1">
+
+    <center>
+<label class="hidden-label2">Lights</label>   
+ </center> 
+  <thead>
+    <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfH_light }}</td>
+      <td>{{ form.TrayH_light }}</td>
+      <td>{{ form.SectionH_light }}</td>
+      <td>{{ form.MoistureH_light }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+ 
+ 
+
+
+<table class="table" id="LoTableH2">
+
+    <center>
+<label class="hidden-label2">Heavies</label>   
+ </center> 
+  <thead>
+     <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfH_heavy }}</td>
+      <td>{{ form.TrayH_heavy }}</td>
+      <td>{{ form.SectionH_heavy }}</td>
+      <td>{{ form.MoistureH_heavy }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="table" id="LoTableM1">
+
+    <center>
+<label class="hidden-label3">Lights</label>   
+ </center> 
+  <thead>
+    <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfM_light }}</td>
+      <td>{{ form.TrayM_light }}</td>
+      <td>{{ form.SectionM_light }}</td>
+      <td>{{ form.MoistureM_light }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+ 
+
+
+
+
+
+
+<table class="table" id="LoTableM2">
+
+    <center>
+<label class="hidden-label3">Heavies</label>   
+ </center> 
+  <thead>
+     <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfM_heavy }}</td>
+      <td>{{ form.TrayM_heavy }}</td>
+      <td>{{ form.SectionM_heavy }}</td>
+      <td>{{ form.MoistureM_heavy }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+<table class="table" id="LoTableU1">
+
+    <center>
+<label class="hidden-label4">Lights</label>   
+ </center> 
+  <thead>
+    <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfU_light }}</td>
+      <td>{{ form.TrayU_light }}</td>
+      <td>{{ form.SectionU_light }}</td>
+      <td>{{ form.MoistureU_light }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+ 
+
+
+
+
+
+
+
+<table class="table" id="LoTableU2">
+
+    <center>
+<label class="hidden-label4">Heavies</label>   
+ </center> 
+  <thead>
+     <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfU_heavy }}</td>
+      <td>{{ form.TrayU_heavy }}</td>
+      <td>{{ form.SectionU_heavy }}</td>
+      <td>{{ form.MoistureU_heavy }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+ 
+
+
+
+
+
+
+ 
+
+
+
+<table class="table" id="LoTableGP1">
+
+    <center>
+<label class="hidden-label5">Lights</label>   
+ </center> 
+  <thead>
+    <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfGP_light }}</td>
+      <td>{{ form.TrayGP_light }}</td>
+      <td>{{ form.SectionGP_light }}</td>
+      <td>{{ form.MoistureGP_light }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+<table class="table" id="LoTableGP2">
+
+    <center>
+<label class="hidden-label5">Heavies</label>   
+ </center> 
+  <thead>
+     <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfGP_heavy }}</td>
+      <td>{{ form.TrayGP_heavy }}</td>
+      <td>{{ form.SectionGP_heavy }}</td>
+      <td>{{ form.MoistureGP_heavy }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+ -->
+
+ 
+        <table id="vertical-1" class="table table-hover table-light">
+
+
+<!-- 
+
+        <tr>
+            <th>Batch Number</th>
+            <td>{{ form.BATCH_NUMBER }}</td>
+        </tr>     -->
+
+
+        <tr>
+            <th>Control Number</th>
+            <td>{{ form.Control_NUMBER }}</td>
+            
+        </tr>    
+
+<br>
+
+
+    </table>
+
+        <tr>
+          
+            <th><a href="{% url 'table' %}" class="btn btn-secondary">Return</a></th>
+        </tr>
+
+
+            <th><a type="submit" href="{% url 'add_Cracking_0' %}" role="button" class="btn btn-primary">Previous</a></th>
+
+		<input type="submit" name="" value="submit" class="btn btn-success">
+		
+
+            <th><a type="submit" href="{% url 'add_Package_0' %}" role="button" class="btn btn-primary">Next</a></th> 
+<tr>
+  <th>
+    
+    <style>
+      .menu {
+        display: flex;
+        list-style: none;
+        padding: 0;
+      }
+    .form-control {
+      width: 100%; /* Full width of the cell */
+      min-width: 150px; /* Minimum width for dropdowns and inputs */
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      font-size: 14px; /* Ensure text is readable */
+  }
+
+      .menu li {
+        margin-right: 20px;
+      }
+    
+      .dropdown {
+        position: relative;
+        display: inline-block;
+      }
+    
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        z-index: 1;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+    
+  .add-row, .submit_contents {
+      padding: 5px 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      background-color: #007bff;
+      color: white;
+      font-size: 14px; /* Ensure button text is readable */
+  }
+
+  .add-row:hover, .submit_contents:hover {
+      background-color: #0056b3;
+  }
+
+
+
+  
+  .addrow, .submit_contents {
+      padding: 5px 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      background-color: #007bff;
+      color: white;
+      font-size: 14px; /* Ensure button text is readable */
+  }
+
+  .addrow:hover, .submit_contents:hover {
+      background-color: #0056b3;
+  }
+
+      .dropdown-content.show {
+        display: block;
+        opacity: 1;
+      }
+    
+      .dropdown-content .container {
+        padding: 15px;
+      }
+    
+      .dropdown button {
+        cursor: pointer;
+      }
+  
+      .entryCheck{
+        display: none;
+      }
+
+      @media (max-width: 768px) {
+      .table th, .table td {
+          min-width: 120px; /* Adjust for smaller screens */
+      }
+
+      .form-control {
+          min-width: 120px; /* Adjust for smaller screens */
+          font-size: 12px; /* Smaller font size for smaller screens */
+      }
+
+      .add-row, .submit_contents {
+          font-size: 12px; /* Smaller font size for smaller screens */
+      }
+  }
+    </style>
+    
+    <ul class="menu">
+      <li class="dropdown">
+        <button type="button" class="addrow" onclick="toggleDropdown()">Cracked Nutmeg List</button>
+        <div class="dropdown-content" id="myDropdown">
+          <div class="container">
+          </div>
+          <div id="landInfoData"></div>
+          <div id="landInfoDataExternal"></div>
+
+          
+        </div>
+      </li>
+    </ul>
+  </td>
+
+  </th>
+</tr>
+            <script>
+              function toggleDropdown() {
+                var dropdownContent = document.getElementById("myDropdown");
+                dropdownContent.classList.toggle("show");
+              }
+              </script>
+
+
+
+
+
+
+		</form>
+    <!-- <script>
+      let openRequest = indexedDB.open("GCNA");
+      let fieldBlacklist = [];
+      const fieldBlacklistConfig = {
+        DATE_OF_SAMPLING: true, // Set to true to blacklist if null or empty
+        DECISION: true,
+        Quantity_of_Bags: true,
+        // Add more fields as needed
+      };
+      openRequest.onsuccess = function(event) {
+  let db = event.target.result;
+  let transaction = db.transaction("Cracking-Summary", "readonly");
+  let landInfoStore = transaction.objectStore("Cracking-Summary");
+  let getAllRequest = landInfoStore.getAll();
+
+  getAllRequest.onsuccess = function(event) {
+      let landInfoRecords = event.target.result;
+      let landInfoDataDiv = document.getElementById("landInfoData");
+
+      landInfoRecords.forEach((record) => {
+          let entryContainer = document.createElement("div");
+          entryContainer.id = `entryContainer_${record.id}`;
+          entryContainer.classList.add("entryContainer"); // Add the class for initial hiding
+          let entryCheckTd=record.id
+
+          let batchCodeCheckboxes = '';
+          let codes = record.BatchCodes.split(",");
+          for(let i = 0; i < codes.length; i++) {
+              batchCodeCheckboxes += `<input type="checkbox" id="code${i}" name="code${i}" value="${codes[i]}" onchange="updateControlNum(this)">
+                                      <label for="code${i}">${codes[i]}</label><br>`;
+          }
+
+
+          // let deliveryCodeCheckboxes = '';
+          // let codes2 = record.Delivery_Advice_Num.split(",");
+          // for(let i = 0; i < codes2.length; i++) {
+          //     deliveryCodeCheckboxes += `<input type="checkbox" id="codes2${i}" name="codes2${i}" value="${codes2[i]}" onchange="updateControlNum2(this)">
+          //                             <label for="codes2${i}">${codes2[i]}</label><br>`;
+          // }
+          let dropdownContent = `
+          <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton_${record.id}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Entry: ${record.id}      
+          </button>
+          <input type="hidden" id="valueChange_${record.Control_Num}">
+          <button type="hidden" style="display:none;" class="add-row" onclick="fill_table()"></button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton_${record.id}">
+
+
+              
+              <form>
+                  <table class="table table-hover table-light">
+
+
+
+
+
+
+
+
+
+
+
+                       <tr>
+            <th>STATION</th>
+            <td>${ record.STATION }</td>
+        </tr>
+    <tr>
+            <th>DATE OF CRACKING</th>
+            <td>${ record.DATE_OF_CRACKING }</td>
+        </tr>
+
+
+
+
+        <tr>
+            <th>WAREHOUSE RECEIPT NUMBERS</th>
+            <td>${ record.WAREHOUSE_RECEIPT_NUMBERS }</td>
+        </tr>
+    <tr>
+            <th># OF BAGS </th>
+            <td>${ record.NUM_OF_BAGS }</td>
+        </tr>
+
+
+        <tr>
+            <th>LBS OF NUTMEGS CRACKED</th>
+            <td>${ record.LBS_OF_NUTMEGS_CRACKED }</td>
+        </tr>
+
+
+
+
+   <tr>
+            <th>Control Number</th>
+            <td>${ record.Control_Num }</td>
+        </tr>
+
+
+
+
+        <tr>
+            <th>Number of Nutmeg Pieces(lbs)</th>
+            <td>${ record.num_pieces }</td>
+        </tr>
+
+
+        <tr>
+            <th>Number of Nutmeg Fragments(lbs)</th>
+            <td>${ record.fragments }</td>
+        </tr>
+
+
+        <tr>
+            <th>Number of Regular Nutmeg(lbs) </th>
+            <td>${ record.regular_nutmeg }</td>
+        </tr>
+
+
+
+        <tr>
+            <th>Number of Nutmeg Escapes(lbs)</th>
+            <td>${ record.escape_nutmeg }</td>
+        </tr>
+
+
+                  </table>
+              </form>
+          </div>
+      </div>`;
+      entryContainer.innerHTML = dropdownContent;
+
+
+                  landInfoDataDiv.appendChild(entryContainer);
+                  let setButton = entryContainer.querySelector(`#valueChange_${record.Control_number}`);
+  
+                  setButton.addEventListener('click', function() {
+      // Create a div container for the form
+      let formContainer = document.createElement('div');
+      formContainer.classList.add('form-container');
+  
+      // Create the table element
+      let table = document.createElement('table');
+  
+      // Create table header
+      let thead = document.createElement('thead');
+      let headerRow = document.createElement('tr');
+      let shelfHeader = document.createElement('th');
+      shelfHeader.textContent = 'Shelf';
+      let trayHeader = document.createElement('th');
+      trayHeader.textContent = 'Tray';
+      let sectionHeader = document.createElement('th');
+      sectionHeader.textContent = 'Section';
+      let stationHeader = document.createElement('th');
+      stationHeader.textContent = 'Station';
+      headerRow.appendChild(shelfHeader);
+      headerRow.appendChild(trayHeader);
+      headerRow.appendChild(sectionHeader);
+      headerRow.appendChild(stationHeader);
+      thead.appendChild(headerRow);
+      table.appendChild(thead);
+  
+      // Create table body
+      let tbody = document.createElement('tbody');
+      let dataRow = document.createElement('tr');
+  
+      let createCell = (fieldName, recordField) => {
+      let value = record[recordField];
+      if (value !== undefined && value.trim() !== '') {
+          let cell = document.createElement('td');
+          let input = document.createElement('input');
+          input.type = 'text';
+          input.name = fieldName;
+          input.value = value;
+          cell.appendChild(input);
+          return cell;
+      }
+      return null;
+  };
+  let createInputFields = (prefix) => {
+      let shelfCell = createCell(`${prefix}Shelf`, `Shelf${prefix}`);
+      let trayCell = createCell(`${prefix}Tray`, `Tray${prefix}`);
+      let sectionCell = createCell(`${prefix}Section`, `Section${prefix}`);
+      let stationCell = createCell(`STATION`, `STATION`);
+      let moistureCell = createCell(`${prefix}`, `${prefix}`); // New line for moisture field
+  
+      if (shelfCell && trayCell && sectionCell && stationCell ) {
+          dataRow.appendChild(shelfCell);
+          dataRow.appendChild(trayCell);
+          dataRow.appendChild(sectionCell);
+          dataRow.appendChild(stationCell);
+          if(moistureCell){dataRow.appendChild();}else{console.log('Can not find it')}
+          // Append the moisture cell if it exists
+      }
+  };
+  
+  // Call the function to create input fields for each set of drying fields
+  createInputFields('STATION');
+  createInputFields('G_0_GF');
+  createInputFields('G_0_1F');
+  createInputFields('G_0_2F');
+  createInputFields('G_0_FL');
+  createInputFields('H_0_GF');
+  createInputFields('H_0_1F');
+  createInputFields('H_0_2F');
+  createInputFields('H_0_FL');
+  createInputFields('M_0_GF');
+  createInputFields('M_0_1F');
+  createInputFields('M_0_2F');
+  createInputFields('M_0_FL');
+  createInputFields('U_0_GF');
+  createInputFields('U_0_1F');
+  createInputFields('U_0_2F');
+  createInputFields('U_0_FL');
+  createInputFields('GP_0_GF');
+  createInputFields('GP_0_1F');
+  createInputFields('GP_0_2F');
+  createInputFields('GP_0_FL');
+  
+  // Call the function to create input fields for each moisture field
+  createInputFields('MoistureG_GF');
+  createInputFields('MoistureG_1F');
+  createInputFields('MoistureG_2F');
+  createInputFields('MoistureG_FL');
+  createInputFields('MoistureH_GF');
+  createInputFields('MoistureH_1F');
+  createInputFields('MoistureH_2F');
+  createInputFields('MoistureH_FL');
+  createInputFields('MoistureM_GF');
+  createInputFields('MoistureM_1F');
+  createInputFields('MoistureM_2F');
+  createInputFields('MoistureM_FL');
+  createInputFields('MoistureU_GF');
+  createInputFields('MoistureU_1F');
+  createInputFields('MoistureU_2F');
+  createInputFields('MoistureU_FL');
+  createInputFields('MoistureGP_GF');
+  createInputFields('MoistureGP_1F');
+  createInputFields('MoistureGP_2F');
+  createInputFields('MoistureGP_FL');
+  
+  
+      if (dataRow.children.length > 0) {
+          tbody.appendChild(dataRow);
+          table.appendChild(tbody);
+  
+          // Append the table to the form container
+          formContainer.appendChild(table);
+  
+          // Append the form container to the div with id "FormStore"
+          document.getElementById('FormStore').appendChild(formContainer);
+      }
+  });
+  
+  
+  
+  
+  
+  
+  
+  
+              });
+          };
+      };
+  </script>
+   -->
+
+
+
+
+
+
+
+
+  <script>
+    let openRequest = indexedDB.open("GCNA");
+
+    openRequest.onsuccess = function(event) {
+    let db = event.target.result;
+    let transaction = db.transaction("Cracking-Summary", "readonly");
+    let landInfoStore = transaction.objectStore("Cracking-Summary");
+    let getAllRequest = landInfoStore.getAll();
+
+    getAllRequest.onsuccess = function(event) {
+      let landInfoRecords = event.target.result;
+      let landInfoDataDiv = document.getElementById("landInfoData");
+
+      landInfoRecords.forEach((record) => {
+
+
+
+
+                        const dispatchTransaction = db.transaction("Floation-Summary", "readonly");
+                        const dispatchStore = dispatchTransaction.objectStore("Floation-Summary");
+
+                        const getAllDispatchRequest = dispatchStore.getAll();
+                        getAllDispatchRequest.onsuccess = function(event) {
+                            const dispatchRecords = event.target.result;
+
+                            const exists = dispatchRecords.some(dispatchRecord => {
+                                return (
+                                    dispatchRecord.Control_NUMBER === record.Control_Num
+                                );
+                            });
+
+
+
+
+
+    let entryContainer = document.createElement("div");
+    entryContainer.id = `entryContainer_${record.id}`;
+    entryContainer.classList.add("entryContainer"); // Add the class for initial hiding
+    let entryCheckTd=record.id
+                    //    batchnum = record.BATCH_CODES;
+                                    // station = record.STATION;
+                                    // vehicle = record.Vehicle_number;
+                                    // dpu = record.DATE_OF_PICK_UP;
+                                    // fmc = record.FINAL_MOISTURE_CONTENT;
+                                    // del = record.CORRESPONDING_DELIVERY_ADVICE;
+                                    // Product=record.Product
+                                    // Num_Bags=record.Num_Bags
+                                    // Weight=record.Weight
+
+if (!exists) {
+
+    let dropdownContent = `
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton_${record.id}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Entry: ${record.id}      
+        </button>
+                        <button type="button" class="add-row" onclick="updateControlNum('${record.Control_Num}')">Set</button>
+                                <input type="checkbox" style="opacity:0" id="valueChange_${record.Control_number}">
+
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton_${record.id}">
+            <form>
+                  <table class="table table-hover table-light">
+
+
+
+
+
+
+
+
+
+
+
+                       <tr>
+            <th>STATION</th>
+            <td>${ record.STATION }</td>
+        </tr>
+    <tr>
+            <th>DATE OF CRACKING</th>
+            <td>${ record.DATE_OF_CRACKING }</td>
+        </tr>
+
+
+
+
+        <tr>
+            <th>WAREHOUSE RECEIPT NUMBERS</th>
+            <td>${ record.WAREHOUSE_RECEIPT_NUMBERS }</td>
+        </tr>
+    <tr>
+            <th># OF BAGS </th>
+            <td>${ record.NUM_OF_BAGS }</td>
+        </tr>
+
+
+        <tr>
+            <th>LBS OF NUTMEGS CRACKED</th>
+            <td>${ record.LBS_OF_NUTMEGS_CRACKED }</td>
+        </tr>
+
+
+
+        <tr>
+            <th>Batch Codes</th>
+            <td>${ record.BatchCodes }</td>
+        </tr>
+
+   <tr>
+            <th>Control Number</th>
+            <td>${ record.Control_Num }</td>
+        </tr>
+
+
+
+
+        <tr>
+            <th>Number of Nutmeg Pieces(lbs)</th>
+            <td>${ record.num_pieces }</td>
+        </tr>
+
+
+        <tr>
+            <th>Number of Nutmeg Fragments(lbs)</th>
+            <td>${ record.fragments }</td>
+        </tr>
+
+
+        <tr>
+            <th>Number of Regular Nutmeg(lbs) </th>
+            <td>${ record.regular_nutmeg }</td>
+        </tr>
+
+
+
+        <tr>
+            <th>Number of Nutmeg Escapes(lbs)</th>
+            <td>${ record.escape_nutmeg }</td>
+        </tr>
+
+
+                  </table>
+            </form>
+        </div>
+    </div>`;
+    
+entryContainer.innerHTML = dropdownContent;
+
+                landInfoDataDiv.appendChild(entryContainer);
+                let setButton = entryContainer.querySelector(`#valueChange_${record.Control_number}`);
+
+
+
+
+
+
+
+
+    }}});
+        };
+    };
+</script>
+
+
+<script>
+let openRequest = indexedDB.open("GCNA_External");
+
+openRequest.onsuccess = function(event) {
+    let db = event.target.result;
+
+    // Read Cracking-Summary (External)
+    let transaction = db.transaction("Cracking-Summary", "readonly");
+    let crackingStore = transaction.objectStore("Cracking-Summary");
+    let getAllRequest = crackingStore.getAll();
+
+    getAllRequest.onsuccess = function(event) {
+        let crackingRecords = event.target.result;
+        let landInfoDataDiv = document.getElementById("landInfoDataExternal");
+
+        crackingRecords.forEach((record) => {
+
+            // ================================
+            // CHECK AGAINST Floation-Summary
+            // ================================
+            const floatTx = db.transaction("Floation-Summary", "readonly");
+            const floatStore = floatTx.objectStore("Floation-Summary");
+            const getAllFloatReq = floatStore.getAll();
+
+            getAllFloatReq.onsuccess = function(event) {
+                const floatRecords = event.target.result;
+
+                // Check if control number already used
+                const exists = floatRecords.some(floatRec => {
+                    return floatRec.Control_NUMBER === record.Control_Num;
+                });
+
+                // IF FOUND → SKIP ENTRY
+                if (exists) {
+                    console.log(
+                        `Skipped: External Cracking-Summary record ${record.id} already in Floation-Summary (External)`
+                    );
+                    return;
+                }
+
+                // ================================
+                // RENDER ENTRY (Not Found in Float)
+                // ================================
+                let entryContainer = document.createElement("div");
+                entryContainer.id = `entryContainer_${record.id}`;
+                entryContainer.classList.add("entryContainer");
+
+                let dropdownContent = `
+                    <div class="dropdown">
+
+                        <button class="btn btn-secondary dropdown-toggle" 
+                                type="button" 
+                                id="dropdownMenuButton_${record.id}" 
+                                data-toggle="dropdown">
+                            Entry: ${record.id}
+                        </button>
+
+                        <button type="button" class="add-row" 
+                                onclick="updateControlNum('${record.Control_Num}')">Set</button>
+
+                        <input type="checkbox" style="opacity:0" 
+                            id="valueChange_${record.Control_number}">
+
+                        <div class="dropdown-menu" 
+                             aria-labelledby="dropdownMenuButton_${record.id}">
+                             
+                            <form>
+                                <table class="table table-hover table-light">
+
+                                    <tr>
+                                        <th>STATION</th>
+                                        <td>${record.STATION}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>DATE OF CRACKING</th>
+                                        <td>${record.DATE_OF_CRACKING}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>WAREHOUSE RECEIPT NUMBERS</th>
+                                        <td>${record.WAREHOUSE_RECEIPT_NUMBERS}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th># OF BAGS</th>
+                                        <td>${record.NUM_OF_BAGS}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>LBS OF NUTMEGS CRACKED</th>
+                                        <td>${record.LBS_OF_NUTMEGS_CRACKED}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>Batch Codes</th>
+                                        <td>${record.BatchCodes}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>Control Number</th>
+                                        <td>${record.Control_Num}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>Number of Nutmeg Pieces (lbs)</th>
+                                        <td>${record.num_pieces}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>Number of Nutmeg Fragments (lbs)</th>
+                                        <td>${record.fragments}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>Regular Nutmeg (lbs)</th>
+                                        <td>${record.regular_nutmeg}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>Nutmeg Escapes (lbs)</th>
+                                        <td>${record.escape_nutmeg}</td>
+                                    </tr>
+
+                                </table>
+                            </form>
+
+                        </div>
+                    </div>
+                `;
+
+                entryContainer.innerHTML = dropdownContent;
+                landInfoDataDiv.appendChild(entryContainer);
+            };
+        });
+    };
+};
+</script>
+
+
+
+
+
+  <script>
+      
+function updateControlNum(cnum) {
+  console.log(cnum)
+  document.querySelector('[name="Control_NUMBER"]').value = '' ;
+  document.querySelector('[name="Control_NUMBER"]').value = cnum ;
+
+}
+
+
+
+
+  </script>
+  
+<script>
+    formCount=0;
+
+document.addEventListener('click', function(event) {
+    if (event.target.id === 'moisturebtn') {
+        event.preventDefault();
+        const entryCheck = event.target.getAttribute('data-entry');
+        const entryCheckValue = event.target.getAttribute('data-value');
+        const container = document.getElementById(`newMoistureShelves-${entryCheck}`);
+        
+        if (container) {
+            addMForm('newMoistureShelves', 'mainForm', container, entryCheckValue);
+        } else {
+            console.error(`Container not found for entryCheck: ${entryCheck}`);
+        }
+    }
+});
+// function addMForm(tableId, mainFormId, container, entryCheck) {
+  
+//     formCount++;
+//     const form = document.createElement('form');
+//     const formId = `moisture_form_${formCount}`;
+//         form.id = formId;
+
+//     form.innerHTML = `
+//         <table class="table">
+//             <thead>
+//                 <tr>
+//                     <th scope="col">Floor:</th>
+//                     <th scope="col">Shelf:</th>
+//                     <th scope="col">Tray:</th>
+//                     <th scope="col" colspan=2>Section:</th>
+//                     <th scope="col">Moisture</th>
+//                     <th scope="col">Heavy or Light</th>
+//                                         <th scope="col"> </th>
+
+//                     <th scope="col">Date</th>
+//                     <th scope="col">Actions</th>
+//                 </tr>
+//             </thead>
+//             <tbody>
+//                 <tr>
+//                   <td>
+//                         <select id="floor_${entryCheck}" class="form-control" name="floor" required>
+//                             <option value="">--Select Floor--</option>
+//                             <option value="Ground Floor">Ground Floor</option>
+//                             <option value="1st Floor">1st Floor</option>
+//                             <option value="2nd Floor">2nd Floor</option>
+//                             <option value="Floor Loft">Floor Loft</option>
+//                         </select>
+//                     </td>
+//                     <td>
+//                         <select id="Shelf_${entryCheck}" class="form-control" name="M_Shelf" required>
+//                             <option value="">--Select Shelf--</option>
+//                             ${generateOptions(SHELF00)}
+//                         </select>
+//                     </td>
+//                     <td>
+//                         <select id="Tray_${entryCheck}" class="form-control" name="M_Tray" required>
+//                             <option value="">--Select Tray--</option>
+//                             ${generateOptions(TRAY00)}
+//                         </select>
+//                     </td>
+                    
+//                     <td>
+//                         <select id="section1_${entryCheck}" class="form-control" name="section1" required onchange="updateSectionValue('${entryCheck}')">
+//                             <option value="">--Select Section--</option>
+//                             ${generateOptions(SECTION00)}
+//                         </select>
+//                     </td>
+
+//                     <td>
+//                         <select id="section2_${entryCheck}" class="form-control" name="section2" required onchange="updateSectionValue('${entryCheck}')">
+//                             <option value="">--Select Section--</option>
+//                             ${generateOptions(SECTION00)}
+//                         </select>
+//                         <input type="hidden" id="Section_${entryCheck}" name="M_Section">
+//                     </td>
+
+//                     <td>
+//                         <input type="text" id="amount_${entryCheck}" class="form-control" name="Moisture" required>
+//                     </td>
+         
+
+//                          <td>
+//    <select id="weight_${entryCheck}" class="form-control" name="Weight" required>
+//                             <option value="">--Select Weight--</option>
+//                             ${generateOptions(WEIGHT)}
+//                         </select>
+//                     <td>
+
+
+//                     <td>
+//                         <input type="date" id="date_${entryCheck}" class="form-control" name="Date" value="${new Date().toISOString().split('T')[0]}" required>
+//                     </td>
+//                     <td>
+//                         <button type="button" class="submit_contents" onclick="submitMForm('${tableId}', '${mainFormId}', ${formCount}, '${entryCheck}','${formCount}')">✔</button>
+//                     </td>
+//                     <td>
+//                         <button type="button" class="addrow" onclick="removeForm('form_${formCount}_${entryCheck}')">Close</button>
+//                     </td>
+//                 </tr>
+//             </tbody>
+//         </table>
+//         <div>
+//             <input type="hidden" id="entry_${entryCheck}" name="entry" value="${entryCheck}">
+//             <input type="hidden" id="station_${entryCheck}" name="station">
+//         </div>
+//     `;
+//     container.appendChild(form);
+// }
+
+
+function addMForm(tableId, mainFormId, container, entryCheck) {
+    formCount++;
+    const form = document.createElement('form');
+    const formId = `moisture_form_${formCount}`;
+    form.id = formId;
+
+    // First create just the weight selection form
+    form.innerHTML = `
+        <div class="weight-selection">
+            <label for="weight_${entryCheck}">Select Weight:</label>
+            <select id="weight_${entryCheck}" class="form-control" name="Weight" required 
+                    onchange="generateMoistureFormFields('${tableId}', '${mainFormId}', ${formCount}, '${entryCheck}')">
+                <option value="">--Select Weight--</option>
+                ${generateOptions(WEIGHT)}
+            </select>
+        </div>
+        <div id="formFieldsContainer_${entryCheck}"></div>
+    `;
+    container.appendChild(form);
+}
+
+function generateMoistureFormFields(tableId, mainFormId, formCount, entryCheck) {
+    const weightSelect = document.getElementById(`weight_${entryCheck}`);
+    const selectedWeight = weightSelect.value;
+    const container = document.getElementById(`formFieldsContainer_${entryCheck}`);
+    
+    if (!selectedWeight) {
+        container.innerHTML = '';
+        return;
+    }
+    
+    container.innerHTML = `
+        <h3>${selectedWeight} Moisture Entry</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Floor:</th>
+                    <th scope="col">Shelf:</th>
+                    <th scope="col">Tray:</th>
+                    <th scope="col" colspan=2>Section:</th>
+                    <th scope="col">Moisture</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <select id="floor_${entryCheck}" class="form-control" name="floor" required>
+                            <option value="">--Select Floor--</option>
+                            <option value="Ground Floor">Ground Floor</option>
+                            <option value="1st Floor">1st Floor</option>
+                            <option value="2nd Floor">2nd Floor</option>
+                            <option value="Floor Loft">Floor Loft</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select id="Shelf_${entryCheck}" class="form-control" name="M_Shelf" required>
+                            <option value="">--Select Shelf--</option>
+                            ${generateOptions(SHELF00)}
+                        </select>
+                    </td>
+                    <td>
+                        <select id="Tray_${entryCheck}" class="form-control" name="M_Tray" required>
+                            <option value="">--Select Tray--</option>
+                            ${generateOptions(TRAY00)}
+                        </select>
+                    </td>
+                    
+                    <td>
+                        <select id="section1_${entryCheck}" class="form-control" name="section1" required onchange="updateSectionValue('${entryCheck}')">
+                            <option value="">--Select Section--</option>
+                            ${generateOptions(SECTION00)}
+                        </select>
+                    </td>
+
+                    <td>
+                        <select id="section2_${entryCheck}" class="form-control" name="section2" required onchange="updateSectionValue('${entryCheck}')">
+                            <option value="">--Select Section--</option>
+                            ${generateOptions(SECTION00)}
+                        </select>
+                        <input type="hidden" id="Section_${entryCheck}" name="M_Section">
+                    </td>
+
+                    <td>
+                        <input type="text" id="amount_${entryCheck}" class="form-control" name="Moisture" required>
+                    </td>
+
+                    <td>
+                        <input type="date" id="date_${entryCheck}" class="form-control" name="Date" value="${new Date().toISOString().split('T')[0]}" required>
+                    </td>
+                    <td>
+                        <button type="button" class="submit_contents" onclick="submitMForm('${tableId}', '${mainFormId}', ${formCount}, '${entryCheck}','${formCount}')">✔</button>
+                        <button type="button" class="addrow" onclick="removeForm('form_${formCount}_${entryCheck}')">Close</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div>
+            <input type="hidden" id="entry_${entryCheck}" name="entry" value="${entryCheck}">
+            <input type="hidden" id="station_${entryCheck}" name="station">
+            <input type="hidden" id="weight_${entryCheck}_value" name="Weight" value="${selectedWeight}">
+        </div>
+    `;
+}
+
+
+async function submitMForm(tableId, mainFormId, formNumber, entryCheck,formCount) {
+    try {
+        const formId = `moisture_form_${formCount}`;
+        const form = document.getElementById(formId);
+        
+        if (!form) {
+            throw new Error(`Form with ID "${formId}" not found`);
+        }
+
+        // Get the entry value directly from the hidden input
+        const entryValue = document.getElementById(`entry_${entryCheck}`).value;
+        if (!entryValue) {
+            throw new Error('Entry value is required');
+        }
+
+        // Get station value (from your main form)
+        const stationValue = document.getElementById('id_STATION')?.value || '';
+
+        // Get all form values
+        const shelfData = {
+            entry: entryValue,
+            floor: document.getElementById(`floor_${entryCheck}`).value,
+            M_Shelf: document.getElementById(`Shelf_${entryCheck}`).value,
+            M_Tray: document.getElementById(`Tray_${entryCheck}`).value,
+            M_Section: document.getElementById(`Section_${entryCheck}`).value,
+            Moisture: document.getElementById(`amount_${entryCheck}`).value,
+            Week: document.getElementById(`weight_${entryCheck}`).value,
+            Date: document.getElementById(`date_${entryCheck}`).value,
+            station: stationValue,
+            timestamp: new Date().toISOString()
+        };
+
+        // Validate required fields
+        // if (!shelfData.M_Shelf || !shelfData.M_Tray || !shelfData.M_Section || !shelfData.Moisture) {
+        //     throw new Error('Missing required fields');
+        // }
+
+        // Save to both IndexedDB stores
+        const db = await openIndexedDB('GCNA', 2);
+        const transaction = db.transaction(['M_Shelves'], 'readwrite');
+        
+        // // Save to In-House-Drying
+        // const dryingStore = transaction.objectStore('In-House-Drying');
+        // const dryingId = await getNextId(dryingStore);
+        // await putData(dryingStore, { ...shelfData, id: dryingId });
+
+        // Save to M_Shelves
+        const shelvesStore = transaction.objectStore('M_Shelves');
+        const shelvesId = await getNextId(shelvesStore);
+        await putData(shelvesStore, { ...shelfData, id: shelvesId });
+
+        console.log('Data saved successfully to both stores:', shelfData);
+        transferIndexedDBData(); // Transfer to Django
+        removeForm(formId); // Remove the form after successful submission
+
+    } catch (error) {
+        console.error('Error in submitMForm:', error);
+        // alert(`Error saving data: ${error.message}`);
+    }
+}
+
+    function transferIndexedDBData() {
+          var request = indexedDB.open('GCNA', 2);
+
+          request.onsuccess = function(event) {
+              var db = event.target.result;
+              var transaction = db.transaction('M_Shelves', 'readonly');
+              var objectStore = transaction.objectStore('M_Shelves');
+              var getRequest = objectStore.getAll();
+
+              getRequest.onsuccess = function(event) {
+                  var data = event.target.result;
+             
+              };
+          };
+
+          request.onerror = function(event) {
+              console.error('Error opening IndexedDB', event);
+          };
+      }
+
+
+// Helper functions
+async function openIndexedDB(name, version) {
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open(name, version);
+        request.onsuccess = (e) => resolve(e.target.result);
+        request.onerror = (e) => reject('Error opening DB');
+    });
+}
+
+async function getNextId(store) {
+    return new Promise((resolve) => {
+        const req = store.openCursor(null, 'prev');
+        req.onsuccess = (e) => {
+            const cursor = e.target.result;
+            resolve(cursor ? cursor.key + 1 : 1);
+        };
+    });
+}
+
+async function putData(store, data) {
+    return new Promise((resolve, reject) => {
+        const req = store.put(data);
+        req.onsuccess = () => resolve();
+        req.onerror = () => reject('Error saving data');
+    });
+}
+
+function removeForm(formId) {
+    const form = document.getElementById(formId);
+    if (form) {
+        form.remove();
+    }
+}
+
+// Example option lists
+const SHELF00 = [
+    ['', '--Select Shelf--'],
+    ['A', 'A'], ['B', 'B'], ['C', 'C'], ['D', 'D'],
+    ['E', 'E'], ['F', 'F'], ['G', 'G'], ['H', 'H'],
+    ['I', 'I'], ['J', 'J'], ['K', 'K'], ['L', 'L']
+];
+
+const TRAY00 = [
+    ['', '--Select Tray--'],
+    ['1', '1'], ['2', '2'], ['3', '3'], ['4', '4'], ['5', '5'],
+    ['6', '6'], ['7', '7'], ['8', '8'], ['9', '9'], ['10', '10']
+];
+
+const SECTION00 = [
+    ['', '--Select Section--'],
+    ['A', 'A'], ['B', 'B'], ['C', 'C'], ['D', 'D'], ['E', 'E'],
+    ['F', 'F'], ['G', 'G'], ['H', 'H'], ['I', 'I'], ['J', 'J'],
+    ['K', 'K'], ['L', 'L'], ['M', 'M'], ['N', 'N'], ['O', 'O'],
+    ['P', 'P'], ['Q', 'Q'], ['R', 'R'], ['S', 'S'], ['T', 'T']
+];
+
+
+
+
+
+const WEIGHT = [
+    ['', '--Select Weight--'],
+    ['Heavies', 'Heavies'], ['Lights', 'Lights']
+];
+
+
+
+
+function generateOptions(options) {
+    return options.map(option => `<option value="${option[0]}">${option[1]}</option>`).join('');
+}
+
+function updateSectionValue(entryCheck) {
+    const section1 = document.getElementById(`section1_${entryCheck}`).value;
+    const section2 = document.getElementById(`section2_${entryCheck}`).value;
+    document.getElementById(`Section_${entryCheck}`).value = section1 && section2 ? `${section1}-${section2}` : '';
+}
+</script>
+
+
+	{% endif %}
+
+	</center>
+{{ form.media }}
+
+{% endblock %}

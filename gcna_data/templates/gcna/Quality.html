@@ -1,0 +1,1111 @@
+{% extends 'gcna/base2.html' %}
+
+{% block content%}
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+<script>
+$(document).ready(function() {
+
+
+
+
+  $('#LoTableG1_0').hide(); 
+ 
+
+  $('#id_Nutmeg_Assorted').on('change', function() {
+    if ($(this).val() == 'Other') {
+        $('#LoTableG1_0').show(); 
+
+    } else {
+        $('#LoTableG1_0').hide();
+
+    }
+  
+});
+
+
+
+$('#id_Nutmeg_Assorted2').on('change', function() {
+    if ($(this).val() == 'Sounds') {
+        $('#id_ASSORTOR1_A').val('500'); 
+        $('#id_ASSORTOR2_A').val('500'); 
+        $('#id_ASSORTOR3_A').val('500'); 
+        $('#id_ASSORTOR4_A').val('500'); 
+        $('#id_ASSORTOR5_A').val('500'); 
+        $('#id_ASSORTOR6_A').val('500'); 
+
+    } else {
+        $('#LoTableG1_0').hide();
+
+    }
+  
+});
+
+
+
+
+  $('#id_START_DRYING_DATE').on('change', function() {
+    var startDate = new Date($(this).val());
+    var approxEndDate = new Date(startDate.getTime() + (15 * 24 * 60 * 60 * 1000)); 
+
+    var day = ("0" + approxEndDate.getDate()).slice(-2); 
+
+    var month = ("0" + (approxEndDate.getMonth() + 1)).slice(-2);
+
+    var year = approxEndDate.getFullYear();
+
+    var formattedDate = year + "-" + month + "-" + day;
+
+    $('#id_APPROX_END_DRYING_DATE').val(formattedDate);
+      });
+
+  $('#id_NUM_OF_BAGS').on('change', function() {
+    var start =  $('#id_NUM_OF_BAGS').val();
+    var calc = start * 110; 
+    $('#id_TOTAL_LBS_NUTMEG_BOUGHT').val(calc);
+      });
+
+
+});
+
+
+
+
+
+
+</script>
+
+
+
+
+
+
+   <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: center;
+            padding: 8px;
+        }
+
+
+        th {
+/*            background-color: #f2f2f2;*/
+        }
+
+
+        .main-header {
+            text-align: center;
+            font-size: 24px;
+        }
+
+
+        .sub-header {
+            font-size: 18px;
+        }
+    </style>
+
+
+	<center>
+<br>
+
+
+<!-- 
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var myForm = document.getElementById('myForm');
+    
+        myForm.addEventListener('submit', function(event) {
+
+            event.preventDefault();
+            var data = new FormData(event.target);
+            saveDataToIndexedDB(data);
+        });
+    
+        function saveDataToIndexedDB(data) {
+            var request = indexedDB.open('GCNA', 2);
+        
+            request.onsuccess = function(event) {
+                var db = event.target.result;
+                var transaction = db.transaction('Quaility', 'readwrite');
+                var objectStore = transaction.objectStore('Quaility');
+        
+                var obj = {};
+                for (var pair of data.entries()) {
+                    obj[pair[0]] = pair[1];
+                }
+        
+                // Get the highest id in the object store
+                var highestIdRequest = objectStore.openCursor(null, 'prev');
+                highestIdRequest.onsuccess = function(event) {
+                    var cursor = event.target.result;
+                    if (cursor) {
+                        obj.id = cursor.key + 1;
+                    } else {
+                        obj.id = 1; // This is the first item
+                    }
+        
+                    var request = objectStore.put(obj);
+        
+                    request.onsuccess = function() {
+                        console.log('Data added to IndexedDB');
+                        window.location.href = '/gcna00_24/';
+                    };
+        
+                    request.onerror = function() {
+                        console.error('Error adding data to IndexedDB');
+                    };
+                };
+            };
+        
+            request.onerror = function(event) {
+                console.error('Error opening IndexedDB', event);
+            };
+        }
+        
+    });
+    </script>
+  
+   -->
+
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var myForm = document.getElementById('myForm');
+    
+        myForm.addEventListener('submit', function(event) {
+
+            event.preventDefault();
+            var data = new FormData(event.target);
+            saveDataToIndexedDB(data);
+        });
+    
+        function saveDataToIndexedDB(data) {
+    // Exclude csrfmiddlewaretoken from being saved to IndexedDB
+    data.delete('csrfmiddlewaretoken');
+
+    var request = indexedDB.open('GCNA', 2);
+
+    request.onsuccess = function(event) {
+        var db = event.target.result;
+        var transaction = db.transaction('Quaility', 'readwrite');
+        var objectStore = transaction.objectStore('Quaility');
+
+        var obj = {};
+        for (var pair of data.entries()) {
+            obj[pair[0]] = pair[1];
+        }
+
+        // Get the highest id in the object store
+        var highestIdRequest = objectStore.openCursor(null, 'prev');
+        highestIdRequest.onsuccess = function(event) {
+            var cursor = event.target.result;
+            if (cursor) {
+                obj.id = cursor.key + 1;
+            } else {
+                obj.id = 1; // This is the first item
+            }
+
+            var request = objectStore.put(obj);
+
+            request.onsuccess = function() {
+                console.log('Data added to IndexedDB');
+                transferIndexedDBData(); // Transfer data to Django after saving to IndexedDB
+            };
+
+            request.onerror = function() {
+                console.error('Error adding data to IndexedDB');
+            };
+        };
+    };
+
+    request.onerror = function(event) {
+        console.error('Error opening IndexedDB', event);
+    };
+}
+        function transferIndexedDBData() {
+            var request = indexedDB.open('GCNA', 2);
+        
+            request.onsuccess = function(event) {
+                var db = event.target.result;
+                var transaction = db.transaction('Quaility', 'readonly');
+                var objectStore = transaction.objectStore('Quaility');
+                var getRequest = objectStore.getAll();
+        
+                getRequest.onsuccess = function(event) {
+                    var data = event.target.result;
+                    data.forEach(function(item) {
+                        // sendDataToDjango(item);
+                    });
+                    window.location.reload();
+
+                };
+            };
+        
+            request.onerror = function(event) {
+                console.error('Error opening IndexedDB', event);
+            };
+        }
+    
+        function sendDataToDjango(item) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/check-and-add/', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        console.log('Entry added successfully.');
+                    } else {
+                        console.error('Error adding entry:', xhr.statusText);
+                    }
+                }
+            };
+            xhr.send(JSON.stringify(item));
+        }
+    });
+  </script>
+  
+
+  <script>
+
+
+    var request = indexedDB.open('Signin', 1);
+   
+    request.onsuccess = function(event) {
+        var db = event.target.result;
+        var transaction = db.transaction('verify', 'readonly');
+        var store = transaction.objectStore('verify');
+        var getRequest = store.get(1); // Assuming you want to get the first entry
+   
+        getRequest.onsuccess = function(event) {
+            var data = event.target.result;
+            if (data) {
+                // Set the values in the form
+                document.querySelector('[name="Worker_ID_No"]').value = data.Worker_ID_No;
+                document.querySelector('[name="Worker_ID_Name"]').value = data.Name;
+            }
+        };
+    };
+   </script>
+  
+
+
+	{% if submitted %}
+		Entry successfully added to database!!!
+	{% else %}
+		<form action="" method="POST"  id="myForm" enctype="multipart/form-data" style=" background-color: #e4e4e4;
+
+    margin: 1px auto;
+    font-family: Raleway;
+    padding: 10px;
+    width: 75%;
+    min-width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">
+
+    <div class="card">
+ 
+  <div class="card-body">
+
+  </h5>
+    <p class="card-text">
+        <table id="vertical-1" class="table table-hover table-light">
+
+<h6>Document No. GCNA-R-03</h6>
+<h6>Document Title: Quality Control Record for Assorting Process</h6>
+<h6>Date Issued: 2023-07-03</h6>
+<h6>Version: 1</h6>
+
+
+
+ 
+		{% csrf_token %}
+
+
+
+
+
+
+
+
+
+  <table>
+
+         <tr>
+            <th colspan="8" class="main-header"> </th>
+         </tr>
+         {{ form5.Worker_ID_No }}
+         {{ form5.Worker_ID_Name }}
+        <tr>
+            <td  colspan="2" style="text-align:center; width: 100px">DATE </td>
+            <td  colspan="2"  style="text-align:center; width: 100px">{{ form5.DATE_1 }}</td>
+            <td  colspan="2"  style="text-align:center; width: 100px">STATION</td>
+            <td  colspan="2"  style="text-align:center; width: 100px">{{ form5.STATION }}</td>
+        </tr>
+
+        <tr>
+            <td  colspan="4" style="text-align:center; width: 100px">BATCH/WAREHOUSE RECEIPT NUMBER </td>
+            <td  colspan="4"  style="text-align:center; width: 100px">{{ form5.BATCH_NUMBER }}</td>
+        </tr>
+
+
+
+
+        <tr>
+            <td  colspan="1" style="text-align:center; width: 100px">REWORK</td>
+            <td></td>	
+            <td  colspan="4"  style="text-align:center; width: 100px">{{ form5.REWORK }}</td>
+        </tr>
+
+
+        <tr>
+            <td  colspan="4" style="text-align:center; width: 100px">SAMPLE WEIGHT </td>
+            <td  colspan="4"  style="text-align:center; width: 100px">{{ form5.SAMPLE_WEIGHT }}</td>
+        </tr>
+
+         <tr>
+            <th colspan="8" class="main-header">TOLERANCE LIMITS FOR DEFECTS</th>
+         </tr>
+
+        <tr>
+            <td  colspan="4" style="text-align:center; width: 100px">Free of extraneous matter - Inshell (Whole) and Shelled</td>
+            <td  colspan="4"  style="text-align:center; width: 100px">0.5%</td>
+        </tr>
+
+        <tr>
+            <td  colspan="4" style="text-align:center; width: 100px">Broken/damaged – Inshell Whole</td>
+            <td  colspan="4"  style="text-align:center; width: 100px">2%</td>
+        </tr>
+
+
+        <tr>
+            <td  colspan="4" style="text-align:center; width: 100px">Broken/damaged Shelled</td>
+            <td  colspan="4"  style="text-align:center; width: 100px">3%</td>
+        </tr>
+  </table>
+
+
+
+  <table>
+
+
+         <tr>
+            <th colspan="8" class="main-header">WEIGHT (oz/lbs)</th>
+         </tr>
+
+        <tr>
+            <td  colspan="4" style="text-align:center; width: 100px">Nutmegs Assorted</td>
+
+            <td  colspan="4"  style="text-align:center; width: 100px">{{ form5.Nutmeg_Assorted }}</td>
+        </tr>
+
+        <tr id="LoTableG1_0">
+            <td  colspan="4" style="text-align:center; width: 100px">Nutmegs Assorted Cont </td>
+            <td  colspan="4"  style="text-align:center; width: 100px">{{ form5.Nutmeg_Assorted_cont }}</td>
+        </tr>
+
+        <tr>
+            <td  colspan="1" style="text-align:center; width: 100px">NAME</td>
+            <td  colspan="1"  style="text-align:center; width: 100px">TYPE: {{ form5.Nutmeg_Assorted2 }}</td>
+            <td  colspan="1" style="text-align:center; width: 100px">PINHOLES</td>
+            <td  colspan="1"  style="text-align:center; width: 100px">CRACKED</td>
+            <td  colspan="1" style="text-align:center; width: 100px">BROKEN PIECES</td>
+            <td  colspan="1"  style="text-align:center; width: 100px">FOREIGN MATTER</td>
+        </tr>
+
+ 
+
+
+        <tr>
+            <td  colspan="1" style="text-align:center; width: 100px">{{ form5.ASSORTOR1 }}</td>
+            <td  colspan="1" style="text-align:center; width: 100px">{{ form5.ASSORTOR1_A }}</td>
+            <td  colspan="1"  style="text-align:center; width: 100px">{{ form5.ASSORTOR1_B }}</td>
+            <td  colspan="1" style="text-align:center; width: 100px">{{ form5.ASSORTOR1_C }}</td>
+            <td  colspan="1"  style="text-align:center; width: 100px">{{ form5.ASSORTOR1_D }}</td>
+            <td  colspan="1" style="text-align:center; width: 100px">{{ form5.ASSORTOR1_E }}</td>
+        </tr>
+
+
+        <tr>
+            <td  colspan="1" style="text-align:center; width: 100px">{{ form5.ASSORTOR2 }}</td>
+            <td  colspan="1" style="text-align:center; width: 100px">{{ form5.ASSORTOR2_A }}</td>
+            <td  colspan="1"  style="text-align:center; width: 100px">{{ form5.ASSORTOR2_B }}</td>
+            <td  colspan="1" style="text-align:center; width: 100px">{{ form5.ASSORTOR2_C }}</td>
+            <td  colspan="1"  style="text-align:center; width: 100px">{{ form5.ASSORTOR2_D }}</td>
+            <td  colspan="1" style="text-align:center; width: 100px">{{ form5.ASSORTOR2_E }}</td>
+        </tr>
+
+        <tr>
+            <td  colspan="1" style="text-align:center; width: 100px">{{ form5.ASSORTOR3 }}</td>
+            <td  colspan="1" style="text-align:center; width: 100px">{{ form5.ASSORTOR3_A }}</td>
+            <td  colspan="1"  style="text-align:center; width: 100px">{{ form5.ASSORTOR3_B }}</td>
+            <td  colspan="1" style="text-align:center; width: 100px">{{ form5.ASSORTOR3_C }}</td>
+            <td  colspan="1"  style="text-align:center; width: 100px">{{ form5.ASSORTOR3_D }}</td>
+            <td  colspan="1" style="text-align:center; width: 100px">{{ form5.ASSORTOR3_E }}</td>
+        </tr>
+
+        <tr>
+            <td  colspan="1" style="text-align:center; width: 100px">{{ form5.ASSORTOR4 }}</td>
+            <td  colspan="1" style="text-align:center; width: 100px">{{ form5.ASSORTOR4_A }}</td>
+            <td  colspan="1"  style="text-align:center; width: 100px">{{ form5.ASSORTOR4_B }}</td>
+            <td  colspan="1" style="text-align:center; width: 100px">{{ form5.ASSORTOR4_C }}</td>
+            <td  colspan="1"  style="text-align:center; width: 100px">{{ form5.ASSORTOR4_D }}</td>
+            <td  colspan="1" style="text-align:center; width: 100px">{{ form5.ASSORTOR4_E }}</td>
+
+        </tr>
+
+
+        <tr>
+            <td  colspan="1" style="text-align:center; width: 100px">{{ form5.ASSORTOR5 }}</td>
+
+
+            <td  colspan="1" style="text-align:center; width: 100px">{{ form5.ASSORTOR5_A }}</td>
+            <td  colspan="1"  style="text-align:center; width: 100px">{{ form5.ASSORTOR5_B }}</td>
+            <td  colspan="1" style="text-align:center; width: 100px">{{ form5.ASSORTOR5_C }}</td>
+            <td  colspan="1"  style="text-align:center; width: 100px">{{ form5.ASSORTOR5_D }}</td>
+            <td  colspan="1" style="text-align:center; width: 100px">{{ form5.ASSORTOR5_E }}</td>
+
+        </tr>
+
+
+        <tr>
+            <td  colspan="1" style="text-align:center; width: 100px">SUPERVISOR:</td>
+
+            <td  colspan="1" style="text-align:center; width: 100px">{{ form5.SUPERVISOR_A }}</td>
+            <td  colspan="1"  style="text-align:center; width: 100px">{{ form5.SUPERVISOR_B }}</td>
+            <td  colspan="1" style="text-align:center; width: 100px">{{ form5.SUPERVISOR_C }}</td>
+            <td  colspan="1"  style="text-align:center; width: 100px">{{ form5.SUPERVISOR_D }}</td>
+            <td  colspan="1" style="text-align:center; width: 100px">{{ form5.SUPERVISOR_E }}</td>
+
+
+        </tr>
+<tr>
+                <td  colspan="1" style="text-align:center; width: 100px">{{ form5.ASSORTOR6 }}</td>
+
+
+</tr>
+
+
+
+         <tr>
+            <td  colspan="1" style="text-align:center; width: 100px">COMMENTS:</td>
+
+            <td  colspan="7" style="text-align:center; width: 100px">{{ form5.COMMENTS }}</td>
+
+                     </tr>
+
+
+
+
+
+        <tr>
+            <td  scope="col" style="text-align:center; width: 100px">Approved By </td>
+            <td  colspan="2" style="text-align:center; width: 100px">{{form5.Approved_BY}}</td>
+
+
+      
+            <td  scope="col" style="text-align:center; width: 100px">Date Of Report</td>
+            <td  colspan="2" style="text-align:center; width: 100px">{{form5.DATE_OF_REPORT}}</td>
+
+
+        </tr>
+
+
+
+
+        <tr>
+            <td  scope="col" style="text-align:center; width: 100px">SIGNED BY Quality Assurance Officer</td>
+            <td  colspan="2" style="text-align:center; width: 100px">{{form5.SIGNED_BY_QUALITY_ASSURANCE_OFFICER}}</td>
+
+
+    
+            <td  scope="col" style="text-align:center; width: 100px">Date</td>
+            <td  colspan="2" style="text-align:center; width: 100px">{{form5.DATE_2}}</td>
+
+
+        </tr>
+
+
+
+  </table>
+
+
+
+		<input type="submit" name="" value="✔" class="btn btn-success btn-circle btn-xl">
+
+		<br>
+		<br>
+</table>
+
+              <tr>
+            <th><a href="{% url 'table' %}" class="btn btn-secondary">Exit</a></th>
+            <th><a type="submit" href="{% url 'database10' %}" role="button" class="btn btn-primary">Previous</a></th>
+ 
+
+        </tr>		
+
+		</form>
+
+
+
+
+
+
+        <style>
+            .menu {
+              display: flex;
+              list-style: none;
+              padding: 0;
+            }
+          
+            .menu li {
+              margin-right: 20px;
+            }
+          
+            .dropdown {
+              position: relative;
+              display: inline-block;
+            }
+          
+            .dropdown-content {
+              display: none;
+              position: absolute;
+              background-color: #f9f9f9;
+              min-width: 160px;
+              z-index: 1;
+              opacity: 0;
+              transition: opacity 0.3s ease;
+            }
+          
+            .dropdown-content.show {
+              display: block;
+              opacity: 1;
+            }
+          
+            .dropdown-content .container {
+              padding: 15px;
+            }
+          
+            .dropdown button {
+              cursor: pointer;
+            }
+        
+            .entryCheck{
+              display: none;
+            }
+          </style>
+                 <td>
+ 
+          <ul class="menu">
+            <li class="dropdown">
+              <button type="button" onclick="toggleDropdown()">Floated Nutmegs List</button>
+              <div class="dropdown-content" id="myDropdown">
+                <div class="container">
+                </div>
+                <div id="landInfoData"></div>
+              </div>
+            </li>
+          </ul>
+        </td>
+      
+        
+      </tr>
+                  <script>
+                    function toggleDropdown() {
+                      var dropdownContent = document.getElementById("myDropdown");
+                      dropdownContent.classList.toggle("show");
+                    }
+                    </script>
+      
+      
+      
+      
+      
+      
+              </form>
+                 <script>
+        let openRequest = indexedDB.open("GCNA");
+        let fieldBlacklist = [];
+        const fieldBlacklistConfig = {
+            DATE_OF_SAMPLING: true, // Set to true to blacklist if null or empty
+            DECISION: true,
+            Quantity_of_Bags: true,
+            // Add more fields as needed
+        };
+    
+        openRequest.onsuccess = function(event) {
+            let db = event.target.result;
+            let transaction = db.transaction("Floation-Summary", "readonly");
+            let landInfoStore = transaction.objectStore("Floation-Summary");
+            let getAllRequest = landInfoStore.getAll();
+    
+            getAllRequest.onsuccess = function(event) {
+                let landInfoRecords = event.target.result;
+                let landInfoDataDiv = document.getElementById("landInfoData");
+    
+                landInfoRecords.forEach((record) => {
+                    let entryContainer = document.createElement("div");
+                    entryContainer.id = `entryContainer_${record.id}`;
+                    entryContainer.classList.add("entryContainer"); // Add the class for initial hiding
+    
+                    let dispatchTransaction = db.transaction("Quaility", "readwrite");
+                    let dispatchStore = dispatchTransaction.objectStore("Quaility");
+    
+                    let getAllDispatchRequest = dispatchStore.getAll();
+                    getAllDispatchRequest.onsuccess = function(event) {
+                        let dispatchRecords = event.target.result;
+    
+                        // Split the batch codes into an array
+                        let batchCodes = record.Control_NUMBER.split(',').map(code => code.trim());
+                        let existingBatchCodes = [];
+                        let missingBatchCodes = [];
+    
+                        // Check for each batch code if it already exists
+                        batchCodes.forEach(code => {
+                            let exists = dispatchRecords.some(dispatchRecord => 
+                                dispatchRecord.BATCH_NUMBER.includes(code)
+                            );
+                            if (exists) {
+                                existingBatchCodes.push(code); // Store already existing batch codes
+                            } else {
+                                missingBatchCodes.push(code); // Store missing batch codes
+                            }
+                        });
+                        let StationCheckboxes = '';
+                let codes2 = record.STATION;
+                StationCheckboxes += `<input type="checkbox" id="code" name="code" value="${codes2}" onchange="setSelectedStation('${codes2}')"> <label for="code">${codes2}</label><br>`;
+
+                        // If all batch codes exist, don't generate the entry
+                        if (missingBatchCodes.length === 0) {
+                            console.log(`All batch codes for Record Control_number ${record.Control_number} already exist in Floation-Summary. Dropdown not generated.`);
+                        } else {
+                            // Generate the dropdown and display missing batch codes
+                            //                                <button type="button" class="add-row" onclick="set_valuecode('${missingBatchCodes.join(', ')}', '${record.STATION}', '${record.Vehicle_number}', '${record.Delivery_advice_num}', '${record.Product}', '${record.Num_Bags}', '${record.Weight}')">Set</button>
+
+                            let dropdownContent = `
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton_${record.id}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Entry: ${record.id}      
+                                </button>
+                                <input type="checkbox" class='checkhide' id="valueChange_${record.Control_number}">
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton_${record.id}">
+                                    <form>
+                                        <table class="table table-hover table-light">
+                                            <tr>
+                                                       <tr>
+                                        <th>Station Dispatched From</th>
+                                        <td>${StationCheckboxes}</td>
+                                    </tr>
+                                            </tr> 
+                                          
+ 
+                                            <tr>
+                                                <th>Batch Codes</th>
+                                                <td>
+                                                    ${batchCodes.map(code => {
+                                                        if (missingBatchCodes.includes(code)) {
+                                                            return `${code} <input type="checkbox" id="batchCode_${code}" onchange="updateControlNum(this)" value="${code}">`; // Create a checkbox next to missing batch codes
+                                                        } else {
+                                                            return code; // Just show the batch code without a checkbox
+                                                        }
+                                                    }).join(', ')}
+                                                </td>
+                                            </tr>
+                                <tr>
+                                           <table class="table">
+
+    <center>
+<label>Dates</label>   
+ </center> 
+  <thead>
+    <tr>
+
+      <th scope="col">Start Drying Date</th>
+      <th scope="col">Approximate End Drying Date</th>
+      <th scope="col">End Drying Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+      <td>${ record.START_DRYING_DATE }</td>
+      <td>${ record.APPROX_END_DRYING_DATE }</td>
+      <td>${ record.END_DRYING_DATE }</td>
+
+    </tr>
+  </tbody>
+
+                                        </table>
+                                    </form>
+                                </div>
+                            </div>`;
+    
+                            entryContainer.innerHTML = dropdownContent;
+                            landInfoDataDiv.appendChild(entryContainer);
+                        }
+                    };
+    
+                    getAllDispatchRequest.onerror = function() {
+                        console.error(`Error retrieving Floation-Summary records for Batch Codes: ${record.BATCH_CODES}.`);
+                    };
+                });
+            };
+    
+            getAllRequest.onerror = function() {
+                console.error("Error retrieving In-House-Drying records from the Mace_Dispatched store.");
+            };
+        };
+    
+        // Function to toggle the field selection based on checkbox
+        function toggleField(checkbox, fieldName, recordId,value) {
+            let formField = document.querySelector(`[name="${fieldName}"]`);
+            if (checkbox.checked) {
+                // Add the value to the form field if checked
+                formField.value = formField.value ? formField.value + `, ${value}` : value;
+            } else {
+                // Remove the value from the form field if unchecked
+                formField.value = formField.value.split(',').filter(val => val.trim() !== value).join(', ');
+            }
+        }
+    
+        // Function to update the station based on the checkbox selection
+        function updateControlNum(checkbox) {
+            let controlNumField = document.querySelector('[name="BatchCode"]');
+            let currentValues = controlNumField.value ? controlNumField.value.split(',') : [];
+            if (checkbox.checked) {
+                // Add the checkbox's value to the field
+                currentValues.push(checkbox.value);
+            } else {
+                // Remove the checkbox's value from the field
+                currentValues = currentValues.filter(value => value !== checkbox.value);
+            }
+            if (controlNumField.value == "") {
+                controlNumField.value = currentValues;
+            } else {
+                controlNumField.value = currentValues.join(',');
+            }
+        }
+
+
+
+  function setSelectedStation(stationCode) {
+    console.log(stationCode)
+      const stationDropdown = document.querySelector('select[name="Station"]');  // Access the dropdown by name
+      
+      // Loop through the options and select the one that matches the stationCode
+      for (let i = 0; i < stationDropdown.options.length; i++) {
+          if (stationDropdown.options[i].value === stationCode) {
+              stationDropdown.selectedIndex = i;  // Set the selected index
+              break;
+          }
+      }
+  }
+
+
+    </script>
+    
+
+          <!-- <script>
+            let openRequest = indexedDB.open("GCNA");
+            let fieldBlacklist = [];
+            const fieldBlacklistConfig = {
+              DATE_OF_SAMPLING: true, // Set to true to blacklist if null or empty
+              DECISION: true,
+              Quantity_of_Bags: true,
+              // Add more fields as needed
+            };
+            openRequest.onsuccess = function(event) {
+        let db = event.target.result;
+        let transaction = db.transaction("Floation-Summary", "readonly");
+        let landInfoStore = transaction.objectStore("Floation-Summary");
+        let getAllRequest = landInfoStore.getAll();
+      
+        getAllRequest.onsuccess = function(event) {
+            let landInfoRecords = event.target.result;
+            let landInfoDataDiv = document.getElementById("landInfoData");
+      
+            landInfoRecords.forEach((record) => {
+                let entryContainer = document.createElement("div");
+                entryContainer.id = `entryContainer_${record.id}`;
+                entryContainer.classList.add("entryContainer"); // Add the class for initial hiding
+                let entryCheckTd=record.id
+      
+                let batchCodeCheckboxes = '';
+                let codes = record.Control_NUMBER.split(",");
+                for(let i = 0; i < codes.length; i++) {
+                    batchCodeCheckboxes += `<input type="checkbox" id="code${i}" name="code${i}" value="${codes[i]}" onchange="updateControlNum(this)">
+                                            <label for="code${i}">${codes[i]}</label><br>`;
+                }
+      
+      
+                // let deliveryCodeCheckboxes = '';
+                // let codes2 = record.Delivery_Advice_Num.split(",");
+                // for(let i = 0; i < codes2.length; i++) {
+                //     deliveryCodeCheckboxes += `<input type="checkbox" id="codes2${i}" name="codes2${i}" value="${codes2[i]}" onchange="updateControlNum2(this)">
+                //                             <label for="codes2${i}">${codes2[i]}</label><br>`;
+                // }
+                let dropdownContent = `
+                <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton_${record.id}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Entry: ${record.id}      
+                </button>
+                <input type="hidden" id="valueChange_${record.Control_NUMBER}">
+                <button type="hidden" style="display:none;" class="add-row" onclick="fill_table()"></button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton_${record.id}">
+      
+      
+                    
+                    <form>
+                        <table class="table table-hover table-light">
+      
+      
+      
+      Floation-Summary
+
+       <tr>
+
+            <th>Station</th>
+            <td>${record.STATION }</td>
+        </tr>  
+
+<table class="table">
+
+    <center>
+<label>Dates</label>   
+ </center> 
+  <thead>
+    <tr>
+
+      <th scope="col">Start Drying Date</th>
+      <th scope="col">Approximate End Drying Date</th>
+      <th scope="col">End Drying Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+      <td>${record.START_DRYING_DATE }</td>
+      <td>${record.APPROX_END_DRYING_DATE }</td>
+      <td>${record.END_DRYING_DATE }</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+        <table id="vertical-1" class="table table-hover table-light">
+
+
+
+
+        <tr>
+            <th>Batch Number</th>
+                                <td>${batchCodeCheckboxes}</td>
+        </tr>    
+
+
+        <tr>
+            <th>Control Number</th>
+            <td>${record.Control_NUMBER }</td>
+            
+        </tr>    
+
+<br>
+
+
+    </table>
+
+      
+      
+      
+      
+      
+      
+      
+                      
+      
+      
+                        </table>
+                    </form>
+                </div>
+            </div>`;
+            entryContainer.innerHTML = dropdownContent;
+      
+      
+                        landInfoDataDiv.appendChild(entryContainer);
+                        let setButton = entryContainer.querySelector(`#valueChange_${record.Control_number}`);
+        
+                        setButton.addEventListener('click', function() {
+            // Create a div container for the form
+            let formContainer = document.createElement('div');
+            formContainer.classList.add('form-container');
+        
+            // Create the table element
+            let table = document.createElement('table');
+        
+            // Create table header
+            let thead = document.createElement('thead');
+            let headerRow = document.createElement('tr');
+            let shelfHeader = document.createElement('th');
+            shelfHeader.textContent = 'Shelf';
+            let trayHeader = document.createElement('th');
+            trayHeader.textContent = 'Tray';
+            let sectionHeader = document.createElement('th');
+            sectionHeader.textContent = 'Section';
+            let stationHeader = document.createElement('th');
+            stationHeader.textContent = 'Station';
+            headerRow.appendChild(shelfHeader);
+            headerRow.appendChild(trayHeader);
+            headerRow.appendChild(sectionHeader);
+            headerRow.appendChild(stationHeader);
+            thead.appendChild(headerRow);
+            table.appendChild(thead);
+        
+            // Create table body
+            let tbody = document.createElement('tbody');
+            let dataRow = document.createElement('tr');
+        
+            let createCell = (fieldName, recordField) => {
+            let value = record[recordField];
+            if (value !== undefined && value.trim() !== '') {
+                let cell = document.createElement('td');
+                let input = document.createElement('input');
+                input.type = 'text';
+                input.name = fieldName;
+                input.value = value;
+                cell.appendChild(input);
+                return cell;
+            }
+            return null;
+        };
+        let createInputFields = (prefix) => {
+            let shelfCell = createCell(`${prefix}Shelf`, `Shelf${prefix}`);
+            let trayCell = createCell(`${prefix}Tray`, `Tray${prefix}`);
+            let sectionCell = createCell(`${prefix}Section`, `Section${prefix}`);
+            let stationCell = createCell(`STATION`, `STATION`);
+            let moistureCell = createCell(`${prefix}`, `${prefix}`); // New line for moisture field
+        
+            if (shelfCell && trayCell && sectionCell && stationCell ) {
+                dataRow.appendChild(shelfCell);
+                dataRow.appendChild(trayCell);
+                dataRow.appendChild(sectionCell);
+                dataRow.appendChild(stationCell);
+                if(moistureCell){dataRow.appendChild();}else{console.log('Can not find it')}
+                // Append the moisture cell if it exists
+            }
+        };
+        
+        // Call the function to create input fields for each set of drying fields
+        createInputFields('STATION');
+        createInputFields('G_0_GF');
+        createInputFields('G_0_1F');
+        createInputFields('G_0_2F');
+        createInputFields('G_0_FL');
+        createInputFields('H_0_GF');
+        createInputFields('H_0_1F');
+        createInputFields('H_0_2F');
+        createInputFields('H_0_FL');
+        createInputFields('M_0_GF');
+        createInputFields('M_0_1F');
+        createInputFields('M_0_2F');
+        createInputFields('M_0_FL');
+        createInputFields('U_0_GF');
+        createInputFields('U_0_1F');
+        createInputFields('U_0_2F');
+        createInputFields('U_0_FL');
+        createInputFields('GP_0_GF');
+        createInputFields('GP_0_1F');
+        createInputFields('GP_0_2F');
+        createInputFields('GP_0_FL');
+        
+        // Call the function to create input fields for each moisture field
+        createInputFields('MoistureG_GF');
+        createInputFields('MoistureG_1F');
+        createInputFields('MoistureG_2F');
+        createInputFields('MoistureG_FL');
+        createInputFields('MoistureH_GF');
+        createInputFields('MoistureH_1F');
+        createInputFields('MoistureH_2F');
+        createInputFields('MoistureH_FL');
+        createInputFields('MoistureM_GF');
+        createInputFields('MoistureM_1F');
+        createInputFields('MoistureM_2F');
+        createInputFields('MoistureM_FL');
+        createInputFields('MoistureU_GF');
+        createInputFields('MoistureU_1F');
+        createInputFields('MoistureU_2F');
+        createInputFields('MoistureU_FL');
+        createInputFields('MoistureGP_GF');
+        createInputFields('MoistureGP_1F');
+        createInputFields('MoistureGP_2F');
+        createInputFields('MoistureGP_FL');
+        
+        
+            if (dataRow.children.length > 0) {
+                tbody.appendChild(dataRow);
+                table.appendChild(tbody);
+        
+                // Append the table to the form container
+                formContainer.appendChild(table);
+        
+                // Append the form container to the div with id "FormStore"
+                document.getElementById('FormStore').appendChild(formContainer);
+            }
+        });
+        
+        
+        
+        
+        
+        
+        
+        
+                    });
+                };
+            };
+        </script> -->
+        
+        <script>
+            
+      function updateControlNum(checkbox) {
+        let controlNumField = document.querySelector('[name="BATCH_NUMBER"]');
+        let currentValues = controlNumField.value ? controlNumField.value.split(',') : [];
+        if (checkbox.checked) {
+            // Add the checkbox's value to the field
+            currentValues.push(checkbox.value);
+        } else {
+            // Remove the checkbox's value from the field
+            currentValues = currentValues.filter(value => value !== checkbox.value);
+        }
+        if(controlNumField.value ==""){
+            controlNumField.value = currentValues;
+      
+        }else{
+            controlNumField.value = currentValues.join(',');
+      
+        }
+      }
+      
+
+</script>
+
+
+	{% endif %}
+
+	</center>
+{{ form5.media }}
+
+{% endblock %}
+
+
+

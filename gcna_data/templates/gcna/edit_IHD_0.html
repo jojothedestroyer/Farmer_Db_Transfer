@@ -1,0 +1,2144 @@
+{% extends 'gcna/base2.html' %}
+
+{% block content %}
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+$(document).ready(function() {
+  $('.hidden-label1').hide();
+  $('.hidden-label2').hide();
+  $('.hidden-label3').hide();
+  $('.hidden-label4').hide();
+  $('.hidden-label5').hide();
+
+
+
+
+
+  $('#LoTableG1_0').hide(); 
+  $('#LoTableG2_0').hide(); 
+  $('#LoTableG3_0').hide(); 
+  $('#LoTableG4_0').hide(); 
+
+
+
+
+  $('#LoTableH1_0').hide(); 
+  $('#LoTableH2_0').hide(); 
+  $('#LoTableH3_0').hide(); 
+  $('#LoTableH4_0').hide(); 
+
+  $('#LoTableM1_0').hide(); 
+  $('#LoTableM2_0').hide(); 
+  $('#LoTableM3_0').hide(); 
+  $('#LoTableM4_0').hide(); 
+
+
+  $('#LoTableU1_0').hide(); 
+  $('#LoTableU2_0').hide(); 
+  $('#LoTableU3_0').hide(); 
+  $('#LoTableU4_0').hide(); 
+
+
+  $('#LoTableGP1_0').hide(); 
+  $('#LoTableGP2_0').hide(); 
+  $('#LoTableGP3_0').hide(); 
+  $('#LoTableGP4_0').hide(); 
+
+
+
+
+
+
+
+  $('#LoTableG1').hide(); 
+  $('#LoTableG2').hide(); 
+  $('#LoTableG3').hide(); 
+  $('#LoTableG4').hide(); 
+
+
+
+
+  $('#LoTableH1').hide(); 
+  $('#LoTableH2').hide(); 
+  $('#LoTableH3').hide(); 
+  $('#LoTableH4').hide(); 
+
+  $('#LoTableM1').hide(); 
+  $('#LoTableM2').hide(); 
+  $('#LoTableM3').hide(); 
+  $('#LoTableM4').hide(); 
+
+
+  $('#LoTableU1').hide(); 
+  $('#LoTableU2').hide(); 
+  $('#LoTableU3').hide(); 
+  $('#LoTableU4').hide(); 
+
+
+  $('#LoTableGP1').hide(); 
+  $('#LoTableGP2').hide(); 
+  $('#LoTableGP3').hide(); 
+  $('#LoTableGP4').hide(); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  $('#TableG1').hide(); 
+  $('#TableG2').hide(); 
+  $('#TableG3').hide(); 
+
+
+
+
+  $('#TableH1').hide(); 
+  $('#TableH2').hide(); 
+  $('#TableH3').hide(); 
+
+  $('#TableM1').hide(); 
+  $('#TableM2').hide(); 
+  $('#TableM3').hide(); 
+
+
+  $('#TableU1').hide(); 
+  $('#TableU2').hide(); 
+  $('#TableU3').hide(); 
+
+
+  $('#TableGP1').hide(); 
+  $('#TableGP2').hide(); 
+  $('#TableGP3').hide(); 
+
+
+    
+    
+    
+
+
+  
+  $('#id_STATION').on('change', function() {
+    if ($(this).val() == 'G') {
+        $('#LoTableG1').show();
+        $('#LoTableG2').show(); 
+        $('#LoTableG3').show(); 
+        $('#LoTableG4').show(); 
+
+        $('#LoTableG1_0').show();
+        $('#LoTableG2_0').show(); 
+        $('#LoTableG3_0').show(); 
+        $('#LoTableG4_0').show(); 
+       
+        $('.hidden-label1').show();
+
+
+        $('#TableG1').show(); 
+        $('#TableG2').show(); 
+        $('#TableG3').show(); 
+        $('#id_STATION2').val("Grenville");
+
+
+
+    } else {
+        $('#LoTableG1').hide();
+        $('#LoTableG2').hide(); 
+        $('#LoTableG3').hide(); 
+        $('#LoTableG4').hide()
+
+        $('#LoTableG1_0').hide();
+        $('#LoTableG2_0').hide(); 
+        $('#LoTableG3_0').hide(); 
+        $('#LoTableG4_0').hide(); 
+        $('.hidden-label1').hide();
+
+
+
+        $('#TableG1').hide(); 
+        $('#TableG2').hide(); 
+        $('#TableG3').hide(); 
+
+
+
+    }
+
+
+
+  
+
+
+
+    if ($(this).val() == 'H') {
+        $('#LoTableH1').show();
+        $('#LoTableH2').show(); 
+        $('#LoTableH3').show(); 
+        $('#LoTableH4').show(); 
+
+
+        $('#LoTableH1_0').show();
+        $('#LoTableH2_0').show(); 
+        $('#LoTableH3_0').show(); 
+        $('#LoTableH4_0').show(); 
+
+        $('.hidden-label2').show();
+
+
+
+        $('#TableH1').show();
+        $('#TableH2').show(); 
+        $('#TableH3').show(); 
+        $('#id_STATION2').val("Hermitage");
+
+
+    } else {
+        $('#LoTableH1').hide();
+        $('#LoTableH2').hide(); 
+        $('#LoTableH3').hide(); 
+        $('#LoTableH4').hide();
+
+
+        $('#LoTableH1_0').hide();
+        $('#LoTableH2_0').hide(); 
+        $('#LoTableH3_0').hide(); 
+        $('#LoTableH4_0').hide();
+        $('.hidden-label2').hide();
+
+
+
+
+        $('#TableH1').hide();
+        $('#TableH2').hide(); 
+        $('#TableH3').hide(); 
+    }
+
+
+
+  
+    if ($(this).val() == 'M') {
+        $('#LoTableM1').show();
+        $('#LoTableM2').show(); 
+        $('#LoTableM3').show(); 
+        $('#LoTableM4').show(); 
+
+        $('#LoTableM1_0').show();
+        $('#LoTableM2_0').show(); 
+        $('#LoTableM3_0').show(); 
+        $('#LoTableM4_0').show(); 
+
+        $('.hidden-label3').show();
+
+        $('#id_STATION2').val("Marli");
+
+        $('#TableM1').show();
+        $('#TableM2').show(); 
+        $('#TableM3').show(); 
+
+    } else {
+        $('#LoTableM1').hide();
+        $('#LoTableM2').hide(); 
+        $('#LoTableM3').hide(); 
+        $('#LoTableM4').hide(); 
+
+
+        $('#LoTableM1_0').hide();
+        $('#LoTableM2_0').hide(); 
+        $('#LoTableM3_0').hide(); 
+        $('#LoTableM4_0').hide();
+
+        $('.hidden-label3').hide();
+
+   
+
+        $('#TableM1').hide();
+        $('#TableM2').hide(); 
+        $('#TableM3').hide(); 
+
+
+    }
+
+
+
+    if ($(this).val() == 'U') {
+        $('#LoTableU1').show();
+        $('#LoTableU2').show(); 
+        $('#LoTableU3').show(); 
+        $('#LoTableU4').show(); 
+
+
+        $('#LoTableU1_0').show();
+        $('#LoTableU2_0').show(); 
+        $('#LoTableU3_0').show(); 
+        $('#LoTableU4_0').show(); 
+
+
+        $('.hidden-label4').show();
+
+        $('#id_STATION2').val("Union");
+        $('#TableU1').show();
+        $('#TableU2').show(); 
+        $('#TableU3').show(); 
+
+    } else {
+        $('#LoTableU1').hide();
+        $('#LoTableU2').hide(); 
+        $('#LoTableU3').hide(); 
+        $('#LoTableU4').hide();
+
+
+        $('#LoTableU1_0').hide();
+        $('#LoTableU2_0').hide(); 
+        $('#LoTableU3_0').hide(); 
+        $('#LoTableU4_0').hide();
+
+        $('.hidden-label4').hide();
+
+        $('#TableU1').hide();
+        $('#TableU2').hide(); 
+        $('#TableU3').hide();
+
+    }
+
+
+
+  
+
+
+    if ($(this).val() == 'GP') {
+        $('#LoTableGP1').show();
+        $('#LoTableGP2').show(); 
+        $('#LoTableGP3').show(); 
+        $('#LoTableGP4').show(); 
+
+
+        $('#LoTableGP1_0').show();
+        $('#LoTableGP2_0').show(); 
+        $('#LoTableGP3_0').show(); 
+        $('#LoTableGP4_0').show(); 
+
+
+        $('#id_STATION2').val("Gouyave");
+        $('.hidden-label5').show();
+
+
+
+
+        $('#TableGP1').show();
+        $('#TableGP2').show(); 
+        $('#TableGP3').show(); 
+
+    } else {
+        $('#LoTableGP1').hide();
+        $('#LoTableGP2').hide(); 
+        $('#LoTableGP3').hide(); 
+        $('#LoTableGP4').hide();
+
+
+
+        $('#LoTableGP1_0').hide();
+        $('#LoTableGP2_0').hide(); 
+        $('#LoTableGP3_0').hide(); 
+        $('#LoTableGP4_0').hide();
+
+        $('.hidden-label5').hide();
+ 
+
+
+        $('#TableGP1').hide();
+        $('#TableGP2').hide(); 
+        $('#TableGP3').hide(); 
+
+ 
+    }
+
+
+
+
+  
+
+
+  
+
+});
+
+
+
+  $('#id_START_DRYING_DATE').on('change', function() {
+    var startDate = new Date($(this).val());
+    var approxEndDate = new Date(startDate.getTime() + (15 * 24 * 60 * 60 * 1000)); 
+
+    var day = ("0" + approxEndDate.getDate()).slice(-2); 
+
+    var month = ("0" + (approxEndDate.getMonth() + 1)).slice(-2);
+
+    var year = approxEndDate.getFullYear();
+
+    var formattedDate = year + "-" + month + "-" + day;
+
+    $('#id_APPROX_END_DRYING_DATE').val(formattedDate);
+      });
+
+  $('#id_NUM_OF_BAGS').on('change', function() {
+    var start =  $('#id_NUM_OF_BAGS').val();
+    var calc = start * 110; 
+    $('#id_TOTAL_LBS_NUTMEG_BOUGHT').val(calc);
+      });
+
+
+});
+
+
+
+
+
+
+
+
+
+</script>
+    <h1>Edit </h1>
+        <form action="" method="POST" style=" background-color: #e4e4e4;
+
+    margin: 1px auto;
+    font-family: Raleway;
+    padding: 10px;
+    width: 85%;
+    min-width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">
+    <h1>In House Form</h1>
+ 
+        {% csrf_token %}
+
+
+<div class="card">
+ 
+  <div class="card-body">
+
+  </h5>
+    <p class="card-text">
+        <table id="vertical-1" class="table table-hover table-light">
+        <!-- <caption>First Way</caption> -->
+       
+
+
+       <tr>
+{{ form.Worker_ID_No }}
+{{ form.Nutmeg_ID_No }}
+            <th>Station</th>
+            <td>{{ form.STATION }}</td>
+        </tr>  
+        <tr>
+            <th>Date of Purchase</th>
+            <td>{{ form.DATE_OF_PURCHASE }}</td>
+        </tr>
+        <tr>
+            <th>Number of Farmers</th>
+            <td>{{ form.TOTAL_NUM_OF_FARMERS }}</td>
+        </tr>
+
+        <tr>
+            <th>Number of Bags</th>
+            <td>{{ form.NUM_OF_BAGS }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Total Nutmegs bought(lbs)</th>
+            <td>{{ form.TOTAL_LBS_NUTMEG_BOUGHT }}</td>
+        </tr>
+
+
+
+
+<table class="table">
+
+    <center>
+<label>Dates</label>   
+ </center> 
+  <thead>
+    <tr>
+
+      <th scope="col">Start Drying Date</th>
+      <th scope="col">Approximate End Drying Date</th>
+      <th scope="col">End Drying Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+      <td>{{ form.START_DRYING_DATE }}</td>
+      <td>{{ form.APPROX_END_DRYING_DATE }}</td>
+      <td>{{ form.END_DRYING_DATE }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+ 
+
+
+
+
+        <tr>
+
+         <center>
+   
+            <p>PLACEMENT ON SHELF</p>
+</center>
+        </tr>
+
+
+        <tr>
+
+         <center>
+   
+            <p></p>
+</center>
+        </tr>
+
+
+
+
+
+
+
+<table class="table" id="LoTableG1">
+
+    <center>
+<label class="hidden-label1"> Ground Floor</label>   
+ </center> 
+  <thead>
+    <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfG_GF }}</td>
+      <td>{{ form.TrayG_GF }}</td>
+      <td>{{ form.SectionG_GF }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+ 
+
+
+ 
+
+
+
+
+<table class="table" id="LoTableG2">
+
+    <center>
+<label class="hidden-label1">1st Floor</label>   
+ </center> 
+  <thead>
+     <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfG_1F }}</td>
+      <td>{{ form.TrayG_1F }}</td>
+      <td>{{ form.SectionG_1F }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+ 
+
+
+
+   
+<table class="table" id="LoTableG3">
+
+    <center>
+<label class="hidden-label1" >2nd Floor</label>   
+ </center> 
+  <thead>
+      <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfG_2F }}</td>
+      <td>{{ form.TrayG_2F }}</td>
+      <td>{{ form.SectionG_2F }}</td>
+
+    </tr>
+
+
+  </tbody>
+</table>
+
+ 
+ 
+
+
+
+   
+<table class="table" id="LoTableG4">
+
+    <center>
+<label class="hidden-label1">Floor Loft</label>   
+ </center> 
+  <thead>
+       <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfG_FL }}</td>
+      <td>{{ form.TrayG_FL }}</td>
+      <td>{{ form.SectionG_FL }}</td>
+
+    </tr>
+
+
+  </tbody>
+</table>
+
+ 
+
+
+
+             
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+<table class="table" id="LoTableH1">
+
+    <center>
+<label class="hidden-label2"> Ground Floor</label>   
+ </center> 
+  <thead>
+    <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfH_GF }}</td>
+      <td>{{ form.TrayH_GF }}</td>
+      <td>{{ form.SectionH_GF }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+ 
+ 
+
+
+<table class="table" id="LoTableH2">
+
+    <center>
+<label class="hidden-label2">1st Floor</label>   
+ </center> 
+  <thead>
+     <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfH_1F }}</td>
+      <td>{{ form.TrayH_1F }}</td>
+      <td>{{ form.SectionH_1F }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+ 
+
+ 
+
+   
+<table class="table" id="LoTableH3">
+
+    <center>
+<label class="hidden-label2" >2nd Floor</label>   
+ </center> 
+  <thead>
+      <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfH_2F }}</td>
+      <td>{{ form.TrayH_2F }}</td>
+      <td>{{ form.SectionH_2F }}</td>
+
+    </tr>
+
+
+  </tbody>
+</table>
+
+
+
+
+ 
+ 
+
+
+   
+<table class="table" id="LoTableH4">
+
+    <center>
+<label class="hidden-label2">Floor Loft</label>   
+ </center> 
+  <thead>
+       <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfH_FL }}</td>
+      <td>{{ form.TrayH_FL }}</td>
+      <td>{{ form.SectionH_FL }}</td>
+
+    </tr>
+
+
+  </tbody>
+</table>
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="table" id="LoTableM1">
+
+    <center>
+<label class="hidden-label3"> Ground Floor</label>   
+ </center> 
+  <thead>
+    <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfM_GF }}</td>
+      <td>{{ form.TrayM_GF }}</td>
+      <td>{{ form.SectionM_GF }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+ 
+
+
+
+
+
+
+<table class="table" id="LoTableM2">
+
+    <center>
+<label class="hidden-label3">1st Floor</label>   
+ </center> 
+  <thead>
+     <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfM_1F }}</td>
+      <td>{{ form.TrayM_1F }}</td>
+      <td>{{ form.SectionM_1F }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+ 
+
+
+
+
+
+
+<table class="table" id="LoTableM3">
+
+    <center>
+<label class="hidden-label3">2nd Floor</label>   
+ </center> 
+  <thead>
+      <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfM_2F }}</td>
+      <td>{{ form.TrayM_2F }}</td>
+      <td>{{ form.SectionM_2F }}</td>
+
+    </tr>
+
+
+  </tbody>
+</table>
+
+
+
+
+ 
+
+
+
+
+
+
+
+<table class="table" id="LoTableM4">
+
+    <center>
+<label class="hidden-label3">Floor Loft</label>   
+ </center> 
+  <thead>
+       <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfM_FL }}</td>
+      <td>{{ form.TrayM_FL }}</td>
+      <td>{{ form.SectionM_FL }}</td>
+
+    </tr>
+
+
+  </tbody>
+</table>
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="table" id="LoTableU1">
+
+    <center>
+<label class="hidden-label4"> Ground Floor</label>   
+ </center> 
+  <thead>
+    <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfU_GF }}</td>
+      <td>{{ form.TrayU_GF }}</td>
+      <td>{{ form.SectionU_GF }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+ 
+
+
+
+
+
+
+
+<table class="table" id="LoTableU2">
+
+    <center>
+<label class="hidden-label4">1st Floor</label>   
+ </center> 
+  <thead>
+     <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfU_1F }}</td>
+      <td>{{ form.TrayU_1F }}</td>
+      <td>{{ form.SectionU_1F }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+ 
+
+
+
+
+
+
+   
+<table class="table" id="LoTableU3">
+
+    <center>
+<label class="hidden-label4">2nd Floor</label>   
+ </center> 
+  <thead>
+      <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfU_2F }}</td>
+      <td>{{ form.TrayU_2F }}</td>
+      <td>{{ form.SectionU_2F }}</td>
+
+    </tr>
+
+
+  </tbody>
+</table>
+
+
+
+
+ 
+
+
+
+
+   
+<table class="table" id="LoTableU4">
+
+    <center>
+<label class="hidden-label4">Floor Loft</label>   
+ </center> 
+  <thead>
+       <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfU_FL }}</td>
+      <td>{{ form.TrayU_FL }}</td>
+      <td>{{ form.SectionU_FL }}</td>
+
+    </tr>
+
+
+  </tbody>
+</table>
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+<table class="table" id="LoTableGP1">
+
+    <center>
+<label class="hidden-label5"> Ground Floor</label>   
+ </center> 
+  <thead>
+    <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfGP_GF }}</td>
+      <td>{{ form.TrayGP_GF }}</td>
+      <td>{{ form.SectionGP_GF }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+<table class="table" id="LoTableGP2">
+
+    <center>
+<label class="hidden-label5">1st Floor</label>   
+ </center> 
+  <thead>
+     <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfGP_1F }}</td>
+      <td>{{ form.TrayGP_1F }}</td>
+      <td>{{ form.SectionGP_1F }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+ 
+
+
+
+
+   
+<table class="table" id="LoTableGP3">
+
+    <center>
+<label class="hidden-label5">2nd Floor</label>   
+ </center> 
+  <thead>
+      <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfGP_2F }}</td>
+      <td>{{ form.TrayGP_2F }}</td>
+      <td>{{ form.SectionGP_2F }}</td>
+
+    </tr>
+
+
+  </tbody>
+</table>
+
+
+
+
+ 
+  
+
+   
+<table class="table" id="LoTableGP4">
+
+    <center>
+<label class="hidden-label5">Floor Loft</label>   
+ </center> 
+  <thead>
+       <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfGP_FL }}</td>
+      <td>{{ form.TrayGP_FL }}</td>
+      <td>{{ form.SectionGP_FL }}</td>
+
+    </tr>
+
+
+  </tbody>
+</table>
+
+
+
+<br>  
+<br>  
+<br>  
+<br>  
+<br>  
+<br>  
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+ <tr>
+
+         <center>
+            <p>MOISTURE TESTING (Weeks 3, 6, 8)</p>
+</center>
+        </tr>
+
+
+        <tr>
+
+         <center>
+   
+            <p>LOCATION2</p>
+</center>
+        
+
+
+<table class="table" id="LoTableG1_0">
+
+    <center>
+<label class="hidden-label1"> Ground Floor</label>   
+ </center> 
+  <thead>
+    <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfG_0_GF }}</td>
+      <td>{{ form.TrayG_0_GF }}</td>
+      <td>{{ form.SectionG_0_GF }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+
+
+<table class="table" id="LoTableG2_0">
+
+    <center>
+<label class="hidden-label1">1st Floor</label>   
+ </center> 
+  <thead>
+     <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfG_0_1F }}</td>
+      <td>{{ form.TrayG_0_1F }}</td>
+      <td>{{ form.SectionG_0_1F }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+ 
+   
+<table class="table" id="LoTableG3_0">
+
+    <center>
+<label class="hidden-label1" >2nd Floor</label>   
+ </center> 
+  <thead>
+      <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfG_0_2F }}</td>
+      <td>{{ form.TrayG_0_2F }}</td>
+      <td>{{ form.SectionG_0_2F }}</td>
+
+    </tr>
+
+
+  </tbody>
+</table>
+
+
+
+
+ 
+
+ 
+
+   
+<table class="table" id="LoTableG4_0">
+
+    <center>
+<label class="hidden-label1">Floor Loft</label>   
+ </center> 
+  <thead>
+       <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfG_0_FL }}</td>
+      <td>{{ form.TrayG_0_FL }}</td>
+      <td>{{ form.SectionG_0_FL }}</td>
+
+    </tr>
+
+
+  </tbody>
+</table>
+
+
+
+
+ 
+
+
+
+             
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+<table class="table" id="LoTableH1_0">
+
+    <center>
+<label class="hidden-label2"> Ground Floor</label>   
+ </center> 
+  <thead>
+    <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfH_0_GF }}</td>
+      <td>{{ form.TrayH_0_GF }}</td>
+      <td>{{ form.SectionH_0_GF }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+ 
+
+ 
+
+
+<table class="table" id="LoTableH2_0">
+
+    <center>
+<label class="hidden-label2">1st Floor</label>   
+ </center> 
+  <thead>
+     <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfH_0_1F }}</td>
+      <td>{{ form.TrayH_0_1F }}</td>
+      <td>{{ form.SectionH_0_1F }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+ 
+
+
+
+
+<table class="table" id="LoTableH3_0">
+
+    <center>
+<label class="hidden-label2" >2nd Floor</label>   
+ </center> 
+  <thead>
+      <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfH_0_2F }}</td>
+      <td>{{ form.TrayH_0_2F }}</td>
+      <td>{{ form.SectionH_0_2F }}</td>
+
+    </tr>
+
+
+  </tbody>
+</table>
+
+
+
+
+ 
+
+
+ 
+
+   
+<table class="table" id="LoTableH4_0">
+
+    <center>
+<label class="hidden-label2">Floor Loft</label>   
+ </center> 
+  <thead>
+       <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfH_0_FL }}</td>
+      <td>{{ form.TrayH_0_FL }}</td>
+      <td>{{ form.SectionH_0_FL }}</td>
+
+    </tr>
+
+
+  </tbody>
+</table>
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+<table class="table" id="LoTableM1_0">
+
+    <center>
+<label class="hidden-label3"> Ground Floor</label>   
+ </center> 
+  <thead>
+    <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfM_0_GF }}</td>
+      <td>{{ form.TrayM_0_GF }}</td>
+      <td>{{ form.SectionM_0_GF }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+ 
+ 
+
+
+
+<table class="table" id="LoTableM2_0">
+
+    <center>
+<label class="hidden-label3">1st Floor</label>   
+ </center> 
+  <thead>
+     <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfM_0_1F }}</td>
+      <td>{{ form.TrayM_0_1F }}</td>
+      <td>{{ form.SectionM_0_1F }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+ 
+
+
+
+
+
+<table class="table" id="LoTableM3_0">
+
+    <center>
+<label class="hidden-label3">2nd Floor</label>   
+ </center> 
+  <thead>
+      <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfM_0_2F }}</td>
+      <td>{{ form.TrayM_0_2F }}</td>
+      <td>{{ form.SectionM_0_2F }}</td>
+
+    </tr>
+
+
+  </tbody>
+</table>
+
+
+
+
+ 
+
+
+
+<table class="table" id="LoTableM4_0">
+
+    <center>
+<label class="hidden-label3">Floor Loft</label>   
+ </center> 
+  <thead>
+       <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfM_0_FL }}</td>
+      <td>{{ form.TrayM_0_FL }}</td>
+      <td>{{ form.SectionM_0_FL }}</td>
+
+    </tr>
+
+
+  </tbody>
+</table>
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+<table class="table" id="LoTableU1_0">
+
+    <center>
+<label class="hidden-label4"> Ground Floor</label>   
+ </center> 
+  <thead>
+    <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfU_0_GF }}</td>
+      <td>{{ form.TrayU_0_GF }}</td>
+      <td>{{ form.SectionU_0_GF }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+<table class="table" id="LoTableU2_0">
+
+    <center>
+<label class="hidden-label4">1st Floor</label>   
+ </center> 
+  <thead>
+     <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfU_0_1F }}</td>
+      <td>{{ form.TrayU_0_1F }}</td>
+      <td>{{ form.SectionU_0_1F }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+ 
+
+ 
+
+   
+<table class="table" id="LoTableU3_0">
+
+    <center>
+<label class="hidden-label4">2nd Floor</label>   
+ </center> 
+  <thead>
+      <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfU_0_2F }}</td>
+      <td>{{ form.TrayU_0_2F }}</td>
+      <td>{{ form.SectionU_0_2F }}</td>
+
+    </tr>
+
+
+  </tbody>
+</table>
+
+
+
+
+ 
+
+
+
+
+
+   
+<table class="table" id="LoTableU4_0">
+
+    <center>
+<label class="hidden-label4">Floor Loft</label>   
+ </center> 
+  <thead>
+       <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfU_0_FL }}</td>
+      <td>{{ form.TrayU_0_FL }}</td>
+      <td>{{ form.SectionU_0_FL }}</td>
+
+    </tr>
+
+
+  </tbody>
+</table>
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="table" id="LoTableGP1_0">
+
+    <center>
+<label class="hidden-label5"> Ground Floor</label>   
+ </center> 
+  <thead>
+    <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfGP_0_GF }}</td>
+      <td>{{ form.TrayGP_0_GF }}</td>
+      <td>{{ form.SectionGP_0_GF }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+  
+
+
+
+
+
+
+<table class="table" id="LoTableGP2_0">
+
+    <center>
+<label class="hidden-label5">1st Floor</label>   
+ </center> 
+  <thead>
+     <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfGP_0_1F }}</td>
+      <td>{{ form.TrayGP_0_1F }}</td>
+      <td>{{ form.SectionGP_0_1F }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+ 
+
+
+
+   
+<table class="table" id="LoTableGP3_0">
+
+    <center>
+<label class="hidden-label5">2nd Floor</label>   
+ </center> 
+  <thead>
+      <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfGP_0_2F }}</td>
+      <td>{{ form.TrayGP_0_2F }}</td>
+      <td>{{ form.SectionGP_0_2F }}</td>
+
+    </tr>
+
+
+  </tbody>
+</table>
+
+
+
+
+ 
+
+
+
+   
+<table class="table" id="LoTableGP4_0">
+
+    <center>
+<label class="hidden-label5">Floor Loft</label>   
+ </center> 
+  <thead>
+       <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfGP_0_FL }}</td>
+      <td>{{ form.TrayGP_0_FL }}</td>
+      <td>{{ form.SectionGP_0_FL }}</td>
+
+    </tr>
+
+
+  </tbody>
+</table>
+
+  
+
+<br>  
+<br>  
+<br>  
+<br>  
+<br>  
+<br>  
+
+
+
+
+
+
+
+<tr>
+
+         <center>
+
+</center>
+        </tr>
+
+
+
+<table class="table" >
+
+    <center>
+<label class="hidden-label5">MONITORING AND INSPECTION</label>   
+ </center> 
+  <thead>
+    <tr>
+      <th scope="col">Station</th>
+      <th scope="col">Location</th>
+      <th scope="col">Defect</th>
+      <th scope="col">Predominant Defect</th>
+     </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{{ form.STATION2 }}</td>
+      <td>{{ form.LOCATION3 }}</td>
+      <td>{{ form.DEFECT }}</td>
+      <td>{{ form.PREDOMINANT_DEFECT }}</td>
+ 
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="table">
+
+    <center>
+ </center> 
+  <thead>
+
+  </thead>
+  <tbody>
+    <tr>
+
+
+       <td>ALERT</td>
+      <td>{{ form.ALERT }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+
+ 
+
+
+        <tr>
+            <th>Sampling from Gouyvae</th>
+            <td>{{ form.Sampling_from_gouyvae }}</td>
+        </tr>
+
+
+<br>
+
+
+        <tr>
+            <th>Control Number</th>
+            <td>{{ form.Control_number }}</td>
+        </tr>
+</table>
+
+
+
+    </table>
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a href="{% url 'view_IH' %}" class="btn btn-secondary">Cancel</a>    </form>
+
+        </form>
+
+ 
+
+{% endblock %}

@@ -1,0 +1,1827 @@
+{% extends 'gcna/base2.html' %}
+
+{% block content%}
+
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      var myForm = document.getElementById('form1');
+      var modal = document.getElementById('formModal');
+      var openModalBtn = document.getElementById('openModalBtn');
+      var closeModalBtn = document.getElementsByClassName('close')[0];
+
+      openModalBtn.addEventListener('click', function() {
+          modal.style.display = 'block';
+      });
+
+      closeModalBtn.addEventListener('click', function() {
+          modal.style.display = 'none';
+      });
+
+      window.addEventListener('click', function(event) {
+          if (event.target == modal) {
+              modal.style.display = 'none';
+          }
+      });
+
+      myForm.addEventListener('submit', function(event) {
+          event.preventDefault();
+          var data = new FormData(event.target);
+          
+          saveDataToIndexedDB(data);
+      });
+
+      function saveDataToIndexedDB(data) {
+          data.delete('csrfmiddlewaretoken');
+          data.delete('initial-entryCheck');
+
+          var request = indexedDB.open('GCNA', 2);
+
+          request.onsuccess = function(event) {
+              var db = event.target.result;
+              var transaction = db.transaction('Vehicle_Inspection', 'readwrite');
+              var objectStore = transaction.objectStore('Vehicle_Inspection');
+
+              var obj = {};
+              for (var pair of data.entries()) {
+                  obj[pair[0]] = pair[1];
+              }
+
+              var highestIdRequest = objectStore.openCursor(null, 'prev');
+              highestIdRequest.onsuccess = function(event) {
+                  var cursor = event.target.result;
+                  if (cursor) {
+                      obj.id = cursor.key + 1;
+                  } else {
+                      obj.id = 1;
+                  }
+
+                  var request = objectStore.put(obj);
+
+                  request.onsuccess = function() {
+                      console.log('Data added to IndexedDB');
+                      transferIndexedDBData();
+                      populateSelect_second();
+                  };
+
+                  request.onerror = function() {
+                      console.error('Error adding data to IndexedDB');
+                  };
+              };
+          };
+
+          request.onerror = function(event) {
+              console.error('Error opening IndexedDB', event);
+          };
+      }
+
+      function transferIndexedDBData() {
+            var request = indexedDB.open('GCNA', 2);
+        
+            request.onsuccess = function(event) {
+                var db = event.target.result;
+                var transaction = db.transaction('Vehicle_Inspection', 'readonly');
+                var objectStore = transaction.objectStore('Vehicle_Inspection');
+                var getRequest = objectStore.getAll();
+        
+                getRequest.onsuccess = function(event) {
+                    var data = event.target.result;
+                    data.forEach(function(item) {
+  
+                    });
+                };
+            };
+        
+            request.onerror = function(event) {
+                console.error('Error opening IndexedDB', event);
+            };
+        }
+    
+        function populateSelect_second() {
+    var request = indexedDB.open('GCNA', 2);
+
+    request.onerror = function(event) {
+        console.error("IndexedDB error:", event.target.error);
+    };
+
+    request.onsuccess = function(event) {
+        var db = event.target.result;
+        var select = document.getElementById('vehicleSelect');
+        
+        // If select doesn't exist, create it (though this shouldn't happen if the HTML is properly set up)
+        if (!select) {
+            var selectDiv = document.getElementById('selectContainer');
+            select = document.createElement('select');
+            select.id = 'vehicleSelect';
+            select.classList.add('form-control');
+            selectDiv.appendChild(select);
+        }
+        
+        // Clear existing options
+        select.innerHTML = '';
+
+        var transaction = db.transaction('Vehicle_Inspection', 'readonly');
+        var objectStore = transaction.objectStore('Vehicle_Inspection');
+        var vehicleNumbers = [];
+
+        objectStore.openCursor().onsuccess = function(event) {
+            var cursor = event.target.result;
+            if (cursor) {
+                var vehicleNumber = cursor.value.Vehicle_number;
+                if (!vehicleNumbers.includes(vehicleNumber)) {
+                    vehicleNumbers.push(vehicleNumber);
+                    var option = document.createElement('option');
+                    option.textContent = vehicleNumber;
+                    option.value = vehicleNumber;
+                    select.appendChild(option);
+                }
+                cursor.continue();
+            }
+        };
+    };
+}
+
+
+    });
+</script>
+
+ 
+<div id="formModal" class="modal">
+  <div class="modal-content">
+      <span class="close">&times;</span>
+      <form id="form1" style="
+          background-color: #e4e4e4;
+          margin: 1px auto;
+          font-family: Raleway;
+          padding: 10px;
+          width: 95%;
+          min-width: 300px;
+          border-radius: 10px;
+          box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);
+          overflow: auto;">
+          <div class="card">
+              <div class="card-body">
+                  <center>
+                      <h5>Vehicle Inspection Log</h5>
+                  </center>
+                  {% csrf_token %}
+                  <table id="vertical-1" class="table table-hover table-light">
+                      <thead>
+                          <tr>
+                              <th colspan="2" class="main-header" style="text-align:center;">Provider</th>
+                              <th colspan="2" class="main-header" style="text-align:center;">{{ form_popups.Provider }}</th>
+                          </tr>
+                          <tr>
+                              <th colspan="2" class="main-header" style="text-align:center;">Vehicle Number</th>
+                              <th colspan="2" class="main-header" style="text-align:center;">{{ form_popups.Vehicle_number }}</th>
+                          </tr>
+                          <tr>
+                              <th colspan="2" class="main-header" style="text-align:center;">Driver Name</th>
+                              <th colspan="2" class="main-header" style="text-align:center;">{{ form_popups.Driver_name }}</th>
+                          </tr>
+                          <tr>
+                              <th colspan="2" class="main-header" style="text-align:center;">Driver has Valid License</th>
+                              <th colspan="2" class="main-header" style="text-align:center;">{{ form_popups.liscense_check }}</th>
+                          </tr>
+                          <tr>
+                              <th colspan="2" class="main-header" style="text-align:center;">Vehicle is Insured</th>
+                              <th colspan="2" class="main-header" style="text-align:center;">{{ form_popups.insurance_check }}</th>
+                          </tr>
+                          <tr>
+                              <th colspan="4" class="main-header" style="text-align:center;">General Condition of Vehicle</th>
+                          </tr>
+                          <tr>
+                              <th colspan="2" class="main-header" style="text-align:center;">Cleaning Status</th>
+                              <th colspan="2" class="main-header" style="text-align:center;">{{ form_popups.Clean_check }}</th>
+                          </tr>
+                          <tr>
+                              <th colspan="2" class="main-header" style="text-align:center;">Oil Spill</th>
+                              <th colspan="2" class="main-header" style="text-align:center;">{{ form_popups.Oil_Spill }}</th>
+                          </tr>
+                          <tr>
+                              <th colspan="2" class="main-header" style="text-align:center;">Tyres fit for use (not smooth)</th>
+                              <th colspan="2" class="main-header" style="text-align:center;">{{ form_popups.Tyres_fit }}</th>
+                          </tr>
+                          <tr>
+                              <th colspan="4" class="main-header" style="text-align:center;">Condition of Vehicle Tray</th>
+                          </tr>
+                          <tr>
+                              <th colspan="2" class="main-header" style="text-align:center;">Residue of Previous Cargo</th>
+                              <th colspan="2" class="main-header" style="text-align:center;">{{ form_popups.Resisdue_prev_Cargo }}</th>
+                          </tr>
+                          <tr>
+                              <th colspan="2" class="main-header" style="text-align:center;">Presence of debris/extraneous matter</th>
+                              <th colspan="2" class="main-header" style="text-align:center;">{{ form_popups.Presence_of_Debris }}</th>
+                          </tr>
+                          <tr>
+                              <th colspan="2" class="main-header" style="text-align:center;">Tarpaulin present</th>
+                              <th colspan="2" class="main-header" style="text-align:center;">{{ form_popups.Tarpaulin_present }}</th>
+                          </tr>
+                          <tr>
+                              <th colspan="4" class="main-header" style="text-align:center;">Security of Cargo</th>
+                          </tr>
+                          <tr>
+                              <th colspan="2" class="main-header" style="text-align:center;">Cargo Present</th>
+                              <th colspan="2" class="main-header" style="text-align:center;">{{ form_popups.Cargo_present }}</th>
+                          </tr>
+
+                          <tr id="cargoPresentContRow" style="display: none;">
+                            <th colspan="4" class="main-header" style="text-align:center;">{{ form_popups.Cargo_present_cont }}</th>
+                        </tr>
+
+                          
+                          <tr>
+                              <th colspan="2" class="main-header" style="text-align:center;">Condition of Cargo</th>
+                              <th colspan="2" class="main-header" style="text-align:center;">{{ form_popups.Condition_of_cargo }}</th>
+                          </tr>
+                          <tr>
+                              <th colspan="2" class="main-header" style="text-align:center;">Are Goods covered?</th>
+                              <th colspan="2" class="main-header" style="text-align:center;">{{ form_popups.covered_goods }}</th>
+                          </tr>
+                          <tr>
+                              <th colspan="4" class="main-header" style="text-align:center;">Vehicles fit for use</th>
+                          </tr>
+                          <tr>
+                              <th colspan="2" class="main-header" style="text-align:center;">Are the Vehicles fit for use?</th>
+                              <th colspan="2" class="main-header" style="text-align:center;">{{ form_popups.vehicle_for_use }}</th>
+                          </tr>
+                          <tr>
+                              <th colspan="4" class="main-header" style="text-align:center;">Weather Condition</th>
+                          </tr>
+                          <tr>
+                              <th colspan="2" class="main-header" style="text-align:center;">Current Weather?</th>
+                              <th colspan="2" class="main-header" style="text-align:center;">{{ form_popups.Weather }}</th>
+                          </tr>
+                          <tr>
+                              <th colspan="2" class="main-header" style="text-align:center;">Comments</th>
+                              <th colspan="2" class="main-header" style="text-align:center;">{{ form_popups.comments }}</th>
+                          </tr>
+                          <tr>
+                              <th colspan="1" class="main-header" style="text-align:center;">Inspected by</th>
+                              <th colspan="1" class="main-header" style="text-align:center;">{{ form_popups.inspected_by }}</th>
+                              <th colspan="1" class="main-header" style="text-align:center;">Verified by</th>
+                              <th colspan="1" class="main-header" style="text-align:center;">{{ form_popups.verified_by }}</th>
+                          </tr>
+                          <tr>
+                              <th colspan="1" class="main-header" style="text-align:center;">Date</th>
+                              <th colspan="1" class="main-header" style="text-align:center;">{{ form_popups.inspected_by_date }}</th>
+                              <th colspan="1" class="main-header" style="text-align:center;">Date</th>
+                              <th colspan="1" class="main-header" style="text-align:center;">{{ form_popups.verified_by_date }}</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr>
+                              <th colspan="12"><input type="submit" name="" value="✔" class="btn btn-success btn-circle btn-xl"></th>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+      </form>
+  </div>
+</div>
+
+<style>
+  .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgb(0,0,0);
+      background-color: rgba(0,0,0,0.4);
+  }
+
+  .modal-content {
+      background-color: #fefefe;
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      border-radius: 10px;
+  }
+
+  .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+  }
+
+  .close:hover,
+  .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+  }
+</style>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>
+    .menu {
+      display: flex;
+      list-style: none;
+      padding: 0;
+    }
+  
+    .menu li {
+      margin-right: 20px;
+    }
+  
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+  
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f9f9f9;
+      min-width: 160px;
+      z-index: 1;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+  
+    .dropdown-content.show {
+      display: block;
+      opacity: 1;
+    }
+  
+    .dropdown-content .container {
+      padding: 15px;
+    }
+  
+    .dropdown button {
+      cursor: pointer;
+    }
+  </style>
+<!-- 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var myForm = document.getElementById('myForm'); // Ensure your form has the ID 'myForm'
+
+        myForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            var data = new FormData(event.target);
+
+            // Get the selected vehicle number
+            var selectElement = document.getElementById('vehicleSelect');
+            var vehicleNumber = selectElement.options[selectElement.selectedIndex].text;
+
+            // Clean the value by trimming spaces and removing newline characters
+            vehicleNumber = vehicleNumber.replace(/\n/g, '').replace(/\s+/g, ' ').trim();
+
+            // Add Vehicle_number to FormData
+            data.append('Vehicle_number', vehicleNumber);
+
+            // Save data to IndexedDB (assuming you have a function for this)
+            saveDataToIndexedDB(data);
+        });
+    });
+    
+  function saveDataToIndexedDB(data) {
+    // Exclude csrfmiddlewaretoken from being saved to IndexedDB
+    data.delete('csrfmiddlewaretoken');
+  
+    var request = indexedDB.open('GCNA', 2);
+  
+    request.onsuccess = function(event) {
+        var db = event.target.result;
+        var transaction = db.transaction('Dispatch-Of-Green', 'readwrite');
+        var objectStore = transaction.objectStore('Dispatch-Of-Green');
+  
+        var obj = {};
+        for (var pair of data.entries()) {
+            obj[pair[0]] = pair[1];
+        }
+  
+        // Get the highest id in the object store
+        var highestIdRequest = objectStore.openCursor(null, 'prev');
+        highestIdRequest.onsuccess = function(event) {
+            var cursor = event.target.result;
+            if (cursor) {
+                obj.id = cursor.key + 1;
+            } else {
+                obj.id = 1; // This is the first item
+            }
+  
+            var request = objectStore.put(obj);
+  
+            request.onsuccess = function() {
+                console.log('Data added to IndexedDB');
+                transferIndexedDBData(); // Transfer data to Django after saving to IndexedDB
+            };
+  
+            request.onerror = function() {
+                console.error('Error adding data to IndexedDB');
+            };
+        };
+    };
+  
+    request.onerror = function(event) {
+        console.error('Error opening IndexedDB', event);
+    };
+  }
+        function transferIndexedDBData() {
+            var request = indexedDB.open('GCNA', 2);
+        
+            request.onsuccess = function(event) {
+                var db = event.target.result;
+                var transaction = db.transaction('Dispatch-Of-Green', 'readonly');
+                var objectStore = transaction.objectStore('Dispatch-Of-Green');
+                var getRequest = objectStore.getAll();
+        
+                getRequest.onsuccess = function(event) {
+                    var data = event.target.result;
+                    data.forEach(function(item) {
+                        // sendDataToDjango(item);
+                    });
+                    window.location.reload();
+
+                };
+            };
+        
+            request.onerror = function(event) {
+                console.error('Error opening IndexedDB', event);
+            };
+        }
+    
+        function sendDataToDjango(item) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/check-and-add/', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        console.log('Entry added successfully.');
+                    } else {
+                        console.error('Error adding entry:', xhr.statusText);
+                    }
+                }
+            };
+            xhr.send(JSON.stringify(item));
+        }
+    });
+  </script> -->
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var myForm = document.getElementById('myForm'); // Ensure your form has the ID 'myForm'
+
+        myForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            var data = new FormData(event.target);
+
+            // Get the selected vehicle number
+            var selectElement = document.getElementById('vehicleSelect');
+            var vehicleNumber = selectElement.options[selectElement.selectedIndex].text;
+
+            // Clean the value by trimming spaces and removing newline characters
+            vehicleNumber = vehicleNumber.replace(/\n/g, '').replace(/\s+/g, ' ').trim();
+
+            // Add Vehicle_number to FormData
+            data.append('Vehicle_number', vehicleNumber);
+
+            // Save data to IndexedDB (assuming you have a function for this)
+            saveDataToIndexedDB(data);
+        });
+    });
+
+    function saveDataToIndexedDB(data) {
+        // Exclude csrfmiddlewaretoken from being saved to IndexedDB
+        data.delete('csrfmiddlewaretoken');
+      
+        var request = indexedDB.open('GCNA', 2);
+    
+        request.onsuccess = function(event) {
+            var db = event.target.result;
+            var transaction = db.transaction('Dispatch-Of-Green', 'readwrite');
+            var objectStore = transaction.objectStore('Dispatch-Of-Green');
+    
+            var obj = {};
+            for (var pair of data.entries()) {
+                obj[pair[0]] = pair[1];
+            }
+    
+            // Get the highest id in the object store
+            var highestIdRequest = objectStore.openCursor(null, 'prev');
+            highestIdRequest.onsuccess = function(event) {
+                var cursor = event.target.result;
+                if (cursor) {
+                    obj.id = cursor.key + 1;
+                } else {
+                    obj.id = 1; // This is the first item
+                }
+    
+                var request = objectStore.put(obj);
+    
+                request.onsuccess = function() {
+                    console.log('Data added to IndexedDB');
+                    transferIndexedDBData(); // Transfer data to Django after saving to IndexedDB
+                };
+    
+                request.onerror = function() {
+                    console.error('Error adding data to IndexedDB');
+                };
+            };
+        };
+    
+        request.onerror = function(event) {
+            console.error('Error opening IndexedDB', event);
+        };
+    }
+
+    function transferIndexedDBData() {
+        var request = indexedDB.open('GCNA', 2);
+    
+        request.onsuccess = function(event) {
+            var db = event.target.result;
+            var transaction = db.transaction('Dispatch-Of-Green', 'readonly');
+            var objectStore = transaction.objectStore('Dispatch-Of-Green');
+            var getRequest = objectStore.getAll();
+    
+            getRequest.onsuccess = function(event) {
+                var data = event.target.result;
+                data.forEach(function(item) {
+                    sendDataToDjango(item);
+                });
+                window.location.reload();
+            };
+        };
+    
+        request.onerror = function(event) {
+            console.error('Error opening IndexedDB', event);
+        };
+    }
+
+    function sendDataToDjango(item) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/check-and-add/', true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    console.log('Entry added successfully.');
+                } else {
+                    console.error('Error adding entry:', xhr.statusText);
+                }
+            }
+        };
+        xhr.send(JSON.stringify(item));
+    }
+</script>
+
+<script>
+
+
+    var request = indexedDB.open('Signin', 1);
+   
+    request.onsuccess = function(event) {
+        var db = event.target.result;
+        var transaction = db.transaction('verify', 'readonly');
+        var store = transaction.objectStore('verify');
+        var getRequest = store.get(1); // Assuming you want to get the first entry
+   
+        getRequest.onsuccess = function(event) {
+            var data = event.target.result;
+            if (data) {
+                // Set the values in the form
+                document.querySelector('[name="Worker_ID_No"]').value = data.Worker_ID_No;
+                document.querySelector('[name="Worker_ID_Name"]').value = data.Name;
+            }
+        };
+    };
+   </script>
+  
+
+<!-- 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var myForm = document.getElementById('myForm');
+    
+        myForm.addEventListener('submit', function(event) {
+  
+            event.preventDefault();
+            var data = new FormData(event.target);
+            saveDataToIndexedDB(data);
+        });
+    
+        function saveDataToIndexedDB(data) {
+            var request = indexedDB.open('GCNA', 2);
+        
+            request.onsuccess = function(event) {
+                var db = event.target.result;
+                var transaction = db.transaction('Dispatch-Of-Green', 'readwrite');
+                var objectStore = transaction.objectStore('Dispatch-Of-Green');
+        
+                var obj = {};
+                for (var pair of data.entries()) {
+                    obj[pair[0]] = pair[1];
+                }
+        
+                // Get the highest id in the object store
+                var highestIdRequest = objectStore.openCursor(null, 'prev');
+                highestIdRequest.onsuccess = function(event) {
+                    var cursor = event.target.result;
+                    if (cursor) {
+                        obj.id = cursor.key + 1;
+                    } else {
+                        obj.id = 1; // This is the first item
+                    }
+        
+                    var request = objectStore.put(obj);
+        
+                    request.onsuccess = function() {
+                        console.log('Data added to IndexedDB');
+                        window.location.href = '/gcna00_2/';
+  
+                    };
+        
+                    request.onerror = function() {
+                        console.error('Error adding data to IndexedDB');
+                    };
+                };
+            };
+        
+            request.onerror = function(event) {
+                console.error('Error opening IndexedDB', event);
+            };
+        }
+        
+    });
+    </script>
+  
+   -->
+
+<!-- IMplement previous entry traceability -->
+	<center>
+
+
+
+    <style>
+      .addrow, .submit_contents {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            font-size: 14px; /* Ensure button text is readable */
+        }
+      
+        .addrow:hover, .submit_contents:hover {
+            background-color: #0056b3;
+        }
+      .checkhide{
+      opacity: o;
+      }
+      
+        /* Ensure the table is responsive */
+        @media (max-width: 768px) {
+            .table th, .table td {
+                min-width: 120px; /* Adjust for smaller screens */
+            }
+      
+            .form-control {
+                min-width: 120px; /* Adjust for smaller screens */
+                font-size: 12px; /* Smaller font size for smaller screens */
+            }
+      
+            .add-row, .submit_contents {
+                font-size: 12px; /* Smaller font size for smaller screens */
+            }
+        }
+      </style>
+
+
+<br>
+	{% if submitted %}
+		Entry successfully added to database!!!
+	{% else %}
+		<form action="" method="POST" id="myForm"  enctype="multipart/form-data" style=" background-color: #e4e4e4;
+
+    margin: 1px auto;
+    font-family: Raleway;
+    padding: 10px;
+    width: 55%;
+    min-width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">
+  <h6>Document No. GCNA-GMP</h6>
+<h6>Document Title:  </h6>
+<h6>Date Issued:  </h6>
+<h6>Version:  </h6>
+		{% csrf_token %}
+
+
+
+
+
+
+
+
+    <div class="card">
+ 
+  <div class="card-body">
+
+  </h5>
+    <p class="card-text">
+        <table id="vertical-1" class="table table-hover table-light">
+
+    <h1>Dispatched Green Nutmeg Form</h1>
+ 
+		{% csrf_token %}
+{% comment %} 
+
+{{form.Nutmeg_ID_No}}
+{{form.Nutmeg_ID_No}} {% endcomment %}
+{{ form.Worker_ID_No }}
+{{ form.Worker_ID_Name }}
+
+
+<tr>
+  <th>Date</th>
+  <td>{{ form.DATE_CREATED }}</td>
+</tr> 
+
+
+        <tr>
+            <th>STATION</th>
+            <td>{{ form.STATION }}</td>
+        </tr>
+    <tr>
+            <th>DATE OF PURCHASE</th>
+            <td>{{ form.DATE_OF_PURCHASE }}</td>
+        </tr>
+
+
+        <tr>
+            <th>TOTAL # OF FARMERS</th>
+            <td>{{ form.TOTAL_NUM_OF_FARMERS }}</td>
+        </tr>
+    <tr>
+            <th>TOTAL LBS NUTMEG BOUGHT</th>
+            <td>{{ form.TOTAL_LBS_NUTMEG_BOUGHT }}</td>
+        </tr>
+<tr>
+  
+  <th >Vehicle Number</th>
+  <td><div id="selectContainer"></div></td>
+ <td> <a type="button" id="openModalBtn" class="btn btn-primary">+</a type="button"></td>
+
+</tr>
+        <tr>
+          <th>Batch Codes</th>
+          <td>{{ form.BATCH_CODES }}</td>
+      </tr>
+        <tr>
+            <th># OF BAGS</th>
+            <td>{{ form.NUM_OF_BAGS }}</td>
+        </tr>
+
+        <tr>
+            <th>DELIVERY ADVICE NUMBER</th>
+            <td>{{ form.DELIVERY_ADVICE_NUMBER }}</td>
+        </tr>
+
+        <tr>
+            <th>WAREHOUSE RECEIPT NUMBER</th>
+            <td>{{ form.WAREHOUSE_RECEIPT_NUMBER }}</td>
+        </tr>
+
+
+        <!-- <tr>
+            <th>CONTROL NUMBER(s)</th>
+            <td>{{ form.CONTROL_NUMBER }}</td>
+        </tr> -->
+      </table>
+
+        <tr>
+        <ul class="menu">
+          <li class="dropdown">
+            <button type="button" class="addrow" onclick="toggleDropdown()">Purchased Nutmeg List</button>
+            <div class="dropdown-content" id="myDropdown">
+              <div class="container">
+              </div>
+              <div id="landInfoData"></div>
+            </div>
+          </li>
+        </ul>
+      </td>    
+    </tr>   
+             
+
+</table>
+
+
+
+
+        <tr>
+            <th><a href="{% url 'table' %}" class="btn btn-secondary">Return</a></th>
+        </tr>
+
+
+            <th><a type="submit" href="{% url 'add_Dispatch_Dried_0' %}" role="button" class="btn btn-primary">Previous</a></th>		
+		<input type="submit" name="" value="submit" class="btn btn-success">
+		
+
+            <th><a type="submit" href="{% url 'add_Cracking_0' %}" role="button" class="btn btn-primary">Next</a></th> 
+
+
+
+ 
+		</form>
+
+	{% endif %}
+
+
+
+
+
+
+
+
+
+
+
+	</center>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     
+    <script>
+        function toggleDropdown() {
+          var dropdownContent = document.getElementById("myDropdown");
+          dropdownContent.classList.toggle("show");
+        }
+        </script>
+  
+  
+  
+  
+  
+      </center>
+      <script>// Function to populate the select element with options
+        function populateSelect() {
+            var request = indexedDB.open('GCNA', 2);
+        
+            request.onerror = function(event) {
+                console.error("IndexedDB error:", event.target.error);
+            };
+        
+            request.onsuccess = function(event) {
+                var db = event.target.result;
+                var selectDiv = document.getElementById('selectContainer'); // ID of the div where select will be added
+        
+                // Create select element with form-control class
+                var select = document.createElement('select');
+                select.id = 'vehicleSelect';
+                select.classList.add('form-control'); // Add form-control class
+        
+                // Clear previous options
+                select.innerHTML = '';
+        
+                var vehicleNumbers = [];
+        
+                // Open a new transaction for object store
+                var transaction = db.transaction('Vehicle_Inspection', 'readonly');
+                var objectStore = transaction.objectStore('Vehicle_Inspection');
+        
+                transaction.oncomplete = function() {
+                    // Append select to the div
+                    selectDiv.appendChild(select);
+                };
+        
+                objectStore.openCursor().onsuccess = function(event) {
+                    var cursor = event.target.result;
+                    if (cursor) {
+                        var vehicleNumber = cursor.value.Vehicle_number;
+                        if (!vehicleNumbers.includes(vehicleNumber)) {
+                            vehicleNumbers.push(vehicleNumber);
+                            var option = document.createElement('option');
+                            option.textContent = vehicleNumber;
+                            option.value = vehicleNumber;
+                            select.appendChild(option);
+                        }
+                        cursor.continue();
+                    }
+                };
+            };
+        }
+        
+        // Function to trigger the populateSelect function after a delay
+        // function triggerPopulateSelectWithDelay() {
+        //     setTimeout(populateSelect, 5000); // 5000 milliseconds = 5 seconds
+        // }
+        
+        // Call the trigger function when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+          populateSelect();
+        });
+        
+        </script>
+      </center>
+      <script>
+        let openRequest = indexedDB.open("GCNA");
+    
+        let fieldBlacklist = [];
+        const fieldBlacklistConfig = {
+            DATE_OF_SAMPLING: true, // Set to true to blacklist if null or empty
+            DECISION: true,
+            Quantity_of_Bags: true,
+            // Add more fields as needed
+        };
+    openRequest.onsuccess = function(event) {
+    let db = event.target.result;
+
+    let transaction = db.transaction("In-House-Drying", "readonly");
+    let landInfoStore = transaction.objectStore("In-House-Drying");
+    let getAllRequest = landInfoStore.getAll();
+
+    getAllRequest.onsuccess = function(event) {
+        let landInfoRecords = event.target.result;
+        let landInfoDataDiv = document.getElementById("landInfoData");
+        if (!landInfoDataDiv) {
+            console.error("Element with ID 'landInfoData' not found.");
+            return;
+        }
+        landInfoDataDiv.innerHTML = ''; // Clear previous entries
+
+        landInfoRecords.forEach((record) => {
+            // Ensure record.Control_number is not null/undefined, then split, trim, and filter empty strings
+            const inHouseControlNumbers = record.Control_number ?
+                record.Control_number.split(",").map(cn => cn.trim()).filter(cn => cn) : [];
+
+            let batchCodeCheckboxes = '';
+            if (inHouseControlNumbers.length > 0) {
+                inHouseControlNumbers.forEach((codeValue, i) => {
+                    const checkboxId = `control_num_code_${record.id}_${i}`; // Unique ID
+                    // Pass record.id and the specific code to updateControlNum if needed
+                    batchCodeCheckboxes += `<input type="checkbox" id="${checkboxId}" name="control_num_codes_${record.id}" value="${codeValue}" onchange="updateControlNum(this, '${record.id}', '${codeValue}')">
+                                          <label for="${checkboxId}">${codeValue}</label><br>`;
+                });
+            } else {
+                batchCodeCheckboxes = 'N/A';
+            }
+
+            let stationCheckboxHtml = '';
+            const stationValue = record.STATION ? record.STATION.trim() : '';
+            if (stationValue) {
+                const stationCheckboxId = `station_code_${record.id}`; // Unique ID
+                // Pass record.id and stationValue to setSelectedStation if needed
+                stationCheckboxHtml += `<input type="checkbox" id="${stationCheckboxId}" name="station_${record.id}" value="${stationValue}" onchange="setSelectedStation(this, '${record.id}', '${stationValue}')"> <label for="${stationCheckboxId}">${stationValue}</label><br>`;
+            } else {
+                stationCheckboxHtml = 'N/A';
+            }
+
+            // Check if record is complete BEFORE doing expensive dispatch checks
+            if (record.COMPLETE !== 'Yes') {
+                console.log(`Record ID ${record.id} (Control Numbers: ${inHouseControlNumbers.join(', ') || 'N/A'}) is not marked as COMPLETE. Skipping.`);
+                return; // Skip to the next record
+            }
+
+            let dispatchTransaction = db.transaction(["Dispatch-Of-Dried-Nutmeg", "Dispatch-Of-Green"], "readonly");
+            let dispatchStoreDried = dispatchTransaction.objectStore("Dispatch-Of-Dried-Nutmeg");
+            let dispatchStoreGreen = dispatchTransaction.objectStore("Dispatch-Of-Green");
+
+            let getAllDispatchRequestDried = dispatchStoreDried.getAll();
+            // It's often better to initiate both requests and then handle them,
+            // possibly with Promise.all if you refactor to use Promises.
+            // For nested callbacks, one after the other is fine.
+
+            getAllDispatchRequestDried.onsuccess = function(eventDried) {
+                let dispatchRecordsDried = eventDried.target.result;
+                let existsInDried = false;
+                if (inHouseControlNumbers.length > 0) { // Only check if there are control numbers
+                    existsInDried = dispatchRecordsDried.some(dispatchRecord => {
+                        if (!dispatchRecord.BATCH_CODES) return false;
+                        return inHouseControlNumbers.some(cn => dispatchRecord.BATCH_CODES.includes(cn));
+                    });
+                }
+
+                if (existsInDried) {
+                    console.log(`Record ID ${record.id} (Control Numbers: ${inHouseControlNumbers.join(', ')}) found in Dispatch-Of-Dried-Nutmeg. Dropdown not generated.`);
+                } else {
+                    // Not in Dried, now check Green
+                    let getAllDispatchRequestGreen = dispatchStoreGreen.getAll(); // Get fresh request object
+
+                    getAllDispatchRequestGreen.onsuccess = function(eventGreen) {
+                        let dispatchRecordsGreen = eventGreen.target.result;
+                        let existsInGreen = false;
+                        if (inHouseControlNumbers.length > 0) { // Only check if there are control numbers
+                             existsInGreen = dispatchRecordsGreen.some(dispatchRecord => {
+                                if (!dispatchRecord.BATCH_CODES) return false;
+                                return inHouseControlNumbers.some(cn => dispatchRecord.BATCH_CODES.includes(cn));
+                            });
+                        }
+
+                        if (existsInGreen) {
+                            console.log(`Record ID ${record.id} (Control Numbers: ${inHouseControlNumbers.join(', ')}) found in Dispatch-Of-Green. Dropdown not generated.`);
+                        } else {
+                            // Not in Dried and not in Green, and record.COMPLETE is 'Yes'
+                            console.log(`Record ID ${record.id} (Control Numbers: ${inHouseControlNumbers.join(', ') || 'None'}) is COMPLETE and not found in any dispatch. Generating dropdown.`);
+                            let entryContainer = document.createElement("div");
+                            entryContainer.id = `entryContainer_${record.id}`;
+                            entryContainer.classList.add("entryContainer", "mb-3"); // Added margin-bottom for spacing
+
+                            let dropdownContent = `
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton_${record.id}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Entry ID: ${record.id} (${inHouseControlNumbers.join(', ') || 'N/A'})
+                                </button>
+                                <input type="hidden" id="valueChange_${record.id}_ControlNum" value="${record.Control_number || ''}">
+                                <button type="button" style="display:none;" class="add-row" onclick="fill_table('${record.id}')">Fill Table from Record ${record.id}</button>
+                                <div class="dropdown-menu p-2 shadow" aria-labelledby="dropdownMenuButton_${record.id}" style="width: max-content; max-width: 500px;"> <table class="table table-sm table-bordered">
+                                        <tbody>
+                                            <tr><th>Station</th><td>${stationCheckboxHtml}</td></tr>
+                                            <tr><th>Date of Purchase</th><td>${record.DATE_OF_PURCHASE || 'N/A'}</td></tr>
+                                            <tr><th>Place of Purchase</th><td>${record.PLACE_OF_PURCHASE || 'N/A'}</td></tr>
+                                            <tr><th>Number of Farmers</th><td>${record.TOTAL_NUM_OF_FARMERS || 'N/A'}</td></tr>
+                                            <tr><th>Number of Bags</th><td>${record.NUM_OF_BAGS || 'N/A'}</td></tr>
+                                            <tr><th>Batch Codes</th><td>${batchCodeCheckboxes}</td></tr>
+                                            <tr><th>Total Nutmegs bought (lbs)</th><td>${record.TOTAL_LBS_NUTMEG_BOUGHT || 'N/A'}</td></tr>
+                                            <tr>
+                                                <th>Dates</th>
+                                                <td>
+                                                    <table class="table table-sm table-borderless mb-0">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col" class="small text-muted">Start Drying</th>
+                                                                <th scope="col" class="small text-muted">Approx. End Drying</th>
+                                                                <th scope="col" class="small text-muted">Actual End Drying</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>${record.START_DRYING_DATE || 'N/A'}</td>
+                                                                <td>${record.APPROX_END_DRYING_DATE || 'N/A'}</td>
+                                                                <td>${record.END_DRYING_DATE || 'N/A'}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>`;
+                            entryContainer.innerHTML = dropdownContent;
+                            landInfoDataDiv.appendChild(entryContainer);
+                        }
+                    }; // End getAllDispatchRequestGreen.onsuccess
+                     getAllDispatchRequestGreen.onerror = function(event) {
+                        console.error(`Error retrieving Dispatch-Of-Green records for In-House record ID ${record.id}:`, event.target.error);
+                    };
+                }
+            }; // End getAllDispatchRequestDried.onsuccess
+            getAllDispatchRequestDried.onerror = function(event) {
+                console.error(`Error retrieving Dispatch-Of-Dried-Nutmeg records for In-House record ID ${record.id}:`, event.target.error);
+            };
+
+            dispatchTransaction.onerror = function(event) {
+                console.error(`Dispatch check transaction error for In-House record ID ${record.id}:`, event.target.error);
+            };
+            // dispatchTransaction.oncomplete can be useful for debugging transaction lifecycle
+        }); // End forEach landInfoRecords
+    }; // End getAllRequest.onsuccess
+
+    getAllRequest.onerror = function(event) {
+        console.error("Error retrieving In-House-Drying records:", event.target.error);
+    };
+
+    transaction.onerror = function(event) {
+        console.error("In-House-Drying transaction error:", event.target.error);
+    };
+    transaction.oncomplete = function() {
+        console.log("In-House-Drying data processing complete.");
+    };
+}; // End openRequest.onsuccess
+
+openRequest.onerror = function(event) {
+    console.error("Failed to open IndexedDB:", event.target.error);
+};
+
+// == Mock/Placeholder functions for your external handlers ==
+// You'll need to adapt these if their signatures have changed (e.g., to accept recordId or specific code)
+// function updateControlNum(checkboxElement, recordId, codeValue) {
+//  console.log(`updateControlNum called for code: ${codeValue} (Record ID: ${recordId}), Checked: ${checkboxElement.checked}`);
+//  // Your logic here, e.g., to update a hidden field or an array of selected codes for this record
+// }
+
+// function setSelectedStation(checkboxElement, recordId, stationValue) {
+//  console.log(`setSelectedStation called for station: ${stationValue} (Record ID: ${recordId}), Checked: ${checkboxElement.checked}`);
+//  // Your logic here
+// }
+
+// function fill_table(recordId) {
+//  console.log(`fill_table called for Record ID: ${recordId}`);
+//  // Your logic to populate a table, possibly using data associated with this recordId
+//  // You might retrieve the selected batch codes and station for this specific record.
+</script>
+    
+    
+    
+    <script>
+      let openRequest2 = indexedDB.open("GCNA");
+    
+      openRequest2.onsuccess = function (event) {
+        let db = event.target.result;
+        let transaction = db.transaction("Shelves", "readonly");
+        let landInfoStore = transaction.objectStore("Shelves");
+        let getAllRequest = landInfoStore.getAll();
+    
+        getAllRequest.onsuccess = function (event) {
+          let landInfoRecords = event.target.result;
+          let tables = document.querySelectorAll(".table"); // Select all tables
+    
+          // Inside the loop where you iterate over landInfoRecords
+          landInfoRecords.forEach((record) => {
+            tables.forEach((table) => {
+              let floor = record.floor; // Get the floor entry from the record
+              let tableId = table.id; // Get the ID of the table
+    
+              if (floor === tableId) {
+                // Check if the floor entry matches the table ID
+                let entryCheckTd = table.querySelector("td#entryCheck");
+    
+                if (entryCheckTd.textContent.trim() === record.entry) {
+                  // Check if the td with id "entryCheck" exists in the current table
+                  let landInfoDataDiv = table.querySelector(".landInfoData1");
+                  if (!landInfoDataDiv) {
+                    // Check if the div exists, if not, create it
+                    landInfoDataDiv = document.createElement("div");
+                    landInfoDataDiv.className = "landInfoData1";
+                    table.appendChild(landInfoDataDiv);
+                  }
+    
+                  let entryContainer = document.createElement("div");
+                  entryContainer.className = "entry-container";
+                  entryContainer.dataset.formId = table.id; // Unique identifier for the entryContainer
+                  // Unique identifier for the entryContainer
+                  entryContainer.innerHTML = `
+                  <div class="card">
+                      <div class="card-body">
+                          <h5 class="card-title"></h5>
+                          <p class="card-text">
+                              <center>
+                                  <table>
+                                      <thead>
+                                          <tr>
+                                              <th scope="col">Shelf</th>
+                                              <th scope="col">Tray</th>
+                                              <th scope="col">Section</th>
+                                          </tr>
+                                      </thead>
+                                      <tbody>
+                                          <tr>
+                                              <td>${record.floor}</td>
+                                              <td>${record.entry}</td>
+                                              <td>${record.station}</td>
+                                              <td>${record.Shelf}</td>
+                                              <td>${record.Tray}</td>
+                                              <td>${record.Section}</td>
+                                          </tr>
+                                      </tbody>
+                                  </table>
+                              </center>
+                          </p>
+                      </div>
+                  </div>
+                  <br> <br> <br>`;
+                  landInfoDataDiv.appendChild(entryContainer);
+                } else {
+                  console.log(
+                    "No TD with ID 'entryCheck' found or its content does not match in table with ID:"
+                  );
+                }
+              }
+            });
+          });
+        };
+      };
+    </script>
+    
+<script>
+    
+  function updateControlNum(checkbox) {
+  let controlNumField = document.querySelector('[name="BATCH_CODES"]');
+  let currentValues = controlNumField.value ? controlNumField.value.split(',') : [];
+  if (checkbox.checked) {
+      // Add the checkbox's value to the field
+      currentValues.push(checkbox.value);
+  } else {
+      // Remove the checkbox's value from the field
+      currentValues = currentValues.filter(value => value !== checkbox.value);
+  }
+  if(controlNumField.value ==""){
+      controlNumField.value = currentValues;
+  
+  }else{
+      controlNumField.value = currentValues.join(',');
+  
+  }
+  }
+  
+  
+  
+  
+  function setSelectedStation(stationCode) {
+    console.log(stationCode)
+      const stationDropdown = document.querySelector('select[name="STATION"]');  // Access the dropdown by name
+      
+      // Loop through the options and select the one that matches the stationCode
+      for (let i = 0; i < stationDropdown.options.length; i++) {
+          if (stationDropdown.options[i].value === stationCode) {
+              stationDropdown.selectedIndex = i;  // Set the selected index
+              break;
+          }
+      }
+  }
+
+  
+  
+  </script>
+  
+  
+  
+    <!-- 
+    
+    <script>
+      var formCount = 0;
+      
+      function Generate_Shelves_M(entryCheckTd) {
+          let openRequest3 = indexedDB.open("GCNA");
+          console.log(entryCheckTd);
+          openRequest3.onsuccess = function (event) {
+              let db = event.target.result;
+              let transaction = db.transaction("M_Shelves", "readwrite");
+              let landInfoStore = transaction.objectStore("M_Shelves");
+              let getAllRequest = landInfoStore.getAll();
+      
+              getAllRequest.onsuccess = function (event) {
+                  let landInfoRecords = event.target.result;
+                  let tables = document.querySelectorAll("table");
+      
+                  tables.forEach((table) => {
+                      landInfoRecords.forEach((record) => {
+      
+                          if (entryCheckTd === record.entry) {
+                              console.log("Roar the SPAAAAARk X2" + entryCheckTd);
+                              let landInfoDataDiv = table.querySelector(".landInfoData2");
+                              if (!landInfoDataDiv) {
+                                  landInfoDataDiv = document.createElement("div");
+                                  landInfoDataDiv.className = "landInfoData2";
+                                  table.appendChild(landInfoDataDiv);
+                              }
+      
+                              let entryContainer = document.createElement("div");
+                              entryContainer.className = "entry-container";
+                              entryContainer.dataset.formId = record.entry;
+      
+                              shelfValue = record.M_Shelf;
+                              trayValue = record.M_Tray;
+                              sectionValue = record.M_Section;
+                              labelText = record.labelText;
+                              tableId = record.floor;
+                              entry = record.entry;
+                              formCount++;
+      
+                              var form = document.createElement('form');
+                              form.id = `form_${formCount}`;
+                              form.innerHTML = `
+                                  <div class="card">
+                                      <div class="card-body">
+                                          <h5 class="card-title"></h5>
+                                          <p class="card-text">
+                                              <center>
+                                                  <table>
+                                                      <thead>
+                                                          <label>${record.labelText}(Moisture)</label>
+                                                          <tr>
+                                                              <th scope="col">Station</th>
+                                                              <th scope="col">Shelf</th>
+                                                              <th scope="col">Tray</th>
+                                                              <th scope="col">Section</th>
+                                                              <th scope="col">Moisture</th>
+                                                              <th scope="col">Week</th>
+                                                          </tr>
+                                                      </thead>
+                                                      <tbody>
+                                                          <tr>
+                                                              <td><input type="text" id="M_Shelf" class="form-control" name="M_Shelf" value="${record.M_Shelf}" required></td>
+                                                              <td><input type="text" id="M_Tray" class="form-control" name="M_Tray" value="${record.M_Tray}" required></td>
+                                                              <td><input type="text" id="M_Section" class="form-control" name="M_Section" value="${record.M_Section}" required></td>
+                                                              <td><input type="text" id="Moisture" class="form-control" name="Moisture" value="${record.Moisture}"required></td>
+                                                              <td><input type="text" id="Week" class="form-control" name="Week" value="${record.Week}" required></td>
+                                                              <td><button type="button" onclick="M_submitForm('${tableId}', 'myForm', ${formCount}, this.parentNode.parentNode,'${entry}')">✔</button></td>
+                                                          </tr>
+                                                      </tbody>
+                                                      <div style="display: none;">
+                                                          <input type="text" id="entry" name="entry"  value="${record.entry}" required>
+                                                          <input type="text" id="floor" name="floor" value="${record.floor}" required>
+                                                          <input type="text" id="station" name="station" value="${record.store}" required>
+                                                          <input type="text" id="labelText" name="labelText" value="${record.labelText}">
+                                                      </div>
+                                                  </table>
+                                              </center>
+                                          </p>
+                                      </div>
+                                  </div>
+                                  <br> <br> <br>`;
+      
+                              // Append entry container to the landInfoDataDiv
+                              entryContainer.appendChild(form);
+      
+                              // Append entry container to the landInfoDataDiv
+                              landInfoDataDiv.appendChild(entryContainer);
+                          }
+                      });
+                  });
+              };
+          };
+      }
+      </script>
+       -->
+    <!-- 
+    <script>
+          var formCount1 = 0;
+    
+          function Generate_Shelves_W(entryCheckTd) {
+    
+        let openRequest4 = indexedDB.open("GCNA");
+    console.log(entryCheckTd)
+        openRequest4.onsuccess = function (event) {
+          let db = event.target.result;
+          let transaction = db.transaction("W_Shelves", "readwrite"); // Changed to readwrite
+          let landInfoStore = transaction.objectStore("W_Shelves");
+          let getAllRequest = landInfoStore.getAll();
+    
+          getAllRequest.onsuccess = function (event) {
+            let landInfoRecords = event.target.result;
+            let tables = document.querySelectorAll("table");
+    
+            tables.forEach((table) => {
+              landInfoRecorsd.forEach((record) => {
+    
+                if (
+                  entryCheckTd === record.entry
+                ) {
+                  console.log(
+                    "Roar the SPAAAAARk2 X2" + entryCheckTd
+                  );
+                  let landInfoDataDiv1 = table.querySelector(".landInfoData3");
+                  if (!landInfoDataDiv1) {
+                    landInfoDataDiv1 = document.createElement("div");
+                    landInfoDataDiv1.className = "landInfoData3";
+                    table.appendChild(landInfoDataDiv1);
+                  }
+    
+                  let entryContainer = document.createElement("div");
+                  entryContainer.className = "entry-container";
+                  entryContainer.dataset.formId = record.entry;
+    
+                  shelfValue = record.W_Shelf;
+                  trayValue = record.W_Tray;
+                  sectionValue = record.W_Section;
+                  labelText = record.labelText;
+                  tableId = record.floor;
+                  entry = record.entry;
+                  station = record.station;
+                  formCount1++;
+                  var form1 = document.createElement('form');
+    
+                  form1.id = `form_${formCount1}`;
+                  form1.innerHTML = `
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title"></h5>
+                                            <p class="card-text">
+                                                <center>
+                                                    <table>
+                                                        <thead>
+                                                            <label>${record.labelText}(Weekly)</label>
+                                                            <tr>
+                                                                <th scope="col">Station</th>
+                                                                <th scope="col">Shelf</th>
+                                                                <th scope="col">Tray</th>
+                                                                <th scope="col">Section</th>
+                                                                <th scope="col">Moisture</th>
+                                                                <th scope="col">Week</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td><input type="text" id="W_Shelf" class="form-control" name="W_Shelf" value="${record.W_Shelf}" required></td>
+                                                                <td><input type="text" id="W_Tray" class="form-control" name="W_Tray" value="${record.W_Tray}" required></td>
+                                                                <td><input type="text" id="W_Section" class="form-control" name="W_Section" value="${record.W_Section}" required></td>
+                                                                <td><input type="text" id="Moisture" class="form-control" name="Moisture" value="${record.Moisture}" required></td>
+                                                                <td><input type="text" id="Week" class="form-control" name="Week" value="${record.Week}" required></td>
+                                                                <td><button type="button" onclick="W_submitForm('${record.floor}', 'myForm', ${formCount1})">✔</button></td>
+                                                            </tr>
+                                                        </tbody>
+                                                        <div style="display: none;">
+                                                            <input type="text" id="entry" name="entry"  value="${record.entry}" required>
+                                                            <input type="text" id="floor" name="floor" value="${record.floor}" required>
+                                                            <input type="text" id="station" name="station" value="${record.station}" required>
+                                                            <input type="text" id="labelText" name="labelText" value="${record.labelText}">
+                                                        </div>
+                                                    </table>
+                                                </center>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <br> <br> <br>`;
+                                
+                                // Append the form to the landInfoDataDiv11
+                                landInfoDataDiv1.appendChild(form1);
+                                formCount1++;
+                            }
+                        });
+                    });
+                };
+              };
+            };
+    </script>
+         -->
+    
+    
+    
+    <!-- 
+         <script>
+          var formCount1 = 0;
+          
+          function Generate_Shelves_W(entryCheckTd) {
+          
+            let openRequest4 = indexedDB.open("GCNA");
+            console.log(entryCheckTd);
+            openRequest4.onsuccess = function (event) {
+              let db = event.target.result;
+              let transaction = db.transaction("W_Shelves", "readwrite");
+              let landInfoStore = transaction.objectStore("W_Shelves");
+              let getAllRequest = landInfoStore.getAll();
+          
+              getAllRequest.onsuccess = function (event) {
+                let landInfoRecords = event.target.result;
+                let tables = document.querySelectorAll("table");
+          
+                tables.forEach((table) => {
+                  landInfoRecords.forEach((record) => {
+          
+                    if (entryCheckTd === record.entry) {
+                      console.log("Roar the SPAAAAARk2 X2" + entryCheckTd);
+                      let landInfoDataDiv1 = table.querySelector(".landInfoData3");
+                      if (!landInfoDataDiv1) {
+                        landInfoDataDiv1 = document.createElement("div");
+                        landInfoDataDiv1.className = "landInfoData3";
+                        table.appendChild(landInfoDataDiv1);
+                      }
+          
+                      let entryContainer = document.createElement("div");
+                      entryContainer.className = "entry-container";
+                      entryContainer.dataset.formId = record.entry;
+          
+                      shelfValue = record.W_Shelf;
+                      trayValue = record.W_Tray;
+                      sectionValue = record.W_Section;
+                      labelText = record.labelText;
+                      tableId = record.floor;
+                      entry = record.entry;
+                      station = record.station;
+                      formCount1++;
+                      var form1 = document.createElement('form');
+          
+                      form1.id = `form_${formCount1}`;
+                      form1.innerHTML = `
+                      <div class="card">
+                          <div class="card-body">
+                              <h5 class="card-title"></h5>
+                              <p class="card-text">
+                                  <center>
+                                      <table>
+                                          <thead>
+                                              <label>${record.labelText}(Weekly)</label>
+                                              <tr>
+                                                  <th scope="col">Station</th>
+                                                  <th scope="col">Shelf</th>
+                                                  <th scope="col">Tray</th>
+                                                  <th scope="col">Section</th>
+                                                  <th scope="col">Moisture</th>
+                                                  <th scope="col">Week</th>
+                                              </tr>
+                                          </thead>
+                                          <tbody>
+                                              <tr>
+                                                  <td><input type="text" id="W_Shelf" class="form-control" name="W_Shelf" value="${record.W_Shelf}" required></td>
+                                                  <td><input type="text" id="W_Tray" class="form-control" name="W_Tray" value="${record.W_Tray}" required></td>
+                                                  <td><input type="text" id="W_Section" class="form-control" name="W_Section" value="${record.W_Section}" required></td>
+                                                  <td><input type="text" id="Moisture" class="form-control" name="Moisture" value="${record.Moisture}" required></td>
+                                                  <td><input type="text" id="Week" class="form-control" name="Week" value="${record.Week}" required></td>
+                                                  <td><button type="button" onclick="W_submitForm('${record.floor}', 'myForm', ${formCount1})">✔</button></td>
+                                              </tr>
+                                          </tbody>
+                                          <div style="display: none;">
+                                              <input type="text" id="entry" name="entry"  value="${record.entry}" required>
+                                              <input type="text" id="floor" name="floor" value="${record.floor}" required>
+                                              <input type="text" id="station" name="station" value="${record.station}" required>
+                                              <input type="text" id="labelText" name="labelText" value="${record.labelText}">
+                                          </div>
+                                      </table>
+                                  </center>
+                              </p>
+                          </div>
+                      </div>
+                      <br> <br> <br>`;
+          
+                      // Append the form to the landInfoDataDiv11
+                      landInfoDataDiv1.appendChild(form1);
+                    }
+                  });
+                });
+              };
+            };
+          }
+          </script>
+           -->
+           <script>
+            var formCount = 0;
+            var generatedFormIdsM = {}; // Object to keep track of generated form IDs for each entryTd for M_Shelves
+        
+            function Generate_Shelves_M(entryCheckTd) {
+                let openRequest3 = indexedDB.open("GCNA");
+                console.log(entryCheckTd);
+                openRequest3.onsuccess = function(event) {
+                    let db = event.target.result;
+                    let transaction = db.transaction("M_Shelves", "readwrite");
+                    let landInfoStore = transaction.objectStore("M_Shelves");
+                    let getAllRequest = landInfoStore.getAll();
+        
+                    getAllRequest.onsuccess = function(event) {
+                        let landInfoRecords = event.target.result;
+                        let tables = document.querySelectorAll("table");
+        
+                        tables.forEach((table) => {
+                            landInfoRecords.forEach((record) => {
+                                if (entryCheckTd === record.entry) {
+                                    // Check if generatedFormIdsM has entry for this entryTd
+                                    if (!generatedFormIdsM.hasOwnProperty(entryCheckTd)) {
+                                        generatedFormIdsM[entryCheckTd] = []; // Initialize if not present
+                                    }
+                                    // Check if the form ID is already generated for this entryTd
+                                    if (!generatedFormIdsM[entryCheckTd].includes(record.id)) {
+                                        console.log("Roar the SPAAAAARk X2" + entryCheckTd);
+                                        let landInfoDataDiv = table.querySelector(".landInfoData2");
+                                        if (!landInfoDataDiv) {
+                                            landInfoDataDiv = document.createElement("div");
+                                            landInfoDataDiv.className = "landInfoData2";
+                                            table.appendChild(landInfoDataDiv);
+                                        }
+        
+                                        let entryContainer = document.createElement("div");
+                                        entryContainer.className = "entry-container";
+                                        entryContainer.dataset.formId = record.entry;
+                                        batchnum = record.Batchcode;
+        
+                                        shelfValue = record.M_Shelf;
+                                        trayValue = record.M_Tray;
+                                        sectionValue = record.M_Section;
+                                        labelText = record.labelText;
+                                        tableId = record.floor;
+                                        entry = record.entry;
+                                        formCount++;
+                                        var form = document.createElement('form');
+                                        form.className = 'form-container';
+        
+                                        form.id = `form_${formCount}`;
+                                        form.innerHTML = `
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h5 class="card-title"></h5>
+                                                    <p class="card-text">
+                                                        <center>
+                                                            <table>
+                                                                <thead>
+                                                                    <label>${record.labelText}(Moisture)</label>
+                                                                    <tr>
+                                                                        <th scope="col">Station</th>
+                                                                        <th scope="col">Shelf</th>
+                                                                        <th scope="col">Tray</th>
+                                                                        <th scope="col">Section</th>
+                                                                        <th scope="col">Moisture</th>
+                                                                        <th scope="col">Week</th>
+                                                                        <th scope="col">Batch Code</th>
+                                                                        <th scope="col">Close</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                ${record.id}
+        
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td><input type="text" id="station" class="form-control" name="station" value="${record.station}" required></td>
+                                                                        <td><input type="text" id="M_Shelf" class="form-control" name="M_Shelf" value="${record.M_Shelf}" required></td>
+                                                                        <td><input type="text" id="M_Tray" class="form-control" name="M_Tray" value="${record.M_Tray}" required></td>
+                                                                        <td><input type="text" id="M_Section" class="form-control" name="M_Section" value="${record.M_Section}" required></td>
+                                                                        <td><input type="text" id="Moisture" class="form-control" name="Moisture" value="${record.Moisture}" required></td>
+                                                                        <td><input type="text" id="Week" class="form-control" name="Week" value="${record.Week}" required></td>
+                                                                        <td><input type="text" id="Batchcode" class="form-control" name="Batchcode" value="${record.Batchcode}" required></td>
+                                                                       
+                                                                        <td><button type="button" onclick="closeForm(this.parentNode.parentNode.parentNode)">Close</button></td>
+                                                                    </tr>
+                                                                    <p>${record.Batchcode}</p>
+                                                                </tbody>
+                                                                <div style="display: none;">
+                                                                    <input type="text" id="entry" name="entry"  value="${record.entry}" required>
+                                                                    <input type="text" id="floor" name="floor" value="${record.floor}" required>
+                                                                    <input type="text" id="station" name="station" value="${record.station}" required>
+                                                                    <input type="text" id="labelText" name="labelText" value="${record.labelText}">
+                                                                </div>
+                                                            </table>
+                                                        </center>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <br> <br> <br>`;
+        
+                                        // Append entry container to the landInfoDataDiv
+        
+                                        // Append entry container to the landInfoDataDiv
+                                        set_Batchcode(batchnum);
+        
+                                        // Add the generated form ID to the array for this entryTd
+                                        generatedFormIdsM[entryCheckTd].push(record.id);
+                                    }
+                                }
+                            });
+                        });
+                    };
+                };
+            }
+        
+            function closeForm(formContainer) {
+        formContainer.closest('.entry-container').remove(); // Remove the parent entry-container
+    }
+        </script>
+            
+            
+            
+            
+            
+            
+            <script>
+              var formCount1 = 0;
+              var generatedFormIds = {}; // Object to keep track of generated form IDs for each entryTd
+          
+              function Generate_Shelves_W(entryCheckTd) {
+                  let openRequest4 = indexedDB.open("GCNA");
+                  console.log(entryCheckTd);
+                  openRequest4.onsuccess = function(event) {
+                      let db = event.target.result;
+                      let transaction = db.transaction("W_Shelves", "readwrite");
+                      let landInfoStore = transaction.objectStore("W_Shelves");
+                      let getAllRequest = landInfoStore.getAll();
+          
+                      getAllRequest.onsuccess = function(event) {
+                          let landInfoRecords = event.target.result;
+                          let tables = document.querySelectorAll("table");
+          
+                          tables.forEach((table) => {
+                              landInfoRecords.forEach((record) => {
+                                  if (entryCheckTd === record.entry) {
+                                      // Check if generatedFormIds has entry for this entryTd
+                                      if (!generatedFormIds.hasOwnProperty(entryCheckTd)) {
+                                          generatedFormIds[entryCheckTd] = []; // Initialize if not present
+                                      }
+                                      // Check if the form ID is already generated for this entryTd
+                                      if (!generatedFormIds[entryCheckTd].includes(record.id)) {
+                                          console.log("Roar the SPAAAAARk2 X2" + entryCheckTd);
+                                          let landInfoDataDiv1 = table.querySelector(".landInfoData3");
+                                          if (!landInfoDataDiv1) {
+                                              landInfoDataDiv1 = document.createElement("div");
+                                              landInfoDataDiv1.className = "landInfoData3";
+                                              table.appendChild(landInfoDataDiv1);
+                                          }
+          
+                                          let entryContainer = document.createElement("div");
+                                          entryContainer.className = "entry-container";
+                                          entryContainer.dataset.formId = record.entry;
+          
+                                          shelfValue = record.W_Shelf;
+                                          trayValue = record.W_Tray;
+                                          sectionValue = record.W_Section;
+                                          labelText = record.labelText;
+                                          tableId = record.floor;
+                                          entry = record.entry;
+                                          station = record.station;
+                                          batchnum = record.Batchcode;
+                                          formCount1++;
+                                          var form1 = document.createElement('form');
+          
+                                          form1.id = `form1_${formCount1}`;
+                                          form1.innerHTML = `
+                                          <div class="card">
+                                              <div class="card-body">
+                                                  <h5 class="card-title"></h5>
+                                                  <p class="card-text">
+                                                      <center>
+                                                          <table>
+                                                              <thead>
+                                                                  <label>${record.labelText}(Weekly)</label>
+                                                                  <tr>
+                                                                      <th scope="col">Station</th>
+                                                                      <th scope="col">Shelf</th>
+                                                                      <th scope="col">Tray</th>
+                                                                      <th scope="col">Section</th>
+                                                                      <th scope="col">Moisture</th>
+                                                                      <th scope="col">Week</th>
+                                                                      <th scope="col">Batch Code</th>
+                                                                      <th scope="col">Close</th>
+                                                                  </tr>
+                                                              </thead>
+                                                              <tbody>
+                                                                  <tr>
+                                                                      <td><input type="text" id="station" class="form-control" name="station" value="${record.station}" required></td>
+                                                                      <td><input type="text" id="W_Shelf" class="form-control" name="W_Shelf" value="${record.W_Shelf}" required></td>
+                                                                      <td><input type="text" id="W_Tray" class="form-control" name="W_Tray" value="${record.W_Tray}" required></td>
+                                                                      <td><input type="text" id="W_Section" class="form-control" name="W_Section" value="${record.W_Section}" required></td>
+                                                                      <td><input type="text" id="Moisture" class="form-control" name="Moisture" value="${record.Moisture}" required></td>
+                                                                      <td><input type="text" id="Week" class="form-control" name="Week" value="${record.Week}" required></td>
+                                                                      <td><input type="text" id="Batchcode" class="form-control" name="Batchcode" value="${record.Batchcode}" required></td>
+                                                                      <td><button type="button" onclick="closeForm(this)">Close</button></td>
+                                                                  </tr>
+                                                              </tbody>
+                                                              <div style="display: none;">
+                                                                  <input type="text" id="entry" name="entry"  value="${record.entry}" required>
+                                                                  <input type="text" id="floor" name="floor" value="${record.floor}" required>
+                                                                  <input type="text" id="station" name="station" value="${record.station}" required>
+                                                                  <input type="text" id="labelText" name="labelText" value="${record.labelText}">
+                                                              </div>
+                                                          </table>
+                                                      </center>
+                                                  </p>
+                                              </div>
+                                          </div>
+                                          <br> <br> <br>`;
+          
+                                          // Append the form to the landInfoDataDiv11
+                                          set_Batchcode(batchnum);
+          
+                                          // Add the generated form ID to the array for this entryTd
+                                          generatedFormIds[entryCheckTd].push(record.id);
+                                      }
+                                  }
+                              });
+                          });
+                      };
+                  };
+              }
+          
+              
+    
+          </script>
+          
+            
+                  <script>
+function set_Batchcode(batchnum) {
+    var batchCodeField = document.getElementById('id_BATCH_CODES');
+
+    document.querySelector('[name="BATCH_CODES"]').value+= batchnum + ", ";
+
+}
+
+    
+    </script>
+
+
+
+
+{{ form.media }}
+
+{% endblock %}

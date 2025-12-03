@@ -1,0 +1,1653 @@
+{% load static %} {% load pwa %} {% progressive_web_app_meta %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="manifest" href="('/static/manifest.json)" />
+    <!-- <script src="/static/js/true_sync.js"></script> -->
+    <!-- <script src="/static/js/indexeddb.js"></script> 
+ -->
+    {% comment %}
+    <script>
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker
+          .register("/static/js/serviceworker.js")
+          .then(function (registration) {
+            console.log(
+              "Service Worker registered with scope:",
+              registration.scope
+            );
+          })
+          .catch(function (error) {
+            console.error("Service Worker registration failed:", error);
+          });
+      }
+    </script>
+    {% endcomment %}
+    <script>
+        {% comment %} // Check if the service worker is available in the browser
+        if ('serviceWorker' in navigator) {
+            // Register the service worker
+            navigator.serviceWorker.register('/static/js/serviceworker.js')
+                .then(function (registration) {
+                    console.log('Service Worker registered with scope:', registration.scope);
+                })
+                .catch(function (error) {
+                    console.error('Service Worker registration failed:', error);
+                });
+
+            // Add a click event listener to the refresh cache button
+            document.getElementById('refresh-cache-button').addEventListener('click', function () {
+                // Send a message to the service worker to trigger cache refresh6
+                navigator.serviceWorker.controller.postMessage({ action: 'refreshCache' });
+            });
+        }
+
+
+
+        navigator.serviceWorker.addEventListener('message', (event) => {
+          if (event.data === 'Caching complete!') {
+              // Display the message to the user
+              console.log(event.data);
+              // You can replace the console.log with code to update your UI
+          }
+      }); {% endcomment %}
+
+
+
+      // Check if the service worker is available in the browser
+      if ('serviceWorker' in navigator) {
+        // Register the service worker
+        navigator.serviceWorker.register('/static/js/serviceworker.js')
+            .then(function (registration) {
+                console.log('Service Worker registered with scope:', registration.scope);
+            })
+            .catch(function (error) {
+                console.error('Service Worker registration failed:', error);
+            });
+
+        // Add a click event listener to the refresh cache button
+        document.getElementById('refresh-cache-button').addEventListener('click', function () {
+            // Send a message to the service worker to trigger cache refresh
+            navigator.serviceWorker.controller.postMessage({ action: 'refreshCache' });
+        });
+      }
+
+      navigator.serviceWorker.addEventListener('message', (event) => {
+        if (event.data === 'Caching complete!') {
+            // Display the message to the user in a modal
+            let modal = document.createElement('div');
+            modal.style.position = 'fixed';
+            modal.style.zIndex = '1';
+            modal.style.left = '0';
+            modal.style.top = '0';
+            modal.style.width = '100%';
+            modal.style.height = '100%';
+            modal.style.overflow = 'auto';
+            modal.style.backgroundColor = 'rgba(0,0,0,0.4)';
+
+            let modalContent = document.createElement('div');
+            modalContent.style.backgroundColor = '#fefefe';
+            modalContent.style.margin = '15% auto';
+            modalContent.style.padding = '20px';
+            modalContent.style.border = '1px solid #888';
+            modalContent.style.width = '80%';
+
+            let closeBtn = document.createElement('span');
+            closeBtn.style.color = '#aaaaaa';
+            closeBtn.style.float = 'right';
+            closeBtn.style.fontSize = '28px';
+            closeBtn.style.fontWeight = 'bold';
+            closeBtn.innerHTML = '×';
+            closeBtn.onclick = function() {
+                modal.style.display = 'none';
+            }
+
+            let text = document.createElement('p');
+            text.innerText = event.data;
+
+            modalContent.appendChild(closeBtn);
+            modalContent.appendChild(text);
+            modal.appendChild(modalContent);
+            document.body.appendChild(modal);
+        }
+      });
+    </script>
+
+
+
+<div id="loadingSpinner">Syncing data... Please wait...</div>
+
+<div id="scanModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000;">
+  <div style="background:white; width:80%; max-width:500px; margin:100px auto; padding:20px; border-radius:5px;">
+    <h3>Scan Station</h3>
+    
+    <div style="margin-bottom:15px;">
+      <label>Station Number:</label>
+      <select id="scanStation">
+  <option value="">--Select Station--</option>
+  <option value="Grenville">Grenville</option>
+  <option value="Hermitage">Hermitage</option>
+  <option value="Marli">Marli</option>
+  <option value="Union">Union</option>
+  <option value="Gouyave">Gouyave</option>
+  <option value="Victoria">Victoria</option>
+  <option value="Thebaide">Thebaide</option>
+  <option value="Head Office">Head Office</option>
+</select>
+
+    </div>
+    
+    <div style="margin-bottom:15px;">
+      <label>Tables to Scan:</label>
+      <div id="tablesCheckboxContainer" style="max-height:200px; overflow-y:auto; border:1px solid #ddd; padding:10px;">
+        <!-- Checkboxes will be added here -->
+      </div>
+    </div>
+    
+    <div style="display:flex; gap:10px;">
+      <button id="startScan" style="flex:1; padding:10px; background:#4CAF50; color:white;">Scan</button>
+      <button id="cancelScan" style="flex:1; padding:10px; background:#f44336; color:white;">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Buttons positioned at bottom right -->
+<div style="position:fixed; bottom:20px; right:20px; z-index:100; display:flex; flex-direction:column; gap:10px;">
+  <button id="openScanModal" style="padding:10px 15px; background:#2196F3; color:white; border:none; border-radius:50px; box-shadow:0 2px 5px rgba(0,0,0,0.2);">
+    Scan Stations
+  </button>
+  <button id="changeUserBtn" style="padding:10px 15px; background:#FF9800; color:white; border:none; border-radius:50px; box-shadow:0 2px 5px rgba(0,0,0,0.2);">
+    Change Station
+  </button>
+</div>
+
+<script type="module">
+  // Import Firebase modules
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+  import { getDatabase, ref, set, get, query, orderByChild, equalTo, update, push } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
+  import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
+
+  // Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyBZTB_mN_gIb6mqeM8nid4x83oKRehmFKo",
+    authDomain: "farmer-project-sync.firebaseapp.com",
+    databaseURL: "https://farmer-project-sync-default-rtdb.firebaseio.com",
+    projectId: "farmer-project-sync",
+    storageBucket: "farmer-project-sync.firebasestorage.app",
+    messagingSenderId: "1366353203",
+    appId: "1:1366353203:web:fa29fd29cc326a0d63ca46"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+  const auth = getAuth(app);
+  
+  const availableTables = [
+    "Worker", "Farmer", "DriedA", "DriedB", "FloatA", "FloatB", "Quaility", "visit",
+    "In-House-Drying", "Dispatch-Of-Dried-Nutmeg", "Dispatch-Of-Green", "Cracking-Summary",
+    "Floation-Summary", "Package-Ciontrol", "Editors", "Labour-support", "Training-support",
+    "land-info", "Land-Tenur", "Nutmeg-Trees", "Nutmeg-Variety", "Other-Crops", "Coconut-Trees",
+    "Citrus-Mango-Trees", "Other-Spices-Trees", "Other-Seasoning-Trees", "Other-Crops-Cultivated",
+    "Condition", "Nutmeg-Land", "Nutmeg-Frequency", "Potential-Risks", "Road-Access",
+    "Food-Safety-and-Quality", "Farm-Water-Source", "Farm-House", "inspector-symmary", "Policy",
+    "Sanitation-A", "Sanitation-B", "Sanitation-C", "Cracking_Schedule", "Assorting_Log",
+    "Extractor_Log", "Fumigation_Log", "Shelves", "W_Shelves", "M_Shelves", "W_Shelves_Dried",
+    "M_Shelves_Dried", "Vehicle_Inspection", "Final_Weight_Inspection", "Final_Weight_Inspection_fields",
+    "Dispatch_Of_Dried_Nutmeg_Rec", "Dispatch_Of_Green_Nutmeg_Rec", "Mace_Dispatched", "Mace_Purchase",
+    "Mace_Dispatched_Rec", "Cracking_Extraction_Summary", "Day_Of_Loading", "TruckEntry",
+    "Container_Inspection_Log"
+  ];
+
+  function initScanModal() {
+    const container = document.getElementById('tablesCheckboxContainer');
+    container.innerHTML = '';
+    
+    availableTables.forEach(table => {
+      const div = document.createElement('div');
+      div.innerHTML = `
+        <label style="display:flex; align-items:center; gap:5px; margin:5px 0;">
+          <input type="checkbox" value="${table}" checked>
+          ${table}
+        </label>
+      `;
+      container.appendChild(div);
+    });
+  }
+
+  // Function to clear all local data and change user
+  async function changeUser() {
+    if (confirm("Are you sure you want to change station? This will clear all local data.")) {
+      try {
+        showLoadingSpinner(true);
+        
+        // Clear localStorage
+        localStorage.removeItem("customUserId");
+        localStorage.removeItem("userStation");
+        
+        // Clear IndexedDB
+        await clearIndexedDB();
+        await clearExternalIndexedDB();
+        
+        console.log("Local data cleared successfully");
+        
+        // Show user modal for new login
+        showUserModal();
+        
+      } catch (error) {
+        console.error("Error clearing local data:", error);
+        alert("Error clearing local data: " + error.message);
+      } finally {
+        showLoadingSpinner(false);
+      }
+    }
+  }
+
+  // Function to clear main IndexedDB
+  async function clearIndexedDB() {
+    return new Promise((resolve, reject) => {
+      const deleteRequest = indexedDB.deleteDatabase("GCNA");
+      
+      deleteRequest.onsuccess = () => {
+        console.log("Main IndexedDB cleared successfully");
+        resolve();
+      };
+      
+      deleteRequest.onerror = (event) => {
+        console.error("Error clearing main IndexedDB:", event);
+        reject(event);
+      };
+      
+      deleteRequest.onblocked = () => {
+        console.warn("IndexedDB deletion blocked");
+        // Force close any open connections and try again
+        setTimeout(() => {
+          const retryRequest = indexedDB.deleteDatabase("GCNA");
+          retryRequest.onsuccess = () => resolve();
+          retryRequest.onerror = (event) => reject(event);
+        }, 100);
+      };
+    });
+  }
+
+  // Function to clear external IndexedDB
+  async function clearExternalIndexedDB() {
+    return new Promise((resolve, reject) => {
+      const deleteRequest = indexedDB.deleteDatabase("GCNA_External");
+      
+      deleteRequest.onsuccess = () => {
+        console.log("External IndexedDB cleared successfully");
+        resolve();
+      };
+      
+      deleteRequest.onerror = (event) => {
+        console.error("Error clearing external IndexedDB:", event);
+        reject(event);
+      };
+      
+      deleteRequest.onblocked = () => {
+        console.warn("External IndexedDB deletion blocked");
+        setTimeout(() => {
+          const retryRequest = indexedDB.deleteDatabase("GCNA_External");
+          retryRequest.onsuccess = () => resolve();
+          retryRequest.onerror = (event) => reject(event);
+        }, 100);
+      };
+    });
+  }
+
+  // Updated scan function
+  async function scanByStation() {
+    const station = document.getElementById('scanStation').value.trim();
+    if (!station) {
+      alert("Please enter a station number");
+      return;
+    }
+    const checkboxes = document.querySelectorAll('#tablesCheckboxContainer input[type="checkbox"]:checked');
+    const tablesToScan = Array.from(checkboxes).map(cb => cb.value);
+    
+    if (tablesToScan.length === 0) {
+      alert("Please select at least one table");
+      return;
+    }
+    showLoadingSpinner(true);
+    
+    try {
+      // Query users by exact station match
+      const usersRef = ref(db, "Users");
+      const userQuery = query(usersRef, orderByChild("station"), equalTo(station));
+      const snapshot = await get(userQuery);
+      if (!snapshot.exists()) {
+        alert(`No users found in station ${station}`);
+        return;
+      }
+      const users = snapshot.val();
+      let importedCount = 0;
+      const currentUserId = localStorage.getItem("customUserId");
+      for (const userId in users) {
+        if (userId === currentUserId) continue;
+        
+        const user = users[userId];
+        console.log(`Scanning user: ${user.name} (${userId})`);
+        for (const tableName of tablesToScan) {
+          const tableRef = ref(db, `Users/${userId}/models/${tableName}`);
+          const tableSnapshot = await get(tableRef);
+          if (tableSnapshot.exists()) {
+            const tableData = tableSnapshot.val();
+            await saveToExternalIndexedDB(tableName, tableData);
+            importedCount += Object.keys(tableData).length;
+          }
+        }
+      }
+      alert(`Imported ${importedCount} records from station ${station}`);
+    } catch (error) {
+      console.error("Scan error:", error);
+      alert("Scan failed: " + error.message);
+    } finally {
+      showLoadingSpinner(false);
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", async function () {
+    console.log("Initializing IndexedDB...");
+    await initializeIndexedDB();
+    await initializeExternalIndexedDB();
+    console.log("Finished initializing IndexedDB.");
+    checkUserAndSyncData();
+    initScanModal();
+
+    // Event listeners
+    document.getElementById('openScanModal').addEventListener('click', () => {
+      document.getElementById('scanModal').style.display = 'block';
+    });
+
+    document.getElementById('cancelScan').addEventListener('click', () => {
+      document.getElementById('scanModal').style.display = 'none';
+    });
+
+    document.getElementById('startScan').addEventListener('click', scanByStation);
+
+    // Add change user button event listener
+    document.getElementById('changeUserBtn').addEventListener('click', changeUser);
+
+    // Initialize scan modal checkboxes
+    const container = document.getElementById('tablesCheckboxContainer');
+    availableTables.forEach(table => {
+      const div = document.createElement('div');
+      div.innerHTML = `
+        <label style="display:flex; align-items:center; gap:5px;">
+          <input type="checkbox" value="${table}" checked>
+          ${table}
+        </label>
+      `;
+      container.appendChild(div);
+    });
+
+    // Add event listeners for scan modal
+    document.getElementById('openScanModal').addEventListener('click', () => {
+      document.getElementById('scanModal').style.display = 'block';
+    });
+    
+    document.getElementById('cancelScan').addEventListener('click', () => {
+      document.getElementById('scanModal').style.display = 'none';
+    });
+    
+    document.getElementById('startScan').addEventListener('click', async () => {
+      const station = document.getElementById('scanStation').value;
+      const checkboxes = document.querySelectorAll('#tablesCheckboxContainer input[type="checkbox"]:checked');
+      const tablesToScan = Array.from(checkboxes).map(cb => cb.value);
+      
+      if (tablesToScan.length === 0) {
+        alert("Please select at least one table to scan.");
+        return;
+      }
+      
+      document.getElementById('scanModal').style.display = 'none';
+      await scanOtherUsersByStation(station, tablesToScan);
+    });
+  });
+
+  // Updated scan function to search by station
+  async function scanOtherUsersByStation(station, tableNames) {
+    try {
+      showLoadingSpinner(true);
+      console.log(`Scanning station ${station} for tables:`, tableNames);
+      
+      const usersRef = ref(db, "Users");
+      const userQuery = query(usersRef, orderByChild("station"), equalTo(station));
+      const snapshot = await get(userQuery);
+      
+      if (!snapshot.exists()) {
+        console.log(`No users found in station ${station}.`);
+        alert(`No users found in station ${station}.`);
+        return;
+      }
+      
+      const users = snapshot.val();
+      let importedCount = 0;
+      const currentUserId = localStorage.getItem("customUserId");
+      
+      for (const userId in users) {
+        // Skip the current user
+        if (userId === currentUserId) {
+          continue;
+        }
+        
+        const user = users[userId];
+        console.log(`Checking user ${user.name || userId}...`);
+        
+        // Scan each requested table for this user
+        for (const tableName of tableNames) {
+          const tableRef = ref(db, `Users/${userId}/models/${tableName}`);
+          const tableSnapshot = await get(tableRef);
+          
+          if (tableSnapshot.exists()) {
+            const tableData = tableSnapshot.val();
+            await saveToExternalIndexedDB(tableName, tableData);
+            importedCount += Object.keys(tableData).length;
+            console.log(`Imported ${Object.keys(tableData).length} ${tableName} records from ${user.name || userId}`);
+          }
+        }
+      }
+      
+      alert(`Scan complete! Imported ${importedCount} records from station ${station} to external database.`);
+    } catch (error) {
+      console.error("Error scanning users by station:", error);
+      alert("Error scanning users: " + error.message);
+    } finally {
+      showLoadingSpinner(false);
+    }
+  }
+
+  // Initialize External IndexedDB (unchanged)
+  function initializeExternalIndexedDB() {
+    return new Promise((resolve, reject) => {
+      const dbVersion = 1;
+      var request = indexedDB.open("GCNA_External", dbVersion);
+      request.onupgradeneeded = function (event) {
+        var db = event.target.result;
+        console.log("Initializing External IndexedDB...");
+        availableTables.forEach((modelName) => {
+          if (!db.objectStoreNames.contains(modelName)) {
+            console.log(`Creating external object store: ${modelName}`);
+            db.createObjectStore(modelName, { keyPath: "id" });
+          }
+        });
+      };
+      request.onsuccess = function (event) {
+        console.log("External IndexedDB initialized successfully.");
+        resolve(event.target.result);
+      };
+      request.onerror = function (event) {
+        console.error("Error opening External IndexedDB:", event);
+        reject("Error opening External IndexedDB:", event);
+      };
+    });
+  }
+
+  // Function to scan other users' data
+  async function scanOtherUsers(tableName, usernameFilter = '') {
+    try {
+      showLoadingSpinner(true);
+      console.log(`Scanning for ${tableName} data from other users...`);
+      
+      const usersRef = ref(db, "Users");
+      const snapshot = await get(usersRef);
+      
+      if (!snapshot.exists()) {
+        console.log("No users found in Firebase.");
+        return;
+      }
+      
+      const users = snapshot.val();
+      let importedCount = 0;
+      
+      for (const userId in users) {
+        const user = users[userId];
+        
+        // Skip if username filter is provided and doesn't match
+        if (usernameFilter && (!user.name || !user.name.toLowerCase().includes(usernameFilter.toLowerCase()))) {
+          continue;
+        }
+        
+        // Skip the current user
+        const currentUserId = localStorage.getItem("customUserId");
+        if (userId === currentUserId) {
+          continue;
+        }
+        
+        console.log(`Checking user ${user.name || userId} for ${tableName} data...`);
+        
+        const tableRef = ref(db, `Users/${userId}/models/${tableName}`);
+        const tableSnapshot = await get(tableRef);
+        
+        if (tableSnapshot.exists()) {
+          const tableData = tableSnapshot.val();
+          await saveToExternalIndexedDB(tableName, tableData);
+          importedCount += Object.keys(tableData).length;
+          console.log(`Imported ${Object.keys(tableData).length} records from ${user.name || userId}`);
+        }
+      }
+      
+      alert(`Scan complete! Imported ${importedCount} records to external database.`);
+    } catch (error) {
+      console.error("Error scanning users:", error);
+      alert("Error scanning users: " + error.message);
+    } finally {
+      showLoadingSpinner(false);
+    }
+  }
+
+  // Save data to external IndexedDB
+  async function saveToExternalIndexedDB(tableName, data) {
+    const db = await initializeExternalIndexedDB();
+    return new Promise((resolve, reject) => {
+      const transaction = db.transaction(tableName, "readwrite");
+      const store = transaction.objectStore(tableName);
+      
+      // Handle both array and object formats
+      const records = Array.isArray(data) ? data : Object.values(data);
+      
+      records.forEach(record => {
+        if (record && record.id) {
+          store.put(record);
+        }
+      });
+      
+      transaction.oncomplete = () => {
+        console.log(`Saved ${records.length} records to external ${tableName}`);
+        resolve();
+      };
+      
+      transaction.onerror = (event) => {
+        console.error(`Error saving to external ${tableName}:`, event);
+        reject(event);
+      };
+    });
+  }
+
+  // Initialize IndexedDB and create object stores if they don't exist
+  function initializeIndexedDB() {
+    return new Promise((resolve, reject) => {
+      const dbVersion = 2; // Increment this number if you change the schema
+      var request = indexedDB.open("GCNA", dbVersion);
+
+      request.onupgradeneeded = function (event) {
+        var db = event.target.result;
+        console.log("Database upgrade needed. Creating object stores...");
+
+        const modelNames = [
+          "Worker", "Farmer", "DriedA", "DriedB", "FloatA", "FloatB", "Quaility", "visit",
+          "In-House-Drying", "Dispatch-Of-Dried-Nutmeg", "Dispatch-Of-Green", "Cracking-Summary",
+          "Floation-Summary", "Package-Ciontrol", "Editors", "Labour-support", "Training-support",
+          "land-info", "Land-Tenur", "Nutmeg-Trees", "Nutmeg-Variety", "Other-Crops", "Coconut-Trees",
+          "Citrus-Mango-Trees", "Other-Spices-Trees", "Other-Seasoning-Trees", "Other-Crops-Cultivated",
+          "Condition", "Nutmeg-Land", "Nutmeg-Frequency", "Potential-Risks", "Road-Access",
+          "Food-Safety-and-Quality", "Farm-Water-Source", "Farm-House", "inspector-symmary", "Policy",
+          "Sanitation-A", "Sanitation-B", "Sanitation-C", "Cracking_Schedule", "Assorting_Log",
+          "Extractor_Log", "Fumigation_Log", "Shelves", "W_Shelves", "M_Shelves", "W_Shelves_Dried",
+          "M_Shelves_Dried", "Vehicle_Inspection", "Final_Weight_Inspection", "Final_Weight_Inspection_fields",
+          "Dispatch_Of_Dried_Nutmeg_Rec", "Dispatch_Of_Green_Nutmeg_Rec", "Mace_Dispatched", "Mace_Purchase",
+          "Mace_Dispatched_Rec", "Cracking_Extraction_Summary", "Day_Of_Loading", "TruckEntry",
+          "Container_Inspection_Log"
+        ];
+
+
+
+
+
+
+        // const modelNames = [
+        // "DriedA", "DriedB", "FloatA", "FloatB", "Quaility", 
+        //   "In-House-Drying", "Dispatch-Of-Dried-Nutmeg", "Dispatch-Of-Green", "Cracking-Summary",
+        // "Floation-Summary", "Package-Ciontrol",
+        //  "inspector-symmary", "Policy",
+        //   "Sanitation-A", "Sanitation-B", "Sanitation-C", "Cracking_Schedule", "Assorting_Log",
+        //   "Extractor_Log", "Fumigation_Log", "Shelves", "W_Shelves", "M_Shelves", "W_Shelves_Dried",
+        //   "M_Shelves_Dried", "Vehicle_Inspection", "Final_Weight_Inspection", "Final_Weight_Inspection_fields",
+        //   "Dispatch_Of_Dried_Nutmeg_Rec", "Dispatch_Of_Green_Nutmeg_Rec", "Mace_Dispatched", "Mace_Purchase",
+        //   "Mace_Dispatched_Rec", "Cracking_Extraction_Summary", "Day_Of_Loading", "TruckEntry",
+        //   "Container_Inspection_Log"
+        // ];
+
+
+
+
+        modelNames.forEach((modelName) => {
+          if (!db.objectStoreNames.contains(modelName)) {
+            console.log(`Creating object store: ${modelName}`);
+            db.createObjectStore(modelName, { keyPath: "id" }); // Store data by 'id'
+          } else {
+            console.log(`Object store already exists: ${modelName}`);
+          }
+        });
+      };
+
+      request.onsuccess = function (event) {
+        console.log("IndexedDB initialized successfully.");
+        resolve(event.target.result);
+      };
+
+      request.onerror = function (event) {
+        console.error("Error opening IndexedDB:", event);
+        reject("Error opening IndexedDB:", event);
+      };
+    });
+  }
+
+  async function checkUserAndSyncData() {
+    console.log("Checking for current user...");
+    const user = await getCurrentUser();
+    if (!user) {
+      console.log("No user found. Prompting for user creation...");
+      showUserModal();
+    } else {
+      console.log("User found:", user.customUserId);
+      if (navigator.onLine) {
+        syncDataWithFirebase(user.customUserId); // Use customUserId for syncing only when online
+      } else {
+        console.log("User is offline, will sync when online.");
+      }
+    }
+  }
+
+  async function getCurrentUser() {
+    // Check if customUserId is already stored in localStorage
+    const customUserId = localStorage.getItem("customUserId");
+    if (customUserId) {
+      console.log("User ID found in localStorage:", customUserId);
+      return { customUserId }; // Return customUserId if it exists
+    }
+
+    // If no customUserId is found, prompt the user to log in
+    return null;
+  }
+
+  function showUserModal() {
+    // Create a more sophisticated modal for user creation
+    const modal = document.createElement('div');
+    modal.style.position = 'fixed';
+    modal.style.top = '0';
+    modal.style.left = '0';
+    modal.style.width = '100%';
+    modal.style.height = '100%';
+    modal.style.backgroundColor = 'rgba(0,0,0,0.5)';
+    modal.style.zIndex = '1000';
+    modal.style.display = 'flex';
+    modal.style.justifyContent = 'center';
+    modal.style.alignItems = 'center';
+    
+    modal.innerHTML = `
+      <div style="background:white; padding:20px; border-radius:5px; width:80%; max-width:400px;">
+        <h3>Set Station</h3>
+   
+        <div style="margin-bottom:15px;">
+          <label style="display:block; margin-bottom:5px;">Select Station:</label>
+          <select id="userStationInput" style="width:100%; padding:8px; box-sizing:border-box;">
+          <option value="">--Select Station--</option>
+  <option value="Grenville">Grenville</option>
+  <option value="Hermitage">Hermitage</option>
+  <option value="Marli">Marli</option>
+  <option value="Union">Union</option>
+  <option value="Gouyave">Gouyave</option>
+  <option value="Victoria">Victoria</option>
+  <option value="Thebaide">Thebaide</option>
+  <option value="Head Office">Head Office</option>
+          </select>
+        </div>
+        <div style="display:flex; gap:10px;">
+          <button id="createUserBtn" style="flex:1; padding:10px; background:#4CAF50; color:white; border:none; border-radius:4px;">Create</button>
+          <button id="cancelUserBtn" style="flex:1; padding:10px; background:#f44336; color:white; border:none; border-radius:4px;">Cancel</button>
+        </div>
+      </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    document.getElementById('cancelUserBtn').addEventListener('click', () => {
+      document.body.removeChild(modal);
+    });
+    
+    document.getElementById('createUserBtn').addEventListener('click', async () => {
+      const userName = document.getElementById('userStationInput').value;
+      const station = document.getElementById('userStationInput').value;
+      
+      if (!userName) {
+        alert("Please enter your name.");
+        return;
+      }
+      
+      document.body.removeChild(modal);
+      await createUser(userName, station);
+    });
+  }
+
+  async function createUser(userName, station) {
+    // Check if the user already exists in Firebase
+    console.log("Searching for user in Firebase...");
+    const existingUser = await findUserByName(userName);
+    
+    if (existingUser) {
+      console.log("User already exists in Firebase:", existingUser);
+      const customUserId = existingUser.customUserId;
+      localStorage.setItem("customUserId", customUserId);
+      localStorage.setItem("userStation", existingUser.station || station);
+      console.log("User logged in successfully!");
+      if (navigator.onLine) {
+        syncDataWithFirebase(customUserId);
+      }
+    } else {
+      console.log("User does not exist. Creating new user...");
+      const customUserId = generateCustomUserId(userName);
+      localStorage.setItem("customUserId", customUserId);
+      localStorage.setItem("userStation", station);
+      // Save user data with station in Firebase
+      await set(ref(db, `Users/${customUserId}`), {
+        name: userName,
+        station: station,
+        createdAt: new Date().toISOString()
+      });
+      
+      console.log("User created successfully in Firebase!");
+      if (navigator.onLine) {
+        syncDataWithFirebase(customUserId);
+      }
+    }
+  }
+
+  async function findUserByName(userName) {
+    // Query Firebase to find a user by name
+    const usersRef = ref(db, "Users");
+    const userQuery = query(usersRef, orderByChild("name"), equalTo(userName));
+    const snapshot = await get(userQuery);
+
+    if (snapshot.exists()) {
+      // Return the first matching user's customUserId
+      const userData = snapshot.val();
+      const customUserId = Object.keys(userData)[0];
+      console.log("User found in Firebase with customUserId:", customUserId);
+      return { customUserId };
+    } else {
+      console.log("No user found in Firebase.");
+      return null; // No user found
+    }
+  }
+
+  function generateCustomUserId(userName) {
+    // Generate a unique ID based on the username and a random string
+    const randomString = Math.random().toString(36).substring(2, 10);
+    return `${userName}-${randomString}`;
+  }
+
+  async function syncDataWithFirebase(customUserId) {
+    disableUserInteraction(); // Disable user interaction while syncing
+    showLoadingSpinner(true); // Show the loading spinner
+    console.log("Syncing data with Firebase for user:", customUserId);
+    const indexedDBData = await getIndexedDBData();
+    await loadDataFromFirebase(customUserId);
+
+    if (indexedDBData.length === 0) {
+      console.log("IndexedDB is empty. Loading data from Firebase...");
+      await loadDataFromFirebase(customUserId);
+    } else {
+      console.log("IndexedDB contains data. Uploading to Firebase...");
+      await uploadDataToFirebase(customUserId, indexedDBData);
+
+      console.log("Syncing IndexedDB with Firebase...");
+      await syncIndexedDBWithFirebase(customUserId);
+    }
+    hideLoadingSpinner(); // Hide the loading spinner
+    enableUserInteraction(); // Re-enable user interaction after syncing
+  }
+
+  async function getIndexedDBData() {
+    const db = await initializeIndexedDB();
+    return new Promise((resolve, reject) => {
+      const modelNames = [
+        "Worker", "Farmer", "DriedA", "DriedB", "FloatA", "FloatB", "Quaility", "visit",
+        "In-House-Drying", "Dispatch-Of-Dried-Nutmeg", "Dispatch-Of-Green", "Cracking-Summary",
+        "Floation-Summary", "Package-Ciontrol", "Editors", "Labour-support", "Training-support",
+        "land-info", "Land-Tenur", "Nutmeg-Trees", "Nutmeg-Variety", "Other-Crops", "Coconut-Trees",
+        "Citrus-Mango-Trees", "Other-Spices-Trees", "Other-Seasoning-Trees", "Other-Crops-Cultivated",
+        "Condition", "Nutmeg-Land", "Nutmeg-Frequency", "Potential-Risks", "Road-Access",
+        "Food-Safety-and-Quality", "Farm-Water-Source", "Farm-House", "inspector-symmary", "Policy",
+        "Sanitation-A", "Sanitation-B", "Sanitation-C", "Cracking_Schedule", "Assorting_Log",
+        "Extractor_Log", "Fumigation_Log", "Shelves", "W_Shelves", "M_Shelves", "W_Shelves_Dried",
+        "M_Shelves_Dried", "Vehicle_Inspection", "Final_Weight_Inspection", "Final_Weight_Inspection_fields",
+        "Dispatch_Of_Dried_Nutmeg_Rec", "Dispatch_Of_Green_Nutmeg_Rec", "Mace_Dispatched", "Mace_Purchase",
+        "Mace_Dispatched_Rec", "Cracking_Extraction_Summary", "Day_Of_Loading", "TruckEntry",
+        "Container_Inspection_Log"
+      ];
+
+      const allData = [];
+
+      modelNames.forEach((modelName) => {
+        const transaction = db.transaction(modelName, "readonly");
+        const store = transaction.objectStore(modelName);
+        const request = store.getAll();
+
+        request.onsuccess = function () {
+          allData.push({ modelName, data: request.result });
+          if (allData.length === modelNames.length) {
+            resolve(allData);
+          }
+        };
+
+        request.onerror = function () {
+          reject("Error reading data from IndexedDB");
+        };
+      });
+    });
+  }
+
+  async function uploadDataToFirebase(customUserId, data) {
+    try {
+      console.log("Uploading data to Firebase...");
+      const userRef = ref(db, `Users/${customUserId}/models`);
+
+      for (const model of data) {
+        const modelName = model.modelName;
+        const modelData = model.data;
+
+        const modelRef = ref(db, `Users/${customUserId}/models/${modelName}`);
+        // Use the existing ids in the data rather than creating new unique keys
+        modelData.forEach(async (item) => {
+          const itemRef = ref(db, `Users/${customUserId}/models/${modelName}/${item.id}`);
+          await set(itemRef, item); // Use the built-in id as the key
+        });
+
+        console.log(`Uploaded ${modelData.length} items to Firebase for model ${modelName}`);
+      }
+
+      console.log("Data uploaded successfully to Firebase.");
+    } catch (error) {
+      console.error("Error uploading data to Firebase:", error);
+    }
+  }
+
+  async function loadDataFromFirebase(customUserId) {
+    console.log("Loading data from Firebase...");
+    const userRef = ref(db, `Users/${customUserId}/models`);
+    const snapshot = await get(userRef);
+
+    if (snapshot.exists()) {
+      const data = snapshot.val();
+      for (const modelName in data) {
+        const modelData = data[modelName];
+        console.log(`Loading ${modelName} from Firebase`);
+        await loadModelToIndexedDB(modelName, modelData);
+      }
+      console.log("Data successfully loaded from Firebase.");
+    } else {
+      console.log("No data found in Firebase.");
+    }
+  }
+
+  async function loadModelToIndexedDB(modelName, modelData) {
+    const db = await initializeIndexedDB();
+    const transaction = db.transaction(modelName, "readwrite");
+    const store = transaction.objectStore(modelName);
+    // Log the modelData type and content for debugging purposes
+    console.log(`modelData for ${modelName}:`, modelData);
+    console.log(`Type of modelData for ${modelName}:`, typeof modelData);
+    // Check if modelData is an array
+    if (Array.isArray(modelData)) {
+      modelData.forEach(item => {
+        // Ensure that the item has the necessary 'id' field
+        if (item && item.id) {
+          store.put(item); // Add or update the record in IndexedDB
+        } else {
+          console.error(`Item is missing 'id' field for model ${modelName}:`, item);
+        }
+      });
+    }
+    // Check if modelData is an object (but not an array)
+    else if (modelData && typeof modelData === 'object') {
+      // If it's an object, convert it to an array of its values and iterate
+      Object.values(modelData).forEach(item => {
+        // Ensure that the item has the necessary 'id' field
+        if (item && item.id) {
+          store.put(item); // Add or update the record in IndexedDB
+        } else {
+          console.error(`Item is missing 'id' field for model ${modelName}:`, item);
+        }
+      });
+    } else {
+      // Handle other cases where modelData is neither an array nor an object
+      console.error(`Unexpected modelData type for ${modelName}:`, modelData);
+    }
+  }
+
+  async function syncIndexedDBWithFirebase(customUserId) {
+    console.log("Syncing IndexedDB with Firebase...");
+
+    // First, get all the data from IndexedDB
+    const indexedDBData = await getIndexedDBData();
+    for (const model of indexedDBData) {
+      const modelName = model.modelName;
+      const modelData = model.data;
+
+      // Upload the model data to Firebase
+      await uploadDataToFirebase(customUserId, [{ modelName, data: modelData }]);
+    }
+    console.log("IndexedDB synced with Firebase.");
+  }
+
+  function disableUserInteraction() {
+    // Disable interaction while syncing
+    document.body.style.pointerEvents = "none";
+    console.log("User interaction disabled.");
+  }
+
+  function enableUserInteraction() {
+    // Enable interaction after syncing
+    document.body.style.pointerEvents = "auto";
+    console.log("User interaction enabled.");
+  }
+
+  function showLoadingSpinner(show) {
+    const spinner = document.getElementById("loadingSpinner");
+    if (show) {
+      spinner.style.display = "block";
+    } else {
+      spinner.style.display = "none";
+    }
+  }
+
+  function hideLoadingSpinner() {
+    showLoadingSpinner(false);
+  }
+
+</script>
+
+
+     <!-- <script type="module">
+      // Import Firebase modules
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+      import { getDatabase, ref, set, get, query, orderByChild, equalTo, update, push } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
+      import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
+    
+      // Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyBZTB_mN_gIb6mqeM8nid4x83oKRehmFKo",
+        authDomain: "farmer-project-sync.firebaseapp.com",
+        databaseURL: "https://farmer-project-sync-default-rtdb.firebaseio.com",
+        projectId: "farmer-project-sync",
+        storageBucket: "farmer-project-sync.firebasestorage.app",
+        messagingSenderId: "1366353203",
+        appId: "1:1366353203:web:fa29fd29cc326a0d63ca46"
+      };
+    
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const db = getDatabase(app);
+      const auth = getAuth(app);
+    
+      document.addEventListener("DOMContentLoaded", async function () {
+        console.log("Initializing IndexedDB...");
+        await initializeIndexedDB(); // Initialize IndexedDB first
+        console.log("Finished initializing IndexedDB.");
+        checkUserAndSyncData();
+      });
+    
+      // Initialize IndexedDB and create object stores if they don't exist
+      function initializeIndexedDB() {
+        return new Promise((resolve, reject) => {
+          const dbVersion = 2; // Increment this number if you change the schema
+          var request = indexedDB.open("GCNA", dbVersion);
+    
+          request.onupgradeneeded = function (event) {
+            var db = event.target.result;
+            console.log("Database upgrade needed. Creating object stores...");
+    
+            const modelNames = [
+              "Worker", "Farmer", "DriedA", "DriedB", "FloatA", "FloatB", "Quaility", "visit",
+              "In-House-Drying", "Dispatch-Of-Dried-Nutmeg", "Dispatch-Of-Green", "Cracking-Summary",
+              "Floation-Summary", "Package-Ciontrol", "Editors", "Labour-support", "Training-support",
+              "land-info", "Land-Tenur", "Nutmeg-Trees", "Nutmeg-Variety", "Other-Crops", "Coconut-Trees",
+              "Citrus-Mango-Trees", "Other-Spices-Trees", "Other-Seasoning-Trees", "Other-Crops-Cultivated",
+              "Condition", "Nutmeg-Land", "Nutmeg-Frequency", "Potential-Risks", "Road-Access",
+              "Food-Safety-and-Quality", "Farm-Water-Source", "Farm-House", "inspector-symmary", "Policy",
+              "Sanitation-A", "Sanitation-B", "Sanitation-C", "Cracking_Schedule", "Assorting_Log",
+              "Extractor_Log", "Fumigation_Log", "Shelves", "W_Shelves", "M_Shelves", "W_Shelves_Dried",
+              "M_Shelves_Dried", "Vehicle_Inspection", "Final_Weight_Inspection", "Final_Weight_Inspection_fields",
+              "Dispatch_Of_Dried_Nutmeg_Rec", "Dispatch_Of_Green_Nutmeg_Rec", "Mace_Dispatched", "Mace_Purchase",
+              "Mace_Dispatched_Rec", "Cracking_Extraction_Summary", "Day_Of_Loading", "TruckEntry",
+              "Container_Inspection_Log"
+            ];
+    
+            modelNames.forEach((modelName) => {
+              if (!db.objectStoreNames.contains(modelName)) {
+                console.log(`Creating object store: ${modelName}`);
+                db.createObjectStore(modelName, { keyPath: "id" }); // Store data by 'id'
+              } else {
+                console.log(`Object store already exists: ${modelName}`);
+              }
+            });
+          };
+    
+          request.onsuccess = function (event) {
+            console.log("IndexedDB initialized successfully.");
+            resolve(event.target.result);
+          };
+    
+          request.onerror = function (event) {
+            console.error("Error opening IndexedDB:", event);
+            reject("Error opening IndexedDB:", event);
+          };
+        });
+      }
+    
+      async function checkUserAndSyncData() {
+        console.log("Checking for current user...");
+        const user = await getCurrentUser();
+        if (!user) {
+          console.log("No user found. Prompting for user creation...");
+          showUserModal();
+        } else {
+          console.log("User found:", user.customUserId);
+          if (navigator.onLine) {
+            syncDataWithFirebase(user.customUserId); // Use customUserId for syncing only when online
+          } else {
+            console.log("User is offline, will sync when online.");
+          }
+        }
+      }
+    
+      async function getCurrentUser() {
+        // Check if customUserId is already stored in localStorage
+        const customUserId = localStorage.getItem("customUserId");
+        if (customUserId) {
+          console.log("User ID found in localStorage:", customUserId);
+          return { customUserId }; // Return customUserId if it exists
+        }
+    
+        // If no customUserId is found, prompt the user to log in
+        return null;
+      }
+    
+      function showUserModal() {
+        const userName = prompt("Please enter your name:");
+        if (userName) {
+          console.log("User name provided:", userName);
+          createUser(userName);
+        } else {
+          console.log("No user name provided.");
+        }
+      }
+    
+      async function createUser(userName) {
+        // Check if the user already exists in Firebase
+        console.log("Searching for user in Firebase...");
+        const existingUser = await findUserByName(userName);
+        if (existingUser) {
+          console.log("User already exists in Firebase:", existingUser);
+          const customUserId = existingUser.customUserId;
+          localStorage.setItem("customUserId", customUserId); // Save to localStorage
+          console.log("User logged in successfully!");
+          if (navigator.onLine) {
+            syncDataWithFirebase(customUserId); // Sync data if online
+          }
+        } else {
+          console.log("User does not exist. Creating new user...");
+          const customUserId = generateCustomUserId(userName);
+          localStorage.setItem("customUserId", customUserId); // Save to localStorage
+    
+          // Save the username and customUserId in Firebase
+          await set(ref(db, `Users/${customUserId}/name`), userName);
+          console.log("User created successfully in Firebase!");
+          if (navigator.onLine) {
+            syncDataWithFirebase(customUserId); // Sync data if online
+          }
+        }
+      }
+    
+      async function findUserByName(userName) {
+        // Query Firebase to find a user by name
+        const usersRef = ref(db, "Users");
+        const userQuery = query(usersRef, orderByChild("name"), equalTo(userName));
+        const snapshot = await get(userQuery);
+    
+        if (snapshot.exists()) {
+          // Return the first matching user's customUserId
+          const userData = snapshot.val();
+          const customUserId = Object.keys(userData)[0];
+          console.log("User found in Firebase with customUserId:", customUserId);
+          return { customUserId };
+        } else {
+          console.log("No user found in Firebase.");
+          return null; // No user found
+        }
+      }
+    
+      function generateCustomUserId(userName) {
+        // Generate a unique ID based on the username and a random string
+        const randomString = Math.random().toString(36).substring(2, 10);
+        return `${userName}-${randomString}`;
+      }
+    
+      async function syncDataWithFirebase(customUserId) {
+        disableUserInteraction(); // Disable user interaction while syncing
+        showLoadingSpinner(true); // Show the loading spinner
+        console.log("Syncing data with Firebase for user:", customUserId);
+        const indexedDBData = await getIndexedDBData();
+        await loadDataFromFirebase(customUserId);
+    
+        if (indexedDBData.length === 0) {
+          console.log("IndexedDB is empty. Loading data from Firebase...");
+          await loadDataFromFirebase(customUserId);
+        } else {
+          console.log("IndexedDB contains data. Uploading to Firebase...");
+          await uploadDataToFirebase(customUserId, indexedDBData);
+    
+          console.log("Syncing IndexedDB with Firebase...");
+          await syncIndexedDBWithFirebase(customUserId);
+        }
+        hideLoadingSpinner(); // Hide the loading spinner
+        enableUserInteraction(); // Re-enable user interaction after syncing
+      }
+    
+      async function getIndexedDBData() {
+        const db = await initializeIndexedDB();
+        return new Promise((resolve, reject) => {
+          const modelNames = [
+            "Worker", "Farmer", "DriedA", "DriedB", "FloatA", "FloatB", "Quaility", "visit",
+            "In-House-Drying", "Dispatch-Of-Dried-Nutmeg", "Dispatch-Of-Green", "Cracking-Summary",
+            "Floation-Summary", "Package-Ciontrol", "Editors", "Labour-support", "Training-support",
+            "land-info", "Land-Tenur", "Nutmeg-Trees", "Nutmeg-Variety", "Other-Crops", "Coconut-Trees",
+            "Citrus-Mango-Trees", "Other-Spices-Trees", "Other-Seasoning-Trees", "Other-Crops-Cultivated",
+            "Condition", "Nutmeg-Land", "Nutmeg-Frequency", "Potential-Risks", "Road-Access",
+            "Food-Safety-and-Quality", "Farm-Water-Source", "Farm-House", "inspector-symmary", "Policy",
+            "Sanitation-A", "Sanitation-B", "Sanitation-C", "Cracking_Schedule", "Assorting_Log",
+            "Extractor_Log", "Fumigation_Log", "Shelves", "W_Shelves", "M_Shelves", "W_Shelves_Dried",
+            "M_Shelves_Dried", "Vehicle_Inspection", "Final_Weight_Inspection", "Final_Weight_Inspection_fields",
+            "Dispatch_Of_Dried_Nutmeg_Rec", "Dispatch_Of_Green_Nutmeg_Rec", "Mace_Dispatched", "Mace_Purchase",
+            "Mace_Dispatched_Rec", "Cracking_Extraction_Summary", "Day_Of_Loading", "TruckEntry",
+            "Container_Inspection_Log"
+          ];
+    
+          const allData = [];
+    
+          modelNames.forEach((modelName) => {
+            const transaction = db.transaction(modelName, "readonly");
+            const store = transaction.objectStore(modelName);
+            const request = store.getAll();
+    
+            request.onsuccess = function () {
+              allData.push({ modelName, data: request.result });
+              if (allData.length === modelNames.length) {
+                resolve(allData);
+              }
+            };
+    
+            request.onerror = function () {
+              reject("Error reading data from IndexedDB");
+            };
+          });
+        });
+      }
+    
+      async function uploadDataToFirebase(customUserId, data) {
+        try {
+          console.log("Uploading data to Firebase...");
+          const userRef = ref(db, `Users/${customUserId}/models`);
+    
+          for (const model of data) {
+            const modelName = model.modelName;
+            const modelData = model.data;
+    
+            const modelRef = ref(db, `Users/${customUserId}/models/${modelName}`);
+            const newModelRef = push(modelRef); // Push creates a unique key for each new entry
+    
+            // Add data under the new unique key
+            await set(newModelRef, modelData);
+            console.log(`Uploaded ${modelData.length} items to Firebase for model ${modelName}`);
+          }
+    
+          console.log("Data uploaded successfully to Firebase.");
+        } catch (error) {
+          console.error("Error uploading data to Firebase:", error);
+        }
+      }
+    
+      async function loadDataFromFirebase(customUserId) {
+        console.log("Loading data from Firebase...");
+        const userRef = ref(db, `Users/${customUserId}/models`);
+        const snapshot = await get(userRef);
+    
+        if (snapshot.exists()) {
+          const data = snapshot.val();
+          for (const modelName in data) {
+            const modelData = data[modelName];
+            console.log(`Loading ${modelName} from Firebase`);
+            await loadModelToIndexedDB(modelName, modelData);
+          }
+          console.log("Data successfully loaded from Firebase.");
+        } else {
+          console.log("No data found in Firebase.");
+        }
+      }
+    
+      async function loadModelToIndexedDB(modelName, modelData) {
+        const db = await initializeIndexedDB();
+        const transaction = db.transaction(modelName, "readwrite");
+        const store = transaction.objectStore(modelName);
+        modelData.forEach(item => {
+          store.put(item); // Add or update the record in IndexedDB
+        });
+      }
+    
+      async function syncIndexedDBWithFirebase(customUserId) {
+        console.log("Syncing IndexedDB with Firebase...");
+    
+        // First, get all the data from IndexedDB
+        const indexedDBData = await getIndexedDBData();
+        for (const model of indexedDBData) {
+          const modelName = model.modelName;
+          const modelData = model.data;
+    
+          // Upload the model data to Firebase
+          await uploadDataToFirebase(customUserId, [{ modelName, data: modelData }]);
+        }
+        console.log("IndexedDB synced with Firebase.");
+      }
+    
+      function disableUserInteraction() {
+        // Disable interaction while syncing
+        document.body.style.pointerEvents = "none";
+        console.log("User interaction disabled.");
+      }
+    
+      function enableUserInteraction() {
+        // Enable interaction after syncing
+        document.body.style.pointerEvents = "auto";
+        console.log("User interaction enabled.");
+      }
+    
+      function showLoadingSpinner(show) {
+        const spinner = document.getElementById("loadingSpinner");
+        if (show) {
+          spinner.style.display = "block";
+        } else {
+          spinner.style.display = "none";
+        }
+      }
+    
+      function hideLoadingSpinner() {
+        showLoadingSpinner(false);
+      }
+    
+    </script>
+     -->
+
+
+
+
+    
+    <!-- <script type="module">
+      // Import Firebase modules
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+      import { getDatabase, ref, set, get, push, query, orderByChild, equalTo } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
+      import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
+    
+      // Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyBZTB_mN_gIb6mqeM8nid4x83oKRehmFKo",
+        authDomain: "farmer-project-sync.firebaseapp.com",
+        databaseURL: "https://farmer-project-sync-default-rtdb.firebaseio.com",
+        projectId: "farmer-project-sync",
+        storageBucket: "farmer-project-sync.firebasestorage.app",
+        messagingSenderId: "1366353203",
+        appId: "1:1366353203:web:fa29fd29cc326a0d63ca46"
+      };
+    
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const db = getDatabase(app);
+      const auth = getAuth(app);
+    
+      document.addEventListener("DOMContentLoaded", async function () {
+        await initializeIndexedDB(); // Initialize IndexedDB first
+        checkUserAndSyncData();
+      });
+    
+      // Initialize IndexedDB and create object stores if they don't exist
+      function initializeIndexedDB() {
+        return new Promise((resolve, reject) => {
+          const dbVersion = 2; // Increment this number if you change the schema
+          var request = indexedDB.open("GCNA", dbVersion);
+    
+          request.onupgradeneeded = function (event) {
+            var db = event.target.result;
+            console.log("Database upgrade needed. Creating object stores...");
+    
+            const modelNames = [
+          "Worker",
+          "Farmer",
+          "DriedA",
+          "DriedB",
+          "FloatA",
+          "FloatB",
+          "Quaility",
+          "visit",
+          "In-House-Drying",
+          "Dispatch-Of-Dried-Nutmeg",
+          "Dispatch-Of-Green",
+          "Cracking-Summary",
+          "Floation-Summary",
+          "Package-Ciontrol",
+          "Editors",
+          "Labour-support",
+          "Training-support",
+          "land-info",
+          "Land-Tenur",
+          "Nutmeg-Trees",
+          "Nutmeg-Variety",
+          "Other-Crops",
+          "Coconut-Trees",
+          "Citrus-Mango-Trees",
+          "Other-Spices-Trees",
+          "Other-Seasoning-Trees",
+          "Other-Crops-Cultivated",
+          "Condition",
+          "Nutmeg-Land",
+          "Nutmeg-Frequency",
+          "Potential-Risks",
+          "Road-Access",
+          "Food-Safety-and-Quality",
+          "Farm-Water-Source",
+          "Farm-House",
+          "inspector-symmary",
+          "Policy",
+          "Sanitation-A",
+          "Sanitation-B",
+          "Sanitation-C",
+          "Cracking_Schedule",
+          "Assorting_Log",
+          "Extractor_Log",
+          "Fumigation_Log",
+          "Shelves",
+          "W_Shelves",
+          "M_Shelves",
+          "W_Shelves_Dried",
+          "M_Shelves_Dried",
+          "Vehicle_Inspection",
+          "Final_Weight_Inspection",
+          "Final_Weight_Inspection_fields",
+          "Dispatch_Of_Dried_Nutmeg_Rec",
+          "Dispatch_Of_Green_Nutmeg_Rec",
+          "Mace_Dispatched",
+          "Mace_Purchase",
+          "Mace_Dispatched_Rec",
+          "Cracking_Extraction_Summary",
+          "Day_Of_Loading",
+          "TruckEntry",
+          "Container_Inspection_Log"
+        ];
+    
+            modelNames.forEach((modelName) => {
+              if (!db.objectStoreNames.contains(modelName)) {
+                console.log(`Creating object store: ${modelName}`);
+                db.createObjectStore(modelName, { keyPath: "id", autoIncrement: true });
+              } else {
+                console.log(`Object store already exists: ${modelName}`);
+              }
+            });
+          };
+    
+          request.onsuccess = function (event) {
+            resolve(event.target.result);
+          };
+    
+          request.onerror = function (event) {
+            reject("Error opening IndexedDB:", event);
+          };
+        });
+      }
+    
+      async function checkUserAndSyncData() {
+        const user = await getCurrentUser();
+        if (!user) {
+          showUserModal();
+        } else {
+          syncDataWithFirebase(user.customUserId); // Use customUserId for syncing
+        }
+      }
+    
+      async function getCurrentUser() {
+        // Check if customUserId is already stored in localStorage
+        const customUserId = localStorage.getItem("customUserId");
+        if (customUserId) {
+          return { customUserId }; // Return customUserId if it exists
+        }
+    
+        // If no customUserId is found, prompt the user to log in
+        return null;
+      }
+    
+      function showUserModal() {
+        const userName = prompt("Please enter your name:");
+        if (userName) {
+          createUser(userName);
+        }
+      }
+    
+      async function createUser(userName) {
+        // Check if the user already exists in Firebase
+        const existingUser = await findUserByName(userName);
+        if (existingUser) {
+          // User already exists, use their customUserId
+          const customUserId = existingUser.customUserId;
+          localStorage.setItem("customUserId", customUserId); // Save to localStorage
+          console.log("User logged in successfully!");
+          syncDataWithFirebase(customUserId);
+        } else {
+          // User does not exist, create a new user
+          const customUserId = generateCustomUserId(userName);
+          localStorage.setItem("customUserId", customUserId); // Save to localStorage
+    
+          // Save the username and customUserId in Firebase
+          await set(ref(db, `Users/${customUserId}/name`), userName);
+          console.log("User created successfully!");
+          syncDataWithFirebase(customUserId);
+        }
+      }
+    
+      async function findUserByName(userName) {
+        // Query Firebase to find a user by name
+        const usersRef = ref(db, "Users");
+        const userQuery = query(usersRef, orderByChild("name"), equalTo(userName));
+        const snapshot = await get(userQuery);
+    
+        if (snapshot.exists()) {
+          // Return the first matching user's customUserId
+          const userData = snapshot.val();
+          const customUserId = Object.keys(userData)[0];
+          return { customUserId };
+        } else {
+          return null; // No user found
+        }
+      }
+    
+      function generateCustomUserId(userName) {
+        // Generate a unique ID based on the username and a random string
+        const randomString = Math.random().toString(36).substring(2, 10);
+        return `${userName}-${randomString}`;
+      }
+    
+      async function syncDataWithFirebase(customUserId) {
+        const indexedDBData = await getIndexedDBData();
+        if (indexedDBData.length === 0) {
+          await loadDataFromFirebase(customUserId);
+        } else {
+          await uploadDataToFirebase(customUserId, indexedDBData);
+        }
+      }
+    
+      async function getIndexedDBData() {
+        const db = await initializeIndexedDB();
+        return new Promise((resolve) => {
+          const modelNames = [
+          "Worker",
+          "Farmer",
+          "DriedA",
+          "DriedB",
+          "FloatA",
+          "FloatB",
+          "Quaility",
+          "visit",
+          "In-House-Drying",
+          "Dispatch-Of-Dried-Nutmeg",
+          "Dispatch-Of-Green",
+          "Cracking-Summary",
+          "Floation-Summary",
+          "Package-Ciontrol",
+          "Editors",
+          "Labour-support",
+          "Training-support",
+          "land-info",
+          "Land-Tenur",
+          "Nutmeg-Trees",
+          "Nutmeg-Variety",
+          "Other-Crops",
+          "Coconut-Trees",
+          "Citrus-Mango-Trees",
+          "Other-Spices-Trees",
+          "Other-Seasoning-Trees",
+          "Other-Crops-Cultivated",
+          "Condition",
+          "Nutmeg-Land",
+          "Nutmeg-Frequency",
+          "Potential-Risks",
+          "Road-Access",
+          "Food-Safety-and-Quality",
+          "Farm-Water-Source",
+          "Farm-House",
+          "inspector-symmary",
+          "Policy",
+          "Sanitation-A",
+          "Sanitation-B",
+          "Sanitation-C",
+          "Cracking_Schedule",
+          "Assorting_Log",
+          "Extractor_Log",
+          "Fumigation_Log",
+          "Shelves",
+          "W_Shelves",
+          "M_Shelves",
+          "W_Shelves_Dried",
+          "M_Shelves_Dried",
+          "Vehicle_Inspection",
+          "Final_Weight_Inspection",
+          "Final_Weight_Inspection_fields",
+          "Dispatch_Of_Dried_Nutmeg_Rec",
+          "Dispatch_Of_Green_Nutmeg_Rec",
+          "Mace_Dispatched",
+          "Mace_Purchase",
+          "Mace_Dispatched_Rec",
+          "Cracking_Extraction_Summary",
+          "Day_Of_Loading",
+          "TruckEntry",
+          "Container_Inspection_Log"
+        ];
+    
+          const allData = [];
+          modelNames.forEach((modelName) => {
+            if (!db.objectStoreNames.contains(modelName)) {
+              console.warn(`Object store not found: ${modelName}`);
+              return; // Skip this object store
+            }
+    
+            const transaction = db.transaction(modelName, "readonly");
+            const objectStore = transaction.objectStore(modelName);
+            const getRequest = objectStore.getAll();
+    
+            getRequest.onsuccess = function (event) {
+              const data = event.target.result;
+              allData.push({ modelName, data });
+              if (allData.length === modelNames.length) {
+                resolve(allData);
+              }
+            };
+    
+            getRequest.onerror = function (event) {
+              console.error(`Error fetching data from ${modelName}:`, event);
+              resolve([]);
+            };
+          });
+        });
+      }
+    
+      async function loadDataFromFirebase(customUserId) {
+        const snapshot = await get(ref(db, `Users/${customUserId}/models`));
+        if (snapshot.exists()) {
+          const data = snapshot.val();
+          Object.keys(data).forEach((modelName) => {
+            data[modelName].forEach((item) => {
+              saveDataToIndexedDB(modelName, item);
+            });
+          });
+        }
+      }
+    
+      async function saveDataToIndexedDB(modelName, item) {
+        const db = await initializeIndexedDB();
+        const transaction = db.transaction(modelName, "readwrite");
+        const objectStore = transaction.objectStore(modelName);
+        objectStore.add(item);
+      }
+    
+      async function uploadDataToFirebase(customUserId, data) {
+        for (const { modelName, data: items } of data) {
+          const modelRef = ref(db, `Users/${customUserId}/models/${modelName}`);
+          for (const item of items) {
+            const newEntryRef = push(modelRef);
+            await set(newEntryRef, item);
+          }
+        }
+      }
+    </script> -->
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="style.css" />
+
+    <title>GCNA</title>
+  </head>
+  <body style="background-color: rgba(4, 185, 94, 0.8)">
+    {% include 'gcna/nav2.html' %}
+
+    <br />
+    <div class="container">{% block content%} {% endblock %}</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

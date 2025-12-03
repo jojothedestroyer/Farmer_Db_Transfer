@@ -1,0 +1,593 @@
+{% extends 'gcna/base2.html' %}
+
+{% block content%}
+
+<style>
+    .menu {
+      display: flex;
+      list-style: none;
+      padding: 0;
+    }
+  
+    .menu li {
+      margin-right: 20px;
+    }
+  
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+  
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f9f9f9;
+      min-width: 160px;
+      z-index: 1;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+  
+    .dropdown-content.show {
+      display: block;
+      opacity: 1;
+    }
+  
+    .dropdown-content .container {
+      padding: 15px;
+    }
+  
+    .dropdown button {
+      cursor: pointer;
+    }
+  </style>
+
+ 
+
+
+<style>
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #ffffff;
+        font-family: Raleway;
+        border-radius: 10px;
+        /* box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2); */
+    }
+  
+    .table th, .table td {
+        padding: 10px;
+        text-align: center;
+        border: 1px solid #e4e4e4;
+        min-width: 150px; /* Ensure cells have a minimum width */
+    }
+  
+    .table th {
+        background-color: #f8f9fa;
+        font-weight: bold;
+    }
+  
+    .form-control {
+        width: 100%; /* Full width of the cell */
+        min-width: 150px; /* Minimum width for dropdowns and inputs */
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-size: 14px; /* Ensure text is readable */
+    }
+  
+    .add-row, .submit_contents {
+        padding: 5px 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        background-color: #007bff;
+        color: white;
+        font-size: 14px; /* Ensure button text is readable */
+    }
+  
+    .add-row:hover, .submit_contents:hover {
+        background-color: #0056b3;
+    }
+  
+  
+  
+    
+    .addrow, .submit_contents {
+        padding: 5px 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        background-color: #007bff;
+        color: white;
+        font-size: 14px; /* Ensure button text is readable */
+    }
+  
+    .addrow:hover, .submit_contents:hover {
+        background-color: #0056b3;
+    }
+  
+    .hidden-label1 {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        display: block;
+    }
+  
+    /* Ensure the table is responsive */
+    @media (max-width: 768px) {
+        .table th, .table td {
+            min-width: 120px; /* Adjust for smaller screens */
+        }
+  
+        .form-control {
+            min-width: 120px; /* Adjust for smaller screens */
+            font-size: 12px; /* Smaller font size for smaller screens */
+        }
+  
+        .add-row, .submit_contents {
+            font-size: 12px; /* Smaller font size for smaller screens */
+        }
+    }
+  </style>
+  
+  
+  
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var myForm = document.getElementById('myForm');
+    
+        myForm.addEventListener('submit', function(event) {
+  
+            event.preventDefault();
+            var data = new FormData(event.target);
+            saveDataToIndexedDB(data);
+        });
+    
+        function saveDataToIndexedDB(data) {
+    // Exclude csrfmiddlewaretoken from being saved to IndexedDB
+    data.delete('csrfmiddlewaretoken');
+  
+    var request = indexedDB.open('GCNA', 2);
+  
+    request.onsuccess = function(event) {
+        var db = event.target.result;
+        var transaction = db.transaction('Mace_Purchase', 'readwrite');
+        var objectStore = transaction.objectStore('Mace_Purchase');
+  
+        var obj = {};
+        for (var pair of data.entries()) {
+            obj[pair[0]] = pair[1];
+        }
+  
+        // Get the highest id in the object store
+        var highestIdRequest = objectStore.openCursor(null, 'prev');
+        highestIdRequest.onsuccess = function(event) {
+            var cursor = event.target.result;
+            if (cursor) {
+                obj.id = cursor.key + 1;
+            } else {
+                obj.id = 1; // This is the first item
+            }
+  
+            var request = objectStore.put(obj);
+  
+            request.onsuccess = function() {
+                console.log('Data added to IndexedDB');
+                transferIndexedDBData(); // Transfer data to Django after saving to IndexedDB
+            };
+  
+            request.onerror = function() {
+                console.error('Error adding data to IndexedDB');
+            };
+        };
+    };
+  
+    request.onerror = function(event) {
+        console.error('Error opening IndexedDB', event);
+    };
+  }
+        function transferIndexedDBData() {
+            var request = indexedDB.open('GCNA', 2);
+        
+            request.onsuccess = function(event) {
+                var db = event.target.result;
+                var transaction = db.transaction('Mace_Purchase', 'readonly');
+                var objectStore = transaction.objectStore('Mace_Purchase');
+                var getRequest = objectStore.getAll();
+        
+                getRequest.onsuccess = function(event) {
+                    var data = event.target.result;
+                    data.forEach(function(item) {
+                        // sendDataToDjango(item);
+                    });
+                    window.location.reload();
+
+                };
+            };
+        
+            request.onerror = function(event) {
+                console.error('Error opening IndexedDB', event);
+            };
+        }
+    
+        function sendDataToDjango(item) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/check-and-add/', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        console.log('Entry added successfully.');
+                    } else {
+                        console.error('Error adding entry:', xhr.statusText);
+                    }
+                }
+            };
+            xhr.send(JSON.stringify(item));
+        }
+    });
+  </script>
+
+
+
+<script>
+
+
+    var request = indexedDB.open('Signin', 1);
+   
+    request.onsuccess = function(event) {
+        var db = event.target.result;
+        var transaction = db.transaction('verify', 'readonly');
+        var store = transaction.objectStore('verify');
+        var getRequest = store.get(1); // Assuming you want to get the first entry
+   
+        getRequest.onsuccess = function(event) {
+            var data = event.target.result;
+            if (data) {
+                // Set the values in the form
+                document.querySelector('[name="Worker_ID_No"]').value = data.Worker_ID_No;
+                document.querySelector('[name="Worker_ID_Name"]').value = data.Name;
+            }
+        };
+    };
+   </script>
+  
+
+<!-- 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var myForm = document.getElementById('myForm');
+    
+        myForm.addEventListener('submit', function(event) {
+  
+            event.preventDefault();
+            var data = new FormData(event.target);
+            saveDataToIndexedDB(data);
+        });
+    
+        function saveDataToIndexedDB(data) {
+            var request = indexedDB.open('GCNA', 2);
+        
+            request.onsuccess = function(event) {
+                var db = event.target.result;
+                var transaction = db.transaction('Mace_Purchase', 'readwrite');
+                var objectStore = transaction.objectStore('Mace_Purchase');
+        
+                var obj = {};
+                for (var pair of data.entries()) {
+                    obj[pair[0]] = pair[1];
+                }
+        
+                // Get the highest id in the object store
+                var highestIdRequest = objectStore.openCursor(null, 'prev');
+                highestIdRequest.onsuccess = function(event) {
+                    var cursor = event.target.result;
+                    if (cursor) {
+                        obj.id = cursor.key + 1;
+                    } else {
+                        obj.id = 1; // This is the first item
+                    }
+        
+                    var request = objectStore.put(obj);
+        
+                    request.onsuccess = function() {
+                        console.log('Data added to IndexedDB');
+                        window.location.href = '/gcna00_2/';
+  
+                    };
+        
+                    request.onerror = function() {
+                        console.error('Error adding data to IndexedDB');
+                    };
+                };
+            };
+        
+            request.onerror = function(event) {
+                console.error('Error opening IndexedDB', event);
+            };
+        }
+        
+    });
+    </script>
+  
+   -->
+
+<!-- IMplement previous entry traceability -->
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+
+
+
+
+<script>
+    $(document).ready(function() {
+        
+    
+        $('#id_MACE_1, #id_MACE_2, #id_MACE_3, #id_STATION, #id_DATE_OF_PURCHASE').on('change', function() {
+    var purchaseDate = $('#id_DATE_OF_PURCHASE').val().replace(/[/\-]/g, '');
+    
+            var station = new String($('#id_STATION').val());
+            var mace1 = new String($('#id_DATE_OF_PICK_UP').val());
+            var mace2 = new String($('#id_DATE_OF_PICK_UP').val());
+            var mace3 = new String($('#id_DATE_OF_PICK_UP').val());
+
+            $('#id_BATCH_CODE_M1').val(station  + "M1"+ purchaseDate); 
+            $('#id_BATCH_CODE_M2').val(station  + "M2"+ purchaseDate); 
+            $('#id_BATCH_CODE_M3').val(station  + "M3"+ purchaseDate); 
+        });
+     
+     
+        $('#id_NUM_MACE1_BAGS, #id_NUM_MACE2_BAGS, #id_NUM_MACE3_BAGS,#id_MACE_1,#id_MACE_2,#id_MACE_3').on('change', function() {
+            var mace1 = new Number($('#id_NUM_MACE1_BAGS').val());
+            var mace2 = new Number($('#id_NUM_MACE2_BAGS').val());
+            var mace3 = new Number($('#id_NUM_MACE3_BAGS').val());
+            
+
+    //   var mace1val = new Number($('#id_MACE_1').val());
+    //         var mace2val = new Number($('#id_MACE_2').val());
+    //         var mace3val = new Number($('#id_MACE_3').val());
+            
+
+            $('#id_MACE_1').val(mace1 * 40); 
+            $('#id_MACE_2').val(mace2 * 70);
+            $('#id_MACE_3').val(mace3 * 100); 
+            // $('#id_TOTAL_LBS_NUTMEG_BOUGHT').val(mace1val+mace2val+mace3val); 
+            $('#id_NUM_OF_BAGS').val(mace1+mace2+mace3+0); 
+
+
+            
+
+        });
+
+
+
+
+
+  $('#id_NUM_MACE1_BAGS, #id_NUM_MACE2_BAGS, #id_NUM_MACE3_BAGS,#id_MACE_1,#id_MACE_2,#id_MACE_3').on('change', function() {
+            // var mace1 = new Number($('#id_NUM_MACE1_BAGS').val());
+            // var mace2 = new Number($('#id_NUM_MACE2_BAGS').val());
+            // var mace3 = new Number($('#id_NUM_MACE3_BAGS').val());
+            
+
+      var mace1val = new Number($('#id_MACE_1').val());
+            var mace2val = new Number($('#id_MACE_2').val());
+            var mace3val = new Number($('#id_MACE_3').val());
+            
+
+            // $('#id_MACE_1').val(mace1 * 40); 
+            // $('#id_MACE_2').val(mace2 * 70);
+            // $('#id_MACE_3').val(mace3 * 100); 
+            $('#id_TOTAL_LBS_NUTMEG_BOUGHT').val(mace1val+mace2val+mace3val); 
+            // $('#id_NUM_OF_BAGS').val(mace1+mace2+mace3+0); 
+
+
+            
+
+        });
+
+
+        
+    }); 
+    </script>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<center>
+<br>
+	{% if submitted %}
+		Entry successfully added to database!!!
+	{% else %}
+		<form action="" method="POST" id="myForm"  enctype="multipart/form-data" style=" background-color: #e4e4e4;
+
+    margin: 1px auto;
+    font-family: Raleway;
+    padding: 10px;
+    width: 55%;
+    min-width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">
+  <h6>Document No. GCNA-GMP</h6>
+<h6>Document Title:  </h6>
+<h6>Date Issued:  </h6>
+<h6>Version:  </h6>
+		{% csrf_token %}
+
+
+
+
+
+
+
+
+    <div class="card">
+ 
+  <div class="card-body">
+
+  </h5>
+    <p class="card-text">
+        <table id="vertical-1" class="table table-hover table-light">
+
+    <h1>Purchased Mace Form</h1>
+ 
+		{% csrf_token %}
+{% comment %} 
+
+{{form.Nutmeg_ID_No}}
+{{form.Nutmeg_ID_No}} 
+{{ form.Worker_ID_No }}
+{{ form.Worker_ID_Name }}
+{% endcomment %}
+
+
+
+        <tr>
+            <th>STATION</th>
+            <td>{{ form.STATION }}</td>
+        </tr>
+    <tr>
+            <th>DATE OF PURCHASE</th>
+            <td>{{ form.DATE_OF_PURCHASE }}</td>
+        </tr>
+
+        <tr>
+          <th>PLACE OF PURCHASE</th>
+          <td>{{ form.PLACE_OF_PURCHASE }}</td>
+      </tr>
+
+        <tr>
+            <th>TOTAL # OF FARMERS</th>
+            <td>{{ form.TOTAL_NUM_OF_FARMERS }}</td>
+        </tr>
+    <tr>
+            <th>TOTAL LBS Mace BOUGHT</th>
+            <td>{{ form.TOTAL_LBS_NUTMEG_BOUGHT }}</td>
+        </tr>
+
+
+        <tr>
+            <th># OF BAGS</th>
+            <td>{{ form.NUM_OF_BAGS }}</td>
+        </tr>
+
+        <tr>
+            <th>Quantity of Mace 1</th>
+            <td>{{ form.MACE_1 }}</td>
+            <td>Number of Bags</td>
+    <td><input type="number" id="id_NUM_MACE1_BAGS" class="form-control" value="0"></td
+        </tr>
+
+
+
+        <tr>
+            <th>Mace 1 Batch Code</th>
+            <td>{{ form.BATCH_CODE_M1 }}</td>
+        </tr>
+
+
+
+        <tr>
+            <th>Quantity of Mace 2</th>
+            <td>{{ form.MACE_2 }}</td>
+                        <td>Number of Bags</td>
+    <td><input type="number" id="id_NUM_MACE2_BAGS" class="form-control" value="0"></td
+        </tr>
+
+
+
+
+        <tr>
+            <th>Mace 2 Batch Code</th>
+            <td>{{ form.BATCH_CODE_M2 }}</td>
+        </tr>
+
+
+
+
+
+
+        <tr>
+            <th>Quantity of Mace 3</th>
+            <td>{{ form.MACE_3 }}</td>
+                        <td>Number of Bags</td>
+    <td><input type="number" id="id_NUM_MACE3_BAGS" class="form-control" value="0"></td
+        </tr>
+
+       
+        <tr>
+            <th>Mace 3 Batch Code</th>
+            <td>{{ form.BATCH_CODE_M3 }}</td>
+        </tr>    
+
+
+</table>
+
+
+        <tr>
+            <th><a href="{% url 'table' %}" class="btn btn-secondary">Return</a></th>
+        </tr>
+
+<tr>
+            <th><a type="submit" href="{% url 'add_Dispatch_Dried_0' %}" role="button" class="btn btn-primary">Previous</a></th>		
+	 <th>	<input type="submit" name="" value="submit" class="btn btn-success"></th>
+		
+
+            <th><a type="submit" href="{% url 'add_Cracking_0' %}" role="button" class="btn btn-primary">Next</a></th> 
+
+</tr>
+
+ 
+		</form>
+
+	{% endif %}
+
+
+
+
+
+
+
+
+
+
+
+	</center>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{{ form.media }}
+
+{% endblock %}

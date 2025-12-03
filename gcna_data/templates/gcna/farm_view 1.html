@@ -1,0 +1,72 @@
+{% extends 'gcna/base.html' %}
+
+{% block content%}
+
+	<h1>Database</h1>
+
+
+	<h3>Land Tenurship Table</h3>
+
+{% for tenur in Land_tenurship_list %}
+<div class="card">
+  <div class="card-header">
+     
+  </div>
+  <div class="card-body">
+    <h5 class="card-title"><strong>Titles: {{ tenur }}</strong>
+  </h5>
+    <p class="card-text">
+	    <table id="vertical-1" class="table table-hover table-light">
+        <!-- <caption>First Way</caption> -->
+        <tr>
+            <th>Family</th>
+            <td>{{ tenur.family }}</td>
+        </tr>
+        <tr>
+            <th>Leasehood</th>
+            <td>{{ tenur.lease }}</td>
+        </tr>
+        <tr>
+            <th>Caretaker</th>
+            <td>{{ tenur.caretaker }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Agent</th>
+            <td>{{ tenur.agent }}</td>
+        </tr>
+
+
+
+        <tr>
+            <th>Comments</th>
+            <td>{{ tenur.comments }}</td>
+        </tr>
+    </table>
+
+
+</ul> 
+
+	</p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+</div>
+<br>
+<br>
+<br>
+
+
+
+<!-- 
+    titles = models.CharField(max_length=50, null=True)
+    family = models.CharField(max_length=50, null=True)
+    lease = models.CharField(max_length=100, null=True)
+    caretaker = models.CharField(max_length=50, null=True)
+    agent = models.CharField(max_length=50, null=True)
+    comments = models.TextField(blank=True)
+ -->
+{% endfor %}
+{% endblock %}
+
+

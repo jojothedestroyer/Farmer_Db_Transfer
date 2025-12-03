@@ -1,0 +1,37 @@
+{% extends 'gcna/base.html' %}
+
+{% block content%}
+
+	<h1>Database</h1>
+
+
+	<h3>Trees Table</h3>
+
+{% for tree in tree_list %}
+
+<div class="card">
+  <div class="card-header">
+     
+  </div>
+  <div class="card-body">
+    <h5 class="card-title"><strong>Tree Type: {{ tree }}</strong>
+</h5>
+    <p class="card-text">	<ul>
+	<li>Mature trees >25 years: {{ tree.Mature_trees }}</li>
+	<li>Bearing trees <25 years: {{ tree.Bearing_trees }}</li>
+	<li>Non Bearing trees >25 years: {{ tree.NonBearing_trees }}</li>
+
+</ul></p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+</div>
+
+  <!--   Tree_types = models.CharField(max_length=50, null=True)
+    Mature_trees = models.IntegerField()
+    Bearing_trees = models.IntegerField()
+    NonBearing_trees = models.IntegerField()
+ -->
+{% endfor %}
+{% endblock %}
+
+

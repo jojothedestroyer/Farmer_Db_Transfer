@@ -1,0 +1,98 @@
+{% extends 'gcna/base.html' %}
+
+{% block content%}
+
+	<center>
+<br>
+	{% if submitted %}
+		Entry successfully added to database!!!
+	{% else %}
+		<form action="" method="POST" style=" background-color: #e4e4e4;
+
+    margin: 1px auto;
+    font-family: Raleway;
+    padding: 10px;
+    width: 55%;
+    min-width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">
+    <h1>Package Control Form</h1>
+ 
+		{% csrf_token %}
+
+        <table id="vertical-1" class="table table-hover table-light">
+        <!-- <caption>First Way</caption> -->
+       
+{{ form.Nutmeg_ID_No }}
+
+
+       <tr>
+
+            <th>Product Descriptions</th>
+            <td>{{ form.PRODUCT_DESCRIPTION }}</td>
+        </tr>  
+        <tr>
+            <th>Start Date</th>
+            <td>{{ form.START }}</td>
+        </tr>
+        <tr>
+            <th>End Date</th>
+            <td>{{ form.END }}</td>
+        </tr>
+        <tr>
+            <th>Quantity of bags</th>
+            <td>{{ form.QUANTITY_OF_BAGS }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Total Weight(lbs)</th>
+            <td>{{ form.TOTAL_WEIGHT_LBS }}</td>
+        </tr>
+
+
+
+        <tr>
+            <th>Package Material</th>
+            <td>{{ form.PACKAGING_MATERIAL }}</td>
+        </tr>
+
+
+
+        <tr>
+            <th>Batch Number</th>
+            <td>{{ form.BATCH_NUMBER }}</td>
+        </tr>
+        <tr>
+            <th>Contract Number</th>
+            <td>{{ form.CONTRACT_NUMBER }}</td>
+        </tr>
+        <tr>
+            <th>Offical Lab Results</th>
+            <td>{{ form.OFFICIAL_LAB_RESULTS }}</td>
+        </tr>
+
+    </table>
+	  <tr>
+            <th><a href="{% url 'adhome' %}" class="btn btn-secondary">Return</a></th>
+        </tr>
+
+	            <th><a type="submit" href="{% url 'add_Floation' %}" role="button" class="btn btn-primary">Previous</a></th>
+
+		<input type="submit" name="" value="submit" class="btn btn-success">
+		
+
+
+      
+
+
+
+
+		</form>
+
+	{% endif %}
+
+	</center>
+{{ form.media }}
+
+{% endblock %}

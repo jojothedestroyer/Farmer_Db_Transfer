@@ -1,0 +1,926 @@
+{% extends 'gcna/base2.html' %}
+
+{% block content%}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unified Nutmeg Processing Forms</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        body {
+            font-family: 'Raleway', sans-serif;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        .form-container {
+            background-color: #e4e4e4;
+            margin: 20px auto;
+            padding: 20px;
+            width: 90%;
+            max-width: 1200px;
+            border-radius: 10px;
+            box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);
+        }
+        .form-section {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #ffffff;
+            border-radius: 8px;
+        }
+        .form-check-label {
+            font-weight: bold;
+            margin-right: 15px;
+        }
+        .form-check {
+            display: inline-block;
+            margin-right: 15px;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #ffffff;
+            font-family: Raleway;
+            border-radius: 10px;
+        }
+        .table th, .table td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #e4e4e4;
+            min-width: 150px;
+        }
+        .table th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+        }
+        .form-control {
+            width: 100%;
+            min-width: 150px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+        .addrow, .add-row {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            font-size: 14px;
+        }
+        .addrow:hover, .add-row:hover {
+            background-color: #0056b3;
+        }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .dropdown-content.show {
+            display: block;
+            opacity: 1;
+        }
+        .checkhide {
+            opacity: 0;
+        }
+        .entryContainer {
+            margin-bottom: 10px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        .btn-success {
+            background-color: #28a745;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <div class="form-header">
+                <h6>Document No. GCNA-GMP</h6>
+                <h6>Document Title: Unified Nutmeg Processing Forms</h6>
+                <h6>Date Issued: <span id="current-date"></span></h6>
+                <h6>Version: 1.0</h6>
+            </div>
+            
+            <h1 class="text-center mb-4">Unified Nutmeg Processing Forms</h1>
+            
+            <!-- Form Selection Checkboxes -->
+            <div class="form-check-section mb-4">
+                <h5>Select Forms to Display:</h5>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="maceCheck">
+                    <label class="form-check-label" for="maceCheck">Mace Received</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="driedCheck">
+                    <label class="form-check-label" for="driedCheck">Dried Nutmeg Received</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="greenCheck">
+                    <label class="form-check-label" for="greenCheck">Green Nutmeg Received</label>
+                </div>
+            </div>
+            
+            <form id="unifiedForm" method="POST" enctype="multipart/form-data">
+                <!-- Common Worker Information -->
+                <div class="row mb-3">
+                    <!-- <div class="col-md-6">
+                        <label for="worker_id" class="form-label">Worker ID No.</label>
+                        <input type="text" class="form-control" id="worker_id" name="Worker_ID_No">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="worker_name" class="form-label">Worker Name</label>
+                        <input type="text" class="form-control" id="worker_name" name="Worker_ID_Name">
+                    </div> -->
+                </div>
+
+                <!-- Mace Form Section -->
+                <div id="maceForm" class="form-section">
+                    <h2 class="text-center mb-3">Mace Received</h2>
+                    <table class="table table-hover table-light">
+                        <tr>
+                            <th>Date</th>
+                            <td><input type="date" class="form-control" name="Date_MACE" id="id_DATE_MACE"></td>
+                        </tr>
+                        <tr>
+                            <th>Station</th>
+                            <td>
+                                <select class="form-control" name="STATION_MACE" id="id_STATION_MACE">
+                                    <option value="">Select Station</option>
+                                    <option value="G">Grenville</option>
+                                    <option value="H">Hermitage</option>
+                                    <option value="M">Marli</option>
+                                    <option value="U">Union</option>
+                                    <option value="GP">Gouyave</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Vehicle Number</th>
+                            <td><input type="text" class="form-control" name="Vehicle_number_MACE"></td>
+                        </tr>
+                        <tr>
+                            <th>Mace 1 Batch Code</th>
+                            <td><input type="text" class="form-control" name="BATCH_CODE_M1" id="id_BATCH_CODE_M1"></td>
+                        </tr>
+                        <tr>
+                            <th>Mace 2 Batch Code</th>
+                            <td><input type="text" class="form-control" name="BATCH_CODE_M2" id="id_BATCH_CODE_M2"></td>
+                        </tr>
+                        <tr>
+                            <th>Mace 3 Batch Code</th>
+                            <td><input type="text" class="form-control" name="BATCH_CODE_M3" id="id_BATCH_CODE_M3"></td>
+                        </tr>
+                        <tr>
+                            <th>Delivery Advice Number</th>
+                            <td><input type="text" class="form-control" name="Delivery_advice_num_MACE"></td>
+                        </tr>
+                        <tr>
+                            <th>Product</th>
+                            <td><input type="text" class="form-control" name="Product_MACE" value="Mace"></td>
+                        </tr>
+                        <tr>
+                            <th>Number of Bags</th>
+                            <td><input type="number" class="form-control" name="Num_Bags_MACE" id="id_Num_Bags_MACE"></td>
+                        </tr>
+                        <tr>
+                            <th>Weight</th>
+                            <td>
+                                <input type="number" class="form-control" name="Weight_MACE" id="id_Weight_MACE">
+                                <small>Weight per Bag (lbs): <input type="number" id="id_WEIGHT_PER_BAG_MACE" class="form-control mt-1" value="140"></small>
+                                <small>Additional Weight (lbs): <input type="number" id="id_ADDITIONAL_WEIGHT_MACE" class="form-control mt-1" value="0"></small>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th colspan="2" style="text-align: center; font-size: 18px; font-weight: bold; background-color: #f8f9fa;">
+                                Confirmation Fields
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>Product</th>
+                            <td><input type="text" class="form-control" name="conf_Product_MACE"></td>
+                        </tr>
+                        <tr>
+                            <th>Number of Bags</th>
+                            <td><input type="number" class="form-control" name="conf_Num_Bags_MACE"></td>
+                        </tr>
+                        <tr>
+                            <th>Weight</th>
+                            <td><input type="number" class="form-control" name="conf_Weight_MACE"></td>
+                        </tr>
+                    </table>
+                    
+                    <!-- Mace Data Pull Button -->
+                    <div class="mt-3">
+                        <button type="button" class="addrow" onclick="toggleDropdown('maceDropdown')">Dispatched Mace Nutmeg List</button>
+                        <div class="dropdown-content" id="maceDropdown">
+                            <div class="container">
+                                <div id="maceDataList"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dried Form Section -->
+                <div id="driedForm" class="form-section">
+                    <h2 class="text-center mb-3">Dried Nutmeg Received</h2>
+                    <table class="table table-hover table-light">
+                        <tr>
+                            <th>Date</th>
+                            <td><input type="date" class="form-control" name="Date_DRIED"></td>
+                        </tr>
+                        <tr>
+                            <th>Station From</th>
+                            <td>
+                                <select class="form-control" name="Station_DRIED">
+                                    <option value="">Select Station</option>
+                                    <option value="G">Grenville</option>
+                                    <option value="H">Hermitage</option>
+                                    <option value="M">Marli</option>
+                                    <option value="U">Union</option>
+                                    <option value="GP">Gouyave</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Station Received</th>
+                            <td>
+                                <select class="form-control" name="Station_rec_DRIED">
+                                    <option value="">Select Station</option>
+                                    <option value="G">Grenville</option>
+                                    <option value="H">Hermitage</option>
+                                    <option value="M">Marli</option>
+                                    <option value="U">Union</option>
+                                    <option value="GP">Gouyave</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Vehicle Number</th>
+                            <td><input type="text" class="form-control" name="Vehicle_number_DRIED"></td>
+                        </tr>
+                        <tr>
+                            <th>Batch Codes</th>
+                            <td><input type="text" class="form-control" name="BatchCode_DRIED"></td>
+                        </tr>
+                        <tr>
+                            <th>Delivery Advice Number</th>
+                            <td><input type="text" class="form-control" name="Delivery_advice_num_DRIED"></td>
+                        </tr>
+                        <tr>
+                            <th>Product</th>
+                            <td><input type="text" class="form-control" name="Product_DRIED"></td>
+                        </tr>
+                        <tr>
+                            <th>Number of Bags</th>
+                            <td><input type="number" class="form-control" name="Num_Bags_DRIED"></td>
+                        </tr>
+                        <tr>
+                            <th>Weight</th>
+                            <td><input type="number" class="form-control" name="Weight_DRIED"></td>
+                        </tr>
+                        <tr>
+                            <th colspan="2" style="text-align: center; font-size: 18px; font-weight: bold; background-color: #f8f9fa;">
+                                Confirmation Fields
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>Product</th>
+                            <td><input type="text" class="form-control" name="conf_Product_DRIED"></td>
+                        </tr>
+                        <tr>
+                            <th>Number of Bags</th>
+                            <td><input type="number" class="form-control" name="conf_Num_Bags_DRIED"></td>
+                        </tr>
+                        <tr>
+                            <th>Weight</th>
+                            <td><input type="number" class="form-control" name="conf_Weight_DRIED"></td>
+                        </tr>
+                    </table>
+                    
+                    <!-- Dried Data Pull Button -->
+                    <div class="mt-3">
+                        <button type="button" class="addrow" onclick="toggleDropdown('driedDropdown')">Dispatched Dried Nutmeg List</button>
+                        <div class="dropdown-content" id="driedDropdown">
+                            <div class="container">
+                                <div id="driedDataList"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Green Form Section -->
+                <div id="greenForm" class="form-section">
+                    <h2 class="text-center mb-3">Green Nutmeg Received</h2>
+                    <table class="table table-hover table-light">
+                        <tr>
+                            <th>Date</th>
+                            <td><input type="date" class="form-control" name="Date_GREEN"></td>
+                        </tr>
+                        <tr>
+                            <th>Station</th>
+                            <td>
+                                <select class="form-control" name="Station_GREEN">
+                                    <option value="">Select Station</option>
+                                    <option value="G">Grenville</option>
+                                    <option value="H">Hermitage</option>
+                                    <option value="M">Marli</option>
+                                    <option value="U">Union</option>
+                                    <option value="GP">Gouyave</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Warehouse Receipt</th>
+                            <td><input type="text" class="form-control" name="WAREHOUSE_RECEIPT_NUMBER_GREEN"></td>
+                        </tr>
+                        <tr>
+                            <th>Batch Codes</th>
+                            <td><input type="text" class="form-control" name="BatchCode_GREEN"></td>
+                        </tr>
+                        <tr>
+                            <th>Vehicle Number</th>
+                            <td><input type="text" class="form-control" name="Vehicle_number_GREEN"></td>
+                        </tr>
+                        <tr>
+                            <th>Delivery Advice Number</th>
+                            <td><input type="text" class="form-control" name="Delivery_advice_num_GREEN"></td>
+                        </tr>
+                        <tr>
+                            <th>Product</th>
+                            <td><input type="text" class="form-control" name="Product_GREEN"></td>
+                        </tr>
+                        <tr>
+                            <th>Number of Bags</th>
+                            <td><input type="number" class="form-control" name="Num_Bags_GREEN"></td>
+                        </tr>
+                        <tr>
+                            <th>Weight</th>
+                            <td><input type="number" class="form-control" name="Weight_GREEN"></td>
+                        </tr>
+                        <tr>
+                            <th colspan="2" style="text-align: center; font-size: 18px; font-weight: bold; background-color: #f8f9fa;">
+                                Confirmation Fields
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>Product</th>
+                            <td><input type="text" class="form-control" name="conf_Product_GREEN"></td>
+                        </tr>
+                        <tr>
+                            <th>Number of Bags</th>
+                            <td><input type="number" class="form-control" name="conf_Num_Bags_GREEN"></td>
+                        </tr>
+                        <tr>
+                            <th>Weight</th>
+                            <td><input type="number" class="form-control" name="conf_Weight_GREEN"></td>
+                        </tr>
+                    </table>
+                    
+                    <!-- Green Data Pull Button -->
+                    <div class="mt-3">
+                        <button type="button" class="addrow" onclick="toggleDropdown('greenDropdown')">Green Nutmeg List</button>
+                        <div class="dropdown-content" id="greenDropdown">
+                            <div class="container">
+                                <div id="greenDataList"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Buttons -->
+                <div class="d-flex justify-content-between mt-4">
+                    <button type="submit" class="btn btn-success">Submit</button>
+                    <a href="#" class="btn btn-secondary">Return</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Set current date
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date();
+            const formattedDate = today.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            document.getElementById('current-date').textContent = formattedDate;
+            
+            // Initialize form visibility based on checkboxes
+            document.getElementById('maceCheck').addEventListener('change', function() {
+                toggleForms();
+                if (this.checked) {
+                    loadMaceData();
+                }
+            });
+            document.getElementById('driedCheck').addEventListener('change', function() {
+                toggleForms();
+                if (this.checked) {
+                    loadDriedData();
+                }
+            });
+            document.getElementById('greenCheck').addEventListener('change', function() {
+                toggleForms();
+                if (this.checked) {
+                    loadGreenData();
+                }
+            });
+            
+            // Initialize batch code generation for mace
+            initializeMaceBatchCodeGeneration();
+            
+            // Initialize weight calculation for mace
+            initializeMaceWeightCalculation();
+            
+            // Load worker data from IndexedDB
+            loadWorkerData();
+            
+            // Initialize form submission
+            document.getElementById('unifiedForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+                
+                // Get selected forms
+                const maceSelected = document.getElementById('maceCheck').checked;
+                const driedSelected = document.getElementById('driedCheck').checked;
+                const greenSelected = document.getElementById('greenCheck').checked;
+                
+                if (!maceSelected && !driedSelected && !greenSelected) {
+                    alert('Please select at least one form type');
+                    return;
+                }
+                
+                // Collect form data
+                const formData = new FormData(this);
+                
+                // Convert FormData to object
+                const formObject = {};
+                for (let pair of formData.entries()) {
+                    formObject[pair[0]] = pair[1];
+                }
+                
+                // Add metadata
+                formObject.timestamp = new Date().toISOString();
+                formObject.forms_selected = {
+                    mace: maceSelected,
+                    dried: driedSelected,
+                    green: greenSelected
+                };
+                
+                // Save to IndexedDB
+                saveToDispatchedDriedNutmeg(formObject);
+            });
+        });
+        
+        // Toggle form visibility based on checkboxes
+        function toggleForms() {
+            const maceForm = document.getElementById('maceForm');
+            const driedForm = document.getElementById('driedForm');
+            const greenForm = document.getElementById('greenForm');
+            
+            maceForm.style.display = document.getElementById('maceCheck').checked ? 'block' : 'none';
+            driedForm.style.display = document.getElementById('driedCheck').checked ? 'block' : 'none';
+            greenForm.style.display = document.getElementById('greenCheck').checked ? 'block' : 'none';
+        }
+        
+        // Toggle dropdown visibility
+        function toggleDropdown(id) {
+            const dropdown = document.getElementById(id);
+            dropdown.classList.toggle('show');
+        }
+        
+        // Initialize mace batch code generation
+        function initializeMaceBatchCodeGeneration() {
+            const stationMace = document.querySelector('[name="STATION_MACE"]');
+            const dateMace = document.querySelector('[name="Date_MACE"]');
+            const batchM1 = document.querySelector('[name="BATCH_CODE_M1"]');
+            const batchM2 = document.querySelector('[name="BATCH_CODE_M2"]');
+            const batchM3 = document.querySelector('[name="BATCH_CODE_M3"]');
+            
+            function updateMaceBatchCodes() {
+                if (stationMace.value && dateMace.value) {
+                    const station = stationMace.value;
+                    const date = new Date(dateMace.value);
+                    const day = String(date.getDate()).padStart(2, '0');
+                    const month = String(date.getMonth() + 1).padStart(2, '0');
+                    const year = date.getFullYear();
+                    const dateStr = `${year}${month}${day}`;
+                    
+                    batchM1.value = `${station}${dateStr}M1`;
+                    batchM2.value = `${station}${dateStr}M2`;
+                    batchM3.value = `${station}${dateStr}M3`;
+                }
+            }
+            
+            stationMace.addEventListener('change', updateMaceBatchCodes);
+            dateMace.addEventListener('change', updateMaceBatchCodes);
+        }
+        
+        // Initialize mace weight calculation
+        function initializeMaceWeightCalculation() {
+            $('#id_Num_Bags_MACE, #id_WEIGHT_PER_BAG_MACE, #id_ADDITIONAL_WEIGHT_MACE').on('change', function() {
+                var numBags = Number($('#id_Num_Bags_MACE').val()) || 0;
+                var weightPerBag = Number($('#id_WEIGHT_PER_BAG_MACE').val()) || 140;
+                var additionalWeight = Number($('#id_ADDITIONAL_WEIGHT_MACE').val()) || 0;
+                var totalWeight = (numBags * weightPerBag) + additionalWeight;
+                $('#id_Weight_MACE').val(totalWeight);
+            });
+        }
+        
+        // Load worker data from IndexedDB
+        function loadWorkerData() {
+            var request = indexedDB.open('Signin', 1);
+            
+            request.onsuccess = function(event) {
+                var db = event.target.result;
+                var transaction = db.transaction('verify', 'readonly');
+                var store = transaction.objectStore('verify');
+                var getRequest = store.get(1);
+                
+                getRequest.onsuccess = function(event) {
+                    var data = event.target.result;
+                    if (data) {
+                        document.querySelector('[name="Worker_ID_No"]').value = data.Worker_ID_No;
+                        document.querySelector('[name="Worker_ID_Name"]').value = data.Name;
+                    }
+                };
+            };
+        }
+        
+        // Save to dispatch_dried_nutmeg IndexedDB
+        function saveToDispatchedDriedNutmeg(formData) {
+            var request = indexedDB.open('GCNA', 2);
+            
+            request.onsuccess = function(event) {
+                var db = event.target.result;
+                var transaction = db.transaction('Dispatch_Of_Dried_Nutmeg_Rec', 'readwrite');
+                var objectStore = transaction.objectStore('Dispatch_Of_Dried_Nutmeg_Rec');
+                
+                // Get the highest id in the object store
+                var highestIdRequest = objectStore.openCursor(null, 'prev');
+                highestIdRequest.onsuccess = function(event) {
+                    var cursor = event.target.result;
+                    if (cursor) {
+                        formData.id = cursor.key + 1;
+                    } else {
+                        formData.id = 1;
+                    }
+                    
+                    var putRequest = objectStore.put(formData);
+                    
+                    putRequest.onsuccess = function() {
+                        console.log('Data added to IndexedDB');
+                        alert('Form submitted successfully!');
+                        window.location.reload();
+                    };
+                    
+                    putRequest.onerror = function() {
+                        console.error('Error adding data to IndexedDB');
+                        alert('Error saving form data');
+                    };
+                };
+            };
+            
+            request.onerror = function(event) {
+                console.error('Error opening IndexedDB', event);
+                alert('Error opening database');
+            };
+        }
+        
+        // Load Mace data from dispatch_dried_nutmeg IndexedDB
+        function loadMaceData() {
+            let openRequest = indexedDB.open("GCNA");
+            
+            openRequest.onsuccess = function(event) {
+                let db = event.target.result;
+                let transaction = db.transaction("Dispatch-Of-Dried-Nutmeg", "readonly");
+                let landInfoStore = transaction.objectStore("Dispatch-Of-Dried-Nutmeg");
+                let getAllRequest = landInfoStore.getAll();
+                
+                getAllRequest.onsuccess = function(event) {
+                    let landInfoRecords = event.target.result;
+                    let landInfoDataDiv = document.getElementById("maceDataList");
+                    landInfoDataDiv.innerHTML = '';
+                    
+                    landInfoRecords.forEach((record) => {
+                        let dispatchTransaction = db.transaction("Dispatch_Of_Dried_Nutmeg_Rec", "readonly");
+                        let dispatchStore = dispatchTransaction.objectStore("Dispatch_Of_Dried_Nutmeg_Rec");
+                        
+                        let getAllDispatchRequest = dispatchStore.getAll();
+                        getAllDispatchRequest.onsuccess = function(event) {
+                            let dispatchRecords = event.target.result;
+                            
+                            let exists = dispatchRecords.some(dispatchRecord => {
+                                return (
+                                    (dispatchRecord.BATCH_CODE_M1 && dispatchRecord.BATCH_CODE_M1.includes(record.BATCH_CODE_M1)) ||
+                                    (dispatchRecord.BATCH_CODE_M2 && dispatchRecord.BATCH_CODE_M2.includes(record.BATCH_CODE_M2)) ||
+                                    (dispatchRecord.BATCH_CODE_M3 && dispatchRecord.BATCH_CODE_M3.includes(record.BATCH_CODE_M3))
+                                );
+                            });
+                            
+                            if (!exists) {
+                                let entryContainer = document.createElement("div");
+                                entryContainer.classList.add("entryContainer");
+                                
+                                let dropdownContent = `
+                                    <div class="dropdown">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                            Entry: ${record.id}
+                                        </button>
+                                        <button type="button" class="add-row" onclick="setMaceValues('${record.BATCH_CODE_M1}', '${record.BATCH_CODE_M2}', '${record.BATCH_CODE_M3}', '${record.STATION}', '${record.Vehicle_number}', '${record.Delivery_advice_num}', '${record.MACE_1}', '${record.MACE_2}', '${record.MACE_3}')">Set</button>
+                                        <div class="dropdown-menu">
+                                            <table class="table table-sm">
+                                                <tr><th>Station</th><td>${record.STATION || 'N/A'}</td></tr>
+                                                <tr><th>Date of Purchase</th><td>${record.DATE_OF_PURCHASE || 'N/A'}</td></tr>
+                                                <tr><th>Mace 1 Batch Code</th><td>${record.BATCH_CODE_M1 || 'N/A'}</td></tr>
+                                                <tr><th>Mace 2 Batch Code</th><td>${record.BATCH_CODE_M2 || 'N/A'}</td></tr>
+                                                <tr><th>Mace 3 Batch Code</th><td>${record.BATCH_CODE_M3 || 'N/A'}</td></tr>
+                                                <tr><th>Vehicle Number</th><td>${record.Vehicle_number || 'N/A'}</td></tr>
+                                                <tr><th>Delivery Advice</th><td>${record.Delivery_advice_num || 'N/A'}</td></tr>
+                                            </table>
+                                        </div>
+                                    </div>`;
+                                entryContainer.innerHTML = dropdownContent;
+                                landInfoDataDiv.appendChild(entryContainer);
+                            }
+                        };
+                    });
+                };
+            };
+        }
+        
+        // Load Dried data from dispatch_dried_nutmeg IndexedDB
+        function loadDriedData() {
+            let openRequest = indexedDB.open("GCNA");
+            
+            openRequest.onsuccess = function(event) {
+                let db = event.target.result;
+                let transaction = db.transaction("Dispatch-Of-Dried-Nutmeg", "readonly");
+                let landInfoStore = transaction.objectStore("Dispatch-Of-Dried-Nutmeg");
+                let getAllRequest = landInfoStore.getAll();
+                
+                getAllRequest.onsuccess = function(event) {
+                    let landInfoRecords = event.target.result;
+                    let landInfoDataDiv = document.getElementById("driedDataList");
+                    landInfoDataDiv.innerHTML = '';
+                    
+                    landInfoRecords.forEach((record) => {
+                        let dispatchTransaction = db.transaction("Dispatch_Of_Dried_Nutmeg_Rec", "readonly");
+                        let dispatchStore = dispatchTransaction.objectStore("Dispatch_Of_Dried_Nutmeg_Rec");
+                        
+                        let getAllDispatchRequest = dispatchStore.getAll();
+                        getAllDispatchRequest.onsuccess = function(event) {
+                            let dispatchRecords = event.target.result;
+                            
+                            let batchCodes = record.BATCH_CODES_DRIED ? record.BATCH_CODES_DRIED.split(',').map(code => code.trim()) : [];
+                            let missingBatchCodes = [];
+                            
+                            batchCodes.forEach(code => {
+                                let exists = dispatchRecords.some(dispatchRecord => 
+                                    dispatchRecord.BatchCode_DRIED && dispatchRecord.BatchCode_DRIED.includes(code)
+                                );
+                                if (!exists) {
+                                    missingBatchCodes.push(code);
+                                }
+                            });
+                            
+                            if (missingBatchCodes.length > 0) {
+                                let entryContainer = document.createElement("div");
+                                entryContainer.classList.add("entryContainer");
+                                
+                                let batchCheckboxes = missingBatchCodes.map(code => 
+                                    `<input type="checkbox" value="${code}" onchange="updateDriedBatchCodes(this)"> ${code}`
+                                ).join('<br>');
+                                
+                                let dropdownContent = `
+                                    <div class="dropdown">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                            Entry: ${record.id}
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <table class="table table-sm">
+                                                <tr><th>Station From</th><td><input type="checkbox" value="${record.STATION}" onchange="setDriedStation(this)"> ${record.STATION}</td></tr>
+                                                <tr><th>Station To</th><td>${record.STATION_recieved || 'N/A'}</td></tr>
+                                                <tr><th>Vehicle Number</th><td><input type="checkbox" value="${record.Vehicle_number}" onchange="setDriedVehicle(this)"> ${record.Vehicle_number}</td></tr>
+                                                <tr><th>Batch Codes</th><td>${batchCheckboxes}</td></tr>
+                                                <tr><th>Delivery Advice</th><td><input type="checkbox" value="${record.CORRESPONDING_DELIVERY_ADVICE}" onchange="setDriedDeliveryAdvice(this)"> ${record.CORRESPONDING_DELIVERY_ADVICE}</td></tr>
+                                                <tr><th>Product</th><td><input type="checkbox" value="${record.Product}" onchange="setDriedProduct(this)"> ${record.Product}</td></tr>
+                                                <tr><th>Number of Bags</th><td><input type="checkbox" value="${record.Num_Bags}" onchange="setDriedNumBags(this)"> ${record.Num_Bags}</td></tr>
+                                                <tr><th>Weight</th><td><input type="checkbox" value="${record.Weight}" onchange="setDriedWeight(this)"> ${record.Weight}</td></tr>
+                                            </table>
+                                        </div>
+                                    </div>`;
+                                entryContainer.innerHTML = dropdownContent;
+                                landInfoDataDiv.appendChild(entryContainer);
+                            }
+                        };
+                    });
+                };
+            };
+        }
+        
+        // Load Green data from dispatch_dried_nutmeg IndexedDB
+        function loadGreenData() {
+            let openRequest = indexedDB.open("GCNA");
+            
+            openRequest.onsuccess = function(event) {
+                let db = event.target.result;
+                let transaction = db.transaction("Dispatch-Of-Dried-Nutmeg", "readonly");
+                let landInfoStore = transaction.objectStore("Dispatch-Of-Dried-Nutmeg");
+                let getAllRequest = landInfoStore.getAll();
+                
+                getAllRequest.onsuccess = function(event) {
+                    let landInfoRecords = event.target.result;
+                    let landInfoDataDiv = document.getElementById("greenDataList");
+                    landInfoDataDiv.innerHTML = '';
+                    
+                    landInfoRecords.forEach((record) => {
+                        let dispatchTransaction = db.transaction("Dispatch_Of_Dried_Nutmeg_Rec", "readonly");
+                        let dispatchStore = dispatchTransaction.objectStore("Dispatch_Of_Dried_Nutmeg_Rec");
+                        
+                        let getAllDispatchRequest = dispatchStore.getAll();
+                        getAllDispatchRequest.onsuccess = function(event) {
+                            let dispatchRecords = event.target.result;
+                            
+                            let batchCodes = record.BATCH_CODES_GREEN ? record.BATCH_CODES_GREEN.split(',').map(code => code.trim()) : [];
+                            let missingBatchCodes = [];
+                            
+                            batchCodes.forEach(code => {
+                                let exists = dispatchRecords.some(dispatchRecord => 
+                                    dispatchRecord.BatchCode_GREEN && dispatchRecord.BatchCode_GREEN.includes(code)
+                                );
+                                if (!exists) {
+                                    missingBatchCodes.push(code);
+                                }
+                            });
+                            
+                            if (missingBatchCodes.length > 0) {
+                                let entryContainer = document.createElement("div");
+                                entryContainer.classList.add("entryContainer");
+                                
+                                let batchCheckboxes = missingBatchCodes.map(code => 
+                                    `<input type="checkbox" value="${code}" onchange="updateGreenBatchCodes(this)"> ${code}`
+                                ).join('<br>');
+                                
+                                let dropdownContent = `
+                                    <div class="dropdown">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                            Entry: ${record.id}
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <table class="table table-sm">
+                                                <tr><th>Station</th><td><input type="checkbox" value="${record.STATION}" onchange="setGreenStation(this)"> ${record.STATION}</td></tr>
+                                                <tr><th>Vehicle Number</th><td><input type="checkbox" value="${record.Vehicle_number}" onchange="setGreenVehicle(this)"> ${record.Vehicle_number}</td></tr>
+                                                <tr><th>Batch Codes</th><td>${batchCheckboxes}</td></tr>
+                                                <tr><th>Delivery Advice</th><td><input type="checkbox" value="${record.DELIVERY_ADVICE_NUMBER}" onchange="setGreenDeliveryAdvice(this)"> ${record.DELIVERY_ADVICE_NUMBER}</td></tr>
+                                                <tr><th>Product</th><td><input type="checkbox" value="Nutmeg" onchange="setGreenProduct(this)"> Nutmeg</td></tr>
+                                                <tr><th>Number of Bags</th><td><input type="checkbox" value="${record.NUM_OF_BAGS}" onchange="setGreenNumBags(this)"> ${record.NUM_OF_BAGS}</td></tr>
+                                                <tr><th>Weight</th><td><input type="checkbox" value="${record.TOTAL_LBS_NUTMEG_BOUGHT}" onchange="setGreenWeight(this)"> ${record.TOTAL_LBS_NUTMEG_BOUGHT}</td></tr>
+                                            </table>
+                                        </div>
+                                    </div>`;
+                                entryContainer.innerHTML = dropdownContent;
+                                landInfoDataDiv.appendChild(entryContainer);
+                            }
+                        };
+                    });
+                };
+            };
+        }
+        
+        // Set Mace values function
+        function setMaceValues(batchM1, batchM2, batchM3, station, vehicle, deliveryAdvice, mace1, mace2, mace3) {
+            document.querySelector('[name="BATCH_CODE_M1"]').value = batchM1;
+            document.querySelector('[name="BATCH_CODE_M2"]').value = batchM2;
+            document.querySelector('[name="BATCH_CODE_M3"]').value = batchM3;
+            document.querySelector('[name="STATION_MACE"]').value = station;
+            document.querySelector('[name="Vehicle_number_MACE"]').value = vehicle;
+            document.querySelector('[name="Delivery_advice_num_MACE"]').value = deliveryAdvice;
+        }
+        
+        // Dried form helper functions
+        function updateDriedBatchCodes(checkbox) {
+            let field = document.querySelector('[name="BatchCode_DRIED"]');
+            let currentValues = field.value ? field.value.split(',').map(v => v.trim()) : [];
+            if (checkbox.checked) {
+                if (!currentValues.includes(checkbox.value)) {
+                    currentValues.push(checkbox.value);
+                }
+            } else {
+                currentValues = currentValues.filter(v => v !== checkbox.value);
+            }
+            field.value = currentValues.join(', ');
+        }
+        
+        function setDriedStation(checkbox) {
+            if (checkbox.checked) {
+                document.querySelector('[name="Station_DRIED"]').value = checkbox.value;
+            }
+        }
+        
+        function setDriedVehicle(checkbox) {
+            if (checkbox.checked) {
+                document.querySelector('[name="Vehicle_number_DRIED"]').value = checkbox.value;
+            }
+        }
+        
+        function setDriedDeliveryAdvice(checkbox) {
+            if (checkbox.checked) {
+                document.querySelector('[name="Delivery_advice_num_DRIED"]').value = checkbox.value;
+            }
+        }
+        
+        function setDriedProduct(checkbox) {
+            if (checkbox.checked) {
+                document.querySelector('[name="Product_DRIED"]').value = checkbox.value;
+            }
+        }
+        
+        function setDriedNumBags(checkbox) {
+            if (checkbox.checked) {
+                document.querySelector('[name="Num_Bags_DRIED"]').value = checkbox.value;
+            }
+        }
+        
+        function setDriedWeight(checkbox) {
+            if (checkbox.checked) {
+                document.querySelector('[name="Weight_DRIED"]').value = checkbox.value;
+            }
+        }
+        
+        // Green form helper functions
+        function updateGreenBatchCodes(checkbox) {
+            let field = document.querySelector('[name="BatchCode_GREEN"]');
+            let currentValues = field.value ? field.value.split(',').map(v => v.trim()) : [];
+            if (checkbox.checked) {
+                if (!currentValues.includes(checkbox.value)) {
+                    currentValues.push(checkbox.value);
+                }
+            } else {
+                currentValues = currentValues.filter(v => v !== checkbox.value);
+            }
+            field.value = currentValues.join(', ');
+        }
+        
+        function setGreenStation(checkbox) {
+            if (checkbox.checked) {
+                document.querySelector('[name="Station_GREEN"]').value = checkbox.value;
+            }
+        }
+        
+        function setGreenVehicle(checkbox) {
+            if (checkbox.checked) {
+                document.querySelector('[name="Vehicle_number_GREEN"]').value = checkbox.value;
+            }
+        }
+        
+        function setGreenDeliveryAdvice(checkbox) {
+            if (checkbox.checked) {
+                document.querySelector('[name="Delivery_advice_num_GREEN"]').value = checkbox.value;
+            }
+        }
+        
+        function setGreenProduct(checkbox) {
+            if (checkbox.checked) {
+                document.querySelector('[name="Product_GREEN"]').value = checkbox.value;
+            }
+        }
+        
+        function setGreenNumBags(checkbox) {
+            if (checkbox.checked) {
+                document.querySelector('[name="Num_Bags_GREEN"]').value = checkbox.value;
+            }
+        }
+        
+        function setGreenWeight(checkbox) {
+            if (checkbox.checked) {
+                document.querySelector('[name="Weight_GREEN"]').value = checkbox.value;
+            }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+{% endblock %}

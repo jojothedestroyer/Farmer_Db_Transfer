@@ -1,0 +1,219 @@
+{% extends 'gcna/base2.html' %}
+
+{% block content%}
+
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var myForm = document.getElementById('myForm');
+    
+        myForm.addEventListener('submit', function(event) {
+  
+            event.preventDefault();
+            var data = new FormData(event.target);
+            saveDataToIndexedDB(data);
+        });
+    
+        function saveDataToIndexedDB(data) {
+            var request = indexedDB.open('GCNA', 2);
+        
+            request.onsuccess = function(event) {
+                var db = event.target.result;
+                var transaction = db.transaction('Sanitation-C', 'readwrite');
+            
+                var obj = {};
+                for (var pair of data.entries()) {
+                    obj[pair[0]] = pair[1];
+                }
+                // Get the highest id in the object store
+                var highestIdRequest = objectStore.openCursor(null, 'prev');
+                highestIdRequest.onsuccess = function(event) {
+                    var cursor = event.target.result;
+                    if (cursor) {
+                        obj.id = cursor.key + 1;
+                    } else {
+                        obj.id = 1; // This is the first item
+                    }
+        
+                    var request = objectStore.put(obj);
+        
+                    request.onsuccess = function() {
+                        console.log('Data added to IndexedDB');
+                        window.location.href = '/gcna00_2/';
+  
+                    };
+        
+                    request.onerror = function() {
+                        console.error('Error adding data to IndexedDB');
+                    };
+                };
+            };
+        
+            request.onerror = function(event) {
+                console.error('Error opening IndexedDB', event);
+            };
+        }
+        
+    });
+    </script>
+  
+  
+
+    <style>
+        /* Add border outline to table entries */
+        table {
+            border-collapse: collapse;
+            border: 1px solid black;
+        }
+    
+        th, td {
+            border: 1px solid black; /* Change border color to black */
+            padding: 8px;
+            text-align: center;
+            vertical-align: middle;
+        }
+    
+        /* Rotate rowspan text to fit in the column */
+        td.rotated {
+            transform: rotate(-90deg);
+            white-space: nowrap;
+        }
+    </style>
+    
+    
+    
+    <form id="myForm" style="
+    background-color: #e4e4e4;
+    margin: 1px auto;
+    font-family: Raleway;
+    padding: 10px;
+    width: 95%;
+    min-width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);
+    overflow: auto; /* Add overflow property for scrolling */
+    max-height: 600px; /* Set maximum height for the form */
+">
+        <div class="card">
+            <div class="card-body">
+                <h5></h5>
+                <p class="card-text">Test</p>
+                <h6>Document No. GCNA-R-02</h6>
+                <h6>Document Title: Moisture Analysis in Floated Nutmeg</h6>
+                <h6>Date Issued: 2023-07-03</h6>
+                <h6>Version: 1</h6>
+                <h5>Section B</h5>
+                {% csrf_token %}
+                <h4>Corrective Action for Floating Nutmeg Above 10% Moisture Content</h4>
+    
+                <table id="vertical-1" class="table table-hover table-light">
+                    <thead>
+                        <tr>
+                            <th colspan="1" class="main-header" style="text-align:center;">Station Name:</th>
+                            <th colspan="2" class="main-header" style="text-align:center;">{{form.Station}}</th>
+                            <th colspan="1" class="main-header" style="text-align:center;">Week:</th>
+                            <th colspan="3" class="main-header" style="text-align:center;">{{form.Week_of}}</th>
+    
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <!-- Content goes here -->
+                        </tr>
+                    </tbody>
+                    <thead>
+                        <tr>
+                            <th colspan="1" class="main-header" style="text-align:center;">Area</th>
+                            <th colspan="1" class="main-header" style="text-align:center;">Item No:</th>
+                            <th colspan="1" class="main-header" style="text-align:center;">Area of Facility:</th>
+                            <th colspan="1" class="main-header" style="text-align:center;">Method:</th>
+                            <th colspan="1" class="main-header" style="text-align:center;">Person Responsible:</th>
+                            <th colspan="1" class="main-header" style="text-align:center;">Date Performed</th>
+                            <th colspan="1" class="main-header" style="text-align:center;">Signature:</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td rowspan="5" colspan="1" style="text-align: center; vertical-align: middle;">
+                                <div style="transform: rotate(-90deg); display: inline-block;">External Premisies and general building</div>
+                            </td>
+                            
+                            <td colspan="1">1</td>
+                            <td colspan="1">Drains</td>
+                            <td colspan="1">Pressure wash:Apply Detergent and 200pm bleach(sanitizing agent)</td>
+                            <td colspan="1">Factory Operator</td>
+                            <td colspan="1">{{form.Drains_Date}}</td>
+    
+                            <td colspan="1">{{form.Drains_signature}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="1">2</td>
+                            <td colspan="1">Pavement/Loading Dock</td>
+                            <td colspan="1">Sweep and remove debris. Pressure wash</td>
+                            <td colspan="1">Sanitation Officer</td>
+                            <td colspan="1">{{form.Pavement_load_dock_Date}}</td>
+    
+                            <td colspan="1">{{form.Pavement_load_dock_signature}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="1">3</td>
+                            <td colspan="1">General Grounds</td>
+                            <td colspan="1">Clear of debris. Landscaping where applicable</td>
+                            <td colspan="1">Sanitation Officer</td>
+                            <td colspan="1">{{form.General_Grounds_Date}}</td>
+    
+                            <td colspan="1">{{form.General_Grounds_signature}}</td>
+                        </tr>
+                        <tr>
+     
+                            <td colspan="1">4</td>
+                            <td colspan="1">Recieving Area</td>
+                            <td colspan="1">sweep and remove debris. Pressure wash</td>
+                            <td colspan="1">Sanitation Officer</td>
+                            <td colspan="1">{{form.Receiving_area_Date}}</td>
+    
+                            <td colspan="1">{{form.Receiving_area_signature}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="1">5</td>
+                            <td colspan="1">Walls & Vent Blocks</td>
+                            <td colspan="1">Remove dust with short brush</td>
+                            <td colspan="1">Sanitation Officer</td>
+                            <td colspan="1">{{form.Walls_vents_blocks_Date}}</td>
+    
+                            <td colspan="1">{{form.Walls_vents_blocks_signature}}</td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="5">{{form.comments}}</td>
+
+                        </tr>
+    
+    
+                    </tbody>
+    
+                    <thead>
+        
+                        <tr>
+                            <th colspan="3" class="main-header" style="text-align:center;">Verified By:</th>
+                            <th colspan="3" class="main-header" style="text-align:center;">{{form.Verified_by}}</th>
+                            <th colspan="3" class="main-header" style="text-align:center;">Date</th>
+                            <th colspan="3" class="main-header" style="text-align:center;">{{form.Date}}</th>
+                        </tr>
+        
+                    <thead/>
+                    <tbody>
+                        <th colspan="12"><input type="submit" name="" value="✔" class="btn btn-success btn-circle btn-xl"></th>
+                    <tbody/>
+        
+                </table>
+            </div>
+        </div>
+    
+    </form>
+    
+{{ form.media }}
+
+{% endblock %}

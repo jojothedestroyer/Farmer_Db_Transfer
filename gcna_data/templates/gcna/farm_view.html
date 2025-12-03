@@ -1,0 +1,38 @@
+{% extends 'gcna/base.html' %}
+
+{% block content%}
+
+	<h1>Database</h1>
+
+
+	<h3>User Information Table</h3>
+
+{% for user in user_list %}
+
+<div class="card">
+  <div class="card-header">
+    
+  </div>
+  <div class="card-body">
+    <h5 class="card-title"><strong>Farmer ID: {{ user }}</strong>
+</h5>
+    <p class="card-text"><ul>
+	<li>Name: {{ user.name }}</li>
+	<li>Village: {{ user.village }}</li>
+	<li>Parish: {{ user.parish }}</li>
+	<li>GPS: {{ user.GPS_location }}</li>
+	<li>Email: {{ user.email }}</li>
+	<li>Phone Number: {{ user.phone }}</li>
+	<li>Age: {{ user.age }}</li>
+
+</ul></p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+</div>
+	
+
+
+{% endfor %}
+{% endblock %}
+
+

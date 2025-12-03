@@ -1,0 +1,153 @@
+
+
+{% extends 'gcna/base.html' %}
+
+
+{% block content%}
+
+ {% for form in form %}
+
+<div class="card">
+ 
+  <div class="card-body">
+
+  </h5>
+    <p class="card-text">
+        <table id="vertical-1" class="table table-hover table-light">
+        <!-- <caption>First Way</caption> -->
+       
+
+       <tr>
+
+            <th>Station</th>
+            <td>{{ form.STATION }}</td>
+        </tr>  
+
+<table class="table">
+
+    <center>
+<label>Dates</label>   
+ </center> 
+  <thead>
+    <tr>
+
+      <th scope="col">Start Drying Date</th>
+      <th scope="col">Approximate End Drying Date</th>
+      <th scope="col">End Drying Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+      <td>{{ form.START_DRYING_DATE }}</td>
+      <td>{{ form.APPROX_END_DRYING_DATE }}</td>
+      <td>{{ form.END_DRYING_DATE }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+        <table id="vertical-1" class="table table-hover table-light">
+
+        <tr>
+
+         <center>
+            <p><b>LOCATION - PLACEMENT ON SHELF</b></p>
+        </center>
+        </tr>
+
+
+
+        <table id="vertical-1" class="table table-hover table-light">
+
+        <tr>
+
+
+
+<label>Heavies</label>   
+  <thead>
+    <tr>
+
+      <th scope="col">Shelf(heavy)</th>
+      <th scope="col">Tray(heavy) </th>
+      <th scope="col">Section(heavy) </th>
+      <th scope="col">Final Moisture(heavy)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+      <td>{{form.Shelfh}}</td>
+      <td>{{form.Trayh}}</td>
+      <td>{{form.Sectionh}}</td>
+      <td>{{form.FINAL_MOISTURE_H}}</td>
+
+    </tr>
+
+  </tbody>
+ </center> 
+
+</table>
+
+
+
+        <table id="vertical-1" class="table table-hover table-light">
+
+
+
+
+
+
+<label>Lights</label>   
+  <thead>
+    <tr>
+
+      <th scope="col">Shelf(light)</th>
+      <th scope="col">Tray(Light) </th>
+      <th scope="col">Section(Light) </th>
+      <th scope="col">Final Moisture(Light)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+      <td>{{form.Shelfl}}</td>
+      <td>{{form.Trayl}}</td>
+      <td>{{form.Sectionl}}</td>
+      <td>{{form.FINAL_MOISTURE_L}}</td>
+
+    </tr>
+
+  </tbody>
+ </center> 
+
+</table>
+
+
+
+
+        <tr>
+            <th>Batch Number</th>
+            <td>{{ form.BATCH_NUMBER }}</td>
+        </tr>    
+    </table>
+            <a href="{% url 'adhome'%}" class="btn btn-secondary">Return</a>
+            <a href="{% url 'edit_Floation_0' form.pk %}" class="btn btn-success">Edit</a>           
+ 
+
+
+
+                    </p>
+
+
+
+       
+ </div>        </div>
+
+<br>
+<br>
+<br>
+{% endfor %}
+
+{% endblock %}

@@ -1,0 +1,91 @@
+
+{% extends 'gcna/base2.html' %}
+
+
+{% block content%}
+
+
+<div class="card">
+ 
+  <div class="card-body">
+
+  </h5>
+    <p class="card-text">
+
+        <table id="vertical-1" class="table table-hover table-light">
+
+
+         <tr>
+             <th>Other Crops Cultivated</th>
+          {% for farmer_info_id in farmer_info_id.other_crops.all %}
+
+            <td>{{ farmer_info_id }}</td>
+          {% endfor %}
+
+        </tr>
+
+
+              <tr>
+            <th><a href="{% url 'table' %}" class="btn btn-secondary">Return</a></th>
+        </tr>
+    </table>
+                    </p>
+
+
+
+       
+ </div>        </div>
+
+<br>
+<br>
+<br>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+<!-- 
+
+
+
+<div class="card">
+ 
+  <div class="card-body">
+
+  </h5>
+    <p class="card-text">
+
+        <table id="vertical-1" class="table table-hover table-light">
+
+
+         <tr>
+             <th>Other Crops Cultivated</th>
+          {% for farmer_info in farmer_info_list %}
+            {% for crop in farmer_info.other_crops.all %}
+            <td>{{ crop }}</td>
+            {% endfor %}
+          {% endfor %}
+
+        </tr>
+
+
+              <tr>
+            <th><a href="{% url 'table' %}" class="btn btn-secondary">Return</a></th>
+        </tr>
+    </table>
+                    </p>
+
+
+
+       
+ </div>        </div>
+
+<br>
+<br>
+<br>
+-->

@@ -1,0 +1,124 @@
+{% extends 'gcna/base2.html' %}
+
+{% block content %}
+<style type="text/css">
+    .btn-circle.btn-xl {
+        width: 30px;
+        height: 30px;
+        padding: 3px 0px;
+        border-radius: 50%;
+        font-size: 15px;
+        text-align: center;
+    }
+
+    #map {
+        height: 300px; /* Adjust the height as needed */
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    /* Style the form container */
+    .form-container {
+        background-color: #e4e4e4;
+        margin: 1px auto;
+        font-family: 'Raleway', sans-serif;
+        padding: 20px;
+        max-width: 800px; /* Adjust the maximum width as needed */
+        border-radius: 10px;
+        box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Style the form header */
+    .form-container h1 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    /* Style section headings */
+    .section-heading {
+        font-size: 24px;
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+</style>
+
+
+
+    <script>
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        }
+
+        function showPosition(position) {
+            document.getElementById("id_latitude").value = position.coords.latitude.toFixed(6);
+            document.getElementById("id_longitude").value = position.coords.longitude.toFixed(6);
+
+            var map = L.map('map').setView([position.coords.latitude, position.coords.longitude], 10);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+            var marker = L.marker([position.coords.latitude, position.coords.longitude]).addTo(map);
+        }
+
+
+
+		var formAField = document.getElementById('formA-my-field');
+		formAField.addEventListener('input', function(event) {
+		  var value = event.target.value;
+		  sessionStorage.setItem('formAField', value);
+		});   
+
+ </script>
+ <script>
+
+
+    var request = indexedDB.open('Check', 1);
+   
+    request.onsuccess = function(event) {
+        var db = event.target.result;
+        var transaction = db.transaction('verify', 'readonly');
+        var store = transaction.objectStore('verify');
+        var getRequest = store.get(1); // Assuming you want to get the first entry
+   
+        getRequest.onsuccess = function(event) {
+            var data = event.target.result;
+            if (data) {
+                // Set the values in the form
+                document.querySelector('[name="Worker_ID_No"]').value = data.Worker_ID_No;
+                document.querySelector('[name="Nutmeg_ID_No"]').value = data.Nutmeg_ID_No;
+            }
+        };
+    };
+   </script>
+
+<center>
+    <br>
+    {% if submitted %}
+    Entry successfully added to the database!!!
+    {% else %}
+    <form action="" method="POST" enctype="multipart/form-data" class="form-container">
+        <h1>GCNA Form</h1>
+
+        {% csrf_token %}
+        <div class="section-heading">Section 1</div>
+        <div class="section-heading">Farmer Info</div>
+        {{ form.as_p }}
+
+        <div style="text-align: center;">
+            <input type="submit" name="" value="✔" class="btn btn-success btn-circle btn-xl">
+        </div>
+
+        <div style="text-align: center; margin-top: 20px;">
+            <a href="{% url 'table' %}" class="btn btn-secondary">Exit</a>
+            <a type="submit" href="{% url 'gcna00_23' %}" role="button" class="btn btn-primary">Previous</a>
+            <a type="submit" href="{% url 'gcna00_2' %}" role="button" class="btn btn-primary">Next</a>
+        </div>
+    </form>
+    {% endif %}
+</center>
+
+{{ form.media }}
+{% endblock %}
+
+
+

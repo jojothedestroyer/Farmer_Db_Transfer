@@ -1,0 +1,255 @@
+
+
+
+    {% extends 'gcna/base.html' %}
+
+{% block content%}
+
+
+
+    <h3>Floated Nutmeg Form</h3>
+    <h4>Section B</h4>
+
+{% for float in float_B_list %}
+<div class="card">
+
+  <div class="card-body">
+    <h5 class="card-title"><strong>Titles: {{ float }} </strong>
+
+    <p class="card-text">
+        <table id="vertical-1" class="table table-hover table-light">
+
+
+
+
+          
+
+         <tr>
+            <th>Date of Sampling(Heavy)</th>
+            <td>{{ float.DATE_OF_SAMPLING_H }}</td>
+        </tr>
+        <tr>
+            <th>Date of Sampling(Light)</th>
+            <td>{{ float.DATE_OF_SAMPLING_L }}</td>
+        </tr>
+        <tr>
+            <th>STATION</th>
+            <td>{{ float.STATION }}</td>
+        </tr>
+        <tr>
+            <th>Total_Quantity_of_Bags_in_Non_Compliance_H</th>
+            <td>{{ float.Total_Quantity_of_Bags_in_Non_Compliance_H }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Total_Weight_of_Nutmeg_in_Non_Compliance_H</th>
+            <td>{{ float.Total_Weight_of_Nutmeg_in_Non_Compliance_H }}</td>
+        </tr>
+
+
+
+        <tr>
+            <th>Additional_Drying_Period_days_H</th>
+            <td>{{ float.Additional_Drying_Period_days_H }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Total_Quantity_of_Bags_in_Non_Compliance_L</th>
+            <td>{{ float.Total_Quantity_of_Bags_in_Non_Compliance_L }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Total_Weight_of_Nutmeg_in_Non_Compliance_L</th>
+            <td>{{ float.Total_Weight_of_Nutmeg_in_Non_Compliance_L }}</td>
+        </tr>
+
+
+
+        <tr>
+            <th>Additional_Drying_Period_days_L</th>
+            <td>{{ float.Additional_Drying_Period_days_L }}</td>
+        </tr>>
+
+
+        <tr>
+            <th>Heavy Insect Damage</th>
+            <td>{{ float.Insect_Damaged_H }}</td>
+        </tr>
+
+
+
+        <tr>
+            <th>Heavy Broken</th>
+            <td>{{ float.Broken_H }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Heavy Mould</th>
+            <td>{{ float.Mould_H }}</td>
+        </tr>
+        <tr>
+            <th>Heavy Final Sample Weight</th>
+            <td>{{ float.Final_Sample_Weight_H }}</td>
+        </tr>
+        <tr>
+            <th>Light Insect Damage</th>
+            <td>{{ float.Insect_Damaged_L }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Light Broken</th>
+            <td>{{ float.Broken_L }}</td>
+        </tr>
+
+
+
+        <tr>
+            <th>Light Mould</th>
+            <td>{{ float.Mould_L }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Light Final Sample Weight</th>
+            <td>{{ float.Final_Sample_Weight_L }}</td>
+        </tr>
+
+
+
+
+        <tr>
+            <th>Heavy Reading 1</th>
+            <td>{{ float.READING_1_H }}</td>
+        </tr>
+        <tr>
+            <th>Heavy Reading 2</th>
+            <td>{{ float.READING_2_H }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Heavy Reading 3</th>
+            <td>{{ float.READING_3_H }}</td>
+        </tr>
+
+
+
+        <tr>
+            <th>Heavy Average</th>
+            <td>{{ float.AVERAGE_H }}</td>
+        </tr>  
+
+        <tr>
+            <th>Heavy Decision</th>
+            <td>{{ float.DECISION_H }}</td>
+        </tr>  
+
+                <tr>
+            <th>Comments</th>
+            <td>{{ float.Comments_H }}</td>
+        </tr>  
+
+
+        <tr>
+            <th>Test performed by(Heavy)</th>
+            <td>{{ float.TEST_PERFORMED_BY_H }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Heavy Date</th>
+            <td>{{ float.DATE_H }}</td>
+        </tr>
+        <tr>
+            <th>Light Reading 1</th>
+            <td>{{ float.READING_1_L }}</td>
+        </tr>
+        <tr>
+            <th>Light Reading 2</th>
+            <td>{{ float.READING_2_L }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Light Reading 3</th>
+            <td>{{ float.READING_3_L }}</td>
+        </tr>
+
+
+
+        <tr>
+            <th>Light Average</th>
+            <td>{{ float.AVERAGE_L }}</td>
+        </tr>  
+
+        <tr>
+            <th>Light Decision</th>
+            <td>{{ float.DECISION_L }}</td>
+        </tr>  
+
+        <tr>
+            <th>Comments</th>
+            <td>{{ float.Comments_L }}</td>
+        </tr>  
+
+        <tr>
+            <th>Test performed by(Light)</th>
+            <td>{{ float.TEST_PERFORMED_BY_L }}</td>
+        </tr>  
+
+
+        <tr>
+            <th>Light Date</th>
+            <td>{{ float.DATE_L }}</td>
+        </tr>  
+
+        <tr>
+            <th>Signed By</th>
+            <td>{{ float.SIGNED_BY }}</td>
+        </tr>  
+                <tr>
+            <th>Station Manager</th>
+            <td>{{ float.Station_Manager }}</td>
+        </tr>  
+   <tr>
+            <th>Date of Report</th>
+            <td>{{ float.DATE_OF_REPORT }}</td>
+        </tr>  
+                <tr>
+            <th>SIGNED BY Quality Assurance Officer</th>
+            <td>{{ float.SIGNED_BY_Quality_Assurance_Officer }}</td>
+        </tr>  
+                <tr>
+            <th>Date</th>
+            <td>{{ float.DATE }}</td>
+        </tr> 
+    </table>
+
+
+                </p>
+
+
+            <a href="{% url 'adhome' %}" class="btn btn-secondary">Return</a>
+
+            <a href="{% url 'edit_floated_B' float.pk %}" class="btn btn-primary">Edit</a>
+
+                 <form action="{% url 'delete_floated_B' float.pk %}" method="POST" style="display: inline-block;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+                <a href="{% url 'import_data4' %}" class="btn btn-success">Import Excel</a>
+</div>        </div>
+
+<br>
+<br>
+<br>
+
+{% endfor %}
+{% endblock %}
+
+

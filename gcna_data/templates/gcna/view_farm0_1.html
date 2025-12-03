@@ -1,0 +1,160 @@
+{% extends 'gcna/base.html' %}
+
+{% block content%}
+
+<div id="farmerData"></div>
+<br>
+<br>
+<br>
+<script>
+// Open a transaction to your IndexedDB's object store
+var open = indexedDB.open('GCNA', 2);
+open.onsuccess = function() {
+    var db = open.result;
+    var tx = db.transaction("Farmer", "readwrite");
+    var store = tx.objectStore("Farmer");
+
+    // Use a cursor to iterate through each record in the object store
+    store.openCursor().onsuccess = function(event) {
+        var cursor = event.target.result;
+
+        if(cursor) {
+            // Create a new div for each record
+            var card = document.createElement('div');
+            card.className = 'card';
+
+            var cardBody = document.createElement('div');
+            cardBody.className = 'card-body';
+            card.appendChild(cardBody);
+
+            var title = document.createElement('h5');
+            title.className = 'card-title';
+            title.textContent = 'Farmer Information';
+            cardBody.appendChild(title);
+
+            var text = document.createElement('p');
+            text.className = 'card-text';
+            cardBody.appendChild(text);
+
+            // Create a new table for each record
+            var table = document.createElement('table');
+            table.id = 'vertical-1';
+            table.className = 'table table-hover table-light';
+            text.appendChild(table);
+
+            // Create a new table row for each field in the record
+            for (var key in cursor.value) {
+                var row = document.createElement('tr');
+
+                var th = document.createElement('th');
+                th.textContent = key;
+                row.appendChild(th);
+
+                var td = document.createElement('td');
+                td.textContent = cursor.value[key];
+                row.appendChild(td);
+
+                table.appendChild(row);
+            }
+
+            var editButton = document.createElement('button');
+            editButton.textContent = 'Edit';
+            editButton.addEventListener('click', function() {
+                // Create a form for editing
+                var editForm = document.createElement('form');
+                var submitButton = document.createElement('button');
+                submitButton.textContent = 'Save';
+            
+                for (var key in cursor.value) {
+                    var input = document.createElement('input');
+                    input.type = 'text';
+                    input.name = key;
+            
+                    // Convert the key (path id) to an integer
+                    if (key === 'id') {
+                        input.value = parseInt(cursor.value[key]);
+                    } else {
+                        input.value = cursor.value[key];
+                    }
+                    var label = document.createElement('label');
+                    label.textContent = key + ': ';
+                    editForm.appendChild(label);
+                    editForm.appendChild(input);
+                }
+            
+                editForm.appendChild(submitButton);
+            
+                // Handle form submission
+                editForm.addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    // Get the updated values from the form and convert the key (path id) to an integer
+                    var updatedData = {};
+                    for (var key in cursor.value) {
+                        if (key === 'id') {
+                            updatedData[key] = parseInt(editForm.elements[key].value);
+                        } else {
+                            updatedData[key] = editForm.elements[key].value;
+                        }
+                    }
+            
+                    var transaction = db.transaction("Farmer", "readwrite");
+                    var store = transaction.objectStore("Farmer");
+            
+                    // Update the record in the object store without specifying a key
+                    var updateRequest = store.put(updatedData);
+            
+                    updateRequest.onsuccess = function() {
+                        // Record updated successfully
+                        alert('Record updated successfully');
+                        transaction.commit();
+                    };
+            
+                    updateRequest.onerror = function() {
+                        // Handle error
+                        alert('Error updating record');
+                    };
+                });
+            
+                cardBody.appendChild(editForm);
+            });
+            
+            
+            var deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Delete';
+            deleteButton.addEventListener('click', function() {
+                if (confirm('Are you sure you want to delete this record?')) {
+                    var key = cursor.primaryKey;
+                    
+                    var transaction = db.transaction("Farmer", "readwrite");
+                    var store = transaction.objectStore("Farmer");
+            
+                    // Perform the delete operation within the transaction
+                    var deleteRequest = store.delete(key);
+            
+                    deleteRequest.onsuccess = function() {
+                        // Record deleted successfully
+                        alert('Record deleted successfully');
+                        transaction.commit();
+                    };
+            
+                    deleteRequest.onerror = function() {
+                        // Handle error
+                        alert('Error deleting record');
+                    };
+                }
+            });
+            
+            cardBody.appendChild(editButton);
+            cardBody.appendChild(deleteButton);
+
+            // Add the card to your page
+            document.getElementById('farmerData').appendChild(card);
+
+            // Move on to the next record
+            cursor.continue();
+        }
+    };
+};
+</script>
+
+{% endblock %}

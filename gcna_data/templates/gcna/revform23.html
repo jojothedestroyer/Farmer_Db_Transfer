@@ -1,0 +1,490 @@
+{% extends 'gcna/base.html' %}
+
+{% block content%}
+
+    <style type="text/css">
+        .btn-circle.btn-xl {
+            width: 30px;
+            height: 30px;
+            padding: 3px 0px;
+            border-radius: 25px;
+            font-size: 15px;
+            text-align: center;
+        }
+
+
+         #map {
+                    height: 4px;
+                    width: 10%;
+                    margin-bottom: 20px;
+                }
+
+
+    </style>
+
+
+    <script>
+
+
+        var request = indexedDB.open('Check', 1);
+       
+        request.onsuccess = function(event) {
+            var db = event.target.result;
+            var transaction = db.transaction('verify', 'readonly');
+            var store = transaction.objectStore('verify');
+            var getRequest = store.get(1); // Assuming you want to get the first entry
+       
+            getRequest.onsuccess = function(event) {
+                var data = event.target.result;
+                if (data) {
+                    // Set the values in the form
+                    document.querySelector('[name="Worker_ID_No"]').value = data.Worker_ID_No;
+                    document.querySelector('[name="Nutmeg_ID_No"]').value = data.Nutmeg_ID_No;
+                }
+            };
+        };
+       </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+$(document).ready(function() {
+  $('.hidden-label1').hide();
+  $('.hidden-label2').hide();
+  $('.hidden-label3').hide();
+  $('.hidden-label4').hide();
+  $('.hidden-label5').hide();
+
+
+
+
+
+  $('#LoTableG1_0').hide(); 
+  $('#LoTableG2_0').hide(); 
+  $('#LoTableG3_0').hide(); 
+  $('#LoTableG4_0').hide(); 
+
+
+
+
+  $('#LoTableH1_0').hide(); 
+  $('#LoTableH2_0').hide(); 
+  $('#LoTableH3_0').hide(); 
+  $('#LoTableH4_0').hide(); 
+
+  $('#LoTableM1_0').hide(); 
+  $('#LoTableM2_0').hide(); 
+  $('#LoTableM3_0').hide(); 
+  $('#LoTableM4_0').hide(); 
+
+
+  $('#LoTableU1_0').hide(); 
+  $('#LoTableU2_0').hide(); 
+  $('#LoTableU3_0').hide(); 
+  $('#LoTableU4_0').hide(); 
+
+
+  $('#LoTableGP1_0').hide(); 
+  $('#LoTableGP2_0').hide(); 
+  $('#LoTableGP3_0').hide(); 
+  $('#LoTableGP4_0').hide(); 
+
+
+
+
+
+
+
+  $('#LoTableG1').hide(); 
+  $('#LoTableG2').hide(); 
+  $('#LoTableG3').hide(); 
+  $('#LoTableG4').hide(); 
+
+
+
+
+  $('#LoTableH1').hide(); 
+  $('#LoTableH2').hide(); 
+  $('#LoTableH3').hide(); 
+  $('#LoTableH4').hide(); 
+
+  $('#LoTableM1').hide(); 
+  $('#LoTableM2').hide(); 
+  $('#LoTableM3').hide(); 
+  $('#LoTableM4').hide(); 
+
+
+  $('#LoTableU1').hide(); 
+  $('#LoTableU2').hide(); 
+  $('#LoTableU3').hide(); 
+  $('#LoTableU4').hide(); 
+
+
+  $('#LoTableGP1').hide(); 
+  $('#LoTableGP2').hide(); 
+  $('#LoTableGP3').hide(); 
+  $('#LoTableGP4').hide(); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  $('#TableG1').hide(); 
+  $('#TableG2').hide(); 
+  $('#TableG3').hide(); 
+
+
+
+
+  $('#TableH1').hide(); 
+  $('#TableH2').hide(); 
+  $('#TableH3').hide(); 
+
+  $('#TableM1').hide(); 
+  $('#TableM2').hide(); 
+  $('#TableM3').hide(); 
+
+
+  $('#TableU1').hide(); 
+  $('#TableU2').hide(); 
+  $('#TableU3').hide(); 
+
+
+  $('#TableGP1').hide(); 
+  $('#TableGP2').hide(); 
+  $('#TableGP3').hide(); 
+
+
+    
+    
+    
+
+
+  
+  $('#id_Facilitator_of_the_Assistance').on('change', function() {
+    if ($(this).val() == 'Other') {
+        $('#LoTableG1').show();
+
+
+ 
+
+
+
+    } else {
+        $('#LoTableG1').hide();
+ 
+    }
+});
+
+
+  
+  $('#id_Objective_of_the_Assistance').on('change', function() {
+    if ($(this).val() == 'Other') {
+        $('#LoTableG2').show();
+
+
+ 
+
+
+
+    } else {
+        $('#LoTableG2').hide();
+ 
+    }
+
+});
+
+  
+  $('#id_Nature_of_Assistance').on('change', function() {
+    if ($(this).val() == 'Other') {
+        $('#LoTableG3').show();
+
+
+ 
+
+
+
+    } else {
+        $('#LoTableG3').hide();
+ 
+    }
+
+
+  
+  
+
+});
+
+
+
+  $('#id_START_DRYING_DATE').on('change', function() {
+    var startDate = new Date($(this).val());
+    var approxEndDate = new Date(startDate.getTime() + (42 * 24 * 60 * 60 * 1000)); 
+
+    var day = ("0" + approxEndDate.getDate()).slice(-2); 
+
+    var month = ("0" + (approxEndDate.getMonth() + 1)).slice(-2);
+
+    var year = approxEndDate.getFullYear();
+
+    var formattedDate = year + "-" + month + "-" + day;
+
+    $('#id_APPROX_END_DRYING_DATE').val(formattedDate);
+      });
+
+  $('#id_NUM_OF_BAGS').on('change', function() {
+    var start =  $('#id_NUM_OF_BAGS').val();
+    var calc = start * 110; 
+    $('#id_TOTAL_LBS_NUTMEG_BOUGHT').val(calc);
+      });
+
+
+});
+
+
+
+
+
+
+
+
+
+</script>
+
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var myForm = document.getElementById('myForm');
+    
+        myForm.addEventListener('submit', function(event) {
+            if (navigator.onLine) {
+                return;
+            }
+    
+            event.preventDefault();
+            var data = new FormData(event.target);
+            saveDataToIndexedDB(data);
+        });
+    
+        function saveDataToIndexedDB(data) {
+            var request = indexedDB.open('GCNA', 2);
+        
+            request.onsuccess = function(event) {
+                var db = event.target.result;
+                var transaction = db.transaction('Labour-support', 'readwrite');
+                var objectStore = transaction.objectStore('Labour-support');
+        
+                var obj = {};
+                for (var pair of data.entries()) {
+                    obj[pair[0]] = pair[1];
+                }
+        
+                // Get the highest id in the object store
+                var highestIdRequest = objectStore.openCursor(null, 'prev');
+                highestIdRequest.onsuccess = function(event) {
+                    var cursor = event.target.result;
+                    if (cursor) {
+                        obj.id = cursor.key + 1;
+                    } else {
+                        obj.id = 1; // This is the first item
+                    }
+        
+                    var request = objectStore.put(obj);
+        
+                    request.onsuccess = function() {
+                        console.log('Data added to IndexedDB');
+                        window.location.href = '/gcna00_23/';
+                    };
+        
+                    request.onerror = function() {
+                        console.error('Error adding data to IndexedDB');
+                    };
+                };
+            };
+        
+            request.onerror = function(event) {
+                console.error('Error opening IndexedDB', event);
+            };
+        }
+        
+    });
+    </script>
+
+
+<script>
+
+
+    var request = indexedDB.open('LandId', 1);
+   
+    request.onsuccess = function(event) {
+        var db = event.target.result;
+        var transaction = db.transaction('land-ids', 'readonly');
+        var store = transaction.objectStore('land-ids');
+        var getRequest = store.get(1); // Assuming you want to get the first entry
+   
+        getRequest.onsuccess = function(event) {
+            var data = event.target.result;
+            if (data) {
+                // Set the values in the form
+                document.querySelector('[name="Land_ID_N0"]').value = data.Land_ID_N0;
+            }
+        };
+    };
+   </script>
+
+   
+    <center>
+<br>
+    {% if submitted %}
+        Entry successfully added to database!!!
+    {% else %}
+
+
+
+
+
+
+
+        <form action="" method="POST" id="myForm" enctype="multipart/form-data" style=" background-color: #e4e4e4;
+
+    margin: 1px auto;
+    font-family: Raleway;
+    padding: 10px;
+    width: 85%;
+    min-width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">
+
+
+
+    <div class="card">
+ 
+  <div class="card-body">
+
+  </h5>
+    <p class="card-text">
+        <table id="vertical-1" class="table table-hover table-light">
+    <h1>GCNA Form</h1>
+
+
+        {% csrf_token %}
+
+        <h3>Labour Summary</h3>
+ 
+
+        {{form.Land_ID_N0}} 
+
+
+         <tr>
+             <td>{{ form.Worker_ID_No }}</td>
+        </tr>
+
+
+        <tr>
+             <td>{{ form.Nutmeg_ID_No }}</td>
+        </tr>
+
+       <tr>
+            <th>Date Recieved</th>
+            <td>{{ form.Date_Recieved }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Nature of Assitance</th>
+            <td>{{ form.Nature_of_Assistance }}</td>
+        </tr>
+
+
+
+        <tr id="LoTableG3">
+            <th>Nature of Assitance(cont)</th>
+            <td>{{ form.Nature_of_Assistance_cont }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Objective of Assistance</th>
+            <td>{{ form.Objective_of_the_Assistance }}</td>
+        </tr>
+
+
+ 
+        <tr id="LoTableG2">
+            <th>Objective of Assistance(cont)</th>
+            <td>{{ form.Objective_of_the_Assistance_cont }}</td>
+        </tr>
+
+
+
+
+        <tr>
+            <th>Facilitator of Assistance</th>
+            <td>{{ form.Facilitator_of_the_Assistance }}</td>
+        </tr>
+
+
+
+
+        <tr id="LoTableG1">
+            <th>Facilitator of Assistance(cont)</th>
+            <td>{{ form.Facilitator_of_the_Assistance_cont }}</td>
+        </tr>
+
+
+
+
+
+        <br>
+        <br>
+
+
+
+
+</center>
+</table>
+
+             <input type="submit" name="" value="✔" class="btn btn-success btn-circle btn-xl">
+             <br>
+             <br>
+             <br>
+
+        <tr>
+            <th><a href="{% url 'table' %}" class="btn btn-secondary">Exit</a></th>
+            <th><a type="submit" href="{% url 'gcna00_22' %}" role="button" class="btn btn-primary">Previous</a></th>
+            <th><a type="submit" href="{% url 'gcna00_3' %}" role="button" class="btn btn-primary">Next</a></th>
+        </tr> 
+
+        </form>
+
+    {% endif %}
+
+    </center>
+
+<!--    <form>
+         <div id="map"></div>
+</form> -->
+{{ form.media }}
+
+
+{% endblock %}
+
+
+
+
+
+

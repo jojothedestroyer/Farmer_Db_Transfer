@@ -1,0 +1,590 @@
+{% extends 'gcna/base2.html' %}
+
+{% block content%}
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: center;
+            padding: 8px;
+        }
+
+
+        th {
+/*            background-color: #f2f2f2;*/
+        }
+
+
+        .main-header {
+            text-align: center;
+            font-size: 24px;
+        }
+
+
+        .sub-header {
+            font-size: 18px;
+        }
+    </style>
+	<center>
+<br>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var myForm = document.getElementById('myForm');
+    
+        myForm.addEventListener('submit', function(event) {
+
+            event.preventDefault();
+            var data = new FormData(event.target);
+            saveDataToIndexedDB(data);
+        });
+    
+        function saveDataToIndexedDB(data) {
+    // Exclude csrfmiddlewaretoken from being saved to IndexedDB
+    data.delete('csrfmiddlewaretoken');
+
+    var request = indexedDB.open('GCNA', 2);
+
+    request.onsuccess = function(event) {
+        var db = event.target.result;
+        var transaction = db.transaction('FloatA', 'readwrite');
+        var objectStore = transaction.objectStore('FloatA');
+
+        var obj = {};
+        for (var pair of data.entries()) {
+            obj[pair[0]] = pair[1];
+        }
+
+        // Get the highest id in the object store
+        var highestIdRequest = objectStore.openCursor(null, 'prev');
+        highestIdRequest.onsuccess = function(event) {
+            var cursor = event.target.result;
+            if (cursor) {
+                obj.id = cursor.key + 1;
+            } else {
+                obj.id = 1; // This is the first item
+            }
+
+            var request = objectStore.put(obj);
+
+            request.onsuccess = function() {
+                console.log('Data added to IndexedDB');
+                transferIndexedDBData(); // Transfer data to Django after saving to IndexedDB
+            };
+
+            request.onerror = function() {
+                console.error('Error adding data to IndexedDB');
+            };
+        };
+    };
+
+    request.onerror = function(event) {
+        console.error('Error opening IndexedDB', event);
+    };
+}
+        function transferIndexedDBData() {
+            var request = indexedDB.open('GCNA', 2);
+        
+            request.onsuccess = function(event) {
+                var db = event.target.result;
+                var transaction = db.transaction('FloatA', 'readonly');
+                var objectStore = transaction.objectStore('FloatA');
+                var getRequest = objectStore.getAll();
+        
+                getRequest.onsuccess = function(event) {
+                    var data = event.target.result;
+                    data.forEach(function(item) {
+                        // sendDataToDjango(item);
+                    });
+                    window.location.reload();
+
+                };
+            };
+        
+            request.onerror = function(event) {
+                console.error('Error opening IndexedDB', event);
+            };
+        }
+    
+        function sendDataToDjango(item) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/check-and-add/', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        console.log('Entry added successfully.');
+                    } else {
+                        console.error('Error adding entry:', xhr.statusText);
+                    }
+                }
+            };
+            xhr.send(JSON.stringify(item));
+        }
+    });
+  </script>
+  
+
+  <script>
+
+
+    var request = indexedDB.open('Signin', 1);
+   
+    request.onsuccess = function(event) {
+        var db = event.target.result;
+        var transaction = db.transaction('verify', 'readonly');
+        var store = transaction.objectStore('verify');
+        var getRequest = store.get(1); // Assuming you want to get the first entry
+   
+        getRequest.onsuccess = function(event) {
+            var data = event.target.result;
+            if (data) {
+                // Set the values in the form
+                document.querySelector('[name="Worker_ID_No"]').value = data.Worker_ID_No;
+                document.querySelector('[name="Worker_ID_Name"]').value = data.Name;
+            }
+        };
+    };
+   </script>
+  
+
+
+	{% if submitted %}
+		Entry successfully added to database!!!
+	{% else %}
+		<form action="" method="POST"  id="myForm" enctype="multipart/form-data" style=" background-color: #e4e4e4;
+
+    margin: 1px auto;
+    font-family: Raleway;
+    padding: 10px;
+    width: 95%;
+    min-width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">
+
+   
+
+
+    <div class="card">
+ 
+  <div class="card-body">
+
+  </h5>
+    <p class="card-text">
+        <table id="vertical-1" class="table table-hover table-light">
+
+
+ 
+
+
+<h6>Document No. GCNA-R-02</h6>
+<h6>Document Title: Moisture Analysis in Floated Nutmeg</h6>
+<h6>Date Issued: 2023-07-03</h6>
+
+<h6>Version: 1</h6>
+
+    <h5>Section A</h5>
+<h4>Moisture Analysis in Floated Nutmeg</h4>
+
+		{% csrf_token %}
+ 
+
+
+       <tr>
+{% comment %} {{ form3.Worker_ID_No }}
+{{ form3.Nutmeg_ID_No }} {% endcomment %}
+
+
+
+<table class="table">
+  <thead>
+    <tr>
+
+      <th scope="col" style="text-align:center;">DATE OF SAMPLING (Heavies)</th> 
+      <th scope="col" style="text-align:center;">DATE OF SAMPLING (Lights)</th>
+      <th scope="col" style="text-align:center;">Station</th>
+     </tr>
+  </thead>
+  <tbody> {{ form3.Worker_ID_No }}
+    {{ form3.Worker_ID_Name }}
+    <tr>
+
+            <td>{{ form3.DATE_OF_SAMPLING_H }}</td>
+            <td>{{ form3.DATE_OF_SAMPLING_L }}</td>
+            <td>{{ form3.STATION }}</td>
+
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+<br>
+
+
+
+
+
+        <table id="vertical-1" class="table table-hover table-light">
+                <tr>
+            <th>Batch Code</th>
+            <td>{{ form3.BATCH_CODE }}</td>
+        </tr>
+</table>
+
+
+
+
+
+<br>
+
+
+
+
+
+
+<table class="table">
+
+    <center>
+<!-- <label>Weight (oz/lbs)</label>    -->
+ </center> 
+  <thead>
+    <tr>
+
+      <th scope="col" style="text-align:center; font-size:18px ;">Heavies</th> 
+      <th scope="col" style="text-align:center; font-size:18px ;">Lights</th>
+     </tr>
+
+    <tr>
+
+      <th scope="col" style="text-align:center;">Quantity of Sample(Heavies)</th> 
+      <th scope="col" style="text-align:center;">Quantity of Sample(Lights)</th>
+     </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+      <td>{{ form3.Quantity_of_Sample_H }}</td>
+      <td>{{ form3.Quantity_of_Sample_L }}</td>
+
+    </tr>
+
+  </tbody>
+
+    <table>
+        <tr>
+            <th colspan="4" class="main-header">HEAVIES</th>
+            <th colspan="4" class="main-header">LIGHTS</th>
+        </tr>
+        <tr>
+      <th scope="col" style="text-align:center;">Quantity of Sample(Heavies)</th> 
+      <th scope="col" style="text-align:center; width: 100px">{{ form3.Quantity_of_Sample_H }}</td>
+      	<th style="; width: 1px"></th>
+      	<th style="; width: 1px"></th>
+      <th scope="col" style="text-align:center;">Quantity of Sample(Lights)</th> 
+      <th scope="col" style="text-align:center; width: 100px">{{ form3.Quantity_of_Sample_L }}</td>
+        </tr>
+        <tr>
+            <td>Total Weight(Heavies)</td>
+            <td scope="col" style="text-align:center; width: 100px">{{form3.Total_Weight_H}}</td>
+            <td>Initial Sample Weight(Heavies)</td>
+            <td scope="col" style="text-align:center; width: 100px">{{form3.Initial_Sample_Weight_H}}</td>
+
+            <td>Total Weight(Light)</td>
+            <td scope="col" style="text-align:center; width: 100px">{{form3.Total_Weight_L}}</td>
+            <td>Initial Sample Weight(Light)</td>
+            <td scope="col" style="text-align:center; width: 100px">{{form3.Initial_Sample_Weight_L}}</td>
+        </tr>
+
+    </table>
+
+
+
+
+
+<br>
+<br>
+<br>
+
+
+
+
+
+  <table>
+        <tr>
+
+            <th colspan="8" class="main-header">Weight (oz/lbs)</th>
+         </tr>
+        <tr>
+      <th colspan="4" style="text-align:center;">Heavies</th> 
+      <th colspan="4" style="text-align:center; ">Lights</td>
+
+
+        </tr>
+        <tr>
+            <td scope="col" style="text-align:center; width: 100px">Insect Damaged </td>
+            <td scope="col" style="text-align:center; width: 100px">Broken</td>
+            <td scope="col" style="text-align:center; width: 100px">Mould</td>
+
+            <!-- <td scope="col" style="text-align:center; width: 100px">{{form3.Initial_Sample_Weight_L}}</td> -->
+
+            <td></td>
+            <td></td>
+
+            <td scope="col" style="text-align:center; width: 100px">Insect Damaged </td>
+            <td scope="col" style="text-align:center; width: 100px">Broken</td>
+            <td scope="col" style="text-align:center; width: 100px">Mould</td>
+
+
+        </tr>
+
+
+
+        <tr>
+            <td scope="col" style="text-align:center; width: 100px">{{form3.Insect_Damaged_H}} </td>
+            <td scope="col" style="text-align:center; width: 100px">{{form3.Broken_H}}</td>
+            <td scope="col" style="text-align:center; width: 100px">{{form3.Mould_H}}</td>
+
+            <!-- <td scope="col" style="text-align:center; width: 100px">{{form3.Initial_Sample_Weight_L}}</td> -->
+
+            <td></td>
+            <td></td>
+            
+            <td scope="col" style="text-align:center; width: 100px">{{form3.Insect_Damaged_L}} </td>
+            <td scope="col" style="text-align:center; width: 100px">{{form3.Broken_L}}</td>
+            <td scope="col" style="text-align:center; width: 100px">{{form3.Mould_L}}</td>
+
+
+        </tr>
+        <tr>
+            <td scope="col" style="text-align:center; width: 100px">Final Sample Weight (Heavies) </td>
+            <td colspan="2" style="text-align:center; width: 100px">{{form3.Final_Sample_Weight_H}}</td>
+
+
+            <!-- <td scope="col" style="text-align:center; width: 100px">{{form3.Initial_Sample_Weight_L}}</td> -->
+
+            <td></td>
+            <td></td>
+            
+            <td scope="col" style="text-align:center; width: 100px">Final Sample Weight (Lights) </td>
+            <td colspan="2" style="text-align:center; width: 100px">{{form3.Final_Sample_Weight_L}}</td>
+
+
+
+        </tr>
+
+    </table>
+
+
+
+
+
+<br>
+<br>
+<br>
+
+
+
+
+
+
+
+
+
+
+  <table>
+
+  	
+        <tr>
+
+            <th colspan="8" class="main-header">MOISTURE CONTENT RESULTS (%)</th>
+         </tr>
+
+
+        <tr>
+      <th colspan="4" style="text-align:center;">CRITERIA</th> 
+      <th colspan="4" style="text-align:center; "><10%</th>
+
+
+        </tr>
+
+
+        <tr>
+      <th colspan="4" style="text-align:center;">Heavies</th> 
+      <th colspan="4" style="text-align:center; ">Lights</th>
+
+        </tr>
+
+
+
+        <tr>
+            <th scope="col" style="text-align:center; width: 100px">READING 1 </th>
+            <th scope="col" style="text-align:center; width: 100px">READING 2</th>
+            <th scope="col" style="text-align:center; width: 100px">READING 3</th>
+            <th scope="col" style="text-align:center; width: 100px">Average  </th>
+
+
+
+            
+            <th scope="col" style="text-align:center; width: 100px">READING 1 </th>
+            <th scope="col" style="text-align:center; width: 100px">READING 2</th>
+            <th scope="col" style="text-align:center; width: 100px">READING 3</th>
+            <th scope="col" style="text-align:center; width: 100px">Average  </th>
+
+
+        </tr>
+
+
+
+        <tr>
+            <th scope="col" style="text-align:center; width: 100px">{{form3.READING_1_H}} </th>
+            <th scope="col" style="text-align:center; width: 100px">{{form3.READING_2_H}}</th>
+            <th scope="col" style="text-align:center; width: 100px">{{form3.READING_3_H}}</th>
+            <th scope="col" style="text-align:center; width: 100px">{{form3.AVERAGE_H}}</th>
+
+
+
+            
+            <th scope="col" style="text-align:center; width: 100px">{{form3.READING_1_L}} </th>
+            <th scope="col" style="text-align:center; width: 100px">{{form3.READING_2_L}} </th>
+            <th scope="col" style="text-align:center; width: 100px">{{form3.READING_3_L}}</th>
+            <th scope="col" style="text-align:center; width: 100px">{{form3.AVERAGE_L}}</th>
+
+
+        </tr>
+ 
+
+
+
+        <tr>
+      <th colspan="1" style="text-align:center;">DECISION (Pass/Fail)</th> 
+      <th colspan="3" style="text-align:center;">{{form3.DECISION_H}}</th> 
+
+
+      <th colspan="1" style="text-align:center; ">DECISION (Pass/Fail)</th>
+      <th colspan="3" style="text-align:center;">{{form3.DECISION_L}}</th> 
+
+        </tr>
+
+
+  </table>
+
+  <table>
+
+
+        <tr>
+      <th colspan="1" style="text-align:center;">Comments</th> 
+      <th colspan="3" style="text-align:center;">{{form3.Comments_H}}</th> 
+
+            <th></th>
+
+      <th colspan="1" style="text-align:center; ">Comments</th>
+      <th colspan="3" style="text-align:center;">{{form3.Comments_L}}</th> 
+
+        </tr>
+
+
+
+
+        <tr>
+            <th scope="col" style="text-align:center; width: 100px">Test Performed by</th>
+            <th scope="col" style="text-align:center; width: 100px">{{form3.TEST_PERFORMED_BY_H}}</th>
+            <th scope="col" style="text-align:center; width: 100px">Date</th>
+            <th scope="col" style="text-align:center; width: 100px">{{form3.DATE_H}}</th>
+
+
+            <th></th>
+            <th></th>
+
+            <th scope="col" style="text-align:center; width: 100px">Test Performed by </th>
+            <th scope="col" style="text-align:center; width: 100px">{{form3.TEST_PERFORMED_BY_L}}</th>
+            <th scope="col" style="text-align:center; width: 100px">Date</th>
+            <th scope="col" style="text-align:center; width: 100px">{{form3.DATE_L}}</th>
+
+
+        </tr>
+
+
+
+        <tr>
+            <th scope="col" style="text-align:center; width: 100px">Approved By </th>
+            <th colspan="2" style="text-align:center; width: 100px">{{form3.Approved_BY}}</th>
+
+
+            <th></th>
+            <th></th>
+            
+            <th scope="col" style="text-align:center; width: 100px">Date Of Report</th>
+            <th colspan="2" style="text-align:center; width: 100px">{{form3.DATE_OF_REPORT}}</th>
+
+
+        </tr>
+
+
+
+
+        <tr>
+            <th scope="col" style="text-align:center; width: 100px">SIGNED BY Quality Assurance Officer</th>
+            <th colspan="2" style="text-align:center; width: 100px">{{form3.SIGNED_BY_Quality_Assurance_Officer}}</th>
+
+
+            <th></th>
+            <th></th>
+            
+            <th scope="col" style="text-align:center; width: 100px">Date</th>
+            <th colspan="2" style="text-align:center; width: 100px">{{form3.DATE}}</th>
+
+
+        </tr>
+
+
+    </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+		<input type="submit" name="" value="✔" class="btn btn-success btn-circle btn-xl">
+
+		<br>
+		<br>
+
+
+
+
+
+</table>
+
+              <tr>
+            <th><a href="{% url 'table001' %}" class="btn btn-secondary">Exit</a></th>
+            <th><a type="submit" href="{% url 'database8' %}" role="button" class="btn btn-primary">Previous</a></th>
+            <th><a type="submit" href="{% url 'database12' %}" role="button" class="btn btn-primary">Next</a></th>
+ 
+
+        </tr>		
+
+		</form>
+
+	{% endif %}
+
+	</center>
+{{ form3.media }}
+
+{% endblock %}
+
+
+

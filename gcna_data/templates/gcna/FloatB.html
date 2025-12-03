@@ -1,0 +1,284 @@
+{% extends 'gcna/base2.html' %}
+
+{% block content%}
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: center;
+            padding: 8px;
+        }
+
+        .main-header {
+            text-align: center;
+            font-size: 24px;
+        }
+
+        .sub-header {
+            font-size: 18px;
+        }
+    </style>
+
+	<center>
+<br>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      var myForm = document.getElementById('myForm');
+  
+      myForm.addEventListener('submit', function(event) {
+          event.preventDefault();
+          var data = new FormData(event.target);
+          saveDataToIndexedDB(data);
+      });
+  
+      function saveDataToIndexedDB(data) {
+          var request = indexedDB.open('GCNA', 2);
+      
+          request.onsuccess = function(event) {
+              var db = event.target.result;
+              var transaction = db.transaction('FloatB', 'readwrite');
+              var objectStore = transaction.objectStore('FloatB');
+      
+              var obj = {};
+              for (var pair of data.entries()) {
+                  obj[pair[0]] = pair[1];
+              }
+      
+              // Get the highest id in the object store
+              var highestIdRequest = objectStore.openCursor(null, 'prev');
+              highestIdRequest.onsuccess = function(event) {
+                  var cursor = event.target.result;
+                  if (cursor) {
+                      obj.id = cursor.key + 1;
+                  } else {
+                      obj.id = 1; // This is the first item
+                  }
+      
+                  var request = objectStore.put(obj);
+      
+                  request.onsuccess = function() {
+                      console.log('Data added to IndexedDB');
+                      window.location.href = '/gcna00_24/';
+                  };
+      
+                  request.onerror = function() {
+                      console.error('Error adding data to IndexedDB');
+                  };
+              };
+          };
+      
+          request.onerror = function(event) {
+              console.error('Error opening IndexedDB', event);
+          };
+      }
+  });
+</script>
+
+	{% if submitted %}
+		Entry successfully added to database!!!
+	{% else %}
+		<form action="" method="POST" id="myForm" enctype="multipart/form-data" style="background-color: #e4e4e4;
+            margin: 1px auto;
+            font-family: Raleway;
+            padding: 10px;
+            width: 95%;
+            min-width: 300px;
+            border-radius: 10px;
+            box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">
+
+    <div class="card">
+        <div class="card-body">
+            <p class="card-text">
+                <table id="vertical-1" class="table table-hover table-light">
+                    <h6>GCNA-R-05</h6>
+                    <h6>Corrective Action for Nutmeg Above 10% Moisture Content</h6>
+                    <h6>Date Issued: 2025-04-08</h6>
+                    <h6>Version: 2</h6>
+
+                    <h4 class="text-center">Corrective Action for Nutmeg Above 10% Moisture Content</h4>
+
+                    {% csrf_token %}
+
+                    <table class="table">
+                            <tr>
+                            <th scope="col" style="text-align:center;">DATE OF SAMPLING</th> 
+                            <th scope="col" style="text-align:center;">
+                                <input type="date" name="date_of_sampling" class="form-control">
+                            </th>
+                            <th scope="col" style="text-align:center;">Station</th> 
+                            <th scope="col" style="text-align:center;">
+                                <select name="station" class="form-control">
+                                    <option value="">--Select Location--</option>
+                                    <option value="G">Grenville</option>
+                                    <option value="H">Hermitage</option>
+                                    <option value="M">Marli</option>
+                                    <option value="U">Union</option>
+                                    <option value="GP">Gouyave</option>
+                                </select>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <input type="text" name="Worker_ID_No" class="form-control" hidden>
+                        <input type="text" name="Worker_ID_Name" class="form-control" hidden>
+                    </tbody>
+                </table>
+
+                <br>
+
+                <table id="vertical-1" class="table table-hover table-light">
+                    <tr>
+                        <th>Sample Tested</th>
+                        <td>
+                            <select name="sample_tested" class="form-control">
+                                <option value="Heavies">Heavies</option>
+                                <option value="Lights">Lights</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+
+                <table id="vertical-1" class="table table-hover table-light">
+                    <tr>
+                        <th>Batch Code</th>
+                        <td><input type="text" name="batch_code" class="form-control"></td>
+                    </tr>
+                </table>
+
+                <br>
+                                <table id="vertical-1" class="table table-hover table-light">
+
+                        <tr>
+                            <th>Total Quantity of Bags in Non Compliance</th>
+                            <td>{{Total_Quantity_of_Bags_in_Non_Compliance }}</td>
+                        </tr>
+                        <tr>
+                            <td>Total Weight (lbs) of Nutmeg in Non Compliance</td>
+                            <td>{{Total_Weight_of_Nutmeg_in_Non_Compliance }}</td>
+                        </tr>
+                        <tr>
+                            <td>Additional Drying Period</td>
+                            <td>{{ form4.Additional_Drying_Period }} days</td>
+                        </tr>
+                        <tr>
+                            <td>Initial Sample Weight (lbs)</td>
+                            <td>{{ form4.Initial_Sample_Weight }}</td>
+                        </tr>
+                    </table>
+
+                    <table class="table">
+                        <tr>
+                            <th colspan="3">Weight (oz/lbs)</th>
+                        </tr>
+                        <tr>
+                            <td>Insect Damaged</td>
+                            <td>Broken</td>
+                            <td>Mould</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form4.Insect_Damaged }}</td>
+                            <td>{{ form4.Broken }}</td>
+                            <td>{{ form4.Mould }}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">Final Sample Weight</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">{{ form4.Final_Sample_Weight }}</td>
+                        </tr>
+                    </table>
+
+                    <table class="table">
+                        <tr>
+                            <th colspan="5">MOISTURE CONTENT RESULTS (%)</th>
+                        </tr>
+                        <tr>
+                            <td>CRITERIA (CCP1)</td>
+                            <td colspan="4">&lt;10% (CODEX)&nbsp;&nbsp;&nbsp;&nbsp;&lt;7% (GCNA)</td>
+                        </tr>
+                        <tr>
+                            <td>DATE OF SAMPLING</td>
+                            <td>READING 1 (After Corrective Action)</td>
+                            <td>READING 2 (After Corrective Action)</td>
+                            <td>READING 3 (After Corrective Action)</td>
+                            <td>AVERAGE</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form4.DATE_OF_SAMPLING_1 }}</td>
+                            <td>{{ form4.READING_1_1 }}</td>
+                            <td>{{ form4.READING_2_1 }}</td>
+                            <td>{{ form4.READING_3_1 }}</td>
+                            <td>{{ form4.AVERAGE_1 }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form4.DATE_OF_SAMPLING_2 }}</td>
+                            <td>{{ form4.READING_1_2 }}</td>
+                            <td>{{ form4.READING_2_2 }}</td>
+                            <td>{{ form4.READING_3_2 }}</td>
+                            <td>{{ form4.AVERAGE_2 }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form4.DATE_OF_SAMPLING_3 }}</td>
+                            <td>{{ form4.READING_1_3 }}</td>
+                            <td>{{ form4.READING_2_3 }}</td>
+                            <td>{{ form4.READING_3_3 }}</td>
+                            <td>{{ form4.AVERAGE_3 }}</td>
+                        </tr>
+                        <tr>
+                            <td>DECISION (Pass/Fail)</td>
+                            <td>1. {{ form4.DECISION_1 }}</td>
+                            <td>2. {{ form4.DECISION_2 }}</td>
+                            <td colspan="2">3. {{ form4.DECISION_3 }}</td>
+                        </tr>
+                        <tr>
+                            <td>Comments</td>
+                            <td colspan="4">{{ form4.Comments }}</td>
+                        </tr>
+                    </table>
+
+                    <table class="table">
+                        <tr>
+                            <td>TEST PERFORMED BY:</td>
+                            <td>{{ form4.TEST_PERFORMED_BY }}</td>
+                            <td>DATE</td>
+                            <td>{{ form4.TEST_DATE }}</td>
+                        </tr>
+                        <tr>
+                            <td>SIGNED BY: Station Manager/Foreman</td>
+                            <td>{{ form4.SIGNED_BY }}</td>
+                            <td>DATE OF REPORT</td>
+                            <td>{{ form4.DATE_OF_REPORT }}</td>
+                        </tr>
+                        <tr>
+                            <th colspan="4">CHECKED BY QA OFFICER</th>
+                        </tr>
+                        <tr>
+                            <td>SIGNED BY QUALITY ASSURANCE OFFICER</td>
+                            <td>{{ form4.SIGNED_BY_QA_OFFICER }}</td>
+                            <td>DATE</td>
+                            <td>{{ form4.QA_DATE }}</td>
+                        </tr>
+                    </table>
+
+                    <input type="submit" name="" value="✔" class="btn btn-success btn-circle btn-xl">
+                    <br><br>
+
+                    <tr>
+                        <th><a href="{% url 'table' %}" class="btn btn-secondary">Exit</a></th>
+                        <th><a type="submit" href="{% url 'database10' %}" role="button" class="btn btn-primary">Previous</a></th>
+                        <th><a type="submit" href="{% url 'database12' %}" role="button" class="btn btn-primary">Next</a></th>
+                    </tr>
+                </table>
+            </p>
+        </div>
+    </div>
+		</form>
+	{% endif %}
+	</center>
+{{ form4.media }}
+{% endblock %}

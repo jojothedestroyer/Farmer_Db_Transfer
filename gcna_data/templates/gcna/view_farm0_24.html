@@ -1,0 +1,1080 @@
+
+{% extends 'gcna/base2.html' %}
+
+
+{% block content%}
+
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+{% comment %} <style>
+    /* Add border outline to table entries */
+    table {
+        border-collapse: collapse;
+        border: 1px solid black;
+    }
+
+    th, td {
+        border: 1px solid black; /* Change border color to black */
+        padding: 8px;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    /* Rotate rowspan text to fit in the column */
+    td.rotated {
+        transform: rotate(-90deg);
+        white-space: nowrap;
+    }
+</style>
+
+
+
+
+<form style="
+    background-color: #e4e4e4;
+    margin: 1px auto;
+    font-family: Raleway;
+    padding: 10px;
+    width: 95%;
+    min-width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);
+">
+
+    <div class="card">
+        <div class="card-body">
+            <h5></h5>
+            <p class="card-text">Test</p>
+            <h6>Document No. GCNA-R-02</h6>
+            <h6>Document Title: Moisture Analysis in Floated Nutmeg</h6>
+            <h6>Date Issued: 2023-07-03</h6>
+            <h6>Version: 1</h6>
+            <h5>Section B</h5>
+            {% csrf_token %}
+            <h4>Corrective Action for Floating Nutmeg Above 10% Moisture Content</h4>
+
+            <table id="vertical-1" class="table table-hover table-light">
+                <thead>
+                    <tr>
+                        <th colspan="3" class="main-header" style="text-align:center;">Station Name:</th>
+                        <th colspan="3" class="main-header" style="text-align:center;">[Station Name]</th>
+                        <th colspan="3" class="main-header" style="text-align:center;">Period</th>
+                        <th colspan="3" class="main-header" style="text-align:center;">[Period]</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <!-- Content goes here -->
+                    </tr>
+                </tbody>
+                <thead>
+                    <tr>
+                        <th colspan="1" class="main-header" style="text-align:center;">Area</th>
+                        <th colspan="1" class="main-header" style="text-align:center;">Item No:</th>
+                        <th colspan="1" class="main-header" style="text-align:center;">Facility Area:</th>
+                        <th colspan="1" class="main-header" style="text-align:center;">Frequency:</th>
+                        <th colspan="1" class="main-header" style="text-align:center;">Method:</th>
+                        <th colspan="1" class="main-header" style="text-align:center;">Person responsible:</th>
+                        <th colspan="1" class="main-header" style="text-align:center;">WK 1</th>
+                        <th colspan="1" class="main-header" style="text-align:center;">WK 2</th>
+                        <th colspan="1" class="main-header" style="text-align:center;">WK 3</th>
+                        <th colspan="1" class="main-header" style="text-align:center;">WK 4</th>
+                        <th colspan="1" class="main-header" style="text-align:center;">WK 5</th>
+                        <th colspan="1" class="main-header" style="text-align:center;">Signature:</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td rowspan="3" colspan="1" style="text-align: center; vertical-align: middle;">
+                            <div style="transform: rotate(-90deg); display: inline-block;">External Premisies</div>
+                        </td>
+                        
+                        <td colspan="1">1</td>
+                        <td colspan="1">Ceiling</td>
+                        <td colspan="1">Weekly</td>
+                        <td colspan="1">Dry method</td>
+                        <td colspan="1">Sanitation Officer</td>
+                        <td colspan="1">[WK1]</td>
+                        <td colspan="1">[WK2]</td>
+                        <td colspan="1">[WK3]</td>
+                        <td colspan="1">[WK4]</td>
+                        <td colspan="1">[WK5]</td>
+                        <td colspan="1">[Signature]</td>
+                    </tr>
+                    <tr>
+                        <td colspan="1">2</td>
+                        <td colspan="1">Windows</td>
+                        <td colspan="1">Weekly</td>
+                        <td colspan="1">Dry method</td>
+                        <td colspan="1">Sanitation Officer</td>
+                        <td colspan="1">[WK1]</td>
+                        <td colspan="1">[WK2]</td>
+                        <td colspan="1">[WK3]</td>
+                        <td colspan="1">[WK4]</td>
+                        <td colspan="1">[WK5]</td>
+                        <td colspan="1">[Signature]</td>
+                    </tr>
+                    <tr>
+                        <td colspan="1">3</td>
+                        <td colspan="1">Screens</td>
+                        <td colspan="1">Weekly</td>
+                        <td colspan="1">Dry method</td>
+                        <td colspan="1">Sanitation Officer</td>
+                        <td colspan="1">[WK1]</td>
+                        <td colspan="1">[WK2]</td>
+                        <td colspan="1">[WK3]</td>
+                        <td colspan="1">[WK4]</td>
+                        <td colspan="1">[WK5]</td>
+                        <td colspan="1">[Signature]</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="7" colspan="1" style="text-align: center; vertical-align: middle;">
+                            <div style="transform: rotate(-90deg); display: inline-block;">Equipment</div>
+                        </td>
+                        <td colspan="1">4</td>
+                        <td colspan="1">Grinder</td>
+                        <td colspan="1">Weekly</td>
+                        <td colspan="1">Dry method</td>
+                        <td colspan="1">Line Operator</td>
+                        <td colspan="1">[WK1]</td>
+                        <td colspan="1">[WK2]</td>
+                        <td colspan="1">[WK3]</td>
+                        <td colspan="1">[WK4]</td>
+                        <td colspan="1">[WK5]</td>
+                        <td colspan="1">[Signature]</td>
+                    </tr>
+                    <tr>
+                        <td colspan="1">5</td>
+                        <td colspan="1">Winnower</td>
+                        <td colspan="1">Weekly</td>
+                        <td colspan="1">Dry method</td>
+                        <td colspan="1">Line Operator</td>
+                        <td colspan="1">[WK1]</td>
+                        <td colspan="1">[WK2]</td>
+                        <td colspan="1">[WK3]</td>
+                        <td colspan="1">[WK4]</td>
+                        <td colspan="1">[WK5]</td>
+                        <td colspan="1">[Signature]</td>
+                    </tr>
+                    <tr>
+                        <td colspan="1">6</td>
+                        <td colspan="1">Sinks</td>
+                        <td colspan="1">Weekly</td>
+                        <td colspan="1">Dry method</td>
+                        <td colspan="1">Line Operator</td>
+                        <td colspan="1">[WK1]</td>
+                        <td colspan="1">[WK2]</td>
+                        <td colspan="1">[WK3]</td>
+                        <td colspan="1">[WK4]</td>
+                        <td colspan="1">[WK5]</td>
+                        <td colspan="1">[Signature]</td>
+                    </tr>
+                    <tr>
+                        <td colspan="1">7</td>
+                        <td colspan="1">Scales</td>
+                        <td colspan="1">Weekly</td>
+                        <td colspan="1">Dry method</td>
+                        <td colspan="1">Line Operator</td>
+                        <td colspan="1">[WK1]</td>
+                        <td colspan="1">[WK2]</td>
+                        <td colspan="1">[WK3]</td>
+                        <td colspan="1">[WK4]</td>
+                        <td colspan="1">[WK5]</td>
+                        <td colspan="1">[Signature]</td>
+                    </tr>
+
+
+
+
+                    <tr>
+                        <td colspan="1">8</td>
+                        <td colspan="1">Hoist</td>
+                        <td colspan="1">Weekly</td>
+                        <td colspan="1">Dry method</td>
+                        <td colspan="1">Line Operator</td>
+                        <td colspan="1">[WK1]</td>
+                        <td colspan="1">[WK2]</td>
+                        <td colspan="1">[WK3]</td>
+                        <td colspan="1">[WK4]</td>
+                        <td colspan="1">[WK5]</td>
+                        <td colspan="1">[Signature]</td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="1">9</td>
+                        <td colspan="1">Drying Racks</td>
+                        <td colspan="1">Weekly</td>
+                        <td colspan="1">Dry method</td>
+                        <td colspan="1">Line Operator</td>
+                        <td colspan="1">[WK1]</td>
+                        <td colspan="1">[WK2]</td>
+                        <td colspan="1">[WK3]</td>
+                        <td colspan="1">[WK4]</td>
+                        <td colspan="1">[WK5]</td>
+                        <td colspan="1">[Signature]</td>
+                    </tr>
+
+
+
+                    <tr>
+                        <td colspan="1">10</td>
+                        <td colspan="1">Shining Cloths</td>
+                        <td colspan="1">Weekly</td>
+                        <td colspan="1">Dry method</td>
+                        <td colspan="1">Line Operator</td>
+                        <td colspan="1">[WK1]</td>
+                        <td colspan="1">[WK2]</td>
+                        <td colspan="1">[WK3]</td>
+                        <td colspan="1">[WK4]</td>
+                        <td colspan="1">[WK5]</td>
+                        <td colspan="1">[Signature]</td>
+                    </tr>
+
+                    <tr>
+
+
+                        <td rowspan="6" colspan="1" style="text-align: center; vertical-align: middle;">
+                            <div style="transform: rotate(-90deg); display: inline-block;">Internal Premises</div>
+                        </td>
+                        <td colspan="1">11</td>
+                        <td colspan="1">Stencil Room</td>
+                        <td colspan="1">Weekly</td>
+                        <td colspan="1">Dry method</td>
+                        <td colspan="1">Sanitation Officer</td>
+                        <td colspan="1">[WK1]</td>
+                        <td colspan="1">[WK2]</td>
+                        <td colspan="1">[WK3]</td>
+                        <td colspan="1">[WK4]</td>
+                        <td colspan="1">[WK5]</td>
+                        <td colspan="1">[Signature]</td>
+                    </tr>
+
+
+
+
+
+
+                    <tr>
+                        <td colspan="1">12</td>
+                        <td colspan="1">Packaging Store Room</td>
+                        <td colspan="1">Weekly</td>
+                        <td colspan="1">Dry method</td>
+                        <td colspan="1">Line Operator</td>
+                        <td colspan="1">[WK1]</td>
+                        <td colspan="1">[WK2]</td>
+                        <td colspan="1">[WK3]</td>
+                        <td colspan="1">[WK4]</td>
+                        <td colspan="1">[WK5]</td>
+                        <td colspan="1">[Signature]</td>
+                    </tr>
+
+
+
+
+                    <tr>
+                        <td colspan="1">13</td>
+                        <td colspan="1">Fumigation Room</td>
+                        <td colspan="1">Weekly</td>
+                        <td colspan="1">Dry method</td>
+                        <td colspan="1">Line Operator</td>
+                        <td colspan="1">[WK1]</td>
+                        <td colspan="1">[WK2]</td>
+                        <td colspan="1">[WK3]</td>
+                        <td colspan="1">[WK4]</td>
+                        <td colspan="1">[WK5]</td>
+                        <td colspan="1">[Signature]</td>
+                    </tr>
+
+
+
+
+
+
+
+                    <tr>
+                        <td colspan="1">14</td>
+                        <td colspan="1">Immersion Room </td>
+                        <td colspan="1">Weekly</td>
+                        <td colspan="1">Scrub</td>
+                        <td colspan="1">Line Operator</td>
+                        <td colspan="1">[WK1]</td>
+                        <td colspan="1">[WK2]</td>
+                        <td colspan="1">[WK3]</td>
+                        <td colspan="1">[WK4]</td>
+                        <td colspan="1">[WK5]</td>
+                        <td colspan="1">[Signature]</td>
+                    </tr>
+
+
+                    <tr>
+                        <td colspan="1">15</td>
+                        <td colspan="1">Chambers</td>
+                        <td colspan="1">Weekly</td>
+                        <td colspan="1">Scrub</td>
+                        <td colspan="1">Line Operator</td>
+                        <td colspan="1">[WK1]</td>
+                        <td colspan="1">[WK2]</td>
+                        <td colspan="1">[WK3]</td>
+                        <td colspan="1">[WK4]</td>
+                        <td colspan="1">[WK5]</td>
+                        <td colspan="1">[Signature]</td>
+                    </tr>
+
+
+
+                    <tr>
+                        <td colspan="1">16</td>
+                        <td colspan="1">Tourist Shop(GPS)</td>
+                        <td colspan="1">Weekly</td>
+                        <td colspan="1">Scrub</td>
+                        <td colspan="1">Sanitation</td>
+                        <td colspan="1">[WK1]</td>
+                        <td colspan="1">[WK2]</td>
+                        <td colspan="1">[WK3]</td>
+                        <td colspan="1">[WK4]</td>
+                        <td colspan="1">[WK5]</td>
+                        <td colspan="1">[Signature]</td>
+                    </tr>
+
+                  
+                </tbody>
+
+                <thead>
+    
+                    <tr>
+                        <th colspan="3" class="main-header" style="text-align:center;">Verified By:</th>
+                        <th colspan="3" class="main-header" style="text-align:center;">[Verified By]</th>
+                        <th colspan="3" class="main-header" style="text-align:center;">Date</th>
+                        <th colspan="3" class="main-header" style="text-align:center;">[Date]</th>
+                    </tr>
+    
+                <thead/>
+
+            </table>
+        </div>
+    </div>
+
+</form>
+
+
+
+ {% endcomment %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% comment %} <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7; /* Adjusted background color */
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .card {
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        h4 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            font-weight: bold;
+            color: #555;
+        }
+
+        td {
+            color: #777;
+        }
+
+        button {
+            cursor: pointer;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Form Styles */
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input[type="text"], input[type="number"], select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+            color: #333;
+            outline: none;
+        }
+
+        #saveButton, #closeButton {
+            margin-top: 10px;
+            background-color: #28a745;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #closeButton {
+            background-color: #dc3545;
+            margin-left: 10px;
+        }
+
+        /* Responsive Styles */
+        @media screen and (max-width: 768px) {
+            .container {
+                max-width: 90%;
+            }
+        }
+    </style> {% endcomment %}
+</head>
+<body>
+    <center>
+    <div id="landInfoData"></div>
+    </center>
+
+
+<script>
+    let openRequest = indexedDB.open("GCNA");
+    let fieldBlacklist = [];
+    const fieldBlacklistConfig = {
+        'DATE_OF_SAMPLING': true, // Set to true to blacklist if null or empty
+        'DECISION': true,
+        'Quantity_of_Bags': true,
+        
+        // Add more fields as needed
+    };
+
+    openRequest.onsuccess = function (event) {
+        let db = event.target.result;
+        let transaction = db.transaction("Sanitation-A", "readonly");
+        let landInfoStore = transaction.objectStore("Sanitation-A");
+        let getAllRequest = landInfoStore.getAll();
+
+        getAllRequest.onsuccess = function (event) {
+            let landInfoRecords = event.target.result;
+            let landInfoDataDiv = document.getElementById('landInfoData');
+
+            landInfoRecords.forEach(record => {
+                let entryContainer = document.createElement("div");
+                entryContainer.id = `entryContainer_${record.id}`;
+                entryContainer.innerHTML = `
+ 
+                <form id="myForm" style="
+                background-color: #e4e4e4;
+                margin: 1px auto;
+                font-family: Raleway;
+                padding: 10px;
+                width: 95%;
+                border-radius: 10px;
+                box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);
+            ">
+                <div class="card">
+                    <div class="card-body">
+                        <h5></h5>
+
+            
+                        <table id="vertical-1" class="table table-hover table-light">
+
+
+                            <thead>
+                                <tr>
+
+                                    <th colspan="12" class="main-header" style="text-align:center;">
+                        <h6>Document No. GCNA-R-02</h6>
+                        <h6>Document Title: Moisture Analysis in Floated Nutmeg</h6>
+                        <h6>Date Issued: 2023-07-03</h6>
+                        <h6>Version: 1</h6>
+                        <h5>Section B</h5>
+                        {% csrf_token %}
+                        <h4>Corrective Action for Floating Nutmeg Above 10% Moisture Content</h4>
+
+                    </th>
+
+
+
+                    </tr>
+                </thead>
+
+                            <thead>
+                                <tr>
+                                    <th colspan="3" class="main-header" style="text-align:center;">Station Name:</th>
+                                    <th colspan="3" class="main-header" style="text-align:center;">${record.Station}</th>
+                                    <th colspan="3" class="main-header" style="text-align:center;">Period</th>
+                                    <th colspan="3" class="main-header" style="text-align:center;">${record.Period}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <!-- Content goes here -->
+                                </tr>
+                            </tbody>
+                            <thead>
+                                <tr>
+                                    <th colspan="1" class="main-header" style="text-align:center;">Area</th>
+                                    <th colspan="1" class="main-header" style="text-align:center;">Item No:</th>
+                                    <th colspan="1" class="main-header" style="text-align:center;">Facility Area:</th>
+                                    <th colspan="1" class="main-header" style="text-align:center;">Frequency:</th>
+                                    <th colspan="1" class="main-header" style="text-align:center;">Method:</th>
+                                    <th colspan="1" class="main-header" style="text-align:center;">Person responsible:</th>
+                                    <th colspan="1" class="main-header" style="text-align:center;">WK 1</th>
+                                    <th colspan="1" class="main-header" style="text-align:center;">WK 2</th>
+                                    <th colspan="1" class="main-header" style="text-align:center;">WK 3</th>
+                                    <th colspan="1" class="main-header" style="text-align:center;">WK 4</th>
+                                    <th colspan="1" class="main-header" style="text-align:center;">WK 5</th>
+                                    <th colspan="1" class="main-header" style="text-align:center;">Signature:</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td rowspan="3" colspan="1" style="text-align: center; vertical-align: middle;">
+                                        <div style="transform: rotate(-90deg); display: inline-block;">External Premisies</div>
+                                    </td>
+                                    
+                                    <td colspan="1">1</td>
+                                    <td colspan="1">Ceiling</td>
+                                    <td colspan="1">Weekly</td>
+                                    <td colspan="1">Dry method</td>
+                                    <td colspan="1">Sanitation Officer</td>
+                                    <td colspan="1">${record.Ceiling_week_1}</td>
+                                    <td colspan="1">${record.Ceiling_week_2}</td>
+                                    <td colspan="1">${record.Ceiling_week_3}</td>
+                                    <td colspan="1">${record.Ceiling_week_4}</td>
+                                    <td colspan="1">${record.Ceiling_week_5}</td>
+                                    <td colspan="1">${record.Ceiling_signature}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="1">2</td>
+                                    <td colspan="1">Windows</td>
+                                    <td colspan="1">Weekly</td>
+                                    <td colspan="1">Dry method</td>
+                                    <td colspan="1">Sanitation Officer</td>
+                                    <td colspan="1">${record.Windows_week_1}</td>
+                                    <td colspan="1">${record.Windows_week_2}</td>
+                                    <td colspan="1">${record.Windows_week_3}</td>
+                                    <td colspan="1">${record.Windows_week_4}</td>
+                                    <td colspan="1">${record.Windows_week_5}</td>
+                                    <td colspan="1">${record.Windows_signature}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="1">3</td>
+                                    <td colspan="1">Screens</td>
+                                    <td colspan="1">Weekly</td>
+                                    <td colspan="1">Dry method</td>
+                                    <td colspan="1">Sanitation Officer</td>
+                                    <td colspan="1">${record.Screens_week_1}</td>
+                                    <td colspan="1">${record.Screens_week_2}</td>
+                                    <td colspan="1">${record.Screens_week_3}</td>
+                                    <td colspan="1">${record.Screens_week_4}</td>
+                                    <td colspan="1">${record.Screens_week_5}</td>
+                                    <td colspan="1">${record.Screens_signature}</td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="7" colspan="1" style="text-align: center; vertical-align: middle;">
+                                        <div style="transform: rotate(-90deg); display: inline-block;">Equipment</div>
+                                    </td>
+                                    <td colspan="1">4</td>
+                                    <td colspan="1">Grinder</td>
+                                    <td colspan="1">Weekly</td>
+                                    <td colspan="1">Dry method</td>
+                                    <td colspan="1">Line Operator</td>
+                                    <td colspan="1">${record.Grinder_week_1}</td>
+                                    <td colspan="1">${record.Grinder_week_2}</td>
+                                    <td colspan="1">${record.Grinder_week_3}</td>
+                                    <td colspan="1">${record.Grinder_week_4}</td>
+                                    <td colspan="1">${record.Grinder_week_5}</td>
+                                    <td colspan="1">${record.Grinder_signature}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="1">5</td>
+                                    <td colspan="1">Winnower</td>
+                                    <td colspan="1">Weekly</td>
+                                    <td colspan="1">Dry method</td>
+                                    <td colspan="1">Line Operator</td>
+                                    <td colspan="1">${record.Winnower_week_1}</td>
+                                    <td colspan="1">${record.Winnower_week_2}</td>
+                                    <td colspan="1">${record.Winnower_week_3}</td>
+                                    <td colspan="1">${record.Winnower_week_4}</td>
+                                    <td colspan="1">${record.Winnower_week_5}</td>
+                                    <td colspan="1">${record.Winnower_signature}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="1">6</td>
+                                    <td colspan="1">Sinks</td>
+                                    <td colspan="1">Weekly</td>
+                                    <td colspan="1">Dry method</td>
+                                    <td colspan="1">Line Operator</td>
+                                    <td colspan="1">${record.Sinks_week_1}</td>
+                                    <td colspan="1">${record.Sinks_week_2}</td>
+                                    <td colspan="1">${record.Sinks_week_3}</td>
+                                    <td colspan="1">${record.Sinks_week_4}</td>
+                                    <td colspan="1">${record.Sinks_week_5}</td>
+                                    <td colspan="1">${record.Sinks_signature}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="1">7</td>
+                                    <td colspan="1">Scales</td>
+                                    <td colspan="1">Weekly</td>
+                                    <td colspan="1">Dry method</td>
+                                    <td colspan="1">Line Operator</td>
+                                    <td colspan="1">${record.Scales_week_1}</td>
+                                    <td colspan="1">${record.Scales_week_2}</td>
+                                    <td colspan="1">${record.Scales_week_3}</td>
+                                    <td colspan="1">${record.Scales_week_4}</td>
+                                    <td colspan="1">${record.Scales_week_5}</td>
+                                    <td colspan="1">${record.Scales_signature}</td>
+                                </tr>
+            
+            
+            
+            
+                                <tr>
+                                    <td colspan="1">8</td>
+                                    <td colspan="1">Hoist</td>
+                                    <td colspan="1">Weekly</td>
+                                    <td colspan="1">Dry method</td>
+                                    <td colspan="1">Line Operator</td>
+                                    <td colspan="1">${record.Hoist_week_1}</td>
+                                    <td colspan="1">${record.Hoist_week_2}</td>
+                                    <td colspan="1">${record.Hoist_week_3}</td>
+                                    <td colspan="1">${record.Hoist_week_4}</td>
+                                    <td colspan="1">${record.Hoist_week_5}</td>
+                                    <td colspan="1">${record.Hoist_signature}</td>
+                                </tr>
+            
+                                <tr>
+                                    <td colspan="1">9</td>
+                                    <td colspan="1">Drying Racks</td>
+                                    <td colspan="1">Weekly</td>
+                                    <td colspan="1">Dry method</td>
+                                    <td colspan="1">Line Operator</td>
+                                    <td colspan="1">${record.Drying_Racks_week_1}</td>
+                                    <td colspan="1">${record.Drying_Racks_week_2}</td>
+                                    <td colspan="1">${record.Drying_Racks_week_3}</td>
+                                    <td colspan="1">${record.Drying_Racks_week_4}</td>
+                                    <td colspan="1">${record.Drying_Racks_week_5}</td>
+                                    <td colspan="1">${record.Drying_Racks_signature}</td>
+                                </tr>
+            
+            
+            
+                                <tr>
+                                    <td colspan="1">10</td>
+                                    <td colspan="1">Shining Cloths</td>
+                                    <td colspan="1">Weekly</td>
+                                    <td colspan="1">Dry method</td>
+                                    <td colspan="1">Line Operator</td>
+                                    <td colspan="1">${record.Shining_Cloths_week_1}</td>
+                                    <td colspan="1">${record.Shining_Cloths_week_2}</td>
+                                    <td colspan="1">${record.Shining_Cloths_week_3}</td>
+                                    <td colspan="1">${record.Shining_Cloths_week_4}</td>
+                                    <td colspan="1">${record.Shining_Cloths_week_5}</td>
+                                    <td colspan="1">${record.Shining_Cloths_signature}</td>
+                                </tr>
+            
+                                <tr>
+            
+            
+                                    <td rowspan="6" colspan="1" style="text-align: center; vertical-align: middle;">
+                                        <div style="transform: rotate(-90deg); display: inline-block;">Internal Premises</div>
+                                    </td>
+                                    <td colspan="1">11</td>
+                                    <td colspan="1">Stencil Room</td>
+                                    <td colspan="1">Weekly</td>
+                                    <td colspan="1">Dry method</td>
+                                    <td colspan="1">Sanitation Officer</td>
+                                    <td colspan="1">${record.Stencil_Room_week_1}</td>
+                                    <td colspan="1">${record.Stencil_Room_week_2}</td>
+                                    <td colspan="1">${record.Stencil_Room_week_3}</td>
+                                    <td colspan="1">${record.Stencil_Room_week_4}</td>
+                                    <td colspan="1">${record.Stencil_Room_week_5}</td>
+                                    <td colspan="1">${record.Stencil_Room_signature}</td>
+                                </tr>
+            
+            
+            
+            
+            
+            
+                                <tr>
+                                    <td colspan="1">12</td>
+                                    <td colspan="1">Packaging Store Room</td>
+                                    <td colspan="1">Weekly</td>
+                                    <td colspan="1">Dry method</td>
+                                    <td colspan="1">Line Operator</td>
+                                    <td colspan="1">${record.Packaging_Store_Room_week_1}</td>
+                                    <td colspan="1">${record.Packaging_Store_Room_week_2}</td>
+                                    <td colspan="1">${record.Packaging_Store_Room_week_3}</td>
+                                    <td colspan="1">${record.Packaging_Store_Room_week_4}</td>
+                                    <td colspan="1">${record.Packaging_Store_Room_week_5}</td>
+                                    <td colspan="1">${record.Packaging_Store_Room_signature}</td>
+                                </tr>
+            
+            
+            
+            
+                                <tr>
+                                    <td colspan="1">13</td>
+                                    <td colspan="1">Fumigation Room</td>
+                                    <td colspan="1">Weekly</td>
+                                    <td colspan="1">Dry method</td>
+                                    <td colspan="1">Line Operator</td>
+                                    <td colspan="1">${record.Fumigation_Room_week_1}</td>
+                                    <td colspan="1">${record.Fumigation_Room_week_2}</td>
+                                    <td colspan="1">${record.Fumigation_Room_week_3}</td>
+                                    <td colspan="1">${record.Fumigation_Room_week_4}</td>
+                                    <td colspan="1">${record.Fumigation_Room_week_5}</td>
+                                    <td colspan="1">${record.Fumigation_Room_signature}</td>
+                                </tr>
+            
+            
+            
+            
+            
+            
+            
+                                <tr>
+                                    <td colspan="1">14</td>
+                                    <td colspan="1">Immersion Room </td>
+                                    <td colspan="1">Weekly</td>
+                                    <td colspan="1">Scrub</td>
+                                    <td colspan="1">Line Operator</td>
+                                    <td colspan="1">${record.Immersion_Room_week_1}</td>
+                                    <td colspan="1">${record.Immersion_Room_week_2}</td>
+                                    <td colspan="1">${record.Immersion_Room_week_3}</td>
+                                    <td colspan="1">${record.Immersion_Room_week_4}</td>
+                                    <td colspan="1">${record.Immersion_Room_week_5}</td>
+                                    <td colspan="1">${record.Immersion_Room_signature}</td>
+                                </tr>
+            
+            
+                                <tr>
+                                    <td colspan="1">15</td>
+                                    <td colspan="1">Chambers</td>
+                                    <td colspan="1">Weekly</td>
+                                    <td colspan="1">Scrub</td>
+                                    <td colspan="1">Line Operator</td>
+                                    <td colspan="1">${record.Chambers_week_1}</td>
+                                    <td colspan="1">${record.Chambers_week_2}</td>
+                                    <td colspan="1">${record.Chambers_week_3}</td>
+                                    <td colspan="1">${record.Chambers_week_4}</td>
+                                    <td colspan="1">${record.Chambers_week_5}</td>
+                                    <td colspan="1">${record.Chambers_signature}</td>
+                                </tr>
+            
+            
+            
+                                <tr>
+                                    <td colspan="1">16</td>
+                                    <td colspan="1">Tourist Shop(GPS)</td>
+                                    <td colspan="1">Weekly</td>
+                                    <td colspan="1">Scrub</td>
+                                    <td colspan="1">Sanitation</td>
+                                    <td colspan="1">${record.Tourist_Shop_week_1}</td>
+                                    <td colspan="1">${record.Tourist_Shop_week_2}</td>
+                                    <td colspan="1">${record.Tourist_Shop_week_3}</td>
+                                    <td colspan="1">${record.Tourist_Shop_week_4}</td>
+                                    <td colspan="1">${record.Tourist_Shop_week_5}</td>
+                                    <td colspan="1">${record.Tourist_Shop_signature}</td>
+                                </tr>
+            
+                              
+                            </tbody>
+            
+                            <thead>
+                
+                                <tr>
+                                    <th colspan="3" class="main-header" style="text-align:center;">Verified By:</th>
+                                    <th colspan="3" class="main-header" style="text-align:center;">${record.Verified_by}</th>
+                                    <th colspan="3" class="main-header" style="text-align:center;">Date</th>
+                                    <th colspan="3" class="main-header" style="text-align:center;">${record.Date}</th>
+                                </tr>
+                
+                            <thead/>
+
+                            <tbody>
+                             <tr>
+
+                                <th colspan="12" class="main-header" style="text-align:center;">
+                                    <button class="btn btn-danger" onclick="deleteEntry(${record.id})">Delete</button>
+                                <button class="btn btn-primary" onclick="toggleEditForm(${record.id})">Edit</button>
+                                
+                             </tr>
+                            </th>
+                       
+
+                                                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            
+            </form>
+                         <!-- Your existing HTML code here -->
+
+                         <div id="editForm_${record.id}" style="display:none;">
+                             <!-- Edit form will be generated here -->
+                         </div>
+                     </div>
+                 </div>
+                 <br> <br> <br>
+             `;
+            landInfoDataDiv.appendChild(entryContainer);
+
+            let editFormContainer = document.getElementById(`editForm_${record.id}`);
+            generateEditForm(editFormContainer, record);
+        });
+    };
+};
+
+    function generateEditForm(container, record) {
+        let fieldConfig = {
+            'DATE_OF_SAMPLING': 'date',
+            'DECISION': 'select',
+            'Quantity_of_Bags': 'number',
+            // Add more fields with their respective form types
+        };
+    
+        let formFieldsHTML = '';
+        for (let property in record) {
+            if (record.hasOwnProperty(property) && property !== 'id') {
+                let inputType = 'text'; // Default to text input type
+                if (fieldConfig[property]) {
+                    inputType = fieldConfig[property];
+                }
+    
+                // Check if the field value is null or an empty string and should be blacklisted
+                if (fieldBlacklistConfig[property] && (record[property] === null || record[property] === '')) {
+                    fieldBlacklist.push(property);
+                }
+    
+                // Include the field in the form if it's not in the blacklist
+                if (!fieldBlacklist.includes(property)) {
+                    // Convert property name to human-readable format
+                    let label = property.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+    
+                    formFieldsHTML += `
+                        <label for="${property}_${record.id}">${label}:</label>
+                        <input type="${inputType}" id="${property}_${record.id}" name="${property}" value="${record[property]}" class="form-control"> <br>
+                    `;
+                }
+            }
+        }
+    
+        container.innerHTML = `
+            <form id="editForm">
+                ${formFieldsHTML}
+                <button type="button" id="saveButton" onclick="saveEditedForm(${record.id})">Save</button>
+                <button type="button" id="closeButton" onclick="hideEditForm(${record.id})">Close</button>
+            </form>
+        `;
+    }
+
+    function toggleEditForm(id) {
+        let editFormContainer = document.getElementById(`editForm_${id}`);
+        if (editFormContainer.style.display === 'none') {
+            showEditForm(id);
+        } else {
+            hideEditForm(id);
+        }
+    }
+
+    function showEditForm(id) {
+        let editFormContainer = document.getElementById(`editForm_${id}`);
+        editFormContainer.style.display = "block";
+    }
+
+    function hideEditForm(id) {
+        let editFormContainer = document.getElementById(`editForm_${id}`);
+        editFormContainer.style.display = "none";
+    }
+
+    function saveEditedForm(id) {
+        let openRequest = indexedDB.open("GCNA");
+
+        openRequest.onsuccess = function (event) {
+            let db = event.target.result;
+            let transaction = db.transaction("Sanitation-A", "readwrite");
+            let landInfoStore = transaction.objectStore("Sanitation-A");
+            let getRequest = landInfoStore.get(id);
+
+            getRequest.onsuccess = function (event) {
+                let record = event.target.result;
+
+                for (let property in record) {
+                    if (record.hasOwnProperty(property) && property !== 'id') {
+                        const inputElement = document.getElementById(`${property}_${id}`);
+                        if (inputElement) {
+                            record[property] = inputElement.value;
+                        }
+                    }
+                }
+
+                let putRequest = landInfoStore.put(record);
+
+                putRequest.onsuccess = function () {
+                    console.log('Record updated successfully');
+                    hideEditForm(id, document.getElementById(`hiddenButton_${id}`));
+                };
+
+                putRequest.onerror = function (event) {
+                    console.error('Error updating record:', event.target.error);
+                };
+            };
+
+            getRequest.onerror = function (event) {
+                console.error('Error getting record:', event.target.error);
+            };
+        };
+
+        openRequest.onerror = function (event) {
+            console.error('Error opening database:', event.target.error);
+        };
+    }
+
+
+
+    function deleteEntry(id) {
+        let openRequest = indexedDB.open("GCNA");
+    
+        openRequest.onsuccess = function (event) {
+            let db = event.target.result;
+            let transaction = db.transaction("Sanitation-A", "readwrite");
+            let landInfoStore = transaction.objectStore("Sanitation-A");
+    
+            // Get the record to be deleted
+            let getRequest = landInfoStore.get(id);
+    
+            getRequest.onsuccess = function (event) {
+                let record = event.target.result;
+    
+                // Now, let's open the DELETED database and add the record there
+                let openDeletedRequest = indexedDB.open("DELETED");
+    
+                openDeletedRequest.onsuccess = function (event) {
+                    let deletedDB = event.target.result;
+                    let deletedTransaction = deletedDB.transaction("Sanitation-A", "readwrite");
+                    let deletedStore = deletedTransaction.objectStore("Sanitation-A");
+    
+                    // Add the record to the DELETED database
+                    let addRequest = deletedStore.add(record);
+    
+                    addRequest.onsuccess = function () {
+                        console.log(`Record with ID ${id} copied to DELETED database.`);
+                    };
+    
+                    addRequest.onerror = function () {
+                        console.log(`Failed to copy record with ID ${id} to DELETED database.`);
+                    };
+                };
+    
+                openDeletedRequest.onerror = function () {
+                    console.log("Failed to open DELETED database.");
+                };
+            };
+    
+            // Now, proceed with deleting the record from the original database
+            let deleteRequest = landInfoStore.delete(id);
+    
+            deleteRequest.onsuccess = function () {
+                console.log(`Record with ID ${id} deleted from GCNA database.`);
+                // You might want to refresh your display here.
+            };
+    
+            deleteRequest.onerror = function () {
+                console.log(`Failed to delete record with ID ${id} from GCNA database.`);
+            };
+        };
+    
+        openRequest.onerror = function () {
+            console.log("Failed to open GCNA database.");
+        };
+    }
+    
+
+
+
+
+</script>
+
+
+
+
+{% endblock %}

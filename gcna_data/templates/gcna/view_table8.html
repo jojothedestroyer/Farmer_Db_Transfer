@@ -1,0 +1,136 @@
+
+{% extends 'gcna/base2.html' %}
+
+
+{% block content%}
+
+
+<div class="card">
+ 
+  <div class="card-body">
+
+  </h5>
+    <p class="card-text">
+        <table id="vertical-1" class="table table-hover table-light">
+       
+
+
+
+         <tr>
+
+            <th>Number of bearing Lime Trees</th>
+            <td>{{ farmer_info_id.No_of_Bearing_Trees_Lime }}</td>
+        </tr>
+        <tr>
+            <th>Number of bearing Lemon Trees</th>
+            <td>{{ farmer_info_id.No_of_Bearing_Trees_Lemon }}</td>
+        </tr>
+        <tr>
+            <th>Number of bearing Mango Trees </th>
+            <td>{{ farmer_info_id.No_of_Bearing_Trees_Mangoes }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Estimated production of Lime Trees</th>
+            <td>{{ farmer_info_id.Estimated_Productiom_Lime }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Estimated production of Lemon Trees</th>
+            <td>{{ farmer_info_id.Estimated_Productiom_Lemon }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Estimated production of Mango Trees</th>
+            <td>{{ farmer_info_id.Estimated_Productiom_Mangoes }}</td>
+        </tr>  
+
+
+        <tr>
+            <th>Number of non-bearing Lime Trees</th>
+            <td>{{ farmer_info_id.No_of_Non_Bearing_Trees_Lime }}</td>
+        </tr>  
+
+
+        <tr>
+            <th>Number of non-bearing Lemon Trees</th>
+            <td>{{ farmer_info_id.No_of_Non_Bearing_Trees_Lemon }}</td>
+        </tr>  
+
+
+        <tr>
+            <th>Number of non-bearing Mango Trees </th>
+            <td>{{ farmer_info_id.No_of_Non_Bearing_Trees_Mangoes }}</td>
+        </tr>  
+
+
+        <tr>
+            <th>Presence of Disease in Lime</th>
+            <td>{{ farmer_info_id.Presence_of_Disease_Lime }}</td>
+        </tr>  
+
+
+
+
+        <tr>
+            <th>Presence of Disease in Lemon</th>
+            <td>{{ farmer_info_id.Presence_of_Disease_Lemon }}</td>
+        </tr>  
+
+
+
+
+        <tr>
+            <th>Presence of Disease in Mangoes</th>
+            <td>{{ farmer_info_id.Presence_of_Disease_Mangoes }}</td>
+        </tr>  
+
+
+        <tr>
+            <th>Cultivation of Lime</th>
+            <td>{{ farmer_info_id.Cultivation_Lime }}</td>
+        </tr>  
+
+
+
+
+        <tr>
+            <th>Cultivation of Lemon</th>
+            <td>{{ farmer_info_id.Cultivation_Lemon }}</td>
+        </tr>  
+
+
+
+
+        <tr>
+            <th>Cultivation of Managoes</th>
+            <td>{{ farmer_info_id.Cultivation_Mangoes }}</td>
+        </tr>  
+
+
+
+
+
+
+
+
+              <tr>
+            <th><a href="{% url 'table' %}" class="btn btn-secondary">Return</a></th>
+        </tr>
+    </table>
+                    </p>
+
+
+
+       
+ </div>        </div>
+
+<br>
+<br>
+<br>
+
+{% endblock %}
+

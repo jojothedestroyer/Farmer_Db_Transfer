@@ -1,0 +1,898 @@
+{% extends 'gcna/base.html' %}
+
+{% block content%}
+
+
+
+
+
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+<script>
+$(document).ready(function() {
+  $('.hidden-label1').hide();
+  $('.hidden-label2').hide();
+  $('.hidden-label3').hide();
+  $('.hidden-label4').hide();
+  $('.hidden-label5').hide();
+
+
+
+
+
+  $('#LoTableG1_0').hide(); 
+  $('#LoTableG2_0').hide(); 
+  $('#LoTableG3_0').hide(); 
+  $('#LoTableG4_0').hide(); 
+
+
+
+
+  $('#LoTableH1_0').hide(); 
+  $('#LoTableH2_0').hide(); 
+  $('#LoTableH3_0').hide(); 
+  $('#LoTableH4_0').hide(); 
+
+  $('#LoTableM1_0').hide(); 
+  $('#LoTableM2_0').hide(); 
+  $('#LoTableM3_0').hide(); 
+  $('#LoTableM4_0').hide(); 
+
+
+  $('#LoTableU1_0').hide(); 
+  $('#LoTableU2_0').hide(); 
+  $('#LoTableU3_0').hide(); 
+  $('#LoTableU4_0').hide(); 
+
+
+  $('#LoTableGP1_0').hide(); 
+  $('#LoTableGP2_0').hide(); 
+  $('#LoTableGP3_0').hide(); 
+  $('#LoTableGP4_0').hide(); 
+
+
+
+
+
+
+
+  $('#LoTableG1').hide(); 
+  $('#LoTableG2').hide(); 
+  $('#LoTableG3').hide(); 
+  $('#LoTableG4').hide(); 
+
+
+
+
+  $('#LoTableH1').hide(); 
+  $('#LoTableH2').hide(); 
+  $('#LoTableH3').hide(); 
+  $('#LoTableH4').hide(); 
+
+  $('#LoTableM1').hide(); 
+  $('#LoTableM2').hide(); 
+  $('#LoTableM3').hide(); 
+  $('#LoTableM4').hide(); 
+
+
+  $('#LoTableU1').hide(); 
+  $('#LoTableU2').hide(); 
+  $('#LoTableU3').hide(); 
+  $('#LoTableU4').hide(); 
+
+
+  $('#LoTableGP1').hide(); 
+  $('#LoTableGP2').hide(); 
+  $('#LoTableGP3').hide(); 
+  $('#LoTableGP4').hide(); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  $('#TableG1').hide(); 
+  $('#TableG2').hide(); 
+  $('#TableG3').hide(); 
+
+
+
+
+  $('#TableH1').hide(); 
+  $('#TableH2').hide(); 
+  $('#TableH3').hide(); 
+
+  $('#TableM1').hide(); 
+  $('#TableM2').hide(); 
+  $('#TableM3').hide(); 
+
+
+  $('#TableU1').hide(); 
+  $('#TableU2').hide(); 
+  $('#TableU3').hide(); 
+
+
+  $('#TableGP1').hide(); 
+  $('#TableGP2').hide(); 
+  $('#TableGP3').hide(); 
+
+
+    
+    
+    
+
+
+  
+  $('#id_STATION').on('change', function() {
+    if ($(this).val() == 'G') {
+        $('#LoTableG1').show();
+        $('#LoTableG2').show(); 
+        $('#LoTableG3').show(); 
+        $('#LoTableG4').show(); 
+
+        $('#LoTableG1_0').show();
+        $('#LoTableG2_0').show(); 
+        $('#LoTableG3_0').show(); 
+        $('#LoTableG4_0').show(); 
+       
+        $('.hidden-label1').show();
+
+
+        $('#TableG1').show(); 
+        $('#TableG2').show(); 
+        $('#TableG3').show(); 
+        $('#id_STATION2').val("Grenville");
+
+
+
+    } else {
+        $('#LoTableG1').hide();
+        $('#LoTableG2').hide(); 
+        $('#LoTableG3').hide(); 
+        $('#LoTableG4').hide()
+
+        $('#LoTableG1_0').hide();
+        $('#LoTableG2_0').hide(); 
+        $('#LoTableG3_0').hide(); 
+        $('#LoTableG4_0').hide(); 
+        $('.hidden-label1').hide();
+
+
+
+        $('#TableG1').hide(); 
+        $('#TableG2').hide(); 
+        $('#TableG3').hide(); 
+
+
+
+    }
+
+
+
+  
+
+
+
+    if ($(this).val() == 'H') {
+        $('#LoTableH1').show();
+        $('#LoTableH2').show(); 
+        $('#LoTableH3').show(); 
+        $('#LoTableH4').show(); 
+
+
+        $('#LoTableH1_0').show();
+        $('#LoTableH2_0').show(); 
+        $('#LoTableH3_0').show(); 
+        $('#LoTableH4_0').show(); 
+
+        $('.hidden-label2').show();
+
+
+
+        $('#TableH1').show();
+        $('#TableH2').show(); 
+        $('#TableH3').show(); 
+        $('#id_STATION2').val("Hermitage");
+
+
+    } else {
+        $('#LoTableH1').hide();
+        $('#LoTableH2').hide(); 
+        $('#LoTableH3').hide(); 
+        $('#LoTableH4').hide();
+
+
+        $('#LoTableH1_0').hide();
+        $('#LoTableH2_0').hide(); 
+        $('#LoTableH3_0').hide(); 
+        $('#LoTableH4_0').hide();
+        $('.hidden-label2').hide();
+
+
+
+
+        $('#TableH1').hide();
+        $('#TableH2').hide(); 
+        $('#TableH3').hide(); 
+    }
+
+
+
+  
+    if ($(this).val() == 'M') {
+        $('#LoTableM1').show();
+        $('#LoTableM2').show(); 
+        $('#LoTableM3').show(); 
+        $('#LoTableM4').show(); 
+
+        $('#LoTableM1_0').show();
+        $('#LoTableM2_0').show(); 
+        $('#LoTableM3_0').show(); 
+        $('#LoTableM4_0').show(); 
+
+        $('.hidden-label3').show();
+
+        $('#id_STATION2').val("Marli");
+
+        $('#TableM1').show();
+        $('#TableM2').show(); 
+        $('#TableM3').show(); 
+
+    } else {
+        $('#LoTableM1').hide();
+        $('#LoTableM2').hide(); 
+        $('#LoTableM3').hide(); 
+        $('#LoTableM4').hide(); 
+
+
+        $('#LoTableM1_0').hide();
+        $('#LoTableM2_0').hide(); 
+        $('#LoTableM3_0').hide(); 
+        $('#LoTableM4_0').hide();
+
+        $('.hidden-label3').hide();
+
+   
+
+        $('#TableM1').hide();
+        $('#TableM2').hide(); 
+        $('#TableM3').hide(); 
+
+
+    }
+
+
+
+    if ($(this).val() == 'U') {
+        $('#LoTableU1').show();
+        $('#LoTableU2').show(); 
+        $('#LoTableU3').show(); 
+        $('#LoTableU4').show(); 
+
+
+        $('#LoTableU1_0').show();
+        $('#LoTableU2_0').show(); 
+        $('#LoTableU3_0').show(); 
+        $('#LoTableU4_0').show(); 
+
+
+        $('.hidden-label4').show();
+
+        $('#id_STATION2').val("Union");
+        $('#TableU1').show();
+        $('#TableU2').show(); 
+        $('#TableU3').show(); 
+
+    } else {
+        $('#LoTableU1').hide();
+        $('#LoTableU2').hide(); 
+        $('#LoTableU3').hide(); 
+        $('#LoTableU4').hide();
+
+
+        $('#LoTableU1_0').hide();
+        $('#LoTableU2_0').hide(); 
+        $('#LoTableU3_0').hide(); 
+        $('#LoTableU4_0').hide();
+
+        $('.hidden-label4').hide();
+
+        $('#TableU1').hide();
+        $('#TableU2').hide(); 
+        $('#TableU3').hide();
+
+    }
+
+
+
+  
+
+
+    if ($(this).val() == 'GP') {
+        $('#LoTableGP1').show();
+        $('#LoTableGP2').show(); 
+        $('#LoTableGP3').show(); 
+        $('#LoTableGP4').show(); 
+
+
+        $('#LoTableGP1_0').show();
+        $('#LoTableGP2_0').show(); 
+        $('#LoTableGP3_0').show(); 
+        $('#LoTableGP4_0').show(); 
+
+
+        $('#id_STATION2').val("Gouyave");
+        $('.hidden-label5').show();
+
+
+
+
+        $('#TableGP1').show();
+        $('#TableGP2').show(); 
+        $('#TableGP3').show(); 
+
+    } else {
+        $('#LoTableGP1').hide();
+        $('#LoTableGP2').hide(); 
+        $('#LoTableGP3').hide(); 
+        $('#LoTableGP4').hide();
+
+
+
+        $('#LoTableGP1_0').hide();
+        $('#LoTableGP2_0').hide(); 
+        $('#LoTableGP3_0').hide(); 
+        $('#LoTableGP4_0').hide();
+
+        $('.hidden-label5').hide();
+ 
+
+
+        $('#TableGP1').hide();
+        $('#TableGP2').hide(); 
+        $('#TableGP3').hide(); 
+
+ 
+    }
+
+
+
+
+  
+
+
+  
+
+});
+
+
+
+  $('#id_START_DRYING_DATE').on('change', function() {
+    var startDate = new Date($(this).val());
+    var approxEndDate = new Date(startDate.getTime() + (15 * 24 * 60 * 60 * 1000)); 
+
+    var day = ("0" + approxEndDate.getDate()).slice(-2); 
+
+    var month = ("0" + (approxEndDate.getMonth() + 1)).slice(-2);
+
+    var year = approxEndDate.getFullYear();
+
+    var formattedDate = year + "-" + month + "-" + day;
+
+    $('#id_APPROX_END_DRYING_DATE').val(formattedDate);
+      });
+
+  $('#id_NUM_OF_BAGS').on('change', function() {
+    var start =  $('#id_NUM_OF_BAGS').val();
+    var calc = start * 110; 
+    $('#id_TOTAL_LBS_NUTMEG_BOUGHT').val(calc);
+      });
+
+
+});
+
+
+
+
+
+
+
+
+
+</script>
+
+
+  <center>
+<br>
+  {% if submitted %}
+    Entry successfully added to database!!!
+  {% else %}
+    <form action="" method="POST" style=" background-color: #e4e4e4;
+
+    margin: 1px auto;
+    font-family: Raleway;
+    padding: 10px;
+    width: 55%;
+    min-width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">
+    <h1>Flotation Form</h1>
+ 
+    {% csrf_token %}
+
+    <!-- {{ form.as_p }} -->
+
+
+        <table id="vertical-1" class="table table-hover table-light">
+        <!-- <caption>First Way</caption> -->
+       {{ form.Nutmeg_ID_No }}
+
+
+       <tr>
+
+            <th>Station</th>
+            <td>{{ form.STATION }}</td>
+        </tr>  
+
+<table class="table">
+
+    <center>
+<label>Dates</label>   
+ </center> 
+  <thead>
+    <tr>
+
+      <th scope="col">Start Drying Date</th>
+      <th scope="col">Approximate End Drying Date</th>
+      <th scope="col">End Drying Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+      <td>{{ form.START_DRYING_DATE }}</td>
+      <td>{{ form.APPROX_END_DRYING_DATE }}</td>
+      <td>{{ form.END_DRYING_DATE }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+        <table id="vertical-1" class="table table-hover table-light">
+
+        <tr>
+
+         <center>
+            <p><b>LOCATION - PLACEMENT ON SHELF</b></p>
+        </center>
+        </tr>
+
+
+
+        <table id="vertical-1" class="table table-hover table-light">
+
+        <tr>
+
+<table class="table" id="LoTableG1">
+
+    <center>
+<label class="hidden-label1"> Ground Floor</label>   
+ </center> 
+  <thead>
+    <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfG_light }}</td>
+      <td>{{ form.TrayG_light }}</td>
+      <td>{{ form.SectionG_light }}</td>
+      <td>{{ form.MoistureG_light }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+ 
+
+
+ 
+
+
+
+
+<table class="table" id="LoTableG2">
+
+    <center>
+<label class="hidden-label1">1st Floor</label>   
+ </center> 
+  <thead>
+     <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfG_heavy }}</td>
+      <td>{{ form.TrayG_heavy }}</td>
+      <td>{{ form.SectionG_heavy }}</td>
+      <td>{{ form.MoistureG_heavy }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+ 
+
+
+
+
+
+
+
+ 
+
+<table class="table" id="LoTableH1">
+
+    <center>
+<label class="hidden-label2"> Ground Floor</label>   
+ </center> 
+  <thead>
+    <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfH_light }}</td>
+      <td>{{ form.TrayH_light }}</td>
+      <td>{{ form.SectionH_light }}</td>
+      <td>{{ form.MoistureH_light }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+ 
+ 
+
+
+<table class="table" id="LoTableH2">
+
+    <center>
+<label class="hidden-label2">1st Floor</label>   
+ </center> 
+  <thead>
+     <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfH_heavy }}</td>
+      <td>{{ form.TrayH_heavy }}</td>
+      <td>{{ form.SectionH_heavy }}</td>
+      <td>{{ form.MoistureH_heavy }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+<table class="table" id="LoTableM1">
+
+    <center>
+<label class="hidden-label3"> Ground Floor</label>   
+ </center> 
+  <thead>
+    <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfM_light }}</td>
+      <td>{{ form.TrayM_light }}</td>
+      <td>{{ form.SectionM_light }}</td>
+      <td>{{ form.MoistureM_light }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+ 
+
+
+
+
+
+
+<table class="table" id="LoTableM2">
+
+    <center>
+<label class="hidden-label3">1st Floor</label>   
+ </center> 
+  <thead>
+     <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfM_heavy }}</td>
+      <td>{{ form.TrayM_heavy }}</td>
+      <td>{{ form.SectionM_heavy }}</td>
+      <td>{{ form.MoistureM_heavy }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+<table class="table" id="LoTableU1">
+
+    <center>
+<label class="hidden-label4"> Ground Floor</label>   
+ </center> 
+  <thead>
+    <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfU_light }}</td>
+      <td>{{ form.TrayU_light }}</td>
+      <td>{{ form.SectionU_light }}</td>
+      <td>{{ form.MoistureU_light }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+ 
+
+
+
+
+
+
+
+<table class="table" id="LoTableU2">
+
+    <center>
+<label class="hidden-label4">1st Floor</label>   
+ </center> 
+  <thead>
+     <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfU_heavy }}</td>
+      <td>{{ form.TrayU_heavy }}</td>
+      <td>{{ form.SectionU_heavy }}</td>
+      <td>{{ form.MoistureU_heavy }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+ 
+
+
+
+
+
+
+ 
+
+
+
+<table class="table" id="LoTableGP1">
+
+    <center>
+<label class="hidden-label5"> Ground Floor</label>   
+ </center> 
+  <thead>
+    <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfGP_light }}</td>
+      <td>{{ form.TrayGP_light }}</td>
+      <td>{{ form.SectionGP_light }}</td>
+      <td>{{ form.MoistureGP_light }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+<table class="table" id="LoTableGP2">
+
+    <center>
+<label class="hidden-label5">1st Floor</label>   
+ </center> 
+  <thead>
+     <tr>
+
+       <th scope="col">Shelf</th>
+      <th scope="col">Tray</th>
+      <th scope="col">Section</th>
+      <th scope="col">Moisture Contents</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+
+       <td>{{ form.ShelfGP_heavy }}</td>
+      <td>{{ form.TrayGP_heavy }}</td>
+      <td>{{ form.SectionGP_heavy }}</td>
+      <td>{{ form.MoistureGP_heavy }}</td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+
+
+ 
+
+
+
+
+        <tr>
+            <th>Batch Number</th>
+            <td>{{ form.BATCH_NUMBER }}</td>
+        </tr>    
+    </table>
+
+
+        <tr>
+            <th><a href="{% url 'adhome' %}" class="btn btn-secondary">Return</a></th>
+        </tr>
+
+
+            <th><a type="submit" href="{% url 'add_Cracking' %}" role="button" class="btn btn-primary">Previous</a></th>
+
+		<input type="submit" name="" value="submit" class="btn btn-success">
+		
+
+            <th><a type="submit" href="{% url 'add_Package' %}" role="button" class="btn btn-primary">Next</a></th> 
+
+		</form>
+
+	{% endif %}
+
+	</center>
+{{ form.media }}
+
+{% endblock %}

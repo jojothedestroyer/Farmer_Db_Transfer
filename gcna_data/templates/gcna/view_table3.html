@@ -1,0 +1,89 @@
+
+{% extends 'gcna/base2.html' %}
+
+
+{% block content%}
+
+
+<div class="card">
+ 
+  <div class="card-body">
+
+  </h5>
+    <p class="card-text">
+        <table id="vertical-1" class="table table-hover table-light">
+        <!-- <caption>First Way</caption> -->
+       
+
+         <tr>
+
+            <th>Owner/Legal Title</th>
+            <td>{{ farmer_info_id.Owner_Legal_Title }}</td>
+        </tr>
+        <tr>
+            <th>Freehold</th>
+            <td>{{ farmer_info_id.Freehold }}</td>
+        </tr>
+        <tr>
+            <th>Family</th>
+            <td>{{ farmer_info_id.Family }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Leasehold</th>
+            <td>{{ farmer_info_id.Leashold }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Comment</th>
+            <td>{{ farmer_info_id.Leashold_comment }}</td>
+        </tr>
+
+
+        <tr>
+            <th>Caretaker</th>
+            <td>{{ farmer_info_id.Caretaker }}</td>
+        </tr>  
+
+
+        <tr>
+            <th>Agent</th>
+            <td>{{ farmer_info_id.Agent }}</td>
+        </tr>  
+
+
+        <tr>
+            <th>Legal Title</th>
+            <td>{{ farmer_info_id.No_Legal_Title }}</td>
+        </tr>  
+
+
+        <tr>
+            <th>Status</th>
+            <td>{{ farmer_info_id.Status }}</td>
+        </tr>  
+
+
+
+
+
+
+              <tr>
+            <th><a href="{% url 'table' %}" class="btn btn-secondary">Return</a></th>
+        </tr>
+    </table>
+                    </p>
+
+
+
+       
+ </div>        </div>
+
+<br>
+<br>
+<br>
+
+{% endblock %}
+

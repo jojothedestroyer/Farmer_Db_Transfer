@@ -1,0 +1,506 @@
+    
+   {% extends 'gcna/base2.html' %}
+
+   {% block content%}
+   
+   
+   
+   
+   
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var myForm = document.getElementById('myForm');
+    
+        myForm.addEventListener('submit', function(event) {
+  
+            event.preventDefault();
+            var data = new FormData(event.target);
+            saveDataToIndexedDB(data);
+        });
+    
+        function saveDataToIndexedDB(data) {
+    // Exclude csrfmiddlewaretoken from being saved to IndexedDB
+    data.delete('csrfmiddlewaretoken');
+    data.delete('initial-entryCheck');
+  
+    var request = indexedDB.open('GCNA', 2);
+  
+    request.onsuccess = function(event) {
+        var db = event.target.result;
+        var transaction = db.transaction('Final_Weight_Inspection', 'readwrite');
+        var objectStore = transaction.objectStore('Final_Weight_Inspection');
+  
+        var obj = {};
+        for (var pair of data.entries()) {
+            obj[pair[0]] = pair[1];
+        }
+  
+        // Get the highest id in the object store
+        var highestIdRequest = objectStore.openCursor(null, 'prev');
+        highestIdRequest.onsuccess = function(event) {
+            var cursor = event.target.result;
+            if (cursor) {
+                obj.id = cursor.key + 1;
+            } else {
+                obj.id = 1; // This is the first item
+            }
+  
+            var request = objectStore.put(obj);
+  
+            request.onsuccess = function() {
+                console.log('Data added to IndexedDB');
+                clickAllButtons();
+
+                transferIndexedDBData(); // Transfer data to Django after saving to IndexedDB
+            };
+  
+            request.onerror = function() {
+                console.error('Error adding data to IndexedDB');
+            };
+        };
+    };
+  
+    request.onerror = function(event) {
+        console.error('Error opening IndexedDB', event);
+    };
+  }
+        function transferIndexedDBData() {
+            var request = indexedDB.open('GCNA', 2);
+        
+            request.onsuccess = function(event) {
+                var db = event.target.result;
+                var transaction = db.transaction('Final_Weight_Inspection', 'readonly');
+                var objectStore = transaction.objectStore('Final_Weight_Inspection');
+                var getRequest = objectStore.getAll();
+        
+                getRequest.onsuccess = function(event) {
+                    var data = event.target.result;
+                    data.forEach(function(item) {
+  
+                    });
+                };
+            };
+        
+            request.onerror = function(event) {
+                console.error('Error opening IndexedDB', event);
+            };
+        }
+    
+  
+  function sendDataToDjango(item, modelName) {
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', '/check-and-add/', true);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.onreadystatechange = function() {
+          if (xhr.readyState === XMLHttpRequest.DONE) {
+              if (xhr.status === 200) {
+                  console.log('Entry added successfully for model:', modelName);
+              } else {
+                  console.error('Error adding entry for model:', modelName, xhr.statusText);
+              }
+          }
+      };
+      xhr.send(JSON.stringify({model: modelName, data: item}));
+  }
+    });
+  </script>
+  
+  
+   
+   <form id="myForm" style="
+    background-color: #e4e4e4;
+    margin: 1px auto;
+    font-family: Raleway;
+    padding: 10px;
+    width: 95%;
+    min-width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);
+    overflow: auto; /* Add overflow property for scrolling */
+    /* max-height: 600px; */
+    /* Set maximum height for the form */
+">
+    
+        <div class="card">
+            <div class="card-body">
+                <center>
+                <h5>Assorting Log</h5>
+            </center>
+                <p class="card-text"></p>
+                <!-- <h6>Document No. GCNA-R-02</h6>
+                <h6>Document Title: Moisture Analysis in Floated Nutmeg</h6>
+                <h6>Date Issued: 2023-07-03</h6>
+                <h6>Version: 1</h6>
+                <h5>Section B</h5> -->
+                {% csrf_token %}
+                <!-- <h4>Corrective Action for Floating Nutmeg Above 10% Moisture Content</h4> -->
+    
+                <table id="vertical-1" class="table table-hover table-light">
+
+                    <thead>
+                        <tr>
+                            <th colspan="2" class="main-header" style="text-align:center;">Date</th>
+                            <th colspan="2" class="main-header" style="text-align:center;">{{form.Date}}</th>
+                        </tr>
+
+
+
+                        <tr>
+                            <th colspan="2" class="main-header" style="text-align:center;">Purchase Order</th>
+                            <th colspan="2" class="main-header" style="text-align:center;">{{form.Purchase_order}}</th>
+                        </tr>
+
+
+                        <tr>
+                            <th colspan="2" class="main-header" style="text-align:center;">Product Descriotion</th>
+                            <th colspan="2" class="main-header" style="text-align:center;">{{form.product_description}}</th>
+                        </tr>
+
+
+                        <tr>
+                            <th colspan="2" class="main-header" style="text-align:center;">Batch Number</th>
+                            <th colspan="2" class="main-header" style="text-align:center;">{{form.Batch_number}} 
+                            </th>
+                        </tr>
+<tr><th style="display: none;" id="linkCheck">{{form.linkCheck}}</th></tr>
+                        <tr>
+                            <th colspan="4" class="main-header" style="text-align:center;"> </th>
+                        </tr>
+
+                        <tr>
+                            <th colspan="1" class="main-header" style="text-align:center;">Total Shipment(no. bags)</th>
+                            <th colspan="2" class="main-header" style="text-align:center;">Number of Bags to be Sampled</th>
+                            <th colspan="1" class="main-header" style="text-align:center;">Interval for sampling</th>
+                        </tr>
+
+
+                    </thead>
+                    <tbody>
+                        <tr>
+
+                            <td colspan="1"  class="main-header" style="text-align:center;">1000</td>
+                            <td colspan="2"  class="main-header" style="text-align:center;">32</td>
+                            <td colspan="1"  class="main-header" style="text-align:center;">Every 31 bags choose 1</td>
+
+                        </tr>
+        
+                        <tr>
+
+                            <td colspan="1"  class="main-header" style="text-align:center;">680</td>
+                            <td colspan="2"  class="main-header" style="text-align:center;">27</td>
+                            <td colspan="1"  class="main-header" style="text-align:center;">Every 26 bags choose one</td>
+
+                        </tr>
+        
+
+                        <tr>
+
+                            <td colspan="1"  class="main-header" style="text-align:center;">500</td>
+                            <td colspan="2"  class="main-header" style="text-align:center;">23</td>
+                            <td colspan="1"  class="main-header" style="text-align:center;">Every 22 bags choose one</td>
+
+                        </tr>
+        
+
+                        <tr>
+
+                            <td colspan="1"  class="main-header" style="text-align:center;">240</td>
+                            <td colspan="2"  class="main-header" style="text-align:center;">16</td>
+                            <td colspan="1"  class="main-header" style="text-align:center;">Every 15 bags choose one</td>
+
+                        </tr>
+        
+
+
+
+
+
+
+                        <tr>
+                            <th colspan="4" class="main-header" style="text-align:center;">Weight Inspection of Bags</th>
+                        </tr>
+
+
+
+                        <tr>
+
+                            <td colspan="1"  class="main-header" style="text-align:center;">Standard Weight:</td>
+                            <td colspan="3"  class="main-header" style="text-align:center;">25kg(55 1/4 lbs)-Nutmegs & Mace</td>
+
+                        </tr>
+        
+                        <tr>
+                            <th colspan="4" class="main-header" style="text-align:center;">Instructions: Randomly Weigh required bags for shipment. Record Bag Number and Weight</th>
+                        </tr>
+
+
+                    <tbody>
+                    <th colspan="12"><input type="submit" name="" value="✔" class="btn btn-success btn-circle btn-xl"></th>
+                    </tbody>
+        
+                </table>
+            </div>
+        </div>
+    
+
+<table>
+    <tbody>
+        <td><button type="button" class="add-row" onclick="addForm('LoTableG1', 'myForm', this.parentNode.parentNode,document.getElementById('id_linkCheck'))">+</button></td>
+
+    </tbody>
+
+</table>
+
+    </form>
+    
+
+
+    <script>
+      
+  var formCount = 0;
+  function addForm(tableId, mainFormId, clickedRow,link) {
+    link1=link.value
+    console.log(link1)
+    formCount++;
+    var form = document.createElement('form');
+    form.id = `form_${formCount}`;
+    form.innerHTML = `
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Sample:</th>
+                    <th scope="col">Bag Number:</th>
+                    <th scope="col">Weight(lbs/kg):</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>${formCount}</td>
+                    <td><input type="text" id="Bag_number" class="form-control" name="Bag_number" required></td>
+                    <td><input type="text" id="weight" class="form-control" name="weight" required></td>
+                    <td><input type="text" id="link" class="form-control" name="link" value= "${link1}" required></td>
+                    <td><button type="button" class="submit_contents" onclick="submitForm('${tableId}', '${mainFormId}', ${formCount})">✔</button></td>
+                    <td><button type="button" onclick="removeForm('form_${formCount}')">Close</button></td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="display: none;">
+            <input type="number" id="entry" name="entry" required>
+            <input type="text" id="floor" name="floor" required>
+            <input type="hidden" id="station" name="station" required>
+        </div>
+    `;
+    var tbody = clickedRow.parentNode;
+    var newRow = tbody.insertRow(clickedRow.rowIndex + 1);
+    var newCell = newRow.insertCell(0);
+    newCell.appendChild(form);
+}
+
+    </script>
+
+
+<script>
+
+
+
+
+
+
+
+
+function submitForm(tableId, mainFormId, formNumber) {
+    var formId = `form_${formNumber}`;
+    var form = document.getElementById(formId);
+    
+    if (form) {
+        var formData = new FormData(form);
+        
+        var entryCheckValue = formData.get('entryCheck');
+
+        // Set entryValue to entryCheckValue
+        var entryValue = entryCheckValue;
+
+
+        var request = indexedDB.open('GCNA', 2);
+
+        request.onsuccess = function(event) {
+            var db = event.target.result;
+            var transaction = db.transaction('In-House-Drying', 'readwrite');
+            var objectStore = transaction.objectStore('In-House-Drying');
+
+            var obj = {};
+            for (var pair of formData.entries()) {
+                obj[pair[0]] = pair[1];
+            }
+
+            // Get the highest id in the object store
+            var highestIdRequest = objectStore.openCursor(null, 'prev');
+            highestIdRequest.onsuccess = function(event) {
+                var cursor = event.target.result;
+                if (cursor) {
+                    obj.id = cursor.key + 1;
+                } else {
+                    obj.id = 1; // This is the first item
+                }
+
+ 
+                // Exclude csrfmiddlewaretoken from being saved to IndexedDB
+                formData.delete('csrfmiddlewaretoken');
+
+                // 1. Set entry to be equal to the ID of the form
+
+                // 2. Set station to match the station determined earlier in the code
+                var stationValue = $('#id_STATION').val(); // Assuming id_STATION is the ID of the station field
+                var entryValue = $('#id_entryCheck').val(); // Assuming id_STATION is the ID of the station field
+                var floorValue = tableId; 
+if (floorValue) {
+    // Keep the entire tableId as the floor value
+    obj.floor = floorValue;
+} else {
+    console.error('Table ID not found');
+}
+
+
+
+                // If the floor value is based on the table ID, extract it from the ID
+                if (floorValue) {
+                    floorValue = floorValue.split('_').pop(); // Extract the floor value from the table ID
+                } else {
+                    console.error('Table ID not found');
+                }
+                var request = indexedDB.open('GCNA', 2);
+
+                request.onsuccess = function(event) {
+                    var db = event.target.result;
+                    var transaction = db.transaction('Final_Weight_Inspection_fields', 'readwrite');
+                    var objectStore = transaction.objectStore('Final_Weight_Inspection_fields');
+
+                    var obj = {};
+                    for (var pair of formData.entries()) {
+                        obj[pair[0]] = pair[1];
+                    }
+
+                    // Include the values of entry, station, and floor in the object
+                    obj.entry = entryValue;
+                    obj.station = stationValue;
+                    obj.floor = floorValue;
+                    
+
+                    // Get the highest id in the object store
+                    var highestIdRequest = objectStore.openCursor(null, 'prev');
+                    highestIdRequest.onsuccess = function(event) {
+                        var cursor = event.target.result;
+                        if (cursor) {
+                            obj.id = cursor.key + 1;
+                            obj.sample_number = obj.id;
+                        } else {
+                            obj.id = 1; // This is the first item
+                            obj.sample_number = obj.id;
+                        }
+
+                        var request = objectStore.put(obj);
+
+                        request.onsuccess = function() {
+                            console.log('Data added to IndexedDB');
+                            transferIndexedDBData(); // Transfer data to Django after saving to IndexedDB
+                        };
+
+                        request.onerror = function() {
+                            console.error('Error adding data to IndexedDB');
+                        };
+                    };
+                };
+
+                request.onerror = function(event) {
+                    console.error('Error opening IndexedDB', event);
+                };
+            };
+        };
+
+        request.onerror = function(event) {
+            console.error('Error opening IndexedDB', event);
+        };
+    } else {
+        console.error(`Form with ID "${formId}" not found`);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function transferIndexedDBData() {
+      var request = indexedDB.open('GCNA', 2);
+
+      request.onsuccess = function(event) {
+          var db = event.target.result;
+          var transaction = db.transaction('Shelves', 'readonly');
+          var objectStore = transaction.objectStore('Shelves');
+          var getRequest = objectStore.getAll();
+
+          getRequest.onsuccess = function(event) {
+              var data = event.target.result;
+              data.forEach(function(item) {
+                  sendDataToDjango(item);
+              });
+          };
+      };
+
+      request.onerror = function(event) {
+          console.error('Error opening IndexedDB', event);
+      };
+  }
+
+  function sendDataToDjango(item) {
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', '/check-and-add/', true);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.onreadystatechange = function() {
+          if (xhr.readyState === XMLHttpRequest.DONE) {
+              if (xhr.status === 200) {
+                  console.log('Entry added successfully.');
+              } else {
+                  console.error('Error adding entry:', xhr.statusText);
+              }
+          }
+      };
+      xhr.send(JSON.stringify(item));
+  }
+
+
+
+
+
+
+
+</script>
+<script>
+    function clickAllButtons() {
+      // Select all elements with the class "submit_contents"
+      console.log('Test worked')
+      var buttons = document.querySelectorAll('.submit_contents');
+  
+      // Iterate over each button and trigger a click event
+      buttons.forEach(function(button) {
+          button.click(); // Simulate a click on each button
+      });
+  }
+  </script>
+</center>
+{{ form.media }}
+
+{% endblock %}

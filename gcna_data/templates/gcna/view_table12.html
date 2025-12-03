@@ -1,0 +1,91 @@
+
+{% extends 'gcna/base2.html' %}
+
+
+{% block content%}
+
+
+<div class="card">
+ 
+  <div class="card-body">
+
+  </h5>
+    <p class="card-text">
+        <table id="vertical-1" class="table table-hover table-light">
+
+         <tr>
+
+            <th>The condition of Weeds</th>
+            <td>{{ farmer_info_id.Weeds }}</td>
+        </tr>
+
+
+        <tr>
+            <th>The condition of Drains</th>
+            <td>{{ farmer_info_id.Drains }}</td>
+        </tr>
+
+
+        <tr>
+            <th>The condition of Fertilization</th>
+            <td>{{ farmer_info_id.Fertilizing }}</td>
+        </tr>
+
+
+        <tr>
+            <th>The condition of Pruning</th>
+            <td>{{ farmer_info_id.Pruning }}</td>
+        </tr>
+
+
+        <tr>
+            <th>The condition of Harvesting</th>
+            <td>{{ farmer_info_id.Harvesting }}</td>
+        </tr>
+
+
+        <tr>
+            <th>The condition of the Land Clearings </th>
+            <td>{{ farmer_info_id.Land_Clearing }}</td>
+        </tr>  
+
+
+        <tr>
+            <th>The condition of planting</th>
+            <td>{{ farmer_info_id.Planting }}</td>
+        </tr>  
+
+
+        <tr>
+            <th>The condition of pests and diseases</th>
+            <td>{{ farmer_info_id.Presence_of_pest_and_diseases_on_nutmegs }}</td>
+        </tr>  
+
+
+        <tr>
+            <th>Further explanation on the state of pest and diseases </th>
+            <td>{{ farmer_info_id.Presence_of_pest_and_diseases_on_nutmegs_cont }}</td>
+        </tr>  
+
+
+
+
+
+
+              <tr>
+            <th><a href="{% url 'table' %}" class="btn btn-secondary">Return</a></th>
+        </tr>
+    </table>
+                    </p>
+
+
+
+       
+ </div>        </div>
+
+<br>
+<br>
+<br>
+
+{% endblock %}
+
