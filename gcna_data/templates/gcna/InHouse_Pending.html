@@ -243,7 +243,22 @@
   <div class="container"></div>
 
   <div id="landInfoData"></div>
+
+
+  
 <script>
+
+function toggleRecord(id) {
+  const details = document.getElementById(`recordDetails-${id}`);
+
+  if (details.style.display === "none") {
+    details.style.display = "block";
+  } else {
+    details.style.display = "none";
+  }
+}
+
+
     let openRequest = indexedDB.open("GCNA");
     let fieldBlacklist = [];
     const fieldBlacklistConfig = {
@@ -269,13 +284,35 @@
         });
 
         landInfoRecords.forEach((record) => {
-          let entryContainer = document.createElement("div");
-          entryContainer.id = `entryContainer_${record.id}`;
-          entryContainer.innerHTML = `
-       <form>
-  <div class="card">
-    <div class="card-body">
-      <p class="card-text">
+        //   let entryContainer = document.createElement("div");
+        //   entryContainer.id = `entryContainer_${record.id}`;
+        //   entryContainer.innerHTML = `
+
+
+
+let entryContainer = document.createElement("div");
+entryContainer.id = `entryContainer_${record.id}`;
+entryContainer.className = "record-container";
+
+let labelText = record.Control_number && record.Control_number !== ""
+  ? record.Control_number
+  : (record.BATCH_CODE || `Record ${record.id}`);
+
+entryContainer.innerHTML = `
+  <button class="btn btn-primary" 
+          onclick="toggleRecord(${record.id})" 
+          style="width:100%; text-align:left; margin-bottom:8px;">
+    ${labelText} ⬇
+  </button>
+
+  <div id="recordDetails-${record.id}" style="display:none;"> 
+      
+      <form>
+      <div class="card">
+        <div class="card-body">
+        <p class="card-text">
+
+  
         <table id="vertical-1" class="table table-hover table-light">
           <tr>
             <th>Station</th>
@@ -466,11 +503,9 @@
         getRequest.onsuccess = function (event) {
           let record = event.target.result;
           if (record) {
-            let startDate = new Date(newDate); // Convert newDate to Date object
-            let newerDate = new Date(startDate); // Clone startDate
-            newerDate.setDate(newerDate.getDate() + 42); // Add 6 weeks (42 days)
-
-            // Store as YYYY-MM-DD format
+            let startDate = new Date(newDate);
+            let newerDate = new Date(startDate); 
+            newerDate.setDate(newerDate.getDate() + 42); 
             record.START_DRYING_DATE = startDate.toISOString().split("T")[0];
             record.APPROX_END_DRYING_DATE = newerDate.toISOString().split("T")[0];
 
@@ -478,7 +513,6 @@
             updateRequest.onsuccess = function () {
               console.log("Start Drying Date and Approx End Drying Date updated successfully!");
 
-              // Update the UI immediately
               let dateInput = document.querySelector(`#date-${id}`);
               if (dateInput) {
                 dateInput.value = record.APPROX_END_DRYING_DATE;
@@ -512,591 +546,6 @@
       };
     };
   </script>
-  <!-- <script>
-    let openRequest = indexedDB.open("GCNA");
-    let fieldBlacklist = [];
-    const fieldBlacklistConfig = {
-      DATE_OF_SAMPLING: true, // Set to true to blacklist if null or empty
-      DECISION: true,
-      Quantity_of_Bags: true,    };
-    openRequest.onsuccess = function (event) {
-      let db = event.target.result;
-      let transaction = db.transaction("In-House-Drying", "readonly");
-      let landInfoStore = transaction.objectStore("In-House-Drying");
-      let getAllRequest = landInfoStore.getAll();
-
-      getAllRequest.onsuccess = function (event) {
-        let landInfoRecords = event.target.result;
-        let landInfoDataDiv = document.getElementById("landInfoData");
-
-        landInfoRecords.forEach((record) => {
-          let entryContainer = document.createElement("div");
-          entryContainer.id = `entryContainer_${record.id}`;
-          entryContainer.innerHTML = `
-       <form>
-  <div class="card">
-    <div class="card-body">
-      <p class="card-text">
-        <table id="vertical-1" class="table table-hover table-light">
-          <tr>
-            <th>Station</th>
-            <td>${record.STATION}</td>
-          </tr>  
-          <tr>
-            <th>Date of Purchase</th>
-            <td>${record.DATE_OF_PURCHASE}</td>
-          </tr>
-          <tr>
-            <th>Place of Purchase</th>
-            <td>${record.PLACE_OF_PURCHASE}</td>
-          </tr>
-          <tr>
-            <th>Number of Farmers</th>
-            <td>${record.TOTAL_NUM_OF_FARMERS}</td>
-          </tr>
-          <tr>
-            <th>Number of Bags</th>
-            <td>${record.NUM_OF_BAGS}</td>
-          </tr>
-          <tr style="display: none;">
-            <td id="entryCheck">${record.entryCheck}</td>
-          </tr>
-          <tr>
-            <th>Total Nutmegs bought (lbs)</th>
-            <td>${record.TOTAL_LBS_NUTMEG_BOUGHT}</td>
-          </tr>
-          <tr>
-            <th>Complete</th>
-            <td>
-              <button onclick="saveEditedCompletion(${record.id}, 'Yes')">Entry Complete?</button>
-            </td>
-          </tr>
-
-          <tr>
-            <td colspan="2">
-              <label>Dates</label>
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th scope="col">Start Drying Date</th>
-                    <th scope="col">Approximate End Drying Date</th>
-                    <th scope="col">End Drying Date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><input type="date" class="form-control" value="${record.START_DRYING_DATE}" onchange="saveEditedDate2(${record.id}, this.value)"></td>
-                    <td><input type="date" class="form-control" id="date-${record.id}" value="${record.APPROX_END_DRYING_DATE}" readonly></td>
-                    <td><input type="date" class="form-control" value="${record.END_DRYING_DATE}" onchange="saveEditedDate(${record.id}, this.value)"></td>
-                  </tr>
-                </tbody>
-              </table>
-            </td>
-          </tr>
-        </table>
-
-        <center>
-          <button id="shelvebtn" data-entry="${record.entryCheck}">Add Shelves</button>
-        </center>
-
-        <br/><br/>
-
-        <div id="newShelves-${record.entryCheck}"></div>
-        <div id="landInfoData1"></div>
-
-<br>  
-<br>  
-<br>  
-<br>  
-<br>  
-<br>  
-
-
-
-
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
-
-
-
-
-
-
-
-
-
-
-
-
- 
- <tr>
-
-         <center>
-            <p>MOISTURE TESTING (Weeks 3, 6, 8)</p>
-        <center>
-                   <center>
-
-          <button id="moisturebtn" data-entry="${record.entryCheck}">Add Moisture Row</button>
-        </center>
-        <tr style="display: none;">
-            <div id="newMoistureShelves-${record.entryCheck}"></div>
-          </tr>
-
-
-
-<div id="landInfoData2"></div>
-
-
-</center>
-        </tr>
-
-
-        <tr>
-
-    
-<br>  
-<br>  
-<br>  
-<br>  
-<br>  
-<br>  
-
-
-
-
-
-
-
-<tr>
-
-         <center>
-
-</center>
-        </tr>
-
-
-
-<table class="table" >
-
-    <center>
-<label class="hidden-label5">MONITORING AND INSPECTION</label>   
- </center> 
-  <thead>
-    <tr>
-      <th scope="col">Station</th>
-      <th scope="col">Location</th>
-      <th scope="col">Defect</th>
-      <th scope="col">Predominant Defect</th>
-     </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>${record.STATION2}</td>
-      <td>${record.LOCATION3}</td>
-      <td>${record.DEFECT}</td>
-      <td>${record.PREDOMINANT_DEFECT}</td>
- 
-    </tr>
-
-  </tbody>
-
-</table>
-
-<table>
-
-
-
-
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<table class="table">
-
-    <center>
- </center> 
-  <thead>
-
-  </thead>
-  <tbody>
-    <tr>
-
-
-       <td>ALERT</td>
-      <td>${record.ALERT}</td>
-
-    </tr>
-
-  </tbody>
-</table>
-
-
-
-
-
-         <table id="vertical-1" class="table table-hover table-light">
-
-
-
-        <tr>
-            <th>Sampling from Gouyvae</th>
-            <td>${record.Sampling_from_gouyvae}</td>
-        </tr>
-
-
-<br>
-
-
-        <tr>
-            <th>Control Number</th>
-            <td>${record.Control_number}</td>
-        </tr>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                
-
-
-            </div>
-               </div>
-               </form>
-
-                              <br> <br> <br>
-
-           `;
-           if (
-            record.COMPLETE == null ||
-            record.COMPLETE == "" ||
-            record.COMPLETE == "null" ||
-            record.COMPLETE == "N" ||
-            record.COMPLETE == "n" ||
-            record.COMPLETE == "No" ||
-            record.COMPLETE == "no"
-          ) {
-            landInfoDataDiv.appendChild(entryContainer);
-          }
-        });
-      };
-    };
-    function saveEditedDate(id, newDate) {
-      let openRequestup = indexedDB.open("GCNA");
-
-      openRequestup.onsuccess = function (event) {
-        let db1 = event.target.result;
-        let transaction = db1.transaction("In-House-Drying", "readwrite");
-        let landInfoStore = transaction.objectStore("In-House-Drying");
-        let getRequest = landInfoStore.get(id);
-
-        getRequest.onsuccess = function (event) {
-          let record = event.target.result;
-          record.END_DRYING_DATE = newDate;
-
-          let updateRequest = landInfoStore.put(record);
-          updateRequest.onsuccess = function () {
-            console.log("End Drying Date updated successfully!");
-          };
-        };
-      };
-    }
-
-
-
-
-
-    function saveEditedDate2(id, newDate) {
-  let openRequestup = indexedDB.open("GCNA");
-
-  openRequestup.onsuccess = function (event) {
-    let db1 = event.target.result;
-    let transaction = db1.transaction("In-House-Drying", "readwrite");
-    let landInfoStore = transaction.objectStore("In-House-Drying");
-    let getRequest = landInfoStore.get(id);
-
-    getRequest.onsuccess = function (event) {
-      let record = event.target.result;
-      if (record) {
-        let startDate = new Date(newDate); // Convert newDate to Date object
-        let newerDate = new Date(startDate); // Clone startDate
-        newerDate.setDate(newerDate.getDate() + 42); // Add 6 weeks (42 days)
-
-        // Store as YYYY-MM-DD format
-        record.START_DRYING_DATE = startDate.toISOString().split("T")[0];
-        record.APPROX_END_DRYING_DATE = newerDate.toISOString().split("T")[0];
-
-        let updateRequest = landInfoStore.put(record);
-        updateRequest.onsuccess = function () {
-          console.log("Start Drying Date and Approx End Drying Date updated successfully!");
-
-          // Update the UI immediately
-          let dateInput = document.querySelector(`#date-${id}`);
-          if (dateInput) {
-            dateInput.value = record.APPROX_END_DRYING_DATE;
-          }
-        };
-      } else {
-        console.log("Record not found for ID:", id);
-      }
-    };
-  };
-}
-
-
-
-    // function saveEditedDate3(id, newDate) {
-    //   let openRequestup = indexedDB.open("GCNA");
-
-    //   openRequestup.onsuccess = function (event) {
-    //     let db1 = event.target.result;
-    //     let transaction = db1.transaction("In-House-Drying", "readwrite");
-    //     let landInfoStore = transaction.objectStore("In-House-Drying");
-    //     let getRequest = landInfoStore.get(id);
-
-    //     getRequest.onsuccess = function (event) {
-    //       let record = event.target.result;
-          // record.APPROX_END_DRYING_DATE = newerDate;
-
-    //       let updateRequest = landInfoStore.put(record);
-    //       updateRequest.onsuccess = function () {
-    //         console.log("Approximate End Drying Date updated successfully!");
-    //       };
-    //     };
-    //   };
-    // }
-
-
-
-
-    function saveEditedCompletion(id, completion) {
-      let openRequestup = indexedDB.open("GCNA");
-
-      openRequestup.onsuccess = function (event) {
-        let db1 = event.target.result;
-        let transaction = db1.transaction("In-House-Drying", "readwrite");
-        let landInfoStore = transaction.objectStore("In-House-Drying");
-        let getRequest = landInfoStore.get(id);
-
-        getRequest.onsuccess = function (event) {
-          let record = event.target.result;
-          record.COMPLETE = completion;
-
-          let updateRequest = landInfoStore.put(record);
-          updateRequest.onsuccess = function () {
-            console.log("End Drying Date updated successfully!");
-          };
-        };
-      };
-    };
-  </script> -->
-<!-- <script>
-    let openRequest2 = indexedDB.open("GCNA");
-
-    openRequest2.onsuccess = function (event) {
-      let db = event.target.result;
-      let transaction = db.transaction("Shelves", "readonly");
-      let landInfoStore = transaction.objectStore("Shelves");
-      let getAllRequest = landInfoStore.getAll();
-
-      getAllRequest.onsuccess = function (event) {
-        let landInfoRecords = event.target.result;
-        let tables = document.querySelectorAll(".table"); // Select all tables
-
-        // Clear existing landInfoData1 divs first to avoid duplicates
-        tables.forEach(table => {
-          let existingDiv = table.querySelector(".landInfoData1");
-          if (existingDiv) {
-            existingDiv.remove();
-          }
-        });
-
-        // Iterate through each table first
-        tables.forEach((table) => {
-          let entryCheckTd = table.querySelector("td#entryCheck");
-          if (!entryCheckTd) return; // Skip if no entryCheck td found
-          
-          let entryValue = entryCheckTd.textContent.trim();
-          
-          // Create container div for this table's records
-          let landInfoDataDiv = document.createElement("div");
-          landInfoDataDiv.className = "landInfoData1";
-          table.appendChild(landInfoDataDiv);
-          
-          // Filter records for this entry value
-          let matchingRecords = landInfoRecords.filter(record => record.entry === entryValue);
-          
-          // Add each matching record to the table
-          matchingRecords.forEach((record) => {
-            let entryContainer = document.createElement("div");
-            entryContainer.className = "entry-container";
-            entryContainer.dataset.formId = table.id;
-            entryContainer.innerHTML = `
-
-
-
-
-
-  <table class="table">
-                               <center>       <h5 class="card-title">${record.floor}</h5>    <br/>                                                              <button class="btn btn-danger" onclick="deleteEntry(${record.id})">Delete</button>
- </center>       
-
-            <thead>
-                                    <tr>
-                                        <th scope="col">Shelf</th>
-                                        <th scope="col">Tray</th>
-                                        <th scope="col">Section</th>
-                                        <th scope="col">Amount</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                      
-                                        <td>${record.Shelf}</td>
-                                        <td>${record.Tray}</td>
-                                        <td>${record.Section}</td>
-                                        <td>${record.amount}</td>
-
-                                    </tr>
-
-<tr style="display: none;"> <td style="opacity: 0;">${record.floor}</td>
-                                        <td style="opacity: 0;">${record.entry}</td>
-                                        <td style="opacity: 0;">${record.station}</td></tr>
-                                </tbody>
-                            </table>
-
-                     `;
-            landInfoDataDiv.appendChild(entryContainer);
-          });
-        });
-      };
-    };
-
-
-        function deleteEntry(id) {
-          event.preventDefault();
-      let openRequest = indexedDB.open("GCNA");
-
-      openRequest.onsuccess = function (event) {
-        let db = event.target.result;
-        let transaction = db.transaction("Shelves", "readwrite");
-        let landInfoStore = transaction.objectStore("Shelves");
-
-        // Get the record to be deleted
-        let getRequest = landInfoStore.get(id);
-
-        getRequest.onsuccess = function (event) {
-          let record = event.target.result;
-
-          // Now, let's open the DELETED database and add the record there
-          let openDeletedRequest = indexedDB.open("DELETED");
-
-          openDeletedRequest.onsuccess = function (event) {
-            let deletedDB = event.target.result;
-            let deletedTransaction = deletedDB.transaction(
-              "Shelves",
-              "readwrite"
-            );
-            let deletedStore = deletedTransaction.objectStore("Shelves");
-
-            // Add the record to the DELETED database
-            let addRequest = deletedStore.add(record);
-
-            addRequest.onsuccess = function () {
-              window.location.reload()
-              console.log(`Record with ID ${id} copied to DELETED database.`);
-            };
-
-            addRequest.onerror = function () {
-              console.log(
-                `Failed to copy record with ID ${id} to DELETED database.`
-              );
-            };
-          };
-
-          openDeletedRequest.onerror = function () {
-            console.log("Failed to open DELETED database.");
-          };
-        };
-
-        // Now, proceed with deleting the record from the original database
-        let deleteRequest = landInfoStore.delete(id);
-
-        deleteRequest.onsuccess = function () {
-          console.log(`Record with ID ${id} deleted from GCNA database.`);
-          // You might want to refresh your display here.
-        };
-
-        deleteRequest.onerror = function () {
-          console.log(
-            `Failed to delete record with ID ${id} from GCNA database.`
-          );
-        };
-      };
-
-      openRequest.onerror = function () {
-        console.log("Failed to open GCNA database.");
-      };
-    }
- 
- 
-</script> -->
-
-
 
 
 
@@ -1113,7 +562,7 @@
 
         getAllRequest.onsuccess = function (event) {
             let landInfoRecords = event.target.result;
-            let tables = document.querySelectorAll(".table"); // Select all tables
+            let tables = document.querySelectorAll(".table"); 
 
             tables.forEach(table => {
                 let existingDiv = table.querySelector(".landInfoData1");
@@ -1175,7 +624,6 @@
 
                 });
 
-                // Add event listener for saving changes after content is added
                 landInfoDataDiv.addEventListener('blur', function (e) {
                     if (e.target && e.target.hasAttribute('contenteditable') && e.target.dataset.recordId && e.target.dataset.field) {
                         const recordIdToUpdate = parseInt(e.target.dataset.recordId, 10);
@@ -1201,14 +649,12 @@
                     }
                 }, true);
 
-                // Attach event listener for delete button, using event delegation
                 landInfoDataDiv.addEventListener('click', function(event) {
                     if (event.target.classList.contains('delete-btn')) {
                         const recordIdToDelete = parseInt(event.target.dataset.recordId, 10);
-                        const recordTable = document.getElementById(`record-table-${recordIdToDelete}`); //remove
-
+                        const recordTable = document.getElementById(`record-table-${recordIdToDelete}`); 
                         if (recordTable) {
-                            deleteEntry(recordIdToDelete, recordTable); // Pass the table row to be removed
+                            deleteEntry(recordIdToDelete, recordTable);
                         } else {
                             deleteEntry(recordIdToDelete);
                         }
@@ -1367,266 +813,6 @@
 
 
 
-
-
-
-
-<!-- <script>
-    let openRequest2 = indexedDB.open("GCNA");
-
-    openRequest2.onsuccess = function (event) {
-        let db = event.target.result;
-        let transaction = db.transaction("Shelves", "readonly");
-        let landInfoStore = transaction.objectStore("Shelves");
-        let getAllRequest = landInfoStore.getAll();
-
-        getAllRequest.onsuccess = function (event) {
-            let landInfoRecords = event.target.result;
-            let tables = document.querySelectorAll(".table"); // Select all tables
-
-            tables.forEach(table => {
-                let existingDiv = table.querySelector(".landInfoData1");
-                if (existingDiv) {
-                    existingDiv.remove();
-                }
-            });
-
-            tables.forEach((table) => {
-                let entryCheckTd = table.querySelector("td#entryCheck");
-                if (!entryCheckTd) return;
-
-                let entryValue = entryCheckTd.textContent.trim();
-                let landInfoDataDiv = document.createElement("div");
-                landInfoDataDiv.className = "landInfoData1";
-                table.appendChild(landInfoDataDiv);
-
-                let matchingRecords = landInfoRecords.filter(record => record.entry === entryValue);
-
-                matchingRecords.forEach((record) => {
-                    let entryContainer = document.createElement("div");
-                    entryContainer.className = "entry-container";
-                    entryContainer.dataset.formId = table.id; // This was existing
-                    entryContainer.dataset.recordId = record.id; // Storing record id for easier access if needed at container level
-
-                    // Make sure record.id is a number if it's used as a key and expected to be numeric elsewhere
-                    // For a key like 'id', it's often an integer.
-                    const recordId = Number(record.id);
-
-                    entryContainer.innerHTML = `
-                        <table class="table">
-                            <center>
-                                <h5 class="card-title" contenteditable="true" data-record-id="${recordId}" data-field="floor">${record.floor}</h5>
-                                <br/>
-                                <button class="btn btn-danger" onclick="deleteEntry(${recordId})">Delete</button>
-                            </center>
-                            <thead>
-                                <tr>
-                                    <th scope="col">Shelf</th>
-                                    <th scope="col">Tray</th>
-                                    <th scope="col">Section</th>
-                                    <th scope="col">Amount</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td contenteditable="true" data-record-id="${recordId}" data-field="Shelf">${record.Shelf}</td>
-                                    <td contenteditable="true" data-record-id="${recordId}" data-field="Tray">${record.Tray}</td>
-                                    <td contenteditable="true" data-record-id="${recordId}" data-field="Section">${record.Section}</td>
-                                    <td contenteditable="true" data-record-id="${recordId}" data-field="amount">${record.amount}</td>
-                                </tr>
-                                <tr style="display: none;">
-                                    <td style="opacity: 0;">${record.floor}</td>
-                                    <td style="opacity: 0;">${record.entry}</td>
-                                    <td style="opacity: 0;">${record.station}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    `;
-                    landInfoDataDiv.appendChild(entryContainer);
-                    
-                });
-
-                // Add event listener for saving changes after content is added
-                landInfoDataDiv.addEventListener('blur', function(e) {
-                    if (e.target && e.target.hasAttribute('contenteditable') && e.target.dataset.recordId && e.target.dataset.field) {
-                        const recordIdToUpdate = parseInt(e.target.dataset.recordId, 10);
-                        const fieldToUpdate = e.target.dataset.field;
-                        let newValue = e.target.textContent.trim();
-
-                        // Optional: Handle specific field types, e.g., 'amount' should be a number
-                        if (fieldToUpdate === "amount") {
-                            const numericValue = parseFloat(newValue);
-                            if (isNaN(numericValue)) {
-                                console.error("Invalid amount: Not a number. Reverting or add validation.");
-                                // To revert, you might need to store original value on focus
-                                // For now, we'll try to get the original value again (simple revert)
-                                const originalRecord = landInfoRecords.find(r => r.id === recordIdToUpdate);
-                                if (originalRecord) {
-                                    e.target.textContent = originalRecord[fieldToUpdate]; // Revert
-                                }
-                                return; // Stop update if conversion failed
-                            }
-                            newValue = numericValue;
-                        } else if (fieldToUpdate === "floor" && e.target.tagName === 'H5') {
-                            // The floor is in an H5 tag in your example
-                            // No specific conversion needed unless it's numeric and you want to enforce that
-                        }
-
-
-                        console.log(`Attempting to save: ID=${recordIdToUpdate}, Field=${fieldToUpdate}, Value=${newValue}`);
-                        saveUpdatedRecordField(recordIdToUpdate, fieldToUpdate, newValue);
-                    }
-                }, true); // Use capture phase for blur on contenteditable
-            });
-        };
-        getAllRequest.onerror = function(event) {
-            console.error("Error fetching all records: ", event.target.error);
-        };
-    };
-    openRequest2.onerror = function (event) {
-        console.error("Failed to open GCNA database for reading: ", event.target.error);
-    };
-
-    function saveUpdatedRecordField(recordId, fieldName, newValue) {
-        let openRequest = indexedDB.open("GCNA");
-
-        openRequest.onsuccess = function (event) {
-            let db = event.target.result;
-            let transaction = db.transaction("Shelves", "readwrite");
-            let store = transaction.objectStore("Shelves");
-            let getRequest = store.get(recordId); // Use the numeric recordId
-
-            getRequest.onsuccess = function (e) {
-                let record = e.target.result;
-                if (record) {
-                    // Check if the field exists on the record to avoid creating new unwanted properties
-                    if (record.hasOwnProperty(fieldName)) {
-                        record[fieldName] = newValue;
-                        let putRequest = store.put(record); // put() will update if key exists, or add if not.
-
-                        putRequest.onsuccess = function () {
-                            console.log(`Record ${recordId} updated successfully. Field: ${fieldName}, New Value: ${newValue}`);
-                            // Optionally, provide user feedback here (e.g., a small "saved" message)
-                        };
-                        putRequest.onerror = function (putEvent) {
-                            console.error(`Error updating record ${recordId}. Field: ${fieldName}`, putEvent.target.error);
-                        };
-                    } else {
-                         console.warn(`Field "${fieldName}" does not exist on record ${recordId}. Update skipped.`);
-                    }
-                } else {
-                    console.error(`Record ${recordId} not found for update.`);
-                }
-            };
-            getRequest.onerror = function (getEvent) {
-                console.error(`Error fetching record ${recordId} for update: `, getEvent.target.error);
-            };
-
-            transaction.oncomplete = function() {
-                console.log(`Transaction completed for updating record ${recordId}.`);
-            };
-            transaction.onerror = function(transEvent) {
-                console.error("Transaction error during update: ", transEvent.target.error);
-            };
-        };
-        openRequest.onerror = function (event) {
-            console.error("Failed to open GCNA database for saving changes: ", event.target.error);
-        };
-    }
-
-    function deleteEntry(id) {
-        // event.preventDefault(); // Not strictly needed here unless button is type="submit" in a form
-
-        const recordIdToDelete = Number(id); // Ensure ID is numeric if key is numeric
-
-        let openRequest = indexedDB.open("GCNA");
-
-        openRequest.onsuccess = function (event) {
-            let db = event.target.result;
-
-            // First, get the record to be copied to DELETED
-            let getTransaction = db.transaction("Shelves", "readonly");
-            let landInfoStoreGet = getTransaction.objectStore("Shelves");
-            let getRequest = landInfoStoreGet.get(recordIdToDelete);
-
-            getRequest.onsuccess = function (e_get) {
-                let recordToCopy = e_get.target.result;
-
-                if (recordToCopy) {
-                    let openDeletedRequest = indexedDB.open("DELETED"); // Make sure this DB and object store exist
-
-                    openDeletedRequest.onupgradeneeded = function(e_upgrade) {
-                        let deletedDBUpgrade = e_upgrade.target.result;
-                        if (!deletedDBUpgrade.objectStoreNames.contains("Shelves")) {
-                             // Assuming 'id' is the keyPath for DELETED Shelves as well.
-                            deletedDBUpgrade.createObjectStore("Shelves", { keyPath: "id" });
-                            console.log("DELETED/Shelves object store created.");
-                        }
-                    };
-
-                    openDeletedRequest.onsuccess = function (e_deleted_db) {
-                        let deletedDB = e_deleted_db.target.result;
-                        if (!deletedDB.objectStoreNames.contains("Shelves")) {
-                            console.error("DELETED database does not have 'Shelves' object store. Record not copied.");
-                             // Proceed with deletion from GCNA anyway or handle error differently?
-                            proceedWithDeletion(db, recordIdToDelete); // db here is GCNA's db
-                            return;
-                        }
-                        let deletedTransaction = deletedDB.transaction("Shelves", "readwrite");
-                        let deletedStore = deletedTransaction.objectStore("Shelves");
-                        let addRequest = deletedStore.add(recordToCopy); // Use recordToCopy
-
-                        addRequest.onsuccess = function () {
-                            console.log(`Record with ID ${recordIdToDelete} copied to DELETED database.`);
-                            // Now proceed with deletion from original DB
-                            proceedWithDeletion(db, recordIdToDelete); // db here is GCNA's db
-                        };
-                        addRequest.onerror = function (add_err) {
-                            console.log(`Failed to copy record with ID ${recordIdToDelete} to DELETED database. Error: ${add_err.target.error}`);
-                            // Decide if you still want to delete from original if copy fails
-                            proceedWithDeletion(db, recordIdToDelete); // db here is GCNA's db
-                        };
-                    };
-                    openDeletedRequest.onerror = function (deleted_err) {
-                        console.log("Failed to open/setup DELETED database. Error: ", deleted_err.target.error);
-                        // Still attempt to delete from GCNA
-                        proceedWithDeletion(db, recordIdToDelete); // db here is GCNA's db
-                    };
-                } else {
-                    console.log(`Record with ID ${recordIdToDelete} not found in GCNA. Cannot copy to DELETED.`);
-                    // It might have already been deleted, or ID is wrong.
-                    // No record to copy, so just try to delete (or refresh UI)
-                     window.location.reload(); // Or attempt deletion anyway if it might exist
-                }
-            };
-            getRequest.onerror = function(get_err) {
-                console.error(`Error fetching record ${recordIdToDelete} for copying: ${get_err.target.error}`);
-                 // Still attempt to delete from GCNA
-                proceedWithDeletion(db, recordIdToDelete); // db here is GCNA's db
-            };
-        };
-        openRequest.onerror = function (open_err) {
-            console.log("Failed to open GCNA database for delete operation. Error: ", open_err.target.error);
-        };
-    }
-
-    function proceedWithDeletion(db, recordIdToDelete) { // db is GCNA's db instance
-        let transaction = db.transaction("Shelves", "readwrite");
-        let landInfoStore = transaction.objectStore("Shelves");
-        let deleteRequest = landInfoStore.delete(recordIdToDelete);
-
-        deleteRequest.onsuccess = function () {
-            console.log(`Record with ID ${recordIdToDelete} deleted from GCNA database.`);
-            // window.location.reload(); // Reload to reflect changes
-        };
-        deleteRequest.onerror = function (del_err) {
-            console.log(`Failed to delete record with ID ${recordIdToDelete} from GCNA database. Error: ${del_err.target.error}`);
-        };
-        transaction.onerror = function(trans_err) {
-            console.error("Transaction error during delete: ", trans_err.target.error);
-        };
-    }
-</script> -->
 
 <script>
 document.addEventListener('click', function(event) {
@@ -1807,7 +993,6 @@ async function submitMForm(tableId, mainFormId, formNumber, entryCheck) {
       }
 
 
-// Helper functions
 async function openIndexedDB(name, version) {
     return new Promise((resolve, reject) => {
         const request = indexedDB.open(name, version);
@@ -1841,7 +1026,6 @@ function removeFormM(formId) {
     }
 }
 
-// Example option lists
 const SHELF00 = [
     ['', '--Select Shelf--'],
     ['A', 'A'], ['B', 'B'], ['C', 'C'], ['D', 'D'],
@@ -1898,7 +1082,7 @@ function updateSectionValue_M(entryCheck,formCountcheck) {
 <script>
 document.addEventListener('click', function(event) {
     if (event.target.id === 'shelvebtn') {
-      event.preventDefault(); // Prevent default action if needed
+      event.preventDefault();
         const entryCheck = event.target.getAttribute('data-entry');
         const container = document.getElementById(`newShelves-${entryCheck}`);
         
@@ -1912,7 +1096,7 @@ document.addEventListener('click', function(event) {
 function addForm(tableId, mainFormId, container, entryCheck) {
     formCount++;
     const form = document.createElement('form');
-    form.id = `form_${formCount}_${entryCheck}`; // Unique ID per entry
+    form.id = `form_${formCount}_${entryCheck}`; 
     form.innerHTML = `
         <table class="table">
             <thead>
