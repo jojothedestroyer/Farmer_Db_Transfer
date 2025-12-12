@@ -1094,6 +1094,7 @@ document.addEventListener('click', function(event) {
     }
 });
 function addForm(tableId, mainFormId, container, entryCheck) {
+    event.preventDefault();
     formCount++;
     const form = document.createElement('form');
     form.id = `form_${formCount}_${entryCheck}`; 
