@@ -233,6 +233,18 @@
   <div id="floatingInfoData"></div>
 
   <script>
+
+
+function toggleRecord(id) {
+  const details = document.getElementById(`recordDetails-${id}`);
+
+  if (details.style.display === "none") {
+    details.style.display = "block";
+  } else {
+    details.style.display = "none";
+  }
+}
+
     let openRequest = indexedDB.open("GCNA");
     openRequest.onsuccess = function (event) {
       let db = event.target.result;

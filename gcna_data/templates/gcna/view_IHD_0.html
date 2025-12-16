@@ -244,6 +244,19 @@
 
   <div id="landInfoData"></div>
 <script>
+
+function toggleRecord(id) {
+  const details = document.getElementById(`recordDetails-${id}`);
+
+  if (details.style.display === "none") {
+    details.style.display = "block";
+  } else {
+    details.style.display = "none";
+  }
+}
+
+
+
     let openRequest = indexedDB.open("GCNA");
     let fieldBlacklist = [];
     const fieldBlacklistConfig = {
@@ -269,13 +282,32 @@
         });
 
         landInfoRecords.forEach((record) => {
-          let entryContainer = document.createElement("div");
-          entryContainer.id = `entryContainer_${record.id}`;
-          entryContainer.innerHTML = `
-       <form>
-  <div class="card">
-    <div class="card-body">
-      <p class="card-text">
+        //   let entryContainer = document.createElement("div");
+        //   entryContainer.id = `entryContainer_${record.id}`;
+        //   entryContainer.innerHTML = `
+
+
+let entryContainer = document.createElement("div");
+entryContainer.id = `entryContainer_${record.id}`;
+entryContainer.className = "record-container";
+let labelText = record.Control_number && record.Control_number !== ""
+  ? record.Control_number
+  : (record.BATCH_CODE || `Record ${record.id}`);
+
+entryContainer.innerHTML = `
+  <button class="btn btn-primary" 
+          onclick="toggleRecord(${record.id})" 
+          style="width:100%; text-align:left; margin-bottom:8px;">
+    ${labelText} 
+  </button>
+
+  <div id="recordDetails-${record.id}" style="display:none;"> 
+      <form>
+      <div class="card">
+        <div class="card-body">
+        <p class="card-text">
+
+
         <table id="vertical-1" class="table table-hover table-light">
           <tr>
             <th>Station</th>

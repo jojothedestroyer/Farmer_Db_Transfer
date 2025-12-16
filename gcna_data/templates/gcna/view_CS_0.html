@@ -219,6 +219,17 @@
   <div id="crackingInfoData"></div>
 
   <script>
+
+function toggleRecord(id) {
+  const details = document.getElementById(`recordDetails-${id}`);
+
+  if (details.style.display === "none") {
+    details.style.display = "block";
+  } else {
+    details.style.display = "none";
+  }
+}
+
     let openRequest = indexedDB.open("GCNA");
     openRequest.onsuccess = function (event) {
       let db = event.target.result;
@@ -233,15 +244,33 @@
         crackingInfoRecords.forEach((record) => {
           // Skip records that are already marked as complete
           if (
-            record.COMPLETE == "Yeasdimpmaspdpasmdsads" 
+            !record.COMPLETE
           ) {
             return;
           }
 
-          let entryContainer = document.createElement("div");
-          entryContainer.id = `entryContainer_${record.id}`;
-          entryContainer.innerHTML = `
-              <form>
+          // let entryContainer = document.createElement("div");
+          // entryContainer.id = `entryContainer_${record.id}`;
+          // entryContainer.innerHTML = `
+
+
+
+let entryContainer = document.createElement("div");
+entryContainer.id = `entryContainer_${record.id}`;
+entryContainer.className = "record-container";
+let labelText = record.BatchCodes !== ""
+  ? record.BatchCodes
+  : (record.BatchCodes || `Record ${record.id}`);
+
+entryContainer.innerHTML = `
+  <button class="btn btn-primary" 
+          onclick="toggleRecord(${record.id})" 
+          style="width:100%; text-align:left; margin-bottom:8px;">
+    ${labelText} 
+  </button>
+
+  <div id="recordDetails-${record.id}" style="display:none;"> 
+      <form>
               <div class="card">
                 <div class="card-body">
                   <p class="card-text">
@@ -300,6 +329,8 @@
                 </div>
               </div>
               </form>
+                            </div>
+
               <br> <br> <br>
           `;
 
