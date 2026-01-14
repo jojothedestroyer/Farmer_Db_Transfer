@@ -472,20 +472,20 @@ class Mace_Purchase_Form(ModelForm):
     'DATE_OF_PURCHASE': forms.DateInput(attrs={'type':'date','class':'form-control'}),
     'PLACE_OF_PURCHASE': forms.Select(attrs={'class':'form-control'}),    
     'TOTAL_NUM_OF_FARMERS': forms.NumberInput(attrs={'class':'form-control'}),
-    'TOTAL_LBS_NUTMEG_BOUGHT': forms.DecimalField(attrs={'class':'form-control','step': 'any'}),
+    'TOTAL_LBS_NUTMEG_BOUGHT': forms.TextInput(attrs={'class':'form-control'}),
     
     'NUM_OF_BAGS': forms.NumberInput(attrs={'class':'form-control'}),
 
-    'MACE_1': forms.DecimalField(attrs={'class':'form-control','step': 'any'}),
+    'MACE_1': forms.TextInput(attrs={'class':'form-control'}),
     'BATCH_CODE_M1': forms.TextInput(attrs={'class':'form-control'}),
 
 
-    'MACE_2': forms.DecimalField(attrs={'class':'form-control','step': 'any'}),
+    'MACE_2': forms.TextInput(attrs={'class':'form-control'}),
     'BATCH_CODE_M2': forms.TextInput(attrs={'class':'form-control'}),
 
 
 
-    'MACE_3': forms.DecimalField(attrs={'class':'form-control','step': 'any'}),
+    'MACE_3': forms.TextInput(attrs={'class':'form-control'}),
     'BATCH_CODE_M3': forms.TextInput(attrs={'class':'form-control'}),
 
 
