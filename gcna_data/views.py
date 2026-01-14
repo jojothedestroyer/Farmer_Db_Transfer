@@ -14225,6 +14225,11 @@ def Dispatch_Green_0_add_data(request):
 def pending_cracking(request):
     return render(request, 'gcna/pending-cracking.html')
 
+
+
+def pending_mace_purchase(request):
+    return render(request, 'gcna/view_Mace_Purchase_Pending.html')
+
 def pending_floating(request):
     return render(request, 'gcna/pending-floating.html')
 

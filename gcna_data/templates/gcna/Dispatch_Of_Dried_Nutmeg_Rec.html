@@ -411,7 +411,7 @@
                 <!-- Form Buttons -->
                 <div class="d-flex justify-content-between mt-4">
                     <button type="submit" class="btn btn-success">Submit</button>
-                    <a href="#" class="btn btn-secondary">Return</a>
+                    <a href="/table/" class="btn btn-secondary">Return</a>
                 </div>
             </form>
         </div>
@@ -651,13 +651,13 @@
                                         <button type="button" class="add-row" onclick="setMaceValues('${record.BATCH_CODE_M1}', '${record.BATCH_CODE_M2}', '${record.BATCH_CODE_M3}', '${record.STATION}', '${record.Vehicle_number}', '${record.Delivery_advice_num}', '${record.MACE_1}', '${record.MACE_2}', '${record.MACE_3}')">Set</button>
                                         <div class="dropdown-menu">
                                             <table class="table table-sm">
-                                                <tr><th>Station</th><td>${record.STATION || 'N/A'}</td></tr>
-                                                <tr><th>Date of Purchase</th><td>${record.DATE_OF_PURCHASE || 'N/A'}</td></tr>
+                                                <tr><th>Station</th><td>${record.STATION_MACE || 'N/A'}</td></tr>
+                                                <tr><th>Date of Purchase</th><td>${record.DATE_OF_PURCHASE_MACE || 'N/A'}</td></tr>
                                                 <tr><th>Mace 1 Batch Code</th><td>${record.BATCH_CODE_M1 || 'N/A'}</td></tr>
                                                 <tr><th>Mace 2 Batch Code</th><td>${record.BATCH_CODE_M2 || 'N/A'}</td></tr>
                                                 <tr><th>Mace 3 Batch Code</th><td>${record.BATCH_CODE_M3 || 'N/A'}</td></tr>
                                                 <tr><th>Vehicle Number</th><td>${record.Vehicle_number || 'N/A'}</td></tr>
-                                                <tr><th>Delivery Advice</th><td>${record.Delivery_advice_num || 'N/A'}</td></tr>
+                                                <tr><th>Delivery Advice</th><td>${record.Delivery_advice_num_MACE || 'N/A'}</td></tr>
                                             </table>
                                         </div>
                                     </div>`;
@@ -720,13 +720,13 @@
                                         </button>
                                         <div class="dropdown-menu">
                                             <table class="table table-sm">
-                                                <tr><th>Station From</th><td><input type="checkbox" value="${record.STATION}" onchange="setDriedStation(this)"> ${record.STATION}</td></tr>
-                                                <tr><th>Station To</th><td>${record.STATION_recieved || 'N/A'}</td></tr>
+                                                <tr><th>Station From</th><td><input type="checkbox" value="${record.STATION_DRIED}" onchange="setDriedStation(this)"> ${record.STATION_DRIED}</td></tr>
+                                                <tr><th>Station To</th><td><input type="checkbox" value="${record.STATION_recieved_DRIED}" onchange="setDriedStationTo(this)">${record.STATION_recieved_DRIED }</td></tr>
                                                 <tr><th>Vehicle Number</th><td><input type="checkbox" value="${record.Vehicle_number}" onchange="setDriedVehicle(this)"> ${record.Vehicle_number}</td></tr>
                                                 <tr><th>Batch Codes</th><td>${batchCheckboxes}</td></tr>
                                                 <tr><th>Delivery Advice</th><td><input type="checkbox" value="${record.CORRESPONDING_DELIVERY_ADVICE}" onchange="setDriedDeliveryAdvice(this)"> ${record.CORRESPONDING_DELIVERY_ADVICE}</td></tr>
                                                 <tr><th>Product</th><td><input type="checkbox" value="${record.Product}" onchange="setDriedProduct(this)"> ${record.Product}</td></tr>
-                                                <tr><th>Number of Bags</th><td><input type="checkbox" value="${record.Num_Bags}" onchange="setDriedNumBags(this)"> ${record.Num_Bags}</td></tr>
+                                                <tr><th>Number of Bags</th><td><input type="checkbox" value="${record.Num_Bags_DRIED}" onchange="setDriedNumBags(this)"> ${record.Num_Bags_DRIED}</td></tr>
                                                 <tr><th>Weight</th><td><input type="checkbox" value="${record.Weight}" onchange="setDriedWeight(this)"> ${record.Weight}</td></tr>
                                             </table>
                                         </div>
@@ -790,13 +790,13 @@
                                         </button>
                                         <div class="dropdown-menu">
                                             <table class="table table-sm">
-                                                <tr><th>Station</th><td><input type="checkbox" value="${record.STATION}" onchange="setGreenStation(this)"> ${record.STATION}</td></tr>
-                                                <tr><th>Vehicle Number</th><td><input type="checkbox" value="${record.Vehicle_number}" onchange="setGreenVehicle(this)"> ${record.Vehicle_number}</td></tr>
+                                                <tr><th>Station</th><td><input type="checkbox" value="${record.STATION_GREEN}" onchange="setGreenStation(this)"> ${record.STATION_GREEN}</td></tr>
+                                                <tr><th>Vehicle Number</th><td><input type="checkbox" value="${record.Vehicle_number}" onchange="setGreenVehicle(this)"> ${record.Vehicle_number} </td></tr>
                                                 <tr><th>Batch Codes</th><td>${batchCheckboxes}</td></tr>
                                                 <tr><th>Delivery Advice</th><td><input type="checkbox" value="${record.DELIVERY_ADVICE_NUMBER}" onchange="setGreenDeliveryAdvice(this)"> ${record.DELIVERY_ADVICE_NUMBER}</td></tr>
                                                 <tr><th>Product</th><td><input type="checkbox" value="Nutmeg" onchange="setGreenProduct(this)"> Nutmeg</td></tr>
-                                                <tr><th>Number of Bags</th><td><input type="checkbox" value="${record.NUM_OF_BAGS}" onchange="setGreenNumBags(this)"> ${record.NUM_OF_BAGS}</td></tr>
-                                                <tr><th>Weight</th><td><input type="checkbox" value="${record.TOTAL_LBS_NUTMEG_BOUGHT}" onchange="setGreenWeight(this)"> ${record.TOTAL_LBS_NUTMEG_BOUGHT}</td></tr>
+                                                <tr><th>Number of Bags</th><td><input type="checkbox" value="${record.NUM_OF_BAGS_GREEN}" onchange="setGreenNumBags(this)"> ${record.NUM_OF_BAGS_GREEN}</td></tr>
+                                                <tr><th>Weight</th><td><input type="checkbox" value="${record.TOTAL_LBS_NUTMEG_BOUGHT_GREEN}" onchange="setGreenWeight(this)"> ${record.TOTAL_LBS_NUTMEG_BOUGHT_GREEN}</td></tr>
                                             </table>
                                         </div>
                                     </div>`;
@@ -839,6 +839,13 @@
             }
         }
         
+        
+        function setDriedStationTo(checkbox) {
+            if (checkbox.checked) {
+                document.querySelector('[name="Station_rec_DRIED"]').value = checkbox.value;
+            }
+        }
+
         function setDriedVehicle(checkbox) {
             if (checkbox.checked) {
                 document.querySelector('[name="Vehicle_number_DRIED"]').value = checkbox.value;

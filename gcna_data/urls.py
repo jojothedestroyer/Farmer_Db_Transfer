@@ -6,7 +6,7 @@ from .views import send_test_email
 from .views import send_email
 
 urlpatterns = [
-    path('',views.home, name="home"),
+    path('',views.Initial, name="home"),
 
 
 
@@ -875,6 +875,7 @@ urlpatterns = [
     path("addCRK_EXT0/", views.Cracking_Extraction_0_add_data, name="add_Cracking_Extraction_0"),
     path("viewCRK_EXT0/", views.view_Cracking_Extraction_table_0, name="view_Cracking_Extraction_0"),
 path('pending-cracking/', views.pending_cracking, name='pending_cracking'),
+path('pending-mace-purchase/', views.pending_mace_purchase, name='pending_mace_purchase'),
 
 path('pending-floating/', views.pending_floating, name='pending_floating'),
 

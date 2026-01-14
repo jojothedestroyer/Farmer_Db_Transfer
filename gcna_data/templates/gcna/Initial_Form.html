@@ -1,4 +1,4 @@
-{% extends 'gcna/base2.html' %}
+{% extends 'gcna/base1.html' %}
 
 {% block content %}
 
@@ -12,111 +12,25 @@
     }
 </style>
 
+  
 
-
-    <form style="background-color: #e4e4e4;
+    <div style="background-color: #e4e4e4;
         margin: 1px auto;
+                margin-bottom: 10px;
+
         font-family: Raleway;
         padding: 10px;
         width: 65%;
         min-width: 300px;
         border-radius: 10px;
         box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">
-        {% csrf_token %}
-<!--         <h1>Welcome</h1>
-        <h2>To the GCNA Form Webpage</h2>
-        <p>Please select one of the below objects</p> -->
 
-<!--         <div class="card">
-            <div class="card-body">
-                <p class="card-text">
-                    <table id="vertical-1" class="table table-hover table-light">
-                        <h2>Farm Forms</h2>
-
-                        <tr>
-                            <th>Farmer Info</th>
-                            <td><a href="{% url 'gcna00_1' %}" class="btn btn-primary">Add</a></td>
-                            {% comment %} <td><a href="{% url 'edit_table1' %}" class="btn btn-success">Edit</a></td> {% endcomment %}
-                            <td><a href="{% url 'table1' %}" class="btn btn-secondary">View</a></td>
-                        </tr>
-
-                        <tr>
-                            <th>Land Info</th>
-                            <td><a href="{% url 'gcna00_2' %}" class="btn btn-primary">Add</a></td>
-                            {% comment %} <td><a href="{% url 'table2' %}" class="btn btn-secondary">View</a></td> {% endcomment %}
-                            {% comment %} <td>
-                                <button class="btn btn-info" onclick="createIndexedDB('{{ farmer_info_id.Nutmeg_ID_No }}')">Create Entry</button>
-                            </td> {% endcomment %}
-                        </tr>
-                        <br>
-                    </table>
-                    <div id="landInfoData" style="max-height: 400px; overflow-y: auto;">
-                        <!-- Display entries with delete and edit buttons here -->
-<!--                     </div>
-                </p>
-            </div>
-        </div> -->
-        <!-- Edit form container -->
-<!--         <div id="editFormContainer" style="background-color: #ffffff;
-        margin: 10px auto;
-        font-family: Raleway;
-        padding: 10px;
-        width: 85%;
-        min-width: 300px;
-        border-radius: 10px;
-        box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">
-
-        
-        </div> -->
-
-
-
-<!--        <form id="editForm" style="margin-bottom: 10px;"> 
-
-
-
-        <div class="card">
+  <div class="card">
          
-            <div class="card-body">
-                <p class="card-text">
-                    <table id="vertical-1" class="table table-hover table-light" >
- -->
 
 
-<!-- The is the HACCP Forms -->
+
     
-<!--             <h2>HACCP Forms</h2>
- -->
-
-<!-- 
-        <tr>
-            <th>Dried Nutmeg Section A</th>
-            <td><a href="{% url 'database8' %}" class="btn btn-primary">Add</a></td>
-            {% comment %} <td><a href="{% url 'edit_dried0_A' %}" class="btn btn-success">Edit</a></td> {% endcomment %}
-
-            <td><a href="{% url 'view_dried0A' %}" class="btn btn-secondary">View</a></td>
-        </tr>
-        
-       <tr>
-            <th>Dried Nutmeg Section B</th>
-            <td><a href="{% url 'database9' %}" class="btn btn-primary">Add</a></td>
-            {% comment %} <td><a href="{% url 'edit_dried0_B' %}" class="btn btn-success">Edit</a></td> {% endcomment %}
-
-            <td><a href="{% url 'view_dried0B' %}" class="btn btn-secondary">View</a></td>
-        </tr>  -->
-      
-<!-- </table>
-
-            </div>
-        </div>
-
-
-         <br>
-        <br>
-        <br>
- -->
-       <div class="card">
-         
             <div class="card-body">
                 <p class="card-text">
                     <table id="vertical-1" class="table table-hover table-light" >
@@ -126,7 +40,7 @@
 
 
     
-            <h2>Inventory and Traceability Forms</h2>
+            <h2>Purchase,Dispatch,Drying Forms</h2>
 
         <tr>
             <th>Nutmeg Purchase Form</th>
@@ -138,42 +52,17 @@
             <td><a href="{% url 'In_House_Pending' %}" class="btn btn-success">Pending</a></td>
 
         </tr>
+        <tr>
+
+
         <th>Mace Purchase Form</th>
         <td><a href="{% url 'Mace_Purchase' %}" class="btn btn-primary">Add</a></td>
 
         <td><a href="{% url 'view_Mace_Purchase' %}" class="btn btn-secondary">View</a></td>
+                    <td><a href="{% url 'pending_mace_purchase' %}" class="btn btn-success">Pending</a></td>
+
     </tr>
-    <!-- <th>Mace Dispatch Form</th>
-    <td><a href="{% url 'Mace_Dispatched' %}" class="btn btn-primary">Add</a></td>
-
-    <td><a href="{% url 'view_Mace_Dispatched' %}" class="btn btn-secondary">View</a></td>
-</tr>
-
-
-<th>Mace Dispatch Recieved Form</th>
-<td><a href="{% url 'add_Mace_Dispatched_Rec' %}" class="btn btn-primary">Add</a></td>
-
-<td><a href="{% url 'view_Mace_Dispatched_Rec' %}" class="btn btn-secondary">View</a></td>
-</tr>
- -->
-
-
-</tr>
-<th>Weight Inspection</th>
-<td><a href="{% url 'add_Final_Weigtht_Inspection' %}" class="btn btn-primary">Add</a></td>
-
-<td><a href="{% url 'view_Final_Weigtht_Inspection' %}" class="btn btn-secondary">View</a></td>
-</tr>
-
-
-
-
-</tr>
-<th>Vehicle Inspection</th>
-<td><a href="{% url 'add_Vehicle_Inspection' %}" class="btn btn-primary">Add</a></td>
-
-<td><a href="{% url 'view_Vehicle_Inspection' %}" class="btn btn-secondary">View</a></td>
-</tr>
+   
 
 
 
@@ -200,7 +89,7 @@
         <tr>
             <th>Dispatch Recieved Forms</th>
             <td><a href="{% url 'Dispatch_Of_Dried_Nutmeg_Rec' %}" class="btn btn-primary">Add</a></td>
- 
+
             <td><a href="{% url 'view_Dispatch_Of_Dried_Nutmeg_Rec' %}" class="btn btn-secondary">View</a></td>
         </tr>
  
@@ -208,47 +97,9 @@
 
 
 
-<!-- 
-         <tr>
-            <th>Dispatch Green Nutmeg Form</th>
-            <td><a href="{% url 'add_Dispatch_Green_0' %}" class="btn btn-primary">Add</a></td>
- 
-            <td><a href="{% url 'view_DISG_0' %}" class="btn btn-secondary">View</a></td>
-        </tr>
-
-
-
-
-
-
-        <tr>
-            <th>Green Nutmeg Recieved Form</th>
-            <td><a href="{% url 'Dispatch_Of_Green_Nutmeg_Rec' %}" class="btn btn-primary">Add</a></td>
- 
-            <td><a href="{% url 'view_Dispatch_Of_Green_Nutmeg_Rec' %}" class="btn btn-secondary">View</a></td>
-        </tr>
- -->
-
-        <tr>
-            <th>Dried Nutmeg Section A(HACCP)</th>
-            <td><a href="{% url 'database8' %}" class="btn btn-primary">Add</a></td>
-            {% comment %} <td><a href="{% url 'edit_dried0_A' %}" class="btn btn-success">Edit</a></td> {% endcomment %}
-
-            <td><a href="{% url 'view_dried0A' %}" class="btn btn-secondary">View</a></td>
-        </tr>
-        
-       <tr>
-            <th>Dried Nutmeg Section B(HACCP)</th>
-            <td><a href="{% url 'database9' %}" class="btn btn-primary">Add</a></td>
-            {% comment %} <td><a href="{% url 'edit_dried0_B' %}" class="btn btn-success">Edit</a></td> {% endcomment %}
-
-            <td><a href="{% url 'view_dried0B' %}" class="btn btn-secondary">View</a></td>
-        </tr> 
-
          <tr>
             <th>Cracking Nutmeg Form</th>
             <td><a href="{% url 'add_Cracking_0' %}" class="btn btn-primary">Add</a></td>
-            {% comment %} <td><a href="{% url 'edit_Cracking' %}" class="btn btn-success">Edit</a></td> {% endcomment %}
 
             <td><a href="{% url 'view_CRK_0' %}" class="btn btn-secondary">View</a></td>
             <td><a href="{% url 'pending_cracking' %}" class="btn btn-success">Pending</a></td>
@@ -258,7 +109,6 @@
          <tr>
             <th>Floation Form</th>
             <td><a href="{% url 'add_Floation_0' %}" class="btn btn-primary">Add</a></td>
-            {% comment %} <td><a href="{% url 'edit_Floation' %}" class="btn btn-success">Edit</a></td> {% endcomment %}
 
        
             <td><a href="{% url 'view_FLT_0' %}" class="btn btn-secondary">View</a></td>
@@ -266,10 +116,86 @@
 
         </tr>
 
+    
+
+         <tr>
+            <th>Package Form</th>
+            <td><a href="{% url 'add_Package_0' %}" class="btn btn-primary">Add</a></td>
+            <td><a href="{% url 'view_PKG_0' %}" class="btn btn-secondary">View</a></td>
+        </tr>
+
+
+                <tr>
+            <th>Traceability Log</th>
+            <td><a href="{% url 'find-Traceability-Origin' %}" class="btn btn-primary">View</a></td>
+        </tr>
+
+
+                    </table>
+</p>
+
+    </div>
+    </div>
+
+    </div>
+
+
+
+
+    <div style="background-color: #e4e4e4;
+        margin: 1px auto;
+        margin-bottom: 10px;
+        font-family: Raleway;
+        padding: 10px;
+        width: 65%;
+        min-width: 300px;
+        border-radius: 10px;
+        box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">
+
+  <div class="card">
+         
+
+
+
+    
+            <div class="card-body">
+                <p class="card-text">
+                    <table id="vertical-1" class="table table-hover table-light" >
+
+
+
+
+
+    
+            <h2>Processing Forms</h2>
+
+      
+   
+
+
+
+
+
+
+
+        <tr>
+            <th>Dried Nutmeg Section A(HACCP)</th>
+            <td><a href="{% url 'database8' %}" class="btn btn-primary">Add</a></td>
+
+            <td><a href="{% url 'view_dried0A' %}" class="btn btn-secondary">View</a></td>
+        </tr>
+        
+       <tr>
+            <th>Dried Nutmeg Section B(HACCP)</th>
+            <td><a href="{% url 'database9' %}" class="btn btn-primary">Add</a></td>
+
+            <td><a href="{% url 'view_dried0B' %}" class="btn btn-secondary">View</a></td>
+        </tr> 
+
+
         <tr>
             <th>Floated Nutmeg Section A(HACCP)</th>
             <td><a href="{% url 'database10' %}" class="btn btn-primary">Add</a></td>
-            {% comment %} <td><a href="{% url 'edit_floated0_A' %}" class="btn btn-success">Edit</a></td> {% endcomment %}
 
             <td><a href="{% url 'view_floated0A' %}" class="btn btn-secondary">View</a></td>
         </tr> 
@@ -289,16 +215,72 @@
 
             <td><a href="{% url 'view_quality0_' %}" class="btn btn-secondary">View</a></td>
         </tr>
+                   </table>
+</p>
+
+    </div>
+    </div>
+
+    </div>
 
 
 
-         <tr>
-            <th>Package Form</th>
-            <td><a href="{% url 'add_Package_0' %}" class="btn btn-primary">Add</a></td>
-            {% comment %} <td><a href="{% url 'edit_Package' %}" class="btn btn-success">Edit</a></td> {% endcomment %}
 
-            <td><a href="{% url 'view_PKG_0' %}" class="btn btn-secondary">View</a></td>
-        </tr>
+
+
+
+    <div style="background-color: #e4e4e4;
+        margin: 1px auto;
+                margin-bottom: 10px;
+
+        font-family: Raleway;
+        padding: 10px;
+        width: 65%;
+        min-width: 300px;
+        border-radius: 10px;
+        box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">
+
+  <div class="card">
+         
+
+
+
+    
+            <div class="card-body">
+                <p class="card-text">
+                    <table id="vertical-1" class="table table-hover table-light" >
+
+
+
+
+
+    
+            <h2>Miscellaneous Forms</h2>
+
+      
+
+        <tr>
+<th>Weight Inspection</th>
+<td><a href="{% url 'add_Final_Weigtht_Inspection' %}" class="btn btn-primary">Add</a></td>
+
+<td><a href="{% url 'view_Final_Weigtht_Inspection' %}" class="btn btn-secondary">View</a></td>
+</tr>
+
+
+
+
+<tr>
+<th>Vehicle Inspection</th>
+<td><a href="{% url 'add_Vehicle_Inspection' %}" class="btn btn-primary">Add</a></td>
+
+<td><a href="{% url 'view_Vehicle_Inspection' %}" class="btn btn-secondary">View</a></td>
+</tr>
+
+
+
+
+
+
 
 
         <tr>
@@ -312,13 +294,9 @@
         </tr>
 
 
-                <tr>
-            <th>Traceability Log</th>
-            <td><a href="{% url 'find-Traceability-Origin' %}" class="btn btn-primary">View</a></td>
-        </tr>
 
 
-        <h1>IndexedDB Tables</h1>
+        <!-- <h1>IndexedDB Tables</h1>
         <div class="search-container">
             <input type="text" id="workerNameSearch" placeholder="Search by Worker Name">
             <input type="text" id="warehouseReceiptSearch" placeholder="Search by Warehouse Receipt">
@@ -326,10 +304,60 @@
             <button onclick="performSearch()">Search</button>
         </div>
         <div id="tables"></div>
+ -->
+                   </table>
+</p>
+
+    </div>
+    </div>
+
+    </div>
 
 
-    </form>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
         <script>
             const modelNames = ['Worker', 'Farmer', 'DriedA', 'DriedB', 'FloatA', 'FloatB', 'Quality', 'Visit', 'In-House-Drying', 'Dispatch-Of-Dried-Nutmeg', 'Dispatch-Of-Green', 'Cracking-Summary', 'Floation-Summary', 'Package-Control', 'Editors', 'Labour-support', 'Training-support', 'Land-info', 'Land-Tenure', 'Nutmeg-Trees', 'Nutmeg-Variety', 'Other-Crops', 'Coconut-Trees', 'Citrus-Mango-Trees', 'Other-Spices-Trees', 'Other-Seasoning-Trees', 'Other-Crops-Cultivated', 'Condition', 'Nutmeg-Land', 'Nutmeg-Frequency', 'Potential-Risks', 'Road-Access', 'Food-Safety-and-Quality', 'Farm-Water-Source', 'Farm-House', 'Inspector-Summary', 'Policy', 'Sanitation-A', 'Sanitation-B', 'Sanitation-C', 'Cracking_Schedule', 'Assorting_Log', 'Extractor_Log', 'Fumigation_Log', 'Shelves', 'W_Shelves', 'M_Shelves', 'W_Shelves_Dried', 'M_Shelves_Dried', 'Vehicle_Inspection', 'Final_Weight_Inspection', 'Final_Weight_Inspection_Fields', 'Dispatch_Of_Dried_Nutmeg_Rec', 'Dispatch_Of_Green_Nutmeg_Rec', 'Mace_Dispatched', 'Mace_Purchase', 'Mace_Dispatched_Rec'];
         
@@ -456,151 +484,9 @@
             displayIndexedDBTables();
         </script>
         
-
-
-<!-- 
-
-
-        <h1>IndexedDB Tables</h1>
-        <div class="search-container">
-            <input type="text" id="workerNameSearch" placeholder="Search by Worker Name">
-            <input type="text" id="warehouseReceiptSearch" placeholder="Search by Warehouse Receipt">
-            <input type="text" id="batchCodeSearch" placeholder="Search by Batch Code">
-            <button onclick="performSearch()">Search</button>
-        </div>
-        <div id="tables"></div>
-        <script>
-            const modelNames = ['Worker', 'Farmer', 'DriedA', 'DriedB', 'FloatA', 'FloatB', 'Quaility', 'visit', 'In-House-Drying', 'Dispatch-Of-Dried-Nutmeg', 'Dispatch-Of-Green', 'Cracking-Summary', 'Floation-Summary', 'Package-Ciontrol', 'Editors', 'Labour-support', 'Training-support', 'land-info', 'Land-Tenur', 'Nutmeg-Trees', 'Nutmeg-Variety', 'Other-Crops', 'Coconut-Trees', 'Citrus-Mango-Trees', 'Other-Spices-Trees', 'Other-Seasoning-Trees', 'Other-Crops-Cultivated', 'Condition', 'Nutmeg-Land', 'Nutmeg-Frequency', 'Potential-Risks', 'Road-Access', 'Food-Safety-and-Quality', 'Farm-Water-Source', 'Farm-House', 'inspector-symmary', 'Policy', 'Sanitation-A', 'Sanitation-B', 'Sanitation-C', 'Cracking_Schedule', 'Assorting_Log', 'Extractor_Log', 'Fumigation_Log', 'Shelves', 'W_Shelves', 'M_Shelves', 'W_Shelves_Dried', 'M_Shelves_Dried', 'Vehicle_Inspection', 'Final_Weight_Inspection', 'Final_Weight_Inspection_fields', 'Dispatch_Of_Dried_Nutmeg_Rec', 'Dispatch_Of_Green_Nutmeg_Rec', 'Mace_Dispatched', 'Mace_Purchase', 'Mace_Dispatched_Rec'];
-        
-            const dbName = 'GCNA';  // Change to 'DELETED' if you want to display that database
-        
-            function openIndexedDBConnection(dbName) {
-                return new Promise((resolve, reject) => {
-                    const request = indexedDB.open(dbName, 2);
-        
-                    request.onsuccess = function (event) {
-                        resolve(event.target.result);
-                    };
-        
-                    request.onerror = function (event) {
-                        reject(event.target.error);
-                    };
-                });
-            }
-        
-            function getObjectStoreData(db, storeName) {
-                return new Promise((resolve, reject) => {
-                    const transaction = db.transaction(storeName, 'readonly');
-                    const objectStore = transaction.objectStore(storeName);
-                    const request = objectStore.getAll();
-        
-                    request.onsuccess = function (event) {
-                        resolve(event.target.result);
-                    };
-        
-                    request.onerror = function (event) {
-                        reject(event.target.error);
-                    };
-                });
-            }
-        
-            function displayData(storeName, data) {
-                const tableDiv = document.createElement('div');
-                tableDiv.innerHTML = `<h2>${storeName}</h2><pre>${JSON.stringify(data, null, 2)}</pre>`;
-                document.getElementById('tables').appendChild(tableDiv);
-            }
-        
-            function matchesSearch(entry, workerName, warehouseReceipt, batchCode) {
-                const lowerWorkerName = workerName.toLowerCase();
-                const lowerWarehouseReceipt = warehouseReceipt.toLowerCase();
-                const lowerBatchCode = batchCode.toLowerCase();
-        
-                return (workerName && entry.Worker_ID_Name?.toLowerCase().includes(lowerWorkerName)) ||
-                    (warehouseReceipt && entry.WAREHOUSE_RECEIPT_NUMBER?.toLowerCase().includes(lowerWarehouseReceipt)) ||
-                    (batchCode && (entry.Control_number?.toLowerCase().includes(lowerBatchCode) ||
-                        entry.CONTROL_NUMBER?.toLowerCase().includes(lowerBatchCode) ||
-                        entry.BatchCodes?.some(code => code.toLowerCase().includes(lowerBatchCode))));
-            }
-        
-            async function displayIndexedDBTables(workerName = '', warehouseReceipt = '', batchCode = '') {
-                try {
-                    const db = await openIndexedDBConnection(dbName);
-                    const inHouseDryingData = await getObjectStoreData(db, 'In-House-Drying');
-                    const shelvesData = await getObjectStoreData(db, 'Shelves');
-                    const wShelvesData = await getObjectStoreData(db, 'W_Shelves');
-                    const mShelvesData = await getObjectStoreData(db, 'M_Shelves');
-        
-                    const inHouseDryingMap = inHouseDryingData.reduce((acc, item) => {
-                        acc[item.entryCheck] = { ...item, shelves: [], wShelves: [], mShelves: [] };
-                        return acc;
-                    }, {});
-        
-                    shelvesData.forEach(shelf => {
-                        if (inHouseDryingMap[shelf.entry]) {
-                            inHouseDryingMap[shelf.entry].shelves.push(shelf);
-                        }
-                    });
-        
-                    wShelvesData.forEach(shelf => {
-                        if (inHouseDryingMap[shelf.entry]) {
-                            inHouseDryingMap[shelf.entry].wShelves.push(shelf);
-                        }
-                    });
-        
-                    mShelvesData.forEach(shelf => {
-                        if (inHouseDryingMap[shelf.entry]) {
-                            inHouseDryingMap[shelf.entry].mShelves.push(shelf);
-                        }
-                    });
-        
-                    const filteredInHouseDryingData = Object.values(inHouseDryingMap).filter(item => matchesSearch(item, workerName, warehouseReceipt, batchCode) ||
-                        item.shelves.some(shelf => matchesSearch(shelf, workerName, warehouseReceipt, batchCode)) ||
-                        item.wShelves.some(shelf => matchesSearch(shelf, workerName, warehouseReceipt, batchCode)) ||
-                        item.mShelves.some(shelf => matchesSearch(shelf, workerName, warehouseReceipt, batchCode))
-                    );
-        
-                    displayData('In-House-Drying', filteredInHouseDryingData);
-        
-                    for (const modelName of modelNames) {
-                        if (!['In-House-Drying', 'Shelves', 'W_Shelves', 'M_Shelves'].includes(modelName)) {
-                            const data = await getObjectStoreData(db, modelName);
-                            const filteredData = data.filter(item => matchesSearch(item, workerName, warehouseReceipt, batchCode));
-                            displayData(modelName, filteredData);
-                        }
-                    }
-                } catch (error) {
-                    console.error('Error displaying IndexedDB tables:', error);
-                }
-            }
-        
-            function performSearch() {
-                event.preventDefault();
-                const workerName = document.getElementById('workerNameSearch').value;
-                const warehouseReceipt = document.getElementById('warehouseReceiptSearch').value;
-                const batchCode = document.getElementById('batchCodeSearch').value;
-                document.getElementById('tables').innerHTML = '';
-                displayIndexedDBTables(workerName, warehouseReceipt, batchCode);
-            }
-        
-            displayIndexedDBTables();
-        </script>
-        
-        
-
-
-
-
-
  -->
 
-
-
-    
-
-
-
-
-    
+<!--     
     <script>
 
         const deleteRequest = indexedDB.deleteDatabase('LandId');
@@ -1117,5 +1003,8 @@
 // }
 
 
-    </script>
+    </script> -->
+
+
+
 {% endblock %}

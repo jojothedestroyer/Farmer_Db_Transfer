@@ -136,6 +136,19 @@
   </div>
 
   <script>
+
+function toggleRecord(id) {
+  const details = document.getElementById(`recordDetails-${id}`);
+
+  if (details.style.display === "none") {
+    details.style.display = "block";
+  } else {
+    details.style.display = "none";
+  }
+}
+
+
+
     let openRequest = indexedDB.open("GCNA");
     let fieldBlacklist = [];
     const fieldBlacklistConfig = {
@@ -156,103 +169,208 @@
         let landInfoRecords = event.target.result;
         let landInfoDataDiv = document.getElementById("landInfoData");
 
-
         landInfoRecords.forEach((record) => {
-          if (
-            !record.COMPLETE
+         if (
+            record.COMPLETE == "Yes" ||
+            record.COMPLETE == "Y" ||
+            record.COMPLETE == "y" ||
+            record.COMPLETE == "yes"
           ) {
             return;
           }
 
 
-          let entryContainer = document.createElement("div");
-          entryContainer.id = `entryContainer_${record.id}`;
-          entryContainer.innerHTML = `
-                <div class="card">
- 
+let entryContainer = document.createElement("div");
+entryContainer.id = `entryContainer_${record.id}`;
+entryContainer.className = "record-container";
+let labelText = record.BATCH_CODE_M1 !== ""
+  ? (`Mace Batches: M1:${record.BATCH_CODE_M1}    M2:${record.BATCH_CODE_M2}      M3:${record.BATCH_CODE_M3}`)
+  : record.BATCH_CODE_M1 ;
+
+entryContainer.innerHTML = `
+  <button class="btn btn-primary" 
+          onclick="toggleRecord(${record.id})" 
+          style="width:100%; text-align:left; margin-bottom:8px;">
+    ${labelText} 
+  </button>
+
+  <div id="recordDetails-${record.id}" style="display:none;"> 
+              <form id="form_${record.id}">
                     <div class="card-body">
                   
                     </h5>
                       <p class="card-text">
                           <table id="vertical-1" class="table table-hover table-light">
-                          <!-- <caption>First Way</caption> -->
                          
            
 
 
         <tr>
             <th>STATION</th>
-            <td>${record.STATION}</td>
+                                 <td>       <input type="text" class="form-control" name="STATION" value="${record.STATION || ''}" /> </td>
+
         </tr>
     <tr>
             <th>DATE OF PURCHASE</th>
-            <td>${record.DATE_OF_PURCHASE}</td>
+                                               <td>     <input type="date" class="form-control" name="DATE_OF_PURCHASE" value="${record.DATE_OF_PURCHASE || ''}" /> </td>
+
         </tr>
 
         <tr>
           <th>PLACE OF PURCHASE</th>
-          <td>${record.PLACE_OF_PURCHASE}</td>
+                                              <td>    <input type="text" class="form-control" name="PLACE_OF_PURCHASE" value="${record.PLACE_OF_PURCHASE || ''}" /> </td>
+
       </tr>
 
         <tr>
             <th>TOTAL # OF FARMERS</th>
-            <td>${record.TOTAL_NUM_OF_FARMERS}</td>
+                                                   <td> <input type="number" class="form-control" name="TOTAL_NUM_OF_FARMERS" value="${record.TOTAL_NUM_OF_FARMERS || ''}" /> </td>
+
         </tr>
     <tr>
             <th>TOTAL LBS Mace BOUGHT</th>
-            <td>${record.TOTAL_LBS_NUTMEG_BOUGHT}</td>
+                                                   <td> <input type="number" step="any" class="form-control" name="TOTAL_LBS_NUTMEG_BOUGHT" value="${record.TOTAL_LBS_NUTMEG_BOUGHT || ''}" /> </td>
+
         </tr>
 
 
 
         <tr>
           <th>Mace1 Batch Code</th>
-          <td>${record.BATCH_CODE_M1}</td>
+         
+                                                           <td> <input type="text" class="form-control" name="PLACE_OF_PURCHASE" value="${record.BATCH_CODE_M1 || ''}" /> </td>
+
       </tr>        <tr>
           <th>Mace2 Batch Code</th>
-          <td>${record.BATCH_CODE_M2}</td>
-      </tr>        <tr>
+         
+                                                          <td>  <input type="text" class="form-control" name="PLACE_OF_PURCHASE" value="${record.BATCH_CODE_M2 || ''}" /> </td>
+
+      </tr>     
+         <tr>
           <th>Mace3 Batch Code</th>
-          <td>${record.BATCH_CODE_M3}</td>
+         
+                                                 <td> <input type="text" class="form-control" name="PLACE_OF_PURCHASE" value="${record.BATCH_CODE_M3 || ''}" /> </td>
+
       </tr>
       
         <tr>
             <th># OF BAGS</th>
-            <td>${record.NUM_OF_BAGS}</td>
+                                                   <td> <input type="number" " class="form-control" name="NUM_OF_BAGS" value="${record.NUM_OF_BAGS || ''}" /> </td>
+
         </tr>
 
         <tr>
             <th>Quantity of Mace 1</th>
-            <td>${record.MACE_1}</td>
+                                                   <td> <input type="number" step="any" class="form-control" name="MACE_1" value="${record.MACE_1 || ''}" /> </td>
+
         </tr>
 
         <tr>
             <th>Quantity of Mace 2</th>
-            <td>${record.MACE_2}</td>
+                                                   <td> <input type="number" step="any" class="form-control" name="MACE_2" value="${record.MACE_2 || ''}" /> </td>
+
         </tr>
 
 
         <tr>
             <th>Quantity of Mace 3</th>
-            <td>${record.MACE_3}</td>
+                                                                <td><input type="number" step="any" class="form-control" name="MACE_3" value="${record.MACE_3 || ''}" /> </td>
+
+
         </tr>
+
 
        
                   
-                         
+                          <tr>
+                        <th>Actions</th>
+                        <td>
+                          <button type="button" class="save-btn" onclick="saveEditedRecord(${record.id})">Save Changes</button>
+                          <button type="button" onclick="saveEditedCompletion(${record.id}, 'Yes')">Mark as Complete</button>
+                        </td>
+                      </tr>  
                       </table>
-                         <button class="btn btn-danger" onclick="deleteEntry(${record.id})">Delete</button>
-                    
+                      
                      </div>
                  </div>
                  <br> <br> <br>
-
+                 
              `;
-                 landInfoDataDiv.appendChild(entryContainer);
-
+          landInfoDataDiv.appendChild(entryContainer);
         });
       };
     };
+
+
+
+    function saveEditedRecord(id) {
+      let form = document.getElementById(`form_${id}`);
+      let formData = new FormData(form);
+      let openRequestup = indexedDB.open("GCNA");
+
+      openRequestup.onsuccess = function (event) {
+        let db1 = event.target.result;
+        let transaction = db1.transaction("Mace_Purchase", "readwrite");
+        let maceInfoStore = transaction.objectStore("Mace_Purchase");
+        let getRequest = maceInfoStore.get(id);
+
+        getRequest.onsuccess = function (event) {
+          let record = event.target.result;
+          
+          // Update record with form values
+          for (let [key, value] of formData.entries()) {
+            record[key] = value;
+          }
+
+          let updateRequest = maceInfoStore.put(record);
+          updateRequest.onsuccess = function () {
+            alert("Record updated successfully!");
+          };
+          
+          updateRequest.onerror = function(event) {
+            console.error("Error updating record:", event.target.error);
+            alert("Error updating record. Please try again.");
+          };
+        };
+      };
+    }
+
+    function saveEditedCompletion(id, completion) {
+      let openRequestup = indexedDB.open("GCNA");
+
+      openRequestup.onsuccess = function (event) {
+        let db1 = event.target.result;
+        let transaction = db1.transaction("Mace_Purchase", "readwrite");
+        let maceInfoStore = transaction.objectStore("Mace_Purchase");
+        let getRequest = maceInfoStore.get(id);
+
+        getRequest.onsuccess = function (event) {
+          let record = event.target.result;
+          
+          // First save any edited values from the form
+          let form = document.getElementById(`form_${id}`);
+          let formData = new FormData(form);
+          
+          // Update record with form values
+          for (let [key, value] of formData.entries()) {
+            record[key] = value;
+          }
+          
+          // Then mark as complete
+          record.COMPLETE = completion;
+
+          let updateRequest = maceInfoStore.put(record);
+          updateRequest.onsuccess = function () {
+            alert("Entry marked as complete!");
+            // Remove the entry from the display
+            let entryContainer = document.getElementById(`entryContainer_${id}`);
+            if (entryContainer) {
+              entryContainer.remove();
+            }
+          };
+        };
+      };
+    }
 
 
     function deleteEntry(id) {
