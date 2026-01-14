@@ -3549,8 +3549,8 @@ class Cracking_Summary(models.Model):
     STATION_CHOICES = [
         ('', '--Select Location--'),
 
-        ('H', 'Beaulieu'),
-        ('M', 'Gouyave'),
+        ('B', 'Beaulieu'),
+        ('GP', 'Gouyave'),
         ('G', 'Grenville'),
  
  

@@ -419,10 +419,32 @@ entryContainer.innerHTML = `
   </thead>
   <tbody>
     <tr>
-      <td>${record.STATION2}</td>
-      <td>${record.LOCATION3}</td>
-      <td>${record.DEFECT}</td>
-      <td>${record.PREDOMINANT_DEFECT}</td>
+<td contenteditable="true"
+    data-field="STATION2"
+    onblur="saveEditedField(${record.id}, this)">
+    ${record.STATION2}
+</td>
+
+<td contenteditable="true"
+    data-field="LOCATION3"
+    onblur="saveEditedField(${record.id}, this)">
+    ${record.LOCATION3}
+</td>
+
+
+<td contenteditable="true"
+    data-field="DEFECT"
+    onblur="saveEditedField(${record.id}, this)">
+    ${record.DEFECT}
+</td>
+
+<td contenteditable="true"
+    data-field="PREDOMINANT_DEFECT"
+    onblur="saveEditedField(${record.id}, this)">
+    ${record.PREDOMINANT_DEFECT}
+</td>
+
+
     </tr>
   </tbody>
 </table>
@@ -431,19 +453,39 @@ entryContainer.innerHTML = `
   <tbody>
     <tr>
        <td>ALERT</td>
-      <td>${record.ALERT}</td>
-    </tr>
+
+<td>
+  <input type="text"
+         value="${record.ALERT}"
+         data-field="ALERT"
+         onchange="saveEditedField(${record.id}, this)">
+</td>    </tr>
   </tbody>
 </table>
 
 <table id="vertical-1" class="table table-hover table-light">
         <tr>
             <th>Sampling from Gouyvae</th>
-            <td>${record.Sampling_from_gouyvae}</td>
+
+            
+<td>
+  <input type="text"
+         value="${record.Sampling_from_gouyvae}"
+         data-field="Sampling_from_gouyvae"
+         onchange="saveEditedField(${record.id}, this)">
+</td>
         </tr>
         <tr>
             <th>Control Number</th>
-            <td>${record.Control_number}</td>
+
+
+                        
+<td>
+  <input type="text"
+         value="${record.Control_number}"
+         data-field="Control_number"
+         onchange="saveEditedField(${record.id}, this)">
+</td>
         </tr>
 </table>
             </div>
@@ -521,6 +563,55 @@ entryContainer.innerHTML = `
       };
     }
 
+
+
+    function saveEditedField(id, element) {
+    const fieldName = element.dataset.field;
+    const newValue = element.value ?? element.innerText.trim();
+
+    if (!fieldName) {
+        console.error("Missing data-field attribute");
+        return;
+    }
+
+    let openRequest = indexedDB.open("GCNA");
+
+    openRequest.onsuccess = function (event) {
+        let db = event.target.result;
+        let transaction = db.transaction("In-House-Drying", "readwrite");
+        let store = transaction.objectStore("In-House-Drying");
+
+        let getRequest = store.get(id);
+
+        getRequest.onsuccess = function (event) {
+            let record = event.target.result;
+
+            if (!record) {
+                console.error("Record not found:", id);
+                return;
+            }
+
+            // Update only the edited field
+            record[fieldName] = newValue;
+
+            let updateRequest = store.put(record);
+
+            updateRequest.onsuccess = function () {
+                console.log(`Updated ${fieldName} successfully`);
+            };
+
+            updateRequest.onerror = function () {
+                console.error("Failed to update record");
+            };
+        };
+    };
+
+    openRequest.onerror = function () {
+        console.error("Failed to open IndexedDB");
+    };
+}
+
+
     function saveEditedCompletion(id, completion) {
       let openRequestup = indexedDB.open("GCNA");
 
@@ -591,7 +682,6 @@ entryContainer.innerHTML = `
                             <center>
                                 <h5 class="card-title" contenteditable="true" data-record-id="${recordId}" data-field="floor">${record.floor}</h5>
                                 <br/>
-                                <button class="btn btn-danger delete-btn" data-record-id="${recordId}"   onclick="deleteEntry(${recordId}, this)">Delete</button>
                             </center>
                             <thead>
                                 <tr>
@@ -607,6 +697,8 @@ entryContainer.innerHTML = `
                                     <td contenteditable="true" data-record-id="${recordId}" data-field="Tray">${record.Tray}</td>
                                     <td contenteditable="true" data-record-id="${recordId}" data-field="Section">${record.Section}</td>
                                     <td contenteditable="true" data-record-id="${recordId}" data-field="amount">${record.amount}</td>
+                                    <td><button class="btn btn-danger delete-btn" data-record-id="${recordId}"   onclick="deleteEntry(${recordId}, this)">Delete</button></td>
+
                                 </tr>
                                 <tr style="display: none;">
                                     <td style="opacity: 0;">${record.floor}</td>
@@ -1491,7 +1583,6 @@ document.addEventListener("DOMContentLoaded", function () {
                                             <th scope="col">Moisture</th>
                                             <th scope="col">Week</th>
                                             <th scope="col">Date</th>
-                                            <th scope="col">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -1502,8 +1593,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                             <td><input type="text" class="form-control moisture-input" value="${record.Moisture || ''}" required onblur="saveOnBlur(this, '${record.id}', 'Moisture')"></td>
                                             <td><input type="text" class="form-control week-input" value="${record.Week || ''}" required onblur="saveOnBlur(this, '${record.id}', 'Week')"></td>
                                             <td><input type="date" class="form-control date-input" value="${record.Date || ''}" required onblur="saveOnBlur(this, '${record.id}', 'Date')"></td>
-                                                   <td>
-                                            </td>
+                                       
                                                                                         <td>
 
  <button class="btn btn-danger" onclick="deleteMoistureEntry('${record.id}', this)">Delete</button>
