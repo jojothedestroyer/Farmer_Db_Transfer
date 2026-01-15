@@ -243,9 +243,73 @@
   <div class="container"></div>
 
   <div id="landInfoData"></div>
+<script type="module">
+ import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+  import { getDatabase, ref, set, get, query, orderByChild, equalTo, update, push,remove } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
+  import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
 
+  // Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyBZTB_mN_gIb6mqeM8nid4x83oKRehmFKo",
+    authDomain: "farmer-project-sync.firebaseapp.com",
+    databaseURL: "https://farmer-project-sync-default-rtdb.firebaseio.com",
+    projectId: "farmer-project-sync",
+    storageBucket: "farmer-project-sync.firebasestorage.app",
+    messagingSenderId: "1366353203",
+    appId: "1:1366353203:web:fa29fd29cc326a0d63ca46"
+  };
 
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+  const auth = getAuth(app);
+  async function deleteRecord(id) {
+    if (!confirm("Delete this record?")) return;
+
+    const tableName = "In-House-Drying";
+    const userId = localStorage.getItem("customUserId");
+
+    try {
   
+      if (navigator.onLine && userId) {
+        await remove(ref(db, `Users/${userId}/models/${tableName}/${id}`));
+      }
+deleteIndexeddb(id)
+      
+    } catch (error) {
+      console.error("Delete failed:", error);
+    }
+  }
+
+  window.deleteRecord = deleteRecord;
+
+  function deleteIndexeddb(id) {
+    let openRequest = indexedDB.open("GCNA");
+
+    openRequest.onsuccess = function (event) {
+      let db = event.target.result;
+      let transaction = db.transaction("In-House-Drying", "readwrite");
+      let store = transaction.objectStore("In-House-Drying");
+
+      let deleteRequest = store.delete(id);
+
+      deleteRequest.onsuccess = function () {
+        console.log(`Record ${id} deleted successfully.`);
+        // Remove the record from the UI immediately
+        const element = document.getElementById(`entryContainer_${id}`);
+        if (element) {
+          element.remove();
+        }
+      };
+
+      deleteRequest.onerror = function () {
+        console.error("Error deleting record:", deleteRequest.error);
+        alert("Failed to delete record.");
+      };
+    };
+  
+}
+
+</script>
 <script>
 
 function toggleRecord(id) {
@@ -296,12 +360,36 @@ let labelText = record.Control_number && record.Control_number !== ""
   ? record.Control_number
   : (record.BATCH_CODE || `Record ${record.id}`);
 
+  //   <button class="btn btn-primary" 
+//           onclick="toggleRecord(${record.id})" 
+//           style="width:100%; text-align:left; margin-bottom:8px;">
+//     ${labelText} 
+//   </button>
+
+
+//       <button class="btn btn-danger" 
+//             onclick="deleteRecord(${record.id})" 
+//             title="Delete Record">
+//       &times;
+//     </button>
+
 entryContainer.innerHTML = `
-  <button class="btn btn-primary" 
-          onclick="toggleRecord(${record.id})" 
-          style="width:100%; text-align:left; margin-bottom:8px;">
-    ${labelText} 
-  </button>
+
+
+<div class="d-flex gap-2" style="margin-bottom:8px;">
+    <button class="btn btn-primary" 
+            onclick="toggleRecord(${record.id})" 
+            style="flex-grow: 1; text-align:left;">
+      ${labelText} 
+    </button>
+    <button class="btn btn-danger" 
+            onclick="deleteRecord(${record.id})" 
+            title="Delete Record">
+      &times;
+    </button>
+  </div>
+
+  
 
   <div id="recordDetails-${record.id}" style="display:none;"> 
       <form>
@@ -562,6 +650,7 @@ entryContainer.innerHTML = `
         };
       };
     }
+
 
 
 
