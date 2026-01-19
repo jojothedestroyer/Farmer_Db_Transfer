@@ -69,7 +69,7 @@
 //                 // '/0gcna00_19/',
 
 
-                
+
 //                 // '/api/DriedA/',
 //                 // '/api/DriedB/',
 //                 // '/api/FloatA/',
@@ -116,8 +116,8 @@
 //                 // '/edit_Visit/',
 //                 // '/table1/',      
 //                 // '/table2/',  
-                
-                
+
+
 //                 // '/view0DA/',
 //                 // '/view0DB/',
 //                 // '/view0FA/',
@@ -222,7 +222,7 @@
 //                 '/0gcna00_19/',
 
 
-                
+
 //                 '/api/DriedA/',
 //                 '/api/DriedB/',
 //                 '/api/FloatA/',
@@ -269,8 +269,8 @@
 //                 '/edit_Visit/',
 //                 '/table1/',      
 //                 '/table2/',  
-                
-                
+
+
 //                 '/view0DA/',
 //                 '/view0DB/',
 //                 '/view0FA/',
@@ -382,8 +382,8 @@
 //                 '/edit_Visit/',
 //                 '/table1/',      
 //                 '/table2/',  
-                
-          
+
+
 
 //             ]).then(() => {
 //                 // Once all resources are cached, post a message to all clients
@@ -446,7 +446,7 @@ self.addEventListener('install', (event) => {
                 // '/view_tablet2/'
 
                 '/',
-                '/gcna00_1/',
+                // '/gcna00_1/',
                 '/gcna00_2/',
                 '/gcna00_3/',
                 '/gcna00_4/',
@@ -491,7 +491,7 @@ self.addEventListener('install', (event) => {
                 '/addFLT0/',
                 '/addPKG0/',
                 '/viewIH0/',
-              
+
                 // '/view_Mace_Purchase/',
                 // '/view_Mace_Dispatched/',
                 // '/view_Mace_Dispatched_Rec/',
@@ -500,13 +500,14 @@ self.addEventListener('install', (event) => {
                 // '/viewDISD0/',
                 // '/view_Dispatch_Of_Dried_Nutmeg_Rec/',
                 // 'In_House_Pending/',
+
                 '/viewDISG0/',
                 'viewDISD0/',
                 'view0DA/',
                 'view0DB/',
-                'viewCRK0/' ,            
+                'viewCRK0/',
                 'viewFLT0/',
-                '/view0FA/' ,            
+                '/view0FA/',
                 '/view0FB/',
                 '/view0QC/',
                 'viewPKG0/'
@@ -515,8 +516,8 @@ self.addEventListener('install', (event) => {
 
 
 
-              
-              
+
+
             ]).then(() => {
                 // Once all resources are cached, post a message to all clients
                 self.clients.matchAll().then(clients => {

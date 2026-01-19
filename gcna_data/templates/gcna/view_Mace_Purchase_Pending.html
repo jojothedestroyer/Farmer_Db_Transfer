@@ -367,10 +367,33 @@ entryContainer.innerHTML = `
             if (entryContainer) {
               entryContainer.remove();
             }
+window.location.reload();
           };
         };
       };
     }
+
+    
+    function saveEditedCompletion2(id, completion) {
+      let openRequestup = indexedDB.open("GCNA");
+
+      openRequestup.onsuccess = function (event) {
+        let db1 = event.target.result;
+        let transaction = db1.transaction("Mace_Purchase", "readwrite");
+        let landInfoStore = transaction.objectStore("Mace_Purchase");
+        let getRequest = landInfoStore.get(id);
+
+        getRequest.onsuccess = function (event) {
+          let record = event.target.result;
+          record.COMPLETE = completion;
+
+          let updateRequest = landInfoStore.put(record);
+          updateRequest.onsuccess = function () {
+            console.log("Mace Date updated successfully!");
+          };
+        };
+      };
+    };
 
 
     function deleteEntry(id) {

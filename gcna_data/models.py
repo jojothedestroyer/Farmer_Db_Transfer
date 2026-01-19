@@ -2381,6 +2381,7 @@ class In_House_Drying(models.Model):
     ('R', 'R'),
     ('S', 'S'),
     ('T', 'T'),
+    ('U', 'U'),
 ]
    
 
@@ -2442,6 +2443,8 @@ class In_House_Drying(models.Model):
     ('R', 'R'),
     ('S', 'S'),
     ('T', 'T'),
+        ('U', 'U'),
+
 ]
    
 
