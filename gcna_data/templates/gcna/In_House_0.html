@@ -416,7 +416,7 @@ $(document).ready(function() {
           // Save all regular shelf forms
           const shelfForms = document.querySelectorAll('form[id^="form_"]');
           for (const form of shelfForms) {
-              await submitForm(form.id);
+              await submitFormLocal(form.id);
           }
           
           // Save all moisture forms
@@ -489,7 +489,6 @@ $(document).ready(function() {
                   console.log(obj1.ALERT)
               var alertcheck=obj1.ALERT
               
-              // Get the highest id in the object store
               var highestIdRequest = objectStore.openCursor(null, 'prev');
               highestIdRequest.onsuccess = function(event) {
                   var cursor = event.target.result;
@@ -503,7 +502,7 @@ $(document).ready(function() {
 
                   request.onsuccess = function() {
                       console.log('Data added to IndexedDB');
-                      window.location.reload();
+                    //   window.location.reload();
                       transferIndexedDBData(alertcheck,obj);
                   };
 
@@ -532,8 +531,7 @@ $(document).ready(function() {
                       data.forEach(function(item) {
                           // sendDataToDjango(item);
                       });
-                      // window.location.reload();
-                      clickAllButtons();
+                      window.location.reload();
                       if (alertcheck=== 'Yes') {
           sendEmail(obj, obj.id); // Send email only if decision is "Fail"
       }
@@ -543,46 +541,60 @@ $(document).ready(function() {
                     console.error('Error opening IndexedDB', event);
                 };
             }
-      
-      async function submitForm(formId) {
-          try {
-              const form = document.getElementById(formId);
-              if (!form) throw new Error(`Form ${formId} not found`);
-              
-              const formData = new FormData(form);
-              formData.delete('csrfmiddlewaretoken');
-              
-              // Get the entry value from the form or fallback to entryCheck
-              let entryValue = formData.get('entry');
-              if (!entryValue) {
-                  entryValue = document.querySelector('[name="entryCheck"]').value;
-              }
+async function submitFormLocal(formId) {
+    try {
+        const form = document.getElementById(formId);
+        if (!form) throw new Error(`Form ${formId} not found`);
+        
+        const formData = new FormData(form);
+        formData.delete('csrfmiddlewaretoken');
+        
+        let entryValue = formData.get('entry') || document.querySelector('[name="entryCheck"]').value;
 
-              const shelfData = {
-                  ...Object.fromEntries(formData.entries()),
-                  station: document.getElementById('id_STATION').value,
-                  entry: entryValue  // Ensure entry is always set
-              };
+        const shelfData = {
+            ...Object.fromEntries(formData.entries()),
+            station: document.getElementById('id_STATION').value,
+            entry: entryValue
+        };
 
-              const db = await openIndexedDB('GCNA', 2);
-              const transaction = db.transaction(['Shelves'], 'readwrite');
-              
-              // Save to both stores
-              for (const storeName of ['Shelves']) {
-                  const store = transaction.objectStore(storeName);
-                  shelfData.id = await getNextId(store);
-                  await putData(store, shelfData);
-              }
+        const db = await openIndexedDB('GCNA', 2);
+        
+        // We handle the ID generation and the put inside ONE promise
+        return new Promise((resolve, reject) => {
+            const transaction = db.transaction(['Shelves'], 'readwrite');
+            const store = transaction.objectStore('Shelves');
 
-              console.log('Shelf data saved successfully');
-              return true;
-          } catch (error) {
-              console.error('Submit error:', error);
-              return false;
-          }
-      }
+            // 1. Find the highest current ID in this transaction
+            const cursorRequest = store.openCursor(null, 'prev');
 
-      async function M_submitForm(formId) {
+            cursorRequest.onsuccess = (event) => {
+                const cursor = event.target.result;
+                const nextId = cursor ? cursor.key + 1 : 1;
+                
+                // 2. Assign that ID to our data
+                shelfData.id = nextId;
+
+                // 3. Save it immediately in the same transaction
+                const putRequest = store.put(shelfData);
+
+                putRequest.onsuccess = () => {
+                    console.log(`Shelf saved with ID: ${nextId}`);
+                    resolve(true);
+                };
+                
+                putRequest.onerror = () => reject('Failed to put shelf data');
+            };
+
+            cursorRequest.onerror = () => reject('Failed to find next ID');
+        });
+
+    } catch (error) {
+        console.error('Submit error:', error);
+        return false;
+    }
+}
+
+async function M_submitForm(formId) {
           try {
               console.log(formId)
               const form = document.getElementById(`${formId}`);
@@ -786,446 +798,14 @@ $(document).ready(function() {
       }
   });
 </script>
-<!-- 
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-      var myForm = document.getElementById('myForm');
-  
-      myForm.addEventListener('submit', function(event) {
 
-          event.preventDefault();
-          var data = new FormData(event.target);
-          saveDataToIndexedDB(data);
-      });
-  
-      function saveDataToIndexedDB(data) {
-  // Exclude csrfmiddlewaretoken from being saved to IndexedDB
-  data.delete('csrfmiddlewaretoken');
-  data.delete('initial-entryCheck');
-  data.delete('Section1G_GF');
-    data.delete('Section1G_1F');
-    data.delete('Section1G_2F');
-    data.delete('Section1G_FL');
-    data.delete('Section1H_GF');
-    data.delete('Section1H_1F');
-    data.delete('Section1H_2F');
-    data.delete('Section1H_FL');
-    data.delete('Section1M_GF');
-    data.delete('Section1M_1F');
-    data.delete('Section1M_2F');
-    data.delete('Section1M_FL');
-    data.delete('Section1U_GF');
-    data.delete('Section1U_1F');
-    data.delete('Section1U_2F');
-    data.delete('Section1U_FL');
-    data.delete('Section1GP_GF');
-    data.delete('Section1GP_1F');
-    data.delete('Section1GP_2F');
-    data.delete('Section1GP_FL');
-    data.delete('Section2G_GF');
-    data.delete('Section2G_1F');
-    data.delete('Section2G_2F');
-    data.delete('Section2G_FL');
-    data.delete('Section2H_GF');
-    data.delete('Section2H_1F');
-    data.delete('Section2H_2F');
-    data.delete('Section2H_FL');
-    data.delete('Section2M_GF');
-    data.delete('Section2M_1F');
-    data.delete('Section2M_2F');
-    data.delete('Section2M_FL');
-    data.delete('Section2U_GF');
-    data.delete('Section2U_1F');
-    data.delete('Section2U_2F');
-    data.delete('Section2U_FL');
-    data.delete('Section2GP_GF');
-    data.delete('Section2GP_1F');
-    data.delete('Section2GP_2F');
-    data.delete('Section2GP_FL');
 
-  var request = indexedDB.open('GCNA', 2);
 
-  request.onsuccess = function(event) {
-      var db = event.target.result;
-      var transaction = db.transaction('In-House-Drying', 'readwrite');
-      var objectStore = transaction.objectStore('In-House-Drying');
 
-      var obj = {};
-      for (var pair of data.entries()) {
-          obj[pair[0]] = pair[1];
-      }
-      var obj1 = {
-              ALERT: data.get('ALERT'),
 
-          };
-          console.log(obj1.ALERT)
-         var alertcheck=obj1.ALERT
-      // Get the highest id in the object store
-      var highestIdRequest = objectStore.openCursor(null, 'prev');
-      highestIdRequest.onsuccess = function(event) {
-          var cursor = event.target.result;
-          if (cursor) {
-              obj.id = cursor.key + 1;
-          } else {
-              obj.id = 1; // This is the first item
-          }
 
-          var request = objectStore.put(obj);
 
-          request.onsuccess = function() {
-            
-              console.log('Data added to IndexedDB');
-              window.location.reload();
-              // transferIndexedDBData(alertcheck,obj);
-          };
 
-          request.onerror = function() {
-              console.error('Error adding data to IndexedDB');
-          };
-      };
-  };
-
-  request.onerror = function(event) {
-      console.error('Error opening IndexedDB', event);
-  };
-}
-function transferIndexedDBData(alertcheck,obj) {
-        var request = indexedDB.open('GCNA', 2);
-
-        request.onsuccess = function(event) {
-            var db = event.target.result;
-            var transaction = db.transaction('In-House-Drying', 'readonly');
-            var objectStore = transaction.objectStore('In-House-Drying');
-            var getRequest = objectStore.getAll();
-
-            getRequest.onsuccess = function(event) {
-                var data = event.target.result;
-                data.forEach(function(item) {
-                    // sendDataToDjango(item);
-                });
-                // window.location.reload();
-                clickAllButtons();
-                if (alertcheck=== 'Yes') {
-    sendEmail(obj, obj.id); // Send email only if decision is "Fail"
-}
-            };
-        };
-          request.onerror = function(event) {
-              console.error('Error opening IndexedDB', event);
-          };
-      }
-  
-  //     function sendDataToDjango(item) {
-  //         var xhr = new XMLHttpRequest();
-  //         xhr.open('POST', '/check-and-add/', true);
-  //         xhr.setRequestHeader('Content-Type', 'application/json');
-  //         xhr.onreadystatechange = function() {
-  //             if (xhr.readyState === XMLHttpRequest.DONE) {
-  //                 if (xhr.status === 200) {
-  //                     console.log('Entry added successfully.');
-  //                 } else {
-  //                     console.error('Error adding entry:', xhr.statusText);
-  //                 }
-  //             }
-  //         };
-  //         xhr.send(JSON.stringify(item));
-  //     }
-  // });
-
-
-
-  function sendEmail(obj, formId) {
-    // Construct email content using form obj
-    var emailContent = 'Station: ' + obj.STATION + '\n';
-    emailContent += 'Date of Purchase: ' + obj.DATE_OF_PURCHASE + '\n';
-    emailContent += 'Place of Purchase: ' + obj.PLACE_OF_PURCHASE + '\n';
-    emailContent += 'Total pounds of nutmeg bought: ' + obj.TOTAL_LBS_NUTMEG_BOUGHT + '\n';
-    emailContent += 'Batch Number: ' + obj.Control_number + '\n';
-    emailContent += 'Reason for Alert: ' + obj.ALERT_cont + '\n';
-    emailContent += 'Form ID: ' + formId;
-    emailContent += window.location.origin + '/admin/gcna_data/in_house_drying/' + formId + '/change/';
-
-    
-
-
-
-
-
-    if (navigator.onLine) {
-        // If online, send the email immediately
-        sendEmailRequest(emailContent);
-    } else {
-        // If offline, store the email in IndexedDB
-        saveEmailToIndexedDB(emailContent);
-    }
-}
-
-function sendEmailRequest(emailContent) {
-    var xhr = new XMLHttpRequest();
-
-    // Configure the request
-    xhr.open('POST', '/send-email/', true);  // Replace with your Django endpoint URL
-    xhr.setRequestHeader('Content-Type', 'application/json');
-
-    // Handle response
-    xhr.onload = function() {
-        if (xhr.status >= 200 && xhr.status < 300) {
-            console.log('Email sent successfully');
-            alert('Email sent successfully');
-            // If email sent successfully, remove it from IndexedDB
-            removeEmailFromIndexedDB();
-            window.location.reload()
-        } else {
-            console.error('Error sending email:', xhr.statusText);
-            alert('Error sending email. Please try again later.');
-        }
-    };
-
-    // Handle network errors
-    xhr.onerror = function() {
-        console.error('Network error occurred while sending email.');
-        alert('Network error occurred while sending email. Please try again later.');
-    };
-
-    // Send the request with the email content as JSON
-    xhr.send(JSON.stringify({ content: emailContent }));
-}
-
-function saveEmailToIndexedDB(emailContent) {
-    // Open IndexedDB and store the email
-    var request = indexedDB.open('EmailsDB', 1);
-
-    request.onerror = function(event) {
-        console.error('Error opening IndexedDB:', event.target.errorCode);
-    };
-
-    request.onsuccess = function(event) {
-        var db = event.target.result;
-        var transaction = db.transaction(['emails'], 'readwrite');
-        var objectStore = transaction.objectStore('emails');
-
-        // Create an object for the email
-        var email = {
-            content: emailContent
-        };
-
-        // Add the email to the object store
-        var addRequest = objectStore.add(email);
-
-        addRequest.onsuccess = function() {
-            console.log('Email saved to IndexedDB');
-        };
-
-        addRequest.onerror = function(event) {
-            console.error('Error saving email to IndexedDB:', event.target.errorCode);
-        };
-    };
-}
-
-function removeEmailFromIndexedDB() {
-    // Open IndexedDB and remove the sent email
-    var request = indexedDB.open('EmailsDB', 1);
-
-    request.onerror = function(event) {
-        console.error('Error opening IndexedDB:', event.target.errorCode);
-    };
-
-    request.onsuccess = function(event) {
-        var db = event.target.result;
-        var transaction = db.transaction(['emails'], 'readwrite');
-        var objectStore = transaction.objectStore('emails');
-
-        // Delete all emails from the object store
-        var clearRequest = objectStore.clear();
-
-        clearRequest.onsuccess = function() {
-            console.log('Email removed from IndexedDB');
-        };
-
-        clearRequest.onerror = function(event) {
-            console.error('Error removing email from IndexedDB:', event.target.errorCode);
-        };
-    };
-}
-
-// Event listener for online status change
-window.addEventListener('online', function() {
-    // When the browser comes online, check if there are pending emails in IndexedDB and send them
-    sendPendingEmailsFromIndexedDB();
-});
-
-function sendPendingEmailsFromIndexedDB() {
-    var request = indexedDB.open('EmailsDB', 1);
-
-    request.onerror = function(event) {
-        console.error('Error opening IndexedDB:', event.target.errorCode);
-    };
-
-    request.onsuccess = function(event) {
-        var db = event.target.result;
-        var transaction = db.transaction(['emails'], 'readwrite');
-        var objectStore = transaction.objectStore('emails');
-
-        var getEmailsRequest = objectStore.getAll();
-
-        getEmailsRequest.onsuccess = function(event) {
-            var emails = event.target.result;
-            emails.forEach(function(email) {
-                sendEmailRequest(email.content);
-            });
-        };
-
-        getEmailsRequest.onerror = function(event) {
-            console.error('Error getting emails from IndexedDB:', event.target.errorCode);
-        };
-    };
-}
-});
-</script> -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- 
-
-
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-      var myForm = document.getElementById('myForm');
-  
-      myForm.addEventListener('submit', function(event) {
-
-          event.preventDefault();
-          var data = new FormData(event.target);
-          saveDataToIndexedDB(data);
-      });
-  
-      function saveDataToIndexedDB(data) {
-  // Exclude csrfmiddlewaretoken from being saved to IndexedDB
-  data.delete('csrfmiddlewaretoken');
-  data.delete('initial-entryCheck');
-  data.delete('Section1G_GF');
-    data.delete('Section1G_1F');
-    data.delete('Section1G_2F');
-    data.delete('Section1G_FL');
-    data.delete('Section1H_GF');
-    data.delete('Section1H_1F');
-    data.delete('Section1H_2F');
-    data.delete('Section1H_FL');
-    data.delete('Section1M_GF');
-    data.delete('Section1M_1F');
-    data.delete('Section1M_2F');
-    data.delete('Section1M_FL');
-    data.delete('Section1U_GF');
-    data.delete('Section1U_1F');
-    data.delete('Section1U_2F');
-    data.delete('Section1U_FL');
-    data.delete('Section1GP_GF');
-    data.delete('Section1GP_1F');
-    data.delete('Section1GP_2F');
-    data.delete('Section1GP_FL');
-    data.delete('Section2G_GF');
-    data.delete('Section2G_1F');
-    data.delete('Section2G_2F');
-    data.delete('Section2G_FL');
-    data.delete('Section2H_GF');
-    data.delete('Section2H_1F');
-    data.delete('Section2H_2F');
-    data.delete('Section2H_FL');
-    data.delete('Section2M_GF');
-    data.delete('Section2M_1F');
-    data.delete('Section2M_2F');
-    data.delete('Section2M_FL');
-    data.delete('Section2U_GF');
-    data.delete('Section2U_1F');
-    data.delete('Section2U_2F');
-    data.delete('Section2U_FL');
-    data.delete('Section2GP_GF');
-    data.delete('Section2GP_1F');
-    data.delete('Section2GP_2F');
-    data.delete('Section2GP_FL');
-
-  var request = indexedDB.open('GCNA', 2);
-
-  request.onsuccess = function(event) {
-      var db = event.target.result;
-      var transaction = db.transaction('In-House-Drying', 'readwrite');
-      var objectStore = transaction.objectStore('In-House-Drying');
-
-
-        // Create an object that matches the Django model
-        var obj = {
-            Date_Created: data.get('Date_Created'),
-            DATE_OF_SAMPLING: data.get('DATE_OF_SAMPLING'),
-            STATION: data.get('STATION'),
-            BATCH_CODE: parseInt(data.get('BATCH_CODE')),
-            Quantity_of_Bags: parseInt(data.get('Quantity_of_Bags')),
-            Quantity_of_Sample: parseInt(data.get('Quantity_of_Sample')),
-            Total_Weight: parseFloat(data.get('Total_Weight')),
-            Initial_Sample_Weight: parseFloat(data.get('Initial_Sample_Weight')),
-            Insect_Damaged: parseFloat(data.get('Insect_Damaged')),
-            Broken: parseFloat(data.get('Broken')),
-            Mould: parseFloat(data.get('Mould')),
-            Final_Sample_Weight: parseFloat(data.get('Final_Sample_Weight')),
-            READING_1: data.get('READING_1'),
-            READING_2: data.get('READING_2'),
-            READING_3: data.get('READING_3'),
-            AVERAGE: data.get('AVERAGE'),
-            DECISION: data.get('DECISION'),
-            Comments: data.get('Comments'),
-            TEST_PERFORMED_BY: data.get('TEST_PERFORMED_BY'),
-            DATE: data.get('DATE'),
-            APPROVED_BY: data.get('APPROVED_BY'),
-            DATE_OF_REPORT: data.get('DATE_OF_REPORT'),
-            SIGNED_BY_QUALITY_ASSURANCE_OFFICER: data.get('SIGNED_BY_QUALITY_ASSURANCE_OFFICER'),
-            DATE: data.get('DATE')
-        };
-          for (var pair of data.entries()) {
-              if (pair[0] !== 'csrfmiddlewaretoken') { // Exclude csrfmiddlewaretoken
-                  obj[pair[0]] = pair[1];
-              }
-          }
-
-          // Get the highest id in the object store
-          var highestIdRequest = objectStore.openCursor(null, 'prev');
-          highestIdRequest.onsuccess = function(event) {
-              var cursor = event.target.result;
-              if (cursor) {
-                  obj.id = cursor.key + 1;
-              } else {
-                  obj.id = 1; // This is the first item
-              }
-
-              var request = objectStore.put(obj);
-
-              request.onsuccess = function() {
-                  console.log('Data added to IndexedDB');
-                  if (data.get('ALERT') != 'Fail') {
-                          sendEmail(data, obj.id); // Send email only if decision is "Fail"
-                      }
-                  };
-              request.onerror = function(event) {
-                  console.error('Error adding data to IndexedDB:', event.target.errorCode);
-              };
-          };
-
-          highestIdRequest.onerror = function(event) {
-              console.error('Error opening cursor:', event.target.errorCode);
-          };
-      };
-  }
- -->
 
 
 
@@ -1564,22 +1144,7 @@ $('#id_NUM_OF_BAGS, #id_WEIGHT_PER_BAG,#id_ADDITIONAL_WEIGHT').on('change', func
       <td>{{ form.START_DRYING_DATE }}</td>
       <td>{{ form.APPROX_END_DRYING_DATE }}</td>
       <td>{{ form.END_DRYING_DATE }}</td>
-      <!--if mositure === 7% then set pick up data  add drop down for place of purchase
-      Link date of purchase  to create batch number  and that should be used in future forms
-      Form should be pulled as a hog as well as a transportation log
-      auto log iuser and date time Delivery Advice Number
-WAREHOUSE RECEIPT NUMBERS this should have mutiple instances  from  creaking form and generate craking code that will be  passed to the floated this allow links to specififc and genral recietes
-Create recieving Dry form {}
 
-Information transfer when using warehouse reciept number
-
-Discrepenices generate alerts
-Warehouse reciept should show information based on delievery advice that can be confirmsed with tick boxs 
-if differences are determined then should be added in new form .
-up to recieving 
-
-add email alert for delivery advice(still connect to date of purchase)
-     -->
 
     </tr>
 
@@ -1804,312 +1369,15 @@ add email alert for delivery advice(still connect to date of purchase)
   });
 </script>
 
-<!-- 
 
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-      function updateCalculatedWeight(tableId) {
-          var weightElement = document.getElementById(tableId).querySelector('#weight');
-          var calculatedWeightElement = document.getElementById(tableId).querySelector('#calculatedWeight');
 
-          if (weightElement) {
-              var weightText = weightElement.textContent.trim(); // Get text content
 
-              console.log('Weight text:', weightText); // Debugging statement
 
-              var weight = parseInt(weightText, 10); // Convert to integer
 
-              console.log('Parsed weight:', weight); // Debugging statement
 
-              if (!isNaN(weight)) {
-                  calculatedWeightElement.textContent = weight * 10;
-                  console.log('Calculated weight:', weight * 10); // Debugging statement
-              } else {
-                  calculatedWeightElement.textContent = 'N/A'; // Handle invalid number
-                  console.log('Invalid weight'); // Debugging statement
-              }
-          }
-      }
 
-      // Initial calculation for each table
-      updateCalculatedWeight('LoTableG1');
-      updateCalculatedWeight('LoTableG2');
-      updateCalculatedWeight('LoTableG3');
-      updateCalculatedWeight('LoTableG4');
-      updateCalculatedWeight('LoTableH1');
-      updateCalculatedWeight('LoTableH2');
-      updateCalculatedWeight('LoTableH3');
-      updateCalculatedWeight('LoTableH4');
 
-      // Update calculation on input change for each table
-      var tables = document.querySelectorAll('.table');
-      tables.forEach(function(table) {
-          var weightElement = table.querySelector('#weight');
-          if (weightElement) {
-              weightElement.addEventListener('input', function() {
-                  var tableId = table.id;
-                  updateCalculatedWeight(tableId);
-              });
-          }
-      });
-  });
-</script> -->
-<!-- 
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-      // Function to update calculated weight
-      function updateCalculatedWeight(tableId, weightFieldId) {
-          var weightElement = document.getElementById(tableId).querySelector('#' + weightFieldId);
-          var calculatedWeightElement = document.getElementById(tableId).querySelector('#calculatedWeight');
 
-          if (weightElement) {
-              var weightText = weightElement.textContent.trim(); // Get text content
-
-              console.log('Weight text:', weightText); // Debugging statement
-
-              var weight = parseInt(weightText, 10); // Convert to integer
-
-              console.log('Parsed weight:', weight); // Debugging statement
-
-              if (!isNaN(weight)) {
-                  calculatedWeightElement.textContent = weight * 10;
-                  console.log('Calculated weight:', weight * 10); // Debugging statement
-              } else {
-                  calculatedWeightElement.textContent = 'N/A'; // Handle invalid number
-                  console.log('Invalid weight'); // Debugging statement
-              }
-          }
-      }
-
-      // Array of table IDs and corresponding weight field IDs
-      var tables = [
-          { tableId: 'LoTableG1', weightFieldId: 'WeightG_GF' },
-          { tableId: 'LoTableG2', weightFieldId: 'WeightG_1F' },
-          { tableId: 'LoTableG3', weightFieldId: 'WeightG_2F' },
-          { tableId: 'LoTableG4', weightFieldId: 'WeightG_FL' },
-          { tableId: 'LoTableH1', weightFieldId: 'WeightH_GF' },
-          { tableId: 'LoTableH2', weightFieldId: 'WeightH_1F' },
-          { tableId: 'LoTableH3', weightFieldId: 'WeightH_2F' },
-          { tableId: 'LoTableH4', weightFieldId: 'WeightH_FL' },
-          { tableId: 'LoTableM1', weightFieldId: 'WeightM_GF' },
-          { tableId: 'LoTableM2', weightFieldId: 'WeightM_1F' },
-          { tableId: 'LoTableM3', weightFieldId: 'WeightM_2F' },
-          { tableId: 'LoTableM4', weightFieldId: 'WeightM_FL' },
-          { tableId: 'LoTableU1', weightFieldId: 'WeightU_GF' },
-          { tableId: 'LoTableU2', weightFieldId: 'WeightU_1F' },
-          { tableId: 'LoTableU3', weightFieldId: 'WeightU_2F' },
-          { tableId: 'LoTableU4', weightFieldId: 'WeightU_FL' },
-          { tableId: 'LoTableGP1', weightFieldId: 'WeightGP_GF' },
-          { tableId: 'LoTableGP2', weightFieldId: 'WeightGP_1F' },
-          { tableId: 'LoTableGP3', weightFieldId: 'WeightGP_2F' },
-          { tableId: 'LoTableGP4', weightFieldId: 'WeightGP_FL' }
-      ];
-
-      // Initial calculation for each table
-      tables.forEach(function(table) {
-          updateCalculatedWeight(table.tableId, table.weightFieldId);
-      });
-
-      // Update calculation on input change for each table
-      tables.forEach(function(table) {
-          var weightElement = document.getElementById(table.tableId).querySelector('#' + table.weightFieldId);
-          if (weightElement) {
-              weightElement.addEventListener('input', function() {
-                  updateCalculatedWeight(table.tableId, table.weightFieldId);
-              });
-          }
-      });
-  });
-</script>
-  -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- 
-
-  document.addEventListener('DOMContentLoaded', function() {
-      var weightElement = document.getElementById('weight');
-      var calculatedWeightElement = document.getElementById('calculatedWeight');
-      
-      if (weightElement && calculatedWeightElement) {
-          var weight = parseFloat(weightElement.textContent.trim());
-          if (!isNaN(weight)) {
-              calculatedWeightElement.textContent = weight * 10;
-          } else {
-              calculatedWeightElement.textContent = 'N/A'; // Handle invalid number
-          }
-      }
-  });
-   -->
-
-
-
-
-
-<!-- 
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var weightElement = document.getElementById('weight');
-        var calculatedWeightElement = document.getElementById('calculatedWeight');
-
-        function updateCalculatedWeight() {
-            var weight = parseInt(weightElement.value.trim(), 10); // Convert to integer
-            if (!isNaN(weight)) {
-                calculatedWeightElement.textContent = weight * 10;
-            } else {
-                calculatedWeightElement.textContent = 'N/A'; // Handle invalid number
-            }
-        }
-
-        // Initial calculation
-        updateCalculatedWeight();
-
-        // Update calculation on input change
-        weightElement.addEventListener('input', updateCalculatedWeight);
-    });
-</script>
- -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- 
- <script>
-  // document.addEventListener('DOMContentLoaded', function() {
-  //     var myForm = document.getElementById('myForm');
-  
-  //     myForm.addEventListener('submit', function(event) {
-
-  //         event.preventDefault();
-  //         var data = new FormData(event.target);
-  //         saveDataToIndexedDB(data);
-  //     });
-  
-      function saveDataToIndexedDB(data) {
-  // Exclude csrfmiddlewaretoken from being saved to IndexedDB
-  data.delete('csrfmiddlewaretoken');
-  data.delete('initial-entryCheck');
-
-  var request = indexedDB.open('GCNA', 2);
-
-  request.onsuccess = function(event) {
-      var db = event.target.result;
-      var transaction = db.transaction('In-House-Drying', 'readwrite');
-      var objectStore = transaction.objectStore('In-House-Drying');
-
-      var obj = {};
-      for (var pair of data.entries()) {
-          obj[pair[0]] = pair[1];
-      }
-
-      // Get the highest id in the object store
-      var highestIdRequest = objectStore.openCursor(null, 'prev');
-      highestIdRequest.onsuccess = function(event) {
-          var cursor = event.target.result;
-          if (cursor) {
-              obj.id = cursor.key + 1;
-          } else {
-              obj.id = 1; // This is the first item
-          }
-
-          var request = objectStore.put(obj);
-
-          request.onsuccess = function() {
-              console.log('Data added to IndexedDB');
-              transferIndexedDBData(); // Transfer data to Django after saving to IndexedDB
-          };
-
-          request.onerror = function() {
-              console.error('Error adding data to IndexedDB');
-          };
-      };
-  };
-
-  request.onerror = function(event) {
-      console.error('Error opening IndexedDB', event);
-  };
-}
-      function transferIndexedDBData() {
-          var request = indexedDB.open('GCNA', 2);
-      
-          request.onsuccess = function(event) {
-              var db = event.target.result;
-              var transaction = db.transaction('In-House-Drying', 'readonly');
-              var objectStore = transaction.objectStore('In-House-Drying');
-              var getRequest = objectStore.getAll();
-      
-              getRequest.onsuccess = function(event) {
-                  var data = event.target.result;
-                  data.forEach(function(item) {
-                      // sendDataToDjango(item);
-                    });
-                  window.location.reload();
-
-              };
-          };
-      
-          request.onerror = function(event) {
-              console.error('Error opening IndexedDB', event);
-          };
-      }
-  
-      function sendDataToDjango(item) {
-          var xhr = new XMLHttpRequest();
-          xhr.open('POST', '/check-and-add/', true);
-          xhr.setRequestHeader('Content-Type', 'application/json');
-          xhr.onreadystatechange = function() {
-              if (xhr.readyState === XMLHttpRequest.DONE) {
-                  if (xhr.status === 200) {
-                      console.log('Entry added successfully.');
-                  } else {
-                      console.error('Error adding entry:', xhr.statusText);
-                  }
-              }
-          };
-          xhr.send(JSON.stringify(item));
-      }
-  });
-</script> -->
-<!-- 
-<script>
-  function clickAllButtons() {
-    // Select all elements with the class "submit_contents"
-    console.log('Test worked')
-    var buttons = document.querySelectorAll('.submit_contents');
-
-    // Iterate over each button and trigger a click event
-    buttons.forEach(function(button) {
-        button.click(); // Simulate a click on each button
-    });
-}
-</script> -->
 
 
  

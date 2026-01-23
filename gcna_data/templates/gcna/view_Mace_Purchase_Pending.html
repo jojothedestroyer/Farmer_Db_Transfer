@@ -135,6 +135,74 @@
 
   </div>
 
+
+
+  <script type="module">
+ import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+  import { getDatabase, ref, set, get, query, orderByChild, equalTo, update, push,remove } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
+  import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
+
+  // Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyBZTB_mN_gIb6mqeM8nid4x83oKRehmFKo",
+    authDomain: "farmer-project-sync.firebaseapp.com",
+    databaseURL: "https://farmer-project-sync-default-rtdb.firebaseio.com",
+    projectId: "farmer-project-sync",
+    storageBucket: "farmer-project-sync.firebasestorage.app",
+    messagingSenderId: "1366353203",
+    appId: "1:1366353203:web:fa29fd29cc326a0d63ca46"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+  const auth = getAuth(app);
+  async function deleteRecord(id) {
+    if (!confirm("Delete this record?")) return;
+
+    const tableName = "Mace_Purchase";
+    const userId = localStorage.getItem("customUserId");
+
+    try {
+  
+      if (navigator.onLine && userId) {
+        await remove(ref(db, `Users/${userId}/models/${tableName}/${id}`));
+      }
+deleteIndexeddb(id)
+      
+    } catch (error) {
+      console.error("Delete failed:", error);
+    }
+  }
+
+  window.deleteRecord = deleteRecord;
+
+  function deleteIndexeddb(id) {
+    let openRequest = indexedDB.open("GCNA");
+
+    openRequest.onsuccess = function (event) {
+      let db = event.target.result;
+      let transaction = db.transaction("Mace_Purchase", "readwrite");
+      let store = transaction.objectStore("Mace_Purchase");
+
+      let deleteRequest = store.delete(id);
+
+      deleteRequest.onsuccess = function () {
+        console.log(`Record ${id} deleted successfully.`);
+        const element = document.getElementById(`entryContainer_${id}`);
+        if (element) {
+          element.remove();
+        }
+      };
+
+      deleteRequest.onerror = function () {
+        console.error("Error deleting record:", deleteRequest.error);
+        alert("Failed to delete record.");
+      };
+    };
+  
+}
+
+</script>
   <script>
 
 function toggleRecord(id) {
@@ -187,23 +255,47 @@ let labelText = record.BATCH_CODE_M1 !== ""
   ? (`Mace Batches: M1:${record.BATCH_CODE_M1}    M2:${record.BATCH_CODE_M2}      M3:${record.BATCH_CODE_M3}`)
   : record.BATCH_CODE_M1 ;
 
-entryContainer.innerHTML = `
-  <button class="btn btn-primary" 
-          onclick="toggleRecord(${record.id})" 
-          style="width:100%; text-align:left; margin-bottom:8px;">
-    ${labelText} 
-  </button>
+// entryContainer.innerHTML = `
+//   <button class="btn btn-primary" 
+//           onclick="toggleRecord(${record.id})" 
+//           style="width:100%; text-align:left; margin-bottom:8px;">
+//     ${labelText} 
+//   </button>
 
-  <div id="recordDetails-${record.id}" style="display:none;"> 
-              <form id="form_${record.id}">
-                    <div class="card-body">
+//   <div id="recordDetails-${record.id}" style="display:none;"> 
+//               <form id="form_${record.id}">
+//                     <div class="card-body">
                   
-                    </h5>
-                      <p class="card-text">
-                          <table id="vertical-1" class="table table-hover table-light">
+//                     </h5>
+//                       <p class="card-text">
+//                           <table id="vertical-1" class="table table-hover table-light">
                          
            
+entryContainer.innerHTML = `
 
+
+<div class="d-flex gap-2" style="margin-bottom:8px;">
+    <button class="btn btn-primary" 
+            onclick="toggleRecord(${record.id})" 
+            style="flex-grow: 1; text-align:left;">
+      ${labelText} 
+    </button>
+    <button class="btn btn-danger" 
+            onclick="deleteRecord(${record.id})" 
+            title="Delete Record">
+      &times;
+    </button>
+  </div>
+
+  
+
+  <div id="recordDetails-${record.id}" style="display:none;"> 
+      <form>
+      <div class="card">
+        <div class="card-body">
+        <p class="card-text">
+
+        <table id="vertical-1" class="table table-hover table-light">
 
         <tr>
             <th>STATION</th>

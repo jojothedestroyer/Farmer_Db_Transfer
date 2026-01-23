@@ -180,6 +180,17 @@
                     <div class="col-md-6 mb-3 d-flex align-items-end">
                         <button id="applyFilters" class="btn btn-primary me-2">Apply Filters</button>
                         <button id="resetFilters" class="btn btn-secondary">Reset Filters</button>
+<button
+  id="syncButton"
+  class="btn btn-danger">
+  Check External
+</button>
+
+            <button
+  id="syncButtonChange"
+  class="btn btn-danger">
+  View External
+</button>            
                     </div>
                 </div>
             </div>
@@ -209,6 +220,560 @@
             </div>
         </div>
     </div>
+
+
+
+<!-- 
+<script type="module"> // Ensure type="module" is used for Firebase imports
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+    import { getDatabase, ref, set, get, query, orderByChild, equalTo } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
+    import { getAuth } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
+
+    // Firebase configuration
+    const firebaseConfig = {
+    apiKey: "AIzaSyBZTB_mN_gIb6mqeM8nid4x83oKRehmFKo",
+    authDomain: "farmer-project-sync.firebaseapp.com",
+    databaseURL: "https://farmer-project-sync-default-rtdb.firebaseio.com",
+    projectId: "farmer-project-sync",
+    storageBucket: "farmer-project-sync.firebasestorage.app",
+    messagingSenderId: "1366353203",
+    appId: "1:1366353203:web:fa29fd29cc326a0d63ca46"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const auth = getAuth(app);
+    
+    const DISPATCH_STORE = "Dispatch-Of-Dried-Nutmeg";
+    const stations = ["Grenville", "Hermitage", "Marli", "Union", "Gouyave", "Victoria"];
+
+    // --- EVENT LISTENER ---
+    document.getElementById('syncButton').addEventListener('click', async () => {
+        const btn = document.getElementById('syncButton');
+        btn.disabled = true;
+        btn.innerText = "Collecting...";
+        
+        console.log('Starting Sync Process...');
+        await handleStationArray();
+        
+        btn.disabled = false;
+        btn.innerText = "Dispatch Data Collection";
+        alert("Collection Complete!");
+    });
+
+    async function handleStationArray() {
+        for (const station of stations) {
+            await getExtStationData(station);
+        }
+    }
+
+    async function getExtStationData(stationName) {
+        const existingStation = await findStation(stationName);
+        if (existingStation) {
+            // Passing the Station ID found in Firebase to load specific model data
+            await loadDataFromFirebase(existingStation.StationId);
+        } else {
+            console.log(`${stationName} not yet created in Firebase`);
+        }
+    }
+
+    async function loadDataFromFirebase(stationId) {
+        console.log(`Loading data for Station ID: ${stationId}`);
+        // Pointing to the specific model store you defined
+        const userRef = ref(db, `Users/${stationId}/models/${DISPATCH_STORE}`);
+        const snapshot = await get(userRef);
+
+        if (snapshot.exists()) {
+            const modelData = snapshot.val();
+            await loadModelToIndexedDB(DISPATCH_STORE, modelData);
+            console.log(`Data for ${DISPATCH_STORE} successfully loaded.`);
+        } else {
+            console.log(`No ${DISPATCH_STORE} data found for this station.`);
+        }
+    }
+
+    async function loadModelToIndexedDB(modelName, modelData) {
+        const idb = await initializeIndexedDB();
+        const transaction = idb.transaction(modelName, "readwrite");
+        const store = transaction.objectStore(modelName);
+
+        // Convert object to array if Firebase returns an object-map
+        const items = Array.isArray(modelData) ? modelData : Object.values(modelData);
+
+        for (const item of items) {
+            if (!item || item.id == null) continue;
+
+            let newItem = { ...item };
+            // Ensure unique ID to prevent IndexedDB ConstraintError
+            while (await idExists(store, newItem.id)) {
+                newItem.id = Number(newItem.id) + 1;
+            }
+            store.put(newItem);
+        }
+    }
+
+    // --- HELPER FUNCTIONS ---
+
+    function initializeIndexedDB() {
+        return new Promise((resolve, reject) => {
+            const request = indexedDB.open("ExternalDispatches", 2);
+            request.onupgradeneeded = (e) => {
+                const db = e.target.result;
+                if (!db.objectStoreNames.contains(DISPATCH_STORE)) {
+                    db.createObjectStore(DISPATCH_STORE, { keyPath: "id" });
+                }
+            };
+            request.onsuccess = (e) => resolve(e.target.result);
+            request.onerror = (e) => reject(e);
+        });
+    }
+
+    function idExists(store, id) {
+        return new Promise((resolve) => {
+            const request = store.get(id);
+            request.onsuccess = () => resolve(!!request.result);
+            request.onerror = () => resolve(false);
+        });
+    }
+
+    async function findStation(stationName) {
+        const dataRef = ref(db, "Users");
+        const stationQuery = query(dataRef, orderByChild("name"), equalTo(stationName));
+        const snapshot = await get(stationQuery);
+
+        if (snapshot.exists()) {
+            const stationData = snapshot.val();
+            const StationId = Object.keys(stationData)[0];
+            return { StationId };
+        }
+        return null;
+    }
+</script> -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+import { getDatabase, ref, set, get, query, orderByChild, equalTo, update, push, remove } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
+import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
+
+// Firebase configuration
+const firebaseConfig = {
+    apiKey: "AIzaSyBZTB_mN_gIb6mqeM8nid4x83oKRehmFKo",
+    authDomain: "farmer-project-sync.firebaseapp.com",
+    databaseURL: "https://farmer-project-sync-default-rtdb.firebaseio.com",
+    projectId: "farmer-project-sync",
+    storageBucket: "farmer-project-sync.firebasestorage.app",
+    messagingSenderId: "1366353203",
+    appId: "1:1366353203:web:fa29fd29cc326a0d63ca46"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const auth = getAuth(app);
+const DISPATCH_STORE = "Dispatch-Of-Dried-Nutmeg";
+const stations = ["Grenville", "Hermitage", "Marli", "Union", "Gouyave", "Victoria"];
+
+
+    document.getElementById('syncButton').addEventListener('click', async () => {
+        const btn = document.getElementById('syncButton');
+        btn.disabled = true;
+        btn.innerText = "Collecting...";
+        
+        console.log('Starting Sync Process...');
+        await handleStationArray();
+        
+        btn.disabled = false;
+        btn.innerText = "Dispatch Data Collection";
+        alert("Collection Complete!");
+    });
+    
+async function handleStationArray() {
+console.log('CHECK1')
+    for (const station of stations) {
+
+        await getExtStationData(station)
+    }
+}
+async function getExtStationData(stationName) {
+    const existingStation = await findStation(stationName);
+    if (existingStation) {
+        loadDataFromFirebase(existingStation.StationId);
+
+    } else {
+        console.log(existingStation + "  not yet created")
+    }
+}
+
+   async function loadDataFromFirebase(stationId) {
+        console.log(`Loading data for Station ID: ${stationId}`);
+        // Pointing to the specific model store you defined
+        const userRef = ref(db, `Users/${stationId}/models/${DISPATCH_STORE}`);
+        const snapshot = await get(userRef);
+
+        if (snapshot.exists()) {
+            const modelData = snapshot.val();
+            await loadModelToIndexedDB(DISPATCH_STORE, modelData);
+            console.log(`Data for ${DISPATCH_STORE} successfully loaded.`);
+        } else {
+            console.log(`No ${DISPATCH_STORE} data found for this station.`);
+        }
+    }
+  async function loadModelToIndexedDB(modelName, modelData) {
+        const idb = await initializeIndexedDB();
+        const transaction = idb.transaction(modelName, "readwrite");
+        const store = transaction.objectStore(modelName);
+
+        // Convert object to array if Firebase returns an object-map
+        const items = Array.isArray(modelData) ? modelData : Object.values(modelData);
+
+        for (const item of items) {
+            if (!item || item.id == null) continue;
+
+            let newItem = { ...item };
+            // Ensure unique ID to prevent IndexedDB ConstraintError
+            while (await idExists(store, newItem.id)) {
+                newItem.id = Number(newItem.id) + 1;
+            }
+            store.put(newItem);
+        }
+    }
+
+
+// async function addExtDispatchData(stationName) {
+
+//     await loadDataFromFirebase(stationName);
+
+// }
+
+
+
+
+// async function loadModelToIndexedDB(modelName, modelData) {
+//     const db = await initializeIndexedDB();
+//     const transaction = db.transaction(modelName, "readwrite");
+//     const store = transaction.objectStore(modelName);
+
+
+//     if (Array.isArray(modelData)) {
+//         for (const item of modelData) {
+//             if (!item || item.id == null) {
+//                 console.error(`Item is missing 'id' field for model ${modelName}:`, item);
+//                 continue;
+//             }
+
+//             let newItem = { ...item };
+
+//             while (await idExists(store, newItem.id)) {
+//                 newItem.id += 1;
+//             }
+
+//             store.put(newItem); 
+//         }
+//     }
+
+
+
+//     else if (modelData && typeof modelData === 'object') {
+
+//         for (const item of Object.values(modelData)) {
+//             if (!item || item.id == null) {
+//                 console.error(`Item is missing 'id' field for model ${modelName}:`, item);
+//                 continue;
+//             }
+
+//             let updatedItem = { ...item };
+
+//             while (await idExists(store, updatedItem.id)) {
+//                 updatedItem.id += 1;
+//             }
+
+//             store.put(updatedItem); 
+//         }
+
+//     } else {
+//         console.error(`Unexpected modelData type for ${modelName}:`, modelData);
+//     }
+// }
+
+
+
+
+
+
+
+
+
+
+// async function getIndexedDBData() {
+//     const db = await initializeIndexedDB();
+//     return new Promise((resolve, reject) => {
+
+
+//         const transaction = db.transaction(dispatch, "readonly");
+//         const store = transaction.objectStore(dispatch);
+//         const request = store.getAll();
+
+//         request.onsuccess = function () {
+//             allData.push({ dispatch, data: request.result });
+//             if (allData.length === dispatch.length) {
+//                 resolve(allData);
+//             }
+//         };
+
+//         request.onerror = function () {
+//             reject("Error reading data from IndexedDB");
+//         };
+//     });
+// }
+
+
+
+function idExists(store, id) {
+    return new Promise((resolve, reject) => {
+        const request = store.get(id);
+
+        request.onsuccess = () => {
+            resolve(!!request.result);
+        };
+
+        request.onerror = () => {
+            reject(request.error);
+        };
+    });
+}
+
+    function initializeIndexedDB() {
+        return new Promise((resolve, reject) => {
+            const request = indexedDB.open("ExternalDispatches", 2);
+            request.onupgradeneeded = (e) => {
+                const db = e.target.result;
+                if (!db.objectStoreNames.contains(DISPATCH_STORE)) {
+                    db.createObjectStore(DISPATCH_STORE, { keyPath: "id" });
+                }
+            };
+            request.onsuccess = (e) => resolve(e.target.result);
+            request.onerror = (e) => reject(e);
+        });
+    }
+
+
+
+// function initializeIndexedDB() {
+//     return new Promise((resolve, reject) => {
+//         const dbVersion = 2;
+//         var request = indexedDB.open("ExternalDispatches", dbVersion);
+
+//         request.onupgradeneeded = function (event) {
+//             var db = event.target.result;
+//             console.log("Database upgrade needed. Creating object stores...");
+
+//             const modelNames = [
+//                 "Dispatch-Of-Dried-Nutmeg",
+//             ];
+
+//             modelNames.forEach((modelName) => {
+//                 if (!db.objectStoreNames.contains(modelName)) {
+//                     console.log(`Creating object store: ${modelName}`);
+//                     db.createObjectStore(modelName, { keyPath: "id" }); 
+//                 } else {
+//                     console.log(`Object store already exists: ${modelName}`);
+//                 }
+//             });
+//         };
+
+//         request.onsuccess = function (event) {
+//             console.log("IndexedDB initialized successfully.");
+//             resolve(event.target.result);
+//         };
+
+//         request.onerror = function (event) {
+//             console.error("Error opening IndexedDB:", event);
+//             reject("Error opening IndexedDB:", event);
+//         };
+//     });
+// }
+
+
+
+
+
+
+
+async function findStation(stationName) {
+    const dataRef = ref(db, "Users");
+    const stationQuery = query(dataRef, orderByChild("name"), equalTo(stationName));
+    const snapshot = await get(stationQuery);
+
+    if (snapshot.exists()) {
+        const stationData = snapshot.val();
+        const StationId = Object.keys(stationData)[0];
+        console.log("Station found in Firebase with StationId:", StationId);
+        return { StationId };
+    } else {
+        console.log("No Station found in Firebase.");
+        return null; 
+    }
+}
+
+</script>
+
+
+<script>
+    // Using a self-invoking block or unique prefixes to avoid conflicts with your original script
+    const EXT_CONFIG = {
+        storeName: 'Dispatch-Of-Dried-Nutmeg',
+        dbName: 'ExternalDispatches',
+        recordsPerPage: 10
+    };
+
+    let extCurrentPage = 1;
+    let extAllRecords = [];
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // We only initialize the external loader
+        loadExternalDispatchRecords();
+        
+        // Setup event listener for the 'Check External' button specifically
+        const syncBtn = document.getElementById('syncButtonChange');
+        if (syncBtn) {
+            syncBtn.addEventListener('click', function() {
+                loadExternalDispatchRecords();
+            });
+        }
+    });
+
+    function loadExternalDispatchRecords() {
+        const extContainer = document.getElementById('recordsContainer');
+        extContainer.innerHTML = `
+            <div class="text-center p-4">
+                <div class="spinner-border text-danger" role="status"></div>
+                <p class="mt-2">Accessing External Dispatch Store...</p>
+            </div>
+        `;
+
+        const extRequest = indexedDB.open(EXT_CONFIG.dbName, 2);
+
+        extRequest.onerror = (event) => {
+            console.error('External DB Error:', event.target.error);
+            extContainer.innerHTML = `<div class="alert alert-danger">Error accessing database for external records.</div>`;
+        };
+
+        extRequest.onsuccess = (event) => {
+            const db = event.target.result;
+
+            if (!db.objectStoreNames.contains(EXT_CONFIG.storeName)) {
+                extContainer.innerHTML = `
+                    <div class="no-records">
+                        <h4 class="text-danger">External Store Not Found</h4>
+                        <p>The store "${EXT_CONFIG.storeName}" does not exist in the GCNA database.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const transaction = db.transaction([EXT_CONFIG.storeName], 'readonly');
+            const store = transaction.objectStore(EXT_CONFIG.storeName);
+            const getAllReq = store.getAll();
+
+            getAllReq.onsuccess = () => {
+                let records = getAllReq.result;
+                
+                // Sort newest first
+                records.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+
+                // Use a local version of applyFilters logic to avoid conflict
+                extAllRecords = extApplyFilters(records);
+                extDisplayRecords();
+            };
+        };
+    }
+
+    function extApplyFilters(records) {
+        const stationFilt = document.getElementById('filterStation').value;
+        const batchFilt = document.getElementById('searchBatchCode').value.trim().toLowerCase();
+        
+        return records.filter(record => {
+            if (stationFilt && record.STATION_DRIED !== stationFilt && record.station !== stationFilt) return false;
+            
+            if (batchFilt) {
+                const searchString = JSON.stringify(record).toLowerCase();
+                if (!searchString.includes(batchFilt)) return false;
+            }
+            return true;
+        });
+    }
+
+    function extDisplayRecords() {
+        const extContainer = document.getElementById('recordsContainer');
+        const extPagination = document.getElementById('pagination');
+        
+        if (extAllRecords.length === 0) {
+            extContainer.innerHTML = `<div class="alert alert-info">No records found in External Dispatch.</div>`;
+            extPagination.innerHTML = '';
+            return;
+        }
+
+        const start = (extCurrentPage - 1) * EXT_CONFIG.recordsPerPage;
+        const end = start + EXT_CONFIG.recordsPerPage;
+        const pageData = extAllRecords.slice(start, end);
+
+        let html = '';
+        pageData.forEach(record => {
+            // Mapping fields commonly found in external/synced data
+            const displayDate = record.timestamp ? new Date(record.timestamp).toLocaleString() : 'N/A';
+            const station = record.STATION_DRIED || record.station || 'N/A';
+            const batchCodes = record.BATCH_CODES_DRIED || record.batch_codes || 'N/A';
+
+            html += `
+                <div class="record-card border-start border-danger border-4 mb-3 shadow-sm bg-light">
+                    <div class="card-header bg-white d-flex justify-content-between">
+                        <span><strong>External Record: ${record.id || 'N/A'}</strong></span>
+                        <span class="text-muted small">${displayDate}</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p class="mb-1 text-uppercase small text-muted">Station</p>
+                                <p class="fw-bold">${station}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="mb-1 text-uppercase small text-muted">Batch Codes</p>
+                                <p class="fw-bold text-primary">${batchCodes}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+
+        extContainer.innerHTML = html;
+        extRenderPagination();
+    }
+
+    function extRenderPagination() {
+        const totalPages = Math.ceil(extAllRecords.length / EXT_CONFIG.recordsPerPage);
+        const pagEl = document.getElementById('pagination');
+        let html = '';
+
+        for (let i = 1; i <= totalPages; i++) {
+            html += `
+                <li class="page-item ${i === extCurrentPage ? 'active' : ''}">
+                    <a class="page-link" href="#" onclick="extChangePage(${i}); return false;">${i}</a>
+                </li>
+            `;
+        }
+        pagEl.innerHTML = html;
+    }
+
+    // Global helper for the onclick event in pagination
+    window.extChangePage = function(pageNum) {
+        extCurrentPage = pageNum;
+        extDisplayRecords();
+        window.scrollTo(0, 0);
+    };
+</script>
+
+
 
     <script>
         // Set current date
