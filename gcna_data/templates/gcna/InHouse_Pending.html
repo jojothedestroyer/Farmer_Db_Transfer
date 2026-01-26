@@ -278,12 +278,17 @@
       if (navigator.onLine && userId) {
         await remove(ref(db, `Users/${userId}/models/${table}/${id}`));
       }
-deleteIndexeddb(id)
       
     } catch (error) {
       console.error("Delete failed:", error);
     }
   }
+
+
+
+
+
+
 
   async function deleteRecord(id) {
     if (!confirm("Delete this record?")) return;
@@ -798,7 +803,7 @@ editRecord(id,'In-House-Drying')
                     entryContainer.className = "entry-container";
                     entryContainer.dataset.formId = table.id;
                     entryContainer.dataset.recordId = record.id;
-
+const baseID=record.id
                     const recordId = Number(record.id);
 
                     entryContainer.innerHTML = `
@@ -817,11 +822,11 @@ editRecord(id,'In-House-Drying')
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td contenteditable="true" data-record-id="${recordId}" data-field="Shelf">${record.Shelf}</td>
-                                    <td contenteditable="true" data-record-id="${recordId}" data-field="Tray">${record.Tray}</td>
-                                    <td contenteditable="true" data-record-id="${recordId}" data-field="Section">${record.Section}</td>
-                                    <td contenteditable="true" data-record-id="${recordId}" data-field="amount">${record.amount}</td>
-                                    <td><button class="btn btn-danger delete-btn" data-record-id="${recordId}"   onclick="deleteEntry(${recordId},'${record.id}', this)">Delete</button></td>
+                                    <td contenteditable="true" data-record-id="${recordId}" data-field="Shelf" value="${record.Shelf || ''}" onblur="saveOnBlurSH(this, '${record.id}', 'Shelf')">${record.Shelf}</td>
+                                    <td contenteditable="true" data-record-id="${recordId}" data-field="Tray" value="${record.Tray || ''}" onblur="saveOnBlurSH(this, '${record.id}', 'Tray')">${record.Tray}</td>
+                                    <td contenteditable="true" data-record-id="${recordId}" data-field="Section" value="${record.Section || ''}" onblur="saveOnBlurSH(this, '${record.id}', 'Section')">${record.Section}</td>
+                                    <td contenteditable="true" data-record-id="${recordId}" data-field="amount"  value="${record.amount || ''}" onblur="saveOnBlurSH(this, '${record.id}', 'amount')">${record.amount}</td>
+                                    <td><button class="btn btn-danger delete-btn" data-record-id="${recordId}"   value="${record.Moisture || ''}" onclick="deleteEntry(${recordId},'${record.id}', this)">Delete</button></td>
 
                                 </tr>
                                 <tr style="display: none;">
@@ -836,30 +841,30 @@ editRecord(id,'In-House-Drying')
 
                 });
 
-                landInfoDataDiv.addEventListener('blur', function (e) {
-                    if (e.target && e.target.hasAttribute('contenteditable') && e.target.dataset.recordId && e.target.dataset.field) {
-                        const recordIdToUpdate = parseInt(e.target.dataset.recordId, 10);
-                        const fieldToUpdate = e.target.dataset.field;
-                        let newValue = e.target.textContent.trim();
+                // landInfoDataDiv.addEventListener('blur', function (e) {
+                //     if (e.target && e.target.hasAttribute('contenteditable') && e.target.dataset.recordId && e.target.dataset.field) {
+                //         const recordIdToUpdate = parseInt(e.target.dataset.recordId, 10);
+                //         const fieldToUpdate = e.target.dataset.field;
+                //         let newValue = e.target.textContent.trim();
 
-                        if (fieldToUpdate === "amount") {
-                            const numericValue = parseFloat(newValue);
-                            if (isNaN(numericValue)) {
-                                console.error("Invalid amount: Not a number. Reverting or add validation.");
-                                const originalRecord = landInfoRecords.find(r => r.id === recordIdToUpdate);
-                                if (originalRecord) {
-                                    e.target.textContent = originalRecord[fieldToUpdate];
-                                }
-                                return;
-                            }
-                            newValue = numericValue;
-                        } else if (fieldToUpdate === "floor" && e.target.tagName === 'H5') {
-                        }
+                //         if (fieldToUpdate === "amount") {
+                //             const numericValue = parseFloat(newValue);
+                //             if (isNaN(numericValue)) {
+                //                 console.error("Invalid amount: Not a number. Reverting or add validation.");
+                //                 const originalRecord = landInfoRecords.find(r => r.id === recordIdToUpdate);
+                //                 if (originalRecord) {
+                //                     e.target.textContent = originalRecord[fieldToUpdate];
+                //                 }
+                //                 return;
+                //             }
+                //             newValue = numericValue;
+                //         } else if (fieldToUpdate === "floor" && e.target.tagName === 'H5') {
+                //         }
 
-                        console.log(`Attempting to save: ID=${recordIdToUpdate}, Field=${fieldToUpdate}, Value=${newValue}`);
-                        saveUpdatedRecordField(recordIdToUpdate, fieldToUpdate, newValue);
-                    }
-                }, true);
+                //         console.log(`Attempting to save: ID=${recordIdToUpdate}, Field=${fieldToUpdate}, Value=${newValue}`);
+                //         saveUpdatedRecordField(recordIdToUpdate, fieldToUpdate, newValue);
+                //     }
+                // }, true);
 
 
             });
@@ -911,7 +916,28 @@ event.preventDefault()
     };
 }
 
-    function saveUpdatedRecordField(recordId, fieldName, newValue) {
+function saveOnBlurSH(element, recordId, fieldName) {
+    // 1. Get the value from the input
+    // let newValue = element.value;
+    const newValue = element.textContent.trim();
+
+    // 2. Ensure recordId is a number (IndexedDB keys are type-sensitive)
+    const numericId = Number(recordId);
+
+    // 3. Optional: Add basic validation (e.g., don't save if empty)
+    if (element.required && newValue.trim() === "") {
+        console.warn(`Field ${fieldName} is required. Update aborted.`);
+        return;
+    }
+
+    console.log(`Saving from input: ID=${numericId}, Field=${fieldName}, Value=${newValue}`);
+    
+    // 4. Call your existing save function
+    saveUpdatedRecordFieldSH(numericId, fieldName,recordId, newValue);
+}
+
+
+function saveUpdatedRecordFieldSH(recordId, fieldName, FireID,newValue) {
         let openRequest = indexedDB.open("GCNA");
 
         openRequest.onsuccess = function (event) {
@@ -946,7 +972,7 @@ event.preventDefault()
 
             transaction.oncomplete = function () {
                 console.log(`Transaction completed for updating record ${recordId}.`);
-                editRecord(recordId,'Shelves')
+                        editRecord(FireID,'M_Shelves')
 
             };
             transaction.onerror = function (transEvent) {
@@ -957,6 +983,56 @@ event.preventDefault()
             console.error("Failed to open GCNA database for saving changes: ", event.target.error);
         };
     }
+
+
+
+    // function saveUpdatedRecordField(recordId, fieldName, newValue,baseRecordID) {
+    //     let openRequest = indexedDB.open("GCNA");
+    //     openRequest.onsuccess = function (event) {
+    //         let db = event.target.result;
+    //         let transaction = db.transaction("Shelves", "readwrite");
+    //         let store = transaction.objectStore("Shelves");
+    //         let getRequest = store.get(recordId);
+
+    //         getRequest.onsuccess = function (e) {
+    //             let record = e.target.result;
+    //             if (record) {
+    //                 if (record.hasOwnProperty(fieldName)) {
+    //                     record[fieldName] = newValue;
+    //                     let putRequest = store.put(record);
+
+    //                     putRequest.onsuccess = function () {
+    //                         console.log(`Record ${recordId} updated successfully. Field: ${fieldName}, New Value: ${newValue}`);
+    //                         editRecord(baseRecordID,'Shelves')
+
+    //                     };
+    //                     putRequest.onerror = function (putEvent) {
+    //                         console.error(`Error updating record ${recordId}. Field: ${fieldName}`, putEvent.target.error);
+    //                     };
+    //                 } else {
+    //                     console.warn(`Field "${fieldName}" does not exist on record ${recordId}. Update skipped.`);
+    //                 }
+    //             } else {
+    //                 console.error(`Record ${recordId} not found for update.`);
+    //             }
+    //         };
+    //         getRequest.onerror = function (getEvent) {
+    //             console.error(`Error fetching record ${recordId} for update: `, getEvent.target.error);
+    //         };
+
+    //         transaction.oncomplete = function () {
+    //             console.log(`Transaction completed for updating record ${recordId}.`);
+    //             editRecord(recordId,'Shelves')
+
+    //         };
+    //         transaction.onerror = function (transEvent) {
+    //             console.error("Transaction error during update: ", transEvent.target.error);
+    //         };
+    //     };
+    //     openRequest.onerror = function (event) {
+    //         console.error("Failed to open GCNA database for saving changes: ", event.target.error);
+    //     };
+    // }
 
 </script>
 
