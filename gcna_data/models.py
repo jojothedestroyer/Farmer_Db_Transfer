@@ -2208,20 +2208,20 @@ class Mace_Purchase(models.Model):
 
     DATE_OF_PURCHASE= models.DateField('Date of Purchase',null=True)
     PLACE_OF_PURCHASE= models.CharField('Place of Purchase ',max_length=50,null=True,  choices=PLACE_OF_PURCHASE_CHOICES)
-    TOTAL_NUM_OF_FARMERS= models.CharField('Total Numbers of Farmers',default= 0,max_length=50)
-    TOTAL_LBS_NUTMEG_BOUGHT= models.CharField('Total lbs of nutmeg bought',null=True,default= 0,max_length=50)
-    NUM_OF_BAGS= models.CharField('Number of Bags',default= 0,max_length=50)
+    TOTAL_NUM_OF_FARMERS= models.CharField('Total Numbers of Farmers',max_length=50)
+    TOTAL_LBS_NUTMEG_BOUGHT= models.CharField('Total lbs of nutmeg bought',null=True,max_length=50)
+    NUM_OF_BAGS= models.CharField('Number of Bags',max_length=50)
 
-    MACE_1= models.CharField('Number of Bags',default= 0,max_length=50)
+    MACE_1= models.CharField('Number of Bags',max_length=50)
     BATCH_CODE_M1= models.CharField('Place of Purchase ',max_length=50,null=True,)
 
 
-    MACE_2= models.CharField('Number of Bags',default= 0,max_length=50)
+    MACE_2= models.CharField('Number of Bags',max_length=50)
     BATCH_CODE_M2= models.CharField('Place of Purchase ',max_length=50,null=True,)
 
 
 
-    MACE_3= models.CharField('Number of Bags',default= 0,max_length=50)
+    MACE_3= models.CharField('Number of Bags',max_length=50)
     BATCH_CODE_M3= models.CharField('Place of Purchase ',max_length=50,null=True,)
 
 

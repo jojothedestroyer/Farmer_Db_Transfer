@@ -545,10 +545,10 @@
             <td>{{ form.DATE_OF_PURCHASE }}</td>
         </tr>
 
-        <tr>
+        <!-- <tr>
           <th>PLACE OF PURCHASE</th>
           <td>{{ form.PLACE_OF_PURCHASE }}</td>
-      </tr>
+      </tr> -->
 
         <tr>
             <th>TOTAL # OF FARMERS</th>
@@ -740,6 +740,11 @@
                 });
 
                     if (!exists) {
+        // <tr>
+        //                                 <th>PLACE OF PURCHASE</th>
+        //                                 <td>${record.PLACE_OF_PURCHASE}</td>
+        //                             </tr>
+
                 let dropdownContent = `
                     <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton_${record.id}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -758,10 +763,7 @@
                                         <th>DATE OF PURCHASE</th>
                                         <td>${record.DATE_OF_PURCHASE}</td>
                                     </tr>
-                                    <tr>
-                                        <th>PLACE OF PURCHASE</th>
-                                        <td>${record.PLACE_OF_PURCHASE}</td>
-                                    </tr>
+                            
                                     <tr>
                                         <th>TOTAL # OF FARMERS</th>
                                         <td>${record.TOTAL_NUM_OF_FARMERS}</td>

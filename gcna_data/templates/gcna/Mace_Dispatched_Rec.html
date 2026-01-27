@@ -1471,6 +1471,10 @@ function  set_valuecode(batchnum1,batchnum2,batchnum3,station,whr,del) {
                 });
 
                     if (!exists) {
+                                //   <tr>
+                                //         <th>PLACE OF PURCHASE</th>
+                                //         <td>${record.PLACE_OF_PURCHASE}</td>
+                                //     </tr>
                 let dropdownContent = `
                     <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton_${record.id}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -1489,10 +1493,7 @@ function  set_valuecode(batchnum1,batchnum2,batchnum3,station,whr,del) {
                                         <th>DATE OF PURCHASE</th>
                                         <td>${record.DATE_OF_PURCHASE}</td>
                                     </tr>
-                                    <tr>
-                                        <th>PLACE OF PURCHASE</th>
-                                        <td>${record.PLACE_OF_PURCHASE}</td>
-                                    </tr>
+                          
                                     <tr>
                                         <th>TOTAL # OF FARMERS</th>
                                         <td>${record.TOTAL_NUM_OF_FARMERS}</td>
@@ -1604,6 +1605,11 @@ function  set_valuecode(batchnum1,batchnum2,batchnum3,station,whr,del) {
                         del = record.Delivery_advice_num;
 
                         form.id = `form_${formCount}`;
+
+                            // <tr>
+                            //                     <th>PLACE OF PURCHASE</th>
+                            //                     <td>${record.PLACE_OF_PURCHASE}</td>
+                            //                 </tr>
                         form.innerHTML = `
                             <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton_${record.id}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -1622,10 +1628,7 @@ function  set_valuecode(batchnum1,batchnum2,batchnum3,station,whr,del) {
                                                 <th>DATE OF PURCHASE</th>
                                                 <td>${record.DATE_OF_PURCHASE}</td>
                                             </tr>
-                                            <tr>
-                                                <th>PLACE OF PURCHASE</th>
-                                                <td>${record.PLACE_OF_PURCHASE}</td>
-                                            </tr>
+                                        
                                             <tr>
                                                 <th>TOTAL # OF FARMERS</th>
                                                 <td>${record.TOTAL_NUM_OF_FARMERS}</td>

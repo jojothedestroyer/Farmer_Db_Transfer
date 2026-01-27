@@ -521,7 +521,7 @@ entryContainer.innerHTML = `
 
 <table class="table" >
 
- <tr style="display: none;">
+ <tr>
             <td>
                             <div id="newMoistureShelves-${record.entryCheck}"></div>
 <td/>    
@@ -1047,6 +1047,7 @@ function saveUpdatedRecordFieldSH(recordId, fieldName, FireID,newValue) {
 <script>
 document.addEventListener('click', function(event) {
     if (event.target.id === 'moisturebtn') {
+        console.log('Triggered1')
         event.preventDefault();
         const entryCheck = event.target.getAttribute('data-entry');
         const container = document.getElementById(`newMoistureShelves-${entryCheck}`);
@@ -1060,6 +1061,8 @@ document.addEventListener('click', function(event) {
 });
 formCount=0;
 function addMForm(tableId, mainFormId, container, entryCheck) {
+            console.log('Triggered2')
+
     formCount++;
     const form = document.createElement('form');
     form.id = `form_${formCount}_${entryCheck}`;
@@ -1123,10 +1126,10 @@ function addMForm(tableId, mainFormId, container, entryCheck) {
                         <input type="date" value="${new Date().toISOString().split('T')[0]}" id="date_${entryCheck}_${formCount}_M" class="form-control" name="Date" required>
                     </td>
                     <td>
-                        <button type="button" class="submit_contents" onclick="submitMForm('${tableId}', '${mainFormId}', ${formCount}, '${entryCheck},'${record.id}')">✔</button>
+                        <button type="button" class="submit_contents" onclick="submitMForm('${tableId}', '${mainFormId}', ${formCount}, '${entryCheck}')">✔</button>
                     </td>
                     <td>
-                        <button type="button" class="addrow" onclick="removeForm('form_${formCount}_${entryCheck}')">Close</button>
+                        <button type="button" class="addrow" onclick="removeFormM('form_${formCount}_${entryCheck}')">Close</button>
                     </td>
                 </tr>
             </tbody>
@@ -1139,7 +1142,7 @@ function addMForm(tableId, mainFormId, container, entryCheck) {
     container.appendChild(form);
 }
 
-async function submitMForm(tableId, mainFormId, formNumber, entryCheck,fireID) {
+async function submitMForm(tableId, mainFormId, formNumber, entryCheck) {
     try {
         const formId = `form_${formNumber}_${entryCheck}`;
         const form = document.getElementById(formId);
@@ -1186,11 +1189,11 @@ async function submitMForm(tableId, mainFormId, formNumber, entryCheck,fireID) {
 
         console.log('Data saved successfully to both stores:', shelfData);
         alert('Data saved successfully to Moisture Shelves:', shelfData);
-        editRecord(fireID,'M_Shelves')
+        // editRecord(fireID,'M_Shelves')
 
         
         // transferIndexedDBData(); // Transfer to Django
-        removeFormM(formId,fireID); // Remove the form after successful submission
+        // removeFormM(formId,fireID); // Remove the form after successful submission
 
     } catch (error) {
         console.error('Error in submitMForm:', error);
@@ -1245,11 +1248,10 @@ async function putData(store, data) {
     });
 }
 
-function removeFormM(formId,fireID) {
+function removeFormM(formId) {
     const form = document.getElementById(formId);
     if (form) {
         form.remove();
-        editRecord(fireID,'M_Shelves')
     }
 }
 

@@ -269,8 +269,14 @@ let labelText = record.BATCH_CODE_M1 !== ""
 //                     </h5>
 //                       <p class="card-text">
 //                           <table id="vertical-1" class="table table-hover table-light">
-                         
-           
+      
+  
+  
+      //       <tr>
+      //     <th>PLACE OF PURCHASE</th>
+      //                                         <td>    <input type="text" class="form-control" name="PLACE_OF_PURCHASE" value="${record.PLACE_OF_PURCHASE || ''}" /> </td>
+
+      // </tr>
 entryContainer.innerHTML = `
 
 
@@ -308,11 +314,7 @@ entryContainer.innerHTML = `
 
         </tr>
 
-        <tr>
-          <th>PLACE OF PURCHASE</th>
-                                              <td>    <input type="text" class="form-control" name="PLACE_OF_PURCHASE" value="${record.PLACE_OF_PURCHASE || ''}" /> </td>
-
-      </tr>
+       
 
         <tr>
             <th>TOTAL # OF FARMERS</th>

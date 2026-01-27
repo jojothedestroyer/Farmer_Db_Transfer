@@ -165,7 +165,13 @@
           }
 
 
-          let entryContainer = document.createElement("div");
+      //   <tr>
+      //     <th>PLACE OF PURCHASE</th>
+      //     <td>${record.PLACE_OF_PURCHASE}</td>
+      // </tr>
+         
+      
+      let entryContainer = document.createElement("div");
           entryContainer.id = `entryContainer_${record.id}`;
           entryContainer.innerHTML = `
                 <div class="card">
@@ -189,10 +195,6 @@
             <td>${record.DATE_OF_PURCHASE}</td>
         </tr>
 
-        <tr>
-          <th>PLACE OF PURCHASE</th>
-          <td>${record.PLACE_OF_PURCHASE}</td>
-      </tr>
 
         <tr>
             <th>TOTAL # OF FARMERS</th>

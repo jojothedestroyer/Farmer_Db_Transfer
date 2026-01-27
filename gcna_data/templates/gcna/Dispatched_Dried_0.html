@@ -1046,6 +1046,11 @@
                                 );
                             });
 
+                            //   <tr>
+                            //                         <th>PLACE OF PURCHASE</th>
+                            //                         <td>${record.PLACE_OF_PURCHASE || 'N/A'}</td>
+                            //                     </tr>
+
                             if (!exists) {
                                 const dropdownContent = `
                                     <div class="dropdown">
@@ -1064,10 +1069,7 @@
                                                     <th>DATE OF PURCHASE</th>
                                                     <td>${record.DATE_OF_PURCHASE || 'N/A'}</td>
                                                 </tr>
-                                                <tr>
-                                                    <th>PLACE OF PURCHASE</th>
-                                                    <td>${record.PLACE_OF_PURCHASE || 'N/A'}</td>
-                                                </tr>
+                                              
                                                 <tr>
                                                     <th>TOTAL # OF FARMERS</th>
                                                     <td>${record.TOTAL_NUM_OF_FARMERS || 'N/A'}</td>
@@ -1214,6 +1216,8 @@
                             }
 
                             // Otherwise render the entry
+                                                                        // <tr><th>PLACE OF PURCHASE</th><td>${record.PLACE_OF_PURCHASE || 'N/A'}</td></tr>
+
                             const dropdownContent = `
                                 <div class="dropdown">
                                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton_${record.id}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -1228,7 +1232,6 @@
                                         <table class="table table-hover table-light">
                                             <tr><th>STATION</th><td>${record.STATION || 'N/A'}</td></tr>
                                             <tr><th>DATE OF PURCHASE</th><td>${record.DATE_OF_PURCHASE || 'N/A'}</td></tr>
-                                            <tr><th>PLACE OF PURCHASE</th><td>${record.PLACE_OF_PURCHASE || 'N/A'}</td></tr>
                                             <tr><th>TOTAL # OF FARMERS</th><td>${record.TOTAL_NUM_OF_FARMERS || 'N/A'}</td></tr>
                                             <tr><th>TOTAL LBS Mace BOUGHT</th><td>${record.TOTAL_LBS_NUTMEG_BOUGHT || 'N/A'}</td></tr>
                                             <tr><th>Batch Code</th><td>${record.BATCH_CODE || 'N/A'}</td></tr>
@@ -1378,6 +1381,9 @@
                                         entryContainer.id = `entryContainer_${record.id}`;
                                         entryContainer.classList.add("entryContainer", "mb-3");
 
+
+                                                                                                // <tr><th>Place of Purchase</th><td>${record.PLACE_OF_PURCHASE || 'N/A'}</td></tr>
+
                                         const dropdownContent = `
                                         <div class="dropdown">
                                             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton_${record.id}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -1390,7 +1396,6 @@
                                                     <tbody>
                                                         <tr><th>Station</th><td>${stationCheckboxHtml}</td></tr>
                                                         <tr><th>Date of Purchase</th><td>${record.DATE_OF_PURCHASE || 'N/A'}</td></tr>
-                                                        <tr><th>Place of Purchase</th><td>${record.PLACE_OF_PURCHASE || 'N/A'}</td></tr>
                                                         <tr><th>Number of Farmers</th><td>${record.TOTAL_NUM_OF_FARMERS || 'N/A'}</td></tr>
                                                         <tr><th>Number of Bags</th><td>${record.NUM_OF_BAGS || 'N/A'}</td></tr>
                                                         <tr><th>Batch Codes</th><td>${batchCodeCheckboxes}</td></tr>
@@ -1811,6 +1816,8 @@ function loadExternalInHouseData(formType, presetDataDried = [], presetDataGreen
                 entryContainer.id = `entryContainer_${record.id}`;
                 entryContainer.classList.add("entryContainer", "mb-3");
 
+                                                // <tr><th>Place of Purchase</th><td>${record.PLACE_OF_PURCHASE || 'N/A'}</td></tr>
+
                 const dropdownContent = `
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton_${record.id}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -1823,7 +1830,6 @@ function loadExternalInHouseData(formType, presetDataDried = [], presetDataGreen
                             <tbody>
                                 <tr><th>Station</th><td>${stationCheckboxHtml}</td></tr>
                                 <tr><th>Date of Purchase</th><td>${record.DATE_OF_PURCHASE || 'N/A'}</td></tr>
-                                <tr><th>Place of Purchase</th><td>${record.PLACE_OF_PURCHASE || 'N/A'}</td></tr>
                                 <tr><th>Number of Farmers</th><td>${record.TOTAL_NUM_OF_FARMERS || 'N/A'}</td></tr>
                                 <tr><th>Number of Bags</th><td>${record.NUM_OF_BAGS || 'N/A'}</td></tr>
                                 <tr><th>Batch Codes</th><td>${batchCodeCheckboxes}</td></tr>
