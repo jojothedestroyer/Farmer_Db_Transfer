@@ -862,6 +862,7 @@ urlpatterns = [
     path("viewFLT0/", views.view_Floation_Summary_table_0, name="view_FLT_0"),
     path("viewPKG0/", views.view_Package_Ciontrol_table_0, name="view_PKG_0"),
 
+    path('Stirring_Log/', views.Stirring_Log_Form, name='Stirring-Log'),
 
 
 

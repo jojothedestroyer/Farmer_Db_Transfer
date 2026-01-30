@@ -10175,6 +10175,11 @@ def deny_entry(request):
 	return render(request, 'gcna/deny_entry.html')
 
 
+def Stirring_Log_Form(request):
+
+	return render(request, 'gcna/stirring_log.html')
+
+
 
 
 def rev_data1(request):
