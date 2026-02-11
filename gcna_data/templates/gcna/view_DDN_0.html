@@ -1,5 +1,3 @@
-
-
 {% extends 'gcna/base.html' %}
 
 
@@ -8,6 +6,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,9 +18,11 @@
             background-color: #f8f9fa;
             padding: 20px;
         }
+
         .container {
             max-width: 1200px;
         }
+
         .header-container {
             background-color: #e4e4e4;
             margin: 20px auto;
@@ -29,6 +30,7 @@
             border-radius: 10px;
             box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);
         }
+
         .record-card {
             background-color: #ffffff;
             margin-bottom: 20px;
@@ -36,10 +38,12 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             transition: transform 0.2s;
         }
+
         .record-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
+
         .card-header {
             background-color: #f1f1f1;
             padding: 15px;
@@ -49,27 +53,33 @@
             justify-content: space-between;
             align-items: center;
         }
+
         .card-body {
             padding: 20px;
         }
+
         .badge-mace {
             background-color: #28a745;
             color: white;
         }
+
         .badge-dried {
             background-color: #007bff;
             color: white;
         }
+
         .badge-green {
             background-color: #17a2b8;
             color: white;
         }
+
         .form-header {
             background-color: #f1f1f1;
             padding: 10px;
             margin-bottom: 15px;
             border-radius: 5px;
         }
+
         .filter-section {
             background-color: #ffffff;
             padding: 15px;
@@ -77,12 +87,15 @@
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
+
         .table-responsive {
             margin-top: 10px;
         }
+
         .table th {
             background-color: #f8f9fa;
         }
+
         .no-records {
             text-align: center;
             padding: 50px;
@@ -90,26 +103,32 @@
             border-radius: 8px;
             margin-top: 20px;
         }
+
         .loading {
             text-align: center;
             padding: 50px;
         }
+
         .spinner-border {
             width: 3rem;
             height: 3rem;
         }
+
         .pagination-container {
             display: flex;
             justify-content: center;
             margin-top: 20px;
             margin-bottom: 40px;
         }
+
         .detail-row {
             margin-bottom: 8px;
         }
+
         .detail-label {
             font-weight: bold;
         }
+
         .batch-code {
             background-color: #f8f9fa;
             padding: 3px 8px;
@@ -119,15 +138,18 @@
             display: inline-block;
             font-family: monospace;
         }
+
         .collapse-toggle {
             cursor: pointer;
             color: #007bff;
         }
+
         .collapse-toggle:hover {
             text-decoration: underline;
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="header-container">
@@ -137,9 +159,9 @@
                 <h6>Date: <span id="current-date"></span></h6>
                 <h6>Version: 1.0</h6>
             </div>
-            
+
             <h1 class="text-center mb-4">Dispatched Dried Nutmeg Records</h1>
-            
+
             <!-- Filter Section -->
             <div class="filter-section">
                 <div class="row">
@@ -180,21 +202,17 @@
                     <div class="col-md-6 mb-3 d-flex align-items-end">
                         <button id="applyFilters" class="btn btn-primary me-2">Apply Filters</button>
                         <button id="resetFilters" class="btn btn-secondary">Reset Filters</button>
-<button
-  id="syncButton"
-  class="btn btn-danger">
-  Check External
-</button>
+                        <button id="syncButton" class="btn btn-danger">
+                            Check External
+                        </button>
 
-            <button
-  id="syncButtonChange"
-  class="btn btn-danger">
-  View External
-</button>            
+                        <button id="syncButtonChange" class="btn btn-danger">
+                            View External
+                        </button>
                     </div>
                 </div>
             </div>
-            
+
             <!-- Records Display -->
             <div id="recordsContainer">
                 <div class="loading">
@@ -204,7 +222,7 @@
                     <p class="mt-3">Loading records...</p>
                 </div>
             </div>
-            
+
             <!-- Pagination -->
             <div class="pagination-container">
                 <nav aria-label="Page navigation">
@@ -213,7 +231,7 @@
                     </ul>
                 </nav>
             </div>
-            
+
             <!-- Back Button -->
             <div class="text-center mt-4 mb-3">
                 <a href="/table/" class="btn btn-secondary">Back to Form</a>
@@ -223,7 +241,7 @@
 
 
 
-<!-- 
+    <!-- 
 <script type="module"> // Ensure type="module" is used for Firebase imports
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
     import { getDatabase, ref, set, get, query, orderByChild, equalTo } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
@@ -350,434 +368,880 @@
         return null;
     }
 </script> -->
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
-import { getDatabase, ref, set, get, query, orderByChild, equalTo, update, push, remove } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
-import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+        import { getDatabase, ref, set, get, query, orderByChild, equalTo, update, push, remove } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
 
-// Firebase configuration
-const firebaseConfig = {
-    apiKey: "AIzaSyBZTB_mN_gIb6mqeM8nid4x83oKRehmFKo",
-    authDomain: "farmer-project-sync.firebaseapp.com",
-    databaseURL: "https://farmer-project-sync-default-rtdb.firebaseio.com",
-    projectId: "farmer-project-sync",
-    storageBucket: "farmer-project-sync.firebasestorage.app",
-    messagingSenderId: "1366353203",
-    appId: "1:1366353203:web:fa29fd29cc326a0d63ca46"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-const auth = getAuth(app);
-const DISPATCH_STORE = "Dispatch-Of-Dried-Nutmeg";
-const stations = ["Grenville", "Hermitage", "Marli", "Union", "Gouyave", "Victoria"];
-
-
-    document.getElementById('syncButton').addEventListener('click', async () => {
-        const btn = document.getElementById('syncButton');
-        btn.disabled = true;
-        btn.innerText = "Collecting...";
-        
-        console.log('Starting Sync Process...');
-        await handleStationArray();
-        
-        btn.disabled = false;
-        btn.innerText = "Dispatch Data Collection";
-        alert("Collection Complete!");
-    });
-    
-async function handleStationArray() {
-console.log('CHECK1')
-    for (const station of stations) {
-
-        await getExtStationData(station)
-    }
-}
-async function getExtStationData(stationName) {
-    const existingStation = await findStation(stationName);
-    if (existingStation) {
-        loadDataFromFirebase(existingStation.StationId);
-
-    } else {
-        console.log(existingStation + "  not yet created")
-    }
-}
-
-   async function loadDataFromFirebase(stationId) {
-        console.log(`Loading data for Station ID: ${stationId}`);
-        // Pointing to the specific model store you defined
-        const userRef = ref(db, `Users/${stationId}/models/${DISPATCH_STORE}`);
-        const snapshot = await get(userRef);
-
-        if (snapshot.exists()) {
-            const modelData = snapshot.val();
-            await loadModelToIndexedDB(DISPATCH_STORE, modelData);
-            console.log(`Data for ${DISPATCH_STORE} successfully loaded.`);
-        } else {
-            console.log(`No ${DISPATCH_STORE} data found for this station.`);
-        }
-    }
-  async function loadModelToIndexedDB(modelName, modelData) {
-        const idb = await initializeIndexedDB();
-        const transaction = idb.transaction(modelName, "readwrite");
-        const store = transaction.objectStore(modelName);
-
-        // Convert object to array if Firebase returns an object-map
-        const items = Array.isArray(modelData) ? modelData : Object.values(modelData);
-
-        for (const item of items) {
-            if (!item || item.id == null) continue;
-
-            let newItem = { ...item };
-            // Ensure unique ID to prevent IndexedDB ConstraintError
-            while (await idExists(store, newItem.id)) {
-                newItem.id = Number(newItem.id) + 1;
-            }
-            store.put(newItem);
-        }
-    }
-
-
-// async function addExtDispatchData(stationName) {
-
-//     await loadDataFromFirebase(stationName);
-
-// }
-
-
-
-
-// async function loadModelToIndexedDB(modelName, modelData) {
-//     const db = await initializeIndexedDB();
-//     const transaction = db.transaction(modelName, "readwrite");
-//     const store = transaction.objectStore(modelName);
-
-
-//     if (Array.isArray(modelData)) {
-//         for (const item of modelData) {
-//             if (!item || item.id == null) {
-//                 console.error(`Item is missing 'id' field for model ${modelName}:`, item);
-//                 continue;
-//             }
-
-//             let newItem = { ...item };
-
-//             while (await idExists(store, newItem.id)) {
-//                 newItem.id += 1;
-//             }
-
-//             store.put(newItem); 
-//         }
-//     }
-
-
-
-//     else if (modelData && typeof modelData === 'object') {
-
-//         for (const item of Object.values(modelData)) {
-//             if (!item || item.id == null) {
-//                 console.error(`Item is missing 'id' field for model ${modelName}:`, item);
-//                 continue;
-//             }
-
-//             let updatedItem = { ...item };
-
-//             while (await idExists(store, updatedItem.id)) {
-//                 updatedItem.id += 1;
-//             }
-
-//             store.put(updatedItem); 
-//         }
-
-//     } else {
-//         console.error(`Unexpected modelData type for ${modelName}:`, modelData);
-//     }
-// }
-
-
-
-
-
-
-
-
-
-
-// async function getIndexedDBData() {
-//     const db = await initializeIndexedDB();
-//     return new Promise((resolve, reject) => {
-
-
-//         const transaction = db.transaction(dispatch, "readonly");
-//         const store = transaction.objectStore(dispatch);
-//         const request = store.getAll();
-
-//         request.onsuccess = function () {
-//             allData.push({ dispatch, data: request.result });
-//             if (allData.length === dispatch.length) {
-//                 resolve(allData);
-//             }
-//         };
-
-//         request.onerror = function () {
-//             reject("Error reading data from IndexedDB");
-//         };
-//     });
-// }
-
-
-
-function idExists(store, id) {
-    return new Promise((resolve, reject) => {
-        const request = store.get(id);
-
-        request.onsuccess = () => {
-            resolve(!!request.result);
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBZTB_mN_gIb6mqeM8nid4x83oKRehmFKo",
+            authDomain: "farmer-project-sync.firebaseapp.com",
+            databaseURL: "https://farmer-project-sync-default-rtdb.firebaseio.com",
+            projectId: "farmer-project-sync",
+            storageBucket: "farmer-project-sync.firebasestorage.app",
+            messagingSenderId: "1366353203",
+            appId: "1:1366353203:web:fa29fd29cc326a0d63ca46"
         };
 
-        request.onerror = () => {
-            reject(request.error);
-        };
-    });
-}
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const auth = getAuth(app);
+        const DISPATCH_STORE = "Dispatch-Of-Dried-Nutmeg";
+        const stations = ["Grenville", "Hermitage", "Marli", "Union", "Gouyave", "Victoria"];
 
-    function initializeIndexedDB() {
-        return new Promise((resolve, reject) => {
-            const request = indexedDB.open("ExternalDispatches", 2);
-            request.onupgradeneeded = (e) => {
-                const db = e.target.result;
-                if (!db.objectStoreNames.contains(DISPATCH_STORE)) {
-                    db.createObjectStore(DISPATCH_STORE, { keyPath: "id" });
-                }
-            };
-            request.onsuccess = (e) => resolve(e.target.result);
-            request.onerror = (e) => reject(e);
+
+        document.getElementById('syncButton').addEventListener('click', async () => {
+            const btn = document.getElementById('syncButton');
+            btn.disabled = true;
+            btn.innerText = "Collecting...";
+
+            console.log('Starting Sync Process...');
+            await handleStationArray();
+
+            btn.disabled = false;
+            btn.innerText = "Dispatch Data Collection";
+            alert("Collection Complete!");
         });
-    }
 
+        async function handleStationArray() {
+            console.log('CHECK1')
+            for (const station of stations) {
 
+                await getExtStationData(station)
+            }
+        }
+        async function getExtStationData(stationName) {
+            const existingStation = await findStation(stationName);
+            if (existingStation) {
+                loadDataFromFirebase(existingStation.StationId);
 
-// function initializeIndexedDB() {
-//     return new Promise((resolve, reject) => {
-//         const dbVersion = 2;
-//         var request = indexedDB.open("ExternalDispatches", dbVersion);
+            } else {
+                console.log(existingStation + "  not yet created")
+            }
+        }
 
-//         request.onupgradeneeded = function (event) {
-//             var db = event.target.result;
-//             console.log("Database upgrade needed. Creating object stores...");
+        async function loadDataFromFirebase(stationId) {
+            console.log(`Loading data for Station ID: ${stationId}`);
+            // Pointing to the specific model store you defined
+            const userRef = ref(db, `Users/${stationId}/models/${DISPATCH_STORE}`);
+            const snapshot = await get(userRef);
 
-//             const modelNames = [
-//                 "Dispatch-Of-Dried-Nutmeg",
-//             ];
+            if (snapshot.exists()) {
+                const modelData = snapshot.val();
+                await loadModelToIndexedDB(DISPATCH_STORE, modelData);
+                console.log(`Data for ${DISPATCH_STORE} successfully loaded.`);
+            } else {
+                console.log(`No ${DISPATCH_STORE} data found for this station.`);
+            }
+        }
+        async function loadModelToIndexedDB(modelName, modelData) {
+            const db = await openDBWithStore(modelName);
 
-//             modelNames.forEach((modelName) => {
-//                 if (!db.objectStoreNames.contains(modelName)) {
-//                     console.log(`Creating object store: ${modelName}`);
-//                     db.createObjectStore(modelName, { keyPath: "id" }); 
-//                 } else {
-//                     console.log(`Object store already exists: ${modelName}`);
-//                 }
-//             });
-//         };
+            const transaction = db.transaction(modelName, "readwrite");
+            const store = transaction.objectStore(modelName);
 
-//         request.onsuccess = function (event) {
-//             console.log("IndexedDB initialized successfully.");
-//             resolve(event.target.result);
-//         };
+            const items = Array.isArray(modelData)
+                ? modelData
+                : Object.values(modelData);
 
-//         request.onerror = function (event) {
-//             console.error("Error opening IndexedDB:", event);
-//             reject("Error opening IndexedDB:", event);
-//         };
-//     });
-// }
+            for (const item of items) {
+                if (!item) continue;
 
+                const newItem = { ...item };
+                store.put(newItem);
+            }
 
-
-
-
-
-
-async function findStation(stationName) {
-    const dataRef = ref(db, "Users");
-    const stationQuery = query(dataRef, orderByChild("name"), equalTo(stationName));
-    const snapshot = await get(stationQuery);
-
-    if (snapshot.exists()) {
-        const stationData = snapshot.val();
-        const StationId = Object.keys(stationData)[0];
-        console.log("Station found in Firebase with StationId:", StationId);
-        return { StationId };
-    } else {
-        console.log("No Station found in Firebase.");
-        return null; 
-    }
-}
-
-</script>
-
-
-<script>
-    // Using a self-invoking block or unique prefixes to avoid conflicts with your original script
-    const EXT_CONFIG = {
-        storeName: 'Dispatch-Of-Dried-Nutmeg',
-        dbName: 'ExternalDispatches',
-        recordsPerPage: 10
-    };
-
-    let extCurrentPage = 1;
-    let extAllRecords = [];
-
-    document.addEventListener('DOMContentLoaded', function() {
-        // We only initialize the external loader
-        loadExternalDispatchRecords();
-        
-        // Setup event listener for the 'Check External' button specifically
-        const syncBtn = document.getElementById('syncButtonChange');
-        if (syncBtn) {
-            syncBtn.addEventListener('click', function() {
-                loadExternalDispatchRecords();
+            await new Promise((resolve, reject) => {
+                transaction.oncomplete = resolve;
+                transaction.onerror = reject;
             });
         }
-    });
 
-    function loadExternalDispatchRecords() {
-        const extContainer = document.getElementById('recordsContainer');
-        extContainer.innerHTML = `
+
+        function openDBWithStore(storeName) {
+            return new Promise((resolve, reject) => {
+                const DB_NAME = "ExternalDispatches";
+
+                // Always bump version when schema might change
+                const request = indexedDB.open(DB_NAME, 3);
+
+                request.onupgradeneeded = (e) => {
+                    const db = e.target.result;
+
+                    if (!db.objectStoreNames.contains(storeName)) {
+                        db.createObjectStore(storeName, {
+                            keyPath: "id",
+                            autoIncrement: true
+                        });
+                    }
+                };
+
+                request.onsuccess = (e) => resolve(e.target.result);
+                request.onerror = (e) => reject(e.target.error);
+            });
+        }
+
+
+        // async function addExtDispatchData(stationName) {
+
+        //     await loadDataFromFirebase(stationName);
+
+        // }
+
+
+
+
+        // async function loadModelToIndexedDB(modelName, modelData) {
+        //     const db = await initializeIndexedDB();
+        //     const transaction = db.transaction(modelName, "readwrite");
+        //     const store = transaction.objectStore(modelName);
+
+
+        //     if (Array.isArray(modelData)) {
+        //         for (const item of modelData) {
+        //             if (!item || item.id == null) {
+        //                 console.error(`Item is missing 'id' field for model ${modelName}:`, item);
+        //                 continue;
+        //             }
+
+        //             let newItem = { ...item };
+
+        //             while (await idExists(store, newItem.id)) {
+        //                 newItem.id += 1;
+        //             }
+
+        //             store.put(newItem); 
+        //         }
+        //     }
+
+
+
+        //     else if (modelData && typeof modelData === 'object') {
+
+        //         for (const item of Object.values(modelData)) {
+        //             if (!item || item.id == null) {
+        //                 console.error(`Item is missing 'id' field for model ${modelName}:`, item);
+        //                 continue;
+        //             }
+
+        //             let updatedItem = { ...item };
+
+        //             while (await idExists(store, updatedItem.id)) {
+        //                 updatedItem.id += 1;
+        //             }
+
+        //             store.put(updatedItem); 
+        //         }
+
+        //     } else {
+        //         console.error(`Unexpected modelData type for ${modelName}:`, modelData);
+        //     }
+        // }
+
+
+
+
+
+
+
+
+
+
+        // async function getIndexedDBData() {
+        //     const db = await initializeIndexedDB();
+        //     return new Promise((resolve, reject) => {
+
+
+        //         const transaction = db.transaction(dispatch, "readonly");
+        //         const store = transaction.objectStore(dispatch);
+        //         const request = store.getAll();
+
+        //         request.onsuccess = function () {
+        //             allData.push({ dispatch, data: request.result });
+        //             if (allData.length === dispatch.length) {
+        //                 resolve(allData);
+        //             }
+        //         };
+
+        //         request.onerror = function () {
+        //             reject("Error reading data from IndexedDB");
+        //         };
+        //     });
+        // }
+
+
+
+        function idExists(store, id) {
+            return new Promise((resolve, reject) => {
+                const request = store.get(id);
+
+                request.onsuccess = () => {
+                    resolve(!!request.result);
+                };
+
+                request.onerror = () => {
+                    reject(request.error);
+                };
+            });
+        }
+
+        function initializeIndexedDB() {
+            return new Promise((resolve, reject) => {
+                const request = indexedDB.open("ExternalDispatches", 2);
+                request.onupgradeneeded = (e) => {
+                    const db = e.target.result;
+                    if (!db.objectStoreNames.contains(DISPATCH_STORE)) {
+                        db.createObjectStore(DISPATCH_STORE, { keyPath: "id" });
+                    }
+                };
+                request.onsuccess = (e) => resolve(e.target.result);
+                request.onerror = (e) => reject(e);
+            });
+        }
+
+
+
+        // function initializeIndexedDB() {
+        //     return new Promise((resolve, reject) => {
+        //         const dbVersion = 2;
+        //         var request = indexedDB.open("ExternalDispatches", dbVersion);
+
+        //         request.onupgradeneeded = function (event) {
+        //             var db = event.target.result;
+        //             console.log("Database upgrade needed. Creating object stores...");
+
+        //             const modelNames = [
+        //                 "Dispatch-Of-Dried-Nutmeg",
+        //             ];
+
+        //             modelNames.forEach((modelName) => {
+        //                 if (!db.objectStoreNames.contains(modelName)) {
+        //                     console.log(`Creating object store: ${modelName}`);
+        //                     db.createObjectStore(modelName, { keyPath: "id" }); 
+        //                 } else {
+        //                     console.log(`Object store already exists: ${modelName}`);
+        //                 }
+        //             });
+        //         };
+
+        //         request.onsuccess = function (event) {
+        //             console.log("IndexedDB initialized successfully.");
+        //             resolve(event.target.result);
+        //         };
+
+        //         request.onerror = function (event) {
+        //             console.error("Error opening IndexedDB:", event);
+        //             reject("Error opening IndexedDB:", event);
+        //         };
+        //     });
+        // }
+
+
+
+
+
+
+
+        async function findStation(stationName) {
+            const dataRef = ref(db, "Users");
+            const stationQuery = query(dataRef, orderByChild("name"), equalTo(stationName));
+            const snapshot = await get(stationQuery);
+
+            if (snapshot.exists()) {
+                const stationData = snapshot.val();
+                const StationId = Object.keys(stationData)[0];
+                console.log("Station found in Firebase with StationId:", StationId);
+                return { StationId };
+            } else {
+                console.log("No Station found in Firebase.");
+                return null;
+            }
+        }
+
+    </script>
+
+
+    <script>
+        // Using a self-invoking block or unique prefixes to avoid conflicts with your original script
+        const EXT_CONFIG = {
+            storeName: 'Dispatch-Of-Dried-Nutmeg',
+            dbName: 'ExternalDispatches',
+            recordsPerPage: 10
+        };
+
+        let extCurrentPage = 1;
+        let extAllRecords = [];
+
+        document.addEventListener('DOMContentLoaded', function () {
+            loadExternalDispatchRecords();
+
+            const syncBtn = document.getElementById('syncButtonChange');
+            if (syncBtn) {
+                syncBtn.addEventListener('click', function () {
+                    loadExternalDispatchRecords();
+                });
+            }
+        });
+
+        function loadExternalDispatchRecords() {
+            const extContainer = document.getElementById('recordsContainer');
+            extContainer.innerHTML = `
             <div class="text-center p-4">
                 <div class="spinner-border text-danger" role="status"></div>
                 <p class="mt-2">Accessing External Dispatch Store...</p>
             </div>
         `;
 
-        const extRequest = indexedDB.open(EXT_CONFIG.dbName, 2);
+            const extRequest = indexedDB.open(EXT_CONFIG.dbName);
 
-        extRequest.onerror = (event) => {
-            console.error('External DB Error:', event.target.error);
-            extContainer.innerHTML = `<div class="alert alert-danger">Error accessing database for external records.</div>`;
-        };
+            extRequest.onerror = (event) => {
+                console.error('External DB Error:', event.target.error);
+                extContainer.innerHTML = `<div class="alert alert-danger">Error accessing database for external records.</div>`;
+            };
 
-        extRequest.onsuccess = (event) => {
-            const db = event.target.result;
+            extRequest.onsuccess = (event) => {
+                const db = event.target.result;
 
-            if (!db.objectStoreNames.contains(EXT_CONFIG.storeName)) {
-                extContainer.innerHTML = `
+                if (!db.objectStoreNames.contains(EXT_CONFIG.storeName)) {
+                    extContainer.innerHTML = `
                     <div class="no-records">
                         <h4 class="text-danger">External Store Not Found</h4>
                         <p>The store "${EXT_CONFIG.storeName}" does not exist in the GCNA database.</p>
                     </div>
                 `;
+                    return;
+                }
+
+                const transaction = db.transaction([EXT_CONFIG.storeName], 'readonly');
+                const store = transaction.objectStore(EXT_CONFIG.storeName);
+                const getAllReq = store.getAll();
+
+                getAllReq.onsuccess = () => {
+                    let records = getAllReq.result;
+
+                    // Sort newest first
+                    records.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+
+                    // Use a local version of applyFilters logic to avoid conflict
+                    extAllRecords = extApplyFilters(records);
+                    extDisplayRecords();
+                };
+            };
+        }
+
+        function extApplyFilters(records) {
+            const stationFilt = document.getElementById('filterStation').value;
+            const batchFilt = document.getElementById('searchBatchCode').value.trim().toLowerCase();
+
+            return records.filter(record => {
+                if (stationFilt && record.STATION_DRIED !== stationFilt && record.station !== stationFilt) return false;
+
+                if (batchFilt) {
+                    const searchString = JSON.stringify(record).toLowerCase();
+                    if (!searchString.includes(batchFilt)) return false;
+                }
+                return true;
+            });
+        }
+
+        //         function extDisplayRecords() {
+        //             const extContainer = document.getElementById('recordsContainer');
+        //             const extPagination = document.getElementById('pagination');
+
+        //             if (extAllRecords.length === 0) {
+        //                 extContainer.innerHTML = `<div class="alert alert-info">No records found in External Dispatch.</div>`;
+        //                 extPagination.innerHTML = '';
+        //                 return;
+        //             }
+
+        //             const start = (extCurrentPage - 1) * EXT_CONFIG.recordsPerPage;
+        //             const end = start + EXT_CONFIG.recordsPerPage;
+        //             const pageData = extAllRecords.slice(start, end);
+
+        //             let html = '';
+        //             let dried = '';
+        //             let green = '';
+        //             let mace = '';
+
+        //             pageData.forEach(record => {
+        //                 // Mapping fields commonly found in external/synced data
+        //                 const displayDate = record.timestamp ? new Date(record.timestamp).toLocaleString() : 'N/A';
+        //                 const station = record.STATION_DRIED || record.station || 'N/A';
+        //                 const batchCodesM = record.BATCH_CODE_M1 || 'N/A';
+        //                 const batchCodesD = record.BATCH_CODES_DRIED || 'N/A';
+        //                 const batchCodesG = record.BATCH_CODES_GREEN || 'N/A';
+
+        //   const existsInDB = (id) => {
+        //             return new Promise((resolve, reject) => {
+        //                 let openRequest = indexedDB.open("GCNA");
+        //                 openRequest.onsuccess = function (event) {
+        //                     let db = event.target.result;
+        //                     let transaction = db.transaction("Dispatch_Of_Dried_Nutmeg_Rec", "readonly");
+        //                     let store = transaction.objectStore("Dispatch_Of_Dried_Nutmeg_Rec");
+        //                     let getRequest = store.get(id);
+
+        //                     getRequest.onsuccess = function (e) {
+        //                         resolve(!!e.target.result); // true if exists
+        //                     };
+        //                     getRequest.onerror = function () {
+        //                         resolve(false);
+        //                     };
+        //                 };
+        //                 openRequest.onerror = function () {
+        //                     resolve(false);
+        //                 };
+        //             });
+        //         };
+
+
+
+
+
+
+
+        //                     // if (batchCodesM != '' || batchCodesM != 'N/A') {
+        //         if (batchCodesM && !(await existsInDB(batchCodesM))) {
+
+        //                         mace += `
+        //              <div class="col-md-4 mb-4">
+        //                       <form id="form_${record.id}">
+
+        //                                 <h5>Mace Form Details</h5>
+        //                                 <hr>
+        //                                 <div class="detail-row">
+        //                                     <span class="detail-label">Station:</span> ${record.STATION_MACE || 'N/A'}
+        //                                 </div>
+        //                                 <div class="detail-row">
+        //                                     <span class="detail-label">Date of Purchase:</span> ${record.DATE_OF_PURCHASE_MACE || 'N/A'}
+        //                                 </div>
+        //                                 <div class="detail-row">
+        //                                     <span class="detail-label">Total Farmers:</span> ${record.TOTAL_NUM_OF_FARMERS_MACE || 'N/A'}
+        //                                 </div>
+        //                                 <div class="detail-row">
+        //                                     <span class="detail-label">Total Lbs Bought:</span> ${record.TOTAL_LBS_NUTMEG_BOUGHT_MACE || 'N/A'}
+        //                                 </div>
+        //                                 <div class="detail-row">
+        //                                     <span class="detail-label">Number of Bags:</span> ${record.NUM_OF_BAGS_MACE || 'N/A'}
+        //                                 </div>
+        //                                 <div class="detail-row">
+        //                                     <span class="detail-label">Batch Codes:</span><br>
+        //                                     ${record.BATCH_CODE_M1 ? `<span class="batch-code">${record.BATCH_CODE_M1}</span>` : ''}
+        //                                     ${record.BATCH_CODE_M2 ? `<span class="batch-code">${record.BATCH_CODE_M2}</span>` : ''}
+        //                                     ${record.BATCH_CODE_M3 ? `<span class="batch-code">${record.BATCH_CODE_M3}</span>` : ''}
+        //                                 </div>
+        //                                 <div class="detail-row">
+        //                                     <span class="detail-label">Delivery Advice:</span> ${record.Delivery_advice_num_MACE || 'N/A'}
+        //                                 </div>
+        //                                  <div class="detail-row">
+        //                                                           <button type="button" onclick="dispatchRecieviedConfirmation(${record.id}, 'Yes')">Mark as Complete</button>
+        //                                 </div>
+
+        // </form>
+
+        //                             </div>
+        //             `;
+        //                     }
+
+        //                     if (batchCodesD != '' || batchCodesD != 'N/A') {
+
+        //                         dried += `
+        //                   <div class="col-md-4 mb-4">
+        //       <form id="form_${record.id}">
+        //                                 <h5>Dried Form Details</h5>
+        //                                 <hr>
+        //                                 <div class="detail-row">
+        //                                     <span class="detail-label">Station From:</span> ${record.STATION_DRIED || 'N/A'}
+        //                                 </div>
+        //                                 <div class="detail-row">
+        //                                     <span class="detail-label">Station To:</span> ${record.STATION_recieved_DRIED || 'N/A'}
+        //                                 </div>
+        //                                 <div class="detail-row">
+        //                                     <span class="detail-label">Batch Codes:</span><br>
+        //                                     ${record.BATCH_CODES_DRIED ? record.BATCH_CODES_DRIED.split(',').map(code => `<span class="batch-code">${code.trim()}</span>`).join('') : 'N/A'}
+        //                                 </div>
+        //                                 <div class="detail-row">
+        //                                     <span class="detail-label">Delivery Advice:</span> ${record.CORRESPONDING_DELIVERY_ADVICE || 'N/A'}
+        //                                 </div>
+        //                                 <div class="detail-row">
+        //                                     <span class="detail-label">Product:</span> ${record.Product || 'N/A'}
+        //                                 </div>
+        //                                 <div class="detail-row">
+        //                                     <span class="detail-label">Number of Bags:</span> ${record.Num_Bags_DRIED || 'N/A'}
+        //                                 </div>
+        //                                 <div class="detail-row">
+        //                                     <span class="detail-label">Weight:</span> ${record.Weight || 'N/A'}
+        //                                 </div>
+        //                                  <div class="detail-row">
+        //                                                           <button type="button" onclick="dispatchRecieviedConfirmation(${record.id}, 'Yes')">Mark as Complete</button>
+        //                                 </div>
+
+        // </form>
+
+
+        //                             </div>
+        //             `;
+        //                     }
+
+        //                     if (batchCodesG != '' || batchCodesG != 'N/A') {
+
+        //                         green += `
+        // <div class="col-md-4 mb-4">
+        //           <form id="form_${record.id}">
+
+        //                                 <h5>Green Form Details</h5>
+        //                                 <hr>
+        //                                 <div class="detail-row">
+        //                                     <span class="detail-label">Date:</span> ${record.DATE_CREATED || 'N/A'}
+        //                                 </div>
+        //                                 <div class="detail-row">
+        //                                     <span class="detail-label">Station:</span> ${record.STATION_GREEN || 'N/A'}
+        //                                 </div>
+        //                                 <div class="detail-row">
+        //                                     <span class="detail-label">Date of Purchase:</span> ${record.DATE_OF_PURCHASE_GREEN || 'N/A'}
+        //                                 </div>
+        //                                 <div class="detail-row">
+        //                                     <span class="detail-label">Total Farmers:</span> ${record.TOTAL_NUM_OF_FARMERS_GREEN || 'N/A'}
+        //                                 </div>
+        //                                 <div class="detail-row">
+        //                                     <span class="detail-label">Total Lbs Bought:</span> ${record.TOTAL_LBS_NUTMEG_BOUGHT_GREEN || 'N/A'}
+        //                                 </div>
+        //                                 <div class="detail-row">
+        //                                     <span class="detail-label">Batch Codes:</span><br>
+        //                                     ${record.BATCH_CODES_GREEN ? record.BATCH_CODES_GREEN.split(',').map(code => `<span class="batch-code">${code.trim()}</span>`).join('') : 'N/A'}
+        //                                 </div>
+        //                                 <div class="detail-row">
+        //                                     <span class="detail-label">Number of Bags:</span> ${record.NUM_OF_BAGS_GREEN || 'N/A'}
+        //                                 </div>
+        //                                 <div class="detail-row">
+        //                                     <span class="detail-label">Delivery Advice:</span> ${record.DELIVERY_ADVICE_NUMBER || 'N/A'}
+        //                                 </div>
+        //                                 <div class="detail-row">
+        //                                     <span class="detail-label">Warehouse Receipt:</span> ${record.WAREHOUSE_RECEIPT_NUMBER || 'N/A'}
+        //                                 </div>
+        //                                  <div class="detail-row">
+        //                                                           <button type="button" onclick="dispatchRecieviedConfirmation(${record.id}, 'Yes')">Mark as Complete</button>
+        //                                 </div>
+
+        // </form>
+
+        //                             </div>
+        //             `;
+        //                     }
+
+        //             });
+
+
+        //             extContainer.innerHTML = mace;
+
+
+
+        //             extContainer.innerHTML = dried;
+
+
+        //             extContainer.innerHTML = green;
+
+        //             extRenderPagination();
+        //         }
+        async function extDisplayRecords() {
+            const extContainer = document.getElementById('recordsContainer');
+            const extPagination = document.getElementById('pagination');
+
+            if (extAllRecords.length === 0) {
+                extContainer.innerHTML = `<div class="alert alert-info">No records found in External Dispatch.</div>`;
+                extPagination.innerHTML = '';
                 return;
             }
 
-            const transaction = db.transaction([EXT_CONFIG.storeName], 'readonly');
-            const store = transaction.objectStore(EXT_CONFIG.storeName);
-            const getAllReq = store.getAll();
+            const start = (extCurrentPage - 1) * EXT_CONFIG.recordsPerPage;
+            const end = start + EXT_CONFIG.recordsPerPage;
+            const pageData = extAllRecords.slice(start, end);
 
-            getAllReq.onsuccess = () => {
-                let records = getAllReq.result;
-                
-                // Sort newest first
-                records.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+            let mace = '', dried = '', green = '';
 
-                // Use a local version of applyFilters logic to avoid conflict
-                extAllRecords = extApplyFilters(records);
-                extDisplayRecords();
+            // Function to check if a batch code exists in IndexedDB
+            const existsInDB = (batchCode) => {
+                return new Promise((resolve) => {
+                    const openRequest = indexedDB.open("GCNA");
+                    openRequest.onsuccess = (event) => {
+                        const db = event.target.result;
+                        const transaction = db.transaction("Dispatch_Of_Dried_Nutmeg_Rec", "readonly");
+                        const store = transaction.objectStore("Dispatch_Of_Dried_Nutmeg_Rec");
+
+                        const request = store.openCursor();
+                        request.onsuccess = (e) => {
+                            const cursor = e.target.result;
+                            if (cursor) {
+                                const record = cursor.value;
+                                // Check if the batch code matches any of the potential storage fields
+                                if (record.BATCH_CODE_M1 === batchCode ||
+                                    record.BATCH_CODES_DRIED === batchCode ||
+                                    record.BATCH_CODES_GREEN === batchCode) {
+                                    resolve(true); // Batch found, return true to filter out
+                                    return;
+                                }
+                                cursor.continue();
+                            } else {
+                                resolve(false); // End of table reached, batch not found
+                            }
+                        };
+                    };
+                    openRequest.onerror = () => resolve(false);
+                });
             };
-        };
-    }
 
-    function extApplyFilters(records) {
-        const stationFilt = document.getElementById('filterStation').value;
-        const batchFilt = document.getElementById('searchBatchCode').value.trim().toLowerCase();
-        
-        return records.filter(record => {
-            if (stationFilt && record.STATION_DRIED !== stationFilt && record.station !== stationFilt) return false;
-            
-            if (batchFilt) {
-                const searchString = JSON.stringify(record).toLowerCase();
-                if (!searchString.includes(batchFilt)) return false;
+
+            for (const record of pageData) {
+                const batchCodesM = record.BATCH_CODE_M1 || null;
+                const batchCodesD = record.BATCH_CODES_DRIED || null;
+                const batchCodesG = record.BATCH_CODES_GREEN || null;
+
+                // --- MACE FORM ---
+                if (batchCodesM && !(await existsInDB(batchCodesM))) {
+                    mace += `
+        <div class="col-md-4 mb-4" id="entryContainer_${record.id}">
+            <form id="form_${record.id}">
+                <input type="hidden" name="STATION_MACE" value="${record.STATION_MACE || ''}">
+                <input type="hidden" name="DATE_OF_PURCHASE_MACE" value="${record.DATE_OF_PURCHASE_MACE || ''}">
+                <input type="hidden" name="TOTAL_NUM_OF_FARMERS_MACE" value="${record.TOTAL_NUM_OF_FARMERS_MACE || ''}">
+                <input type="hidden" name="TOTAL_LBS_NUTMEG_BOUGHT_MACE" value="${record.TOTAL_LBS_NUTMEG_BOUGHT_MACE || ''}">
+                <input type="hidden" name="NUM_OF_BAGS_MACE" value="${record.NUM_OF_BAGS_MACE || ''}">
+                <input type="hidden" name="BATCH_CODE_M1" value="${record.BATCH_CODE_M1 || ''}">
+                <input type="hidden" name="BATCH_CODE_M2" value="${record.BATCH_CODE_M2 || ''}">
+                <input type="hidden" name="BATCH_CODE_M3" value="${record.BATCH_CODE_M3 || ''}">
+                <input type="hidden" name="Delivery_advice_num_MACE" value="${record.Delivery_advice_num_MACE || ''}">
+
+                <h5>Mace Form Details</h5>
+                <hr>
+                <div class="detail-row"><span class="detail-label">Station:</span> ${record.STATION_MACE || 'N/A'}</div>
+                <div class="detail-row"><span class="detail-label">Date of Purchase:</span> ${record.DATE_OF_PURCHASE_MACE || 'N/A'}</div>
+                <div class="detail-row"><span class="detail-label">Total Farmers:</span> ${record.TOTAL_NUM_OF_FARMERS_MACE || 'N/A'}</div>
+                <div class="detail-row"><span class="detail-label">Total Lbs Bought:</span> ${record.TOTAL_LBS_NUTMEG_BOUGHT_MACE || 'N/A'}</div>
+                <div class="detail-row"><span class="detail-label">Number of Bags:</span> ${record.NUM_OF_BAGS_MACE || 'N/A'}</div>
+                <div class="detail-row"><span class="detail-label">Batch Codes:</span><br>
+                    ${record.BATCH_CODE_M1 ? `<span class="batch-code">${record.BATCH_CODE_M1}</span>` : ''}
+                    ${record.BATCH_CODE_M2 ? `<span class="batch-code">${record.BATCH_CODE_M2}</span>` : ''}
+                    ${record.BATCH_CODE_M3 ? `<span class="batch-code">${record.BATCH_CODE_M3}</span>` : ''}
+                </div>
+                <div class="detail-row"><span class="detail-label">Delivery Advice:</span> ${record.Delivery_advice_num_MACE || 'N/A'}</div>
+                <div class="detail-row"><button type="button" onclick="dispatchRecieviedConfirmation(${record.id})">Mark as Complete</button></div>
+            </form>
+        </div>`;
+                }
+
+                // --- DRIED FORM ---
+                if (batchCodesD && !(await existsInDB(batchCodesD))) {
+                    dried += `
+        <div class="col-md-4 mb-4" id="entryContainer_${record.id}">
+            <form id="form_${record.id}">
+                <input type="hidden" name="STATION_DRIED" value="${record.STATION_DRIED || ''}">
+                <input type="hidden" name="STATION_recieved_DRIED" value="${record.STATION_recieved_DRIED || ''}">
+                <input type="hidden" name="BATCH_CODES_DRIED" value="${record.BATCH_CODES_DRIED || ''}">
+                <input type="hidden" name="CORRESPONDING_DELIVERY_ADVICE" value="${record.CORRESPONDING_DELIVERY_ADVICE || ''}">
+                <input type="hidden" name="Product" value="${record.Product || ''}">
+                <input type="hidden" name="Num_Bags_DRIED" value="${record.Num_Bags_DRIED || ''}">
+                <input type="hidden" name="Weight" value="${record.Weight || ''}">
+
+                <h5>Dried Form Details</h5>
+                <hr>
+                <div class="detail-row"><span class="detail-label">Station From:</span> ${record.STATION_DRIED || 'N/A'}</div>
+                <div class="detail-row"><span class="detail-label">Station To:</span> ${record.STATION_recieved_DRIED || 'N/A'}</div>
+                <div class="detail-row"><span class="detail-label">Batch Codes:</span><br>
+                    ${record.BATCH_CODES_DRIED ? record.BATCH_CODES_DRIED.split(',').map(c => `<span class="batch-code">${c.trim()}</span>`).join('') : 'N/A'}
+                </div>
+                <div class="detail-row"><span class="detail-label">Delivery Advice:</span> ${record.CORRESPONDING_DELIVERY_ADVICE || 'N/A'}</div>
+                <div class="detail-row"><span class="detail-label">Product:</span> ${record.Product || 'N/A'}</div>
+                <div class="detail-row"><span class="detail-label">Number of Bags:</span> ${record.Num_Bags_DRIED || 'N/A'}</div>
+                <div class="detail-row"><span class="detail-label">Weight:</span> ${record.Weight || 'N/A'}</div>
+                <div class="detail-row"><button type="button" onclick="dispatchRecieviedConfirmation(${record.id})">Mark as Complete</button></div>
+            </form>
+        </div>`;
+                }
+
+                // --- GREEN FORM ---
+                if (batchCodesG && !(await existsInDB(batchCodesG))) {
+                    green += `
+        <div class="col-md-4 mb-4" id="entryContainer_${record.id}">
+            <form id="form_${record.id}">
+                <input type="hidden" name="DATE_CREATED" value="${record.DATE_CREATED || ''}">
+                <input type="hidden" name="STATION_GREEN" value="${record.STATION_GREEN || ''}">
+                <input type="hidden" name="DATE_OF_PURCHASE_GREEN" value="${record.DATE_OF_PURCHASE_GREEN || ''}">
+                <input type="hidden" name="TOTAL_NUM_OF_FARMERS_GREEN" value="${record.TOTAL_NUM_OF_FARMERS_GREEN || ''}">
+                <input type="hidden" name="TOTAL_LBS_NUTMEG_BOUGHT_GREEN" value="${record.TOTAL_LBS_NUTMEG_BOUGHT_GREEN || ''}">
+                <input type="hidden" name="BATCH_CODES_GREEN" value="${record.BATCH_CODES_GREEN || ''}">
+                <input type="hidden" name="NUM_OF_BAGS_GREEN" value="${record.NUM_OF_BAGS_GREEN || ''}">
+                <input type="hidden" name="DELIVERY_ADVICE_NUMBER" value="${record.DELIVERY_ADVICE_NUMBER || ''}">
+                <input type="hidden" name="WAREHOUSE_RECEIPT_NUMBER" value="${record.WAREHOUSE_RECEIPT_NUMBER || ''}">
+
+                <h5>Green Form Details</h5>
+                <hr>
+                <div class="detail-row"><span class="detail-label">Date:</span> ${record.DATE_CREATED || 'N/A'}</div>
+                <div class="detail-row"><span class="detail-label">Station:</span> ${record.STATION_GREEN || 'N/A'}</div>
+                <div class="detail-row"><span class="detail-label">Date of Purchase:</span> ${record.DATE_OF_PURCHASE_GREEN || 'N/A'}</div>
+                <div class="detail-row"><span class="detail-label">Total Farmers:</span> ${record.TOTAL_NUM_OF_FARMERS_GREEN || 'N/A'}</div>
+                <div class="detail-row"><span class="detail-label">Total Lbs Bought:</span> ${record.TOTAL_LBS_NUTMEG_BOUGHT_GREEN || 'N/A'}</div>
+                <div class="detail-row"><span class="detail-label">Batch Codes:</span><br>
+                    ${record.BATCH_CODES_GREEN ? record.BATCH_CODES_GREEN.split(',').map(c => `<span class="batch-code">${c.trim()}</span>`).join('') : 'N/A'}
+                </div>
+                <div class="detail-row"><span class="detail-label">Number of Bags:</span> ${record.NUM_OF_BAGS_GREEN || 'N/A'}</div>
+                <div class="detail-row"><span class="detail-label">Delivery Advice:</span> ${record.DELIVERY_ADVICE_NUMBER || 'N/A'}</div>
+                <div class="detail-row"><span class="detail-label">Warehouse Receipt:</span> ${record.WAREHOUSE_RECEIPT_NUMBER || 'N/A'}</div>
+                <div class="detail-row"><button type="button" onclick="dispatchRecieviedConfirmation(${record.id})">Mark as Complete</button></div>
+            </form>
+        </div>`;
+                }
             }
-            return true;
-        });
-    }
+            // Combine all sections into the container
+            extContainer.innerHTML = mace + dried + green;
 
-    function extDisplayRecords() {
-        const extContainer = document.getElementById('recordsContainer');
-        const extPagination = document.getElementById('pagination');
-        
-        if (extAllRecords.length === 0) {
-            extContainer.innerHTML = `<div class="alert alert-info">No records found in External Dispatch.</div>`;
-            extPagination.innerHTML = '';
-            return;
+            extRenderPagination();
         }
 
-        const start = (extCurrentPage - 1) * EXT_CONFIG.recordsPerPage;
-        const end = start + EXT_CONFIG.recordsPerPage;
-        const pageData = extAllRecords.slice(start, end);
+        function extRenderPagination() {
+            const totalPages = Math.ceil(extAllRecords.length / EXT_CONFIG.recordsPerPage);
+            const pagEl = document.getElementById('pagination');
+            let html = '';
 
-        let html = '';
-        pageData.forEach(record => {
-            // Mapping fields commonly found in external/synced data
-            const displayDate = record.timestamp ? new Date(record.timestamp).toLocaleString() : 'N/A';
-            const station = record.STATION_DRIED || record.station || 'N/A';
-            const batchCodes = record.BATCH_CODES_DRIED || record.batch_codes || 'N/A';
-
-            html += `
-                <div class="record-card border-start border-danger border-4 mb-3 shadow-sm bg-light">
-                    <div class="card-header bg-white d-flex justify-content-between">
-                        <span><strong>External Record: ${record.id || 'N/A'}</strong></span>
-                        <span class="text-muted small">${displayDate}</span>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <p class="mb-1 text-uppercase small text-muted">Station</p>
-                                <p class="fw-bold">${station}</p>
-                            </div>
-                            <div class="col-md-6">
-                                <p class="mb-1 text-uppercase small text-muted">Batch Codes</p>
-                                <p class="fw-bold text-primary">${batchCodes}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-        });
-
-        extContainer.innerHTML = html;
-        extRenderPagination();
-    }
-
-    function extRenderPagination() {
-        const totalPages = Math.ceil(extAllRecords.length / EXT_CONFIG.recordsPerPage);
-        const pagEl = document.getElementById('pagination');
-        let html = '';
-
-        for (let i = 1; i <= totalPages; i++) {
-            html += `
+            for (let i = 1; i <= totalPages; i++) {
+                html += `
                 <li class="page-item ${i === extCurrentPage ? 'active' : ''}">
                     <a class="page-link" href="#" onclick="extChangePage(${i}); return false;">${i}</a>
                 </li>
             `;
+            }
+            pagEl.innerHTML = html;
         }
-        pagEl.innerHTML = html;
-    }
 
-    // Global helper for the onclick event in pagination
-    window.extChangePage = function(pageNum) {
-        extCurrentPage = pageNum;
-        extDisplayRecords();
-        window.scrollTo(0, 0);
-    };
-</script>
+        // Global helper for the onclick event in pagination
+        window.extChangePage = function (pageNum) {
+            extCurrentPage = pageNum;
+            extDisplayRecords();
+            window.scrollTo(0, 0);
+        };
+
+
+
+
+
+
+        function addOthers(id) {
+            let openRequestup = indexedDB.open("GCNA");
+
+            openRequestup.onsuccess = function (event) {
+                let db1 = event.target.result;
+                let transaction = db1.transaction("Dispatch_Of_Dried_Nutmeg_Rec", "readwrite");
+                let InfoStore = transaction.objectStore("Dispatch_Of_Dried_Nutmeg_Rec");
+                let getRequest = InfoStore.get(id);
+
+                getRequest.onsuccess = function (event) {
+                    let record = event.target.result;
+
+                    // First save any edited values from the form
+                    let form = document.getElementById(`form_${id}`);
+                    let formData = new FormData(form);
+
+                    // Update record with form values
+                    for (let [key, value] of formData.entries()) {
+                        record[key] = value;
+                    }
+
+                    // Then mark as complete
+                    record.COMPLETE = 'Yes';
+
+                    let updateRequest = InfoStore.put(record);
+                    updateRequest.onsuccess = function () {
+                        alert("Entry marked as complete!");
+                        // Remove the entry from the display
+                        let entryContainer = document.getElementById(`entryContainer_${id}`);
+                        if (entryContainer) {
+                            entryContainer.remove();
+                        }
+                        window.location.reload();
+                    };
+                };
+            };
+        }
+        function dispatchRecieviedConfirmation(id) {
+            const openRequest = indexedDB.open("GCNA");
+
+            openRequest.onerror = () => {
+                console.error("Failed to open IndexedDB");
+            };
+
+            openRequest.onsuccess = function (event) {
+                const db = event.target.result;
+                const transaction = db.transaction(
+                    "Dispatch_Of_Dried_Nutmeg_Rec",
+                    "readwrite"
+                );
+                const store = transaction.objectStore("Dispatch_Of_Dried_Nutmeg_Rec");
+
+                const form = document.getElementById(`form_${id}`);
+                if (!form) {
+                    console.error(`Form form_${id} not found`);
+                    return;
+                }
+
+                const formData = new FormData(form);
+                const newRecord = {};
+
+                // 🔹 Collect form fields
+                for (const [key, value] of formData.entries()) {
+                    newRecord[key] = value;
+                }
+
+                // 🔹 Add required metadata
+                newRecord.COMPLETE = "Yes";
+                newRecord.created_at = new Date().toISOString();
+
+                // 🔹 Generate new id by getting the max existing id
+                const getAllRequest = store.getAll();
+
+                getAllRequest.onsuccess = function () {
+                    const allRecords = getAllRequest.result;
+                    let maxId = 0;
+
+                    if (allRecords.length > 0) {
+                        maxId = Math.max(...allRecords.map(record => record.id || 0));
+                    }
+
+                    newRecord.id = maxId + 1; // assign new id
+
+                    // 🔹 Add the new record
+                    const addRequest = store.add(newRecord);
+
+                    addRequest.onerror = () => {
+                        console.error("Failed to add record:", addRequest.error);
+                    };
+
+                    addRequest.onsuccess = () => {
+                        addOthers(id)
+
+                        // alert("New entry created successfully!");
+
+                        // const entryContainer = document.getElementById(`entryContainer_${id}`);
+                        // if (entryContainer) {
+                        //     entryContainer.remove();
+                        // }
+                        // window.location.reload();
+                    };
+                };
+
+                getAllRequest.onerror = () => {
+                    console.error("Failed to get existing records:", getAllRequest.error);
+                };
+            };
+        }
+
+
+    </script>
 
 
 
     <script>
         // Set current date
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const today = new Date();
             const formattedDate = today.toLocaleDateString('en-US', {
                 year: 'numeric',
@@ -785,16 +1249,16 @@ async function findStation(stationName) {
                 day: 'numeric'
             });
             document.getElementById('current-date').textContent = formattedDate;
-            
+
             // Load records
             loadRecords();
-            
+
             // Set up event listeners for filters
-            document.getElementById('applyFilters').addEventListener('click', function() {
+            document.getElementById('applyFilters').addEventListener('click', function () {
                 loadRecords();
             });
-            
-            document.getElementById('resetFilters').addEventListener('click', function() {
+
+            document.getElementById('resetFilters').addEventListener('click', function () {
                 document.getElementById('filterStation').value = '';
                 document.getElementById('filterFormType').value = '';
                 document.getElementById('startDate').value = '';
@@ -803,13 +1267,13 @@ async function findStation(stationName) {
                 loadRecords();
             });
         });
-        
+
         // Global variables for pagination
         let currentPage = 1;
         let recordsPerPage = 10;
         let totalRecords = 0;
         let allRecords = [];
-        
+
         // Function to load records from IndexedDB
         function loadRecords() {
             const recordsContainer = document.getElementById('recordsContainer');
@@ -821,10 +1285,10 @@ async function findStation(stationName) {
                     <p class="mt-3">Loading records...</p>
                 </div>
             `;
-            
+
             const request = indexedDB.open('GCNA', 2);
-            
-            request.onerror = function(event) {
+
+            request.onerror = function (event) {
                 console.error('Error opening database:', event.target.error);
                 recordsContainer.innerHTML = `
                     <div class="alert alert-danger" role="alert">
@@ -832,10 +1296,10 @@ async function findStation(stationName) {
                     </div>
                 `;
             };
-            
-            request.onsuccess = function(event) {
+
+            request.onsuccess = function (event) {
                 const db = event.target.result;
-                
+
                 // Check if the object store exists
                 if (!db.objectStoreNames.contains('Dispatch-Of-Dried-Nutmeg')) {
                     recordsContainer.innerHTML = `
@@ -846,12 +1310,12 @@ async function findStation(stationName) {
                     `;
                     return;
                 }
-                
+
                 const transaction = db.transaction(['Dispatch-Of-Dried-Nutmeg'], 'readonly');
                 const objectStore = transaction.objectStore('Dispatch-Of-Dried-Nutmeg');
                 const getAllRequest = objectStore.getAll();
-                
-                getAllRequest.onerror = function(event) {
+
+                getAllRequest.onerror = function (event) {
                     console.error('Error retrieving records:', event.target.error);
                     recordsContainer.innerHTML = `
                         <div class="alert alert-danger" role="alert">
@@ -859,10 +1323,10 @@ async function findStation(stationName) {
                         </div>
                     `;
                 };
-                
-                getAllRequest.onsuccess = function(event) {
+
+                getAllRequest.onsuccess = function (event) {
                     let records = event.target.result;
-                    
+
                     if (records.length === 0) {
                         recordsContainer.innerHTML = `
                             <div class="no-records">
@@ -872,7 +1336,7 @@ async function findStation(stationName) {
                         `;
                         return;
                     }
-                    
+
                     // Sort records by timestamp or ID (newest first)
                     records.sort((a, b) => {
                         if (a.timestamp && b.timestamp) {
@@ -880,20 +1344,20 @@ async function findStation(stationName) {
                         }
                         return b.id - a.id;
                     });
-                    
+
                     // Apply filters
                     records = applyFilters(records);
-                    
+
                     // Store all filtered records for pagination
                     allRecords = records;
                     totalRecords = records.length;
-                    
+
                     // Display records with pagination
                     displayRecords();
                 };
             };
         }
-        
+
         // Function to apply filters to records
         function applyFilters(records) {
             const stationFilter = document.getElementById('filterStation').value;
@@ -901,32 +1365,32 @@ async function findStation(stationName) {
             const startDateFilter = document.getElementById('startDate').value;
             const endDateFilter = document.getElementById('endDate').value;
             const batchCodeFilter = document.getElementById('searchBatchCode').value.trim().toLowerCase();
-            
+
             return records.filter(record => {
                 // Station filter
                 if (stationFilter) {
                     const stationFields = [
-                        record.STATION_MACE, 
-                        record.STATION_DRIED, 
+                        record.STATION_MACE,
+                        record.STATION_DRIED,
                         record.STATION_GREEN
                     ];
-                    
+
                     if (!stationFields.some(field => field === stationFilter)) {
                         return false;
                     }
                 }
-                
+
                 // Form type filter
                 if (formTypeFilter && record.forms_selected) {
                     if (!record.forms_selected[formTypeFilter]) {
                         return false;
                     }
                 }
-                
+
                 // Date range filter
                 if (startDateFilter || endDateFilter) {
                     const recordDate = record.timestamp ? new Date(record.timestamp) : null;
-                    
+
                     if (recordDate) {
                         if (startDateFilter) {
                             const startDate = new Date(startDateFilter);
@@ -934,7 +1398,7 @@ async function findStation(stationName) {
                                 return false;
                             }
                         }
-                        
+
                         if (endDateFilter) {
                             const endDate = new Date(endDateFilter);
                             endDate.setHours(23, 59, 59, 999); // End of day
@@ -944,7 +1408,7 @@ async function findStation(stationName) {
                         }
                     }
                 }
-                
+
                 // Batch code filter
                 if (batchCodeFilter) {
                     const batchCodeFields = [
@@ -954,38 +1418,38 @@ async function findStation(stationName) {
                         record.BATCH_CODES_DRIED,
                         record.BATCH_CODES_GREEN
                     ];
-                    
+
                     const hasBatchCode = batchCodeFields.some(field => {
                         return field && field.toLowerCase().includes(batchCodeFilter);
                     });
-                    
+
                     if (!hasBatchCode) {
                         return false;
                     }
                 }
-                
+
                 return true;
             });
         }
-        
+
         // Function to display records with pagination
         function displayRecords() {
             const recordsContainer = document.getElementById('recordsContainer');
             const paginationElement = document.getElementById('pagination');
-            
+
             // Calculate pagination
             const totalPages = Math.ceil(totalRecords / recordsPerPage);
             if (currentPage > totalPages) {
                 currentPage = 1;
             }
-            
+
             const startIndex = (currentPage - 1) * recordsPerPage;
             const endIndex = Math.min(startIndex + recordsPerPage, totalRecords);
             const recordsToDisplay = allRecords.slice(startIndex, endIndex);
-            
+
             // Generate HTML for records
             let recordsHTML = '';
-            
+
             if (recordsToDisplay.length === 0) {
                 recordsHTML = `
                     <div class="no-records">
@@ -996,7 +1460,7 @@ async function findStation(stationName) {
             } else {
                 recordsToDisplay.forEach(record => {
                     const formBadges = [];
-                    
+
                     if (record.forms_selected) {
                         if (record.forms_selected.mace) {
                             formBadges.push('<span class="badge badge-mace">Mace</span>');
@@ -1008,9 +1472,9 @@ async function findStation(stationName) {
                             formBadges.push('<span class="badge badge-green">Green</span>');
                         }
                     }
-                    
+
                     const recordDate = record.timestamp ? new Date(record.timestamp).toLocaleString() : 'Unknown Date';
-                    
+
                     recordsHTML += `
                         <div class="record-card">
                             <div class="card-header">
@@ -1025,7 +1489,7 @@ async function findStation(stationName) {
                             <div class="card-body">
                                 <div class="row">
                     `;
-                    
+
                     // Mace Form Details
                     if (record.forms_selected && record.forms_selected.mace) {
                         recordsHTML += `
@@ -1059,7 +1523,7 @@ async function findStation(stationName) {
                             </div>
                         `;
                     }
-                    
+
                     // Dried Form Details
                     if (record.forms_selected && record.forms_selected.dried) {
                         recordsHTML += `
@@ -1091,11 +1555,11 @@ async function findStation(stationName) {
                             </div>
                         `;
                     }
-                    
+
                     // Green Form Details
                     if (record.forms_selected && record.forms_selected.green) {
-                        recordsHTML += `
-                            <div class="col-md-4 mb-4">
+                        recordsHTML += `<div class='header-container'>
+                            <div class="col-md-4 mb-4 record-card">
                                 <h5>Green Form Details</h5>
                                 <hr>
                                 <div class="detail-row">
@@ -1127,9 +1591,10 @@ async function findStation(stationName) {
                                     <span class="detail-label">Warehouse Receipt:</span> ${record.WAREHOUSE_RECEIPT_NUMBER || 'N/A'}
                                 </div>
                             </div>
+                            </div>
                         `;
                     }
-                    
+
                     // Common Details
                     recordsHTML += `
                                     <div class="col-12 mt-3">
@@ -1161,12 +1626,12 @@ async function findStation(stationName) {
                     `;
                 });
             }
-            
+
             recordsContainer.innerHTML = recordsHTML;
-            
+
             // Generate pagination
             let paginationHTML = '';
-            
+
             if (totalPages > 1) {
                 paginationHTML += `
                     <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
@@ -1175,15 +1640,15 @@ async function findStation(stationName) {
                         </a>
                     </li>
                 `;
-                
+
                 const maxPagesToShow = 5;
                 let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
                 let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
-                
+
                 if (endPage - startPage + 1 < maxPagesToShow) {
                     startPage = Math.max(1, endPage - maxPagesToShow + 1);
                 }
-                
+
                 for (let i = startPage; i <= endPage; i++) {
                     paginationHTML += `
                         <li class="page-item ${i === currentPage ? 'active' : ''}">
@@ -1191,7 +1656,7 @@ async function findStation(stationName) {
                         </li>
                     `;
                 }
-                
+
                 paginationHTML += `
                     <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
                         <a class="page-link" href="#" data-page="${currentPage + 1}" aria-label="Next">
@@ -1200,13 +1665,13 @@ async function findStation(stationName) {
                     </li>
                 `;
             }
-            
+
             paginationElement.innerHTML = paginationHTML;
-            
+
             // Add event listeners to pagination links
             const pageLinks = document.querySelectorAll('.page-link');
             pageLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
+                link.addEventListener('click', function (e) {
                     e.preventDefault();
                     const page = parseInt(this.getAttribute('data-page'));
                     if (!isNaN(page)) {
@@ -1216,11 +1681,11 @@ async function findStation(stationName) {
                     }
                 });
             });
-            
+
             // Add event listeners to collapse toggles
             const collapseToggles = document.querySelectorAll('.collapse-toggle');
             collapseToggles.forEach(toggle => {
-                toggle.addEventListener('click', function() {
+                toggle.addEventListener('click', function () {
                     const expanded = this.getAttribute('aria-expanded') === 'true';
                     this.textContent = expanded ? 'Show More Details' : 'Hide Details';
                 });
@@ -1229,23 +1694,10 @@ async function findStation(stationName) {
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
 
 
 
 
 {% endblock %}
-
-
-
-
-
-
-
-
-
-
-
-
-
-

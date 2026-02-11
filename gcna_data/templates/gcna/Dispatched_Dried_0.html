@@ -2,253 +2,260 @@
 
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Nutmeg Processing Forms</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <style>
-      body {
-        font-family: "Raleway", sans-serif;
-        background-color: #f8f9fa;
-        padding: 20px;
-      }
-      .form-container {
-        background-color: #e4e4e4;
-        margin: 20px auto;
-        padding: 20px;
-        width: 90%;
-        max-width: 1000px;
-        border-radius: 10px;
-        box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);
-      }
-      .form-section {
-        display: none;
-        margin-top: 20px;
-        padding: 15px;
-        background-color: #ffffff;
-        border-radius: 8px;
-      }
-      .form-check-label {
-        font-weight: bold;
-        margin-right: 15px;
-      }
-      .form-check {
-        display: inline-block;
-        margin-right: 15px;
-      }
-      h1,
-      h2 {
-        color: #333;
-      }
-      .table {
-        background-color: #ffffff;
-      }
-      .btn-primary {
-        background-color: #007bff;
-      }
-      .btn-success {
-        background-color: #28a745;
-      }
-      .btn-secondary {
-        background-color: #6c757d;
-      }
-      .menu {
-        display: flex;
-        list-style: none;
-        padding: 0;
-      }
-      .menu li {
-        margin-right: 20px;
-      }
-      .dropdown {
-        position: relative;
-        display: inline-block;
-      }
-      .dropdown-content {
-        display: none;
-        position: absolute;
-        background-color: #f9f9f9;
-        min-width: 160px;
-        z-index: 1;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-      }
-      .dropdown-content.show {
-        display: block;
-        opacity: 1;
-      }
-      .dropdown-content .container {
-        padding: 15px;
-      }
-      .dropdown button {
-        cursor: pointer;
-      }
-      .form-header {
-        background-color: #f1f1f1;
-        padding: 10px;
-        margin-bottom: 15px;
-        border-radius: 5px;
-      }
-      .vehicle-section {
-        margin: 15px 0;
-        padding: 10px;
-        background-color: #f8f9fa;
-        border-radius: 5px;
-      }
-      .addrow {
-        padding: 5px 10px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        background-color: #007bff;
-        color: white;
-        font-size: 14px;
-      }
-      .addrow:hover {
-        background-color: #0056b3;
-      }
-      .add-row {
-        padding: 5px 10px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        background-color: #28a745;
-        color: white;
-        font-size: 12px;
-      }
-      .add-row:hover {
-        background-color: #218838;
-      }
-      .entryContainer {
-        margin-bottom: 10px;
-      }
-      .checkhide {
-        opacity: 0;
-      }
-    </style>
-    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
-  </head>
-  <body>
-    <div class="container">
-      <div class="form-container">
-        <div class="form-header">
-          <h6>Document No. GCNA-GMP</h6>
-          <h6>Document Title: Nutmeg Processing Forms</h6>
-          <h6>Date Issued: <span id="current-date"></span></h6>
-          <h6>Version: 1.0</h6>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nutmeg Processing Forms</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body {
+      font-family: "Raleway", sans-serif;
+      background-color: #f8f9fa;
+      padding: 20px;
+    }
+
+    .form-container {
+      background-color: #e4e4e4;
+      margin: 20px auto;
+      padding: 20px;
+      width: 90%;
+      max-width: 1000px;
+      border-radius: 10px;
+      box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .form-section {
+      display: none;
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #ffffff;
+      border-radius: 8px;
+    }
+
+    .form-check-label {
+      font-weight: bold;
+      margin-right: 15px;
+    }
+
+    .form-check {
+      display: inline-block;
+      margin-right: 15px;
+    }
+
+    h1,
+    h2 {
+      color: #333;
+    }
+
+    .table {
+      background-color: #ffffff;
+    }
+
+    .btn-primary {
+      background-color: #007bff;
+    }
+
+    .btn-success {
+      background-color: #28a745;
+    }
+
+    .btn-secondary {
+      background-color: #6c757d;
+    }
+
+    .menu {
+      display: flex;
+      list-style: none;
+      padding: 0;
+    }
+
+    .menu li {
+      margin-right: 20px;
+    }
+
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f9f9f9;
+      min-width: 160px;
+      z-index: 1;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .dropdown-content.show {
+      display: block;
+      opacity: 1;
+    }
+
+    .dropdown-content .container {
+      padding: 15px;
+    }
+
+    .dropdown button {
+      cursor: pointer;
+    }
+
+    .form-header {
+      background-color: #f1f1f1;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+    }
+
+    .vehicle-section {
+      margin: 15px 0;
+      padding: 10px;
+      background-color: #f8f9fa;
+      border-radius: 5px;
+    }
+
+    .addrow {
+      padding: 5px 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      background-color: #007bff;
+      color: white;
+      font-size: 14px;
+    }
+
+    .addrow:hover {
+      background-color: #0056b3;
+    }
+
+    .add-row {
+      padding: 5px 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      background-color: #28a745;
+      color: white;
+      font-size: 12px;
+    }
+
+    .add-row:hover {
+      background-color: #218838;
+    }
+
+    .entryContainer {
+      margin-bottom: 10px;
+    }
+
+    .checkhide {
+      opacity: 0;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <div class="form-container">
+      <div class="form-header">
+        <h6>Document No. GCNA-GMP</h6>
+        <h6>Document Title: Nutmeg Processing Forms</h6>
+        <h6>Date Issued: <span id="current-date"></span></h6>
+        <h6>Version: 1.0</h6>
+      </div>
+
+      <h1 class="text-center mb-4">Nutmeg Processing Forms</h1>
+
+      <div class="form-check-section mb-4">
+        <h5>Select Forms to Display:</h5>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="maceCheck" />
+          <label class="form-check-label" for="maceCheck">Mace</label>
         </div>
-
-        <h1 class="text-center mb-4">Nutmeg Processing Forms</h1>
-
-        <div class="form-check-section mb-4">
-          <h5>Select Forms to Display:</h5>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="maceCheck" />
-            <label class="form-check-label" for="maceCheck">Mace</label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="driedCheck" />
-            <label class="form-check-label" for="driedCheck">Dried</label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="greenCheck" />
-            <label class="form-check-label" for="greenCheck">Green</label>
-          </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="driedCheck" />
+          <label class="form-check-label" for="driedCheck">Dried</label>
         </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="greenCheck" />
+          <label class="form-check-label" for="greenCheck">Green</label>
+        </div>
+      </div>
 
-        <form id="mainForm" method="POST" enctype="multipart/form-data">
-          <!-- Common Fields -->
-          <div class="row mb-3">
-            <div class="col-md-6">
-              <!-- <div class="mb-3">
+      <form id="mainForm" method="POST" enctype="multipart/form-data">
+        <!-- Common Fields -->
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <!-- <div class="mb-3">
                             <label for="worker_id" class="form-label">Worker ID No.</label>
                             <input type="text" class="form-control" id="worker_id" name="Worker_ID_No">
                         </div> -->
-            </div>
-            <!-- <div class="col-md-6">
+          </div>
+          <!-- <div class="col-md-6">
                         <div class="mb-3">
                             <label for="worker_name" class="form-label">Worker Name</label>
                             <input type="text" class="form-control" id="worker_name" name="Worker_ID_Name">
                         </div>
                     </div> -->
-          </div>
+        </div>
 
-          <!-- Vehicle Section -->
-          <div class="vehicle-section">
-            <div class="row">
-              <div class="col-md-4">
-                <label for="vehicleSelect" class="form-label"
-                  >Vehicle Number</label
-                >
-                <div id="selectContainer">
-                  <select id="vehicleSelect" class="form-control">
-                    <option value="">Select Vehicle</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-md-2 d-flex align-items-end">
-                <button type="button" id="openModalBtn" class="btn btn-primary">
-                  +
-                </button>
+        <!-- Vehicle Section -->
+        <div class="vehicle-section">
+          <div class="row">
+            <div class="col-md-4">
+              <label for="vehicleSelect" class="form-label">Vehicle Number</label>
+              <div id="selectContainer">
+                <select id="vehicleSelect" class="form-control">
+                  <option value="">Select Vehicle</option>
+                </select>
               </div>
             </div>
-          </div>
-
-          <div id="signature-pad-container" class="mt-4">
-            <div class="form-group">
-              <label for="signature-pad-canvas"
-                ><strong>Receiving Officer's Signature:</strong></label
-              >
-              <canvas
-                id="signature-pad-canvas"
-                width="500"
-                height="200"
-              ></canvas>
-              <div class="text-right">
-                <button
-                  type="button"
-                  class="btn btn-sm btn-outline-secondary mt-1"
-                  id="clear-signature"
-                >
-                  Clear
-                </button>
-              </div>
-              <input type="hidden" name="signature" id="signature-data" />
+            <div class="col-md-2 d-flex align-items-end">
+              <button type="button" id="openModalBtn" class="btn btn-primary">
+                +
+              </button>
             </div>
           </div>
-          <!-- Mace Form Section -->
-          <div id="maceForm" class="form-section">
-            <h2 class="text-center mb-3">Dispatched Mace Form</h2>
-            <table class="table table-hover table-light">
-              <tr>
-                <th>STATION</th>
-                <td>
-                  <select class="form-control" name="STATION_MACE">
-                    <option value="">Select Station</option>
-                    <option value="G">Grenville</option>
-                    <option value="H">Hermitage</option>
-                    <option value="M">Marli</option>
-                    <option value="U">Union</option>
-                    <option value="GP">Gouyave</option>
-                    <option value="V">Victoria</option>
-                  </select>
-                </td>
-              </tr>
-              <tr>
-                <th>DATE OF PURCHASE</th>
-                <td>
-                  <input
-                    type="date"
-                    class="form-control"
-                    name="DATE_OF_PURCHASE_MACE"
-                  />
-                </td>
-              </tr>
-              <!-- <tr>
+        </div>
+
+        <div id="signature-pad-container" class="mt-4">
+          <div class="form-group">
+            <label for="signature-pad-canvas"><strong>Receiving Officer's Signature:</strong></label>
+            <canvas id="signature-pad-canvas" width="500" height="200"></canvas>
+            <div class="text-right">
+              <button type="button" class="btn btn-sm btn-outline-secondary mt-1" id="clear-signature">
+                Clear
+              </button>
+            </div>
+            <input type="hidden" name="signature" id="signature-data" />
+          </div>
+        </div>
+        <!-- Mace Form Section -->
+        <div id="maceForm" class="form-section">
+          <h2 class="text-center mb-3">Dispatched Mace Form</h2>
+          <table class="table table-hover table-light">
+            <tr>
+              <th>STATION</th>
+              <td>
+                <select class="form-control" name="STATION_MACE">
+                  <option value="">Select Station</option>
+                  <option value="G">Grenville</option>
+                  <option value="H">Hermitage</option>
+                  <option value="M">Marli</option>
+                  <option value="U">Union</option>
+                  <option value="GP">Gouyave</option>
+                  <option value="V">Victoria</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <th>DATE OF PURCHASE</th>
+              <td>
+                <input type="date" class="form-control" name="DATE_OF_PURCHASE_MACE" />
+              </td>
+            </tr>
+            <!-- <tr>
                             <th>PLACE OF PURCHASE</th>
                             <td><input type="text" class="form-control" name="PLACE_OF_PURCHASE_MACE"></td>
                         </tr>
@@ -256,1018 +263,920 @@
                             <th>TOTAL # OF FARMERS</th>
                             <td><input type="number" class="form-control" name="TOTAL_NUM_OF_FARMERS_MACE"></td>
                         </tr> -->
-              <tr>
-                <th>TOTAL LBS MACE BOUGHT</th>
-                <td>
-                  <input
-                    type="number"
-                    step="0.01"
-                    min="0"
-                    class="form-control"
-                    name="TOTAL_LBS_NUTMEG_BOUGHT_MACE"
-                  />
-                </td>
-              </tr>
-              <tr>
-                <th># OF BAGS</th>
-                <td>
-                  <input
-                    type="number"
-                    class="form-control"
-                    name="NUM_OF_BAGS_MACE"
-                  />
-                </td>
-              </tr>
-              <tr>
-                <th>Quantity of Mace 1</th>
-                <td>
-                  <input
-                    type="number"
-                    step="0.01"
-                    min="0"
-                    class="form-control"
-                    name="MACE_1"
-                  />
-                </td>
-              </tr>
-              <tr>
-                <th>Mace 1 Batch Code</th>
-                <td>
-                  <input
-                    type="text"
-                    class="form-control"
-                    name="BATCH_CODE_M1"
-                  />
-                </td>
-              </tr>
-              <tr>
-                <th>Quantity of Mace 2</th>
-                <td>
-                  <input
-                    type="number"
-                    step="0.01"
-                    min="0"
-                    class="form-control"
-                    name="MACE_2"
-                  />
-                </td>
-              </tr>
-              <tr>
-                <th>Mace 2 Batch Code</th>
-                <td>
-                  <input
-                    type="text"
-                    class="form-control"
-                    name="BATCH_CODE_M2"
-                  />
-                </td>
-              </tr>
-              <tr>
-                <th>Quantity of Mace 3</th>
-                <td>
-                  <input
-                    type="number"
-                    step="0.01"
-                    min="0"
-                    class="form-control"
-                    name="MACE_3"
-                  />
-                </td>
-              </tr>
-              <tr>
-                <th>Mace 3 Batch Code</th>
-                <td>
-                  <input
-                    type="text"
-                    class="form-control"
-                    name="BATCH_CODE_M3"
-                  />
-                </td>
-              </tr>
-              <tr>
-                <th>Delivery Advice number</th>
-                <td>
-                  <input
-                    type="text"
-                    class="form-control"
-                    name="Delivery_advice_num_MACE"
-                  />
-                </td>
-              </tr>
-            </table>
-            <div class="mt-3">
-              <button
-                type="button"
-                class="addrow"
-                onclick="toggleDropdown('nutmegPurchaseList')"
-              >
-                Nutmeg Purchase List
-              </button>
-              <div class="dropdown-content" id="nutmegPurchaseList">
-                <div class="container">
-                  <div id="maceDataList"></div>
-                  <div id="maceDataListExternal"></div>
-                </div>
+            <tr>
+              <th>TOTAL LBS MACE BOUGHT</th>
+              <td>
+                <input type="number" step="0.01" min="0" class="form-control" name="TOTAL_LBS_NUTMEG_BOUGHT_MACE" />
+              </td>
+            </tr>
+            <tr>
+              <th># OF BAGS</th>
+              <td>
+                <input type="number" class="form-control" name="NUM_OF_BAGS_MACE" />
+              </td>
+            </tr>
+            <tr>
+              <th>Quantity of Mace 1</th>
+              <td>
+                <input type="number" step="0.01" min="0" class="form-control" name="MACE_1" />
+              </td>
+            </tr>
+            <tr>
+              <th>Mace 1 Batch Code</th>
+              <td>
+                <input type="text" class="form-control" name="BATCH_CODE_M1" />
+              </td>
+            </tr>
+            <tr>
+              <th>Quantity of Mace 2</th>
+              <td>
+                <input type="number" step="0.01" min="0" class="form-control" name="MACE_2" />
+              </td>
+            </tr>
+            <tr>
+              <th>Mace 2 Batch Code</th>
+              <td>
+                <input type="text" class="form-control" name="BATCH_CODE_M2" />
+              </td>
+            </tr>
+            <tr>
+              <th>Quantity of Mace 3</th>
+              <td>
+                <input type="number" step="0.01" min="0" class="form-control" name="MACE_3" />
+              </td>
+            </tr>
+            <tr>
+              <th>Mace 3 Batch Code</th>
+              <td>
+                <input type="text" class="form-control" name="BATCH_CODE_M3" />
+              </td>
+            </tr>
+            <tr>
+              <th>Delivery Advice number</th>
+              <td>
+                <input type="text" class="form-control" name="Delivery_advice_num_MACE" />
+              </td>
+            </tr>
+          </table>
+          <div class="mt-3">
+            <button type="button" class="addrow" onclick="toggleDropdown('nutmegPurchaseList')">
+              Nutmeg Purchase List
+            </button>
+            <div class="dropdown-content" id="nutmegPurchaseList">
+              <div class="container">
+                <div id="maceDataList"></div>
+                <div id="maceDataListExternal"></div>
               </div>
             </div>
           </div>
+        </div>
 
-          <!-- Dried Form Section -->
-          <div id="driedForm" class="form-section">
-            <h2 class="text-center mb-3">Dispatched Dried Nutmeg Form</h2>
-            <table class="table table-hover table-light">
-              <tr>
-                <th>Station Dispatched From</th>
-                <td>
-                  <select class="form-control" name="STATION_DRIED">
-                    <option value="">Select Station</option>
-                    <option value="G">Grenville</option>
-                    <option value="H">Hermitage</option>
-                    <option value="M">Marli</option>
-                    <option value="U">Union</option>
-                    <option value="GP">Gouyave</option>
-                    <option value="V">Victoria</option>
-                  </select>
-                </td>
-              </tr>
-              <tr>
-                <th>Station Dispatched to</th>
-                <td>
-                  <select class="form-control" name="STATION_recieved_DRIED">
-                    <option value="">Select Station</option>
-                    <option value="G">Grenville</option>
-                    <option value="H">Hermitage</option>
-                    <option value="M">Marli</option>
-                    <option value="U">Union</option>
-                    <option value="GP">Gouyave</option>
-                    <option value="V">Victoria</option>
-                  </select>
-                </td>
-              </tr>
-              <tr>
-                <th>Batch Codes</th>
-                <td>
-                  <input
-                    type="text"
-                    class="form-control"
-                    name="BATCH_CODES_DRIED"
-                  />
-                </td>
-              </tr>
-              <tr>
-                <th>Delivery Advice Number</th>
-                <td>
-                  <input
-                    type="text"
-                    class="form-control"
-                    name="CORRESPONDING_DELIVERY_ADVICE"
-                  />
-                </td>
-              </tr>
-              <tr>
-                <th>Product</th>
-                <td>
-                  <input type="text" class="form-control" name="Product" />
-                </td>
-              </tr>
-              <tr>
-                <th>Number of Bags</th>
-                <td>
-                  <input
-                    type="number"
-                    class="form-control"
-                    name="Num_Bags_DRIED"
-                  />
-                </td>
-              </tr>
-              <tr>
-                <th>Weight</th>
-                <td>
-                  <input type="number" class="form-control" name="Weight" />
-                </td>
-              </tr>
-            </table>
-            <div class="mt-3">
-              <button
-                type="button"
-                class="addrow"
-                onclick="toggleDropdown('inHousePurchaseList')"
-              >
-                In House Purchase List
-              </button>
-              <div class="dropdown-content" id="inHousePurchaseList">
-                <div class="container">
-                  <div id="driedDataList"></div>
-                  <div id="driedDataListExternal"></div>
-                </div>
+        <!-- Dried Form Section -->
+        <div id="driedForm" class="form-section">
+          <h2 class="text-center mb-3">Dispatched Dried Nutmeg Form</h2>
+          <table class="table table-hover table-light">
+            <tr>
+              <th>Station Dispatched From</th>
+              <td>
+                <select class="form-control" name="STATION_DRIED">
+                  <option value="">Select Station</option>
+                  <option value="G">Grenville</option>
+                  <option value="H">Hermitage</option>
+                  <option value="M">Marli</option>
+                  <option value="U">Union</option>
+                  <option value="GP">Gouyave</option>
+                  <option value="V">Victoria</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <th>Station Dispatched to</th>
+              <td>
+                <select class="form-control" name="STATION_recieved_DRIED">
+                  <option value="">Select Station</option>
+                  <option value="G">Grenville</option>
+                  <option value="H">Hermitage</option>
+                  <option value="M">Marli</option>
+                  <option value="U">Union</option>
+                  <option value="GP">Gouyave</option>
+                  <option value="V">Victoria</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <th>Batch Codes</th>
+              <td>
+                <input type="text" class="form-control" name="BATCH_CODES_DRIED" />
+              </td>
+            </tr>
+            <tr>
+              <th>Delivery Advice Number</th>
+              <td>
+                <input type="text" class="form-control" name="CORRESPONDING_DELIVERY_ADVICE" />
+              </td>
+            </tr>
+            <tr>
+              <th>Product</th>
+              <td>
+                <input type="text" class="form-control" name="Product" />
+              </td>
+            </tr>
+            <tr>
+              <th>Number of Bags</th>
+              <td>
+                <input type="number" class="form-control" name="Num_Bags_DRIED" />
+              </td>
+            </tr>
+            <tr>
+              <th>Weight</th>
+              <td>
+                <input type="number" class="form-control" name="Weight" />
+              </td>
+            </tr>
+          </table>
+          <div class="mt-3">
+            <button type="button" class="addrow" onclick="toggleDropdown('inHousePurchaseList')">
+              In House Purchase List
+            </button>
+            <div class="dropdown-content" id="inHousePurchaseList">
+              <div class="container">
+                <div id="driedDataList"></div>
+                <div id="driedDataListExternal"></div>
               </div>
             </div>
           </div>
+        </div>
 
-          <!-- Green Form Section -->
-          <div id="greenForm" class="form-section">
-            <h2 class="text-center mb-3">Dispatched Green Nutmeg Form</h2>
-            <table class="table table-hover table-light">
-              <tr>
-                <th>Date</th>
-                <td>
-                  <input type="date" class="form-control" name="DATE_CREATED" />
-                </td>
-              </tr>
-              <tr>
-                <th>STATION</th>
-                <td>
-                  <select class="form-control" name="STATION_GREEN">
-                    <option value="">Select Station</option>
-                    <option value="G">Grenville</option>
-                    <option value="H">Hermitage</option>
-                    <option value="M">Marli</option>
-                    <option value="U">Union</option>
-                    <option value="GP">Gouyave</option>
-                  </select>
-                </td>
-              </tr>
-              <tr>
-                <th>DATE OF PURCHASE</th>
-                <td>
-                  <input
-                    type="date"
-                    class="form-control"
-                    name="DATE_OF_PURCHASE_GREEN"
-                  />
-                </td>
-              </tr>
-              <!-- <tr>
+        <!-- Green Form Section -->
+        <div id="greenForm" class="form-section">
+          <h2 class="text-center mb-3">Dispatched Green Nutmeg Form</h2>
+          <table class="table table-hover table-light">
+            <tr>
+              <th>Date</th>
+              <td>
+                <input type="date" class="form-control" name="DATE_CREATED" />
+              </td>
+            </tr>
+            <tr>
+              <th>STATION</th>
+              <td>
+                <select class="form-control" name="STATION_GREEN">
+                  <option value="">Select Station</option>
+                  <option value="G">Grenville</option>
+                  <option value="H">Hermitage</option>
+                  <option value="M">Marli</option>
+                  <option value="U">Union</option>
+                  <option value="GP">Gouyave</option>
+                  <option value="V">Victoria</option>
+
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <th>DATE OF PURCHASE</th>
+              <td>
+                <input type="date" class="form-control" name="DATE_OF_PURCHASE_GREEN" />
+              </td>
+            </tr>
+            <!-- <tr>
                             <th>TOTAL # OF FARMERS</th>
                             <td><input type="number" class="form-control" name="TOTAL_NUM_OF_FARMERS_GREEN"></td>
                         </tr> -->
-              <!-- <tr>
+            <!-- <tr>
                             <th>TOTAL LBS NUTMEG BOUGHT</th>
                             <td><input type="number" class="form-control" name="TOTAL_LBS_NUTMEG_BOUGHT_GREEN"></td>
                         </tr> -->
+            <tr>
+              <th>Batch Codes</th>
+              <td>
+                <input type="text" class="form-control" name="BATCH_CODES_GREEN" />
+              </td>
+            </tr>
+            <tr>
+              <th># OF BAGS</th>
+              <td>
+                <input type="number" class="form-control" name="NUM_OF_BAGS_GREEN" />
+              </td>
+            </tr>
+            <tr>
+              <th>DELIVERY ADVICE NUMBER</th>
+              <td>
+                <input type="text" class="form-control" name="DELIVERY_ADVICE_NUMBER" />
+              </td>
+            </tr>
+            <tr>
+              <th>WAREHOUSE RECEIPT NUMBER</th>
+              <td>
+                <input type="text" class="form-control" name="WAREHOUSE_RECEIPT_NUMBER" />
+              </td>
+            </tr>
+          </table>
+          <div class="mt-3">
+            <button type="button" class="addrow" onclick="toggleDropdown('inHousePurchaseListGreen')">
+              In House Purchase List
+            </button>
+            <div class="dropdown-content" id="inHousePurchaseListGreen">
+              <div class="container">
+                <div id="greenDataList"></div>
+                <div id="greenDataListExternal"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-between mt-4">
+            <a href="#" class="btn btn-secondary">Return</a>
+            <a href="#" class="btn btn-primary">Previous</a>
+            <button type="submit" form="mainForm" class="btn btn-success">
+              Submit
+            </button>
+            <a href="#" class="btn btn-primary">Next</a>
+          </div>
+        </div>
+
+        <!-- Form Buttons -->
+        <div class="d-flex justify-content-between mt-4">
+          <a href="/table/" class="btn btn-secondary">Return</a>
+          <!-- <a href="#" class="btn btn-primary">Previous</a> -->
+          <button type="submit" class="btn btn-success">Submit</button>
+          <!-- <a href="#" class="btn btn-primary">Next</a> -->
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Vehicle Inspection Modal -->
+  <div class="modal" id="formModal" tabindex="-1" style="display: none">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Vehicle Inspection Log</h5>
+          <button type="button" class="btn-close" id="closeModalBtn"></button>
+        </div>
+        <div class="modal-body">
+          <form id="vehicleForm">
+            <table class="table table-hover table-light">
               <tr>
-                <th>Batch Codes</th>
-                <td>
-                  <input
-                    type="text"
-                    class="form-control"
-                    name="BATCH_CODES_GREEN"
-                  />
-                </td>
+                <th colspan="2" class="text-center">Provider</th>
+                <th colspan="2" class="text-center">
+                  <input type="text" class="form-control" name="Provider" />
+                </th>
               </tr>
               <tr>
-                <th># OF BAGS</th>
-                <td>
-                  <input
-                    type="number"
-                    class="form-control"
-                    name="NUM_OF_BAGS_GREEN"
-                  />
-                </td>
+                <th colspan="2" class="text-center">Vehicle Number</th>
+                <th colspan="2" class="text-center">
+                  <input type="text" class="form-control" name="Vehicle_number" />
+                </th>
               </tr>
               <tr>
-                <th>DELIVERY ADVICE NUMBER</th>
-                <td>
-                  <input
-                    type="text"
-                    class="form-control"
-                    name="DELIVERY_ADVICE_NUMBER"
-                  />
-                </td>
+                <th colspan="2" class="text-center">Driver Name</th>
+                <th colspan="2" class="text-center">
+                  <input type="text" class="form-control" name="Driver_name" />
+                </th>
               </tr>
               <tr>
-                <th>WAREHOUSE RECEIPT NUMBER</th>
-                <td>
-                  <input
-                    type="text"
-                    class="form-control"
-                    name="WAREHOUSE_RECEIPT_NUMBER"
-                  />
-                </td>
+                <th colspan="2" class="text-center">
+                  Driver has Valid License
+                </th>
+                <th colspan="2" class="text-center">
+                  <select class="form-control" name="liscense_check">
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                  </select>
+                </th>
+              </tr>
+              <tr>
+                <th colspan="2" class="text-center">Vehicle is Insured</th>
+                <th colspan="2" class="text-center">
+                  <select class="form-control" name="insurance_check">
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                  </select>
+                </th>
+              </tr>
+              <tr>
+                <th colspan="4" class="text-center">
+                  General Condition of Vehicle
+                </th>
+              </tr>
+              <tr>
+                <th colspan="2" class="text-center">Cleaning Status</th>
+                <th colspan="2" class="text-center">
+                  <select class="form-control" name="Clean_check">
+                    <option value="Clean">Clean</option>
+                    <option value="Dirty">Dirty</option>
+                  </select>
+                </th>
+              </tr>
+              <tr>
+                <th colspan="2" class="text-center">Oil Spill</th>
+                <th colspan="2" class="text-center">
+                  <select class="form-control" name="Oil_Spill">
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                  </select>
+                </th>
+              </tr>
+              <tr>
+                <th colspan="2" class="text-center">
+                  Tyres fit for use (not smooth)
+                </th>
+                <th colspan="2" class="text-center">
+                  <select class="form-control" name="Tyres_fit">
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                  </select>
+                </th>
+              </tr>
+              <tr>
+                <th colspan="4" class="text-center">
+                  Condition of Vehicle Tray
+                </th>
+              </tr>
+              <tr>
+                <th colspan="2" class="text-center">
+                  Residue of Previous Cargo
+                </th>
+                <th colspan="2" class="text-center">
+                  <select class="form-control" name="Resisdue_prev_Cargo">
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                  </select>
+                </th>
               </tr>
             </table>
-            <div class="mt-3">
-              <button
-                type="button"
-                class="addrow"
-                onclick="toggleDropdown('inHousePurchaseListGreen')"
-              >
-                In House Purchase List
+            <div class="text-center">
+              <button type="button" id="saveVehicleBtn" class="btn btn-success">
+                Save Vehicle
               </button>
-              <div class="dropdown-content" id="inHousePurchaseListGreen">
-                <div class="container">
-                  <div id="greenDataList"></div>
-                  <div id="greenDataListExternal"></div>
-                </div>
-              </div>
             </div>
-
-            <div class="d-flex justify-content-between mt-4">
-              <a href="#" class="btn btn-secondary">Return</a>
-              <a href="#" class="btn btn-primary">Previous</a>
-              <button type="submit" form="mainForm" class="btn btn-success">
-                Submit
-              </button>
-              <a href="#" class="btn btn-primary">Next</a>
-            </div>
-          </div>
-
-          <!-- Form Buttons -->
-          <div class="d-flex justify-content-between mt-4">
-            <a href="/table/" class="btn btn-secondary">Return</a>
-            <!-- <a href="#" class="btn btn-primary">Previous</a> -->
-            <button type="submit" class="btn btn-success">Submit</button>
-            <!-- <a href="#" class="btn btn-primary">Next</a> -->
-          </div>
-        </form>
-      </div>
-    </div>
-
-    <!-- Vehicle Inspection Modal -->
-    <div class="modal" id="formModal" tabindex="-1" style="display: none">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Vehicle Inspection Log</h5>
-            <button type="button" class="btn-close" id="closeModalBtn"></button>
-          </div>
-          <div class="modal-body">
-            <form id="vehicleForm">
-              <table class="table table-hover table-light">
-                <tr>
-                  <th colspan="2" class="text-center">Provider</th>
-                  <th colspan="2" class="text-center">
-                    <input type="text" class="form-control" name="Provider" />
-                  </th>
-                </tr>
-                <tr>
-                  <th colspan="2" class="text-center">Vehicle Number</th>
-                  <th colspan="2" class="text-center">
-                    <input
-                      type="text"
-                      class="form-control"
-                      name="Vehicle_number"
-                    />
-                  </th>
-                </tr>
-                <tr>
-                  <th colspan="2" class="text-center">Driver Name</th>
-                  <th colspan="2" class="text-center">
-                    <input
-                      type="text"
-                      class="form-control"
-                      name="Driver_name"
-                    />
-                  </th>
-                </tr>
-                <tr>
-                  <th colspan="2" class="text-center">
-                    Driver has Valid License
-                  </th>
-                  <th colspan="2" class="text-center">
-                    <select class="form-control" name="liscense_check">
-                      <option value="Yes">Yes</option>
-                      <option value="No">No</option>
-                    </select>
-                  </th>
-                </tr>
-                <tr>
-                  <th colspan="2" class="text-center">Vehicle is Insured</th>
-                  <th colspan="2" class="text-center">
-                    <select class="form-control" name="insurance_check">
-                      <option value="Yes">Yes</option>
-                      <option value="No">No</option>
-                    </select>
-                  </th>
-                </tr>
-                <tr>
-                  <th colspan="4" class="text-center">
-                    General Condition of Vehicle
-                  </th>
-                </tr>
-                <tr>
-                  <th colspan="2" class="text-center">Cleaning Status</th>
-                  <th colspan="2" class="text-center">
-                    <select class="form-control" name="Clean_check">
-                      <option value="Clean">Clean</option>
-                      <option value="Dirty">Dirty</option>
-                    </select>
-                  </th>
-                </tr>
-                <tr>
-                  <th colspan="2" class="text-center">Oil Spill</th>
-                  <th colspan="2" class="text-center">
-                    <select class="form-control" name="Oil_Spill">
-                      <option value="Yes">Yes</option>
-                      <option value="No">No</option>
-                    </select>
-                  </th>
-                </tr>
-                <tr>
-                  <th colspan="2" class="text-center">
-                    Tyres fit for use (not smooth)
-                  </th>
-                  <th colspan="2" class="text-center">
-                    <select class="form-control" name="Tyres_fit">
-                      <option value="Yes">Yes</option>
-                      <option value="No">No</option>
-                    </select>
-                  </th>
-                </tr>
-                <tr>
-                  <th colspan="4" class="text-center">
-                    Condition of Vehicle Tray
-                  </th>
-                </tr>
-                <tr>
-                  <th colspan="2" class="text-center">
-                    Residue of Previous Cargo
-                  </th>
-                  <th colspan="2" class="text-center">
-                    <select class="form-control" name="Resisdue_prev_Cargo">
-                      <option value="Yes">Yes</option>
-                      <option value="No">No</option>
-                    </select>
-                  </th>
-                </tr>
-              </table>
-              <div class="text-center">
-                <button
-                  type="button"
-                  id="saveVehicleBtn"
-                  class="btn btn-success"
-                >
-                  Save Vehicle
-                </button>
-              </div>
-            </form>
-          </div>
+          </form>
         </div>
       </div>
     </div>
+  </div>
 
-    <script>
-      // --- Signature Pad Logic ---
-      const canvas = document.getElementById("signature-pad-canvas");
-      const signaturePad = new SignaturePad(canvas, {
-        backgroundColor: "rgb(255, 255, 255)", // set background color
+  <script>
+    // --- Signature Pad Logic ---
+    const canvas = document.getElementById("signature-pad-canvas");
+    const signaturePad = new SignaturePad(canvas, {
+      backgroundColor: "rgb(255, 255, 255)", // set background color
+    });
+
+    // Clear button functionality
+    document
+      .getElementById("clear-signature")
+      .addEventListener("click", function () {
+        signaturePad.clear();
       });
 
-      // Clear button functionality
+    // On form submission, get the signature data and put it in the hidden input
+    const form = document.getElementById("mainForm"); // Use the ID of your form
+    form.addEventListener("submit", function (event) {
+      if (signaturePad.isEmpty()) {
+        alert("Please provide a signature.");
+        event.preventDefault(); // Stop form submission
+      } else {
+        // Get the signature as a data URL (base64 encoded PNG)
+        const signatureData = signaturePad.toDataURL("image/png");
+        document.getElementById("signature-data").value = signatureData;
+      }
+    });
+  </script>
+
+  <script>
+    // Set current date
+    document.addEventListener("DOMContentLoaded", function () {
+      const today = new Date();
+      const formattedDate = today.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+      document.getElementById("current-date").textContent = formattedDate;
+
+      // Initialize form visibility based on checkboxes
       document
-        .getElementById("clear-signature")
-        .addEventListener("click", function () {
-          signaturePad.clear();
+        .getElementById("maceCheck")
+        .addEventListener("change", function () {
+          toggleForms();
+          if (this.checked) {
+            loadMaceData();
+          }
         });
-
-      // On form submission, get the signature data and put it in the hidden input
-      const form = document.getElementById("mainForm"); // Use the ID of your form
-      form.addEventListener("submit", function (event) {
-        if (signaturePad.isEmpty()) {
-          alert("Please provide a signature.");
-          event.preventDefault(); // Stop form submission
-        } else {
-          // Get the signature as a data URL (base64 encoded PNG)
-          const signatureData = signaturePad.toDataURL("image/png");
-          document.getElementById("signature-data").value = signatureData;
-        }
-      });
-    </script>
-
-    <script>
-      // Set current date
-      document.addEventListener("DOMContentLoaded", function () {
-        const today = new Date();
-        const formattedDate = today.toLocaleDateString("en-US", {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
+      document
+        .getElementById("driedCheck")
+        .addEventListener("change", function () {
+          toggleForms();
+          if (this.checked) {
+            loadInHouseData("dried");
+          }
         });
-        document.getElementById("current-date").textContent = formattedDate;
-
-        // Initialize form visibility based on checkboxes
-        document
-          .getElementById("maceCheck")
-          .addEventListener("change", function () {
-            toggleForms();
-            if (this.checked) {
-              loadMaceData();
-            }
-          });
-        document
-          .getElementById("driedCheck")
-          .addEventListener("change", function () {
-            toggleForms();
-            if (this.checked) {
-              loadInHouseData("dried");
-            }
-          });
-        document
-          .getElementById("greenCheck")
-          .addEventListener("change", function () {
-            toggleForms();
-            if (this.checked) {
-              loadInHouseData("green");
-            }
-          });
-
-        // Initialize modal functionality
-        const modal = document.getElementById("formModal");
-        const openModalBtn = document.getElementById("openModalBtn");
-        const closeModalBtn = document.getElementById("closeModalBtn");
-
-        openModalBtn.addEventListener("click", function () {
-          modal.style.display = "block";
-        });
-
-        closeModalBtn.addEventListener("click", function () {
-          modal.style.display = "none";
-        });
-
-        window.addEventListener("click", function (event) {
-          if (event.target == modal) {
-            modal.style.display = "none";
+      document
+        .getElementById("greenCheck")
+        .addEventListener("change", function () {
+          toggleForms();
+          if (this.checked) {
+            loadInHouseData("green");
           }
         });
 
-        // document.getElementById('saveVehicleBtn').addEventListener('click', function() {
-        //     const vehicleNumber = document.querySelector('[name="Vehicle_number"]').value;
-        //     if (vehicleNumber) {
-        //         // Add to vehicle dropdown
-        //         const option = document.createElement('option');
-        //         option.value = vehicleNumber;
-        //         option.textContent = vehicleNumber;
-        //         document.getElementById('vehicleSelect').appendChild(option);
+      // Initialize modal functionality
+      const modal = document.getElementById("formModal");
+      const openModalBtn = document.getElementById("openModalBtn");
+      const closeModalBtn = document.getElementById("closeModalBtn");
 
-        //         // Select the new option
-        //         document.getElementById('vehicleSelect').value = vehicleNumber;
+      openModalBtn.addEventListener("click", function () {
+        modal.style.display = "block";
+      });
 
-        //         // Close modal
-        //         modal.style.display = 'none';
+      closeModalBtn.addEventListener("click", function () {
+        modal.style.display = "none";
+      });
 
-        //         // Reset form
-        //         document.getElementById('vehicleForm').reset();
-        //     } else {
-        //         alert('Please enter a vehicle number');
-        //     }
-        // });
+      window.addEventListener("click", function (event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      });
 
-        // Initialize form submission
+      // document.getElementById('saveVehicleBtn').addEventListener('click', function() {
+      //     const vehicleNumber = document.querySelector('[name="Vehicle_number"]').value;
+      //     if (vehicleNumber) {
+      //         // Add to vehicle dropdown
+      //         const option = document.createElement('option');
+      //         option.value = vehicleNumber;
+      //         option.textContent = vehicleNumber;
+      //         document.getElementById('vehicleSelect').appendChild(option);
 
-        document
-          .getElementById("saveVehicleBtn")
-          .addEventListener("click", function () {
-            const form = document.getElementById("vehicleForm");
-            const formData = new FormData(form);
-            const vehicleData = Object.fromEntries(formData.entries());
+      //         // Select the new option
+      //         document.getElementById('vehicleSelect').value = vehicleNumber;
 
-            const request = indexedDB.open("GCNA", 2);
+      //         // Close modal
+      //         modal.style.display = 'none';
 
-            request.onsuccess = function (event) {
-              const db = event.target.result;
-              const transaction = db.transaction(
-                "Vehicle_Inspection",
-                "readwrite",
-              );
-              const objectStore = transaction.objectStore("Vehicle_Inspection");
+      //         // Reset form
+      //         document.getElementById('vehicleForm').reset();
+      //     } else {
+      //         alert('Please enter a vehicle number');
+      //     }
+      // });
 
-              // 1. Find the record with the highest ID
-              // openCursor(null, 'prev') starts at the end of the list
-              const cursorRequest = objectStore.openCursor(null, "prev");
+      // Initialize form submission
 
-              cursorRequest.onsuccess = function (e) {
-                const cursor = e.target.result;
-                let newId = 1; // Default if store is empty
+      document
+        .getElementById("saveVehicleBtn")
+        .addEventListener("click", function () {
+          const form = document.getElementById("vehicleForm");
+          const formData = new FormData(form);
+          const vehicleData = Object.fromEntries(formData.entries());
 
-                if (cursor) {
-                  // 2. Increment the current highest ID by 1
-                  newId = cursor.value.id + 1;
-                }
-
-                // 3. Assign the new ID to our data object
-                vehicleData.id = newId;
-
-                // 4. Save the data
-                const addRequest = objectStore.add(vehicleData);
-
-                addRequest.onsuccess = function () {
-                  // alert(`Saved successfully with ID: ${newId}`);
-                  form.reset();
-                };
-              };
-            };
-          });
-
-        //           document.getElementById('saveVehicleBtn').addEventListener('click', function() {
-        //     // 1. Collect form data
-        //     const form = document.getElementById('vehicleForm');
-        //     const formData = new FormData(form);
-        //     const vehicleData = Object.fromEntries(formData.entries());
-
-        //     // Add a timestamp or unique ID if your store doesn't auto-increment
-        //     vehicleData.timestamp = new Date().toISOString();
-
-        //     // 2. Open IndexedDB
-        //     const request = indexedDB.open('GCNA', 2);
-
-        //     request.onsuccess = function(event) {
-        //         const db = event.target.result;
-
-        //         // 3. Start a 'readwrite' transaction
-        //         const transaction = db.transaction('Vehicle_Inspection', 'readwrite');
-        //         const objectStore = transaction.objectStore('Vehicle_Inspection');
-
-        //         // 4. Add data to the store
-        //         const addRequest = objectStore.add(vehicleData);
-
-        //         addRequest.onsuccess = function() {
-        //             alert('Vehicle inspection saved successfully!');
-        //             form.reset(); // Clear form
-        //             // Optional: Close the modal if using Bootstrap
-        //             // bootstrap.Modal.getInstance(document.getElementById('formModal')).hide();
-        //         };
-
-        //         addRequest.onerror = function(err) {
-        //             console.error('Error saving data:', err);
-        //             alert('Failed to save data. Check console for details.');
-        //         };
-
-        //         transaction.oncomplete = function() {
-        //             console.log('Transaction completed.');
-        //         };
-        //     };
-
-        //     request.onerror = function(event) {
-        //         console.error('Database error: ', event.target.errorCode);
-        //     };
-        // });
-
-        document
-          .getElementById("mainForm")
-          .addEventListener("submit", function (event) {
-            event.preventDefault();
-
-            // Get selected forms
-            const maceSelected = document.getElementById("maceCheck").checked;
-            const driedSelected = document.getElementById("driedCheck").checked;
-            const greenSelected = document.getElementById("greenCheck").checked;
-
-            if (!maceSelected && !driedSelected && !greenSelected) {
-              alert("Please select at least one form type");
-              return;
-            }
-
-            // Collect form data
-            const formData = new FormData(this);
-
-            // Add vehicle number
-            const vehicleNumber =
-              document.getElementById("vehicleSelect").value;
-            formData.append("Vehicle_number", vehicleNumber);
-
-            // Convert FormData to object
-            const formObject = {};
-            for (let pair of formData.entries()) {
-              formObject[pair[0]] = pair[1];
-            }
-
-            // Add metadata
-            formObject.timestamp = new Date().toISOString();
-            formObject.forms_selected = {
-              mace: maceSelected,
-              dried: driedSelected,
-              green: greenSelected,
-            };
-
-            // Save to IndexedDB using the reference pattern
-            saveToDispatchedDried(formObject);
-          });
-
-        // Function to save data to Dispatch-Of-Dried-Nutmeg IndexedDB store
-        function saveToDispatchedDried(formData) {
-          var request = indexedDB.open("GCNA", 2);
+          const request = indexedDB.open("GCNA", 2);
 
           request.onsuccess = function (event) {
-            var db = event.target.result;
-            var transaction = db.transaction(
-              "Dispatch-Of-Dried-Nutmeg",
+            const db = event.target.result;
+            const transaction = db.transaction(
+              "Vehicle_Inspection",
               "readwrite",
             );
-            var objectStore = transaction.objectStore(
-              "Dispatch-Of-Dried-Nutmeg",
-            );
+            const objectStore = transaction.objectStore("Vehicle_Inspection");
 
-            // Remove CSRF token if it exists
-            if (formData.csrfmiddlewaretoken) {
-              delete formData.csrfmiddlewaretoken;
-            }
+            // 1. Find the record with the highest ID
+            // openCursor(null, 'prev') starts at the end of the list
+            const cursorRequest = objectStore.openCursor(null, "prev");
 
-            // Get the highest id in the object store
-            var highestIdRequest = objectStore.openCursor(null, "prev");
-            highestIdRequest.onsuccess = function (event) {
-              var cursor = event.target.result;
+            cursorRequest.onsuccess = function (e) {
+              const cursor = e.target.result;
+              let newId = 1; // Default if store is empty
+
               if (cursor) {
-                formData.id = cursor.key + 1;
-              } else {
-                formData.id = 1; // This is the first item
+                // 2. Increment the current highest ID by 1
+                newId = cursor.value.id + 1;
               }
 
-              var putRequest = objectStore.put(formData);
+              // 3. Assign the new ID to our data object
+              vehicleData.id = newId;
 
-              putRequest.onsuccess = function () {
-                console.log("Data added to IndexedDB with ID:", formData.id);
-                alert("Form submitted and saved successfully!");
+              // 4. Save the data
+              const addRequest = objectStore.add(vehicleData);
 
-                // Reset the form after successful save
-                document.getElementById("mainForm").reset();
-
-                // Hide all form sections
-                document.getElementById("maceForm").style.display = "none";
-                document.getElementById("driedForm").style.display = "none";
-                document.getElementById("greenForm").style.display = "none";
-
-                // Uncheck all checkboxes
-                document.getElementById("maceCheck").checked = false;
-                document.getElementById("driedCheck").checked = false;
-                document.getElementById("greenCheck").checked = false;
-
-                // Clear data lists
-                document.getElementById("maceDataList").innerHTML = "";
-                document.getElementById("maceDataListExternal").innerHTML = "";
-                document.getElementById("driedDataList").innerHTML = "";
-                document.getElementById("greenDataList").innerHTML = "";
-
-                document.getElementById("driedDataListExternal").innerHTML = "";
-                document.getElementById("greenDataListExternal").innerHTML = "";
-                // document.getElementById('driedDataList2').innerHTML = '';
-                // document.getElementById('greenDataList2').innerHTML = '';
-                // Optional: Call transfer function if you have one
-                // transferIndexedDBData();
-              };
-
-              putRequest.onerror = function () {
-                console.error("Error adding data to IndexedDB");
-                alert("Error saving form data. Please try again.");
+              addRequest.onsuccess = function () {
+                // alert(`Saved successfully with ID: ${newId}`);
+                form.reset();
               };
             };
+          };
+        });
 
-            highestIdRequest.onerror = function () {
-              console.error("Error getting highest ID from IndexedDB");
+      //           document.getElementById('saveVehicleBtn').addEventListener('click', function() {
+      //     // 1. Collect form data
+      //     const form = document.getElementById('vehicleForm');
+      //     const formData = new FormData(form);
+      //     const vehicleData = Object.fromEntries(formData.entries());
+
+      //     // Add a timestamp or unique ID if your store doesn't auto-increment
+      //     vehicleData.timestamp = new Date().toISOString();
+
+      //     // 2. Open IndexedDB
+      //     const request = indexedDB.open('GCNA', 2);
+
+      //     request.onsuccess = function(event) {
+      //         const db = event.target.result;
+
+      //         // 3. Start a 'readwrite' transaction
+      //         const transaction = db.transaction('Vehicle_Inspection', 'readwrite');
+      //         const objectStore = transaction.objectStore('Vehicle_Inspection');
+
+      //         // 4. Add data to the store
+      //         const addRequest = objectStore.add(vehicleData);
+
+      //         addRequest.onsuccess = function() {
+      //             alert('Vehicle inspection saved successfully!');
+      //             form.reset(); // Clear form
+      //             // Optional: Close the modal if using Bootstrap
+      //             // bootstrap.Modal.getInstance(document.getElementById('formModal')).hide();
+      //         };
+
+      //         addRequest.onerror = function(err) {
+      //             console.error('Error saving data:', err);
+      //             alert('Failed to save data. Check console for details.');
+      //         };
+
+      //         transaction.oncomplete = function() {
+      //             console.log('Transaction completed.');
+      //         };
+      //     };
+
+      //     request.onerror = function(event) {
+      //         console.error('Database error: ', event.target.errorCode);
+      //     };
+      // });
+
+      document
+        .getElementById("mainForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          // Get selected forms
+          const maceSelected = document.getElementById("maceCheck").checked;
+          const driedSelected = document.getElementById("driedCheck").checked;
+          const greenSelected = document.getElementById("greenCheck").checked;
+
+          if (!maceSelected && !driedSelected && !greenSelected) {
+            alert("Please select at least one form type");
+            return;
+          }
+
+          // Collect form data
+          const formData = new FormData(this);
+
+          // Add vehicle number
+          const vehicleNumber =
+            document.getElementById("vehicleSelect").value;
+          formData.append("Vehicle_number", vehicleNumber);
+
+          // Convert FormData to object
+          const formObject = {};
+          for (let pair of formData.entries()) {
+            formObject[pair[0]] = pair[1];
+          }
+
+          // Add metadata
+          formObject.timestamp = new Date().toISOString();
+          formObject.forms_selected = {
+            mace: maceSelected,
+            dried: driedSelected,
+            green: greenSelected,
+          };
+
+          // Save to IndexedDB using the reference pattern
+          saveToDispatchedDried(formObject);
+        });
+
+      // Function to save data to Dispatch-Of-Dried-Nutmeg IndexedDB store
+      function saveToDispatchedDried(formData) {
+        var request = indexedDB.open("GCNA", 2);
+
+        request.onsuccess = function (event) {
+          var db = event.target.result;
+          var transaction = db.transaction(
+            "Dispatch-Of-Dried-Nutmeg",
+            "readwrite",
+          );
+          var objectStore = transaction.objectStore(
+            "Dispatch-Of-Dried-Nutmeg",
+          );
+
+          // Remove CSRF token if it exists
+          if (formData.csrfmiddlewaretoken) {
+            delete formData.csrfmiddlewaretoken;
+          }
+
+          // Get the highest id in the object store
+          var highestIdRequest = objectStore.openCursor(null, "prev");
+          highestIdRequest.onsuccess = function (event) {
+            var cursor = event.target.result;
+            if (cursor) {
+              formData.id = cursor.key + 1;
+            } else {
+              formData.id = 1; // This is the first item
+            }
+
+            var putRequest = objectStore.put(formData);
+
+            putRequest.onsuccess = function () {
+              console.log("Data added to IndexedDB with ID:", formData.id);
+              alert("Form submitted and saved successfully!");
+
+              // Reset the form after successful save
+              document.getElementById("mainForm").reset();
+
+              // Hide all form sections
+              document.getElementById("maceForm").style.display = "none";
+              document.getElementById("driedForm").style.display = "none";
+              document.getElementById("greenForm").style.display = "none";
+
+              // Uncheck all checkboxes
+              document.getElementById("maceCheck").checked = false;
+              document.getElementById("driedCheck").checked = false;
+              document.getElementById("greenCheck").checked = false;
+
+              // Clear data lists
+              document.getElementById("maceDataList").innerHTML = "";
+              document.getElementById("maceDataListExternal").innerHTML = "";
+              document.getElementById("driedDataList").innerHTML = "";
+              document.getElementById("greenDataList").innerHTML = "";
+
+              document.getElementById("driedDataListExternal").innerHTML = "";
+              document.getElementById("greenDataListExternal").innerHTML = "";
+              // document.getElementById('driedDataList2').innerHTML = '';
+              // document.getElementById('greenDataList2').innerHTML = '';
+              // Optional: Call transfer function if you have one
+              // transferIndexedDBData();
+            };
+
+            putRequest.onerror = function () {
+              console.error("Error adding data to IndexedDB");
               alert("Error saving form data. Please try again.");
             };
           };
 
-          request.onerror = function (event) {
-            console.error("Error opening IndexedDB", event);
-            alert("Error opening database. Please try again.");
-          };
-        }
-
-        // Initialize batch code generation
-        initializeBatchCodeGeneration();
-
-        // Load vehicle data from IndexedDB
-        loadVehicleData();
-      });
-
-      // Toggle form visibility based on checkboxes
-      function toggleForms() {
-        const maceForm = document.getElementById("maceForm");
-        const driedForm = document.getElementById("driedForm");
-        const greenForm = document.getElementById("greenForm");
-
-        maceForm.style.display = document.getElementById("maceCheck").checked
-          ? "block"
-          : "none";
-        driedForm.style.display = document.getElementById("driedCheck").checked
-          ? "block"
-          : "none";
-        greenForm.style.display = document.getElementById("greenCheck").checked
-          ? "block"
-          : "none";
-      }
-
-      // Toggle dropdown visibility
-      function toggleDropdown(id) {
-        const dropdown = document.getElementById(id);
-        dropdown.classList.toggle("show");
-      }
-
-      // Initialize batch code generation
-      function initializeBatchCodeGeneration() {
-        // For Mace form
-        const stationMace = document.querySelector('[name="STATION_MACE"]');
-        const dateMace = document.querySelector(
-          '[name="DATE_OF_PURCHASE_MACE"]',
-        );
-        const batchM1 = document.querySelector('[name="BATCH_CODE_M1"]');
-        const batchM2 = document.querySelector('[name="BATCH_CODE_M2"]');
-        const batchM3 = document.querySelector('[name="BATCH_CODE_M3"]');
-
-        function updateMaceBatchCodes() {
-          if (stationMace.value && dateMace.value) {
-            const station = stationMace.value;
-            const date = new Date(dateMace.value);
-            const day = String(date.getDate()).padStart(2, "0");
-            const month = String(date.getMonth() + 1).padStart(2, "0");
-            const year = date.getFullYear();
-            const dateStr = `${year}${month}${day}`;
-
-            batchM1.value = `${station}${dateStr}M1`;
-            batchM2.value = `${station}${dateStr}M2`;
-            batchM3.value = `${station}${dateStr}M3`;
-          }
-        }
-
-        stationMace.addEventListener("change", updateMaceBatchCodes);
-        dateMace.addEventListener("change", updateMaceBatchCodes);
-      }
-
-      // Update control number (batch codes) when checkbox is clicked
-      function updateControlNum(checkbox, recordId, codeValue) {
-        let controlNumField;
-
-        // Determine which form this is for based on the checkbox's context
-        if (checkbox.closest("#driedDataList")) {
-          controlNumField = document.querySelector(
-            '[name="BATCH_CODES_DRIED"]',
-          );
-        } else if (checkbox.closest("#greenDataList")) {
-          controlNumField = document.querySelector(
-            '[name="BATCH_CODES_GREEN"]',
-          );
-        }
-
-        if (!controlNumField) return;
-
-        let currentValues = controlNumField.value
-          ? controlNumField.value.split(",").map((v) => v.trim())
-          : [];
-
-        if (checkbox.checked) {
-          // Add the checkbox's value to the field if not already present
-          if (!currentValues.includes(codeValue)) {
-            currentValues.push(codeValue);
-          }
-        } else {
-          // Remove the checkbox's value from the field
-          currentValues = currentValues.filter((value) => value !== codeValue);
-        }
-
-        controlNumField.value = currentValues.join(", ");
-      }
-
-      // Set selected station
-      function setSelectedStation(checkbox, recordId, stationValue) {
-        if (!checkbox.checked) return;
-
-        let stationDropdown;
-
-        // Determine which form this is for based on the checkbox's context
-        if (checkbox.closest("#maceDataList, #maceDataListExternal")) {
-          stationDropdown = document.querySelector('[name="STATION_MACE"]');
-        } else if (checkbox.closest("#driedDataList, #driedDataListExternal")) {
-          stationDropdown = document.querySelector('[name="STATION_DRIED"]');
-        } else if (checkbox.closest("#greenDataList, #greenDataListExternal")) {
-          stationDropdown = document.querySelector('[name="STATION_GREEN"]');
-        } else if (checkbox.closest("#driedDataList2")) {
-          stationDropdown = document.querySelector('[name="STATION_DRIED"]');
-        } else if (checkbox.closest("#greenDataList2")) {
-          stationDropdown = document.querySelector('[name="STATION_GREEN"]');
-        }
-
-        if (!stationDropdown) return;
-
-        // Loop through the options and select the one that matches the stationValue
-        for (let i = 0; i < stationDropdown.options.length; i++) {
-          if (stationDropdown.options[i].value === stationValue) {
-            stationDropdown.selectedIndex = i;
-            break;
-          }
-        }
-      }
-
-      // Set values for Mace form
-      function set_valuecode(
-        batchM1,
-        batchM2,
-        batchM3,
-        station,
-        vehicleNumber,
-        deliveryAdvice,
-        mace1,
-        mace2,
-        mace3,
-      ) {
-        document.querySelector('[name="BATCH_CODE_M1"]').value = batchM1;
-        document.querySelector('[name="BATCH_CODE_M2"]').value = batchM2;
-        document.querySelector('[name="BATCH_CODE_M3"]').value = batchM3;
-        document.querySelector('[name="MACE_1"]').value = mace1;
-        document.querySelector('[name="MACE_2"]').value = mace2;
-        document.querySelector('[name="MACE_3"]').value = mace3;
-        document.querySelector('[name="STATION_MACE"]').value = station;
-        // document.querySelector('[name="Delivery_advice_num_MACE"]').value = deliveryAdvice;
-
-        // Set vehicle if available
-        // if (vehicleNumber) {
-        //     document.getElementById('vehicleSelect').value = vehicleNumber;
-        // }
-      }
-
-      // Load vehicle data from IndexedDB
-      function loadVehicleData() {
-        const request = indexedDB.open("GCNA", 2);
-
-        request.onsuccess = function (event) {
-          const db = event.target.result;
-          const transaction = db.transaction("Vehicle_Inspection", "readonly");
-          const objectStore = transaction.objectStore("Vehicle_Inspection");
-          const vehicleNumbers = [];
-
-          objectStore.openCursor().onsuccess = function (event) {
-            const cursor = event.target.result;
-            if (cursor) {
-              const vehicleNumber = cursor.value.Vehicle_number;
-              if (!vehicleNumbers.includes(vehicleNumber)) {
-                vehicleNumbers.push(vehicleNumber);
-                const option = document.createElement("option");
-                option.value = vehicleNumber;
-                option.textContent = vehicleNumber;
-                document.getElementById("vehicleSelect").appendChild(option);
-              }
-              cursor.continue();
-            }
+          highestIdRequest.onerror = function () {
+            console.error("Error getting highest ID from IndexedDB");
+            alert("Error saving form data. Please try again.");
           };
         };
 
         request.onerror = function (event) {
-          console.error("IndexedDB error:", event.target.error);
+          console.error("Error opening IndexedDB", event);
+          alert("Error opening database. Please try again.");
         };
       }
 
-      // Load Mace Purchase data from IndexedDB
+      // Initialize batch code generation
+      initializeBatchCodeGeneration();
 
-      function loadMaceData() {
-        const openRequest = indexedDB.open("GCNA");
+      // Load vehicle data from IndexedDB
+      loadVehicleData();
+    });
 
-        openRequest.onsuccess = function (event) {
-          const db = event.target.result;
-          const transaction = db.transaction("Mace_Purchase", "readonly");
-          const landInfoStore = transaction.objectStore("Mace_Purchase");
-          const getAllRequest = landInfoStore.getAll();
+    // Toggle form visibility based on checkboxes
+    function toggleForms() {
+      const maceForm = document.getElementById("maceForm");
+      const driedForm = document.getElementById("driedForm");
+      const greenForm = document.getElementById("greenForm");
 
-          getAllRequest.onsuccess = function (event) {
-            const landInfoRecords = event.target.result;
-            const landInfoDataDiv = document.getElementById("maceDataList");
+      maceForm.style.display = document.getElementById("maceCheck").checked
+        ? "block"
+        : "none";
+      driedForm.style.display = document.getElementById("driedCheck").checked
+        ? "block"
+        : "none";
+      greenForm.style.display = document.getElementById("greenCheck").checked
+        ? "block"
+        : "none";
+    }
 
-            if (!landInfoDataDiv) {
-              console.error("Element with ID 'maceDataList' not found.");
-              return;
+    // Toggle dropdown visibility
+    function toggleDropdown(id) {
+      const dropdown = document.getElementById(id);
+      dropdown.classList.toggle("show");
+    }
+
+    // Initialize batch code generation
+    function initializeBatchCodeGeneration() {
+      // For Mace form
+      const stationMace = document.querySelector('[name="STATION_MACE"]');
+      const dateMace = document.querySelector(
+        '[name="DATE_OF_PURCHASE_MACE"]',
+      );
+      const batchM1 = document.querySelector('[name="BATCH_CODE_M1"]');
+      const batchM2 = document.querySelector('[name="BATCH_CODE_M2"]');
+      const batchM3 = document.querySelector('[name="BATCH_CODE_M3"]');
+
+      function updateMaceBatchCodes() {
+        if (stationMace.value && dateMace.value) {
+          const station = stationMace.value;
+          const date = new Date(dateMace.value);
+          const day = String(date.getDate()).padStart(2, "0");
+          const month = String(date.getMonth() + 1).padStart(2, "0");
+          const year = date.getFullYear();
+          const dateStr = `${year}${month}${day}`;
+
+          batchM1.value = `${station}${dateStr}M1`;
+          batchM2.value = `${station}${dateStr}M2`;
+          batchM3.value = `${station}${dateStr}M3`;
+        }
+      }
+
+      stationMace.addEventListener("change", updateMaceBatchCodes);
+      dateMace.addEventListener("change", updateMaceBatchCodes);
+    }
+
+    // Update control number (batch codes) when checkbox is clicked
+    function updateControlNum(checkbox, recordId, codeValue) {
+      let controlNumField;
+
+      // Determine which form this is for based on the checkbox's context
+      if (checkbox.closest("#driedDataList")) {
+        controlNumField = document.querySelector(
+          '[name="BATCH_CODES_DRIED"]',
+        );
+      } else if (checkbox.closest("#greenDataList")) {
+        controlNumField = document.querySelector(
+          '[name="BATCH_CODES_GREEN"]',
+        );
+      }
+
+      if (!controlNumField) return;
+
+      let currentValues = controlNumField.value
+        ? controlNumField.value.split(",").map((v) => v.trim())
+        : [];
+
+      if (checkbox.checked) {
+        // Add the checkbox's value to the field if not already present
+        if (!currentValues.includes(codeValue)) {
+          currentValues.push(codeValue);
+        }
+      } else {
+        // Remove the checkbox's value from the field
+        currentValues = currentValues.filter((value) => value !== codeValue);
+      }
+
+      controlNumField.value = currentValues.join(", ");
+    }
+
+    // Set selected station
+    function setSelectedStation(checkbox, recordId, stationValue) {
+      if (!checkbox.checked) return;
+
+      let stationDropdown;
+
+      // Determine which form this is for based on the checkbox's context
+      if (checkbox.closest("#maceDataList, #maceDataListExternal")) {
+        stationDropdown = document.querySelector('[name="STATION_MACE"]');
+      } else if (checkbox.closest("#driedDataList, #driedDataListExternal")) {
+        stationDropdown = document.querySelector('[name="STATION_DRIED"]');
+      } else if (checkbox.closest("#greenDataList, #greenDataListExternal")) {
+        stationDropdown = document.querySelector('[name="STATION_GREEN"]');
+      } else if (checkbox.closest("#driedDataList2")) {
+        stationDropdown = document.querySelector('[name="STATION_DRIED"]');
+      } else if (checkbox.closest("#greenDataList2")) {
+        stationDropdown = document.querySelector('[name="STATION_GREEN"]');
+      }
+
+      if (!stationDropdown) return;
+
+      // Loop through the options and select the one that matches the stationValue
+      for (let i = 0; i < stationDropdown.options.length; i++) {
+        if (stationDropdown.options[i].value === stationValue) {
+          stationDropdown.selectedIndex = i;
+          break;
+        }
+      }
+    }
+
+    // Set values for Mace form
+    function set_valuecode(
+      batchM1,
+      batchM2,
+      batchM3,
+      station,
+      vehicleNumber,
+      deliveryAdvice,
+      mace1,
+      mace2,
+      mace3,
+    ) {
+      document.querySelector('[name="BATCH_CODE_M1"]').value = batchM1;
+      document.querySelector('[name="BATCH_CODE_M2"]').value = batchM2;
+      document.querySelector('[name="BATCH_CODE_M3"]').value = batchM3;
+      document.querySelector('[name="MACE_1"]').value = mace1;
+      document.querySelector('[name="MACE_2"]').value = mace2;
+      document.querySelector('[name="MACE_3"]').value = mace3;
+      document.querySelector('[name="STATION_MACE"]').value = station;
+      // document.querySelector('[name="Delivery_advice_num_MACE"]').value = deliveryAdvice;
+
+      // Set vehicle if available
+      // if (vehicleNumber) {
+      //     document.getElementById('vehicleSelect').value = vehicleNumber;
+      // }
+    }
+
+    // Load vehicle data from IndexedDB
+    function loadVehicleData() {
+      const request = indexedDB.open("GCNA", 2);
+
+      request.onsuccess = function (event) {
+        const db = event.target.result;
+        const transaction = db.transaction("Vehicle_Inspection", "readonly");
+        const objectStore = transaction.objectStore("Vehicle_Inspection");
+        const vehicleNumbers = [];
+
+        objectStore.openCursor().onsuccess = function (event) {
+          const cursor = event.target.result;
+          if (cursor) {
+            const vehicleNumber = cursor.value.Vehicle_number;
+            if (!vehicleNumbers.includes(vehicleNumber)) {
+              vehicleNumbers.push(vehicleNumber);
+              const option = document.createElement("option");
+              option.value = vehicleNumber;
+              option.textContent = vehicleNumber;
+              document.getElementById("vehicleSelect").appendChild(option);
             }
+            cursor.continue();
+          }
+        };
+      };
 
-            landInfoDataDiv.innerHTML = ""; // Clear previous entries
+      request.onerror = function (event) {
+        console.error("IndexedDB error:", event.target.error);
+      };
+    }
 
-            landInfoRecords.forEach((record) => {
-              const entryContainer = document.createElement("div");
-              entryContainer.id = `entryContainer_${record.id}`;
-              entryContainer.classList.add("entryContainer");
+    // Load Mace Purchase data from IndexedDB
 
-              const dispatchTransaction = db.transaction(
-                "Dispatch-Of-Dried-Nutmeg",
-                "readonly",
-              );
-              const dispatchStore = dispatchTransaction.objectStore(
-                "Dispatch-Of-Dried-Nutmeg",
-              );
+    function loadMaceData() {
+      const openRequest = indexedDB.open("GCNA");
 
-              const getAllDispatchRequest = dispatchStore.getAll();
-              getAllDispatchRequest.onsuccess = function (event) {
-                const dispatchRecords = event.target.result;
+      openRequest.onsuccess = function (event) {
+        const db = event.target.result;
+        const transaction = db.transaction("Mace_Purchase", "readonly");
+        const landInfoStore = transaction.objectStore("Mace_Purchase");
+        const getAllRequest = landInfoStore.getAll();
 
-                const exists = dispatchRecords.some((dispatchRecord) => {
-                  return (
-                    (dispatchRecord.BATCH_CODE_M1 &&
-                      dispatchRecord.BATCH_CODE_M1.includes(
-                        record.BATCH_CODE_M1,
-                      )) ||
-                    (dispatchRecord.BATCH_CODE_M2 &&
-                      dispatchRecord.BATCH_CODE_M2.includes(
-                        record.BATCH_CODE_M2,
-                      )) ||
-                    (dispatchRecord.BATCH_CODE_M3 &&
-                      dispatchRecord.BATCH_CODE_M3.includes(
-                        record.BATCH_CODE_M3,
-                      ))
-                  );
-                });
+        getAllRequest.onsuccess = function (event) {
+          const landInfoRecords = event.target.result;
+          const landInfoDataDiv = document.getElementById("maceDataList");
 
-                //   <tr>
-                //                         <th>PLACE OF PURCHASE</th>
-                //                         <td>${record.PLACE_OF_PURCHASE || 'N/A'}</td>
-                //                     </tr>
+          if (!landInfoDataDiv) {
+            console.error("Element with ID 'maceDataList' not found.");
+            return;
+          }
 
-                if (!exists) {
-                  const dropdownContent = `
+          landInfoDataDiv.innerHTML = ""; // Clear previous entries
+
+          landInfoRecords.forEach((record) => {
+            const entryContainer = document.createElement("div");
+            entryContainer.id = `entryContainer_${record.id}`;
+            entryContainer.classList.add("entryContainer");
+
+            const dispatchTransaction = db.transaction(
+              "Dispatch-Of-Dried-Nutmeg",
+              "readonly",
+            );
+            const dispatchStore = dispatchTransaction.objectStore(
+              "Dispatch-Of-Dried-Nutmeg",
+            );
+
+            const getAllDispatchRequest = dispatchStore.getAll();
+            getAllDispatchRequest.onsuccess = function (event) {
+              const dispatchRecords = event.target.result;
+
+              const exists = dispatchRecords.some((dispatchRecord) => {
+                return (
+                  (dispatchRecord.BATCH_CODE_M1 &&
+                    dispatchRecord.BATCH_CODE_M1.includes(
+                      record.BATCH_CODE_M1,
+                    )) ||
+                  (dispatchRecord.BATCH_CODE_M2 &&
+                    dispatchRecord.BATCH_CODE_M2.includes(
+                      record.BATCH_CODE_M2,
+                    )) ||
+                  (dispatchRecord.BATCH_CODE_M3 &&
+                    dispatchRecord.BATCH_CODE_M3.includes(
+                      record.BATCH_CODE_M3,
+                    ))
+                );
+              });
+
+              //   <tr>
+              //                         <th>PLACE OF PURCHASE</th>
+              //                         <td>${record.PLACE_OF_PURCHASE || 'N/A'}</td>
+              //                     </tr>
+
+              if (!exists) {
+                const dropdownContent = `
                                     <div class="dropdown">
                                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton_${record.id}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             Entry: ${record.id}      
@@ -1332,118 +1241,118 @@
                                             </table>
                                         </div>
                                     </div>`;
-                  entryContainer.innerHTML = dropdownContent;
-                  landInfoDataDiv.appendChild(entryContainer);
-                } else {
-                  console.log(
-                    `Record.Control_number ${record.Control_number} already exists in Mace_Dispatched. Dropdown not generated.`,
-                  );
-                }
-              };
-
-              getAllDispatchRequest.onerror = function () {
-                console.error("Error retrieving Mace_Dispatched records.");
-              };
-            });
-          };
-
-          getAllRequest.onerror = function () {
-            console.error("Error retrieving Mace_Purchase records.");
-          };
-        };
-
-        openRequest.onerror = function (event) {
-          console.error("Failed to open IndexedDB:", event.target.error);
-        };
-      }
-
-      function loadMaceDataExternal() {
-        const openRequest = indexedDB.open("GCNA");
-
-        openRequest.onsuccess = function (event) {
-          const db = event.target.result;
-          const transaction = db.transaction("Mace_Purchase", "readonly");
-          const landInfoStore = transaction.objectStore("Mace_Purchase");
-          const getAllRequest = landInfoStore.getAll();
-
-          getAllRequest.onsuccess = function (event) {
-            const landInfoRecords = event.target.result;
-            const landInfoDataDiv = document.getElementById(
-              "maceDataListExternal",
-            );
-
-            if (!landInfoDataDiv) {
-              console.error("Element with ID 'maceDataList' not found.");
-              return;
-            }
-
-            landInfoDataDiv.innerHTML = ""; // Clear previous entries
-
-            landInfoRecords.forEach((record) => {
-              const entryContainer = document.createElement("div");
-              entryContainer.id = `entryContainer_${record.id}`;
-              entryContainer.classList.add("entryContainer");
-
-              let batchCodes = [
-                record.BATCH_CODE_M1?.trim(),
-                record.BATCH_CODE_M2?.trim(),
-                record.BATCH_CODE_M3?.trim(),
-              ].filter((b) => b && b !== "");
-
-              // First DB: GCNA (Mace_Dispatched)
-              const dispatchTransaction = db.transaction(
-                "Mace_Dispatched",
-                "readonly",
-              );
-              const dispatchStore =
-                dispatchTransaction.objectStore("Mace_Dispatched");
-
-              const getAllDispatchRequest = dispatchStore.getAll();
-              getAllDispatchRequest.onsuccess = function (event) {
-                const dispatchRecordsGCNA = event.target.result;
-
-                const existsInGCNA = dispatchRecordsGCNA.some((d) =>
-                  batchCodes.some(
-                    (code) =>
-                      (d.BATCH_CODE_M1 && d.BATCH_CODE_M1.includes(code)) ||
-                      (d.BATCH_CODE_M2 && d.BATCH_CODE_M2.includes(code)) ||
-                      (d.BATCH_CODE_M3 && d.BATCH_CODE_M3.includes(code)),
-                  ),
+                entryContainer.innerHTML = dropdownContent;
+                landInfoDataDiv.appendChild(entryContainer);
+              } else {
+                console.log(
+                  `Record.Control_number ${record.Control_number} already exists in Mace_Dispatched. Dropdown not generated.`,
                 );
+              }
+            };
 
-                // NOW CHECK DB 2 — GCNA_External
-                const openRequest2 = indexedDB.open("GCNA_External");
+            getAllDispatchRequest.onerror = function () {
+              console.error("Error retrieving Mace_Dispatched records.");
+            };
+          });
+        };
 
-                openRequest2.onsuccess = function (event) {
-                  const db2 = event.target.result;
-                  const tx2 = db2.transaction("Mace_Dispatched", "readonly");
-                  const store2 = tx2.objectStore("Mace_Dispatched");
+        getAllRequest.onerror = function () {
+          console.error("Error retrieving Mace_Purchase records.");
+        };
+      };
 
-                  const getAllDispatchRequest2 = store2.getAll();
-                  getAllDispatchRequest2.onsuccess = function (event) {
-                    const dispatchRecordsExternal = event.target.result;
+      openRequest.onerror = function (event) {
+        console.error("Failed to open IndexedDB:", event.target.error);
+      };
+    }
 
-                    const existsInExternal = dispatchRecordsExternal.some((d) =>
-                      batchCodes.some(
-                        (code) =>
-                          (d.BATCH_CODE_M1 && d.BATCH_CODE_M1.includes(code)) ||
-                          (d.BATCH_CODE_M2 && d.BATCH_CODE_M2.includes(code)) ||
-                          (d.BATCH_CODE_M3 && d.BATCH_CODE_M3.includes(code)),
-                      ),
+    function loadMaceDataExternal() {
+      const openRequest = indexedDB.open("GCNA");
+
+      openRequest.onsuccess = function (event) {
+        const db = event.target.result;
+        const transaction = db.transaction("Mace_Purchase", "readonly");
+        const landInfoStore = transaction.objectStore("Mace_Purchase");
+        const getAllRequest = landInfoStore.getAll();
+
+        getAllRequest.onsuccess = function (event) {
+          const landInfoRecords = event.target.result;
+          const landInfoDataDiv = document.getElementById(
+            "maceDataListExternal",
+          );
+
+          if (!landInfoDataDiv) {
+            console.error("Element with ID 'maceDataList' not found.");
+            return;
+          }
+
+          landInfoDataDiv.innerHTML = ""; // Clear previous entries
+
+          landInfoRecords.forEach((record) => {
+            const entryContainer = document.createElement("div");
+            entryContainer.id = `entryContainer_${record.id}`;
+            entryContainer.classList.add("entryContainer");
+
+            let batchCodes = [
+              record.BATCH_CODE_M1?.trim(),
+              record.BATCH_CODE_M2?.trim(),
+              record.BATCH_CODE_M3?.trim(),
+            ].filter((b) => b && b !== "");
+
+            // First DB: GCNA (Mace_Dispatched)
+            const dispatchTransaction = db.transaction(
+              "Mace_Dispatched",
+              "readonly",
+            );
+            const dispatchStore =
+              dispatchTransaction.objectStore("Mace_Dispatched");
+
+            const getAllDispatchRequest = dispatchStore.getAll();
+            getAllDispatchRequest.onsuccess = function (event) {
+              const dispatchRecordsGCNA = event.target.result;
+
+              const existsInGCNA = dispatchRecordsGCNA.some((d) =>
+                batchCodes.some(
+                  (code) =>
+                    (d.BATCH_CODE_M1 && d.BATCH_CODE_M1.includes(code)) ||
+                    (d.BATCH_CODE_M2 && d.BATCH_CODE_M2.includes(code)) ||
+                    (d.BATCH_CODE_M3 && d.BATCH_CODE_M3.includes(code)),
+                ),
+              );
+
+              // NOW CHECK DB 2 — GCNA_External
+              const openRequest2 = indexedDB.open("GCNA_External");
+
+              openRequest2.onsuccess = function (event) {
+                const db2 = event.target.result;
+                const tx2 = db2.transaction("Mace_Dispatched", "readonly");
+                const store2 = tx2.objectStore("Mace_Dispatched");
+
+                const getAllDispatchRequest2 = store2.getAll();
+                getAllDispatchRequest2.onsuccess = function (event) {
+                  const dispatchRecordsExternal = event.target.result;
+
+                  const existsInExternal = dispatchRecordsExternal.some((d) =>
+                    batchCodes.some(
+                      (code) =>
+                        (d.BATCH_CODE_M1 && d.BATCH_CODE_M1.includes(code)) ||
+                        (d.BATCH_CODE_M2 && d.BATCH_CODE_M2.includes(code)) ||
+                        (d.BATCH_CODE_M3 && d.BATCH_CODE_M3.includes(code)),
+                    ),
+                  );
+
+                  // RULE: If ANY batch code exists in either DB → DO NOT RENDER
+                  if (existsInGCNA || existsInExternal) {
+                    console.log(
+                      `Skipping record ${record.id}: Batch code already used in GCNA or GCNA_External.`,
                     );
+                    return;
+                  }
 
-                    // RULE: If ANY batch code exists in either DB → DO NOT RENDER
-                    if (existsInGCNA || existsInExternal) {
-                      console.log(
-                        `Skipping record ${record.id}: Batch code already used in GCNA or GCNA_External.`,
-                      );
-                      return;
-                    }
+                  // Otherwise render the entry
+                  // <tr><th>PLACE OF PURCHASE</th><td>${record.PLACE_OF_PURCHASE || 'N/A'}</td></tr>
 
-                    // Otherwise render the entry
-                    // <tr><th>PLACE OF PURCHASE</th><td>${record.PLACE_OF_PURCHASE || 'N/A'}</td></tr>
-
-                    const dropdownContent = `
+                  const dropdownContent = `
                                 <div class="dropdown">
                                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton_${record.id}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Entry: ${record.id}      
@@ -1472,133 +1381,156 @@
                                     </div>
                                 </div>`;
 
-                    entryContainer.innerHTML = dropdownContent;
-                    landInfoDataDiv.appendChild(entryContainer);
-                  };
+                  entryContainer.innerHTML = dropdownContent;
+                  landInfoDataDiv.appendChild(entryContainer);
                 };
               };
-            });
-          };
-
-          getAllRequest.onerror = function () {
-            console.error("Error retrieving Mace_Purchase records.");
-          };
+            };
+          });
         };
 
-        openRequest.onerror = function (event) {
-          console.error("Failed to open IndexedDB:", event.target.error);
+        getAllRequest.onerror = function () {
+          console.error("Error retrieving Mace_Purchase records.");
         };
-      }
+      };
 
-      // Load In-House-Drying data for Dried and Green forms
-      function loadInHouseData(formType) {
-        const openRequest = indexedDB.open("GCNA");
-        const PresentGreens = [];
+      openRequest.onerror = function (event) {
+        console.error("Failed to open IndexedDB:", event.target.error);
+      };
+    }
 
-        openRequest.onsuccess = function (event) {
-          const db = event.target.result;
-          const transaction = db.transaction("In-House-Drying", "readonly");
-          const landInfoStore = transaction.objectStore("In-House-Drying");
-          const getAllRequest = landInfoStore.getAll();
+    // Load In-House-Drying data for Dried and Green forms
+    function loadInHouseData(formType) {
+      const openRequest = indexedDB.open("GCNA");
+      const PresentGreens = [];
 
-          getAllRequest.onsuccess = function (event) {
-            const landInfoRecords = event.target.result;
-            const landInfoDataDiv = document.getElementById(
-              formType === "dried" ? "driedDataList" : "greenDataList",
-            );
+      openRequest.onsuccess = function (event) {
+        const db = event.target.result;
+        const transaction = db.transaction("In-House-Drying", "readonly");
+        const landInfoStore = transaction.objectStore("In-House-Drying");
+        const getAllRequest = landInfoStore.getAll();
 
-            if (!landInfoDataDiv) {
-              console.error(`Element with ID '${formType}DataList' not found.`);
-              return;
+        getAllRequest.onsuccess = function (event) {
+          const landInfoRecords = event.target.result;
+          const landInfoDataDiv = document.getElementById(
+            formType === "dried" ? "driedDataList" : "greenDataList",
+          );
+
+          if (!landInfoDataDiv) {
+            console.error(`Element with ID '${formType}DataList' not found.`);
+            return;
+          }
+
+          landInfoDataDiv.innerHTML = ""; // Clear previous entries
+
+          landInfoRecords.forEach((record) => {
+            // Ensure record.Control_number is not null/undefined, then split, trim, and filter empty strings
+            const inHouseControlNumbers = record.Control_number
+              ? record.Control_number.split(",")
+                .map((cn) => cn.trim())
+                .filter((cn) => cn)
+              : [];
+
+            let batchCodeCheckboxes = "";
+            if (inHouseControlNumbers.length > 0) {
+              inHouseControlNumbers.forEach((codeValue, i) => {
+                const checkboxId = `control_num_code_${record.id}_${i}_${formType}`; // Unique ID
+                batchCodeCheckboxes += `<input type="checkbox" id="${checkboxId}" name="control_num_codes_${record.id}" value="${codeValue}" onchange="updateControlNum(this, '${record.id}', '${codeValue}')">
+                                                      <label for="${checkboxId}">${codeValue}</label><br>`;
+              });
+            } else {
+              batchCodeCheckboxes = "N/A";
             }
 
-            landInfoDataDiv.innerHTML = ""; // Clear previous entries
+            let stationCheckboxHtml = "";
+            const stationValue = record.STATION ? record.STATION.trim() : "";
+            if (stationValue) {
+              const stationCheckboxId = `station_code_${record.id}_${formType}`; // Unique ID
+              stationCheckboxHtml += `<input type="checkbox" id="${stationCheckboxId}" name="station_${record.id}" value="${stationValue}" onchange="setSelectedStation(this, '${record.id}', '${stationValue}')"> <label for="${stationCheckboxId}">${stationValue}</label><br>`;
+            } else {
+              stationCheckboxHtml = "N/A";
+            }
 
-            landInfoRecords.forEach((record) => {
-              // Ensure record.Control_number is not null/undefined, then split, trim, and filter empty strings
-              const inHouseControlNumbers = record.Control_number
-                ? record.Control_number.split(",")
-                    .map((cn) => cn.trim())
-                    .filter((cn) => cn)
-                : [];
+            // Check if record is complete BEFORE doing expensive dispatch checks
+            if (record.COMPLETE !== "Yes") {
+              console.log(
+                `Record ID ${record.id} (Control Numbers: ${inHouseControlNumbers.join(", ") || "N/A"}) is not marked as COMPLETE. Skipping.`,
+              );
+              return; // Skip to the next record
+            }
 
-              let batchCodeCheckboxes = "";
+            const dispatchTransaction = db.transaction(
+              ["Dispatch-Of-Dried-Nutmeg", "Dispatch-Of-Green"],
+              "readonly",
+            );
+            const dispatchStoreDried = dispatchTransaction.objectStore(
+              "Dispatch-Of-Dried-Nutmeg",
+            );
+            const dispatchStoreGreen =
+              dispatchTransaction.objectStore("Dispatch-Of-Green");
+
+            const getAllDispatchRequestDried = dispatchStoreDried.getAll();
+
+            getAllDispatchRequestDried.onsuccess = function (eventDried) {
+              const dispatchRecordsDried = eventDried.target.result;
+              const batchCodesDried = dispatchRecordsDried
+                .filter(
+                  (record) =>
+                    record.BATCH_CODES_DRIED !== null &&
+                    record.BATCH_CODES_DRIED !== "",
+                )
+                .map((record) => record.BATCH_CODES_DRIED);
+
+              const batchCodesGreen = dispatchRecordsDried
+                .filter(
+                  (record) =>
+                    record.BATCH_CODES_GREEN !== null &&
+                    record.BATCH_CODES_GREEN !== "",
+                )
+                .map((record) => record.BATCH_CODES_GREEN);
+
+              console.log("DRIED: " + batchCodesDried);
+              console.log("GREEN: " + batchCodesGreen);
+
+              let existsInDried = false;
               if (inHouseControlNumbers.length > 0) {
-                inHouseControlNumbers.forEach((codeValue, i) => {
-                  const checkboxId = `control_num_code_${record.id}_${i}_${formType}`; // Unique ID
-                  batchCodeCheckboxes += `<input type="checkbox" id="${checkboxId}" name="control_num_codes_${record.id}" value="${codeValue}" onchange="updateControlNum(this, '${record.id}', '${codeValue}')">
-                                                      <label for="${checkboxId}">${codeValue}</label><br>`;
-                });
-              } else {
-                batchCodeCheckboxes = "N/A";
-              }
-
-              let stationCheckboxHtml = "";
-              const stationValue = record.STATION ? record.STATION.trim() : "";
-              if (stationValue) {
-                const stationCheckboxId = `station_code_${record.id}_${formType}`; // Unique ID
-                stationCheckboxHtml += `<input type="checkbox" id="${stationCheckboxId}" name="station_${record.id}" value="${stationValue}" onchange="setSelectedStation(this, '${record.id}', '${stationValue}')"> <label for="${stationCheckboxId}">${stationValue}</label><br>`;
-              } else {
-                stationCheckboxHtml = "N/A";
-              }
-
-              // Check if record is complete BEFORE doing expensive dispatch checks
-              if (record.COMPLETE !== "Yes") {
-                console.log(
-                  `Record ID ${record.id} (Control Numbers: ${inHouseControlNumbers.join(", ") || "N/A"}) is not marked as COMPLETE. Skipping.`,
+                existsInDried = dispatchRecordsDried.some(
+                  (dispatchRecord) => {
+                    if (!dispatchRecord.BATCH_CODES_DRIED) return false;
+                    return inHouseControlNumbers.some((cn) =>
+                      dispatchRecord.BATCH_CODES_DRIED.includes(cn),
+                    );
+                  },
                 );
-                return; // Skip to the next record
               }
+              // store whole record
 
-              const dispatchTransaction = db.transaction(
-                ["Dispatch-Of-Dried-Nutmeg", "Dispatch-Of-Green"],
-                "readonly",
-              );
-              const dispatchStoreDried = dispatchTransaction.objectStore(
-                "Dispatch-Of-Dried-Nutmeg",
-              );
-              const dispatchStoreGreen =
-                dispatchTransaction.objectStore("Dispatch-Of-Green");
-
-              const getAllDispatchRequestDried = dispatchStoreDried.getAll();
-
-              getAllDispatchRequestDried.onsuccess = function (eventDried) {
-                const dispatchRecordsDried = eventDried.target.result;
-                const batchCodesDried = dispatchRecordsDried
-                  .filter(
-                    (record) =>
-                      record.BATCH_CODES_DRIED !== null &&
-                      record.BATCH_CODES_DRIED !== "",
-                  )
-                  .map((record) => record.BATCH_CODES_DRIED);
-
-                const batchCodesGreen = dispatchRecordsDried
-                  .filter(
-                    (record) =>
-                      record.BATCH_CODES_GREEN !== null &&
-                      record.BATCH_CODES_GREEN !== "",
-                  )
-                  .map((record) => record.BATCH_CODES_GREEN);
-
-                console.log("DRIED: " + batchCodesDried);
-                console.log("GREEN: " + batchCodesGreen);
-
-                let existsInDried = false;
+              if (existsInDried) {
+                console.log(
+                  `Record ID ${record.id} (Control Numbers: ${inHouseControlNumbers.join(", ")}) found in Dispatch-Of-Dried-Nutmeg. Dropdown not generated.`,
+                );
+                loadExternalInHouseData(
+                  formType,
+                  batchCodesDried,
+                  batchCodesGreen,
+                );
+              } else {
+                // Not in Dried, now check Green
+                let existsInGreen = false;
                 if (inHouseControlNumbers.length > 0) {
-                  existsInDried = dispatchRecordsDried.some(
+                  existsInGreen = dispatchRecordsDried.some(
                     (dispatchRecord) => {
-                      if (!dispatchRecord.BATCH_CODES_DRIED) return false;
+                      if (!dispatchRecord.BATCH_CODES_GREEN) return false;
                       return inHouseControlNumbers.some((cn) =>
-                        dispatchRecord.BATCH_CODES_DRIED.includes(cn),
+                        dispatchRecord.BATCH_CODES_GREEN.includes(cn),
                       );
                     },
                   );
                 }
-                // store whole record
 
-                if (existsInDried) {
+                if (existsInGreen) {
                   console.log(
-                    `Record ID ${record.id} (Control Numbers: ${inHouseControlNumbers.join(", ")}) found in Dispatch-Of-Dried-Nutmeg. Dropdown not generated.`,
+                    `Record ID ${record.id} (Control Numbers: ${inHouseControlNumbers.join(", ")}) found in Dispatch-Of-Green. Dropdown not generated.`,
                   );
                   loadExternalInHouseData(
                     formType,
@@ -1606,41 +1538,18 @@
                     batchCodesGreen,
                   );
                 } else {
-                  // Not in Dried, now check Green
-                  let existsInGreen = false;
-                  if (inHouseControlNumbers.length > 0) {
-                    existsInGreen = dispatchRecordsDried.some(
-                      (dispatchRecord) => {
-                        if (!dispatchRecord.BATCH_CODES_GREEN) return false;
-                        return inHouseControlNumbers.some((cn) =>
-                          dispatchRecord.BATCH_CODES_GREEN.includes(cn),
-                        );
-                      },
-                    );
-                  }
+                  // Not in Dried and not in Green, and record.COMPLETE is 'Yes'
 
-                  if (existsInGreen) {
-                    console.log(
-                      `Record ID ${record.id} (Control Numbers: ${inHouseControlNumbers.join(", ")}) found in Dispatch-Of-Green. Dropdown not generated.`,
-                    );
-                    loadExternalInHouseData(
-                      formType,
-                      batchCodesDried,
-                      batchCodesGreen,
-                    );
-                  } else {
-                    // Not in Dried and not in Green, and record.COMPLETE is 'Yes'
+                  console.log(
+                    `Record ID ${record.id} (Control Numbers: ${inHouseControlNumbers.join(", ") || "None"}) is COMPLETE and not found in any dispatch. Generating dropdown.`,
+                  );
+                  const entryContainer = document.createElement("div");
+                  entryContainer.id = `entryContainer_${record.id}`;
+                  entryContainer.classList.add("entryContainer", "mb-3");
 
-                    console.log(
-                      `Record ID ${record.id} (Control Numbers: ${inHouseControlNumbers.join(", ") || "None"}) is COMPLETE and not found in any dispatch. Generating dropdown.`,
-                    );
-                    const entryContainer = document.createElement("div");
-                    entryContainer.id = `entryContainer_${record.id}`;
-                    entryContainer.classList.add("entryContainer", "mb-3");
+                  // <tr><th>Place of Purchase</th><td>${record.PLACE_OF_PURCHASE || 'N/A'}</td></tr>
 
-                    // <tr><th>Place of Purchase</th><td>${record.PLACE_OF_PURCHASE || 'N/A'}</td></tr>
-
-                    const dropdownContent = `
+                  const dropdownContent = `
                                         <div class="dropdown">
                                             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton_${record.id}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 Entry ID: ${record.id} (${inHouseControlNumbers.join(", ") || "N/A"})
@@ -1681,427 +1590,431 @@
                                                 </table>
                                             </div>
                                         </div>`;
-                    entryContainer.innerHTML = dropdownContent;
-                    landInfoDataDiv.appendChild(entryContainer);
-                    loadExternalInHouseData(
-                      formType,
-                      batchCodesDried,
-                      batchCodesGreen,
-                    );
-                  }
+                  entryContainer.innerHTML = dropdownContent;
+                  landInfoDataDiv.appendChild(entryContainer);
+                  loadExternalInHouseData(
+                    formType,
+                    batchCodesDried,
+                    batchCodesGreen,
+                  );
                 }
-              };
+              }
+            };
 
-              getAllDispatchRequestDried.onerror = function (event) {
-                console.error(
-                  `Error retrieving Dispatch-Of-Dried-Nutmeg records for In-House record ID ${record.id}:`,
-                  event.target.error,
-                );
-              };
+            getAllDispatchRequestDried.onerror = function (event) {
+              console.error(
+                `Error retrieving Dispatch-Of-Dried-Nutmeg records for In-House record ID ${record.id}:`,
+                event.target.error,
+              );
+            };
 
-              dispatchTransaction.onerror = function (event) {
-                console.error(
-                  `Dispatch check transaction error for In-House record ID ${record.id}:`,
-                  event.target.error,
-                );
-              };
-            });
-          };
-
-          getAllRequest.onerror = function (event) {
-            console.error(
-              "Error retrieving In-House-Drying records:",
-              event.target.error,
-            );
-          };
-
-          transaction.onerror = function (event) {
-            console.error(
-              "In-House-Drying transaction error:",
-              event.target.error,
-            );
-          };
-
-          transaction.oncomplete = function () {
-            console.log("In-House-Drying data processing complete.");
-          };
+            dispatchTransaction.onerror = function (event) {
+              console.error(
+                `Dispatch check transaction error for In-House record ID ${record.id}:`,
+                event.target.error,
+              );
+            };
+          });
         };
 
-        openRequest.onerror = function (event) {
-          console.error("Failed to open IndexedDB:", event.target.error);
+        getAllRequest.onerror = function (event) {
+          console.error(
+            "Error retrieving In-House-Drying records:",
+            event.target.error,
+          );
         };
-      }
 
-      function loadInHouseDataExternal(formType) {
-        const openRequest = indexedDB.open("GCNA");
+        transaction.onerror = function (event) {
+          console.error(
+            "In-House-Drying transaction error:",
+            event.target.error,
+          );
+        };
 
-        openRequest.onsuccess = function (event) {
-          const db = event.target.result;
+        transaction.oncomplete = function () {
+          console.log("In-House-Drying data processing complete.");
+        };
+      };
 
-          const transaction = db.transaction("In-House-Drying", "readonly");
-          const store = transaction.objectStore("In-House-Drying");
+      openRequest.onerror = function (event) {
+        console.error("Failed to open IndexedDB:", event.target.error);
+      };
+    }
 
-          store.getAll().onsuccess = function (event) {
-            const records = event.target.result;
 
-            const listDiv = document.getElementById(
-              formType === "dried"
-                ? "driedDataListExternal"
-                : "greenDataListExternal",
-            );
 
-            if (!listDiv) {
-              console.error(`Element '${formType}DataList' not found.`);
+
+
+    function loadInHouseDataExternal(formType) {
+      const openRequest = indexedDB.open("GCNA");
+
+      openRequest.onsuccess = function (event) {
+        const db = event.target.result;
+
+        const transaction = db.transaction("In-House-Drying", "readonly");
+        const store = transaction.objectStore("In-House-Drying");
+
+        store.getAll().onsuccess = function (event) {
+          const records = event.target.result;
+
+          const listDiv = document.getElementById(
+            formType === "dried"
+              ? "driedDataListExternal"
+              : "greenDataListExternal",
+          );
+
+          if (!listDiv) {
+            console.error(`Element '${formType}DataList' not found.`);
+            return;
+          }
+
+          listDiv.innerHTML = ""; // Clear list
+
+          records.forEach((record) => {
+            // REQUIRE COMPLETE = Yes
+            if (record.COMPLETE !== "Yes") {
+              console.log(`Skipping ID ${record.id} (NOT COMPLETE)`);
               return;
             }
 
-            listDiv.innerHTML = ""; // Clear list
+            // Extract control numbers (skip blanks)
+            const controlNumbers = record.Control_number
+              ? record.Control_number.split(",")
+                .map((c) => c.trim())
+                .filter((c) => c !== "")
+              : [];
 
-            records.forEach((record) => {
-              // REQUIRE COMPLETE = Yes
-              if (record.COMPLETE !== "Yes") {
-                console.log(`Skipping ID ${record.id} (NOT COMPLETE)`);
+            if (controlNumbers.length === 0) {
+              console.log(`Skipping ID ${record.id}: No control numbers.`);
+              return;
+            }
+
+            // Now check dispatch tables
+            const dispatchTx = db.transaction(
+              ["Dispatch-Of-Dried-Nutmeg", "Dispatch-Of-Green"],
+              "readonly",
+            );
+
+            const driedStore = dispatchTx.objectStore(
+              "Dispatch-Of-Dried-Nutmeg",
+            );
+            const greenStore = dispatchTx.objectStore("Dispatch-Of-Green");
+
+            driedStore.getAll().onsuccess = function (driedEvt) {
+              const driedRecords = driedEvt.target.result;
+
+              // Collect all used dried batch codes
+              const usedDriedCodes = driedRecords.flatMap((r) =>
+                (r.BATCH_CODES_DRIED || "")
+                  .split(",")
+                  .map((x) => x.trim())
+                  .filter((x) => x !== ""),
+              );
+
+              const usedGreenCodesFromDried = driedRecords.flatMap((r) =>
+                (r.BATCH_CODES_GREEN || "")
+                  .split(",")
+                  .map((x) => x.trim())
+                  .filter((x) => x !== ""),
+              );
+
+              // Check existence in dried
+              const existsInDried = controlNumbers.some((code) =>
+                usedDriedCodes.includes(code),
+              );
+
+              const existsInGreenViaDried = controlNumbers.some((code) =>
+                usedGreenCodesFromDried.includes(code),
+              );
+
+              if (existsInDried || existsInGreenViaDried) {
+                console.log(`Skipping ID ${record.id}: Already dispatched.`);
                 return;
               }
 
-              // Extract control numbers (skip blanks)
-              const controlNumbers = record.Control_number
-                ? record.Control_number.split(",")
-                    .map((c) => c.trim())
-                    .filter((c) => c !== "")
-                : [];
+              // Now check Dispatch-Of-Green
+              greenStore.getAll().onsuccess = function (greenEvt) {
+                const greenRecords = greenEvt.target.result;
 
-              if (controlNumbers.length === 0) {
-                console.log(`Skipping ID ${record.id}: No control numbers.`);
-                return;
-              }
-
-              // Now check dispatch tables
-              const dispatchTx = db.transaction(
-                ["Dispatch-Of-Dried-Nutmeg", "Dispatch-Of-Green"],
-                "readonly",
-              );
-
-              const driedStore = dispatchTx.objectStore(
-                "Dispatch-Of-Dried-Nutmeg",
-              );
-              const greenStore = dispatchTx.objectStore("Dispatch-Of-Green");
-
-              driedStore.getAll().onsuccess = function (driedEvt) {
-                const driedRecords = driedEvt.target.result;
-
-                // Collect all used dried batch codes
-                const usedDriedCodes = driedRecords.flatMap((r) =>
-                  (r.BATCH_CODES_DRIED || "")
-                    .split(",")
-                    .map((x) => x.trim())
-                    .filter((x) => x !== ""),
-                );
-
-                const usedGreenCodesFromDried = driedRecords.flatMap((r) =>
+                const usedGreenCodes = greenRecords.flatMap((r) =>
                   (r.BATCH_CODES_GREEN || "")
                     .split(",")
                     .map((x) => x.trim())
                     .filter((x) => x !== ""),
                 );
 
-                // Check existence in dried
-                const existsInDried = controlNumbers.some((code) =>
-                  usedDriedCodes.includes(code),
+                const existsInGreen = controlNumbers.some((code) =>
+                  usedGreenCodes.includes(code),
                 );
 
-                const existsInGreenViaDried = controlNumbers.some((code) =>
-                  usedGreenCodesFromDried.includes(code),
-                );
-
-                if (existsInDried || existsInGreenViaDried) {
-                  console.log(`Skipping ID ${record.id}: Already dispatched.`);
+                if (existsInGreen) {
+                  console.log(`Skipping ID ${record.id}: In Green Dispatch.`);
                   return;
                 }
 
-                // Now check Dispatch-Of-Green
-                greenStore.getAll().onsuccess = function (greenEvt) {
-                  const greenRecords = greenEvt.target.result;
-
-                  const usedGreenCodes = greenRecords.flatMap((r) =>
-                    (r.BATCH_CODES_GREEN || "")
-                      .split(",")
-                      .map((x) => x.trim())
-                      .filter((x) => x !== ""),
-                  );
-
-                  const existsInGreen = controlNumbers.some((code) =>
-                    usedGreenCodes.includes(code),
-                  );
-
-                  if (existsInGreen) {
-                    console.log(`Skipping ID ${record.id}: In Green Dispatch.`);
-                    return;
-                  }
-
-                  // If NONE match → RENDER
-                  renderInHouseRecord(record, controlNumbers, listDiv);
-                };
+                // If NONE match → RENDER
+                renderInHouseRecord(record, controlNumbers, listDiv);
               };
-            });
-          };
+            };
+          });
         };
+      };
 
-        openRequest.onerror = function (event) {
-          console.error("IndexedDB open failed:", event.target.error);
-        };
-      }
-    </script>
-    <script>
-      // function loadExternalInHouseData(formType, presetDataDried = [], presetDataGreen = []) {
-      //     const openRequest = indexedDB.open("GCNA_External");
+      openRequest.onerror = function (event) {
+        console.error("IndexedDB open failed:", event.target.error);
+      };
+    }
+  </script>
+  <script>
+    // function loadExternalInHouseData(formType, presetDataDried = [], presetDataGreen = []) {
+    //     const openRequest = indexedDB.open("GCNA_External");
 
-      //     openRequest.onsuccess = function(event) {
-      //         const db = event.target.result;
-      //         const transaction = db.transaction("In-House-Drying", "readonly");
-      //         const landInfoStore = transaction.objectStore("In-House-Drying");
-      //         const getAllRequest = landInfoStore.getAll();
+    //     openRequest.onsuccess = function(event) {
+    //         const db = event.target.result;
+    //         const transaction = db.transaction("In-House-Drying", "readonly");
+    //         const landInfoStore = transaction.objectStore("In-House-Drying");
+    //         const getAllRequest = landInfoStore.getAll();
 
-      //         getAllRequest.onsuccess = function(event) {
-      //             const landInfoRecords = event.target.result;
-      //             const landInfoDataDiv = document.getElementById(formType === 'dried' ? 'driedDataList2' : 'greenDataList2');
+    //         getAllRequest.onsuccess = function(event) {
+    //             const landInfoRecords = event.target.result;
+    //             const landInfoDataDiv = document.getElementById(formType === 'dried' ? 'driedDataList2' : 'greenDataList2');
 
-      //             if (!landInfoDataDiv) {
-      //                 console.error(`Element with ID '${formType}DataList' not found.`);
-      //                 return;
-      //             }
+    //             if (!landInfoDataDiv) {
+    //                 console.error(`Element with ID '${formType}DataList' not found.`);
+    //                 return;
+    //             }
 
-      //             landInfoDataDiv.innerHTML = ''; // Clear previous entries
+    //             landInfoDataDiv.innerHTML = ''; // Clear previous entries
 
-      //             landInfoRecords.forEach((record) => {
-      //                 // Ensure record.Control_number is not null/undefined, then split, trim, and filter empty strings
-      //                 const inHouseControlNumbers = record.Control_number ?
-      //                     record.Control_number.split(",").map(cn => cn.trim()).filter(cn => cn) : [];
+    //             landInfoRecords.forEach((record) => {
+    //                 // Ensure record.Control_number is not null/undefined, then split, trim, and filter empty strings
+    //                 const inHouseControlNumbers = record.Control_number ?
+    //                     record.Control_number.split(",").map(cn => cn.trim()).filter(cn => cn) : [];
 
-      //                 let batchCodeCheckboxes = '';
-      //                 if (inHouseControlNumbers.length > 0) {
-      //                     inHouseControlNumbers.forEach((codeValue, i) => {
-      //                         const checkboxId = `control_num_code_${record.id}_${i}_${formType}`; // Unique ID
-      //                         batchCodeCheckboxes += `<input type="checkbox" id="${checkboxId}" name="control_num_codes_${record.id}" value="${codeValue}" onchange="updateControlNum(this, '${record.id}', '${codeValue}')">
-      //                                               <label for="${checkboxId}">${codeValue}</label><br>`;
-      //                     });
-      //                 } else {
-      //                     batchCodeCheckboxes = 'N/A';
-      //                 }
+    //                 let batchCodeCheckboxes = '';
+    //                 if (inHouseControlNumbers.length > 0) {
+    //                     inHouseControlNumbers.forEach((codeValue, i) => {
+    //                         const checkboxId = `control_num_code_${record.id}_${i}_${formType}`; // Unique ID
+    //                         batchCodeCheckboxes += `<input type="checkbox" id="${checkboxId}" name="control_num_codes_${record.id}" value="${codeValue}" onchange="updateControlNum(this, '${record.id}', '${codeValue}')">
+    //                                               <label for="${checkboxId}">${codeValue}</label><br>`;
+    //                     });
+    //                 } else {
+    //                     batchCodeCheckboxes = 'N/A';
+    //                 }
 
-      //                 let stationCheckboxHtml = '';
-      //                 const stationValue = record.STATION ? record.STATION.trim() : '';
-      //                 if (stationValue) {
-      //                     const stationCheckboxId = `station_code_${record.id}_${formType}`; // Unique ID
-      //                     stationCheckboxHtml += `<input type="checkbox" id="${stationCheckboxId}" name="station_${record.id}" value="${stationValue}" onchange="setSelectedStation(this, '${record.id}', '${stationValue}')"> <label for="${stationCheckboxId}">${stationValue}</label><br>`;
-      //                 } else {
-      //                     stationCheckboxHtml = 'N/A';
-      //                 }
+    //                 let stationCheckboxHtml = '';
+    //                 const stationValue = record.STATION ? record.STATION.trim() : '';
+    //                 if (stationValue) {
+    //                     const stationCheckboxId = `station_code_${record.id}_${formType}`; // Unique ID
+    //                     stationCheckboxHtml += `<input type="checkbox" id="${stationCheckboxId}" name="station_${record.id}" value="${stationValue}" onchange="setSelectedStation(this, '${record.id}', '${stationValue}')"> <label for="${stationCheckboxId}">${stationValue}</label><br>`;
+    //                 } else {
+    //                     stationCheckboxHtml = 'N/A';
+    //                 }
 
-      //                 // Check if record is complete BEFORE doing expensive dispatch checks
-      //                 if (record.COMPLETE !== 'Yes') {
-      //                     console.log(`Record ID ${record.id} (Control Numbers: ${inHouseControlNumbers.join(', ') || 'N/A'}) is not marked as COMPLETE. Skipping.`);
-      //                     return; // Skip to the next record
-      //                 }
+    //                 // Check if record is complete BEFORE doing expensive dispatch checks
+    //                 if (record.COMPLETE !== 'Yes') {
+    //                     console.log(`Record ID ${record.id} (Control Numbers: ${inHouseControlNumbers.join(', ') || 'N/A'}) is not marked as COMPLETE. Skipping.`);
+    //                     return; // Skip to the next record
+    //                 }
 
-      //                 const dispatchTransaction = db.transaction(["Dispatch-Of-Dried-Nutmeg", "Dispatch-Of-Green"], "readonly");
-      //                 const dispatchStoreDried = dispatchTransaction.objectStore("Dispatch-Of-Dried-Nutmeg");
-      //                 const dispatchStoreGreen = dispatchTransaction.objectStore("Dispatch-Of-Green");
+    //                 const dispatchTransaction = db.transaction(["Dispatch-Of-Dried-Nutmeg", "Dispatch-Of-Green"], "readonly");
+    //                 const dispatchStoreDried = dispatchTransaction.objectStore("Dispatch-Of-Dried-Nutmeg");
+    //                 const dispatchStoreGreen = dispatchTransaction.objectStore("Dispatch-Of-Green");
 
-      //                 const getAllDispatchRequestDried = dispatchStoreDried.getAll();
+    //                 const getAllDispatchRequestDried = dispatchStoreDried.getAll();
 
-      //                 getAllDispatchRequestDried.onsuccess = function(eventDried) {
-      //                     const dispatchRecordsDried = eventDried.target.result;
-      //                     let existsInDried = false;
-      //                     if (inHouseControlNumbers.length > 0) {
-      //                         existsInDried = dispatchRecordsDried.some(dispatchRecord => {
-      //                             if (!presetDataDried) return false;
-      //                             return inHouseControlNumbers.some(cn => dispatchRecord.BATCH_CODES.includes(cn));
-      //                         });
-      //                     }
+    //                 getAllDispatchRequestDried.onsuccess = function(eventDried) {
+    //                     const dispatchRecordsDried = eventDried.target.result;
+    //                     let existsInDried = false;
+    //                     if (inHouseControlNumbers.length > 0) {
+    //                         existsInDried = dispatchRecordsDried.some(dispatchRecord => {
+    //                             if (!presetDataDried) return false;
+    //                             return inHouseControlNumbers.some(cn => dispatchRecord.BATCH_CODES.includes(cn));
+    //                         });
+    //                     }
 
-      //                     if (existsInDried) {
-      //                         console.log(`Record ID ${record.id} (Control Numbers: ${inHouseControlNumbers.join(', ')}) found in Dispatch-Of-Dried-Nutmeg. Dropdown not generated.`);
-      //                     } else {
-      //                         // Not in Dried, now check Green
+    //                     if (existsInDried) {
+    //                         console.log(`Record ID ${record.id} (Control Numbers: ${inHouseControlNumbers.join(', ')}) found in Dispatch-Of-Dried-Nutmeg. Dropdown not generated.`);
+    //                     } else {
+    //                         // Not in Dried, now check Green
 
-      //                         getAllDispatchRequestGreen.onsuccess = function(eventGreen) {
-      //                             const dispatchRecordsGreen = eventGreen.target.result;
-      //                             let existsInGreen = false;
-      //                             if (inHouseControlNumbers.length > 0) {
-      //                                  existsInGreen = dispatchRecordsGreen.some(dispatchRecord => {
-      //                                     if (!presetDataGreen) return false;
-      //                                     return inHouseControlNumbers.some(cn => dispatchRecord.BATCH_CODES.includes(cn));
-      //                                 });
-      //                             }
+    //                         getAllDispatchRequestGreen.onsuccess = function(eventGreen) {
+    //                             const dispatchRecordsGreen = eventGreen.target.result;
+    //                             let existsInGreen = false;
+    //                             if (inHouseControlNumbers.length > 0) {
+    //                                  existsInGreen = dispatchRecordsGreen.some(dispatchRecord => {
+    //                                     if (!presetDataGreen) return false;
+    //                                     return inHouseControlNumbers.some(cn => dispatchRecord.BATCH_CODES.includes(cn));
+    //                                 });
+    //                             }
 
-      //                             if (existsInGreen) {
-      //                                 console.log(`Record ID ${record.id} (Control Numbers: ${inHouseControlNumbers.join(', ')}) found in Dispatch-Of-Green. Dropdown not generated.`);
-      //                             } else {
-      //                                 // Not in Dried and not in Green, and record.COMPLETE is 'Yes'
-      //                                 console.log(`Record ID ${record.id} (Control Numbers: ${inHouseControlNumbers.join(', ') || 'None'}) is COMPLETE and not found in any dispatch. Generating dropdown.`);
-      //                                 const entryContainer = document.createElement("div");
-      //                                 entryContainer.id = `entryContainer_${record.id}`;
-      //                                 entryContainer.classList.add("entryContainer", "mb-3");
+    //                             if (existsInGreen) {
+    //                                 console.log(`Record ID ${record.id} (Control Numbers: ${inHouseControlNumbers.join(', ')}) found in Dispatch-Of-Green. Dropdown not generated.`);
+    //                             } else {
+    //                                 // Not in Dried and not in Green, and record.COMPLETE is 'Yes'
+    //                                 console.log(`Record ID ${record.id} (Control Numbers: ${inHouseControlNumbers.join(', ') || 'None'}) is COMPLETE and not found in any dispatch. Generating dropdown.`);
+    //                                 const entryContainer = document.createElement("div");
+    //                                 entryContainer.id = `entryContainer_${record.id}`;
+    //                                 entryContainer.classList.add("entryContainer", "mb-3");
 
-      //                                 const dropdownContent = `
-      //                                 <div class="dropdown">
-      //                                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton_${record.id}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      //                                         Entry ID: ${record.id} (${inHouseControlNumbers.join(', ') || 'N/A'})
-      //                                     </button>
-      //                                     <input type="hidden" id="valueChange_${record.id}_ControlNum" value="${record.Control_number || ''}">
-      //                                     <button type="button" style="display:none;" class="add-row" onclick="fill_table('${record.id}')">Fill Table from Record ${record.id}</button>
-      //                                     <div class="dropdown-menu p-2 shadow" aria-labelledby="dropdownMenuButton_${record.id}" style="width: max-content; max-width: 500px;">
-      //                                         <table class="table table-sm table-bordered">
-      //                                             <tbody>
-      //                                                 <tr><th>Station</th><td>${stationCheckboxHtml}</td></tr>
-      //                                                 <tr><th>Date of Purchase</th><td>${record.DATE_OF_PURCHASE || 'N/A'}</td></tr>
-      //                                                 <tr><th>Place of Purchase</th><td>${record.PLACE_OF_PURCHASE || 'N/A'}</td></tr>
-      //                                                 <tr><th>Number of Farmers</th><td>${record.TOTAL_NUM_OF_FARMERS || 'N/A'}</td></tr>
-      //                                                 <tr><th>Number of Bags</th><td>${record.NUM_OF_BAGS || 'N/A'}</td></tr>
-      //                                                 <tr><th>Batch Codes</th><td>${batchCodeCheckboxes}</td></tr>
-      //                                                 <tr><th>Total Nutmegs bought (lbs)</th><td>${record.TOTAL_LBS_NUTMEG_BOUGHT || 'N/A'}</td></tr>
-      //                                                 <tr>
-      //                                                     <th>Dates</th>
-      //                                                     <td>
-      //                                                         <table class="table table-sm table-borderless mb-0">
-      //                                                             <thead>
-      //                                                                 <tr>
-      //                                                                     <th scope="col" class="small text-muted">Start Drying</th>
-      //                                                                     <th scope="col" class="small text-muted">Approx. End Drying</th>
-      //                                                                     <th scope="col" class="small text-muted">Actual End Drying</th>
-      //                                                                 </tr>
-      //                                                             </thead>
-      //                                                             <tbody>
-      //                                                                 <tr>
-      //                                                                     <td>${record.START_DRYING_DATE || 'N/A'}</td>
-      //                                                                     <td>${record.APPROX_END_DRYING_DATE || 'N/A'}</td>
-      //                                                                     <td>${record.END_DRYING_DATE || 'N/A'}</td>
-      //                                                                 </tr>
-      //                                                             </tbody>
-      //                                                         </table>
-      //                                                     </td>
-      //                                                 </tr>
-      //                                             </tbody>
-      //                                         </table>
-      //                                     </div>
-      //                                 </div>`;
-      //                                 entryContainer.innerHTML = dropdownContent;
-      //                                 landInfoDataDiv.appendChild(entryContainer);
-      //                             }
-      //                         };
+    //                                 const dropdownContent = `
+    //                                 <div class="dropdown">
+    //                                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton_${record.id}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    //                                         Entry ID: ${record.id} (${inHouseControlNumbers.join(', ') || 'N/A'})
+    //                                     </button>
+    //                                     <input type="hidden" id="valueChange_${record.id}_ControlNum" value="${record.Control_number || ''}">
+    //                                     <button type="button" style="display:none;" class="add-row" onclick="fill_table('${record.id}')">Fill Table from Record ${record.id}</button>
+    //                                     <div class="dropdown-menu p-2 shadow" aria-labelledby="dropdownMenuButton_${record.id}" style="width: max-content; max-width: 500px;">
+    //                                         <table class="table table-sm table-bordered">
+    //                                             <tbody>
+    //                                                 <tr><th>Station</th><td>${stationCheckboxHtml}</td></tr>
+    //                                                 <tr><th>Date of Purchase</th><td>${record.DATE_OF_PURCHASE || 'N/A'}</td></tr>
+    //                                                 <tr><th>Place of Purchase</th><td>${record.PLACE_OF_PURCHASE || 'N/A'}</td></tr>
+    //                                                 <tr><th>Number of Farmers</th><td>${record.TOTAL_NUM_OF_FARMERS || 'N/A'}</td></tr>
+    //                                                 <tr><th>Number of Bags</th><td>${record.NUM_OF_BAGS || 'N/A'}</td></tr>
+    //                                                 <tr><th>Batch Codes</th><td>${batchCodeCheckboxes}</td></tr>
+    //                                                 <tr><th>Total Nutmegs bought (lbs)</th><td>${record.TOTAL_LBS_NUTMEG_BOUGHT || 'N/A'}</td></tr>
+    //                                                 <tr>
+    //                                                     <th>Dates</th>
+    //                                                     <td>
+    //                                                         <table class="table table-sm table-borderless mb-0">
+    //                                                             <thead>
+    //                                                                 <tr>
+    //                                                                     <th scope="col" class="small text-muted">Start Drying</th>
+    //                                                                     <th scope="col" class="small text-muted">Approx. End Drying</th>
+    //                                                                     <th scope="col" class="small text-muted">Actual End Drying</th>
+    //                                                                 </tr>
+    //                                                             </thead>
+    //                                                             <tbody>
+    //                                                                 <tr>
+    //                                                                     <td>${record.START_DRYING_DATE || 'N/A'}</td>
+    //                                                                     <td>${record.APPROX_END_DRYING_DATE || 'N/A'}</td>
+    //                                                                     <td>${record.END_DRYING_DATE || 'N/A'}</td>
+    //                                                                 </tr>
+    //                                                             </tbody>
+    //                                                         </table>
+    //                                                     </td>
+    //                                                 </tr>
+    //                                             </tbody>
+    //                                         </table>
+    //                                     </div>
+    //                                 </div>`;
+    //                                 entryContainer.innerHTML = dropdownContent;
+    //                                 landInfoDataDiv.appendChild(entryContainer);
+    //                             }
+    //                         };
 
-      //                         getAllDispatchRequestGreen.onerror = function(event) {
-      //                             console.error(`Error retrieving Dispatch-Of-Green records for In-House record ID ${record.id}:`, event.target.error);
-      //                         };
-      //                     }
-      //                 };
+    //                         getAllDispatchRequestGreen.onerror = function(event) {
+    //                             console.error(`Error retrieving Dispatch-Of-Green records for In-House record ID ${record.id}:`, event.target.error);
+    //                         };
+    //                     }
+    //                 };
 
-      //                 getAllDispatchRequestDried.onerror = function(event) {
-      //                     console.error(`Error retrieving Dispatch-Of-Dried-Nutmeg records for In-House record ID ${record.id}:`, event.target.error);
-      //                 };
+    //                 getAllDispatchRequestDried.onerror = function(event) {
+    //                     console.error(`Error retrieving Dispatch-Of-Dried-Nutmeg records for In-House record ID ${record.id}:`, event.target.error);
+    //                 };
 
-      //                 dispatchTransaction.onerror = function(event) {
-      //                     console.error(`Dispatch check transaction error for In-House record ID ${record.id}:`, event.target.error);
-      //                 };
-      //             });
-      //         };
+    //                 dispatchTransaction.onerror = function(event) {
+    //                     console.error(`Dispatch check transaction error for In-House record ID ${record.id}:`, event.target.error);
+    //                 };
+    //             });
+    //         };
 
-      //         getAllRequest.onerror = function(event) {
-      //             console.error("Error retrieving In-House-Drying records:", event.target.error);
-      //         };
+    //         getAllRequest.onerror = function(event) {
+    //             console.error("Error retrieving In-House-Drying records:", event.target.error);
+    //         };
 
-      //         transaction.onerror = function(event) {
-      //             console.error("In-House-Drying transaction error:", event.target.error);
-      //         };
+    //         transaction.onerror = function(event) {
+    //             console.error("In-House-Drying transaction error:", event.target.error);
+    //         };
 
-      //         transaction.oncomplete = function() {
-      //             console.log("In-House-Drying data processing complete.");
-      //         };
-      //     };
+    //         transaction.oncomplete = function() {
+    //             console.log("In-House-Drying data processing complete.");
+    //         };
+    //     };
 
-      //     openRequest.onerror = function(event) {
-      //         console.error("Failed to open IndexedDB:", event.target.error);
-      //     };
+    //     openRequest.onerror = function(event) {
+    //         console.error("Failed to open IndexedDB:", event.target.error);
+    //     };
 
-      // }
+    // }
 
-      function loadExternalInHouseData(
-        formType,
-        presetDataDried = [],
-        presetDataGreen = [],
-      ) {
-        const openRequest = indexedDB.open("GCNA_External");
+    function loadExternalInHouseData(
+      formType,
+      presetDataDried = [],
+      presetDataGreen = [],
+    ) {
+      const openRequest = indexedDB.open("GCNA_External");
 
-        openRequest.onsuccess = function (event) {
-          const db = event.target.result;
-          const transaction = db.transaction("In-House-Drying", "readonly");
-          const landInfoStore = transaction.objectStore("In-House-Drying");
-          const getAllRequest = landInfoStore.getAll();
+      openRequest.onsuccess = function (event) {
+        const db = event.target.result;
+        const transaction = db.transaction("In-House-Drying", "readonly");
+        const landInfoStore = transaction.objectStore("In-House-Drying");
+        const getAllRequest = landInfoStore.getAll();
 
-          getAllRequest.onsuccess = function (event) {
-            const landInfoRecords = event.target.result;
-            const landInfoDataDiv = document.getElementById(
-              formType === "dried" ? "driedDataList" : "greenDataList",
-            );
+        getAllRequest.onsuccess = function (event) {
+          const landInfoRecords = event.target.result;
+          const landInfoDataDiv = document.getElementById(
+            formType === "dried" ? "driedDataList" : "greenDataList",
+          );
 
-            if (!landInfoDataDiv) {
-              console.error(`Element with ID '${formType}DataList' not found.`);
+          if (!landInfoDataDiv) {
+            console.error(`Element with ID '${formType}DataList' not found.`);
+            return;
+          }
+
+          landInfoRecords.forEach((record) => {
+            const inHouseControlNumbers = record.Control_number
+              ? record.Control_number.split(",")
+                .map((cn) => cn.trim())
+                .filter((cn) => cn)
+              : [];
+
+            if (record.COMPLETE !== "Yes") {
+              console.log(
+                `Record ID ${record.id} is not marked as COMPLETE. Skipping.`,
+              );
               return;
             }
 
-            landInfoRecords.forEach((record) => {
-              const inHouseControlNumbers = record.Control_number
-                ? record.Control_number.split(",")
-                    .map((cn) => cn.trim())
-                    .filter((cn) => cn)
-                : [];
+            // ✅ USE presetDataDried and presetDataGreen directly
+            const existsInDried = inHouseControlNumbers.some((cn) =>
+              presetDataDried.includes(cn),
+            );
+            const existsInGreen = inHouseControlNumbers.some((cn) =>
+              presetDataGreen.includes(cn),
+            );
 
-              if (record.COMPLETE !== "Yes") {
-                console.log(
-                  `Record ID ${record.id} is not marked as COMPLETE. Skipping.`,
-                );
-                return;
-              }
-
-              // ✅ USE presetDataDried and presetDataGreen directly
-              const existsInDried = inHouseControlNumbers.some((cn) =>
-                presetDataDried.includes(cn),
+            if (existsInDried || existsInGreen) {
+              console.log(
+                `Record ID ${record.id} (Control Numbers: ${inHouseControlNumbers.join(", ")}) found in Dispatch. Dropdown not generated.`,
               );
-              const existsInGreen = inHouseControlNumbers.some((cn) =>
-                presetDataGreen.includes(cn),
-              );
+              return;
+            }
 
-              if (existsInDried || existsInGreen) {
-                console.log(
-                  `Record ID ${record.id} (Control Numbers: ${inHouseControlNumbers.join(", ")}) found in Dispatch. Dropdown not generated.`,
-                );
-                return;
-              }
-
-              // Proceed to generate dropdown
-              let batchCodeCheckboxes =
-                inHouseControlNumbers
-                  .map((codeValue, i) => {
-                    const checkboxId = `control_num_code_${record.id}_${i}_${formType}`;
-                    return `<input type="checkbox" id="${checkboxId}" name="control_num_codes_${record.id}" value="${codeValue}" onchange="updateControlNum(this, '${record.id}', '${codeValue}')">
+            // Proceed to generate dropdown
+            let batchCodeCheckboxes =
+              inHouseControlNumbers
+                .map((codeValue, i) => {
+                  const checkboxId = `control_num_code_${record.id}_${i}_${formType}`;
+                  return `<input type="checkbox" id="${checkboxId}" name="control_num_codes_${record.id}" value="${codeValue}" onchange="updateControlNum(this, '${record.id}', '${codeValue}')">
                             <label for="${checkboxId}">${codeValue}</label><br>`;
-                  })
-                  .join("") || "N/A";
+                })
+                .join("") || "N/A";
 
-              const stationValue = record.STATION ? record.STATION.trim() : "";
-              const stationCheckboxHtml = stationValue
-                ? `<input type="checkbox" id="station_code_${record.id}_${formType}" name="station_${record.id}" value="${stationValue}" onchange="setSelectedStation(this, '${record.id}', '${stationValue}')"> 
+            const stationValue = record.STATION ? record.STATION.trim() : "";
+            const stationCheckboxHtml = stationValue
+              ? `<input type="checkbox" id="station_code_${record.id}_${formType}" name="station_${record.id}" value="${stationValue}" onchange="setSelectedStation(this, '${record.id}', '${stationValue}')"> 
                     <label for="station_code_${record.id}_${formType}">${stationValue}</label><br>`
-                : "N/A";
+              : "N/A";
 
-              const entryContainer = document.createElement("div");
-              entryContainer.id = `entryContainer_${record.id}`;
-              entryContainer.classList.add("entryContainer", "mb-3");
+            const entryContainer = document.createElement("div");
+            entryContainer.id = `entryContainer_${record.id}`;
+            entryContainer.classList.add("entryContainer", "mb-3");
 
-              // <tr><th>Place of Purchase</th><td>${record.PLACE_OF_PURCHASE || 'N/A'}</td></tr>
+            // <tr><th>Place of Purchase</th><td>${record.PLACE_OF_PURCHASE || 'N/A'}</td></tr>
 
-              const dropdownContent = `
+            const dropdownContent = `
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton_${record.id}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Entry ID (External): ${record.id} (${inHouseControlNumbers.join(", ") || "N/A"})
@@ -2143,42 +2056,43 @@
                     </div>
                 </div>`;
 
-              entryContainer.innerHTML = dropdownContent;
-              landInfoDataDiv.appendChild(entryContainer);
-            });
-          };
-
-          getAllRequest.onerror = function (event) {
-            console.error(
-              "Error retrieving In-House-Drying records:",
-              event.target.error,
-            );
-          };
-
-          transaction.onerror = function (event) {
-            console.error(
-              "In-House-Drying transaction error:",
-              event.target.error,
-            );
-          };
-
-          transaction.oncomplete = function () {
-            console.log("External In-House-Drying data processing complete.");
-          };
+            entryContainer.innerHTML = dropdownContent;
+            landInfoDataDiv.appendChild(entryContainer);
+          });
         };
 
-        openRequest.onerror = function (event) {
+        getAllRequest.onerror = function (event) {
           console.error(
-            "Failed to open GCNA_External IndexedDB:",
+            "Error retrieving In-House-Drying records:",
             event.target.error,
           );
         };
-      }
-    </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+        transaction.onerror = function (event) {
+          console.error(
+            "In-House-Drying transaction error:",
+            event.target.error,
+          );
+        };
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  </body>
+        transaction.oncomplete = function () {
+          console.log("External In-House-Drying data processing complete.");
+        };
+      };
+
+      openRequest.onerror = function (event) {
+        console.error(
+          "Failed to open GCNA_External IndexedDB:",
+          event.target.error,
+        );
+      };
+    }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
 </html>
 {% endblock %}

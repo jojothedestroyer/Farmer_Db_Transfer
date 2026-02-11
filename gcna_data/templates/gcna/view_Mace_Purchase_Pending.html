@@ -7,7 +7,8 @@
     /* General Styles */
     body {
       font-family: Arial, sans-serif;
-      background-color: #f7f7f7; /* Adjusted background color */
+      background-color: #f7f7f7;
+      /* Adjusted background color */
       margin: 0;
       padding: 0;
     }
@@ -128,92 +129,93 @@
     }
   </style>
 </head>
+
 <body>
   <div class="container">
     <div id="landInfoData"></div>
-                                         <a href="/table/" class="btn btn-secondary">Return</a>
+    <a href="/table/" class="btn btn-secondary">Return</a>
 
   </div>
 
 
 
   <script type="module">
- import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
-  import { getDatabase, ref, set, get, query, orderByChild, equalTo, update, push,remove } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
-  import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+    import { getDatabase, ref, set, get, query, orderByChild, equalTo, update, push, remove } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
 
-  // Firebase configuration
-  const firebaseConfig = {
-    apiKey: "AIzaSyBZTB_mN_gIb6mqeM8nid4x83oKRehmFKo",
-    authDomain: "farmer-project-sync.firebaseapp.com",
-    databaseURL: "https://farmer-project-sync-default-rtdb.firebaseio.com",
-    projectId: "farmer-project-sync",
-    storageBucket: "farmer-project-sync.firebasestorage.app",
-    messagingSenderId: "1366353203",
-    appId: "1:1366353203:web:fa29fd29cc326a0d63ca46"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getDatabase(app);
-  const auth = getAuth(app);
-  async function deleteRecord(id) {
-    if (!confirm("Delete this record?")) return;
-
-    const tableName = "Mace_Purchase";
-    const userId = localStorage.getItem("customUserId");
-
-    try {
-  
-      if (navigator.onLine && userId) {
-        await remove(ref(db, `Users/${userId}/models/${tableName}/${id}`));
-      }
-deleteIndexeddb(id)
-      
-    } catch (error) {
-      console.error("Delete failed:", error);
-    }
-  }
-
-  window.deleteRecord = deleteRecord;
-
-  function deleteIndexeddb(id) {
-    let openRequest = indexedDB.open("GCNA");
-
-    openRequest.onsuccess = function (event) {
-      let db = event.target.result;
-      let transaction = db.transaction("Mace_Purchase", "readwrite");
-      let store = transaction.objectStore("Mace_Purchase");
-
-      let deleteRequest = store.delete(id);
-
-      deleteRequest.onsuccess = function () {
-        console.log(`Record ${id} deleted successfully.`);
-        const element = document.getElementById(`entryContainer_${id}`);
-        if (element) {
-          element.remove();
-        }
-      };
-
-      deleteRequest.onerror = function () {
-        console.error("Error deleting record:", deleteRequest.error);
-        alert("Failed to delete record.");
-      };
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyBZTB_mN_gIb6mqeM8nid4x83oKRehmFKo",
+      authDomain: "farmer-project-sync.firebaseapp.com",
+      databaseURL: "https://farmer-project-sync-default-rtdb.firebaseio.com",
+      projectId: "farmer-project-sync",
+      storageBucket: "farmer-project-sync.firebasestorage.app",
+      messagingSenderId: "1366353203",
+      appId: "1:1366353203:web:fa29fd29cc326a0d63ca46"
     };
-  
-}
 
-</script>
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const auth = getAuth(app);
+    async function deleteRecord(id) {
+      if (!confirm("Delete this record?")) return;
+
+      const tableName = "Mace_Purchase";
+      const userId = localStorage.getItem("customUserId");
+
+      try {
+
+        if (navigator.onLine && userId) {
+          await remove(ref(db, `Users/${userId}/models/${tableName}/${id}`));
+        }
+        deleteIndexeddb(id)
+
+      } catch (error) {
+        console.error("Delete failed:", error);
+      }
+    }
+
+    window.deleteRecord = deleteRecord;
+
+    function deleteIndexeddb(id) {
+      let openRequest = indexedDB.open("GCNA");
+
+      openRequest.onsuccess = function (event) {
+        let db = event.target.result;
+        let transaction = db.transaction("Mace_Purchase", "readwrite");
+        let store = transaction.objectStore("Mace_Purchase");
+
+        let deleteRequest = store.delete(id);
+
+        deleteRequest.onsuccess = function () {
+          console.log(`Record ${id} deleted successfully.`);
+          const element = document.getElementById(`entryContainer_${id}`);
+          if (element) {
+            element.remove();
+          }
+        };
+
+        deleteRequest.onerror = function () {
+          console.error("Error deleting record:", deleteRequest.error);
+          alert("Failed to delete record.");
+        };
+      };
+
+    }
+
+  </script>
   <script>
 
-function toggleRecord(id) {
-  const details = document.getElementById(`recordDetails-${id}`);
+    function toggleRecord(id) {
+      const details = document.getElementById(`recordDetails-${id}`);
 
-  if (details.style.display === "none") {
-    details.style.display = "block";
-  } else {
-    details.style.display = "none";
-  }
-}
+      if (details.style.display === "none") {
+        details.style.display = "block";
+      } else {
+        details.style.display = "none";
+      }
+    }
 
 
 
@@ -238,7 +240,7 @@ function toggleRecord(id) {
         let landInfoDataDiv = document.getElementById("landInfoData");
 
         landInfoRecords.forEach((record) => {
-         if (
+          if (
             record.COMPLETE == "Yes" ||
             record.COMPLETE == "Y" ||
             record.COMPLETE == "y" ||
@@ -248,36 +250,36 @@ function toggleRecord(id) {
           }
 
 
-let entryContainer = document.createElement("div");
-entryContainer.id = `entryContainer_${record.id}`;
-entryContainer.className = "record-container";
-let labelText = record.BATCH_CODE_M1 !== ""
-  ? (`Mace Batches: M1:${record.BATCH_CODE_M1}    M2:${record.BATCH_CODE_M2}      M3:${record.BATCH_CODE_M3}`)
-  : record.BATCH_CODE_M1 ;
+          let entryContainer = document.createElement("div");
+          entryContainer.id = `entryContainer_${record.id}`;
+          entryContainer.className = "record-container";
+          let labelText = record.BATCH_CODE_M1 !== ""
+            ? (`Mace Batches: M1:${record.BATCH_CODE_M1}    M2:${record.BATCH_CODE_M2}      M3:${record.BATCH_CODE_M3}`)
+            : record.BATCH_CODE_M1;
 
-// entryContainer.innerHTML = `
-//   <button class="btn btn-primary" 
-//           onclick="toggleRecord(${record.id})" 
-//           style="width:100%; text-align:left; margin-bottom:8px;">
-//     ${labelText} 
-//   </button>
+          // entryContainer.innerHTML = `
+          //   <button class="btn btn-primary" 
+          //           onclick="toggleRecord(${record.id})" 
+          //           style="width:100%; text-align:left; margin-bottom:8px;">
+          //     ${labelText} 
+          //   </button>
 
-//   <div id="recordDetails-${record.id}" style="display:none;"> 
-//               <form id="form_${record.id}">
-//                     <div class="card-body">
-                  
-//                     </h5>
-//                       <p class="card-text">
-//                           <table id="vertical-1" class="table table-hover table-light">
-      
-  
-  
-      //       <tr>
-      //     <th>PLACE OF PURCHASE</th>
-      //                                         <td>    <input type="text" class="form-control" name="PLACE_OF_PURCHASE" value="${record.PLACE_OF_PURCHASE || ''}" /> </td>
+          //   <div id="recordDetails-${record.id}" style="display:none;"> 
+          //               <form id="form_${record.id}">
+          //                     <div class="card-body">
 
-      // </tr>
-entryContainer.innerHTML = `
+          //                     </h5>
+          //                       <p class="card-text">
+          //                           <table id="vertical-1" class="table table-hover table-light">
+
+
+
+          //       <tr>
+          //     <th>PLACE OF PURCHASE</th>
+          //                                         <td>    <input type="text" class="form-control" name="PLACE_OF_PURCHASE" value="${record.PLACE_OF_PURCHASE || ''}" /> </td>
+
+          // </tr>
+          entryContainer.innerHTML = `
 
 
 <div class="d-flex gap-2" style="margin-bottom:8px;">
@@ -296,7 +298,7 @@ entryContainer.innerHTML = `
   
 
   <div id="recordDetails-${record.id}" style="display:none;"> 
-      <form>
+      <form id="form_${record.id}">
       <div class="card">
         <div class="card-body">
         <p class="card-text">
@@ -410,7 +412,7 @@ entryContainer.innerHTML = `
 
         getRequest.onsuccess = function (event) {
           let record = event.target.result;
-          
+
           // Update record with form values
           for (let [key, value] of formData.entries()) {
             record[key] = value;
@@ -420,8 +422,8 @@ entryContainer.innerHTML = `
           updateRequest.onsuccess = function () {
             alert("Record updated successfully!");
           };
-          
-          updateRequest.onerror = function(event) {
+
+          updateRequest.onerror = function (event) {
             console.error("Error updating record:", event.target.error);
             alert("Error updating record. Please try again.");
           };
@@ -440,16 +442,16 @@ entryContainer.innerHTML = `
 
         getRequest.onsuccess = function (event) {
           let record = event.target.result;
-          
+
           // First save any edited values from the form
           let form = document.getElementById(`form_${id}`);
           let formData = new FormData(form);
-          
+
           // Update record with form values
           for (let [key, value] of formData.entries()) {
             record[key] = value;
           }
-          
+
           // Then mark as complete
           record.COMPLETE = completion;
 
@@ -461,13 +463,13 @@ entryContainer.innerHTML = `
             if (entryContainer) {
               entryContainer.remove();
             }
-window.location.reload();
+            window.location.reload();
           };
         };
       };
     }
 
-    
+
     function saveEditedCompletion2(id, completion) {
       let openRequestup = indexedDB.open("GCNA");
 
@@ -553,9 +555,9 @@ window.location.reload();
         console.log("Failed to open GCNA database.");
       };
     }
- 
- 
- </script>
+
+
+  </script>
 
   {% endblock %}
 </body>

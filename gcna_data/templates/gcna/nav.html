@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <a class="navbar-brand" href="{% url 'home' %}">GCNA</a>
 
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -76,6 +76,208 @@
             <a class="dropdown-item"  href="{% url 'add_Container_Inspection_Log' %}" class="btn btn-primary">Container Inspection Log</a>
 
         </div>
+      </li>
+    </ul>
+  </div>
+</nav> -->
+
+<style>
+  /* Support for nested submenus on hover */
+  .dropdown-submenu {
+    position: relative;
+  }
+
+  .dropdown-submenu .dropdown-menu {
+    top: 0;
+    left: 100%;
+    /* Positions the menu to the right */
+    margin-top: -1px;
+    display: none;
+    /* Hidden by default */
+  }
+
+  .dropdown-submenu:hover>.dropdown-menu {
+    display: block;
+    /* Shows on hover */
+  }
+
+  /* Optional: Adds a small arrow to show there is a submenu */
+  .dropdown-submenu>.dropdown-item::after {
+    content: ">";
+    float: right;
+    border: none;
+    font-family: monospace;
+    font-weight: bold;
+    margin-left: 10px;
+  }
+</style>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="{% url 'home' %}">GCNA</a>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'home' %}">Home</a>
+      </li>
+
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navPurchase" role="button" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          Purchase & Dispatch
+        </a>
+        <ul class="dropdown-menu">
+          <li class="dropdown-submenu">
+            <a class="dropdown-item" href="#">Nutmeg Purchase</a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{% url 'add_In_House_0' %}">Add</a></li>
+              <li><a class="dropdown-item" href="{% url 'view_IH_0' %}">View</a></li>
+              <li><a class="dropdown-item" href="{% url 'In_House_Pending' %}">Pending</a></li>
+            </ul>
+          </li>
+
+          <li class="dropdown-submenu">
+            <a class="dropdown-item" href="#">Mace Purchase</a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{% url 'Mace_Purchase' %}">Add</a></li>
+              <li><a class="dropdown-item" href="{% url 'view_Mace_Purchase' %}">View</a></li>
+              <li><a class="dropdown-item" href="{% url 'pending_mace_purchase' %}">Pending</a></li>
+            </ul>
+          </li>
+
+          <li class="dropdown-submenu">
+            <a class="dropdown-item" href="#">Dispatch Forms</a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{% url 'add_Dispatch_Dried_0' %}">Add</a></li>
+              <li><a class="dropdown-item" href="{% url 'view_DISD_0' %}">View Recieved</a></li>
+            </ul>
+          </li>
+
+
+          <li class="dropdown-submenu">
+            <a class="dropdown-item" href="#">Dispatch Recieved Forms</a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{% url 'Dispatch_Of_Dried_Nutmeg_Rec' %}">Add</a></li>
+              <li><a class="dropdown-item" href="{% url 'view_Dispatch_Of_Dried_Nutmeg_Rec' %}">View Recieved</a></li>
+            </ul>
+          </li>
+
+          <div class="dropdown-divider"></div>
+          <li><a class="dropdown-item" href="{% url 'find-Traceability-Origin' %}">Traceability Log</a></li>
+        </ul>
+      </li>
+
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navProcessing" role="button" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          Processing
+        </a>
+        <ul class="dropdown-menu">
+
+          <li class="dropdown-submenu">
+            <a class="dropdown-item" href="#">Dried Nutmeg Section A(HACCP)</a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{% url 'database8' %}">Add</a></li>
+              <li><a class="dropdown-item" href="{% url 'view_dried0A' %}">View</a></li>
+            </ul>
+          </li>
+
+
+          <li class="dropdown-submenu">
+            <a class="dropdown-item" href="#">Dried Nutmeg Section B(HACCP)</a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{% url 'database9' %}">Add</a></li>
+              <li><a class="dropdown-item" href="{% url 'view_dried0B' %}">View</a></li>
+            </ul>
+          </li>
+
+
+
+
+          <li class="dropdown-submenu">
+            <a class="dropdown-item" href="#">Floated Nutmeg Section A(HACCP)</a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{% url 'database10' %}">Add</a></li>
+              <li><a class="dropdown-item" href="{% url 'view_floated0A' %}">View</a></li>
+            </ul>
+          </li>
+
+          <li class="dropdown-submenu">
+            <a class="dropdown-item" href="#">Floated Nutmeg Section B(HACCP)</a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{% url 'database11' %}">Add</a></li>
+              <li><a class="dropdown-item" href="{% url 'view_floated0B' %}">View</a></li>
+            </ul>
+          </li>
+
+
+
+          <li class="dropdown-submenu">
+            <a class="dropdown-item" href="#">Quality Control Assorting(HACCP)</a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{% url 'database12' %}">Add</a></li>
+              <li><a class="dropdown-item" href="{% url 'view_quality0_' %}">View</a></li>
+            </ul>
+          </li>
+
+
+
+
+
+          <li class="dropdown-submenu">
+            <a class="dropdown-item" href="#">Cracking Nutmeg</a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{% url 'add_Cracking_0' %}">Add</a></li>
+              <li><a class="dropdown-item" href="{% url 'view_CRK_0' %}">View</a></li>
+              <li><a class="dropdown-item" href="{% url 'pending_cracking' %}">Pending</a></li>
+            </ul>
+          </li>
+
+
+
+
+
+
+          <li class="dropdown-submenu">
+            <a class="dropdown-item" href="#">Flotation</a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{% url 'add_Floation_0' %}">Add</a></li>
+              <li><a class="dropdown-item" href="{% url 'view_FLT_0' %}">View</a></li>
+              <li><a class="dropdown-item" href="{% url 'pending_floating' %}">Pending</a></li>
+            </ul>
+          </li>
+
+          <li class="dropdown-submenu">
+            <a class="dropdown-item" href="#">Packaging</a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{% url 'add_Package_0' %}">Add</a></li>
+              <li><a class="dropdown-item" href="{% url 'view_PKG_0' %}">View</a></li>
+              <li><a class="dropdown-item" href="#">Pending</a></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navMisc" role="button" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          Miscellaneous
+        </a>
+        <ul class="dropdown-menu">
+          <li class="dropdown-submenu">
+            <a class="dropdown-item" href="#">Inspections</a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{% url 'add_Vehicle_Inspection' %}">Add Vehicle</a></li>
+              <li><a class="dropdown-item" href="{% url 'add_Container_Inspection_Log' %}">Add Container</a></li>
+              <li><a class="dropdown-item" href="{% url 'add_Final_Weigtht_Inspection' %}">Add Weight</a></li>
+            </ul>
+          </li>
+        </ul>
       </li>
     </ul>
   </div>
