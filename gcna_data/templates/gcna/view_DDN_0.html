@@ -1011,6 +1011,7 @@
                 <input type="hidden" name="BATCH_CODE_M2" value="${record.BATCH_CODE_M2 || ''}">
                 <input type="hidden" name="BATCH_CODE_M3" value="${record.BATCH_CODE_M3 || ''}">
                 <input type="hidden" name="Delivery_advice_num_MACE" value="${record.Delivery_advice_num_MACE || ''}">
+                <input type="hidden" name="form_type" value="mace">
 
                 <h5>Mace Form Details</h5>
                 <hr>
@@ -1040,6 +1041,10 @@
                 <input type="hidden" name="BATCH_CODES_DRIED" value="${record.BATCH_CODES_DRIED || ''}">
                 <input type="hidden" name="CORRESPONDING_DELIVERY_ADVICE" value="${record.CORRESPONDING_DELIVERY_ADVICE || ''}">
                 <input type="hidden" name="Product" value="${record.Product || ''}">
+                <input type="hidden" name="form_type" value="dried">
+
+                <input type="hidden" name="BATCHCODE_DRIED" value="${record.BATCH_CODES_DRIED || ''}">
+
                 <input type="hidden" name="Num_Bags_DRIED" value="${record.Num_Bags_DRIED || ''}">
                 <input type="hidden" name="Weight" value="${record.Weight || ''}">
 
@@ -1073,6 +1078,7 @@
                 <input type="hidden" name="NUM_OF_BAGS_GREEN" value="${record.NUM_OF_BAGS_GREEN || ''}">
                 <input type="hidden" name="DELIVERY_ADVICE_NUMBER" value="${record.DELIVERY_ADVICE_NUMBER || ''}">
                 <input type="hidden" name="WAREHOUSE_RECEIPT_NUMBER" value="${record.WAREHOUSE_RECEIPT_NUMBER || ''}">
+                <input type="hidden" name="form_type" value="green">
 
                 <h5>Green Form Details</h5>
                 <hr>
