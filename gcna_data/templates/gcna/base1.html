@@ -583,15 +583,28 @@
           var db = event.target.result;
           console.log("Database upgrade needed. Creating object stores...");
           const modelNames = [
-            "Farmer", "DriedA", "DriedB", "FloatA", "FloatB", "Quaility", ,
+            // "Farmer", "DriedA", "DriedB", "FloatA", "FloatB", "Quaility", ,
+            // "In-House-Drying", "Dispatch-Of-Dried-Nutmeg", "Dispatch-Of-Green", "Cracking-Summary",
+            // "Floation-Summary", "Package-Ciontrol",
+            // "Sanitation-A", "Sanitation-B", "Sanitation-C", "Cracking_Schedule", "Assorting_Log",
+            // "Extractor_Log", "Fumigation_Log", "Shelves", "M_Shelves",
+            // "M_Shelves_Dried", "Vehicle_Inspection", "Final_Weight_Inspection", "Final_Weight_Inspection_fields",
+            // "Dispatch_Of_Dried_Nutmeg_Rec", "Dispatch_Of_Green_Nutmeg_Rec", "Mace_Dispatched", "Mace_Purchase",
+            // "Mace_Dispatched_Rec", "Cracking_Extraction_Summary", "Day_Of_Loading", "TruckEntry",
+            // "Container_Inspection_Log", "Stirring-Log"
+            "Worker", "Farmer", "DriedA", "DriedB", "FloatA", "FloatB", "Quaility", "visit",
             "In-House-Drying", "Dispatch-Of-Dried-Nutmeg", "Dispatch-Of-Green", "Cracking-Summary",
-            "Floation-Summary", "Package-Ciontrol",
+            "Floation-Summary", "Package-Ciontrol", "Editors", "Labour-support", "Training-support",
+            "land-info", "Land-Tenur", "Nutmeg-Trees", "Nutmeg-Variety", "Other-Crops", "Coconut-Trees",
+            "Citrus-Mango-Trees", "Other-Spices-Trees", "Other-Seasoning-Trees", "Other-Crops-Cultivated",
+            "Condition", "Nutmeg-Land", "Nutmeg-Frequency", "Potential-Risks", "Road-Access",
+            "Food-Safety-and-Quality", "Farm-Water-Source", "Farm-House", "inspector-symmary", "Policy",
             "Sanitation-A", "Sanitation-B", "Sanitation-C", "Cracking_Schedule", "Assorting_Log",
-            "Extractor_Log", "Fumigation_Log", "Shelves", "M_Shelves",
+            "Extractor_Log", "Fumigation_Log", "Shelves", "W_Shelves", "M_Shelves", "W_Shelves_Dried",
             "M_Shelves_Dried", "Vehicle_Inspection", "Final_Weight_Inspection", "Final_Weight_Inspection_fields",
             "Dispatch_Of_Dried_Nutmeg_Rec", "Dispatch_Of_Green_Nutmeg_Rec", "Mace_Dispatched", "Mace_Purchase",
             "Mace_Dispatched_Rec", "Cracking_Extraction_Summary", "Day_Of_Loading", "TruckEntry",
-            "Container_Inspection_Log", "Stirring-Log"
+            "Container_Inspection_Log"
           ];
 
 

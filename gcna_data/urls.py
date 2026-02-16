@@ -283,7 +283,7 @@ urlpatterns = [
     path('Logs/Fumigation_Log/', views.Logs_add_data4, name="Logs_add_data4"),
 
 
-    path('adhome',views.adhome, name="adhome"),
+    # path('adhome',views.adhome, name="adhome"),
 
 
 
