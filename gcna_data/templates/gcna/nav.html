@@ -80,8 +80,34 @@
     </ul>
   </div>
 </nav> -->
-
 <style>
+  .dropdown-submenu {
+    position: relative;
+  }
+
+  .dropdown-submenu .dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-top: -1px;
+    display: none;
+    /* Default state */
+  }
+
+  /* This class will be toggled via JavaScript */
+  .dropdown-submenu .dropdown-menu.show {
+    display: block;
+  }
+
+  .dropdown-submenu>.dropdown-item::after {
+    content: ">";
+    float: right;
+    border: none;
+    font-family: monospace;
+    font-weight: bold;
+    margin-left: 10px;
+  }
+</style>
+<!-- <style>
   /* Support for nested submenus on hover */
   .dropdown-submenu {
     position: relative;
@@ -110,7 +136,7 @@
     font-weight: bold;
     margin-left: 10px;
   }
-</style>
+</style> -->
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <a class="navbar-brand" href="{% url 'home' %}">GCNA</a>
@@ -154,7 +180,7 @@
             <a class="dropdown-item" href="#">Dispatch Forms</a>
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="{% url 'add_Dispatch_Dried_0' %}">Add</a></li>
-              <li><a class="dropdown-item" href="{% url 'view_DISD_0' %}">View Recieved</a></li>
+              <li><a class="dropdown-item" href="{% url 'view_DISD_0' %}">View</a></li>
             </ul>
           </li>
 
@@ -257,7 +283,7 @@
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="{% url 'add_Package_0' %}">Add</a></li>
               <li><a class="dropdown-item" href="{% url 'view_PKG_0' %}">View</a></li>
-              <li><a class="dropdown-item" href="#">Pending</a></li>
+              <!-- <li><a class="dropdown-item" href="#">Pending</a></li> -->
             </ul>
           </li>
         </ul>
@@ -282,3 +308,33 @@
     </ul>
   </div>
 </nav>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function () {
+    $('.dropdown-submenu a.dropdown-item').on("click", function (e) {
+      var $subMenu = $(this).next(".dropdown-menu");
+
+      // Check if this item actually has a submenu to open
+      if ($subMenu.length) {
+        // 1. Prevent the link from navigating (since it's just a folder)
+        e.preventDefault();
+        // 2. Prevent the main dropdown from closing
+        e.stopPropagation();
+
+        // 3. Close other submenus at the same level
+        $(this).siblings().find('.show').removeClass("show");
+
+        // 4. Toggle this specific submenu
+        $subMenu.toggleClass('show');
+      }
+      // If there is NO submenu (like 'Add' or 'View'), let the click happen normally!
+    });
+
+    // Ensure submenus close when the main dropdown is closed
+    $('.nav-item.dropdown').on('hidden.bs.dropdown', function () {
+      $(this).find('.dropdown-menu.show').removeClass('show');
+    });
+  });
+</script>
