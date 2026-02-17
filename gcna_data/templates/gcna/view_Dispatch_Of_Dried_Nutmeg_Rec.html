@@ -541,6 +541,7 @@
                                 </div>
                                 <div class="detail-row"><span class="detail-label">Station:</span> ${record.STATION_MACE || 'N/A'}</div>
                 <div class="detail-row"><span class="detail-label">Date of Purchase:</span> ${record.DATE_OF_PURCHASE_MACE || 'N/A'}</div>
+                <div class="detail-row"><span class="detail-label">Date of Dispatch:</span> ${record.DATE_OF_MACE || 'N/A'}</div>
                 <div class="detail-row"><span class="detail-label">Total Farmers:</span> ${record.TOTAL_NUM_OF_FARMERS_MACE || 'N/A'}</div>
                 <div class="detail-row"><span class="detail-label">Total Lbs Bought:</span> ${record.TOTAL_LBS_NUTMEG_BOUGHT_MACE || 'N/A'}</div>
                 <div class="detail-row"><span class="detail-label">Number of Bags:</span> ${record.NUM_OF_BAGS_MACE || 'N/A'}</div>
@@ -564,6 +565,8 @@
                 <hr>
                 <div class="detail-row"><span class="detail-label">Station From:</span> ${record.STATION_DRIED || 'N/A'}</div>
                 <div class="detail-row"><span class="detail-label">Station To:</span> ${record.STATION_recieved_DRIED || 'N/A'}</div>
+                                <div class="detail-row"><span class="detail-label">Date of Dispatch:</span> ${record.DATE_OF_DRIED || 'N/A'}</div>
+
                 <div class="detail-row"><span class="detail-label">Batch Codes:</span><br>
                     ${record.BATCH_CODES_DRIED ? record.BATCH_CODES_DRIED.split(',').map(c => `<span class="batch-code">${c.trim()}</span>`).join('') : 'N/A'}
                 </div>
@@ -585,6 +588,8 @@
                                 </div>
                             <div class="detail-row"><span class="detail-label">Date:</span> ${record.DATE_CREATED || 'N/A'}</div>
                 <div class="detail-row"><span class="detail-label">Station:</span> ${record.STATION_GREEN || 'N/A'}</div>
+                                                <div class="detail-row"><span class="detail-label">Date of Dispatch:</span> ${record.DATE_OF_DISPATCH_GREEN || 'N/A'}</div>
+
                 <div class="detail-row"><span class="detail-label">Date of Purchase:</span> ${record.DATE_OF_PURCHASE_GREEN || 'N/A'}</div>
                 <div class="detail-row"><span class="detail-label">Total Farmers:</span> ${record.TOTAL_NUM_OF_FARMERS_GREEN || 'N/A'}</div>
                 <div class="detail-row"><span class="detail-label">Total Lbs Bought:</span> ${record.TOTAL_LBS_NUTMEG_BOUGHT_GREEN || 'N/A'}</div>

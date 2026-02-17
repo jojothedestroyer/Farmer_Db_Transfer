@@ -1004,6 +1004,7 @@
             <form id="form_${record.id}">
                 <input type="hidden" name="STATION_MACE" value="${record.STATION_MACE || ''}">
                 <input type="hidden" name="DATE_OF_PURCHASE_MACE" value="${record.DATE_OF_PURCHASE_MACE || ''}">
+                <input type="hidden" name="DATE_OF_MACE" value="${record.DATE_OF_MACE || ''}">
                 <input type="hidden" name="TOTAL_NUM_OF_FARMERS_MACE" value="${record.TOTAL_NUM_OF_FARMERS_MACE || ''}">
                 <input type="hidden" name="TOTAL_LBS_NUTMEG_BOUGHT_MACE" value="${record.TOTAL_LBS_NUTMEG_BOUGHT_MACE || ''}">
                 <input type="hidden" name="NUM_OF_BAGS_MACE" value="${record.NUM_OF_BAGS_MACE || ''}">
@@ -1017,6 +1018,7 @@
                 <hr>
                 <div class="detail-row"><span class="detail-label">Station:</span> ${record.STATION_MACE || 'N/A'}</div>
                 <div class="detail-row"><span class="detail-label">Date of Purchase:</span> ${record.DATE_OF_PURCHASE_MACE || 'N/A'}</div>
+                <div class="detail-row"><span class="detail-label">Date of Dispatch:</span> ${record.DATE_OF_MACE || 'N/A'}</div>
                 <div class="detail-row"><span class="detail-label">Total Farmers:</span> ${record.TOTAL_NUM_OF_FARMERS_MACE || 'N/A'}</div>
                 <div class="detail-row"><span class="detail-label">Total Lbs Bought:</span> ${record.TOTAL_LBS_NUTMEG_BOUGHT_MACE || 'N/A'}</div>
                 <div class="detail-row"><span class="detail-label">Number of Bags:</span> ${record.NUM_OF_BAGS_MACE || 'N/A'}</div>
@@ -1037,6 +1039,7 @@
         <div class="col-md-4 mb-4" id="entryContainer_${record.id}">
             <form id="form_${record.id}">
                 <input type="hidden" name="STATION_DRIED" value="${record.STATION_DRIED || ''}">
+                <input type="hidden" name="DATE_OF_DRIED" value="${record.DATE_OF_DRIED || ''}">
                 <input type="hidden" name="STATION_recieved_DRIED" value="${record.STATION_recieved_DRIED || ''}">
                 <input type="hidden" name="BATCH_CODES_DRIED" value="${record.BATCH_CODES_DRIED || ''}">
                 <input type="hidden" name="CORRESPONDING_DELIVERY_ADVICE" value="${record.CORRESPONDING_DELIVERY_ADVICE || ''}">
@@ -1052,6 +1055,8 @@
                 <hr>
                 <div class="detail-row"><span class="detail-label">Station From:</span> ${record.STATION_DRIED || 'N/A'}</div>
                 <div class="detail-row"><span class="detail-label">Station To:</span> ${record.STATION_recieved_DRIED || 'N/A'}</div>
+                                <div class="detail-row"><span class="detail-label">Date of Dispatch:</span> ${record.DATE_OF_DRIED || 'N/A'}</div>
+
                 <div class="detail-row"><span class="detail-label">Batch Codes:</span><br>
                     ${record.BATCH_CODES_DRIED ? record.BATCH_CODES_DRIED.split(',').map(c => `<span class="batch-code">${c.trim()}</span>`).join('') : 'N/A'}
                 </div>
@@ -1071,6 +1076,7 @@
             <form id="form_${record.id}">
                 <input type="hidden" name="DATE_CREATED" value="${record.DATE_CREATED || ''}">
                 <input type="hidden" name="STATION_GREEN" value="${record.STATION_GREEN || ''}">
+                <input type="hidden" name="DATE_OF_DISPATCH_GREEN" value="${record.DATE_OF_DISPATCH_GREEN || ''}">
                 <input type="hidden" name="DATE_OF_PURCHASE_GREEN" value="${record.DATE_OF_PURCHASE_GREEN || ''}">
                 <input type="hidden" name="TOTAL_NUM_OF_FARMERS_GREEN" value="${record.TOTAL_NUM_OF_FARMERS_GREEN || ''}">
                 <input type="hidden" name="TOTAL_LBS_NUTMEG_BOUGHT_GREEN" value="${record.TOTAL_LBS_NUTMEG_BOUGHT_GREEN || ''}">
@@ -1084,6 +1090,8 @@
                 <hr>
                 <div class="detail-row"><span class="detail-label">Date:</span> ${record.DATE_CREATED || 'N/A'}</div>
                 <div class="detail-row"><span class="detail-label">Station:</span> ${record.STATION_GREEN || 'N/A'}</div>
+                                                <div class="detail-row"><span class="detail-label">Date of Dispatch:</span> ${record.DATE_OF_DISPATCH_GREEN || 'N/A'}</div>
+
                 <div class="detail-row"><span class="detail-label">Date of Purchase:</span> ${record.DATE_OF_PURCHASE_GREEN || 'N/A'}</div>
                 <div class="detail-row"><span class="detail-label">Total Farmers:</span> ${record.TOTAL_NUM_OF_FARMERS_GREEN || 'N/A'}</div>
                 <div class="detail-row"><span class="detail-label">Total Lbs Bought:</span> ${record.TOTAL_LBS_NUTMEG_BOUGHT_GREEN || 'N/A'}</div>
@@ -1508,6 +1516,10 @@
                                 <div class="detail-row">
                                     <span class="detail-label">Date of Purchase:</span> ${record.DATE_OF_PURCHASE_MACE || 'N/A'}
                                 </div>
+
+                                      <div class="detail-row">
+                                    <span class="detail-label">Date of Dispatch:</span> ${record.DATE_OF_MACE || 'N/A'}
+                                </div>
                                 <div class="detail-row">
                                     <span class="detail-label">Total Farmers:</span> ${record.TOTAL_NUM_OF_FARMERS_MACE || 'N/A'}
                                 </div>
@@ -1542,6 +1554,10 @@
                                 <div class="detail-row">
                                     <span class="detail-label">Station To:</span> ${record.STATION_recieved_DRIED || 'N/A'}
                                 </div>
+
+                                           <div class="detail-row">
+                                    <span class="detail-label">Date of Dispatch:</span> ${record.DATE_OF_DRIED || 'N/A'}
+                                </div>
                                 <div class="detail-row">
                                     <span class="detail-label">Batch Codes:</span><br>
                                     ${record.BATCH_CODES_DRIED ? record.BATCH_CODES_DRIED.split(',').map(code => `<span class="batch-code">${code.trim()}</span>`).join('') : 'N/A'}
@@ -1573,6 +1589,10 @@
                                 </div>
                                 <div class="detail-row">
                                     <span class="detail-label">Station:</span> ${record.STATION_GREEN || 'N/A'}
+                                </div>
+
+                                           <div class="detail-row">
+                                    <span class="detail-label">Date of Dispatch:</span> ${record.DATE_OF_DISPATCH_GREEN || 'N/A'}
                                 </div>
                                 <div class="detail-row">
                                     <span class="detail-label">Date of Purchase:</span> ${record.DATE_OF_PURCHASE_GREEN || 'N/A'}
