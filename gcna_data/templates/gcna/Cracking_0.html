@@ -543,42 +543,42 @@
                         const dispatchRecords = event.target.result;
 
                         // Logic to check if record already exists in Cracking-Summary
-                        const exists = dispatchRecords.some(dispatchRecord => {
-                            return (
-                                dispatchRecord.BatchCodes &&
-                                dispatchRecord.BatchCodes.includes(batchCode)
+                        // const exists = dispatchRecords.some(dispatchRecord => {
+                        //     return (
+                        //         dispatchRecord.BatchCodes &&
+                        //         dispatchRecord.BatchCodes.includes(batchCode)
+                        //     );
+                        // });
+
+                        // if (!exists) {
+                        let entryContainer = document.createElement("div");
+                        entryContainer.id = `entryContainer_${record.id}`;
+                        entryContainer.classList.add("entryContainer");
+
+                        // Safe splitting
+                        let codes = batchCode.split(",").map(code => code.trim());
+                        let filteredCodes = codes.filter(code => {
+                            return !dispatchRecords.some(dr =>
+                                dr.BatchCodes && dr.BatchCodes.split(",").map(c => c.trim()).includes(code)
                             );
                         });
 
-                        if (!exists) {
-                            let entryContainer = document.createElement("div");
-                            entryContainer.id = `entryContainer_${record.id}`;
-                            entryContainer.classList.add("entryContainer");
-
-                            // Safe splitting
-                            let codes = batchCode.split(",").map(code => code.trim());
-                            let filteredCodes = codes.filter(code => {
-                                return !dispatchRecords.some(dr =>
-                                    dr.BatchCodes && dr.BatchCodes.split(",").map(c => c.trim()).includes(code)
-                                );
-                            });
-
-                            let batchCodeCheckboxes = '';
-                            filteredCodes.forEach((code, i) => {
-                                batchCodeCheckboxes += `
+                        let batchCodeCheckboxes = '';
+                        filteredCodes.forEach((code, i) => {
+                            batchCodeCheckboxes += `
                                 <input type="checkbox" id="code${i}_${record.id}" value="${code}" onchange="updateControlNum(this)">
                                 <label for="code${i}_${record.id}">${code}</label><br>`;
-                            });
+                        });
 
-                            let deliveryCodeCheckboxes = '';
-                            let codes2 = deliveryAdvice.split(",").map(c => c.trim());
-                            codes2.forEach((code, i) => {
-                                deliveryCodeCheckboxes += `
+                        let deliveryCodeCheckboxes = '';
+                        let codes2 = deliveryAdvice.split(",").map(c => c.trim());
+                        codes2.forEach((code, i) => {
+                            deliveryCodeCheckboxes += `
                                 <input type="checkbox" id="codes2${i}_${record.id}" value="${code}" onchange="updateControlNum2(this)">
                                 <label for="codes2${i}_${record.id}">${code}</label><br>`;
-                            });
+                        });
 
-                            let dropdownContent = `
+                        let dropdownContent = `
                             <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton_${record.id}" data-toggle="dropdown">
                                     Entry: ${record.id}      
@@ -595,12 +595,12 @@
                                 </div>
                             </div>`;
 
-                            entryContainer.innerHTML = dropdownContent;
-                            if (record.form_type == 'dried') {
-                                landInfoDataDiv.appendChild(entryContainer);
+                        entryContainer.innerHTML = dropdownContent;
+                        if (record.form_type == 'dried') {
+                            landInfoDataDiv.appendChild(entryContainer);
 
-                            }
                         }
+                        // }
                     }
                 });
             };

@@ -506,7 +506,9 @@ class Quality_Control(models.Model):
         ('', 'Select'),
         ('Sounds', 'Sounds'),
         ('Lights', 'Lights'),      
-          ("110's","110's"),
+        ("110's","110's"),
+        ("80's/85's","80's/85's"),
+        ("60's","60's"),
         ('Other', 'Other'),
 
     ]
@@ -2190,7 +2192,10 @@ class Mace_Purchase(models.Model):
         ('M', 'Marli'),
         ('U', 'Union'),
         ('GP', 'Gouyave'),
-
+   ('V', 'Victoria'),
+        ('T', 'Thebaide'),
+        ('HO', 'Head Office'),
+   
    
 
 
@@ -2312,7 +2317,10 @@ class In_House_Drying(models.Model):
         ('M', 'Marli'),
         ('U', 'Union'),
         ('GP', 'Gouyave'),
-
+   ('V', 'Victoria'),
+        ('T', 'Thebaide'),
+        ('HO', 'Head Office'),
+   
    
 
 
