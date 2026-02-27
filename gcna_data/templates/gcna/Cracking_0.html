@@ -12,17 +12,25 @@
 
         $('#id_STATION,#id_DATE_OF_CRACKING').on('change', function () {
             var startDate = new String($('#id_STATION').val());
-            var second = new Date($('#id_DATE_OF_CRACKING').val());
+            var second = $('#id_DATE_OF_CRACKING').val();
 
 
 
-            var day = ("0" + second.getDate()).slice(-2);
+            // var day = ("0" + second.getDate()).slice(-2);
 
-            var month = ("0" + (second.getMonth() + 1)).slice(-2);
+            // var month = ("0" + (second.getMonth() + 1)).slice(-2);
 
-            var year = second.getFullYear();
+            // var year = second.getFullYear();
 
-            var formattedDate = year + month + day;
+            //     var formattedDate = year + month + day;
+            // var dateStr = $('#id_DATE_1').val(); // Assuming format is YYYY-MM-DD
+            var parts = second.split('-');
+
+            // parts[0] = Year, parts[1] = Month, parts[2] = Day
+            var formattedDate = parts[0] + parts[1] + parts[2];
+            // var combinedVal = startText + formattedDate
+
+
 
 
             var last = "C" + startDate + formattedDate;
