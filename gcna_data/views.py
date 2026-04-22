@@ -18,7 +18,7 @@ from django.forms import modelformset_factory
 from django.shortcuts import render, redirect
 
 
-import pandas as pd
+# import pandas as pd
 import os
 from django.core.files.storage import FileSystemStorage
 from django.shortcuts import redirect
@@ -396,6 +396,32 @@ def view_Day_Of_Loading(request):
 	form = Day_Of_Loading_Form()
 
 	return render(request,'gcna/view_Day_Of_Loading.html',{'form':form,  'submitted':submitted})
+
+
+
+
+
+def view_stirring_log(request):
+
+	return render(request,'gcna/stirring-log.html')
+
+
+
+
+def view_fumigation_log(request):
+
+	return render(request,'gcna/fumigation-log.html')
+
+
+
+
+
+
+
+
+
+
+
 
 
 def view_Container_Inspection_Log(request):
@@ -7238,7 +7264,7 @@ from django.db.models import Sum, Avg
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template.loader import get_template
-from xhtml2pdf import pisa
+# from xhtml2pdf import pisa
 from datetime import datetime, timedelta
 from .models import Dried_Moisture_Analysis_A
 
@@ -7293,9 +7319,9 @@ def generate_report(request):
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'filename="report.pdf"'
 
-    pisa_status = pisa.CreatePDF(html, dest=response)
-    if pisa_status.err:
-        return HttpResponse('PDF creation error', status=500)
+    # pisa_status = pisa.CreatePDF(html, dest=response)
+    # if pisa_status.err:
+    #     return HttpResponse('PDF creation error', status=500)
 
     return response
 

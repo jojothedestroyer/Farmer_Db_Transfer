@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set VIRTUAL_ENV=C:\Users\Hanke\Desktop\New folder (5)\(GCNA)\GCNA\venvnew
+set VIRTUAL_ENV=C:\Users\Hanke\Downloads\Farmer_Db_Transfer-main\venvnew
 
 if not defined PROMPT set PROMPT=$P$G
 

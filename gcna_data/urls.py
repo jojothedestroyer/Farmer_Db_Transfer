@@ -18,6 +18,8 @@ urlpatterns = [
 
     # URL for viewing Day Of Loading entries
     path('view_day_of_loading/', views.view_Day_Of_Loading, name='view_day_of_loading'),
+    path('stirring_log/', views.view_stirring_log, name='stirring-log'),
+    path('fumigation_log/', views.view_fumigation_log, name='fumigation-log'),
 
     # URL for viewing Truck Entries
     path('view_Container_Inspection_Log/', views.view_Container_Inspection_Log, name='view_Container_Inspection_Log'),

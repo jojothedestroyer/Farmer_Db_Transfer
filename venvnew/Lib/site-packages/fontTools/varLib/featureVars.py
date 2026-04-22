@@ -3,6 +3,7 @@ https://docs.microsoft.com/en-us/typography/opentype/spec/chapter2#featurevariat
 
 NOTE: The API is experimental and subject to change.
 """
+
 from fontTools.misc.dictTools import hashdict
 from fontTools.misc.intTools import bit_count
 from fontTools.ttLib import newTable
@@ -93,6 +94,14 @@ def addFeatureVariations(font, conditionalSubstitutions, featureTag="rvrn"):
         )
 
     addFeatureVariationsRaw(font, font["GSUB"].table, conditionsAndLookups, featureTags)
+
+    # Update OS/2.usMaxContext in case the font didn't have features before, but
+    # does now, if the OS/2 table exists. The table may be required, but
+    # fontTools needs to be able to deal with non-standard fonts. Since feature
+    # variations are always 1:1 mappings, we can set the value to at least 1
+    # instead of recomputing it with `otlLib.maxContextCalc.maxCtxFont()`.
+    if (os2 := font.get("OS/2")) is not None:
+        os2.usMaxContext = max(1, os2.usMaxContext)
 
 
 def _existingVariableFeatures(table):
@@ -391,10 +400,13 @@ def addFeatureVariationsRaw(font, table, conditionalSubstitutions, featureTag="r
 
             for scriptRecord in table.ScriptList.ScriptRecord:
                 if scriptRecord.Script.DefaultLangSys is None:
-                    raise VarLibError(
-                        "Feature variations require that the script "
-                        f"'{scriptRecord.ScriptTag}' defines a default language system."
-                    )
+                    # We need to have a default LangSys to attach variations to.
+                    langSys = ot.LangSys()
+                    langSys.LookupOrder = None
+                    langSys.ReqFeatureIndex = 0xFFFF
+                    langSys.FeatureIndex = []
+                    langSys.FeatureCount = 0
+                    scriptRecord.Script.DefaultLangSys = langSys
                 langSystems = [lsr.LangSys for lsr in scriptRecord.Script.LangSysRecord]
                 for langSys in [scriptRecord.Script.DefaultLangSys] + langSystems:
                     langSys.FeatureIndex.append(varFeatureIndex)
@@ -413,6 +425,10 @@ def addFeatureVariationsRaw(font, table, conditionalSubstitutions, featureTag="r
     axisIndices = {
         axis.axisTag: axisIndex for axisIndex, axis in enumerate(font["fvar"].axes)
     }
+
+    hasFeatureVariations = (
+        hasattr(table, "FeatureVariations") and table.FeatureVariations is not None
+    )
 
     featureVariationRecords = []
     for conditionSet, lookupIndices in conditionalSubstitutions:
@@ -440,11 +456,19 @@ def addFeatureVariationsRaw(font, table, conditionalSubstitutions, featureTag="r
                     varFeatureIndex, combinedLookupIndices
                 )
             )
-        featureVariationRecords.append(
-            buildFeatureVariationRecord(conditionTable, records)
-        )
+        if hasFeatureVariations and (
+            fvr := findFeatureVariationRecord(table.FeatureVariations, conditionTable)
+        ):
+            fvr.FeatureTableSubstitution.SubstitutionRecord.extend(records)
+            fvr.FeatureTableSubstitution.SubstitutionCount = len(
+                fvr.FeatureTableSubstitution.SubstitutionRecord
+            )
+        else:
+            featureVariationRecords.append(
+                buildFeatureVariationRecord(conditionTable, records)
+            )
 
-    if hasattr(table, "FeatureVariations") and table.FeatureVariations is not None:
+    if hasFeatureVariations:
         if table.FeatureVariations.Version != 0x00010000:
             raise VarLibError(
                 "Unsupported FeatureVariations table version: "
@@ -584,9 +608,12 @@ def buildFeatureRecord(featureTag, lookupListIndices):
 def buildFeatureVariationRecord(conditionTable, substitutionRecords):
     """Build a FeatureVariationRecord."""
     fvr = ot.FeatureVariationRecord()
-    fvr.ConditionSet = ot.ConditionSet()
-    fvr.ConditionSet.ConditionTable = conditionTable
-    fvr.ConditionSet.ConditionCount = len(conditionTable)
+    if len(conditionTable) != 0:
+        fvr.ConditionSet = ot.ConditionSet()
+        fvr.ConditionSet.ConditionTable = conditionTable
+        fvr.ConditionSet.ConditionCount = len(conditionTable)
+    else:
+        fvr.ConditionSet = None
     fvr.FeatureTableSubstitution = ot.FeatureTableSubstitution()
     fvr.FeatureTableSubstitution.Version = 0x00010000
     fvr.FeatureTableSubstitution.SubstitutionRecord = substitutionRecords
@@ -612,6 +639,21 @@ def buildConditionTable(axisIndex, filterRangeMinValue, filterRangeMaxValue):
     ct.FilterRangeMinValue = filterRangeMinValue
     ct.FilterRangeMaxValue = filterRangeMaxValue
     return ct
+
+
+def findFeatureVariationRecord(featureVariations, conditionTable):
+    """Find a FeatureVariationRecord that has the same conditionTable."""
+    if featureVariations.Version != 0x00010000:
+        raise VarLibError(
+            "Unsupported FeatureVariations table version: "
+            f"0x{featureVariations.Version:08x} (expected 0x00010000)."
+        )
+
+    for fvr in featureVariations.FeatureVariationRecord:
+        if conditionTable == fvr.ConditionSet.ConditionTable:
+            return fvr
+
+    return None
 
 
 def sortFeatureList(table):

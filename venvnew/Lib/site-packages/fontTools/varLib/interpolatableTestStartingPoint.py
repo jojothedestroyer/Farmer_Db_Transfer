@@ -45,11 +45,13 @@ def test_starting_point(glyph0, glyph1, ix, tolerance, matching):
             # This is a 2x2 matrix.
             transforms = []
             for vector in (m0Vectors[ix], m1Vectors[ix]):
-                meanX = vector[1]
-                meanY = vector[2]
+                # meanX = vector[1]
+                # meanY = vector[2]
                 stddevX = vector[3] * 0.5
                 stddevY = vector[4] * 0.5
-                correlation = vector[5] / abs(vector[0])
+                correlation = vector[5]
+                if correlation:
+                    correlation /= abs(vector[0])
 
                 # https://cookierobotics.com/007/
                 a = stddevX * stddevX  # VarianceX
@@ -66,6 +68,8 @@ def test_starting_point(glyph0, glyph1, ix, tolerance, matching):
                 # we are doing anyway...
                 # trans = trans.translate(meanX, meanY)
                 trans = trans.rotate(theta)
+                if lambda2 < 0:
+                    lambda2 = 0
                 trans = trans.scale(sqrt(lambda1), sqrt(lambda2))
                 transforms.append(trans)
 

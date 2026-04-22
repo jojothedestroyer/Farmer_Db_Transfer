@@ -1,0 +1,704 @@
+{% extends 'gcna/base2.html' %}
+
+{% block content%}
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+
+<style>
+    table {
+        width: 150%;
+        border-collapse: collapse;
+    }
+
+
+    th,
+    td {
+        border: 1px solid #dddddd;
+        text-align: center;
+        padding: 8px;
+    }
+
+
+    th {
+        /*            background-color: #f2f2f2;*/
+    }
+
+
+    .main-header {
+        text-align: center;
+        font-size: 24px;
+    }
+
+
+    .sub-header {
+        font-size: 18px;
+    }
+
+    body {
+        margin: 0;
+        /* remove default body margin */
+    }
+
+    .center-content {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+    }
+
+
+
+    .non-viewable {
+        display: none;
+    }
+
+    .main-container {
+        display: flex;
+    }
+</style>
+
+
+<br>
+
+
+<div id="main-container">
+    <div>
+        <button id="formbtn" class="btn btn-primary">Form</button>
+        <button id="viewbtn" class="btn btn-primary">View</button>
+        <button id="pendingbtn" class="btn btn-primary">Pending</button>
+    </div>
+
+    <div class="non-viewable" id="editLog">
+        <div id="InfoData"></div>
+
+    </div>
+
+    <div class="non-viewable" id="Log">
+        <div id="InfoView"></div>
+    </div>
+
+
+    <div class="center-content " id="formHandler">
+
+
+
+        <form action="" method="POST" id="myForm" enctype="multipart/form-data" style=" 
+
+    margin: 1px auto;
+    font-family: Raleway;
+    width: 90%;
+    min-width: 1400px;   
+    border-radius: 10px;
+    ">
+
+            <div class="card" style="box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">
+
+                <div class="card-body">
+
+                    </h5>
+                    <p class="card-text">
+                    <table id="vertical-1" class="table table-hover table-light grid-header ">
+                        <center>
+                            <div>
+                                <h1>Fumigation Log</h1>
+                            </div>
+                        </center>
+                        <tr>
+                            <td>Start Date & Time</td>
+                            <td>End Date & Time</td>
+                            <td>Name & Type of Fumigant Used</td>
+                            <td>Quantity Used</td>
+                            <td>#Bags of Product</td>
+                            <td>Contract Number</td>
+                            <td>Batch Number(s)</td>
+                            <td>Product Type Fumigated(Nutmeg/Mace)</td>
+                            <td>Fumigation Performed By</td>
+                            <td>Live Insects Observed</td>
+                            <td>Verified by</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="date" class="form-control" name="startDate" id="startDate">
+                                <input type="time" class="form-control" name="startTime" id="startTime">
+
+                            </td>
+
+                            <td>
+                                <input type="date" class="form-control" name="endDate" id="endDate">
+                                <input type="time" class="form-control" name="endTime" id="endTime">
+
+                            </td>
+                            <td> <select class="form-control" name="fumigantType" id="fumigantType">
+                                    <option value="">Select Type</option>
+                                    <option value="Phostoxin">Phostoxin</option>
+                                    <option value="otherType">otherType</option>
+                                    <option value="otherType">otherType</option>
+                                </select></td>
+
+                            <td>
+                                <input type="number" class="form-control" name="quantity" id="quantity">
+
+                            </td>
+
+                            <td>
+                                <input type="number" class="form-control" name="bagNum" id="bagNum">
+                            </td>
+
+
+                            <td>
+                                <input type="text" class="form-control" name="contractNum" id="contractNum">
+                            </td>
+
+                            <td>
+                                <input type="text" class="form-control" name="batchNum" id="batchNum">
+                            </td>
+
+                            <td>
+
+                                <div style="display: flex; align-items: center; gap: 5px;">
+                                    <select class="form-control" name="productType" id="productType">
+                                        <option value="">Product Type</option>
+                                        <option value="Mace">Mace</option>
+                                        <option value="Nutmeg">Nutmeg</option>
+                                    </select>
+                                </div>
+
+                            </td>
+                            <td><input type="text" class="form-control" name="fumigationPerformed"></td>
+
+                            <td><input type="text" class="form-control" name="insectObserved"></td>
+
+                            <td><input type="text" class="form-control" name="verifiedBy"></td>
+
+
+                        </tr>
+                    </table>
+
+
+                    <center>
+
+                        <input type="submit" name="" value="✔" class="btn btn-success btn-circle btn-xl">
+                    </center>
+
+                    <br>
+                    <br>
+                    </table>
+
+        </form>
+    </div>
+
+
+</div>
+
+</div>
+<script>
+    let currentView = 'formHandler';
+    // document.getElementsByClassName('modeBtn').addEventListener('click', (e) => handleModeChange(e))
+    document.getElementById('formbtn').addEventListener('click', (e) => setFormMode(e))
+    document.getElementById('viewbtn').addEventListener('click', (e) => setViewMode(e))
+    document.getElementById('pendingbtn').addEventListener('click', (e) => setPendingMode(e))
+
+    function setFormMode() {
+        console.log('set form mode')
+        let form = document.getElementById('formHandler')
+        let view = document.getElementById('Log')
+        let pending = document.getElementById('editLog')
+
+        form.className = 'center-content'
+        view.className = 'non-viewable'
+        pending.className = 'non-viewable'
+
+    }
+
+    function setViewMode() {
+        console.log('set view mode')
+
+        let form = document.getElementById('formHandler')
+        let view = document.getElementById('Log')
+        let pending = document.getElementById('editLog')
+
+        form.className = 'non-viewable'
+        view.className = 'center-content'
+        pending.className = 'non-viewable'
+
+    }
+
+    function setPendingMode() {
+        console.log('set pending mode')
+
+        let form = document.getElementById('formHandler')
+        let view = document.getElementById('Log')
+        let pending = document.getElementById('editLog')
+
+        form.className = 'non-viewable'
+        view.className = 'non-viewable'
+        pending.className = 'center-content'
+        // pending.style.display = "block";
+    }
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var myForm = document.getElementById('myForm');
+
+        myForm.addEventListener('submit', function (event) {
+
+            event.preventDefault();
+            var data = new FormData(event.target);
+            saveDataToIndexedDB(data);
+        });
+
+        function saveDataToIndexedDB(data) {
+            // Exclude csrfmiddlewaretoken from being saved to IndexedDB
+            data.delete('csrfmiddlewaretoken');
+
+            var request = indexedDB.open('GCNA', 2);
+
+            request.onsuccess = function (event) {
+                var db = event.target.result;
+                var transaction = db.transaction('Fumigation_Log', 'readwrite');
+                var objectStore = transaction.objectStore('Fumigation_Log');
+
+                var obj = {};
+                for (var pair of data.entries()) {
+                    obj[pair[0]] = pair[1];
+                }
+
+                // Get the highest id in the object store
+                var highestIdRequest = objectStore.openCursor(null, 'prev');
+                highestIdRequest.onsuccess = function (event) {
+                    var cursor = event.target.result;
+                    if (cursor) {
+                        obj.id = cursor.key + 1;
+                    } else {
+                        obj.id = 1; // This is the first item
+                    }
+
+                    var request = objectStore.put(obj);
+
+                    request.onsuccess = function () {
+                        console.log('Data added to IndexedDB');
+                        transferIndexedDBData(); // Transfer data to Django after saving to IndexedDB
+                    };
+
+                    request.onerror = function () {
+                        console.error('Error adding data to IndexedDB');
+                    };
+                };
+            };
+
+            request.onerror = function (event) {
+                console.error('Error opening IndexedDB', event);
+            };
+        }
+        function transferIndexedDBData() {
+            var request = indexedDB.open('GCNA', 2);
+
+            request.onsuccess = function (event) {
+                var db = event.target.result;
+                var transaction = db.transaction('Fumigation_Log', 'readonly');
+                var objectStore = transaction.objectStore('Fumigation_Log');
+                var getRequest = objectStore.getAll();
+
+                getRequest.onsuccess = function (event) {
+                    var data = event.target.result;
+                    data.forEach(function (item) {
+                    });
+                    window.location.reload();
+
+                };
+            };
+
+            request.onerror = function (event) {
+                console.error('Error opening IndexedDB', event);
+            };
+        }
+
+
+    });
+
+
+
+</script>
+
+
+
+
+<script>
+
+    function toggleRecord(id) {
+        const details = document.getElementById(`recordDetails-${id}`);
+
+        if (details.style.display === "none") {
+            details.style.display = "block";
+        } else {
+            details.style.display = "none";
+        }
+    }
+
+    let openRequest = indexedDB.open("GCNA");
+    let openRequest2 = indexedDB.open("GCNA");
+
+    openRequest.onsuccess = function (event) {
+        let db = event.target.result;
+        let transaction = db.transaction("Fumigation_Log", "readonly");
+        let InfoStore = transaction.objectStore("Fumigation_Log");
+        let getAllRequest = InfoStore.getAll();
+
+        getAllRequest.onsuccess = function (event) {
+            let InfoRecords = event.target.result;
+            let InfoDataDiv = document.getElementById("InfoData");
+
+            InfoRecords.forEach((record) => {
+                if (
+                    record.COMPLETE == "Yes"
+                ) {
+                    return;
+                }
+
+
+                let entryContainer = document.createElement("div");
+                entryContainer.id = `entryContainer_${record.id}`;
+                entryContainer.className = "record-container";
+
+
+                entryContainer.innerHTML = `
+  <button class="btn btn-primary" 
+          onclick="toggleRecord(${record.id})" 
+          style="width:100%; text-align:left; margin-bottom:8px;">
+        ${record.startDate} :${record.batchNum}
+
+  </button>
+
+  <div id="recordDetails-${record.id}" style="display:none;"> 
+              <form id="form_${record.id}" style=" min-width: 1450px;   ">
+                  <div class="card" style="box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">
+
+            <div class="card-body">
+
+                </h5>
+                <p class="card-text">
+                <table id="vertical-1" class="table table-hover table-light grid-header ">
+                    <center>
+                        <div>
+                            <h1>Fumigation Log</h1>
+                        </div>
+                    </center>
+ <tr>
+                               <td>Start Date & Time</td>
+                                <td>End Date & Time</td>
+                                <td>Name & Type of Fumigant Used</td>
+                                <td>Quantity Used</td>
+                                <td>#Bags of Product</td>
+                                <td>Contract Number</td>
+                                <td>Batch Number(s)</td>
+                                <td>Product Type Fumigated(Nutmeg/Mace)</td>
+                                <td>Fumigation Performed By</td>
+                                <td>Live Insects Observed</td>
+                                <td>Verified by</td>
+                        </tr>                            <td>
+                                <input type="date" class="form-control" name="startDate" id="startDate" value="${record.startDate || ''}">
+                                <input type="time" class="form-control" name="startTime" id="startTime" value="${record.startTime || ''}">
+
+                            </td>
+
+                            <td>
+                                <input type="date" class="form-control" name="endDate" id="endDate" value="${record.endDate || ''}">
+                                <input type="time" class="form-control" name="endTime" id="endTime" value="${record.endTime || ''}">
+
+                            </td>
+                            <td> 
+                        
+                                
+                                <select class="form-control" name="fumigantType" id="fumigantType" >
+                                <option value="">Select Type</option>
+                             
+                                               ${["Phostoxin", "otherType", "otherType"].map(typeInput => `
+        <option value="${typeInput}" 
+            ${record.fumigantType === typeInput ? "selected" : ""}>
+            ${typeInput}
+        </option>
+    `).join("")}
+</select>
+</td>
+
+                            <td>
+                                <input type="number" class="form-control" name="quantity" id="quantity" value="${record.quantity || ''}">
+
+                            </td>
+
+                            <td>
+                                <input type="number" class="form-control" name="bagNum" id="bagNum" value="${record.bagNum || ''}">
+                            </td>
+
+
+                            <td>
+                                <input type="text" class="form-control" name="contractNum" id="contractNum" value="${record.contractNum || ''}">
+                            </td>
+
+                            <td>
+                                <input type="text" class="form-control" name="batchNum" id="batchNum" value="${record.batchNum || ''}">
+                            </td>
+
+                            <td>
+
+                                <div style="display: flex; align-items: center; gap: 5px;">
+                                    <select class="form-control" name="productType" id="productType">
+                                        <option value="">Product Type</option>
+                                        <option value="Mace">Mace</option>
+                                        <option value="Nutmeg">Nutmeg</option>
+                                    </select>
+                                </div>
+
+                            </td>
+                                                <td> 
+                        
+                                
+                                <select class="form-control" name="productType" id="productType" >
+                                <option value="">Select Type</option>
+                                <option value="">Mace</option>
+                                <option value="Nutmeg">Nutmeg</option>
+
+                                               ${["Mace", "Nutmeg"].map(typeInput => `
+        <option value="${typeInput}" 
+            ${record.productType === typeInput ? "selected" : ""}>
+            ${typeInput}
+        </option>
+    `).join("")}
+</select>
+</td>
+                            <td><input type="text" class="form-control" name="fumigationPerformed" id="fumigationPerformed" value="${record.fumigationPerformed || ''}"></td>
+
+                            <td><input type="text" class="form-control" name="insectObserved" id="insectObserved" value="${record.insectObserved || ''}"></td>
+
+                            <td><input type="text" class="form-control" name="verifiedBy" id="verifiedBy" value="${record.verifiedBy || ''}"></td>
+
+
+                        </tr>
+                </table>
+
+
+                <center>
+
+  <button type="button" class="save-btn" onclick="saveEditedRecord(${record.id})">Save Changes</button>
+                          <button type="button" onclick="saveEditedCompletion(${record.id}, 'Yes')">Mark as Complete</button>
+                                    </center>
+
+                <br>
+                <br>
+                </table>
+                        
+                  </p>
+                </div>
+              </div>
+              </form>
+              <br> <br> <br>
+          `;
+
+                InfoDataDiv.appendChild(entryContainer);
+            });
+        };
+    };
+
+
+
+
+
+    openRequest2.onsuccess = function (event) {
+        let db = event.target.result;
+        let transaction = db.transaction("Fumigation_Log", "readonly");
+        let InfoStore = transaction.objectStore("Fumigation_Log");
+        let getAllRequest = InfoStore.getAll();
+
+        getAllRequest.onsuccess = function (event) {
+            let InfoRecords = event.target.result;
+            let InfViewDiv = document.getElementById("InfoView");
+
+            InfoRecords.forEach((record) => {
+                if (
+                    record.COMPLETE != "Yes"
+                ) {
+                    return;
+                }
+
+
+                let entryContainer = document.createElement("div");
+                entryContainer.id = `entryContainer_${record.id}`;
+                entryContainer.className = "record-container";
+
+
+                entryContainer.innerHTML = `
+      <button class="btn btn-primary" 
+              onclick="toggleRecord(${record.id})" 
+              style="width:100%; text-align:left; margin-bottom:8px;">
+            ${record.startDate} :${record.batchNum}
+
+      </button>
+
+      <div id="recordDetails-${record.id}" style="display:none;"> 
+                  <form id="form_${record.id}" style=" min-width: 1450px;   ">
+                      <div class="card" style="box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">
+
+                <div class="card-body">
+
+                    </h5>
+                    <p class="card-text">
+                    <table id="vertical-1" class="table table-hover table-light grid-header ">
+                        <center>
+                            <div>
+                                <h1>Fumigation Log</h1>
+                            </div>
+                        </center>
+                        <tr>
+                               <td>Start Date & Time</td>
+                                <td>End Date & Time</td>
+                                <td>Name & Type of Fumigant Used</td>
+                                <td>Quantity Used</td>
+                                <td>#Bags of Product</td>
+                                <td>Contract Number</td>
+                                <td>Batch Number(s)</td>
+                                <td>Product Type Fumigated(Nutmeg/Mace)</td>
+                                <td>Fumigation Performed By</td>
+                                <td>Live Insects Observed</td>
+                                <td>Verified by</td>
+                        </tr>
+                                     <td>
+                  
+                                ${record.startDate || ''}
+${record.startTime || ''}
+                            </td>
+
+                            <td>
+${record.endDate || ''}
+${record.endTime || ''}
+                            </td>
+                            <td> ${record.fumigantType || ''}</td>
+
+                            <td>
+${record.quantity || ''}
+                            </td>
+
+                            <td>
+${record.bagNum || ''}                            </td>
+
+
+                            <td>
+${record.contractNum || ''}
+                            </td>
+
+                            <td>
+                                ${record.batchNum || ''}
+                            </td>
+
+                            <td>
+
+               
+                                     ${record.productType || ''}
+                                </div>
+
+                            </td>
+                            <td>${record.fumigationPerformed || ''}</td>
+
+                            <td>${record.insectObserved || ''}</td>
+
+                            <td>${record.verifiedBy || ''}</td>
+
+
+                        </tr>
+                    </table>
+
+
+                    <center>
+                                     </center>
+
+                    <br>
+                    <br>
+                    </table>
+
+                      </p>
+                    </div>
+                  </div>
+                  </form>
+                  <br> <br> <br>
+              `;
+
+                InfViewDiv.appendChild(entryContainer);
+            });
+        };
+    };
+
+    function saveEditedRecord(id) {
+        let form = document.getElementById(`form_${id}`);
+        let formData = new FormData(form);
+        let openRequestup = indexedDB.open("GCNA");
+
+        openRequestup.onsuccess = function (event) {
+            let db1 = event.target.result;
+            let transaction = db1.transaction("Fumigation_Log", "readwrite");
+            let InfoStore = transaction.objectStore("Fumigation_Log");
+            let getRequest = InfoStore.get(id);
+
+            getRequest.onsuccess = function (event) {
+                let record = event.target.result;
+
+                // Update record with form values
+                for (let [key, value] of formData.entries()) {
+                    record[key] = value;
+                }
+
+                let updateRequest = InfoStore.put(record);
+                updateRequest.onsuccess = function () {
+                    alert("Record updated successfully!");
+                };
+
+                updateRequest.onerror = function (event) {
+                    console.error("Error updating record:", event.target.error);
+                    alert("Error updating record. Please try again.");
+                };
+            };
+        };
+    }
+
+    function saveEditedCompletion(id, completion) {
+        let openRequestup = indexedDB.open("GCNA");
+
+        openRequestup.onsuccess = function (event) {
+            let db1 = event.target.result;
+            let transaction = db1.transaction("Fumigation_Log", "readwrite");
+            let InfoStore = transaction.objectStore("Fumigation_Log");
+            let getRequest = InfoStore.get(id);
+
+            getRequest.onsuccess = function (event) {
+                let record = event.target.result;
+
+                // First save any edited values from the form
+                let form = document.getElementById(`form_${id}`);
+                let formData = new FormData(form);
+
+                // Update record with form values
+                for (let [key, value] of formData.entries()) {
+                    record[key] = value;
+                }
+
+                // Then mark as complete
+                record.COMPLETE = completion;
+                record.Shelf = `${record.Shelf_1} - ${record.Shelf_2}`;
+                record.Tray = `${record.Shelf_1} - ${record.Shelf_2}`;
+
+                let updateRequest = InfoStore.put(record);
+                updateRequest.onsuccess = function () {
+                    alert("Entry marked as complete!");
+                    // Remove the entry from the display
+                    let entryContainer = document.getElementById(`entryContainer_${id}`);
+                    if (entryContainer) {
+                        entryContainer.remove();
+                    }
+                };
+            };
+        };
+    }
+</script>
+
+{% endblock %}

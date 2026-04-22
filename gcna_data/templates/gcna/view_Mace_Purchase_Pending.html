@@ -178,6 +178,27 @@
 
     window.deleteRecord = deleteRecord;
 
+
+
+    async function markFirebaseComplete(id) {
+      // if (!confirm("Save Change")) return;
+      const tableName = "Mace_Purchase";
+      const userId = localStorage.getItem("customUserId");
+      try {
+
+        if (navigator.onLine && userId) {
+          await update(ref(db, `Users/${userId}/models/${tableName}/${id}`), { COMPLETE: 'Yes' });
+        }
+
+        window.location.reload();
+
+      } catch (error) {
+        console.error("Delete failed:", error);
+      }
+    }
+    window.markFirebaseComplete = markFirebaseComplete;
+
+
     function deleteIndexeddb(id) {
       let openRequest = indexedDB.open("GCNA");
 
@@ -457,13 +478,13 @@
 
           let updateRequest = maceInfoStore.put(record);
           updateRequest.onsuccess = function () {
-            alert("Entry marked as complete!");
-            // Remove the entry from the display
-            let entryContainer = document.getElementById(`entryContainer_${id}`);
-            if (entryContainer) {
-              entryContainer.remove();
-            }
-            window.location.reload();
+            alert("Entry marked as complete!!");
+            markFirebaseComplete(id)
+            // let entryContainer = document.getElementById(`entryContainer_${id}`);
+            // if (entryContainer) {
+            //   entryContainer.remove();
+            // }
+            // window.location.reload();
           };
         };
       };

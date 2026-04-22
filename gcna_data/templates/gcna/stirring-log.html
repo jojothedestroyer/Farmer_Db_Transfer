@@ -1,0 +1,730 @@
+{% extends 'gcna/base2.html' %}
+
+{% block content%}
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+
+<style>
+    table {
+        width: 150%;
+        border-collapse: collapse;
+    }
+
+
+    th,
+    td {
+        border: 1px solid #dddddd;
+        text-align: center;
+        padding: 8px;
+    }
+
+
+    th {
+        /*            background-color: #f2f2f2;*/
+    }
+
+
+    .main-header {
+        text-align: center;
+        font-size: 24px;
+    }
+
+
+    .sub-header {
+        font-size: 18px;
+    }
+
+    body {
+        margin: 0;
+        /* remove default body margin */
+    }
+
+    .center-content {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+    }
+
+
+
+    .non-viewable {
+        display: none;
+    }
+
+    .main-container {
+        display: flex;
+    }
+</style>
+
+
+<br>
+
+
+<div id="main-container">
+    <div>
+        <button id="formbtn" class="btn btn-primary">Form</button>
+        <button id="viewbtn" class="btn btn-primary">View</button>
+        <button id="pendingbtn" class="btn btn-primary">Pending</button>
+    </div>
+
+    <div class="non-viewable" id="editLog">
+        <div id="InfoData"></div>
+
+    </div>
+
+    <div class="non-viewable" id="Log">
+        <div id="InfoView"></div>
+    </div>
+
+
+    <div class="center-content " id="formHandler">
+
+
+
+        <form action="" method="POST" id="myForm" enctype="multipart/form-data" style=" 
+
+    margin: 1px auto;
+    font-family: Raleway;
+    width: 90%;
+    min-width: 1400px;   
+    border-radius: 10px;
+    ">
+
+            <div class="card" style="box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">
+
+                <div class="card-body">
+
+                    </h5>
+                    <p class="card-text">
+                    <table id="vertical-1" class="table table-hover table-light grid-header ">
+                        <center>
+                            <div>
+                                <h1>Stirring Log</h1>
+                            </div>
+                        </center>
+                        <tr>
+                            <td>Date</td>
+                            <td>Type</td>
+                            <td>Shelf</td>
+                            <td>Tray</td>
+                            <td>Start Time</td>
+                            <td>Start Time</td>
+                            <td>Start Time</td>
+                            <td>Verified by</td>
+                        </tr>
+                        <tr>
+                            <td><input type="date" class="form-control" name="date" id="date">
+
+                            </td>
+                            <td> <select class="form-control" name="type" id="type">
+                                    <option value="">Select Type</option>
+                                    <option value="Green">Green</option>
+                                    <option value="Floated">Floated</option>
+                                    <option value="Loft">Loft</option>
+                                </select></td>
+
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 5px;">
+                                    <input type="hidden" name="Tray" id="Tray">
+                                    <input type="hidden" name="Shelf" id="Shelf">
+                                    <select class="form-control" name="Shelf_1" id="Shelf_1">
+                                        <option value="">Select Shelf</option>
+                                        <option value="A">A</option>
+                                        <option value="B">B</option>
+                                        <option value="C">C</option>
+                                        <option value="D">D</option>
+                                        <option value="E">E</option>
+                                        <option value="F">F</option>
+                                        <option value="G">G</option>
+                                        <option value="H">H</option>
+                                        <option value="I">I</option>
+                                        <option value="J">J</option>
+                                        <option value="K">K</option>
+                                        <option value="L">L</option>
+                                        <option value="M">M</option>
+                                        <option value="N">N</option>
+                                        <option value="O">O</option>
+                                        <option value="P">P</option>
+                                        <option value="Q">Q</option>
+                                        <option value="R">R</option>
+                                        <option value="S">S</option>
+                                        <option value="T">T</option>
+                                        <option value="U">U</option>
+                                        <option value="V">V</option>
+                                    </select>- <select class="form-control" name="Shelf_2" id="Shelf_2">
+                                        <option value="">Select Station</option>
+                                        <option value="A">A</option>
+                                        <option value="B">B</option>
+                                        <option value="C">C</option>
+                                        <option value="D">D</option>
+                                        <option value="E">E</option>
+                                        <option value="F">F</option>
+                                        <option value="G">G</option>
+                                        <option value="H">H</option>
+                                        <option value="I">I</option>
+                                        <option value="J">J</option>
+                                        <option value="K">K</option>
+                                        <option value="L">L</option>
+                                        <option value="M">M</option>
+                                        <option value="N">N</option>
+                                        <option value="O">O</option>
+                                        <option value="P">P</option>
+                                        <option value="Q">Q</option>
+                                        <option value="R">R</option>
+                                        <option value="S">S</option>
+                                        <option value="T">T</option>
+                                        <option value="U">U</option>
+                                        <option value="V">V</option>
+                                    </select>
+                            </td>
+
+                            <td>
+
+                                <div style="display: flex; align-items: center; gap: 5px;">
+                                    <select class="form-control" name="Tray_1" id="Tray_1">
+                                        <option value="">Select Tray</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                    </select>- <select class="form-control" name="Tray_2" id="Tray_2">
+                                        <option value="">Select Tray</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                    </select>
+                                </div>
+
+                            </td>
+
+                            <td><input type="time" class="form-control" name="start_time_1"></td>
+                            <td><input type="time" class="form-control" name="start_time_2"></td>
+                            <td><input type="time" class="form-control" name="start_time_3"></td>
+                            <td><input type="text" class="form-control" name="verified_by"></td>
+                        </tr>
+                    </table>
+
+
+                    <center>
+
+                        <input type="submit" name="" value="✔" class="btn btn-success btn-circle btn-xl">
+                    </center>
+
+                    <br>
+                    <br>
+                    </table>
+
+        </form>
+    </div>
+
+
+</div>
+
+</div>
+<script>
+    let currentView = 'formHandler';
+    // document.getElementsByClassName('modeBtn').addEventListener('click', (e) => handleModeChange(e))
+    document.getElementById('formbtn').addEventListener('click', (e) => setFormMode(e))
+    document.getElementById('viewbtn').addEventListener('click', (e) => setViewMode(e))
+    document.getElementById('pendingbtn').addEventListener('click', (e) => setPendingMode(e))
+
+    function setFormMode() {
+        console.log('set form mode')
+        let form = document.getElementById('formHandler')
+        let view = document.getElementById('Log')
+        let pending = document.getElementById('editLog')
+
+        form.className = 'center-content'
+        view.className = 'non-viewable'
+        pending.className = 'non-viewable'
+
+    }
+
+    function setViewMode() {
+        console.log('set view mode')
+
+        let form = document.getElementById('formHandler')
+        let view = document.getElementById('Log')
+        let pending = document.getElementById('editLog')
+
+        form.className = 'non-viewable'
+        view.className = 'center-content'
+        pending.className = 'non-viewable'
+
+    }
+
+    function setPendingMode() {
+        console.log('set pending mode')
+
+        let form = document.getElementById('formHandler')
+        let view = document.getElementById('Log')
+        let pending = document.getElementById('editLog')
+
+        form.className = 'non-viewable'
+        view.className = 'non-viewable'
+        pending.className = 'center-content'
+        // pending.style.display = "block";
+    }
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var myForm = document.getElementById('myForm');
+
+        myForm.addEventListener('submit', function (event) {
+
+            event.preventDefault();
+            var data = new FormData(event.target);
+            saveDataToIndexedDB(data);
+        });
+
+        function saveDataToIndexedDB(data) {
+            // Exclude csrfmiddlewaretoken from being saved to IndexedDB
+            data.delete('csrfmiddlewaretoken');
+
+            var request = indexedDB.open('GCNA', 2);
+
+            request.onsuccess = function (event) {
+                var db = event.target.result;
+                var transaction = db.transaction('Stirring-Log', 'readwrite');
+                var objectStore = transaction.objectStore('Stirring-Log');
+
+                var obj = {};
+                for (var pair of data.entries()) {
+                    obj[pair[0]] = pair[1];
+                }
+
+                // Get the highest id in the object store
+                var highestIdRequest = objectStore.openCursor(null, 'prev');
+                highestIdRequest.onsuccess = function (event) {
+                    var cursor = event.target.result;
+                    if (cursor) {
+                        obj.id = cursor.key + 1;
+                    } else {
+                        obj.id = 1; // This is the first item
+                    }
+                    obj.Tray = `${obj.Tray_1} - ${obj.Tray_2}`
+                    obj.Shelf = `${obj.Shelf_1} - ${obj.Shelf_2}`
+                    var request = objectStore.put(obj);
+
+                    request.onsuccess = function () {
+                        console.log('Data added to IndexedDB');
+                        transferIndexedDBData(); // Transfer data to Django after saving to IndexedDB
+                    };
+
+                    request.onerror = function () {
+                        console.error('Error adding data to IndexedDB');
+                    };
+                };
+            };
+
+            request.onerror = function (event) {
+                console.error('Error opening IndexedDB', event);
+            };
+        }
+        function transferIndexedDBData() {
+            var request = indexedDB.open('GCNA', 2);
+
+            request.onsuccess = function (event) {
+                var db = event.target.result;
+                var transaction = db.transaction('Stirring-Log', 'readonly');
+                var objectStore = transaction.objectStore('Stirring-Log');
+                var getRequest = objectStore.getAll();
+
+                getRequest.onsuccess = function (event) {
+                    var data = event.target.result;
+                    data.forEach(function (item) {
+                    });
+                    window.location.reload();
+
+                };
+            };
+
+            request.onerror = function (event) {
+                console.error('Error opening IndexedDB', event);
+            };
+        }
+
+
+    });
+
+
+
+</script>
+
+
+
+
+<script>
+
+    function toggleRecord(id) {
+        const details = document.getElementById(`recordDetails-${id}`);
+
+        if (details.style.display === "none") {
+            details.style.display = "block";
+        } else {
+            details.style.display = "none";
+        }
+    }
+
+    let openRequest = indexedDB.open("GCNA");
+    let openRequest2 = indexedDB.open("GCNA");
+
+    openRequest.onsuccess = function (event) {
+        let db = event.target.result;
+        let transaction = db.transaction("Stirring-Log", "readonly");
+        let InfoStore = transaction.objectStore("Stirring-Log");
+        let getAllRequest = InfoStore.getAll();
+
+        getAllRequest.onsuccess = function (event) {
+            let InfoRecords = event.target.result;
+            let InfoDataDiv = document.getElementById("InfoData");
+
+            InfoRecords.forEach((record) => {
+                if (
+                    record.COMPLETE == "Yes"
+                ) {
+                    return;
+                }
+
+
+                let entryContainer = document.createElement("div");
+                entryContainer.id = `entryContainer_${record.id}`;
+                entryContainer.className = "record-container";
+
+
+                entryContainer.innerHTML = `
+  <button class="btn btn-primary" 
+          onclick="toggleRecord(${record.id})" 
+          style="width:100%; text-align:left; margin-bottom:8px;">
+    ${record.date} :${record.type}
+  </button>
+
+  <div id="recordDetails-${record.id}" style="display:none;"> 
+              <form id="form_${record.id}" style=" min-width: 1450px;   ">
+                  <div class="card" style="box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">
+
+            <div class="card-body">
+
+                </h5>
+                <p class="card-text">
+                <table id="vertical-1" class="table table-hover table-light grid-header ">
+                    <center>
+                        <div>
+                            <h1>Stirring Log</h1>
+                        </div>
+                    </center>
+                    <tr>
+                        <td>Date</td>
+                        <td>Type</td>
+                        <td>Shelf</td>
+                        <td>Tray</td>
+                        <td>Start Time</td>
+                        <td>Start Time</td>
+                        <td>Start Time</td>
+                        <td>Verified by</td>
+                    </tr>
+                    <tr>
+                        <td><input type="date" class="form-control" name="date" id="date" value="${record.date || ''}">
+
+                        </td>
+                        <td> <select class="form-control" name="type" id="type" >
+                                <option value="">Select Type</option>
+                                <option value="">Green</option>
+                                <option value="Floated">Floated</option>
+                                <option value="Loft">Loft</option>
+
+                                               ${["Green", "Floated", "Loft"].map(typeInput => `
+        <option value="${typeInput}" 
+            ${record.type === typeInput ? "selected" : ""}>
+            ${typeInput}
+        </option>
+    `).join("")}
+</select>
+
+
+
+                            </td>
+
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 5px;" >
+                                <input type="hidden" name="Tray" id="Tray" value="${record.Tray || ''}">
+                                <input type="hidden" name="Shelf" id="Shelf" value="${record.Shelf || ''}">
+                                <select class="form-control" name="Shelf_1" id="Shelf_1">
+    ${["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
+                        "N", "O", "P", "Q", "R", "S", "T", "U", "V"].map(letter1 => `
+        <option value="${letter1}" 
+            ${record.Shelf_1 === letter1 ? "selected" : ""}>
+            ${letter1}
+        </option>
+    `).join("")}
+</select>
+                                - <select class="form-control" name="Shelf_2" id="Shelf_2" >
+                                       ${["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
+                        "N", "O", "P", "Q", "R", "S", "T", "U", "V"].map(letter2 => `
+        <option value="${letter2}" 
+            ${record.Shelf_2 === letter2 ? "selected" : ""}>
+            ${letter2}
+        </option>
+    `).join("")}
+</select>
+                        </td>
+
+                        <td>
+
+                            <div style="display: flex; align-items: center; gap: 5px;">
+                                <select class="form-control" name="Tray_1" id="Tray_1" >
+                                    <option value="">Select Tray</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+
+                                              ${["1", "2", "3", "4", "5", "6", "7"].map(tray1Input => `
+        <option value="${tray1Input}" 
+            ${record.Tray_1 === tray1Input ? "selected" : ""}>
+            ${tray1Input}
+        </option>
+    `).join("")}
+</select>
+
+
+
+                               - <select class="form-control" name="Tray_2" id="Tray_2" >
+                                    <option value="">Select Tray</option>
+                                                                                ${["1", "2", "3", "4", "5", "6", "7"].map(tray2Input => `
+        <option value="${tray2Input}" 
+            ${record.Tray_2 === tray2Input ? "selected" : ""}>
+            ${tray2Input}
+        </option>
+    `).join("")}
+</select>
+
+                                </select>
+                            </div>
+
+                        </td>
+
+                        <td><input type="time" class="form-control" name="start_time_1" value="${record.start_time_1 || ''}"></td>
+                        <td><input type="time" class="form-control" name="start_time_2" value="${record.start_time_2 || ''}"></td>
+                        <td><input type="time" class="form-control" name="start_time_3" value="${record.start_time_3 || ''}"></td>
+                        <td><input type="text" class="form-control" name="verified_by" value="${record.verified_by || ''}"></td>
+                    </tr>
+                </table>
+
+
+                <center>
+
+  <button type="button" class="save-btn" onclick="saveEditedRecord(${record.id})">Save Changes</button>
+                          <button type="button" onclick="saveEditedCompletion(${record.id}, 'Yes')">Mark as Complete</button>
+                                    </center>
+
+                <br>
+                <br>
+                </table>
+                        
+                  </p>
+                </div>
+              </div>
+              </form>
+              <br> <br> <br>
+                    <a href="/table/" class="btn btn-secondary">Return</a>
+          `;
+
+                InfoDataDiv.appendChild(entryContainer);
+            });
+        };
+    };
+
+
+
+
+
+    openRequest2.onsuccess = function (event) {
+        let db = event.target.result;
+        let transaction = db.transaction("Stirring-Log", "readonly");
+        let InfoStore = transaction.objectStore("Stirring-Log");
+        let getAllRequest = InfoStore.getAll();
+
+        getAllRequest.onsuccess = function (event) {
+            let InfoRecords2 = event.target.result;
+            let InfViewDiv = document.getElementById("InfoView");
+
+            InfoRecords2.forEach((record) => {
+                if (
+                    record.COMPLETE != "Yes"
+                ) {
+                    return;
+                }
+
+
+                let entryContainer = document.createElement("div");
+                entryContainer.id = `entryContainer_View_${record.id}`;
+                entryContainer.className = "record-container";
+
+
+                entryContainer.innerHTML = `
+      <button class="btn btn-primary" 
+              onclick="toggleRecord(${record.id})" 
+              style="width:100%; text-align:left; margin-bottom:8px;">
+        ${record.date} :${record.type}
+      </button>
+
+      <div id="recordDetails-${record.id}" style="display:none;"> 
+                  <form id="form_${record.id}" style=" min-width: 1450px;   ">
+                      <div class="card" style="box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);">
+
+                <div class="card-body">
+
+                    </h5>
+                    <p class="card-text">
+                    <table id="vertical-1" class="table table-hover table-light grid-header ">
+                        <center>
+                            <div>
+                                <h1>Stirring Log</h1>
+                            </div>
+                        </center>
+                        <tr>
+                            <td>Date</td>
+                            <td>Type</td>
+                            <td>Shelf</td>
+                            <td>Tray</td>
+                            <td>Start Time</td>
+                            <td>Start Time</td>
+                            <td>Start Time</td>
+                            <td>Verified by</td>
+                        </tr>
+                        <tr>
+                            <td>${record.date || ''}
+                            </td>
+                            <td> ${record.type || ''}</td>
+
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 5px;" >
+
+                                    ${record.Shelf || ''}
+
+                            </td>
+
+                            <td>
+
+                                <div style="display: flex; align-items: center; gap: 5px;">
+                                     ${record.Tray || ''}                           
+                                      </div>
+
+                            </td>
+
+                            <td>${record.start_time_1 || ''}</td>
+                            <td>${record.start_time_2 || ''}</td>
+                            <td>${record.start_time_3 || ''}</td>
+                            <td>${record.verified_by || ''}</td>
+                        </tr>
+                    </table>
+
+
+                    <center>
+                                     </center>
+
+                    <br>
+                    <br>
+                    </table>
+
+                      </p>
+                    </div>
+                  </div>
+                  </form>
+                  <br> <br> <br>
+                        <a href="/table/" class="btn btn-secondary">Return</a>
+              `;
+
+                InfViewDiv.appendChild(entryContainer);
+            });
+        };
+    };
+
+    function saveEditedRecord(id) {
+        let form = document.getElementById(`form_${id}`);
+        let formData = new FormData(form);
+        let openRequestup = indexedDB.open("GCNA");
+
+        openRequestup.onsuccess = function (event) {
+            let db1 = event.target.result;
+            let transaction = db1.transaction("Stirring-Log", "readwrite");
+            let InfoStore = transaction.objectStore("Stirring-Log");
+            let getRequest = InfoStore.get(id);
+
+            getRequest.onsuccess = function (event) {
+                let record = event.target.result;
+
+                // Update record with form values
+                for (let [key, value] of formData.entries()) {
+                    record[key] = value;
+                }
+
+                let updateRequest = InfoStore.put(record);
+                updateRequest.onsuccess = function () {
+                    alert("Record updated successfully!");
+                };
+
+                updateRequest.onerror = function (event) {
+                    console.error("Error updating record:", event.target.error);
+                    alert("Error updating record. Please try again.");
+                };
+            };
+        };
+    }
+
+    function saveEditedCompletion(id, completion) {
+        let openRequestup = indexedDB.open("GCNA");
+
+        openRequestup.onsuccess = function (event) {
+            let db1 = event.target.result;
+            let transaction = db1.transaction("Stirring-Log", "readwrite");
+            let InfoStore = transaction.objectStore("Stirring-Log");
+            let getRequest = InfoStore.get(id);
+
+            getRequest.onsuccess = function (event) {
+                let record = event.target.result;
+
+                // First save any edited values from the form
+                let form = document.getElementById(`form_${id}`);
+                let formData = new FormData(form);
+
+                // Update record with form values
+                for (let [key, value] of formData.entries()) {
+                    record[key] = value;
+                }
+
+                // Then mark as complete
+                record.COMPLETE = completion;
+                record.Shelf = `${record.Shelf_1} - ${record.Shelf_2}`;
+                record.Tray = `${record.Shelf_1} - ${record.Shelf_2}`;
+
+                let updateRequest = InfoStore.put(record);
+                updateRequest.onsuccess = function () {
+                    alert("Entry marked as complete!");
+                    // Remove the entry from the display
+                    let entryContainer = document.getElementById(`entryContainer_${id}`);
+                    if (entryContainer) {
+                        entryContainer.remove();
+                    }
+                };
+            };
+        };
+    }
+</script>
+
+{% endblock %}
